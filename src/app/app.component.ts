@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  title = 'XAct_Frontend_App';
+  // @Input()
+  // heading!:string;
+  title = 'XAct_Frontend_App';  
+  heading1 = "Hello world"
+
 }
+
