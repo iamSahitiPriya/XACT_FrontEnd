@@ -16,6 +16,7 @@ export class AppComponent{
   ngOnInit(){
     this.service.getBackendData().subscribe((Response)=>{
         this.getData = Response;
+        console.log(this.getData)
     })
   }
   changeContent(){
