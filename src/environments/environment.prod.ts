@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  URL:"https://api-dev.project-xact.in",
 };
