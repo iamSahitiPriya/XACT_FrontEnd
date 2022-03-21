@@ -17,8 +17,8 @@ pipeline {
         }
         stage('Deploy to Dev') {
             steps {
-                sh 'aws s3 rm s3://xact-app/ --recursive'
-                sh 'aws s3 cp ./dist/xact-frontend-app/ s3://xact-app/ --recursive  --include "*" '
+                sh 'aws s3 rm s3://xact-app-dev/ --recursive'
+                sh 'aws s3 cp ./dist/xact-frontend-app/ s3://xact-app-dev/ --recursive  --include "*" '
             }
         }
     }
