@@ -22,7 +22,8 @@ pipeline {
                 
                 sh 'npm install -g'
                 sh 'npm run build'
-                echo env.USERINPUT
+                sh 'ng build --configuration'
+                
             }
         }
         stage('Archive Artifacts') {
