@@ -20,11 +20,15 @@ pipeline {
                 script{
                    zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
+                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
+
 
                 sh 'npm run build-prod'
                 script{
                    zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
+                archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+
             }
         }
         stage('Deploy to Dev') {
