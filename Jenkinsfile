@@ -22,7 +22,7 @@ pipeline {
                 
                 sh 'npm install -g'
                 sh 'npm run build'
-                sh 'ng serve --configuration=${env.USERINPUT}'
+                echo env.USERINPUT
             }
         }
         stage('Archive Artifacts') {
