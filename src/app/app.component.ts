@@ -14,9 +14,14 @@ export class AppComponent{
   getData:any;
   constructor(private service:AppServiceService){}
   ngOnInit(){
-    this.service.getBackendData().subscribe((Response)=>{
+    this.service.getBackendData().subscribe({
+        next: (Response)=>{
         this.getData = Response;
         console.log(this.getData)
+        },
+        error: error =>{
+          this.getData = "There is an error. Check console."
+        }
     })
   }
   changeContent(){

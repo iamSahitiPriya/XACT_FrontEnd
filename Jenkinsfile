@@ -10,10 +10,19 @@ pipeline {
     tools { nodejs "nodejs" }
 
     stages {
+
         stage('Build') {
             steps {
+                scripts{
+                    env.USERINPUT = input message: 'Please enter the environment (production/developer)',
+                                    parameters:[string(defaultValue:'', 
+                                                        description:'',
+                                                        name:'Environment')]
+                }
+                
                 sh 'npm install -g'
                 sh 'npm run build'
+                sh 'ng serve --configuration=${env.USERINPUT}'
             }
         }
         stage('Archive Artifacts') {
