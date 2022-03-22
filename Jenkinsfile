@@ -13,7 +13,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                scripts{
+                script{
                     env.USERINPUT = input message: 'Please enter the environment (production/developer)',
                                     parameters:[string(defaultValue:'', 
                                                         description:'',
