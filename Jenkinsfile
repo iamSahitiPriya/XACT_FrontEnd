@@ -11,26 +11,18 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Create & Archive Build') {
             steps {
-                script{
-                    env.USERINPUT = input message: 'Please enter the environment (production/developer)',
-                                    parameters:[string(defaultValue:'', 
-                                                        description:'',
-                                                        name:'Environment')]
-                }
-                
                 sh 'npm install -g'
-                sh 'npm run build'
-                echo env.USERINPUT
-            }
-        }
-        stage('Archive Artifacts') {
-            steps {
+                sh 'npm run build-dev'
                 script{
-                    zip zipFile: "${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                   zip zipFile: "prod-${env.ARTIFACT_FILE}-dev", archive: false, dir: 'dist/xact-frontend-app'
                 }
-                archiveArtifacts artifacts: "${env.ARTIFACT_FILE}", fingerprint: true
+
+                sh 'npm run build-prod'
+                script{
+                   zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                }
             }
         }
         stage('Deploy to Dev') {

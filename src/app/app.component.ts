@@ -8,7 +8,7 @@ import { AppServiceService } from './app-service.service';
 
 export class AppComponent{
 
-  title = 'XAct_Frontend_App';  
+  title = 'XAct_Frontend_App';
   heading1 = "Hello world"
 
   getData:any;
