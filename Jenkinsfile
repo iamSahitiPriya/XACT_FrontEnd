@@ -15,8 +15,10 @@ pipeline {
             steps {
                 sh 'npm install -g'
                 sh 'npm run build-dev'
+                sh 'mkdir -p dev-build'
+                sh 'cp -R dist/xact-frontend-app/. dev-build/'
                 script{
-                   zip zipFile: "prod-${env.ARTIFACT_FILE}-dev", archive: false, dir: 'dist/xact-frontend-app'
+                   zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
 
                 sh 'npm run build-prod'
@@ -28,7 +30,7 @@ pipeline {
         stage('Deploy to Dev') {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
-                sh 'aws s3 cp ./dist/xact-frontend-app/ s3://xact-app-dev/ --recursive  --include "*" '
+                sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
             }
         }
     }
