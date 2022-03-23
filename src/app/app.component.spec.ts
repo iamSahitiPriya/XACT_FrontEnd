@@ -1,4 +1,6 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { AppServiceService } from './app-service.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -7,6 +9,12 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      imports:[
+        HttpClientModule
+      ],
+      providers:[
+        AppServiceService,
+      ]
     }).compileComponents();
   });
 
