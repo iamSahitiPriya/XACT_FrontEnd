@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URL:"http://localhost:8000",
+  URL:"https://api-dev.project-xact.in",
 };
 
 /*

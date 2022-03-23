@@ -11,33 +11,30 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Create & Archive Build') {
             steps {
-                script{
-                    env.USERINPUT = input message: 'Please enter the environment (production/developer)',
-                                    parameters:[string(defaultValue:'', 
-                                                        description:'',
-                                                        name:'Environment')]
-                }
-                
                 sh 'npm install -g'
-                sh 'npm run build'
-                sh 'ng build --configuration'
-                
-            }
-        }
-        stage('Archive Artifacts') {
-            steps {
+                sh 'npm run build-dev'
+                sh 'mkdir -p dev-build'
+                sh 'cp -R dist/xact-frontend-app/. dev-build/'
                 script{
-                    zip zipFile: "${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                   zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
-                archiveArtifacts artifacts: "${env.ARTIFACT_FILE}", fingerprint: true
+                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
+
+
+                sh 'npm run build-prod'
+                script{
+                   zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                }
+                archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+
             }
         }
         stage('Deploy to Dev') {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
-                sh 'aws s3 cp ./dist/xact-frontend-app/ s3://xact-app-dev/ --recursive  --include "*" '
+                sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
             }
         }
     }
