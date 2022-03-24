@@ -1,1 +1,10 @@
-<p>okta-login works!</p>
+<div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+<div *ngIf="isAuthenticated">
+    <h1>Access Token</h1>
+<p >{{ accessToken }}</p>
+</div>
+<button id="login-button" class="ui primary button" role="button" (click)="login()">Login</button>
+
+

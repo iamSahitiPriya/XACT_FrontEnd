@@ -3,6 +3,12 @@
   <h1>{{heading1}}</h1>
   <button mat-raised-button color="primary" (click)="changeContent()">ClickMe</button>&nbsp;&nbsp;
     <a href="https://material.angular.io/"><button mat-raised-button color = "warn">Material UI</button></a>
+    <a class="item" *ngIf="!(authService.authState$ | async)?.isAuthenticated" (click)="login()">Login</a>
+    <a id="logout-button" class="item" (click)="logout()">Logout</a>
+
+    
+
+    <app-okta-login></app-okta-login>
 </div>
 <div class="content">
   <span>{{title}} app is running!</span>
