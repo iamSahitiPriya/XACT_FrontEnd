@@ -1,0 +1,30 @@
+{
+  "integrationFolder": "cypress/integration",
+  "supportFile": "cypress/support/index.js",
+  "video": false,
+  "reporter": "mochawesome",
+  "reporterOptions": {
+    "reporterEnabled": "mochawesome",
+    "mochawesomeReporterOptions": {
+      "reportDir": "mochawesome-report",
+      "overwrite": true,
+      "html": false,
+      "json": true,
+      "timestamp": "mmddyyyy_HHMMss",
+      "showSkipped": true,
+      "charts": true,
+      "quiet": true,
+      "embeddedScreenshots": true
+    }
+  },
+  "screenshotOnRunFailure": true,
+  "screenshotsFolder": "mochawesome-report/assets/screenshots",
+  "videosFolder": "mochawesome-report/assets/videos",
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "requestTimeout": 10000,
+  "responseTimeout": 10000,
+  "defaultCommandTimeout": 10000,
+  "watchForFileChanges": true,
+  "chromeWebSecurity": false
+}
