@@ -6,10 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptors } from './interceptor-service';
+import { OktaLoginComponent } from './component/okta-login/okta-login.component';
 
 @NgModule({
-  declarations: [
+  declarations:[
     AppComponent,
+    OktaLoginComponent,
   ],
   imports: [
     BrowserModule,
