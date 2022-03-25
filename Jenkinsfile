@@ -58,7 +58,6 @@ pipeline {
                                                        reportFiles: 'index.html',
                                                        reportName: 'Coverage Reports',
                                                        reportTitles: 'Coverage Report'])
-                            }
                 publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
                                        keepAll: true,
