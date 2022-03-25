@@ -10,10 +10,9 @@ pipeline {
     tools { nodejs "nodejs" }
 
     stages {
-
         stage('Create & Archive Build') {
             steps {
-                sh 'npm install -g'
+                sh 'npm install'
                 sh 'npm run build-dev'
                 sh 'mkdir -p dev-build'
                 sh 'cp -R dist/xact-frontend-app/. dev-build/'
@@ -37,6 +36,22 @@ pipeline {
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
             }
         }
+        stage('End-to-End Testing'){
+            steps{
+                sh 'npm run e2e'
+            }
+        }
     }
+    post {
+            always {
+                publishHTML (target : [allowMissing: false,
+                                       alwaysLinkToLastBuild: true,
+                                       keepAll: true,
+                                       reportDir: 'mochawesome-report',
+                                       reportFiles: 'mochawesome.html',
+                                       reportName: 'End-to-End Test Reports',
+                                       reportTitles: 'End-to-End Test Report'])
+            }
+        }
 
 }

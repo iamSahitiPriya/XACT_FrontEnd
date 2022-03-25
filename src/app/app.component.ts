@@ -12,7 +12,7 @@ import { OktaLoginComponent } from './component/okta-login/okta-login.component'
 
 export class AppComponent{
 
-  title = 'XAct_Frontend_App';  
+  title = 'XAct_Frontend_App';
   heading1 = "Hello world"
 
   getData:any;
