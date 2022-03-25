@@ -11,9 +11,15 @@ pipeline {
 
     stages {
 
+        stage('Test') {
+             steps {
+                 sh 'npm install'
+                 sh 'npm run test'
+             }
+        }
         stage('Create & Archive Build') {
             steps {
-                sh 'npm install'
+
                 sh 'npm run build-dev'
                 sh 'mkdir -p dev-build'
                 sh 'cp -R dist/xact-frontend-app/. dev-build/'

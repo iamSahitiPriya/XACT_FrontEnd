@@ -5,11 +5,11 @@
     "ng": "ng",
     "start-local": "ng serve --configuration=developer",
     "start-dev": "ng serve --configuration=development",
-    "build-local": "ng build --configuration=developer",
+    "build-local": "ng build --configuration=developerg",
     "build-dev": "ng build --configuration=development",
     "build-prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --no-watch --code-coverage",
     "e2e": "cypress run"
   },
   "private": true,
