@@ -1,18 +1,24 @@
+
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
+import { access } from 'fs';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AppComponent } from './app.component';
+import { OktaLoginComponent } from './component/okta-login/okta-login.component';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AppServiceService {
 
   constructor(private http:HttpClient) { }
+  
+  accessToken?:string
 
   public getBackendData():Observable<any>{
 
-      return this.http.get(environment.URL+'/v1/open/assessments/12345');
+      return this.http.get(environment.URL+'/v1/assessments/12345');
   }
 }

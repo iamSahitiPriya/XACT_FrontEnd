@@ -11,13 +11,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { OktaLoginComponent } from './component/okta-login/okta-login.component';
 import {
   OKTA_CONFIG,
-  OktaAuthGuard,
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
 import oktaConfig from './app.config';
 
 import { OktaAuth } from '@okta/okta-auth-js';
+import { AppServiceService } from './app-service.service';
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
 const appRoutes: Routes = [
@@ -26,9 +26,10 @@ const appRoutes: Routes = [
     component: OktaCallbackComponent,
   },
   {
-    path:'/hello',
-    component:AppComponent
+    path:'',
+    component:OktaLoginComponent,
   }
+  
 ];
 @NgModule({
   declarations:[
@@ -40,13 +41,16 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatButtonModule,
     HttpClientModule,
+    RouterModule.forRoot(appRoutes),
     OktaAuthModule,
 
   ],
   exports:[
     MatButtonModule,
   ],
-  providers: [ 
+  providers: [
+    OktaLoginComponent, 
+    AppServiceService,
     {provide:HTTP_INTERCEPTORS, useClass:Interceptors, multi:true},
     {provide: OKTA_CONFIG, useValue: { oktaAuth }}
    ],

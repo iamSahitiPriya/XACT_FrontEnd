@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
+import { AppServiceService } from 'src/app/app-service.service';
 interface ResourceServerExample {
   label: string;
   url: string;
@@ -17,7 +18,7 @@ export class OktaLoginComponent implements OnInit {
   userName?: string;
   error?: Error;
 
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) { 
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private service:AppServiceService) {
     this.resourceServerExamples = [
       {
         label: 'Node/Express Resource Server Example',
@@ -42,17 +43,16 @@ export class OktaLoginComponent implements OnInit {
       this.error = err;
     }
   }
-  
 
   async ngOnInit() {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     this.accessToken = await this.oktaAuth.getAccessToken();
+    console.log(this.oktaAuth.getAccessToken())
     console.log(this.isAuthenticated)
-    
+
     if (this.isAuthenticated) {
       const userClaims = await this.oktaAuth.getUser();
       this.userName = userClaims.name;
-      console.log(this.accessToken)
     }
   }
 
