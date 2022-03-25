@@ -12,6 +12,7 @@ export class Interceptors implements HttpInterceptor{
 
     constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth){}
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        
         this.accessToken = this.oktaAuth.getAccessToken() || "None value";
 
         console.log(this.accessToken)

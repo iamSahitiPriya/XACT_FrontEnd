@@ -15,8 +15,6 @@ export class AppServiceService {
 
   constructor(private http:HttpClient) { }
   
-  accessToken?:string
-
   public getBackendData():Observable<any>{
 
       return this.http.get(environment.URL+'/v1/assessments/12345');
