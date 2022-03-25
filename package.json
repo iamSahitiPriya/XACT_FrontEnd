@@ -9,7 +9,7 @@
     "build-dev": "ng build --configuration=development",
     "build-prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --no-watch --code-coverage",
+    "test": "ng test --browsers ChromeHeadless  --no-watch --code-coverage",
     "e2e": "cypress run"
   },
   "private": true,
