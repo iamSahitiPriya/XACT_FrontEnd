@@ -1,5 +1,9 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { AppServiceService } from './app-service.service';
+import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
+import { OktaLoginComponent } from './component/okta-login/okta-login.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,8 +16,20 @@ export class AppComponent{
   heading1 = "Hello world"
 
   getData:any;
-  constructor(private service:AppServiceService){}
+  accessToken?:string;
+  constructor(private service:AppServiceService, @Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, private oktaLogin:OktaLoginComponent){}
+
+  async login() {
+    await this.oktaAuth.signInWithRedirect();
+  }
+
+  async logout() {
+    await this.oktaAuth.signOut();
+   
+  }
+  
   ngOnInit(){
+    this.accessToken = this.oktaLogin.accessToken;
     this.service.getBackendData().subscribe({
         next: (Response)=>{
         this.getData = Response;

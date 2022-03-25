@@ -1,9 +1,13 @@
-<section>
-<div>
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div >
+
   <h1>{{heading1}}</h1>
-  <button mat-raised-button color="primary" (click)="changeContent()">ClickMe</button>&nbsp;&nbsp;
+  <button *ngIf="(authService.authState$ | async)?.isAuthenticated" mat-raised-button color="primary" (click)="changeContent()">ClickMe</button>&nbsp;&nbsp;
     <a href="https://material.angular.io/"><button mat-raised-button color = "warn">Material UI</button></a>
-</div>
-<div class="content">
-  <span>{{title}} app is running!</span>
+    <button id="logout-button" class="item" *ngIf="(authService.authState$ | async)?.isAuthenticated" (click)="logout()">Logout</button>
+  </div>
+
+<div class="ui text container" style="margin-top: 7em;">
+  <router-outlet></router-outlet>
 </div>
