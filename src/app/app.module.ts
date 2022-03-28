@@ -29,7 +29,11 @@ const appRoutes: Routes = [
     path:'',
     component:OktaLoginComponent,
   }
-  
+  {
+    path:'test',
+    component:AppComponent,
+  }
+
 ];
 @NgModule({
   declarations:[
@@ -49,7 +53,7 @@ const appRoutes: Routes = [
     MatButtonModule,
   ],
   providers: [
-    OktaLoginComponent, 
+    OktaLoginComponent,
     AppServiceService,
     {provide:HTTP_INTERCEPTORS, useClass:Interceptors, multi:true},
     {provide: OKTA_CONFIG, useValue: { oktaAuth }}
