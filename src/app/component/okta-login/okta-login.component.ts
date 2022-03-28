@@ -14,26 +14,10 @@ interface ResourceServerExample {
 export class OktaLoginComponent implements OnInit {
   isAuthenticated!: boolean;
   accessToken?:string;
-  resourceServerExamples: Array<ResourceServerExample>;
   userName?: string;
   error?: Error;
 
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private service:AppServiceService) {
-    this.resourceServerExamples = [
-      {
-        label: 'Node/Express Resource Server Example',
-        url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
-      },
-      {
-        label: 'Java/Spring MVC Resource Server Example',
-        url: 'https://github.com/okta/samples-java-spring/tree/master/resource-server',
-      },
-      {
-        label: 'ASP.NET Resource Server Example',
-        url: 'https://github.com/okta/samples-aspnet/tree/master/resource-server'
-      }
-    ];
-  }
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private service:AppServiceService) {}
 
   async login() {
     try {

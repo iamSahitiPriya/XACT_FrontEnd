@@ -14,6 +14,7 @@ pipeline {
             steps {
                 sh 'npm install'
                 sh 'npm run build-dev'
+                sh 'rm -rf ev-build'
                 sh 'mkdir -p dev-build'
                 sh 'cp -R dist/xact-frontend-app/. dev-build/'
                 script{
@@ -52,6 +53,6 @@ pipeline {
                                        reportName: 'End-to-End Test Reports',
                                        reportTitles: 'End-to-End Test Report'])
             }
-        }
+    }
 
 }

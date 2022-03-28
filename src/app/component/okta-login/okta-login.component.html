@@ -1,14 +1,14 @@
 <div *ngIf="error" class="error">
     {{ error }}
   </div>
-  
-  
+
+
   <div *ngIf="!isAuthenticated">
-    <button id="login-button" class="ui primary button" role="button" (click)="login()">Login</button>
+    <p>XAct_Frontend_App app is running!</p>
+    <button id="login-button" mat-raised-button color = "primary"  role="button" (click)="login()">Login</button>
   </div>
-  
+
   <div *ngIf="isAuthenticated && userName">
     <p>Welcome back, {{ userName }}!</p>
     <p>Access Token : {{ accessToken }}</p>
   </div>
-  

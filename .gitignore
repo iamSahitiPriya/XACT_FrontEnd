@@ -37,6 +37,7 @@ yarn-error.log
 testem.log
 /typings
 /cypress/reports/*
+/mochawesome-report/
 
 # System files
 .DS_Store
