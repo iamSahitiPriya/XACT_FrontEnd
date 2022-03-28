@@ -14,6 +14,6 @@ export class AppServiceService {
 
   public getBackendData():Observable<any>{
 
-      return this.http.get(environment.URL+'/v1/assessments/open/12345');
+      return this.http.get(environment.URL+'/v1/assessments/12345');
   }
 }
