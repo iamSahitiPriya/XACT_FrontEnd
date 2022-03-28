@@ -20,7 +20,7 @@
             "customWebpackConfig": {
               "path": "extra-webpack.config.js"
             },
-            
+
             "outputPath": "dist/xact-frontend-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -76,6 +76,7 @@
               "optimization": true
             },
             "development": {
+              "outputHashing": "all",
               "buildOptimizer": true,
               "optimization": true,
               "vendorChunk": true,
