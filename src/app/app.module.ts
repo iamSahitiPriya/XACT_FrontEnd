@@ -28,12 +28,7 @@ const appRoutes: Routes = [
   {
     path:'',
     component:OktaLoginComponent,
-  },
-  {
-    path:'test',
-    component:AppComponent,
   }
-
 ];
 @NgModule({
   declarations:[
