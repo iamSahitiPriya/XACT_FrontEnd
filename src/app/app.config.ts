@@ -4,7 +4,7 @@ export default {
   oidc: {
     clientId: environment.CLIENT_ID,
     issuer: environment.ISSUER,
-    redirectUri: 'http://localhost:4200/login/callback',
+    redirectUri: environment.REDIRECT_URI,
     scopes: ['openid', 'profile', 'email'],
     testing: {
       disableHttpsCheck: environment.OKTA_TESTING_DISABLEHTTPSCHECK
