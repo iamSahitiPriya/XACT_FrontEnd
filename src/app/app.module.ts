@@ -41,11 +41,12 @@ const appRoutes: Routes = [
     MatButtonModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
+    OktaAuthModule
 
   ],
   exports:[
     MatButtonModule,
+    
   ],
   providers: [
     OktaLoginComponent,

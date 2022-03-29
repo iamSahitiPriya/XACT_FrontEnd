@@ -1,5 +1,4 @@
 import { appUrl } from '../../constants';
-
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests

@@ -4,7 +4,11 @@
     "projects/**/*"
   ],
   "overrides": [
+    
     {
+      "globals": {
+        "cy": true
+      },
       "files": [
         "*.ts"
       ],
@@ -13,10 +17,11 @@
           "tsconfig.json"
         ],
         "createDefaultProgram": true
-      },
+      }, 
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:cypress/recommended"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -37,14 +42,21 @@
         ]
       }
     },
+    
     {
       "files": [
         "*.html"
       ],
       "extends": [
-        "plugin:@angular-eslint/template/recommended"
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:cypress/recommended"
       ],
       "rules": {}
     }
-  ]
+  ],
+  "eslintConfig": {
+    "extends": [
+      "plugin:cypress/recommended"
+    ]
+  }
 }
