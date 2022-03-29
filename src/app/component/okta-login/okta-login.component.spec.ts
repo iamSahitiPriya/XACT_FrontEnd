@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OKTA_AUTH } from '@okta/okta-angular';
 import { AppServiceService } from 'src/app/app-service.service';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { OktaLoginComponent } from './okta-login.component';
 
 describe('OktaLoginComponent', () => {
@@ -15,8 +15,8 @@ describe('OktaLoginComponent', () => {
       declarations: [ OktaLoginComponent ],
 
       imports:[ 
-        HttpClientModule
-
+        HttpClientModule,
+        RouterTestingModule
       ],
 
       providers:[
