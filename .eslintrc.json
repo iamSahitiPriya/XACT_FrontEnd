@@ -4,7 +4,7 @@
     "projects/**/*"
   ],
   "overrides": [
-    
+
     {
       "globals": {
         "cy": true
@@ -17,7 +17,7 @@
           "tsconfig.json"
         ],
         "createDefaultProgram": true
-      }, 
+      },
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -41,7 +41,7 @@
         ]
       }
     },
-    
+
     {
       "files": [
         "*.html"
@@ -51,10 +51,5 @@
       ],
       "rules": {}
     }
-  ],
-  "eslintConfig": {
-    "extends": [
-      "plugin:cypress/recommended"
-    ]
-  }
+  ]
 }
