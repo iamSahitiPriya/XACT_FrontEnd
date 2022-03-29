@@ -18,20 +18,55 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "core-js-pure/stable/array/from","core-js-pure/stable/instance/concat","core-js-pure/stable/instance/entries",
-              "core-js-pure/stable/instance/filter","core-js-pure/stable/instance/find","core-js-pure/stable/instance/includes","core-js-pure/features/reflect/construct",
-            "core-js-pure/stable/instance/index-of","core-js-pure/stable/instance/keys","core-js-pure/stable/instance/map","core-js-pure/stable/instance/reduce","core-js-pure/stable/instance/slice",
-          "core-js-pure/stable/instance/values","core-js-pure/stable/json/stringify","core-js-pure/stable/map","core-js-pure/stable/number/is-integer","core-js-pure/stable/object/assign",
-        "core-js-pure/stable/object/entries","core-js-pure/stable/object/from-entries","core-js-pure/stable/object/keys","core-js-pure/stable/object/set-prototype-of","core-js-pure/stable/object/values",
-      "core-js-pure/stable/parse-int","core-js-pure/stable/promise","core-js-pure/stable/reflect/construct","core-js-pure/stable/symbol","core-js-pure/stable/url","core-js-pure/features/array/from",
-    "core-js-pure/features/array/from","core-js-pure/features/get-iterator-method","core-js-pure/features/instance/bind","core-js-pure/features/instance/index-of","core-js-pure/features/instance/slice",
-  "core-js-pure/features/map","core-js-pure/features/object/create","core-js-pure/features/object/define-property","core-js-pure/features/object/get-own-property-descriptor","core-js-pure/features/object/get-prototype-of",
-"core-js-pure/features/object/set-prototype-of","core-js-pure/features/object/set-prototype-of","core-js-pure/features/promise","core-js-pure/features/reflect/get","core-js-pure/features/symbol","core-js-pure/features/symbol/iterator",
-"core-js-pure/features/array/is-array"],
+              "core-js-pure/stable/array/from",
+              "core-js-pure/stable/instance/concat",
+              "core-js-pure/stable/instance/entries",
+              "core-js-pure/stable/instance/filter",
+              "core-js-pure/stable/instance/find",
+              "core-js-pure/stable/instance/includes",
+              "core-js-pure/features/reflect/construct",
+              "core-js-pure/stable/instance/index-of",
+              "core-js-pure/stable/instance/keys",
+              "core-js-pure/stable/instance/map",
+              "core-js-pure/stable/instance/reduce",
+              "core-js-pure/stable/instance/slice",
+              "core-js-pure/stable/instance/values",
+              "core-js-pure/stable/json/stringify",
+              "core-js-pure/stable/map",
+              "core-js-pure/stable/number/is-integer",
+              "core-js-pure/stable/object/assign",
+              "core-js-pure/stable/object/entries",
+              "core-js-pure/stable/object/from-entries",
+              "core-js-pure/stable/object/keys",
+              "core-js-pure/stable/object/set-prototype-of",
+              "core-js-pure/stable/object/values",
+              "core-js-pure/stable/parse-int",
+              "core-js-pure/stable/promise",
+              "core-js-pure/stable/reflect/construct",
+              "core-js-pure/stable/symbol",
+              "core-js-pure/stable/url",
+              "core-js-pure/features/array/from",
+              "core-js-pure/features/array/from",
+              "core-js-pure/features/get-iterator-method",
+              "core-js-pure/features/instance/bind",
+              "core-js-pure/features/instance/index-of",
+              "core-js-pure/features/instance/slice",
+              "core-js-pure/features/map",
+              "core-js-pure/features/object/create",
+              "core-js-pure/features/object/define-property",
+              "core-js-pure/features/object/get-own-property-descriptor",
+              "core-js-pure/features/object/get-prototype-of",
+              "core-js-pure/features/object/set-prototype-of",
+              "core-js-pure/features/object/set-prototype-of",
+              "core-js-pure/features/promise",
+              "core-js-pure/features/reflect/get",
+              "core-js-pure/features/symbol",
+              "core-js-pure/features/symbol/iterator",
+              "core-js-pure/features/array/is-array"
+            ],
             "customWebpackConfig": {
               "path": "extra-webpack.config.js"
             },
-
             "outputPath": "dist/xact-frontend-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -142,9 +177,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "XAct_Frontend_App"
+  "defaultProject": "XAct_Frontend_App",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
