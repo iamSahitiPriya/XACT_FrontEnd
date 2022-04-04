@@ -13,6 +13,7 @@ pipeline {
         stage('Create & Archive Build') {
             steps {
                 sh 'npm install'
+                sh 'npm run updateBuild -- dev -- 0oa443ktg7gLqvg6X5d7 --https://dev-47045452.okta.com/oauth2/default'
                 sh 'npm run build-dev'
                 sh 'rm -rf dev-build'
                 sh 'mkdir -p dev-build'
@@ -22,7 +23,7 @@ pipeline {
                 }
                 archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
 
-
+                sh 'npm run updateBuild -- prod -- 0oa443ktg7gLqvg6X5d7 --https://dev-47045452.okta.com/oauth2/default'
                 sh 'npm run build-prod'
                 script{
                    zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'

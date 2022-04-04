@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   URL:"https://api-dev.project-xact.in",
-  ISSUER: "https://dev-47045452.okta.com/oauth2/default",
-  CLIENT_ID: "0oa4dxdt104f5XNua5d7",
+  ISSUER: '{ISSUER}',
+  CLIENT_ID: '{CLIENT_ID}',
   REDIRECT_URI:"https://dev.project-xact.in/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false
 };
