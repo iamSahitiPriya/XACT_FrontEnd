@@ -18,6 +18,7 @@ const options2 = {
 };
 
 try {
+  console.log('Option to set : '+clientID+" - "+issuer+" - "+environmentVar);
   let changedFiles = replace.sync(options1).replace.sync(options2);
   console.log('Client ID & Issuer is set'+clientID+" - "+issuer);
 }
