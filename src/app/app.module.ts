@@ -52,6 +52,8 @@ const appRoutes: Routes = [
   ],
   exports:[
     MatButtonModule,
+    MatTableModule,
+    MatMenuModule
   ],
   providers: [
     AppServiceService,
