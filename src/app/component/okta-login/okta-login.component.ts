@@ -19,16 +19,8 @@ export class OktaLoginComponent implements OnInit {
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private service:AppServiceService) {}
 
-  async login() {
-    try {
-      await this.oktaAuth.signInWithRedirect();
-    } catch (err: any) {
-      console.error(err);
-      this.error = err;
-    }
-  }
-
   async ngOnInit() {
+    this.oktaAuth.signIn;
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     this.accessToken = await this.oktaAuth.getAccessToken();
     console.log(this.oktaAuth.getAccessToken())
@@ -38,6 +30,7 @@ export class OktaLoginComponent implements OnInit {
       const userClaims = await this.oktaAuth.getUser();
       this.userName = userClaims.name;
     }
-  }
+    
+  }  
 
 }

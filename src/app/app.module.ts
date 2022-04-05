@@ -13,11 +13,14 @@ import {
   OKTA_CONFIG,
   OktaAuthModule,
   OktaCallbackComponent,
+  OktaAuthGuard,
 } from '@okta/okta-angular';
 import oktaConfig from './app.config';
 
 import { OktaAuth } from '@okta/okta-auth-js';
 import { AppServiceService } from './app-service.service';
+import { HeaderComponent } from './header/header.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
 const appRoutes: Routes = [
@@ -28,12 +31,14 @@ const appRoutes: Routes = [
   {
     path:'',
     component:OktaLoginComponent,
+    canActivate:[OktaAuthGuard]
   }
 ];
 @NgModule({
   declarations:[
     AppComponent,
     OktaLoginComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,8 +46,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule
-
+    OktaAuthModule,
+    HttpClientTestingModule
   ],
   exports:[
     MatButtonModule,
@@ -52,8 +57,11 @@ const appRoutes: Routes = [
     OktaLoginComponent,
     AppServiceService,
     {provide:HTTP_INTERCEPTORS, useClass:Interceptors, multi:true},
-    {provide: OKTA_CONFIG, useValue: { oktaAuth }}
+    {provide: OKTA_CONFIG, useValue: { oktaAuth }},
+    HttpClientTestingModule
    ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+ }

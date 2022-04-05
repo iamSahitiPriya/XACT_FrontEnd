@@ -19,15 +19,6 @@ export class AppComponent{
   accessToken?:string;
   constructor(private service:AppServiceService, @Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, private oktaLogin:OktaLoginComponent){}
 
-  async login() {
-    await this.oktaAuth.signInWithRedirect();
-  }
-
-  async logout() {
-    await this.oktaAuth.signOut();
-   
-  }
-  
   ngOnInit(){
     this.accessToken = this.oktaLogin.accessToken;
     this.service.getBackendData().subscribe({
@@ -35,13 +26,14 @@ export class AppComponent{
         this.getData = Response;
         console.log(this.getData)
         },
-        error: error =>{
+        error: () =>{
           this.getData = "There is an error. Check console."
         }
     })
   }
   changeContent(){
     this.heading1 = this.getData.name;
+    return this.getData.name;
   }
 
 }

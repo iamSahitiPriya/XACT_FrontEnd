@@ -1,0 +1,14 @@
+<div class="header">
+    <img src="/assets/logo.png" alt="XACT Logo" class="logo"/>
+    <div class="user">
+    <p class="userName">{{username}}</p>
+    <div class="arrow"  (click)="isClicked = !isClicked" onclick="this.classList.toggle('active')">
+        <div class="userContent" *ngIf="isClicked">
+            <button mat-stroked-button (click)="logout()">
+                <p class="logOutContent">Log Out</p>
+            </button>
+    </div>
+    </div>
+    
+</div>
+</div>

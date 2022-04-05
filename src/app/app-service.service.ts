@@ -12,8 +12,8 @@ export class AppServiceService {
 
   constructor(private http:HttpClient) { }
 
-  public getBackendData():Observable<any>{
+  public getBackendData():Observable<{name?:string}>{
 
-      return this.http.get(environment.URL+'/v1/assessments/12345');
+      return this.http.get(environment.BaseURI+environment.GET_ASSESSMENT_URI);
   }
 }

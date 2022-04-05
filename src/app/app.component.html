@@ -1,12 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<div >
-
+<div>
+  <div *ngIf="(authService.authState$ | async)?.isAuthenticated">
+  <app-header></app-header>
   <h1>{{heading1}}</h1>
-  <button *ngIf="(authService.authState$ | async)?.isAuthenticated" mat-raised-button color="primary" (click)="changeContent()">ClickMe</button>&nbsp;&nbsp;
-    <button id="logout-button" mat-raised-button color = "warn"  *ngIf="(authService.authState$ | async)?.isAuthenticated" (click)="logout()">Logout</button>
+  <button mat-raised-button color="primary" (click)="changeContent()">ClickMe</button>&nbsp;&nbsp;
   </div>
-  <div class="content"><span>{{title}} app is running!</span></div>
+  </div>
+
 
 <div class="ui text container" style="margin-top: 7em;">
   <router-outlet></router-outlet>

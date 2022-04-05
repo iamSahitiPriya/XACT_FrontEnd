@@ -2,12 +2,3 @@
     {{ error }}
   </div>
 
-
-  <div *ngIf="!isAuthenticated">
-    <button id="login-button" mat-raised-button color = "primary"  role="button" (click)="login()">Login</button>
-  </div>
-
-  <div *ngIf="isAuthenticated && userName">
-    <p>Welcome back, {{ userName }}!</p>
-    <p>Access Token : {{ accessToken }}</p>
-  </div>
