@@ -24,7 +24,7 @@ describe('Validate app is up & running', () => {
     // We use the `cy.get()` command to get all elements that match the selector.
     // Then, we use `should` to assert that there are two matched items,
     // which are the two default items.
-    cy.url("https://dev-47045452.okta.com/oauth2/default/v1/")
+    cy.url(oktaUrl)
   })
 
 
