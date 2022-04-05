@@ -1,15 +1,9 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OktaAuthStateService, OKTA_AUTH, OKTA_CONFIG } from '@okta/okta-angular';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppServiceService } from './app-service.service';
-import { AppComponent } from './app.component';
-import { OktaLoginComponent } from './component/okta-login/okta-login.component';
-import { Observable, of } from 'rxjs';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {OKTA_AUTH, OKTA_CONFIG, OktaAuthStateService} from '@okta/okta-angular';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AppServiceService} from '../../services/app-service/app-service.service';
+import {AppComponent} from './app.component';
 
 describe('AppComponent', () => {
   let component:AppComponent;
@@ -29,7 +23,6 @@ describe('AppComponent', () => {
       ],
       providers:[
         AppServiceService,
-        OktaLoginComponent,
         RouterTestingModule,
         {provide: OKTA_CONFIG, useValue:23},
         {provide: OKTA_AUTH, useValue:23},
@@ -39,7 +32,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
- 
+
   beforeEach(() => {
     service = TestBed.inject(AppServiceService);
       fixture = TestBed.createComponent(AppComponent);
@@ -51,11 +44,6 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change content',() =>{
-    component.getData = {name:"Hello"}
-    expect(component.changeContent()).toContain("Hello")
-  })
-  
   it('should get data',()=>{
     expect(service).toBeTruthy();
 

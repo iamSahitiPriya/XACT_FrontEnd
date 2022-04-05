@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
-import { getUserInfo, OktaAuth } from '@okta/okta-auth-js';
-import { HeaderComponent } from './header.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {OKTA_AUTH} from '@okta/okta-angular';
+import {OktaAuth} from '@okta/okta-auth-js';
+import {HeaderComponent} from './header.component';
+
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;

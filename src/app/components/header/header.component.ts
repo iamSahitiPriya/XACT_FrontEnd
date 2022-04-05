@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(@Inject(OKTA_AUTH)public oktaAuth: OktaAuth) { }
 
-  username?:string 
+  username?:string
   async ngOnInit(): Promise<void> {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     this.username = (await this.oktaAuth.getUser()).name

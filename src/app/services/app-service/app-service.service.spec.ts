@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { AppServiceService } from './app-service.service';
-import { AppComponent } from './app.component';
+import { AppComponent } from '../../components/app-component/app.component';
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
