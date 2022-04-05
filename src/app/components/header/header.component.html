@@ -1,15 +1,12 @@
 <div class="header">
     <img src="../../assets/logo.png" alt="XACT Logo" class="logo"/>
     <div class="user">
-    <div class="userName">{{username}}</div>
+      <div class="userName">
+        <button  mat-button [matMenuTriggerFor]="menu">{{username}}</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item><a href="mailTo:project-xact@thoughtworks.com">Contact Us</a></button>
+        </mat-menu>
 
-    <div class="arrow"  (click)="isClicked = !isClicked" onclick="this.classList.toggle('active')">
-        <div class="userContent" *ngIf="isClicked">
-            <button mat-stroked-button (click)="logout()">
-                <p class="logOutContent">Log Out</p>
-            </button>
+      </div>
     </div>
-    </div>
-
-</div>
 </div>

@@ -17,6 +17,8 @@ import {HeaderComponent} from './components/header/header.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {AssessmentsComponent} from './components/assessments/assessments.component';
 import {MatTableModule} from '@angular/material/table'
+import {MatMenuModule} from '@angular/material/menu';
+
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     OktaAuthModule,
     HttpClientTestingModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule
   ],
   exports:[
     MatButtonModule,
