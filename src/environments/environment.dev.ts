@@ -3,12 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false, 
+  production: false,
   BaseURI:"https://api-dev.project-xact.in",
   ISSUER: '{ISSUER}',
   CLIENT_ID: '{CLIENT_ID}',
   REDIRECT_URI:"https://dev.project-xact.in/login/callback",
-  OKTA_TESTING_DISABLEHTTPSCHECK: false
+  OKTA_TESTING_DISABLEHTTPSCHECK: false,
   GET_ASSESSMENT_URI:"v1/assesments/12345"
 };
 
