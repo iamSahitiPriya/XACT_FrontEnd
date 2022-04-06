@@ -12,6 +12,8 @@ import {OktaAuth} from '@okta/okta-auth-js';
 export class AppComponent{
 
   title = 'XACT | Welcome to client maturity assessment ';
-  constructor( @Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService){}
+  constructor( @Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService){
+    console.log(oktaAuth.getAccessToken());
+  }
 }
 

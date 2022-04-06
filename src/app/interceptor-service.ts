@@ -5,18 +5,19 @@ import {OktaAuth} from "@okta/okta-auth-js";
 import {Observable} from "rxjs"
 
 @Injectable()
-export class Interceptors implements HttpInterceptor{
-    accessToken?:string
+export class Interceptors implements HttpInterceptor {
+  accessToken?: string
 
-    constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth){}
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+  }
 
-        this.accessToken = this.oktaAuth.getAccessToken() || "None value";
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        console.log(this.accessToken)
-       let newInterceptor = req.clone({
-           headers:req.headers.append('Authorization',`Bearer ${this.accessToken}`)
-       })
-        return next.handle(newInterceptor);
-    }
+    this.accessToken = this.oktaAuth.getAccessToken() || "None value";
+
+    let newInterceptor = req.clone({
+      headers: req.headers.append('Authorization', `Bearer ${this.accessToken}`)
+    })
+    return next.handle(newInterceptor);
+  }
 }
