@@ -14,7 +14,7 @@ pipeline {
     tools { nodejs "nodejs" }
 
     stages {
-        stage('Deploy to Dev') {
+        stage('Test') {
             steps {
                 sh 'npm run test:coverage'
             }
