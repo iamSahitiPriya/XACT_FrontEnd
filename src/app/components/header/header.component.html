@@ -1,8 +1,8 @@
 <div class="header">
-    <img src="../../assets/logo.png" alt="XACT Logo" class="logo"/>
+    <img data-id="logo" src="../../assets/logo.png" alt="XACT Logo" class="logo" id="logo"/>
     <div class="user">
       <div class="userName">
-        <button  mat-button [matMenuTriggerFor]="menu">{{username}}</button>
+        <button  mat-button [matMenuTriggerFor]="menu" data-id="username" id="username">{{username}}</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><a href="mailTo:project-xact@thoughtworks.com">Contact Us</a></button>
         </mat-menu>

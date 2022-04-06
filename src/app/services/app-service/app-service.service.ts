@@ -1,8 +1,7 @@
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable({
@@ -10,10 +9,11 @@ import { environment } from '../../../environments/environment';
 })
 export class AppServiceService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  public getBackendData():Observable<{name?:string}>{
+  public getAssessments(): Observable<{ name?: string }> {
 
-      return this.http.get(environment.BaseURI+environment.GET_ASSESSMENT_URI);
+    return this.http.get(environment.BaseURI + environment.GET_ASSESSMENT_URI);
   }
 }

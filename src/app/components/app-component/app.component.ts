@@ -9,11 +9,11 @@ import {OktaAuth} from '@okta/okta-auth-js';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent{
+export class AppComponent {
 
   title = 'XACT | Welcome to client maturity assessment ';
-  constructor( @Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService){
-    console.log(oktaAuth.getAccessToken());
+
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService) {
   }
 }
 
