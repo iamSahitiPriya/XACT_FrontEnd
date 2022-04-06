@@ -38,6 +38,7 @@ pipeline {
                    zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
                 archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 
             }
         }
@@ -45,7 +46,7 @@ pipeline {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
-                sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/ --recursive"
+
 
 
             }
