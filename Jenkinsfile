@@ -38,6 +38,7 @@ pipeline {
                    zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
                 archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                sh 'aws s3 mv prod-${env.ARTIFACT_FILE} s3://xact-frontend-artifacts/ --recursive'
 
             }
         }
