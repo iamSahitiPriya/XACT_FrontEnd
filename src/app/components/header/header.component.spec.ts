@@ -43,6 +43,10 @@ describe('HeaderComponent', () => {
     expect(fixture.nativeElement.querySelector('#username')).toBeTruthy();
   });
 
+  it('should pass user name to html', () => {
+    expect(fixture.nativeElement.querySelector('#myvariable')).toBeTruthy();
+  });
+
 });
 
 

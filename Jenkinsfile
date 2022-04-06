@@ -47,13 +47,13 @@ pipeline {
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
             }
         }
-        stage('End-to-End Testing'){
+        /* stage('End-to-End Testing'){
             steps{
                 sh 'npm run e2e'
             }
-        }
+        } */
     }
-    post {
+    /* post {
             always {
                 publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
@@ -63,6 +63,6 @@ pipeline {
                                        reportName: 'End-to-End Test Reports',
                                        reportTitles: 'End-to-End Test Report'])
             }
-    }
+    } */
 
 }

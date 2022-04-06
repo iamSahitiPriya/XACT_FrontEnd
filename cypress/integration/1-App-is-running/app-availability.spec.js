@@ -1,4 +1,4 @@
-import { appUrl,oktaUrl } from '../../constants';
+import {appUrl, email,pwd} from '../../constants';
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests
@@ -24,8 +24,13 @@ describe('Validate app is up & running', () => {
     // We use the `cy.get()` command to get all elements that match the selector.
     // Then, we use `should` to assert that there are two matched items,
     // which are the two default items.
-    cy.wait(2000)
-    cy.url().should('eq', oktaUrl)
+    //cy.url().contains( oktaUrl)
+    cy.get('#input28').type(email);
+    cy.get('#input36').type(pwd);
+    cy.get('.button').click();
+    cy.wait(2000);
+    expect(cy.get('#logo')).to.exist;
+     cy.get('#username').contains('Dummy User');
   })
 
 
