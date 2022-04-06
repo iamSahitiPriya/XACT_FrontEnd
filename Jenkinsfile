@@ -8,7 +8,7 @@ pipeline {
         DEV_ISSUER = credentials('DEV_ISSUER')
         PROD_CLIENT_ID = credentials('PROD_CLIENT_ID')
         PROD_ISSUER = credentials('PROD_ISSUER')
-        ARTIFACT_FILE = "xact-frontend-${env.GIT_BRANCH}-${env.BUILD_NUMBER}.zip".replaceAll("/", "-")
+        ARTIFACT_FILE = "xact-frontend-${env.GIT_COMMIT}.zip"
     }
 
     tools { nodejs "nodejs" }
