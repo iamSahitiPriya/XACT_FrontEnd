@@ -14,6 +14,11 @@ pipeline {
     tools { nodejs "nodejs" }
 
     stages {
+        stage('NPM Install'){
+            steps{
+                sh 'npm install'
+            }
+        }
         stage('Test') {
             steps {
                 sh 'npm run test:coverage'
@@ -21,7 +26,6 @@ pipeline {
         }
         stage('Create & Archive Build') {
             steps {
-                sh 'npm install'
                 sh "npm run updateBuild -- dev ${DEV_CLIENT_ID} ${DEV_ISSUER}"
                 sh 'npm run build-dev'
                 sh 'rm -rf dev-build'
@@ -48,7 +52,6 @@ pipeline {
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
 
 
-
             }
         }
         /* stage('End-to-End Testing'){
@@ -57,16 +60,17 @@ pipeline {
             }
         } */
     }
-    /* post {
+     post {
             always {
-                publishHTML (target : [allowMissing: false,
+                cleanWs notFailBuild: true
+                /*publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
                                        keepAll: true,
                                        reportDir: 'mochawesome-report',
                                        reportFiles: 'mochawesome.html',
                                        reportName: 'End-to-End Test Reports',
-                                       reportTitles: 'End-to-End Test Report'])
+                                       reportTitles: 'End-to-End Test Report'])*/
             }
-    } */
+    }
 
 }

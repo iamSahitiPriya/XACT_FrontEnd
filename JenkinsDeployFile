@@ -10,6 +10,7 @@ pipeline {
     stages {
         stage('Fetch Artifact') {
             steps {
+                sh 'rm -rf prod-build'
                 sh "aws s3 cp s3://xact-frontend-artifacts/prod-xact-frontend-${Commit_ID}.zip prod-build.zip"
                 unzip zipFile: 'prod-build.zip', dir: 'prod-build'
             }
@@ -22,6 +23,10 @@ pipeline {
         }
 
     }
-
+    post {
+            always {
+                cleanWs notFailBuild: true
+            }
+    }
 
 }
