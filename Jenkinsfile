@@ -42,6 +42,7 @@ pipeline {
                    zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
                 archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                sh "aws s3 rm s3://xact-frontend-artifacts/prod-xact-frontend-${env.GIT_COMMIT}.zip"
                 sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 
             }
