@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+
+    stages {
+        stage('Fetch Artifact') {
+            steps {
+                sh "aws s3 cp s3://xact-frontend-artifacts/prod-xact-frontend-${Commit_ID}.zip prod-build.zip"
+                unzip zipFile: 'prod-build.zip', dir: 'prod-build'
+            }
+        }
+        stage('Deploy to Prod') {
+            steps {
+                sh 'aws s3 rm s3://xact-app-prod/ --recursive'
+                sh 'aws s3 cp ./prod-build/ s3://xact-app-prod/ --recursive  --include "*" '
+            }
+        }
+
+    }
+
+
+}
