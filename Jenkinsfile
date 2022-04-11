@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         DEV_CLIENT_ID = credentials('DEV_CLIENT_ID')
         DEV_ISSUER = credentials('DEV_ISSUER')
         PROD_CLIENT_ID = credentials('PROD_CLIENT_ID')
