@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatTableDataSource} from "@angular/material/table";
+import {AssessmentStructure} from "./assessmentStructure";
 
 /**
  * @title Table with expandable rows
@@ -17,53 +19,44 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   ],
 })
 export class AssessmentsComponent {
-  dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['position','assessment_name', 'organisation_name', 'status', 'domain'];
-  expandedElement: PeriodicElement | null;
+  dataSource = new MatTableDataSource(ASSESSMENT_DATA);
+  columnsToDisplay = ['assessment_name', 'organisation_name','status', 'lastSavedDate'];
+  expandedElement: AssessmentStructure | null;
 }
-
-export interface PeriodicElement {
-  position: number;
-  assessment_name: string;
-  organisation_name: string;
-  status: string;
-  domain: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
+export const ASSESSMENT_DATA: AssessmentStructure[] = [
   {
     position: 1,
     assessment_name: 'Assessment1',
     organisation_name: 'XYZ Company',
     status: 'Active',
-    domain: 'Telecom',
+    lastSavedDate: new Date(2000,7,23),
   },
   {
     position: 2,
     assessment_name: 'Hydrogen',
     organisation_name: 'XYZ Company',
     status: 'Pending',
-    domain: 'Cal center',
+    lastSavedDate: new Date(2021,6,10),
   },
   {
     position: 3,
     assessment_name: 'Hydrogen',
     organisation_name: 'XYZ Company',
     status: 'Completed',
-    domain: 'Telecom',
+    lastSavedDate: new Date(2005,4,22),
   },
   {
     position: 4,
     assessment_name: 'Hydrogen',
     organisation_name: 'XYZ Company',
     status: 'Active',
-    domain: 'Telecom',
+    lastSavedDate: new Date(2020,6,3),
   },
   {
     position: 5,
     assessment_name: 'Some assessment',
     organisation_name: 'XYZ Company',
     status: 'Pending',
-    domain: 'Telecom',
+    lastSavedDate:new Date(2000,8,5),
   },
 ];
