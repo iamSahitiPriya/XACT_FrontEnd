@@ -86,17 +86,5 @@
         "stringifyContentPathRegex": "\\.html$"
       }
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "node --require pretty-error/start ./scripts/husky/commit-msg"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "git add"
-    ]
   }
 }
