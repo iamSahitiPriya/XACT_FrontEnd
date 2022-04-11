@@ -60,7 +60,8 @@
     "mochawesome": "^7.1.2",
     "mochawesome-merge": "^4.2.1",
     "replace-in-file": "^6.3.2",
-    "typescript": "~4.5.2"
+    "typescript": "~4.5.2",
+    "husky": "^7.0.4"
   },
   "jest": {
     "roots": [
@@ -85,5 +86,18 @@
         "stringifyContentPathRegex": "\\.html$"
       }
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "node --require pretty-error/start ./scripts/husky/commit-msg",
+      "post-merge": "node ./scripts/husky/post-merge"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
