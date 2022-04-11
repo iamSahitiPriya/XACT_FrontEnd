@@ -15,8 +15,6 @@ export class SearchComponent  {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(ASSESSMENT_DATA)
   }
 
-
-
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
     this.dataSource.filter =  filterValue.value.trim().toLowerCase()

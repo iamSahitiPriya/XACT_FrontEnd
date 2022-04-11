@@ -21,7 +21,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from "./components/search/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
-// import { SearchComponent } from './search/search.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -43,7 +42,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     AssessmentsComponent,
     SearchComponent,
-    // SearchComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -56,12 +55,13 @@ const appRoutes: Routes = [
     MatTableModule,
     MatMenuModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports:[
     MatButtonModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [
     AppServiceService,

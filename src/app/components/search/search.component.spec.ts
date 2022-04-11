@@ -22,4 +22,10 @@ describe('SearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should call the search', () => {
+        var inputValue = document.getElementById("search") as HTMLInputElement
+        inputValue.value = "dummyValue"
+        component.searchAssessments()
+        expect(component.dataSource.filter).toBe("dummyvalue")
+  });
 });
