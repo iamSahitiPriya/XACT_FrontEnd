@@ -18,6 +18,10 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {AssessmentsComponent} from './components/assessments/assessments.component';
 import {MatTableModule} from '@angular/material/table'
 import {MatMenuModule} from '@angular/material/menu';
+import {SearchComponent} from "./components/search/search.component";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+// import { SearchComponent } from './search/search.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -34,10 +38,12 @@ const appRoutes: Routes = [
   }
 ];
 @NgModule({
-  declarations:[
+  declarations: [
     AppComponent,
     HeaderComponent,
     AssessmentsComponent,
+    SearchComponent,
+    // SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,9 @@ const appRoutes: Routes = [
     OktaAuthModule,
     HttpClientTestingModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatInputModule,
+    MatIconModule
   ],
   exports:[
     MatButtonModule,
