@@ -90,8 +90,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "commit-msg": "node --require pretty-error/start ./scripts/husky/commit-msg",
-      "post-merge": "node ./scripts/husky/post-merge"
+      "commit-msg": "node --require pretty-error/start ./scripts/husky/commit-msg"
     }
   },
   "lint-staged": {
