@@ -21,6 +21,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from "./components/search/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
+import { CreateAssessmentsComponent } from './components/create-assessments/create-assessments.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     AssessmentsComponent,
     SearchComponent,
+    CreateAssessmentsComponent,
 
   ],
   imports: [
