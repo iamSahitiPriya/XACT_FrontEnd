@@ -1,10 +1,10 @@
 table {
   width: 100%;
 }
-table.mat-table{
-  border-collapse: separate;
-  border-spacing: 0 1em;
-}
+/*table.mat-table{*/
+/*  border-collapse: separate;*/
+/*  border-spacing: 0 1em;*/
+/*}*/
 
 tr.example-detail-row {
   height: 0;

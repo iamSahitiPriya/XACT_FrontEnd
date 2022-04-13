@@ -1,11 +1,16 @@
-import {Component} from '@angular/core';
+import {Component,OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from "@angular/material/table";
 import {AssessmentStructure} from "./assessmentStructure";
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {BehaviorSubject} from "rxjs";
 
 /**
  * @title Table with expandable rows
  */
+let assessments:AssessmentStructure[] = []
+let testEmitter$ = new BehaviorSubject<AssessmentStructure[]>(assessments)
+
 @Component({
   selector: 'app-assessments',
   templateUrl: './assessments.component.html',
@@ -18,45 +23,47 @@ import {AssessmentStructure} from "./assessmentStructure";
     ]),
   ],
 })
-export class AssessmentsComponent {
-  dataSource = new MatTableDataSource(ASSESSMENT_DATA);
-  columnsToDisplay = ['assessment_name', 'organisation_name','status', 'lastSavedDate'];
+
+export class AssessmentsComponent implements OnInit {
+
+  constructor(public appService: AppServiceService) {
+    this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)
+  }
+  assessments:AssessmentStructure[]
+  ngOnInit(): void {
+    this.appService.getAssessments().subscribe(
+      (response) => {
+        assessments = response
+        testEmitter$.next(assessments)
+      }
+    )
+    testEmitter$.subscribe((value)=>
+    {
+      this.dataSource = new MatTableDataSource(value)})
+  }
+
+  dataSource = new MatTableDataSource<AssessmentStructure>()
+
+  columnsToDisplay = ['assessmentName','organisation.organisationName','assessmentStatus','updatedAt'];
   expandedElement: AssessmentStructure | null;
 }
-export const ASSESSMENT_DATA: AssessmentStructure[] = [
+
+export const ASSESSMENT_DATA:AssessmentStructure [] = [
   {
-    position: 1,
-    assessment_name: 'Assessment1',
-    organisation_name: 'XYZ Company',
-    status: 'Active',
-    lastSavedDate: new Date(2000,7,23),
-  },
-  {
-    position: 2,
-    assessment_name: 'Hydrogen',
-    organisation_name: 'XYZ Company',
-    status: 'Pending',
-    lastSavedDate: new Date(2021,6,10),
-  },
-  {
-    position: 3,
-    assessment_name: 'Hydrogen',
-    organisation_name: 'XYZ Company',
-    status: 'Completed',
-    lastSavedDate: new Date(2005,4,22),
-  },
-  {
-    position: 4,
-    assessment_name: 'Hydrogen',
-    organisation_name: 'XYZ Company',
-    status: 'Active',
-    lastSavedDate: new Date(2020,6,3),
-  },
-  {
-    position: 5,
-    assessment_name: 'Some assessment',
-    organisation_name: 'XYZ Company',
-    status: 'Pending',
-    lastSavedDate:new Date(2000,8,5),
-  },
-];
+    "assessmentId": 1,
+    "assessmentName": "xact",
+    "organisation": {
+      "organisationId": 2,
+      "organisationName": "abc",
+      "industry": "hello",
+      "domain": "ABC",
+      "size": 4
+    },
+    "description": "project for xact",
+    "assessmentStatus": "ACTIVE",
+    "createdAt": 1649836699000,
+    "updatedAt": 1649836702000
+  }
+]
+
+

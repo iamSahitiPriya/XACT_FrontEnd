@@ -12,8 +12,8 @@ export class AppServiceService {
   constructor(private http: HttpClient) {
   }
 
-  public getAssessments(): Observable<{ name?: string }> {
+  public getAssessments(): Observable<any> {
 
-    return this.http.get(environment.BaseURI + environment.GET_ASSESSMENT_URI);
+    return this.http.get<any>(environment.BaseURI + environment.GET_ASSESSMENT_URI);
   }
 }

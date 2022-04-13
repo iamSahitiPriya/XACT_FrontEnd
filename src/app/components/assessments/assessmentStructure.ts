@@ -1,7 +1,16 @@
 export interface AssessmentStructure {
-  position: number;
-  assessment_name: string;
-  organisation_name: string;
-  status: string;
-  lastSavedDate: Date;
+  "assessmentId": number,
+  "assessmentName": string,
+  "organisation": {
+    "organisationId": number,
+    "organisationName": string,
+    "industry": string,
+    "domain": string,
+    "size": number
+  },
+  "description": string,
+  "assessmentStatus": string,
+  "createdAt": number,
+  "updatedAt": number
+
 }
