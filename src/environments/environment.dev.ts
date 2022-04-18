@@ -9,8 +9,7 @@ export const environment = {
   CLIENT_ID: '{CLIENT_ID}',
   REDIRECT_URI:"https://dev.project-xact.in/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
-  // GET_ASSESSMENT_URI:"/v1/assessments/12345"
-  GET_ASSESSMENT_URI:"/v1/assessments/open/technicalbaba4u@thoughtworks.com",
+  GET_ASSESSMENT_URI:"/v1/assessments/",
 };
 
 /*
