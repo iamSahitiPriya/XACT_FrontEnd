@@ -22,6 +22,7 @@ import {SearchComponent} from "./components/search/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import { CreateAssessmentsComponent } from './components/create-assessments/create-assessments.component';
+import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     OktaAuthModule,
     MatTableModule,
+    MatFormFieldModule,
     MatMenuModule,
     MatInputModule,
     MatIconModule,
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+
   ],
   providers: [
     AppServiceService,

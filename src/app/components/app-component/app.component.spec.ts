@@ -4,6 +4,8 @@ import {OKTA_AUTH, OKTA_CONFIG, OktaAuthStateService} from '@okta/okta-angular';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppServiceService} from '../../services/app-service/app-service.service';
 import {AppComponent} from './app.component';
+import {SearchComponent} from "../search/search.component";
+import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,12 +16,13 @@ describe('AppComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        SearchComponent,
+        CreateAssessmentsComponent
       ],
       imports: [
         HttpClientModule,
         RouterTestingModule,
-
       ],
       providers: [
         AppServiceService,

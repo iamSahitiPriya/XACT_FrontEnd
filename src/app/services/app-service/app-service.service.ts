@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {AssessmentStructure} from "../../components/assessments/assessmentStructure";
 
 
 @Injectable({
@@ -12,8 +13,8 @@ export class AppServiceService {
   constructor(private http: HttpClient) {
   }
 
-  public getAssessments(): Observable<any> {
+  public getAssessments(): Observable<AssessmentStructure[]> {
 
-    return this.http.get<any>(environment.BaseURI + environment.GET_ASSESSMENT_URI);
+    return this.http.get<AssessmentStructure[]>(environment.BaseURI + environment.GET_ASSESSMENT_URI);
   }
 }

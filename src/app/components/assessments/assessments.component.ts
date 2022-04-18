@@ -9,7 +9,7 @@ import {BehaviorSubject} from "rxjs";
  * @title Table with expandable rows
  */
 let assessments:AssessmentStructure[] = []
-let testEmitter$ = new BehaviorSubject<AssessmentStructure[]>(assessments)
+let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 
 @Component({
   selector: 'app-assessments',
@@ -34,10 +34,10 @@ export class AssessmentsComponent implements OnInit {
     this.appService.getAssessments().subscribe(
       (response) => {
         assessments = response
-        testEmitter$.next(assessments)
+        valueEmitter.next(assessments)
       }
     )
-    testEmitter$.subscribe((value)=>
+    valueEmitter.subscribe((value)=>
     {
       this.dataSource = new MatTableDataSource(value)})
   }
@@ -48,22 +48,6 @@ export class AssessmentsComponent implements OnInit {
   expandedElement: AssessmentStructure | null;
 }
 
-export const ASSESSMENT_DATA:AssessmentStructure [] = [
-  {
-    "assessmentId": 1,
-    "assessmentName": "xact",
-    "organisation": {
-      "organisationId": 2,
-      "organisationName": "abc",
-      "industry": "hello",
-      "domain": "ABC",
-      "size": 4
-    },
-    "description": "project for xact",
-    "assessmentStatus": "ACTIVE",
-    "createdAt": 1649836699000,
-    "updatedAt": 1649836702000
-  }
-]
+
 
 

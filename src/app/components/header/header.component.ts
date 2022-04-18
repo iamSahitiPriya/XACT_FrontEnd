@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   }
 
   username?: string
-
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
   }

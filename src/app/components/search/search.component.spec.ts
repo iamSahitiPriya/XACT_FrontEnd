@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchComponent } from './search.component';
+import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -8,7 +12,8 @@ describe('SearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchComponent ]
+      declarations: [ SearchComponent ],
+      imports:[MatFormFieldModule,MatIconModule,MatInputModule,BrowserAnimationsModule]
     })
     .compileComponents();
   });
@@ -23,8 +28,8 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should call the search', () => {
-        var inputValue = document.getElementById("search") as HTMLInputElement
-        inputValue.value = "dummyValue"
+    const inputValue = document.getElementById("search") as HTMLInputElement;
+    inputValue.value = "dummyValue"
         component.searchAssessments()
         expect(component.dataSource.filter).toBe("dummyvalue")
   });
