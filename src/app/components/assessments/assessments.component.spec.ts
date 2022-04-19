@@ -18,16 +18,8 @@ class MockAppService{
     {
       "assessmentId": 1,
       "assessmentName": "xact",
-      "organisation": {
-        "organisationId": 2,
-        "organisationName": "abc",
-        "industry": "hello",
-        "domain": "ABC",
-        "size": 4
-      },
-      "description": "project for xact",
+      "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "createdAt": 1649836699000,
       "updatedAt": 1649836702000
     }
   ]
@@ -68,16 +60,8 @@ describe('AssessmentsComponent', () => {
       {
         "assessmentId": 1,
         "assessmentName": "xact",
-        "organisation": {
-          "organisationId": 2,
-          "organisationName": "abc",
-          "industry": "hello",
-          "domain": "ABC",
-          "size": 4
-        },
-        "description": "project for xact",
+        "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "createdAt": 1649836699000,
         "updatedAt": 1649836702000
       }
     ]
