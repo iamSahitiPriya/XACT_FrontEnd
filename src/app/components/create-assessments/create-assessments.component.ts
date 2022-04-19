@@ -1,6 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import {OktaAuth, UserClaims} from "@okta/okta-auth-js";
 
 
 export interface userStructure{
@@ -16,8 +18,9 @@ export interface userStructure{
 export class CreateAssessmentsComponent {
   columnName = ["name","delete"]
   dataSource = [{}]
+  username:string
   @ViewChild(MatTable) table: MatTable<userStructure>;
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
   openAssessment(content: any) {
@@ -34,10 +37,13 @@ export class CreateAssessmentsComponent {
     this.dialog.closeAll();
   }
 
-  addUser() {
-    const value = document.getElementById("userEmail") as HTMLInputElement
-    if(value.value !== ""){this.dataSource.push({"name":value.value})
-      }
+  async addUser() {
+    const email = document.getElementById("userEmail") as HTMLInputElement
+    if (email.value !== "" && (await this.oktaAuth.getUser()).email === email.value) {
+      this.username = (await this.oktaAuth.getUser()).name || "No value"
+      console.log(this.username)
+      this.dataSource.push({"name": this.username})
+    }
     this.table.renderRows()
   }
 
