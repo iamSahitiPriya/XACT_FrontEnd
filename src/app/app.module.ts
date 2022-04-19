@@ -23,6 +23,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import { CreateAssessmentsComponent } from './components/create-assessments/create-assessments.component';
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {FormsModule} from "@angular/forms";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -59,13 +61,16 @@ const appRoutes: Routes = [
     MatMenuModule,
     MatInputModule,
     MatIconModule,
+    MatDialogModule,
+    FormsModule,
+
   ],
   exports:[
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
     MatIconModule,
-
+    MatDialogModule
   ],
   providers: [
     AppServiceService,

@@ -1,10 +1,30 @@
 .mat-raised-button{
   position: absolute;
-  top: 5%;
+  top: 3%;
   left: 81%;
   background-color: #043D4E;
   color: white;
   min-width: 17%;
-  min-height: 19%;
+  max-height: 19%;
   font-size: 16px;
+}
+h1{
+  color:#043D4E;
+}
+mat-icon-button{
+  position:absolute;
+}
+.assessmentName, .organizationName, .domain{
+  width:100%;
+  height: 50%;
+}
+.industry{
+  width: 70%;
+  height: 50%;
+}
+.mat-form-field{
+  height: 67px ;
+}
+.teamSize{
+  width: 20%;
 }

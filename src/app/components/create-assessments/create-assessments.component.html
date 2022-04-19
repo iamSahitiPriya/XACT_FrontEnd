@@ -1,1 +1,34 @@
-<button mat-raised-button>Create Assessment</button>
+<button mat-raised-button (click)="openAssessment(content)">Create Assessment</button>
+
+<ng-template #content>
+  <h1 mat-dialog-title>Create Assessment</h1>
+    <button mat-icon-button  (click)="closePopUp()">
+      <mat-icon>close</mat-icon>
+    </button>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline" class="assessmentName">
+      <mat-label>Assessment Name</mat-label>
+      <input matInput placeholder="Enter Assessment Name" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline" class="organizationName">
+      <mat-label>Organization Name</mat-label>
+      <input matInput placeholder="Enter organization Name" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline" class="domain">
+      <mat-label>Domain</mat-label>
+      <input matInput placeholder="Enter Domain" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline" class="industry">
+      <mat-label>Industry</mat-label>
+      <input matInput placeholder="Enter Industry" required>
+    </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
+    <mat-form-field appearance="outline" class="teamSize">
+      <mat-label>Team Size</mat-label>
+      <input type="number" matInput placeholder="Enter Team size" required>
+    </mat-form-field>
+  </div>
+
+</ng-template>
