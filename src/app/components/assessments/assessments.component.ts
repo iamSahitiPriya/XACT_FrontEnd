@@ -44,7 +44,7 @@ export class AssessmentsComponent implements OnInit {
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
 
-  columnsToDisplay = ['assessmentName','organisation.organisationName','assessmentStatus','updatedAt'];
+  columnsToDisplay = ['assessmentName','organisationName','assessmentStatus','updatedAt'];
   expandedElement: AssessmentStructure | null;
 }
 

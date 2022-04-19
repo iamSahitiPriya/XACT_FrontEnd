@@ -10,9 +10,9 @@
       <td mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="organisation.organisationName">
+    <ng-container matColumnDef="organisationName">
       <th mat-header-cell *matHeaderCellDef> Organization Name</th>
-      <td mat-cell *matCellDef="let element"> {{element.organisation.organisationName}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
     </ng-container>
 
     <ng-container matColumnDef="assessmentStatus">
@@ -32,7 +32,7 @@
           <div class="example-element-diagram">
             <div class="example-element-position"> {{element.position}} </div>
             <div class="example-element-name"> {{element.assessmentName}} </div>
-            <div class="example-element-weight"> {{element.organisation.organisationName}} </div>
+            <div class="example-element-weight"> {{element.organisationName}} </div>
             <div class="example-element-symbol"> {{element.assessmentStatus}} </div>
           </div>
           <div class="example-element-description">
