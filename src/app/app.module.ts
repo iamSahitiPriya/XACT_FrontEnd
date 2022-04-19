@@ -70,7 +70,8 @@ const appRoutes: Routes = [
     MatTableModule,
     MatMenuModule,
     MatIconModule,
-    MatDialogModule
+
+
   ],
   providers: [
     AppServiceService,
