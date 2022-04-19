@@ -1,10 +1,9 @@
 table {
   width: 100%;
 }
-/*table.mat-table{*/
-/*  border-collapse: separate;*/
-/*  border-spacing: 0 1em;*/
-/*}*/
+td.mat-cell{
+  padding: 0px 30px;
+}
 
 tr.example-detail-row {
   height: 0;
@@ -37,6 +36,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   letter-spacing: 0.44px;
   color: #043D4E;
   font-size: 26px;
+  white-space: nowrap;
   padding-bottom: 15px;
   opacity: 1;
 }
