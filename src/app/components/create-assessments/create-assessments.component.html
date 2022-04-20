@@ -53,7 +53,7 @@
       <mat-label>Email Id</mat-label>
       <input matInput placeholder="eg:abc@thoughtworks.com" id="userEmail">
     </mat-form-field>
-    <button mat-fab (click)="addUser()"><mat-icon>add</mat-icon></button>
+    <button type="button" mat-fab (click)="addUser()"><mat-icon>add</mat-icon></button>
   </div>
   <table mat-table [dataSource]="dataSource" *ngIf="dataSource.length>=1" class="mat-elevation-z8 demo-table">
     <ng-container matColumnDef="name">
