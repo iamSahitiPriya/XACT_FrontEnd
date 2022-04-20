@@ -6,6 +6,7 @@ import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
 import {FormControl, Validators } from '@angular/forms';
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 
 export interface userStructure {
@@ -85,7 +86,7 @@ export class CreateAssessmentsComponent {
 
   }
 
-  saveAssessment(form:any) {
+  saveAssessment() {
     const assessmentDataPayload = {
         'assessmentName': this.assessmentName, "organisationName": this.organizationName,
         "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user};
