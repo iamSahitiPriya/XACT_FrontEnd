@@ -1,13 +1,17 @@
 import {Component, Inject, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
 import {OKTA_AUTH} from "@okta/okta-angular";
-import {OktaAuth, UserClaims} from "@okta/okta-auth-js";
+import {OktaAuth} from "@okta/okta-auth-js";
+import {FormControl, Validators} from "@angular/forms";
 
 
-export interface userStructure{
-  name:string
+export interface userStructure {
+  name: string
 }
+
+export const user = [{}]
+export const assessmentData = [{}]
 
 @Component({
   selector: 'app-create-assessments',
@@ -16,32 +20,61 @@ export interface userStructure{
 })
 
 export class CreateAssessmentsComponent {
-  columnName = ["name","delete"]
+  assessmentNameValidator = new FormControl('', [Validators.required]);
+  organizationNameValidator = new FormControl('', [Validators.required]);
+  domainNameValidator = new FormControl('', [Validators.required]);
+  industryValidator = new FormControl('', [Validators.required]);
+  teamSizeValidator = new FormControl('', [Validators.required]);
+
+  columnName = ["name", "delete"]
+  assessmentName: string = ''
+  organizationName: string = ''
+  domain: string = ''
+  industry: string = ''
+  teamSize: string = ''
   dataSource = [{}]
-  username:string
+  username: string
   @ViewChild(MatTable) table: MatTable<userStructure>;
-  constructor(public dialog: MatDialog,@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+
+  constructor(public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
   openAssessment(content: any) {
-    this.dataSource.splice(0,this.dataSource.length)
+    this.assessmentNameValidator.reset()
+    this.organizationNameValidator.reset()
+    this.industryValidator.reset()
+    this.domainNameValidator.reset()
+    this.teamSizeValidator.reset()
+    this.assessmentName =""
+    this.organizationName =""
+    this.domain =""
+
+    this.dataSource.splice(0, this.dataSource.length)
+    assessmentData.splice(0, assessmentData.length)
+
+    user.splice(0, user.length)
+
     const dialogRef = this.dialog.open(content, {
       width: '700px', height: '600px',
     })
     dialogRef.afterClosed().subscribe(result => {
+      this.dataSource.splice(0, this.dataSource.length)
+      assessmentData.splice(0, assessmentData.length)
+      dialogRef.close()
       console.log('The dialog was closed');
     });
   }
 
   closePopUp(): void {
-    this.dialog.closeAll();
+    this.dialog.closeAll()
   }
 
   async addUser() {
     const email = document.getElementById("userEmail") as HTMLInputElement
     if (email.value !== "" && (await this.oktaAuth.getUser()).email === email.value) {
       this.username = (await this.oktaAuth.getUser()).name || "No value"
-      console.log(this.username)
+      const name = this.username.split(' ')
+      user.push({"email": email.value, "firstName": name[0], "lastName": name[1], "role": "Owner"})
       this.dataSource.push({"name": this.username})
     }
     this.table.renderRows()
@@ -52,6 +85,12 @@ export class CreateAssessmentsComponent {
   }
 
   getAssessments() {
-
+    if (this.assessmentName !== '') {
+      assessmentData.push({
+        'assessmentName': this.assessmentName, "organisationName": this.organizationName,
+        "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user})
+      console.log(assessmentData)
+    }
   }
+
 }

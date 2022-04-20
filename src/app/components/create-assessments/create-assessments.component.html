@@ -8,26 +8,41 @@
   <div mat-dialog-content>
     <mat-form-field appearance="outline" class="assessmentName">
       <mat-label>Assessment Name</mat-label>
-      <input matInput placeholder="Enter Assessment Name" required>
+      <input matInput [formControl]="assessmentNameValidator" placeholder="Enter Assessment Name" required [(ngModel)] = "assessmentName">
+      <mat-error *ngIf="assessmentNameValidator.hasError('required')">
+        Mandatory field
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" class="organizationName">
       <mat-label>Organization Name</mat-label>
-      <input matInput placeholder="Enter organization Name" required>
+      <input matInput [(ngModel)] = "organizationName" [formControl]="organizationNameValidator" placeholder="Enter organization Name" required>
+      <mat-error *ngIf="organizationNameValidator.hasError('required')">
+        Mandatory field
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" class="domain">
       <mat-label>Domain</mat-label>
-      <input matInput placeholder="Enter Domain" required>
+      <input matInput [(ngModel)] = "domain" [formControl]="domainNameValidator" placeholder="Enter Domain" required>
+      <mat-error *ngIf="domainNameValidator.hasError('required')">
+        Mandatory field
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" class="industry">
       <mat-label>Industry</mat-label>
-      <input matInput placeholder="Enter Industry" required>
+      <input matInput [(ngModel)] = "industry" [formControl]="industryValidator" placeholder="Enter Industry" required>
+      <mat-error *ngIf="industryValidator.hasError('required')">
+        Mandatory field
+      </mat-error>
     </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
     <mat-form-field appearance="outline" class="teamSize">
       <mat-label>Team Size</mat-label>
-      <input type="number" matInput placeholder="Enter Team size" required>
+      <input type="number" [(ngModel)] = "teamSize" matInput [formControl]="teamSizeValidator" placeholder="Enter Team size" required>
+      <mat-error *ngIf="teamSizeValidator.hasError('required')">
+        Mandatory field
+      </mat-error>
     </mat-form-field>
   </div>
   <h2 mat-dialog-title>Add New User</h2>
