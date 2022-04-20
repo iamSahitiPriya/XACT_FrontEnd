@@ -1,0 +1,43 @@
+.mat-raised-button{
+  position: absolute;
+  top: 0%;
+  left: 81%;
+  background-color: #043D4E;
+  color: white;
+  min-width: 17%;
+  max-height: 19%;
+  font-size: 16px;
+}
+.mat-fab{
+  background-color: #043D4E;
+}
+.saveButton{
+  width: 10%;
+  position:relative;
+}
+table.mat-table{
+  width: 100%;
+}
+h1{
+  color:#043D4E;
+  margin-bottom: -28px;
+}
+.mat-icon-button{
+  position:relative;
+  margin-left: 92%;
+  top: -2%;
+}
+.assessmentName, .organizationName, .domain{
+  width:100%;
+  height: 50%;
+}
+.industry{
+  width: 70%;
+  height: 50%;
+}
+.mat-form-field{
+  height: 72px ;
+}
+.teamSize{
+  width: 20%;
+}

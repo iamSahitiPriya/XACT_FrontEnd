@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptors} from './interceptor-service';
-import {RouterModule, Routes} from '@angular/router';
+import {Router, RouterModule, Routes} from '@angular/router';
 
 import {OKTA_CONFIG, OktaAuthGuard, OktaAuthModule, OktaCallbackComponent,} from '@okta/okta-angular';
 import oktaConfig from './app.config';
@@ -22,7 +22,9 @@ import {SearchComponent} from "./components/search/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import { CreateAssessmentsComponent } from './components/create-assessments/create-assessments.component';
-import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -59,6 +61,10 @@ const appRoutes: Routes = [
     MatMenuModule,
     MatInputModule,
     MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports:[
     MatButtonModule,
