@@ -4,6 +4,8 @@ import {MatTable} from "@angular/material/table";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {FormControl, Validators} from "@angular/forms";
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {Router} from "@angular/router";
 
 
 export interface userStructure {
@@ -36,7 +38,7 @@ export class CreateAssessmentsComponent {
   username: string
   @ViewChild(MatTable) table: MatTable<userStructure>;
 
-  constructor(public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+  constructor(private router: Router,public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService:AppServiceService) {
   }
 
   openAssessment(content: any) {
@@ -61,7 +63,6 @@ export class CreateAssessmentsComponent {
       this.dataSource.splice(0, this.dataSource.length)
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()
-      console.log('The dialog was closed');
     });
   }
 
@@ -91,6 +92,10 @@ export class CreateAssessmentsComponent {
         "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user})
       console.log(assessmentData)
     }
+    this.appService.addAssessments(assessmentData).subscribe(data =>{
+      console.log(data)
+    })
+    window.location.reload()
   }
 
 }

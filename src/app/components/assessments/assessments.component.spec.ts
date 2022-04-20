@@ -15,6 +15,7 @@ import {Observable, of} from "rxjs";
 import {MatDialogModule} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
+import {RouterTestingModule} from "@angular/router/testing";
 
 class MockAppService{
   ASSESSMENT_DATA:AssessmentStructure [] = [
@@ -39,11 +40,13 @@ describe('AssessmentsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ AssessmentsComponent,SearchComponent,CreateAssessmentsComponent ],
-      imports:[MatFormFieldModule,MatIconModule,MatInputModule,BrowserAnimationsModule,MatTableModule, MatDialogModule],
+      imports:[MatFormFieldModule,MatIconModule,MatInputModule, RouterTestingModule,
+        BrowserAnimationsModule,MatTableModule, MatDialogModule],
       providers:[HttpClient,HttpHandler,
         {provide: AppServiceService,
           useClass: MockAppService},
       {provide: OKTA_AUTH, useValue: oktaAuth},
+
     ]
     })
     .compileComponents();

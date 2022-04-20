@@ -1,6 +1,6 @@
 .mat-raised-button{
   position: absolute;
-  top: 3%;
+  top: 0%;
   left: 81%;
   background-color: #043D4E;
   color: white;
@@ -20,9 +20,12 @@ table.mat-table{
 }
 h1{
   color:#043D4E;
+  margin-bottom: -28px;
 }
-mat-icon-button{
-  position:absolute;
+.mat-icon-button{
+  position:relative;
+  margin-left: 92%;
+  top: -2%;
 }
 .assessmentName, .organizationName, .domain{
   width:100%;

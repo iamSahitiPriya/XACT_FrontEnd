@@ -2,6 +2,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 
 import {AppServiceService} from './app-service.service';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -9,7 +10,8 @@ describe('AppServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule
+        HttpClientModule,
+        HttpClientTestingModule,
       ],
       providers: [
         AppServiceService,
@@ -25,4 +27,26 @@ describe('AppServiceService', () => {
   it('should get response from server', () => {
     expect(service.getAssessments()).toBeTruthy();
   })
+  it('should add assessments', () => {
+    let assessmentData = [
+      {
+        "assessmentName":"abcdef",
+        "organisationName":"Rel23",
+        "domain":"Telecom",
+        "industry":"phone",
+        "teamSize":10,
+        "users":[
+          {
+            "email":"technicalbaba4u@gmail.com",
+            "firstName":"Shashank",
+            "lastName":"Mishra",
+            "role":"Owner"
+
+          }
+
+        ]
+      }
+    ]
+    expect (service.addAssessments(assessmentData)).toBeTruthy()
+  });
 });
