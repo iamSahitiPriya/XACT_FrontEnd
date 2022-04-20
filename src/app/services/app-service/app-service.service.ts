@@ -15,14 +15,14 @@ export class AppServiceService {
 
   public getAssessments(): Observable<AssessmentStructure[]> {
 
-    return this.http.get<AssessmentStructure[]>(environment.BaseURI + environment.GET_ASSESSMENT_URI);
+    return this.http.get<AssessmentStructure[]>(environment.BaseURI + environment.ASSESSMENT_URI);
   }
 
   public addAssessments(assessmentData: any): Observable<any> {
     const headers = { 'content-type': 'application/json'}
     const body = JSON.stringify(assessmentData)
     console.log(body)
-    return this.http.post(environment.BaseURI + environment.GET_ASSESSMENT_URI, body,{'headers':headers})
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, body,{'headers':headers})
 
   }
 }

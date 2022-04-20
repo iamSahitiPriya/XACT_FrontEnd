@@ -85,17 +85,14 @@ export class CreateAssessmentsComponent {
 
   }
 
-  getAssessments() {
-    if (this.assessmentName !== '') {
-      assessmentData.push({
+  saveAssessment() {
+    const assessmentDataPayload = {
         'assessmentName': this.assessmentName, "organisationName": this.organizationName,
-        "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user})
-      console.log(assessmentData)
-    }
-    this.appService.addAssessments(assessmentData).subscribe(data =>{
-      console.log(data)
+        "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user};
+    this.appService.addAssessments(assessmentDataPayload).subscribe(data =>{
+      assessmentData.push(assessmentDataPayload);
+      window.location.reload()
     })
-    window.location.reload()
   }
 
 }

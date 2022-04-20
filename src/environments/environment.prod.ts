@@ -4,6 +4,6 @@ export const environment = {
   ISSUER: '{ISSUER}',
   CLIENT_ID: '{CLIENT_ID}',
   REDIRECT_URI:"https://www.project-xact.in/login/callback",
-  GET_ASSESSMENT_URI:"/v1/assessments/",
+  ASSESSMENT_URI:"/v1/assessments",
   OKTA_TESTING_DISABLEHTTPSCHECK: false
 };
