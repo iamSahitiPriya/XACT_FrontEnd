@@ -1,6 +1,8 @@
 <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
 
 <ng-template #content>
+  <form ngNativeValidate (ngSubmit)="saveAssessment(this)">
+
   <h1 mat-dialog-title>Create Assessment</h1>
   <button id="close" mat-icon-button (click)="closePopUp()">
     <mat-icon>close</mat-icon>
@@ -67,6 +69,6 @@
     <tr mat-header-row *matHeaderRowDef="columnName"></tr>
     <tr mat-row *matRowDef="let row; columns: columnName;"></tr>
   </table>
-  <button (click)="saveAssessment()" mat-raised-button class="saveButton">Save</button>
-
+  <button type="submit" mat-raised-button class="saveButton">Save</button>
+  </form>
 </ng-template>

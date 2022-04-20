@@ -3,9 +3,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
-import {FormControl, Validators} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
+import {FormControl, Validators } from '@angular/forms';
 
 
 export interface userStructure {
@@ -85,7 +85,7 @@ export class CreateAssessmentsComponent {
 
   }
 
-  saveAssessment() {
+  saveAssessment(form:any) {
     const assessmentDataPayload = {
         'assessmentName': this.assessmentName, "organisationName": this.organizationName,
         "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user};
