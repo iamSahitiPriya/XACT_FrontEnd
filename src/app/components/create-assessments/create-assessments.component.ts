@@ -5,8 +5,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {FormControl, Validators } from '@angular/forms';
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {FormControl, Validators} from '@angular/forms';
 
 
 export interface userStructure {
