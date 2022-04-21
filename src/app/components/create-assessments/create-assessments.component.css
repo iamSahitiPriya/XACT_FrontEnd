@@ -1,12 +1,14 @@
 .mat-raised-button{
   position: absolute;
-  top: 0%;
-  left: 81%;
+  top: 17%;
+  left: 78%;
   background-color: #043D4E;
   color: white;
   min-width: 17%;
-  max-height: 30%;
-  font-size: 16px;
+  height: 8%;
+  text-transform: capitalize;
+  font:normal normal bold 14px/16px Roboto;
+  letter-spacing: 1.25px;
 }
 #remove{
   margin-left:0%;
@@ -17,6 +19,8 @@
 .saveButton{
   width: 10%;
   position:relative;
+  left: 40%;
+  margin-top:3%;
 }
 table.mat-table{
   width: 74%;
