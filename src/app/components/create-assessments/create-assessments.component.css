@@ -10,20 +10,33 @@
   font:normal normal bold 14px/16px Roboto;
   letter-spacing: 1.25px;
 }
+@media screen and (max-width: 700px){
+  .mat-raised-button{
+    position: absolute;
+    top: 15%;
+    left: 78%;
+
+  }
+}
 #remove{
-  margin-left:0%;
+  margin-left:78%;
 }
 .mat-fab{
   background-color: #043D4E;
+}
+.addUserEmail{
+  width: 90%;
+  height: 50%;
 }
 .saveButton{
   width: 10%;
   position:relative;
   left: 40%;
   margin-top:3%;
+  height: 38px;
 }
 table.mat-table{
-  width: 74%;
+  width: 94%;
 }
 h1{
   color:#043D4E;
@@ -45,9 +58,13 @@ h1{
 .mat-form-field{
   height: 75px ;
 }
-th.mat-header-cell{
-  padding:0 118px 0 0 ;
-}
 .teamSize{
   width: 20%;
 }
+.mat-column-name{
+  padding-left: 50px;
+}
+.dummyHeader{
+  min-height: 0px;
+}
+

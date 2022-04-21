@@ -12,7 +12,9 @@ export interface userStructure {
   name: string
 }
 
-export const user = [{}]
+export const user = [{
+  "email": "", "firstName": "", "lastName": "", "role": ""
+}]
 export const assessmentData = [{}]
 
 @Component({
@@ -34,7 +36,9 @@ export class CreateAssessmentsComponent {
   domain: string = ''
   industry: string = ''
   teamSize: string = ''
-  dataSource = [{}]
+  dataSource = [{
+    name: "undefined"
+  }]
   username: string
   @ViewChild(MatTable) table: MatTable<userStructure>;
 
@@ -81,8 +85,9 @@ export class CreateAssessmentsComponent {
     this.table.renderRows()
   }
 
-  removeUser() {
-
+  removeUser(userName:any) {
+      this.dataSource = this.dataSource.filter((u) => u.name === userName);
+      console.log(this.dataSource)
   }
 
   saveAssessment() {

@@ -25,6 +25,7 @@ import { CreateAssessmentsComponent } from './components/create-assessments/crea
 import {MatError, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -49,23 +50,24 @@ const appRoutes: Routes = [
     CreateAssessmentsComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatInputModule,
+        MatIconModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatToolbarModule
+    ],
   exports:[
     MatButtonModule,
     MatTableModule,

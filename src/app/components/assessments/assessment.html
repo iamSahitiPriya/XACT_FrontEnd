@@ -1,15 +1,9 @@
-<div class="createAssessment">
-  <h1 class="heading">Assessments</h1>
-  <app-create-assessments></app-create-assessments>
-  <app-search [dataSource]="dataSource"></app-search>
-</div>
 <div class="assessments_tab">
-  <div></div>
   <table mat-table
          [dataSource]="dataSource" multiTemplateDataRows
          class="mat-elevation-z8">
     <ng-container matColumnDef="assessmentName">
-      <th mat-header-cell *matHeaderCellDef> Assessment Name</th>
+      <th mat-header-cell *matHeaderCellDe  f> Assessment Name</th>
       <td mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
     </ng-container>
 
@@ -45,13 +39,12 @@
         </div>
       </td>
     </ng-container>
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay" [ngClass]="{'tableRow1':true}"></tr>
-      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-          class="example-element-row"
-          [class.example-expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element">
-      </tr>
-
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay" [ngClass]="{'tableRow1':true}"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
   </table>
