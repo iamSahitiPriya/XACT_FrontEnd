@@ -1,15 +1,15 @@
 .mat-raised-button{
-  position: absolute;
-  top: 17%;
-  left: 78%;
-  background-color: #043D4E;
-  color: white;
-  min-width: 17%;
-  height: 8%;
+  position: relative;
+  top: -65px;
+  left: 81%;
+  background-color: #043d4e;
+  color: #fff;
+  height: 49px;
   text-transform: capitalize;
-  font:normal normal bold 14px/16px Roboto;
+  font: 700 14px/16px Roboto;
   letter-spacing: 1.25px;
 }
+
 @media screen and (max-width: 700px){
   .mat-raised-button{
     position: absolute;
@@ -32,7 +32,7 @@
   width: 10%;
   position:relative;
   left: 40%;
-  margin-top:3%;
+  margin-top:16%;
   height: 38px;
 }
 table.mat-table{

@@ -1,7 +1,7 @@
 table {
   width: 100%;
   position: relative;
-  top: -52px;
+  top: -50px;
 }
 td.mat-cell{
   padding: 0 74px;
@@ -54,7 +54,8 @@ tr{
   padding-bottom: 14px;
   opacity: 1;
   position: relative;
-  left: 5%;
+  left: 16%;
+  top: 10%;
   margin: 5px 0 16px;
 }
 
@@ -73,6 +74,8 @@ tr{
   line-height: normal;
 }
 .createAssessment{
+  display:grid;
+  grid-template-columns: auto auto auto;
   height:7%;
 }
 
