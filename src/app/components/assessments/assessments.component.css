@@ -62,7 +62,7 @@ tr{
   padding-bottom: 14px;
   opacity: 1;
   position: relative;
-  left: 11%;
+  left: 26%;
   top: 9%;
   margin: 5px 0 16px;
   font-family: 'Inter', sans-serif;
@@ -85,11 +85,11 @@ tr{
   line-height: normal;
 }
 .createAssessment{
-  display:grid;
-  grid-template-columns:23% 58% 25%;
-  height:7%;
+  display: grid;
+  grid-template-columns: 21% 47% 33%;
+  height: 7%;
   width: 97%;
-  grid-auto-rows: 67px;
+  grid-auto-rows: 67px
 }
 
 .example-element-description {
