@@ -86,8 +86,10 @@ tr{
 }
 .createAssessment{
   display:grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns:23% 58% 25%;
   height:7%;
+  width: 97%;
+  grid-auto-rows: 67px;
 }
 
 .example-element-description {

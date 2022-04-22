@@ -45,21 +45,23 @@ export class CreateAssessmentsComponent {
   constructor(private router: Router,public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService:AppServiceService) {
   }
 
-  openAssessment(content: any) {
+  async openAssessment(content: any) {
     this.assessmentNameValidator.reset()
     this.organizationNameValidator.reset()
     this.industryValidator.reset()
     this.domainNameValidator.reset()
     this.teamSizeValidator.reset()
-    this.assessmentName =""
-    this.organizationName =""
-    this.domain =""
+    this.assessmentName = ""
+    this.organizationName = ""
+    this.domain = ""
 
     this.dataSource.splice(0, this.dataSource.length)
     assessmentData.splice(0, assessmentData.length)
 
     user.splice(0, user.length)
-
+    this.username = (await this.oktaAuth.getUser()).name || "No value"
+    const name = this.username.split(' ')
+    user.push({"email": (await this.oktaAuth.getUser()).email || "No email", "firstName": name[0], "lastName": name[1], "role": "Owner"})
     const dialogRef = this.dialog.open(content, {
       width: '700px', height: '600px',
     })
@@ -85,7 +87,7 @@ export class CreateAssessmentsComponent {
     this.table.renderRows()
   }
 
-  removeUser(userName:any) {
+  removeUser(userName:string) {
       this.dataSource = this.dataSource.filter((u) => u.name === userName);
       console.log(this.dataSource)
   }

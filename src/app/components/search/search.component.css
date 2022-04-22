@@ -6,20 +6,12 @@
 }
 
 .example-full-width {
-  width: 79%;
+  width: 90%;
   position: relative;
   top: 4px;
   left: 30%
 }
-@media screen and (max-width: 700px){
-  .example-full-width{
-    position: absolute;
-    top: 15%;
-    left: 29%;
 
-
-  }
-}
 .searchButton{
   position: relative;
   left: 30%;
@@ -37,4 +29,7 @@
     left: 69%;
 
   }
+}
+.searchComponent{
+
 }
