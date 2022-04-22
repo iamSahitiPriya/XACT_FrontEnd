@@ -39,10 +39,12 @@ export class CreateAssessmentsComponent {
   dataSource = [{
     name: "undefined"
   }]
+  errorMsg:string = ''
   username: string
   @ViewChild(MatTable) table: MatTable<userStructure>;
+  private isPresent: boolean = false;
 
-  constructor(private router: Router,public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService:AppServiceService) {
+  constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService) {
   }
 
   async openAssessment(content: any) {
@@ -61,7 +63,12 @@ export class CreateAssessmentsComponent {
     user.splice(0, user.length)
     this.username = (await this.oktaAuth.getUser()).name || "No value"
     const name = this.username.split(' ')
-    user.push({"email": (await this.oktaAuth.getUser()).email || "No email", "firstName": name[0], "lastName": name[1], "role": "Owner"})
+    user.push({
+      "email": (await this.oktaAuth.getUser()).email || "No email",
+      "firstName": name[0],
+      "lastName": name[1],
+      "role": "Owner"
+    })
     const dialogRef = this.dialog.open(content, {
       width: '700px', height: '600px',
     })
@@ -80,23 +87,33 @@ export class CreateAssessmentsComponent {
     const email = document.getElementById("userEmail") as HTMLInputElement
     if (email.value !== "" && (await this.oktaAuth.getUser()).email === email.value) {
       this.username = (await this.oktaAuth.getUser()).name || "No value"
-      const name = this.username.split(' ')
-      user.push({"email": email.value, "firstName": name[0], "lastName": name[1], "role": "Owner"})
-      this.dataSource.push({"name": this.username})
+      this.isPresent = this.dataSource.some(data => {
+        console.log(data.name)
+        return data.name == this.username
+      })
+      console.log(this.isPresent)
+      if (this.isPresent) {
+        const name = this.username.split(' ')
+        user.push({"email": email.value, "firstName": name[0], "lastName": name[1], "role": "Owner"})
+        this.dataSource.push({"name": this.username})
+      }else{
+        this.errorMsg = "User already present."
+      }
     }
     this.table.renderRows()
   }
 
-  removeUser(userName:string) {
-      this.dataSource = this.dataSource.filter((u) => u.name === userName);
-      console.log(this.dataSource)
+  removeUser(userName: string) {
+    this.dataSource = this.dataSource.filter((u) => u.name === userName);
+    console.log(this.dataSource)
   }
 
   saveAssessment() {
     const assessmentDataPayload = {
-        'assessmentName': this.assessmentName, "organisationName": this.organizationName,
-        "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user};
-    this.appService.addAssessments(assessmentDataPayload).subscribe(data =>{
+      'assessmentName': this.assessmentName, "organisationName": this.organizationName,
+      "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user
+    };
+    this.appService.addAssessments(assessmentDataPayload).subscribe(data => {
       assessmentData.push(assessmentDataPayload);
       window.location.reload()
     })

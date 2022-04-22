@@ -52,6 +52,9 @@
     <mat-form-field appearance="outline" class="addUserEmail">
       <mat-label>Email Id</mat-label>
       <input matInput placeholder="eg:abc@thoughtworks.com" id="userEmail">
+      <mat-error *ngIf="errorMsg.length>1">
+        {{errorMsg}}
+      </mat-error>
     </mat-form-field>
     <button type="button" mat-fab (click)="addUser()"><mat-icon>add</mat-icon></button>
   </div>
