@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 table {
   width: 100%;
   position: relative;
@@ -5,6 +6,8 @@ table {
 }
 td.mat-cell{
   padding: 0 74px;
+  font-family: 'Inter', sans-serif;
+
 
 }
 th.mat-header-cell{
@@ -19,6 +22,11 @@ th{
   background-color: #043D4E;
   color: #FFFF;
   font:normal normal bold 18px/21px Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+
+
 }
 tr.example-element-row:not(.example-expanded-row):hover {
   background: whitesmoke;
@@ -47,16 +55,19 @@ tr{
 }
 .heading{
   text-align: left;
-  letter-spacing: 0.44px;
+  letter-spacing: 0.48px;
   color: #043D4E;
-  font-size: 1.8vw;
+  font-size: 22px;
   white-space: nowrap;
   padding-bottom: 14px;
   opacity: 1;
   position: relative;
-  left: 16%;
-  top: 10%;
+  left: 11%;
+  top: 9%;
   margin: 5px 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+
 }
 
 .example-element-diagram {

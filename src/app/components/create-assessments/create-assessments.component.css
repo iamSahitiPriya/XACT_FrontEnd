@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+
 .mat-raised-button{
   position: relative;
   top: -65px;
-  left: 81%;
+  left: 87%;
   background-color: #043d4e;
   color: #fff;
   height: 49px;
   text-transform: capitalize;
-  font: 700 14px/16px Roboto;
+  font-size: 14px ;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   letter-spacing: 1.25px;
 }
 
