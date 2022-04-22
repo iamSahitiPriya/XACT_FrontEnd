@@ -19,10 +19,10 @@ export class AppServiceService {
   }
 
   public addAssessments(assessmentData: any): Observable<any> {
-    const headers = { 'content-type': 'application/json'}
+    const headers = {'content-type': 'application/json'}
     const body = JSON.stringify(assessmentData)
     console.log(body)
-    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, body,{'headers':headers})
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, body, {'headers': headers})
 
   }
 }
