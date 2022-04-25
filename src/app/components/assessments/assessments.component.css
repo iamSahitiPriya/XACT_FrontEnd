@@ -19,9 +19,8 @@ tr.example-detail-row {
 th{
   background-color: #043D4E;
   color: #FFFF;
-  font:normal normal bold 18px/21px Roboto;
+  font:normal normal 18px/21px Roboto;
   font-size: 18px;
-  font-weight: bold;
   font-family: 'Inter', sans-serif;
 
 
@@ -59,7 +58,7 @@ tr{
   opacity: 1;
   margin: 5px 0 16px;
   font-family: 'Inter', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .example-element-diagram {
