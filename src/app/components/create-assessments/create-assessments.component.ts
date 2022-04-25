@@ -74,7 +74,7 @@ export class CreateAssessmentsComponent implements OnInit {
     user.splice(0, user.length)
 
     const dialogRef = this.dialog.open(content, {
-      width: '700px', height: '600px',
+      width: '630px', height: '680px',
     })
     dialogRef.afterClosed().subscribe(result => {
       this.dataSource.splice(0, this.dataSource.length)

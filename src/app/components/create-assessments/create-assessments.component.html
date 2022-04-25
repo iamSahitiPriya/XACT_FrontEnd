@@ -1,12 +1,13 @@
 <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
 
+
 <ng-template #content>
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
-
     <h1 mat-dialog-title>Create Assessment</h1>
-    <button id="close" mat-icon-button (click)="closePopUp()">
-      <mat-icon>close</mat-icon>
-    </button>
+      <button id="close" mat-icon-button (click)="closePopUp()">
+        <mat-icon>close</mat-icon>
+      </button>
+
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>Assessment Name</mat-label>
@@ -50,7 +51,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <h2 mat-dialog-title>Add New User</h2>
+      <h2 mat-dialog-title>Add New User </h2>
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
@@ -79,3 +80,4 @@
     <button type="submit" mat-raised-button class="saveButton">Save</button>
   </form>
 </ng-template>
+
