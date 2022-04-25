@@ -61,14 +61,7 @@ export class CreateAssessmentsComponent {
     assessmentData.splice(0, assessmentData.length)
 
     user.splice(0, user.length)
-    this.username = (await this.oktaAuth.getUser()).name || "No value"
-    const name = this.username.split(' ')
-    user.push({
-      "email": (await this.oktaAuth.getUser()).email || "No email",
-      "firstName": name[0],
-      "lastName": name[1],
-      "role": "Owner"
-    })
+
     const dialogRef = this.dialog.open(content, {
       width: '700px', height: '600px',
     })
@@ -77,6 +70,14 @@ export class CreateAssessmentsComponent {
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()
     });
+  //   this.username = (await this.oktaAuth.getUser()).name || "No value"
+  //   const name = this.username.split(' ')
+  //   user.push({
+  //     "email": (await this.oktaAuth.getUser()).email || "No email",
+  //     "firstName": name[0],
+  //     "lastName": name[1],
+  //     "role": "Owner"
+  //   })
   }
 
   closePopUp(): void {
@@ -88,8 +89,10 @@ export class CreateAssessmentsComponent {
     if (email.value !== "" && (await this.oktaAuth.getUser()).email === email.value) {
       this.username = (await this.oktaAuth.getUser()).name || "No value"
       this.isPresent = this.dataSource.some(data => {
-        console.log(data.name)
-        return data.name == this.username
+        if(data.name == this.username){
+          return false
+        }
+        return true
       })
       console.log(this.isPresent)
       if (this.isPresent) {

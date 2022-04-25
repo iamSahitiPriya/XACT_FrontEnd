@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptors} from './interceptor-service';
-import {Router, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {OKTA_CONFIG, OktaAuthGuard, OktaAuthModule, OktaCallbackComponent,} from '@okta/okta-angular';
 import oktaConfig from './app.config';
@@ -21,11 +21,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from "./components/search/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
-import { CreateAssessmentsComponent } from './components/create-assessments/create-assessments.component';
-import {MatError, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {CreateAssessmentsComponent} from './components/create-assessments/create-assessments.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MDBBootstrapModule} from "angular-bootstrap-md";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        MDBBootstrapModule.forRoot(),
         MatButtonModule,
         HttpClientModule,
         RouterModule.forRoot(appRoutes),
