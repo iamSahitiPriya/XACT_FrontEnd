@@ -27,6 +27,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MDBBootstrapModule} from "angular-bootstrap-md";
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -37,11 +38,12 @@ const appRoutes: Routes = [
     component: OktaCallbackComponent,
   },
   {
-    path:'',
-    component:AssessmentsComponent,
-    canActivate:[OktaAuthGuard]
+    path: '',
+    component: AssessmentsComponent,
+    canActivate: [OktaAuthGuard]
   }
 ];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,26 +53,27 @@ const appRoutes: Routes = [
     CreateAssessmentsComponent,
 
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MDBBootstrapModule.forRoot(),
-        MatButtonModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
-        OktaAuthModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatMenuModule,
-        MatInputModule,
-        MatIconModule,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        MatToolbarModule
-    ],
-  exports:[
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MDBBootstrapModule.forRoot(),
+    MatButtonModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    OktaAuthModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatToolbarModule,
+    MatPaginatorModule
+  ],
+  exports: [
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
@@ -79,12 +82,12 @@ const appRoutes: Routes = [
   ],
   providers: [
     AppServiceService,
-    {provide:HTTP_INTERCEPTORS, useClass:Interceptors, multi:true},
-    {provide: OKTA_CONFIG, useValue: { oktaAuth }},
+    {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
+    {provide: OKTA_CONFIG, useValue: {oktaAuth}},
     HttpClientTestingModule
-   ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
- }
+}
