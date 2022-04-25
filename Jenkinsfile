@@ -22,7 +22,7 @@ pipeline {
                 sh 'npm run test:coverage'
             }
         }
-        stage('Create & Archive Build') {
+        stage('Create & Archive Dev Build') {
             steps {
                 sh "npm run updateBuild -- dev ${DEV_CLIENT_ID} ${DEV_ISSUER}"
                 sh 'npm run build-dev'
@@ -33,16 +33,20 @@ pipeline {
                    zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
                 archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
-
-                sh "npm run updateBuild -- prod ${PROD_CLIENT_ID} ${PROD_ISSUER}"
-                sh 'npm run build-prod'
-                script{
-                   zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
-                }
-                archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
-                sh "aws s3 rm s3://xact-frontend-artifacts/prod-xact-frontend-${env.GIT_COMMIT}.zip"
-                sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
-
+            }
+        }
+        stage("SonarQube analysis") {
+            steps {
+              withSonarQubeEnv('XACT_SONAR') {
+                sh 'npm run sonar'
+              }
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
             }
         }
         stage('Deploy to Dev') {
@@ -58,6 +62,19 @@ pipeline {
                 sh 'npm run e2e'
             }
         } */
+        stage('Create & Archive Prod Build') {
+              steps {
+                  sh "npm run updateBuild -- prod ${PROD_CLIENT_ID} ${PROD_ISSUER}"
+                  sh 'npm run build-prod'
+                  script{
+                     zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                  }
+                  archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                  sh "aws s3 rm s3://xact-frontend-artifacts/prod-xact-frontend-${env.GIT_COMMIT}.zip"
+                  sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
+
+              }
+        }
     }
      post {
             always {

@@ -38,7 +38,9 @@ testem.log
 /typings
 /cypress/reports/*
 /mochawesome-report/
+.scannerwork/
 
 # System files
 .DS_Store
 Thumbs.db
+
