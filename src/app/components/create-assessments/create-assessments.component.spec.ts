@@ -49,7 +49,7 @@ describe('CreateAssessmentsComponent', () => {
 
   beforeEach(async () => {
     jest.mock('@okta/okta-auth-js');
-    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam'}));
+    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam',email:"sam@gmail.com"}));
     await TestBed.configureTestingModule({
       declarations: [ CreateAssessmentsComponent ],
       imports:[MatDialogModule,RouterTestingModule,MatFormFieldModule,MatIconModule,MatInputModule,
@@ -88,9 +88,14 @@ describe('CreateAssessmentsComponent', () => {
     component.closePopUp()
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
+
   });
   it('should add user when email is given', () => {
-    expect(component.addUser()).toBeTruthy()
+    const dummyEmail = "sam@gmail.com"
+    component.addUser(dummyEmail)
+    fixture.detectChanges()
+    expect(component.dataSource.length).toBe(1)
+
   });
   it("should remove user",() =>{
     component.dataSource = [{"name":"hello"}]
@@ -98,6 +103,14 @@ describe('CreateAssessmentsComponent', () => {
     fixture.detectChanges()
     expect(component.dataSource.length).toBe(1)
   })
+  it("should display error if the user is already present", () => {
+    component.dataSource = [{name:"Sam"}]
+    const dummyEmail = "sam@gmail.com"
+    component.addUser(dummyEmail)
+    fixture.detectChanges()
+    expect(component.dataSource.length).toBe(1)
+
+  });
   it('should save assessment', () => {
     const expectedAssessmentDataPayload = {
       "assessmentId": 45,

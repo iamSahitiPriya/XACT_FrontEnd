@@ -31,6 +31,7 @@ export class CreateAssessmentsComponent implements OnInit {
   domain: string = ''
   industry: string = ''
   teamSize: string = ''
+  email:string = ''
   dataSource = [{
     name: "undefined"
   }]
@@ -95,9 +96,8 @@ export class CreateAssessmentsComponent implements OnInit {
     this.dialog.closeAll()
   }
 
-  async addUser() {
-    const email = document.getElementById("userEmail") as HTMLInputElement
-    if (email.value !== "" && (await this.oktaAuth.getUser()).email === email.value) {
+  async addUser(email:string) {
+    if (email !== "" && (await this.oktaAuth.getUser()).email === email) {
       this.username = (await this.oktaAuth.getUser()).name || "No value"
       this.isPresent = this.dataSource.some(data => {
         if (data.name == this.username) {
@@ -107,7 +107,7 @@ export class CreateAssessmentsComponent implements OnInit {
       })
       if (this.isPresent) {
         const name = this.username.split(' ')
-        user.push({"email": email.value, "firstName": name[0], "lastName": name[1], "role": "Owner"})
+        user.push({"email": email, "firstName": name[0], "lastName": name[1], "role": "Owner"})
         this.dataSource.push({"name": this.username})
       } else {
         this.errorMsg = "User already present."
