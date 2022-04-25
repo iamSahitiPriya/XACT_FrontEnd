@@ -50,15 +50,15 @@ tr{
 }
 .heading{
   text-align: left;
-  letter-spacing: 0.48px;
+  letter-spacing: 0.44px;
   color: #043D4E;
   font-size: 22px;
   white-space: nowrap;
-  padding-bottom: 14px;
+  padding-bottom: 11px;
   opacity: 1;
-  margin: 5px 0 16px;
+  margin: 6px 0 16px;
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
+
 }
 
 .example-element-diagram {

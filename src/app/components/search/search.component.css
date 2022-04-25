@@ -5,13 +5,26 @@
   border-bottom-color:#043D4E ;
 }
 
+
 .example-full-width {
   width: 59%;
   position: relative;
   top: 2px;
-  left: 30%;
+  left: 36%;
 }
 
 
+::ng-deep .mat-form-field-wrapper  {
+  background-color: #F4FAFC !important;
+  padding-bottom: 0em;
+  border-bottom: None;
+}
+
+::ng-deep .mat-form-field-underline{
+  display: none;
+}
+::ng-deep .mat-form-field-label, .mat-hint {
+  color: #77969F;
+}
 
 
