@@ -1,17 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 
-
-
-
 .mat-raised-button{
   background-color: #043d4e;
   color: #fff;
   height: 54px;
   text-transform: capitalize;
-  font-size: 18px ;
+  font-size: 17px ;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  letter-spacing: 1.25px;
 }
 
 #remove{
@@ -55,7 +51,7 @@ h2{
 .mat-icon-button{
   position: relative;
   margin-left: 92%;
-  top: 1%;
+  top: -12px;
 
 }
 .assessmentName, .organizationName, .domain{

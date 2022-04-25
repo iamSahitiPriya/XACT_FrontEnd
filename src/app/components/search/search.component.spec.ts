@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SearchComponent } from './search.component';
+import {SearchComponent} from './search.component';
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
@@ -12,10 +12,10 @@ describe('SearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchComponent ],
-      imports:[MatFormFieldModule,MatIconModule,MatInputModule,BrowserAnimationsModule]
+      declarations: [SearchComponent],
+      imports: [MatFormFieldModule, MatIconModule, MatInputModule, BrowserAnimationsModule]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('SearchComponent', () => {
   it('should call the search', () => {
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
-        component.searchAssessments()
-        expect(component.dataSource.filter).toBe("dummyvalue")
+    component.searchAssessments()
+    expect(component.dataSource.filter).toBe("dummyvalue")
   });
 });

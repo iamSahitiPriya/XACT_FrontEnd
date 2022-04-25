@@ -1,6 +1,4 @@
 <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
-
-
 <ng-template #content>
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
     <h1 mat-dialog-title>Create Assessment</h1>
