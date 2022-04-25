@@ -70,14 +70,14 @@ export class CreateAssessmentsComponent {
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()
     });
-  //   this.username = (await this.oktaAuth.getUser()).name || "No value"
-  //   const name = this.username.split(' ')
-  //   user.push({
-  //     "email": (await this.oktaAuth.getUser()).email || "No email",
-  //     "firstName": name[0],
-  //     "lastName": name[1],
-  //     "role": "Owner"
-  //   })
+    this.username = (await this.oktaAuth.getUser()).name || "No value"
+    const name = this.username.split(' ')
+    user.push({
+      "email": (await this.oktaAuth.getUser()).email || "No email",
+      "firstName": name[0],
+      "lastName": name[1],
+      "role": "Owner"
+    })
   }
 
   closePopUp(): void {
@@ -94,7 +94,6 @@ export class CreateAssessmentsComponent {
         }
         return true
       })
-      console.log(this.isPresent)
       if (this.isPresent) {
         const name = this.username.split(' ')
         user.push({"email": email.value, "firstName": name[0], "lastName": name[1], "role": "Owner"})
