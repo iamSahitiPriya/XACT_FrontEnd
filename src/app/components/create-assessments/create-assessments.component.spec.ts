@@ -13,7 +13,11 @@ import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+<<<<<<< HEAD
 import {User} from "../../types/user";
+=======
+import {MatPaginatorModule} from "@angular/material/paginator";
+>>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
 
 class MockDialog{
   open(){
@@ -24,13 +28,12 @@ class MockDialog{
   closeAll(){}
   addUser(){}
 }
-export const assessmentDataMock = [{}]
 class MockAppService{
   assessmentMock = {
     "assessmentId": 45,
     "assessmentName": "xact",
     "organisationName": "abc",
-    "assessmentStatus": "ACTIVE",
+    "assessmentStatus": "Active",
     "updatedAt": 1650886511968
   };
   mockedUser:User ={
@@ -51,17 +54,24 @@ describe('CreateAssessmentsComponent', () => {
   let fixture: ComponentFixture<CreateAssessmentsComponent>;
   let dialog:any;
   let mockAppService:MockAppService
-
+  const original = window.location;
   let matDialog:any
   const oktaAuth = require('@okta/okta-auth-js');
+  const reloadFn = () => {
+    window.location.reload();
+  };
 
   beforeEach(async () => {
+    Object.defineProperty(window,'location',{
+      configurable:true,
+      value:{reload:jest.fn()}
+    })
     jest.mock('@okta/okta-auth-js');
     oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam',email:"sam@gmail.com"}));
     await TestBed.configureTestingModule({
       declarations: [ CreateAssessmentsComponent ],
       imports:[MatDialogModule,RouterTestingModule,MatFormFieldModule,MatIconModule,MatInputModule,
-        MatTableModule,HttpClientTestingModule,NoopAnimationsModule,
+        MatTableModule,HttpClientTestingModule,NoopAnimationsModule,MatPaginatorModule,
         ReactiveFormsModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -71,6 +81,9 @@ describe('CreateAssessmentsComponent', () => {
       ]
     })
     .compileComponents();
+  });
+  afterAll(() => {
+    Object.defineProperty(window, 'location', { configurable: true, value: original });
   });
 
   beforeEach(() => {
@@ -101,8 +114,12 @@ describe('CreateAssessmentsComponent', () => {
   it('should add user when email is given', () => {
     const dummyEmail = "sam@gmail.com"
     component.addUser(dummyEmail)
+<<<<<<< HEAD
     fixture.detectChanges()
     //expect(component.dataSource.length).toBe(1)
+=======
+    expect(component.dataSource.length).toBe(1)
+>>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
 
   });
   it("should remove user",() =>{
@@ -112,26 +129,48 @@ describe('CreateAssessmentsComponent', () => {
     expect(component.dataSource.length).toBe(1)
     expect(component.dataSource[0].email).toBe("Sam2@gmail.com")
   })
+<<<<<<< HEAD
   it("should display error if the user is already present", () => {
     component.dataSource = [{email:"Sam@gmail.com",firstName:"sam",lastName:"",role:"dev"}]
+=======
+  it("should not add if the user is already present", () => {
+    component.dataSource = [{name:"Sam"}]
+>>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
     const dummyEmail = "sam@gmail.com"
     component.addUser(dummyEmail)
     fixture.detectChanges()
     expect(component.dataSource.length).toBe(1)
 
   });
-  it('should save assessment', () => {
-    const expectedAssessmentDataPayload = {
+  it('should save assessment and make the window reload', () => {
+    const assessmentDataPayload = {
+      'assessmentName': "xact", "organisationName": "abc",
+      "domain": "abc", "industry": "abc", "teamSize": "12", "users": []
+    };
+    const assessmentData =
+    {
       "assessmentId": 45,
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1650886511968
     }
-    component.saveAssessment();
-    mockAppService.addAssessments(expectedAssessmentDataPayload).subscribe(data =>{
-      expect(data).toBe(expectedAssessmentDataPayload)
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
+    component.createAssessmentForm.controls['teamSizeValidator'].setValue("12")
+    expect(component.createAssessmentForm.valid).toBeTruthy()
+    component.saveAssessment()
+    expect(component).toBeTruthy()
+    mockAppService.addAssessments(assessmentDataPayload).subscribe(data =>{
+      expect(data).toBe(assessmentData)
     })
+    reloadFn()
+    expect(window.location.reload).toHaveBeenCalled()
     fixture.detectChanges()
+  });
+  it("should call the form", () => {
+    expect(component.form).toBeTruthy()
   });
 });

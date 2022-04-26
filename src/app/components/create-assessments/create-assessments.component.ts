@@ -37,7 +37,7 @@ export class CreateAssessmentsComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  get f(): { [key: string]: AbstractControl } {
+  get form(): { [key: string]: AbstractControl } {
     return this.createAssessmentForm.controls;
   }
 
@@ -82,6 +82,7 @@ export class CreateAssessmentsComponent implements OnInit {
     this.dialog.closeAll()
   }
 
+<<<<<<< HEAD
   async addUser(email: string) {
     if (!(this.dataSource.some(e => e.email === email) || this.loggedInUser.email === email)) {
       this.appService.getUserByEmail(email).subscribe(
@@ -90,6 +91,26 @@ export class CreateAssessmentsComponent implements OnInit {
         }
       )
       //this.table.renderRows()
+=======
+  async addUser(email:string) {
+    if (email !== "" && (await this.oktaAuth.getUser()).email === email) {
+      this.username = (await this.oktaAuth.getUser()).name || "No value"
+      console.log(this.username)
+      this.isPresent = this.dataSource.some(data => {
+        if (data.name == this.username) {
+          return false
+        }
+        return true
+      })
+      if (this.isPresent) {
+        const name = this.username.split(' ')
+        user.push({"email": email, "firstName": name[0], "lastName": name[1], "role": "Owner"})
+        this.dataSource.push({"name": this.username})
+        this.table.renderRows()
+      } else {
+        this.errorMsg = "User already present."
+      }
+>>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
     }
   }
 
