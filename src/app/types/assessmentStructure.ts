@@ -5,3 +5,4 @@ export interface AssessmentStructure {
   "assessmentStatus": string,
   "updatedAt": number
 }
+

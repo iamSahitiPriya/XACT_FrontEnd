@@ -2,6 +2,8 @@
 
 table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
 }
 
 td.mat-cell{
@@ -14,12 +16,23 @@ td.mat-cell{
   text-align: right;
 }
 
+.mat-column-assessmentStatus{
+  text-align: center;
+}
+
+.mat-column-organisationName{
+  text-align: center;
+}
+
 th{
   background-color: #043D4E;
   color: #FFFF;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
+  width: 160px;
+  padding: 4px;
 }
+
 
 tr:nth-child(even){
   background-color: #F4FAFC
@@ -36,19 +49,6 @@ tr:nth-child(even){
   margin: 6px 0 16px;
   font-family: 'Inter', sans-serif;
 }
-
-.createAssessment{
-  display: grid;
-  grid-template-columns: 21% 47% 33%;
-  height: 7%;
-  width: 100%;
-  grid-auto-rows: 107px;
-  margin:0 -100px;
-  grid-row-gap: 300px;
-}
-
-
-
 
 tr.mat-row {
   height: auto;

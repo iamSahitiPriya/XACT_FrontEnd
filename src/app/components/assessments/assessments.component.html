@@ -11,9 +11,10 @@
   </div>
 </div>
 
-<div>
+<div class="row">
+  <div class="col-md-12">
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
   <ng-container matColumnDef="assessmentName">
     <th mat-header-cell *matHeaderCellDef > Assessment Name </th>
     <td mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
@@ -41,6 +42,7 @@
   </tr>
 
 </table>
+  </div>
 </div>
 <div style="margin-top: 20px">
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of assessment"></mat-paginator>

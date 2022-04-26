@@ -5,9 +5,11 @@
   color: #fff;
   height: 54px;
   text-transform: capitalize;
-  font-size: 16px ;
+  font-size: 17px ;
   font-family: 'Inter', sans-serif;
-  letter-spacing: 1px ;
+  padding-left: 20px;
+  letter-spacing: 1.35px ;
+  width: 243px;
 }
 
 #remove{
