@@ -2,18 +2,18 @@
 <ng-template #content>
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
     <h1 mat-dialog-title>Create Assessment</h1>
-      <button id="close" mat-icon-button (click)="closePopUp()">
-        <mat-icon>close</mat-icon>
-      </button>
+    <button id="close" mat-icon-button (click)="closePopUp()">
+      <mat-icon>close</mat-icon>
+    </button>
 
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>Assessment Name</mat-label>
         <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
                [(ngModel)]="assessmentName">
-          <mat-error *ngIf="f['assessmentNameValidator'].hasError('required')">
-            Mandatory field
-          </mat-error>
+        <mat-error *ngIf="f['assessmentNameValidator'].hasError('required')">
+          Mandatory field
+        </mat-error>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="organizationName">
@@ -35,7 +35,8 @@
       <br>
       <mat-form-field appearance="outline" class="industry">
         <mat-label>Industry</mat-label>
-        <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry" required>
+        <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry"
+               required>
         <mat-error *ngIf="f['industryValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -49,22 +50,22 @@
         </mat-error>
       </mat-form-field>
     </div>
-      <h2 mat-dialog-title>Add New User </h2>
+    <h2 mat-dialog-title>Add New User </h2>
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
-        <input matInput placeholder="eg:abc@thoughtworks.com" id="userEmail" name="email">
+        <input matInput type ="email" placeholder="eg:abc@thoughtworks.com" id="userEmail" #email>
         <mat-error *ngIf="errorMsg.length>1">
           {{errorMsg}}
         </mat-error>
       </mat-form-field>
-      <button type="button" mat-fab (click)="addUser(email)">
+      <button type="button" mat-fab (click)="addUser(email.value)">
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <table mat-table [dataSource]="dataSource" *ngIf="dataSource.length>=1" class="mat-elevation-z8 demo-table">
       <ng-container matColumnDef="name">
-        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        <td mat-cell *matCellDef="let element">{{element.firstName}} {{element.lastName}}</td>
       </ng-container>
       <ng-container matColumnDef="delete">
         <td mat-cell *matCellDef="let row">

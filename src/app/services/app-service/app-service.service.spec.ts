@@ -3,6 +3,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {AssessmentRequest} from "../../types/assessmentRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -28,25 +29,29 @@ describe('AppServiceService', () => {
     expect(service.getAssessments()).toBeTruthy();
   })
   it('should add assessments', () => {
-    let assessmentData = [
+    let assessmentData: AssessmentRequest =
       {
-        "assessmentName":"abcdef",
-        "organisationName":"Rel23",
-        "domain":"Telecom",
-        "industry":"phone",
-        "teamSize":10,
-        "users":[
+        assessmentName: "abcdef",
+        organisationName: "Rel23",
+        domain: "Telecom",
+        industry: "phone",
+        teamSize: 10,
+        users: [
           {
-            "email":"technicalbaba4u@gmail.com",
-            "firstName":"Shashank",
-            "lastName":"Mishra",
-            "role":"Owner"
+            email: "technicalbaba4u@gmail.com",
+            firstName: "Shashank",
+            lastName: "Mishra",
+            role: "Owner"
 
           }
 
         ]
       }
-    ]
-    expect (service.addAssessments(assessmentData)).toBeTruthy()
+
+    expect(service.addAssessments(assessmentData)).toBeTruthy()
+  });
+
+  it('should get user', () => {
+    expect(service.getUserByEmail("test@test.com")).toBeTruthy();
   });
 });

@@ -5,16 +5,11 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {User} from "../../types/user";
+import {AssessmentRequest} from "../../types/assessmentRequest";
+import * as _ from "lodash";
 
-
-export interface userStructure {
-  name: string
-}
-
-export const user = [{
-  "email": "", "firstName": "", "lastName": "", "role": ""
-}]
 export const assessmentData = [{}]
 
 @Component({
@@ -24,22 +19,19 @@ export const assessmentData = [{}]
 })
 
 export class CreateAssessmentsComponent implements OnInit {
-  createAssessmentForm: FormGroup
-  columnName = ["name", "delete"]
-  assessmentName: string = ''
-  organizationName: string = ''
-  domain: string = ''
-  industry: string = ''
-  teamSize: string = ''
-  email:string = ''
-  dataSource = [{
-    name: "undefined"
-  }]
+  createAssessmentForm: FormGroup;
+  columnName = ["name", "delete"];
+  assessmentName: string = '';
+  organizationName: string = '';
+  domain: string = '';
+  industry: string = '';
+  teamSize: number;
+  email: string = '';
+  dataSource: User[] = [];
   submitted: boolean = false;
-  errorMsg: string = ''
-  username: string
-  @ViewChild(MatTable) table: MatTable<userStructure>;
-  private isPresent: boolean = false;
+  errorMsg: string = '';
+  loggedInUser: User;
+  @ViewChild(MatTable) table: MatTable<User>;
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
               private formBuilder: FormBuilder) {
@@ -67,12 +59,9 @@ export class CreateAssessmentsComponent implements OnInit {
     this.organizationName = ""
     this.domain = ""
     this.industry = ""
-    this.teamSize = ""
 
     this.dataSource.splice(0, this.dataSource.length)
     assessmentData.splice(0, assessmentData.length)
-
-    user.splice(0, user.length)
 
     const dialogRef = this.dialog.open(content, {
       width: '630px', height: '650px',
@@ -82,54 +71,44 @@ export class CreateAssessmentsComponent implements OnInit {
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()
     });
-    this.username = (await this.oktaAuth.getUser()).name || "No value"
-    const name = this.username.split(' ')
-    user.push({
-      "email": (await this.oktaAuth.getUser()).email || "No email",
-      "firstName": name[0],
-      "lastName": name[1],
-      "role": "Owner"
-    })
+    const oktalLoggedInUser = await this.oktaAuth.getUser();
+    const username: string = oktalLoggedInUser.name || "No value"
+    const loggedInUserEmail: string = oktalLoggedInUser.email || "No value"
+    const name: string[] = username.split(' ')
+    this.loggedInUser = {email: loggedInUserEmail, firstName: name[0], lastName: name[1], role: "Owner"}
   }
 
   closePopUp(): void {
     this.dialog.closeAll()
   }
 
-  async addUser(email:string) {
-    if (email !== "" && (await this.oktaAuth.getUser()).email === email) {
-      this.username = (await this.oktaAuth.getUser()).name || "No value"
-      this.isPresent = this.dataSource.some(data => {
-        if (data.name == this.username) {
-          return false
+  async addUser(email: string) {
+    if (!(this.dataSource.some(e => e.email === email) || this.loggedInUser.email === email)) {
+      this.appService.getUserByEmail(email).subscribe(
+        (response) => {
+          this.dataSource.push(response);
         }
-        return true
-      })
-      if (this.isPresent) {
-        const name = this.username.split(' ')
-        user.push({"email": email, "firstName": name[0], "lastName": name[1], "role": "Owner"})
-        this.dataSource.push({"name": this.username})
-      } else {
-        this.errorMsg = "User already present."
-      }
+      )
+      //this.table.renderRows()
     }
-    this.table.renderRows()
   }
 
-  removeUser(userName: string) {
-    this.dataSource = this.dataSource.filter((u) => u.name === userName);
-    console.log(this.dataSource)
+  removeUser(user: User) {
+    console.log("remove", user)
+    this.dataSource = this.dataSource.filter((u) => u.email !== user.email);
   }
 
   saveAssessment() {
     this.submitted = true;
+    const userData = _.cloneDeep(this.dataSource);
+    userData.push(this.loggedInUser);
     if (this.createAssessmentForm.valid) {
-      const assessmentDataPayload = {
-        'assessmentName': this.assessmentName, "organisationName": this.organizationName,
-        "domain": this.domain, "industry": this.industry, "teamSize": this.teamSize, "users": user
+      const assessmentRequest: AssessmentRequest = {
+        assessmentName: this.assessmentName, organisationName: this.organizationName,
+        domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: userData
       };
-      this.appService.addAssessments(assessmentDataPayload).subscribe(data => {
-        assessmentData.push(assessmentDataPayload);
+      this.appService.addAssessments(assessmentRequest).subscribe(data => {
+        assessmentData.push(assessmentRequest);
         window.location.reload()
       })
     }

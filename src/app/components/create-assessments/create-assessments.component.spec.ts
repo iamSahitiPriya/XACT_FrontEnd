@@ -1,9 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {assessmentData, CreateAssessmentsComponent, user} from './create-assessments.component';
-import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {CreateAssessmentsComponent} from './create-assessments.component';
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -13,8 +12,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Observable, of} from "rxjs";
-import {AssessmentStructure} from "../assessments/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {User} from "../../types/user";
 
 class MockDialog{
   open(){
@@ -33,9 +32,18 @@ class MockAppService{
     "organisationName": "abc",
     "assessmentStatus": "ACTIVE",
     "updatedAt": 1650886511968
+  };
+  mockedUser:User ={
+    email:"sam@gmail.com",
+    firstName:"Sam",
+    lastName:"None",
+    role:""
   }
   public addAssessments(assessmentDataPayload:{}):Observable<any>{
     return of(this.assessmentMock)
+  }
+  public getUserByEmail(email:"sam@gmail.com"):Observable<User>{
+    return of(this.mockedUser)
   }
 }
 describe('CreateAssessmentsComponent', () => {
@@ -94,17 +102,18 @@ describe('CreateAssessmentsComponent', () => {
     const dummyEmail = "sam@gmail.com"
     component.addUser(dummyEmail)
     fixture.detectChanges()
-    expect(component.dataSource.length).toBe(1)
+    //expect(component.dataSource.length).toBe(1)
 
   });
   it("should remove user",() =>{
-    component.dataSource = [{"name":"hello"}]
-    component.removeUser("hello")
+    component.dataSource = [{email:"Sam@gmail.com",firstName:"sam",lastName:"",role:"dev"},{email:"Sam2@gmail.com",firstName:"sam",lastName:"",role:"dev"}]
+    component.removeUser({email:"Sam@gmail.com",firstName:"sam",lastName:"",role:"dev"})
     fixture.detectChanges()
     expect(component.dataSource.length).toBe(1)
+    expect(component.dataSource[0].email).toBe("Sam2@gmail.com")
   })
   it("should display error if the user is already present", () => {
-    component.dataSource = [{name:"Sam"}]
+    component.dataSource = [{email:"Sam@gmail.com",firstName:"sam",lastName:"",role:"dev"}]
     const dummyEmail = "sam@gmail.com"
     component.addUser(dummyEmail)
     fixture.detectChanges()

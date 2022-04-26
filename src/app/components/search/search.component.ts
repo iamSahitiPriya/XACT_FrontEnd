@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {AssessmentStructure} from "../assessments/assessmentStructure";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
