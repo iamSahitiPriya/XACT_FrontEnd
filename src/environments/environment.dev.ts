@@ -10,6 +10,7 @@ export const environment = {
   REDIRECT_URI:"https://dev.project-xact.in/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI:"/v1/assessments",
+  USER_URI: "/v1/users",
 };
 
 /*
