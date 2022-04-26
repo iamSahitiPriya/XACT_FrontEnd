@@ -11,15 +11,9 @@
         <mat-label>Assessment Name</mat-label>
         <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
                [(ngModel)]="assessmentName">
-<<<<<<< HEAD
-        <mat-error *ngIf="f['assessmentNameValidator'].hasError('required')">
-          Mandatory field
-        </mat-error>
-=======
           <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
             Mandatory field
           </mat-error>
->>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="organizationName">
@@ -41,14 +35,9 @@
       <br>
       <mat-form-field appearance="outline" class="industry">
         <mat-label>Industry</mat-label>
-<<<<<<< HEAD
-        <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry"
-               required>
-        <mat-error *ngIf="f['industryValidator'].hasError('required')">
-=======
+
         <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry" required>
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
->>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
           Mandatory field
         </mat-error>
       </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;

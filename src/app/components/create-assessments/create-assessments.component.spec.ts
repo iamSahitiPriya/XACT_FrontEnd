@@ -13,11 +13,8 @@ import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-<<<<<<< HEAD
 import {User} from "../../types/user";
-=======
-import {MatPaginatorModule} from "@angular/material/paginator";
->>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
+
 
 class MockDialog{
   open(){
@@ -71,7 +68,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CreateAssessmentsComponent ],
       imports:[MatDialogModule,RouterTestingModule,MatFormFieldModule,MatIconModule,MatInputModule,
-        MatTableModule,HttpClientTestingModule,NoopAnimationsModule,MatPaginatorModule,
+        MatTableModule,HttpClientTestingModule,NoopAnimationsModule,
         ReactiveFormsModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -113,13 +110,23 @@ describe('CreateAssessmentsComponent', () => {
   });
   it('should add user when email is given', () => {
     const dummyEmail = "sam@gmail.com"
+    component.loggedInUser = {
+      email:"sam1@gmail.com",
+      firstName:"sam",
+      lastName:"",
+      role:""
+    }
+    const expectedResponse:User ={
+      email:"sam@gmail.com",
+      firstName:"Sam",
+      lastName:"None",
+      role:""
+    }
     component.addUser(dummyEmail)
-<<<<<<< HEAD
-    fixture.detectChanges()
-    //expect(component.dataSource.length).toBe(1)
-=======
+    mockAppService.getUserByEmail(dummyEmail).subscribe(response=>{
+      expect(response).toBe(expectedResponse)
+    })
     expect(component.dataSource.length).toBe(1)
->>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
 
   });
   it("should remove user",() =>{
@@ -129,14 +136,12 @@ describe('CreateAssessmentsComponent', () => {
     expect(component.dataSource.length).toBe(1)
     expect(component.dataSource[0].email).toBe("Sam2@gmail.com")
   })
-<<<<<<< HEAD
   it("should display error if the user is already present", () => {
-    component.dataSource = [{email:"Sam@gmail.com",firstName:"sam",lastName:"",role:"dev"}]
-=======
+    component.dataSource = [{email: "Sam@gmail.com", firstName: "sam", lastName: "", role: "dev"}]
+  })
   it("should not add if the user is already present", () => {
-    component.dataSource = [{name:"Sam"}]
->>>>>>> 008d19f ([5] | Ram | Add testcases for save assessments.)
-    const dummyEmail = "sam@gmail.com"
+    component.dataSource = [{email: "Sam@gmail.com", firstName: "sam", lastName: "", role: "dev"}]
+    const dummyEmail = "Sam@gmail.com"
     component.addUser(dummyEmail)
     fixture.detectChanges()
     expect(component.dataSource.length).toBe(1)
