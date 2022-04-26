@@ -91,7 +91,6 @@ describe('CreateAssessmentsComponent', () => {
     fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -100,6 +99,7 @@ describe('CreateAssessmentsComponent', () => {
     component.openAssessment("")
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
+
   });
   it('should close the popup', () => {
     jest.spyOn(matDialog,'closeAll')

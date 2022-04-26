@@ -87,11 +87,10 @@ export class CreateAssessmentsComponent implements OnInit {
       this.appService.getUserByEmail(email).subscribe(
         (response) => {
           this.dataSource.push(response);
+          this.table.renderRows()
         }
       )
       console.log(this.dataSource)
-      //this.table.renderRows()
-
     }
   }
 
