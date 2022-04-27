@@ -5,13 +5,11 @@ import {MatPaginator} from '@angular/material/paginator';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {BehaviorSubject} from "rxjs";
-import {SearchStructure} from "../../types/searchStructure";
 
 /**
  * @title Table with expandable rows
  */
 let assessments: AssessmentStructure[] = []
-let searchassessments :SearchStructure[] =[]
 let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 
 @Component({
@@ -33,10 +31,8 @@ export class AssessmentsComponent implements OnInit {
 
   constructor(public appService: AppServiceService) {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)
-    this.searchdata=new MatTableDataSource<SearchStructure>(searchassessments)
   }
 
-  searchassessments:SearchStructure[]
   assessments: AssessmentStructure[]
 
   ngOnInit(): void {
@@ -52,21 +48,12 @@ export class AssessmentsComponent implements OnInit {
     )
     valueEmitter.subscribe((value) => {
       this.dataSource = new MatTableDataSource(value);
-      searchassessments=value.map(
-        ({assessmentStatus,updatedAt,...name
-        })=>{
-        return name;
-      });
       this.dataSource.paginator = this.paginator;
-      this.searchdata=new MatTableDataSource(searchassessments);
-      console.log(this.searchdata);
     })
   }
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
-  searchdata= new MatTableDataSource<SearchStructure>()
   columnsToDisplay = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt'];
-  expandedElement: AssessmentStructure | null;
 }
 
 

@@ -1,9 +1,6 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatTableDataSource} from "@angular/material/table";
-import {SearchStructure} from "../../types/searchStructure";
-import {MatPaginator} from "@angular/material/paginator";
-import {AppServiceService} from "../../services/app-service/app-service.service";
 
 @Component({
   selector: 'app-search',
@@ -12,20 +9,22 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 })
 export class SearchComponent {
   @Input()
-  dataSource!: MatTableDataSource<SearchStructure>
+  dataSource!: MatTableDataSource<AssessmentStructure>
 
 
   constructor() {
-    this.dataSource = new MatTableDataSource<SearchStructure>()
-
-
+    this.dataSource = new MatTableDataSource<AssessmentStructure>()
   }
 
 
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
-    this.dataSource.filter = filterValue.value.trim().toLowerCase()
-    console.log(this.dataSource);
+    this.dataSource.filterPredicate = (d: AssessmentStructure, filter) => {
+      const assessmentNameFilter = d["assessmentName"].trim().toLowerCase();
+      const organizationNameFilter = d["organisationName"].trim().toLowerCase() || ''
+      return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1;
+    }
+    this.dataSource.filter = filterValue.value.trim().toLowerCase();
 
   }
 }

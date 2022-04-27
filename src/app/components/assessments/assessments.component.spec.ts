@@ -1,5 +1,4 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {AssessmentsComponent} from './assessments.component';
 import {HttpClient, HttpHandler} from "@angular/common/http";
 import {SearchComponent} from "../search/search.component";
