@@ -105,7 +105,7 @@ export class CreateAssessmentsComponent implements OnInit {
     const userData = _.cloneDeep(this.dataSource);
     userData.push(this.loggedInUser);
     if (this.createAssessmentForm.valid) {
-      this.loading  = true
+      this.loading = true
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessmentName, organisationName: this.organizationName,
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: userData
