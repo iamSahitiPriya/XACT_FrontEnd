@@ -7,10 +7,11 @@
 
 
 .example-full-width {
-  width: 59%;
+  width: 60%;
   position: relative;
   top: 2px;
   left: 36%;
+  right:12%;
 }
 
 
@@ -19,12 +20,23 @@
   padding-bottom: 0em;
   border-bottom: None;
 }
+.mat-icon{
+  padding-right: 0.4cm;
+  padding-top: 2px;
+  height: 50px ;
+  width: 50px;
 
+}
 ::ng-deep .mat-form-field-underline{
   display: none;
 }
 ::ng-deep .mat-form-field-label, .mat-hint {
   color: #77969F;
 }
+.text{
+  padding-left: 26px;
+}
 
-
+.searchicon{
+  float:left;
+}
