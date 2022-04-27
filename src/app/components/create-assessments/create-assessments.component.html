@@ -76,7 +76,7 @@
       </ng-container>
       <tr mat-row *matRowDef="let row; columns: columnName;"></tr>
     </table>
-    <button type="submit" mat-raised-button class="saveButton">Save</button>
+    <button type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled] = "loading" >Save</button>
   </form>
 </ng-template>
 

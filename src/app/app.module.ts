@@ -28,6 +28,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MDBBootstrapModule} from "angular-bootstrap-md";
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -53,26 +54,27 @@ const appRoutes: Routes = [
     CreateAssessmentsComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MDBBootstrapModule.forRoot(),
-    MatButtonModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatToolbarModule,
-    MatPaginatorModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MDBBootstrapModule.forRoot(),
+        MatButtonModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatInputModule,
+        MatIconModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule
+    ],
   exports: [
     MatButtonModule,
     MatTableModule,

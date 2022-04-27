@@ -32,6 +32,7 @@ export class CreateAssessmentsComponent implements OnInit {
   errorMsg: string = '';
   loggedInUser: User;
   @ViewChild(MatTable) table: MatTable<User>;
+  loading: boolean;
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
               private formBuilder: FormBuilder) {
@@ -104,6 +105,7 @@ export class CreateAssessmentsComponent implements OnInit {
     const userData = _.cloneDeep(this.dataSource);
     userData.push(this.loggedInUser);
     if (this.createAssessmentForm.valid) {
+      this.loading  = true
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessmentName, organisationName: this.organizationName,
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: userData
