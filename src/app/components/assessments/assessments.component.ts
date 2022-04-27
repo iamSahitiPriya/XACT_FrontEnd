@@ -39,8 +39,8 @@ export class AssessmentsComponent implements OnInit {
     this.appService.getAssessments().subscribe(
       (response) => {
         assessments = response
-        assessments.sort((a,b)=>{
-          return b.updatedAt - a.updatedAt
+        assessments.sort((assessment1,assessment2)=>{
+          return assessment2.updatedAt - assessment1.updatedAt
         })
         valueEmitter.next(assessments)
       }
