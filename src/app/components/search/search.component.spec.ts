@@ -5,6 +5,7 @@ import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -28,9 +29,29 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should call the search', () => {
+    const mockData:AssessmentStructure = {
+      assessmentId:2,
+      assessmentName:"abc",
+      organisationName:"org",
+      assessmentStatus:"Active",
+      updatedAt:1002020
+    }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
     component.searchAssessments()
+    expect(component.dataSource.filterPredicate(mockData,"abc")).toBeTruthy()
+    expect(component.dataSource.filterPredicate(mockData,"org")).toBeTruthy()
     expect(component.dataSource.filter).toBe("dummyvalue")
+  });
+  it("should return false if no result came", () => {
+    const mockData:AssessmentStructure = {
+      assessmentId:2,
+      assessmentName:"abc",
+      organisationName:"org",
+      assessmentStatus:"Active",
+      updatedAt:1002020
+    }
+    component.searchAssessments()
+    expect(component.dataSource.filterPredicate(mockData,"xyz")).toBeFalsy()
   });
 });

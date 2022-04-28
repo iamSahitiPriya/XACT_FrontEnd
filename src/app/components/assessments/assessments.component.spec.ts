@@ -80,4 +80,10 @@ describe('AssessmentsComponent', () => {
       expect(data).toBe(assData)
     })
   });
+  it("should get navigated to the module route.", () => {
+    jest.spyOn(component.router,'navigateByUrl')
+    const dummyAssessmentName = "hello123"
+    expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('/assessmentModule',{state:{assessmentName:dummyAssessmentName}})
+  });
 });

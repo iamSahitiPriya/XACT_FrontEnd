@@ -21,7 +21,7 @@ export class SearchComponent {
     const filterValue = document.getElementById("search") as HTMLInputElement;
     this.dataSource.filterPredicate = (d: AssessmentStructure, filter) => {
       const assessmentNameFilter = d["assessmentName"].trim().toLowerCase();
-      const organizationNameFilter = d["organisationName"].trim().toLowerCase() || ''
+      const organizationNameFilter = d["organisationName"].trim().toLowerCase();
       return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1;
     }
     this.dataSource.filter = filterValue.value.trim().toLowerCase();
