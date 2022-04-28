@@ -1,0 +1,20 @@
+.col-md-1{
+  margin-left:0px;
+  width: 5%;
+}
+h2{
+  padding-top:5px;
+  color: #043D4E;
+}
+.container-xxl{
+  max-width: 2500px;
+  margin-left:0px;
+}
+.backIcon{
+  color:#043D4E;
+}
+.moduleHeading{
+  color: white;
+  padding-top: 19px;
+  padding-left: 77px;
+}
