@@ -12,7 +12,7 @@ export class AssessmentModulesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      console.log("hello")
+      console.log(this.assessmentName)
   }
 
 }
