@@ -1,5 +1,4 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {AssessmentsComponent} from './assessments.component';
 import {HttpClient, HttpHandler} from "@angular/common/http";
 import {SearchComponent} from "../search/search.component";
@@ -80,5 +79,11 @@ describe('AssessmentsComponent', () => {
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData)
     })
+  });
+  it("should get navigated to the module route.", () => {
+    jest.spyOn(component.router,'navigateByUrl')
+    const dummyAssessmentName = "hello123"
+    expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('/assessmentModule',{state:{assessmentName:dummyAssessmentName}})
   });
 });

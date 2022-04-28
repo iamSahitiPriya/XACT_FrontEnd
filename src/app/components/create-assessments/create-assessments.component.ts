@@ -96,7 +96,6 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
   removeUser(user: User) {
-    console.log("remove", user)
     this.dataSource = this.dataSource.filter((u) => u.email !== user.email);
   }
 

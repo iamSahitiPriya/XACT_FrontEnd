@@ -1,6 +1,22 @@
 <mat-form-field class="example-full-width" appearance="fill">
-  <mat-label><mat-icon>search</mat-icon>
-    Search...</mat-label>
 
-  <input matInput id="search"  (keyup)="searchAssessments()" placeholder="Ex. My assessment"  #search>
+
+  <mat-label>
+    <div class="searchicon">
+      <mat-icon>search</mat-icon>
+    </div>
+    <div class="searchicon">
+      <p class="text">Search...</p>
+      <!--      Search...-->
+    </div>
+
+
+
+
+</mat-label>
+
+
+  <input matInput id="search"  (keyup)="searchAssessments()" type="text" name="AssessmentName"
+         placeholder="Ex. My assessment"  #search>
+
 </mat-form-field>

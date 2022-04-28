@@ -7,16 +7,25 @@ import {MatTableDataSource} from "@angular/material/table";
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent  {
+export class SearchComponent {
   @Input()
-  dataSource!:MatTableDataSource<AssessmentStructure>
+  dataSource!: MatTableDataSource<AssessmentStructure>
+
+
   constructor() {
     this.dataSource = new MatTableDataSource<AssessmentStructure>()
-
   }
+
 
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
-    this.dataSource.filter =  filterValue.value.trim().toLowerCase()
+    this.dataSource.filterPredicate = (d: AssessmentStructure, filter) => {
+      const assessmentNameFilter = d["assessmentName"].trim().toLowerCase();
+      const organizationNameFilter = d["organisationName"].trim().toLowerCase();
+      return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1;
+    }
+    this.dataSource.filter = filterValue.value.trim().toLowerCase();
+
   }
 }
+

@@ -29,11 +29,12 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MDBBootstrapModule} from "angular-bootstrap-md";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { AssessmentModulesComponent } from './components/assessment-modules/assessment-modules.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
-const appRoutes: Routes = [
+export const appRoutes: Routes = [
   {
     path: 'login/callback',
     component: OktaCallbackComponent,
@@ -42,6 +43,11 @@ const appRoutes: Routes = [
     path: '',
     component: AssessmentsComponent,
     canActivate: [OktaAuthGuard]
+  },
+  {
+    path:'assessmentModule',
+    component:AssessmentModulesComponent,
+    pathMatch:'full'
   }
 ];
 
@@ -52,6 +58,7 @@ const appRoutes: Routes = [
     AssessmentsComponent,
     SearchComponent,
     CreateAssessmentsComponent,
+    AssessmentModulesComponent,
 
   ],
     imports: [
