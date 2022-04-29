@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+
 .col-md-1{
   margin-left:0px;
   width: 5%;
@@ -17,4 +20,54 @@ h2{
   color: white;
   padding-top: 19px;
   padding-left: 77px;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+}
+.mat-expansion-panel{
+  border-radius: 0;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+.mat-expansion-panel-header{
+  background-color: #F4FAFC;
+  font-size: 18px;
+  color:#043D4E;
+}
+.mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover{
+  background-color:#F4FAFC ;
+}
+.mat-expansion-panel-header-title{
+  color:#043D4E;
+  font-family:'Inter', sans-serif;
+  font-weight: 600;
+}
+.mat-expansion-panel-content{
+  display: flex;
+  flex-direction: row;
+  overflow: visible;
+  height: 250px;
+}
+.example-card {
+  margin-top: 20px;
+  max-width: 400px;
+  width: 299px;
+  height: 111px;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  border-radius: 0;
+  box-shadow:  3px 0px 5px 0px #c3c3c324, 0 3px 5px 0 #c3c3c324, -3px 0px 5px 0px #c3c3c324, 0 -3px 1px  #c3c3c324
+}
+.mat-card-title{
+  font-size:20px;
+  font-weight: bold;
+  color:#043D4E;
+  margin-bottom: 21px;
+}
+.mat-card>:first-child{
+  margin-top: -7px;
+}
+.mat-expansion-panel-body {
+  padding: 0px 24px 16px;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25% 25% 25%;
 }

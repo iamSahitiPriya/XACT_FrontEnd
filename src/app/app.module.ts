@@ -30,6 +30,8 @@ import {MDBBootstrapModule} from "angular-bootstrap-md";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AssessmentModulesComponent } from './components/assessment-modules/assessment-modules.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatCardModule} from "@angular/material/card";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -61,27 +63,29 @@ export const appRoutes: Routes = [
     AssessmentModulesComponent,
 
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MDBBootstrapModule.forRoot(),
-        MatButtonModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
-        OktaAuthModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatMenuModule,
-        MatInputModule,
-        MatIconModule,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        MatToolbarModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MDBBootstrapModule.forRoot(),
+    MatButtonModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    OktaAuthModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatCardModule
+  ],
   exports: [
     MatButtonModule,
     MatTableModule,
