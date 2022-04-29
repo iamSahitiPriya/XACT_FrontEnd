@@ -27,6 +27,8 @@ h2{
   border-radius: 0;
   margin-right: -10px;
   margin-left: -10px;
+  background: transparent;
+  box-shadow: none;
 }
 .mat-expansion-panel-header{
   background-color: #F4FAFC;
@@ -49,16 +51,20 @@ h2{
 }
 .example-card {
   margin-top: 20px;
-  max-width: 400px;
-  width: 299px;
-  height: 111px;
-  margin-bottom: 8px;
+  width: 225px;
+  height: 100px;
   font-family: 'Inter', sans-serif;
   border-radius: 0;
-  box-shadow:  3px 0px 5px 0px #c3c3c324, 0 3px 5px 0 #c3c3c324, -3px 0px 5px 0px #c3c3c324, 0 -3px 1px  #c3c3c324
+  box-shadow:  3px 0px 5px 0px #c3c3c324, 0 3px 5px 0 #c3c3c324, -3px 0px 5px 0px #c3c3c324, 0 -3px 1px  #c3c3c324;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 .mat-card-title{
-  font-size:20px;
+  font-size:18px;
   font-weight: bold;
   color:#043D4E;
   margin-bottom: 21px;
@@ -66,8 +72,14 @@ h2{
 .mat-card>:first-child{
   margin-top: -7px;
 }
-.mat-expansion-panel-body {
-  padding: 0px 24px 16px;
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25% 25% 25%;
+/*.mat-expansion-panel-body {*/
+/*  padding: 0px 24px 16px;*/
+/*  display: grid;*/
+/*  grid-template-columns: 25% 25% 25% 25% 25% 25%;*/
+/*}*/
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
 }
