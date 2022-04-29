@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {User} from "../../types/user";
 import {AssessmentRequest} from "../../types/assessmentRequest";
+import {CategoryStructure} from "../../types/categoryStructure";
 
 
 @Injectable({
@@ -25,8 +26,11 @@ export class AppServiceService {
   }
 
   public getUserByEmail(email: String): Observable<User> {
-    return this.http.get<User>(environment.BaseURI + environment.USER_URI+"/"+email);
+    return this.http.get<User>(environment.BaseURI + environment.USER_URI + "/" + email);
   }
 
+  public getCategories(): Observable<CategoryStructure[]> {
+    return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
+  }
 
 }

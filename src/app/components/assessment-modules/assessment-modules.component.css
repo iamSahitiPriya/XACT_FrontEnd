@@ -29,6 +29,7 @@ h2{
   margin-left: -10px;
   background: transparent;
   box-shadow: none;
+  margin-bottom:23px
 }
 .mat-expansion-panel-header{
   background-color: #F4FAFC;
@@ -72,11 +73,7 @@ h2{
 .mat-card>:first-child{
   margin-top: -7px;
 }
-/*.mat-expansion-panel-body {*/
-/*  padding: 0px 24px 16px;*/
-/*  display: grid;*/
-/*  grid-template-columns: 25% 25% 25% 25% 25% 25%;*/
-/*}*/
+
 .cards {
   display: flex;
   flex-wrap: wrap;

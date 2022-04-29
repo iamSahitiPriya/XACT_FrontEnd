@@ -1,4 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {CategoryStructure} from "../../types/categoryStructure";
+import {BehaviorSubject} from "rxjs";
+
+let categories:CategoryStructure[] = []
+let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
+
 
 @Component({
   selector: 'app-assessment-modules',
@@ -7,7 +14,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AssessmentModulesComponent implements OnInit {
   assessmentName:string
-  constructor() {
+  category:CategoryStructure[] = []
+  constructor(private appService:AppServiceService) {
   }
 
   ngOnInit(): void {
@@ -17,6 +25,13 @@ export class AssessmentModulesComponent implements OnInit {
     }else{
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') ||"No value")
     }
+    this.appService.getCategories().subscribe(data =>{
+      categories = data
+      valueEmitter.next(categories)
+    })
+    valueEmitter.subscribe(data=>{
+      this.category = data
+    })
   }
 
 }

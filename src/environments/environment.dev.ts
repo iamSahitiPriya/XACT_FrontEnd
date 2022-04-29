@@ -11,6 +11,7 @@ export const environment = {
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI:"/v1/assessments",
   USER_URI: "/v1/users",
+  CATEGORY_URI:"/v1/assessment-master-data/categories",
 };
 
 /*

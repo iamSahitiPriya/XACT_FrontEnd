@@ -5,6 +5,7 @@ export const environment = {
   CLIENT_ID: "0oa443ktg7gLqvg6X5d7",
   REDIRECT_URI: "http://localhost:4200/login/callback",
   ASSESSMENT_URI: "/v1/assessments",
+  CATEGORY_URI:"/v1/assessment-master-data/categories",
   USER_URI: "/v1/users",
   OKTA_TESTING_DISABLEHTTPSCHECK: true
 };
