@@ -14,6 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {User} from "../../types/user";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 class MockDialog{
@@ -69,7 +70,7 @@ describe('CreateAssessmentsComponent', () => {
       declarations: [ CreateAssessmentsComponent ],
       imports:[MatDialogModule,RouterTestingModule,MatFormFieldModule,MatIconModule,MatInputModule,
         MatTableModule,HttpClientTestingModule,NoopAnimationsModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule,MatSnackBarModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: AppServiceService, useClass: MockAppService},

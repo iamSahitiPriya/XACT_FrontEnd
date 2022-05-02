@@ -56,9 +56,6 @@
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
         <input matInput type="email" placeholder="eg:abc@thoughtworks.com" id="userEmail" #email>
-        <mat-error *ngIf="errorMsg.length>1">
-          {{errorMsg}}
-        </mat-error>
       </mat-form-field>
       <button type="button" mat-fab (click)="addUser(email.value)">
         <mat-icon class="addButton">add</mat-icon>
@@ -77,7 +74,6 @@
       </ng-container>
       <tr mat-row *matRowDef="let row; columns: columnName;"></tr>
     </table>
-    <p>{{errorMsg}}</p>
     <button type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
     </button>
   </form>

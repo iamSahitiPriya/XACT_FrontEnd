@@ -9,6 +9,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {User} from "../../types/user";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import * as _ from "lodash";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 export const assessmentData = [{}]
 
@@ -29,13 +30,12 @@ export class CreateAssessmentsComponent implements OnInit {
   email: string = '';
   dataSource: User[] = [];
   submitted: boolean = false;
-  errorMsg: string = '';
   loggedInUser: User;
   @ViewChild(MatTable) table: MatTable<User>;
   loading: boolean;
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,private errorDisplay: MatSnackBar) {
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -60,7 +60,6 @@ export class CreateAssessmentsComponent implements OnInit {
     this.organizationName = ""
     this.domain = ""
     this.industry = ""
-    this.errorMsg = ""
 
     this.dataSource.splice(0, this.dataSource.length)
     assessmentData.splice(0, assessmentData.length)
@@ -116,8 +115,12 @@ export class CreateAssessmentsComponent implements OnInit {
       },
         (error) =>{
           this.loading = false
-          this.errorMsg = "Error in server...!"
-          console.log(error)
+          this.errorDisplay.open("Error in server. Please try again after sometime.","",{
+            duration:4000,
+            horizontalPosition:"center",
+            verticalPosition:"top",
+            panelClass:['error-snackBar']
+          })
         })
     }
   }
