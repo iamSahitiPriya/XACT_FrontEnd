@@ -38,6 +38,8 @@ h2{
 }
 .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover{
   background-color:#F4FAFC ;
+  -webkit-transition: none;
+  transition: none;
 }
 .mat-expansion-panel-header-title{
   color:#043D4E;
@@ -50,9 +52,9 @@ h2{
   overflow: visible;
   height: 250px;
 }
-.example-card {
+.assessmentModuleCard {
   margin-top: 20px;
-  width: 225px;
+  width: 245px;
   height: 100px;
   font-family: 'Inter', sans-serif;
   border-radius: 0;
@@ -64,14 +66,29 @@ h2{
   margin-left: 20px;
   margin-bottom: 20px;
 }
+
+.assessmentModuleCard:hover{
+  outline: 0px solid transparent;
+  border: 1px solid #5D9EAA;
+}
+
 .mat-card-title{
-  font-size:18px;
-  font-weight: bold;
-  color:#043D4E;
-  margin-bottom: 21px;
+  font-size:16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 550;
+  color: black;
+  margin-bottom: 11px;
+  padding-top:10px;
 }
 .mat-card>:first-child{
   margin-top: -7px;
+  color: dimgrey;
+}
+
+.mat-card-subtitle {
+  color: #4BA1AC;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
 }
 
 .cards {
@@ -79,4 +96,23 @@ h2{
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
+  margin-left:-43px;
+  margin-right:-43px;
 }
+.finishAssessment{
+  background-color : #4BA1AC;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  padding: 13px 39px;
+  font-size: 16px;
+  border-radius: 4px;
+  border-color: transparent;
+}
+#assessmentButton{
+  display: flex;
+  position: inherit;
+  flex-direction: row-reverse;
+  padding-top: 320px;
+}
+
+
