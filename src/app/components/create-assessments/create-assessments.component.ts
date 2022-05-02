@@ -60,6 +60,7 @@ export class CreateAssessmentsComponent implements OnInit {
     this.organizationName = ""
     this.domain = ""
     this.industry = ""
+    this.errorMsg = ""
 
     this.dataSource.splice(0, this.dataSource.length)
     assessmentData.splice(0, assessmentData.length)
@@ -109,10 +110,15 @@ export class CreateAssessmentsComponent implements OnInit {
         assessmentName: this.assessmentName, organisationName: this.organizationName,
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: userData
       };
-      this.appService.addAssessments(assessmentRequest).subscribe(data => {
+      this.appService.addAssessments(assessmentRequest).subscribe((data) => {
         assessmentData.push(assessmentRequest);
         window.location.reload()
-      })
+      },
+        (error) =>{
+          this.loading = false
+          this.errorMsg = "Error in server...!"
+          console.log(error)
+        })
     }
   }
 

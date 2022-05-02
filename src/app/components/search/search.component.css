@@ -1,12 +1,5 @@
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-  border-bottom-color:#043D4E ;
-}
 
-
-.example-full-width {
+.searchBar {
   width: 60%;
   position: relative;
   top: 2px;
