@@ -206,8 +206,6 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it("should return error for an unsuccessful creation of assessment", () => {
-    const errorFn = jest.fn()
-    const givenError = new Error("Dummy Error")
     const assessmentDataPayload:any  = [];
     mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
       expect(data).toBeDefined()

@@ -28,7 +28,7 @@
         </mat-expansion-panel-header>
         <div class="assessmentCards">
           <mat-card class="moduleCard" *ngFor="let module of category.modules">
-            <mat-icon>laptop</mat-icon>
+            <mat-icon svgIcon="{{categoryIconMapping.get(category.categoryId)}}"></mat-icon>
             <mat-card-title-group>
               <mat-card-title>{{module.moduleName}}</mat-card-title>
               <mat-card-subtitle>{{category.categoryName}}</mat-card-subtitle>
