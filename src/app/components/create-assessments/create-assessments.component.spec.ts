@@ -11,12 +11,10 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
-import {catchError, Observable, of, throwError} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {User} from "../../types/user";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {AssessmentStructure} from "../../types/assessmentStructure";
-import {AssessmentRequest} from "../../types/assessmentRequest";
 
 
 class MockDialog {
