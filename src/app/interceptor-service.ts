@@ -3,7 +3,7 @@ import {Inject, Injectable} from "@angular/core";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {of, tap} from "rxjs"
-import {HttpCacheService} from "./cache-service";
+import {HttpCacheService} from "./services/cache-service/cache.service";
 
 const CACHABLE_URL = "/v1/assessment-master-data/categories";
 

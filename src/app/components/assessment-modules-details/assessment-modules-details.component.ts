@@ -8,16 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
 
-
-  constructor() { }
+  constructor() {  }
 
   ngOnInit(): void {
     if (history.state.assessmentName) {
       this.assessmentName = history.state.assessmentName
       sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-    } else {
-      this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
     }
   }
-
 }

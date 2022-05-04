@@ -32,7 +32,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AssessmentModulesComponent } from './components/assessment-modules/assessment-modules.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
-import {HttpCacheService} from "./cache-service";
+import {HttpCacheService} from "./services/cache-service/cache.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AssessmentModulesDetailsComponent } from './components/assessment-modules-details/assessment-modules-details.component';
 

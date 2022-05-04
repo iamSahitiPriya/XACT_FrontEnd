@@ -15,6 +15,7 @@ import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {User} from "../../types/user";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 class MockDialog {
@@ -46,16 +47,13 @@ class MockAppService {
     role: ""
   }
   public addAssessments(assessmentDataPayload: {} ): Observable<any> {
-    if(assessmentDataPayload.hasOwnProperty("assessmentName")) {
       return of(this.assessmentMock)
-    }
-      return throwError("Error!")
-
   }
   public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
     return of(this.mockedUser)
   }
 }
+
 
 describe('CreateAssessmentsComponent', () => {
   let component: CreateAssessmentsComponent;
@@ -205,13 +203,26 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should return error for an unsuccessful creation of assessment", () => {
     const assessmentDataPayload:any  = [];
-    component.saveAssessment()
-    mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
-      expect(data).toBeDefined()
-    },(error) => {
-      expect(component.loading).toBeFalsy()
-      expect(error).toBe("Error!")
+    const error = {
+      status: 401,
+      message: 'You are not logged in',
+    }
+    jest.spyOn(mockAppService,'addAssessments').mockImplementation(() =>{
+      throw new Error("Error!")
     })
-
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
+    component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
+    expect(component.createAssessmentForm.valid).toBeTruthy()
+    component.saveAssessment()
+    // mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
+    //   expect(data).toBeDefined()
+    // },(error) => {
+    //   expect(component.loading).toBeFalsy()
+    //   expect(error).toBe("Error!")
+    // })
+    expect(mockAppService.addAssessments).toThrow()
   });
 });
