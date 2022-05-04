@@ -80,9 +80,7 @@ describe('AssessmentModulesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  afterEach(() => {
-      window.history.back()
-  })
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -135,6 +133,9 @@ describe('AssessmentModulesComponent', () => {
     expect(component).toBeTruthy()
     window.sessionStorage.setItem('assessmentName', "dummyValue")
     const getItemSpy = jest.spyOn(window.sessionStorage, 'getItem')
+    component.ngOnInit()
     expect(component.assessmentName).toBe("dummyValue")
   });
+
+
 });

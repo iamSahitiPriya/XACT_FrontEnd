@@ -3,6 +3,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .error-snackBar{
-  margin-top: 170% !important;
+  margin-bottom: 20% !important;
 }
 

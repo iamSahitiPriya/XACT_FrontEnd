@@ -118,7 +118,7 @@ export class CreateAssessmentsComponent implements OnInit {
           this.errorDisplay.open("Error in server. Please try again after sometime.","",{
             duration:4000,
             horizontalPosition:"center",
-            verticalPosition:"top",
+            verticalPosition:"bottom",
             panelClass:['error-snackBar']
           })
         })

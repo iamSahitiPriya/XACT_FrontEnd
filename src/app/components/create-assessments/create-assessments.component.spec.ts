@@ -205,9 +205,9 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should return error for an unsuccessful creation of assessment", () => {
     const assessmentDataPayload:any  = [];
+    component.saveAssessment()
     mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
       expect(data).toBeDefined()
-      console.log(data)
     },(error) => {
       expect(component.loading).toBeFalsy()
       expect(error).toBe("Error!")
