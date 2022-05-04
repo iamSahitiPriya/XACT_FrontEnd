@@ -32,6 +32,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AssessmentModulesComponent } from './components/assessment-modules/assessment-modules.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
+import {cacheInterceptor} from "./cache-interceptor";
+import {HttpCacheService} from "./cache-service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
@@ -99,8 +101,11 @@ export const appRoutes: Routes = [
   providers: [
     AppServiceService,
     {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: cacheInterceptor, multi: true},
     {provide: OKTA_CONFIG, useValue: {oktaAuth}},
-    HttpClientTestingModule
+    HttpClientTestingModule,
+    HttpCacheService
+
   ],
   bootstrap: [AppComponent]
 })
