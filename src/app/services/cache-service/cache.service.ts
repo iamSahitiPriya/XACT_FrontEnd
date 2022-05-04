@@ -11,14 +11,15 @@ abstract class HttpCache {
 @Injectable()
 export class HttpCacheService implements HttpCache {
   cache = new Map<string, CacheEntry>();
+  public isExpired: boolean;
 
   get(req: HttpRequest<any>): HttpResponse<any> | null {
     const entry = this.cache.get(req.urlWithParams);
     if (!entry) {
       return null;
     }
-    const isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
-    return isExpired ? null : entry.response;
+    this.isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
+    return this.isExpired ? null : entry.response;
   }
 
   put(req: HttpRequest<any>, res: HttpResponse<any>): void {

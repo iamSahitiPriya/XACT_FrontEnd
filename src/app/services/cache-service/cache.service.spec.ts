@@ -39,4 +39,13 @@ describe('CacheService', () => {
     service.put(dummyReq,dummyResponse)
     expect(service.put(dummyReq,dummyResponse)).toBeUndefined()
   });
+  it('should check for the expired', () => {
+    jest.spyOn(service,'get').mockImplementation(() =>{
+      return null
+    })
+    service.isExpired = true
+    let dummyReq =  new HttpRequest('GET','https://localhost:8100')
+    service.get(dummyReq)
+    expect(service.get(dummyReq)).toBe(null)
+  });
 });
