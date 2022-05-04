@@ -47,5 +47,4 @@ export class AssessmentModulesComponent implements OnInit {
   getIcon(categoryId: number): string {
     return this.categoryIconMapping.get(categoryId) || "default";
   }
-
 }

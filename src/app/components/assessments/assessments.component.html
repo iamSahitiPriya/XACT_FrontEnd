@@ -17,7 +17,7 @@
       <ng-container matColumnDef="assessmentName">
         <th mat-header-cell *matHeaderCellDef> Assessment Name</th>
         <td mat-cell *matCellDef="let element">
-          <span [routerLink]="['/assessmentModule']" [state]="{assessmentName:element.assessmentName}" role="button">
+          <span [routerLink]="['/assessmentModulesDetails']" [state]="{assessmentName:element.assessmentName}" role="button">
             {{element.assessmentName}} </span>
         </td>
       </ng-container>

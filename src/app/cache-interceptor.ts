@@ -17,7 +17,7 @@ export class cacheInterceptor implements HttpInterceptor {
     }
     const cachedResponse = this.cacheService.get(req);
     if (cachedResponse !== null) {
-      console.log("This is cached Response");
+      // console.log("This is cached Response");
       return of(cachedResponse);
     }
     return next.handle(req).pipe(

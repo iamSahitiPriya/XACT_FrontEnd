@@ -35,6 +35,7 @@ import {MatCardModule} from "@angular/material/card";
 import {cacheInterceptor} from "./cache-interceptor";
 import {HttpCacheService} from "./cache-service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AssessmentModulesDetailsComponent } from './components/assessment-modules-details/assessment-modules-details.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -54,7 +55,14 @@ export const appRoutes: Routes = [
     component:AssessmentModulesComponent,
     pathMatch:'full',
     canActivate: [OktaAuthGuard]
+  },
+  {
+    path:'assessmentModulesDetails',
+    component:AssessmentModulesDetailsComponent,
+    pathMatch:'full',
+    canActivate: [OktaAuthGuard]
   }
+
 ];
 
 @NgModule({
@@ -65,6 +73,7 @@ export const appRoutes: Routes = [
     SearchComponent,
     CreateAssessmentsComponent,
     AssessmentModulesComponent,
+    AssessmentModulesDetailsComponent,
 
   ],
   imports: [
