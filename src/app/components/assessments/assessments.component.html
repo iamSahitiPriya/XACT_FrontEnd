@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col-md-2">
     <h1 class="heading">My Assessments</h1>
@@ -14,38 +13,41 @@
 <div class="row">
   <div class="col-md-12">
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
-  <ng-container matColumnDef="assessmentName">
-    <th mat-header-cell *matHeaderCellDef > Assessment Name </th>
-    <td mat-cell *matCellDef="let element" [routerLink]="['/assessmentModule']" [state]="{assessmentName:element.assessmentName}"> {{element.assessmentName}} </td>
-  </ng-container>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="assessmentName">
+        <th mat-header-cell *matHeaderCellDef> Assessment Name</th>
+        <td mat-cell *matCellDef="let element">
+          <span [routerLink]="['/assessmentModule']" [state]="{assessmentName:element.assessmentName}" role="button">
+            {{element.assessmentName}} </span>
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="organisationName">
-    <th mat-header-cell *matHeaderCellDef> Organisation Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
-  </ng-container>
+      <ng-container matColumnDef="organisationName">
+        <th mat-header-cell *matHeaderCellDef> Organisation Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="assessmentStatus">
-    <th mat-header-cell *matHeaderCellDef> Status</th>
-    <td mat-cell *matCellDef="let element"> {{element.assessmentStatus}} </td>
-  </ng-container>
+      <ng-container matColumnDef="assessmentStatus">
+        <th mat-header-cell *matHeaderCellDef> Status</th>
+        <td mat-cell *matCellDef="let element"> {{element.assessmentStatus}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="updatedAt">
-    <th mat-header-cell *matHeaderCellDef> Last Updated</th>
-    <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:"dd-MMM-yyyy"}} </td>
-  </ng-container>
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef> Last Updated</th>
+        <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:"dd-MMM-yyyy"}} </td>
+      </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row  *matRowDef="let element; columns: columnsToDisplay;"></tr>
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data matching the filter</td>
-  </tr>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter</td>
+      </tr>
 
-</table>
+    </table>
   </div>
 </div>
 <div style="margin-top: 20px">
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of assessment"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of assessment"></mat-paginator>
 </div>
 
 

@@ -50,7 +50,8 @@ export const appRoutes: Routes = [
   {
     path:'assessmentModule',
     component:AssessmentModulesComponent,
-    pathMatch:'full'
+    pathMatch:'full',
+    canActivate: [OktaAuthGuard]
   }
 ];
 
