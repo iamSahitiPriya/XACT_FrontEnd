@@ -2,8 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
-let categories:CategoryStructure[] = []
+let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 
 
@@ -13,23 +15,30 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   styleUrls: ['./assessment-modules.component.css']
 })
 export class AssessmentModulesComponent implements OnInit {
-  assessmentName:string
-  category:CategoryStructure[] = []
-  constructor(private appService:AppServiceService) {
+  assessmentName: string
+  category: CategoryStructure[] = []
+  categoryIconMapping: Map<number, string> = new Map<number, string>()
+
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
+    matIconRegistry
+      .addSvgIcon('category1', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2577.svg'))
+      .addSvgIcon('category2', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2425.svg'))
   }
 
   ngOnInit(): void {
-    if(history.state.assessmentName) {
+    this.categoryIconMapping.set(1, "category1")
+    this.categoryIconMapping.set(2, "category2")
+    if (history.state.assessmentName) {
       this.assessmentName = history.state.assessmentName
       sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-    }else{
-      this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') ||"No value")
+    } else {
+      this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
     }
-    this.appService.getCategories().subscribe(data =>{
+    this.appService.getCategories().subscribe(data => {
       categories = data
       valueEmitter.next(categories)
     })
-    valueEmitter.subscribe(data=>{
+    valueEmitter.subscribe(data => {
       this.category = data
     })
   }

@@ -54,4 +54,7 @@ describe('AppServiceService', () => {
   it('should get user', () => {
     expect(service.getUserByEmail("test@test.com")).toBeTruthy();
   });
+  it("should get categories", () => {
+    expect(service.getCategories()).toBeTruthy()
+  });
 });

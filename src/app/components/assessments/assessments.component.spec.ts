@@ -17,6 +17,8 @@ import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {FormBuilder} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 
 class MockAppService{
   ASSESSMENT_DATA:AssessmentStructure [] = [
@@ -42,7 +44,10 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AssessmentsComponent,SearchComponent,CreateAssessmentsComponent ],
       imports:[MatFormFieldModule,MatIconModule,MatInputModule, RouterTestingModule,MatPaginatorModule,
-        BrowserAnimationsModule,MatTableModule, MatDialogModule],
+        BrowserAnimationsModule,MatTableModule, MatDialogModule,MatSnackBarModule,
+      RouterTestingModule.withRoutes([{
+        path:"assessmentModule",component:AssessmentModulesComponent
+      }])],
       providers:[HttpClient,HttpHandler,FormBuilder,
         {provide: AppServiceService,
           useClass: MockAppService},

@@ -34,6 +34,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {cacheInterceptor} from "./cache-interceptor";
 import {HttpCacheService} from "./cache-service";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -86,7 +87,8 @@ export const appRoutes: Routes = [
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    MatSnackBarModule
   ],
   exports: [
     MatButtonModule,

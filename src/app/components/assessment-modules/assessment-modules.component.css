@@ -52,7 +52,8 @@ h2{
   overflow: visible;
   height: 250px;
 }
-.assessmentModuleCard {
+
+.moduleCard {
   margin-top: 20px;
   width: 245px;
   height: 100px;
@@ -67,7 +68,7 @@ h2{
   margin-bottom: 20px;
 }
 
-.assessmentModuleCard:hover{
+.moduleCard:hover{
   outline: 0px solid transparent;
   border: 1px solid #5D9EAA;
 }
@@ -91,7 +92,7 @@ h2{
   font-size: 14px;
 }
 
-.cards {
+.assessmentCards {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
