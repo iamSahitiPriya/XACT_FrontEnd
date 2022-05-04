@@ -127,15 +127,5 @@ describe('AssessmentModulesComponent', () => {
     })
   });
 
-  it("should get the assessmentName from session storage", () => {
-    window.history.replaceState({assessmentName: ''}, '', 'assessmentModule')
-    history.state.assessmentName = ""
-    expect(component).toBeTruthy()
-    window.sessionStorage.setItem('assessmentName', "dummyValue")
-    const getItemSpy = jest.spyOn(window.sessionStorage, 'getItem')
-    component.ngOnInit()
-    expect(component.assessmentName).toBe("dummyValue")
-  });
-
 
 });

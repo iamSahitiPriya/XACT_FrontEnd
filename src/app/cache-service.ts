@@ -1,6 +1,6 @@
 import {HttpRequest, HttpResponse} from "@angular/common/http";
 import {Injectable} from '@angular/core';
-import {CacheEntry, MAX_CACHE_AGE} from "./cache-entry";
+import {CacheEntry, MAX_CACHE_AGE} from "./types/cache-entry";
 
 
 abstract class HttpCache {

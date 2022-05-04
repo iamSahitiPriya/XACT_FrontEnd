@@ -48,9 +48,9 @@ class MockAppService {
   public addAssessments(assessmentDataPayload: {} ): Observable<any> {
     if(assessmentDataPayload.hasOwnProperty("assessmentName")) {
       return of(this.assessmentMock)
-    }else{
-      return throwError("Error!")
     }
+      return throwError("Error!")
+
   }
   public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
     return of(this.mockedUser)
