@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-assessment-modules-details',
@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
 
-  constructor() {  }
+  constructor() {
+  }
 
   ngOnInit(): void {
     if (history.state.assessmentName) {

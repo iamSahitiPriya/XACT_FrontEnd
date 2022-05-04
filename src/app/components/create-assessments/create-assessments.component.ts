@@ -67,7 +67,7 @@ export class CreateAssessmentsComponent implements OnInit {
     const dialogRef = this.dialog.open(content, {
       width: '630px', height: '650px',
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(_result => {
       this.dataSource.splice(0, this.dataSource.length)
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()

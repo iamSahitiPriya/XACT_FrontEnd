@@ -25,7 +25,7 @@ export class AppServiceService {
     return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData, {'headers': headers})
   }
 
-  public getUserByEmail(email: String): Observable<User> {
+  public getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(environment.BaseURI + environment.USER_URI + "/" + email);
   }
 
