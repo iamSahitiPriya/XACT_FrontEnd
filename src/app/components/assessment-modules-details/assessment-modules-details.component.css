@@ -4,13 +4,11 @@
   margin-left:0px;
   width: 5%;
 }
-
 .col-md-8{
   margin-left:70px;
 }
 h2{
-  padding-top:8px;
-  font: 500 22px/26px 'Inter', sans-serif;
+  padding-top:6px;
   letter-spacing: normal;
   color:#043D4E;
 }

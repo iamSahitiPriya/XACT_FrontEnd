@@ -37,7 +37,7 @@ export class AssessmentsComponent implements OnInit {
   assessments: AssessmentStructure[]
 
   assessmentModule(assessmentName: string) {
-    this.router.navigateByUrl("/assessmentModule", {state: {assessmentName: assessmentName}})
+    this.router.navigateByUrl("assessmentModule", {state: {assessmentName: assessmentName}})
     return true
   }
 

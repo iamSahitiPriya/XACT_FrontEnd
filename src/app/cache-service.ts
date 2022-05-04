@@ -1,6 +1,6 @@
 import {HttpRequest, HttpResponse} from "@angular/common/http";
 import {Injectable} from '@angular/core';
-import {CacheEntry, MAX_CACHE_AGE} from "./cache-entry";
+import {CacheEntry, MAX_CACHE_AGE} from "./types/cache-entry";
 
 
 abstract class HttpCache {
@@ -25,9 +25,7 @@ export class HttpCacheService implements HttpCache {
   put(req: HttpRequest<any>, res: HttpResponse<any>): void {
     const entry: CacheEntry = {url: req.urlWithParams, response: res, entryTime: Date.now()}
     this.cache.set(req.urlWithParams, entry);
-
     this.deleteExpiredCache();
-
   }
 
   private deleteExpiredCache() {

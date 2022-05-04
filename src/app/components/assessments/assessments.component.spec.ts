@@ -27,6 +27,13 @@ class MockAppService{
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
+      "updatedAt": 1649836702001
+    },
+    {
+      "assessmentId": 1,
+      "assessmentName": "xact",
+      "organisationName": "abc",
+      "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702000
     }
   ]
@@ -76,8 +83,16 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
+        "updatedAt": 1649836702001
+      },
+      {
+        "assessmentId": 1,
+        "assessmentName": "xact",
+        "organisationName": "abc",
+        "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702000
       }
+
     ]
     expect(component).toBeTruthy();
     fixture.detectChanges()
@@ -89,6 +104,6 @@ describe('AssessmentsComponent', () => {
     jest.spyOn(component.router,'navigateByUrl')
     const dummyAssessmentName = "hello123"
     expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith('/assessmentModule',{state:{assessmentName:dummyAssessmentName}})
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('assessmentModule',{state:{assessmentName:dummyAssessmentName}})
   });
 });

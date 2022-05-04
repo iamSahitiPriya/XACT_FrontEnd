@@ -80,9 +80,7 @@ describe('AssessmentModulesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  afterEach(() => {
-      window.history.back()
-  })
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -129,12 +127,5 @@ describe('AssessmentModulesComponent', () => {
     })
   });
 
-  it("should get the assessmentName from session storage", () => {
-    window.history.replaceState({assessmentName: ''}, '', 'assessmentModule')
-    history.state.assessmentName = ""
-    expect(component).toBeTruthy()
-    window.sessionStorage.setItem('assessmentName', "dummyValue")
-    const getItemSpy = jest.spyOn(window.sessionStorage, 'getItem')
-    expect(component.assessmentName).toBe("dummyValue")
-  });
+
 });

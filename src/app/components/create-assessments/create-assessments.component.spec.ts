@@ -48,9 +48,9 @@ class MockAppService {
   public addAssessments(assessmentDataPayload: {} ): Observable<any> {
     if(assessmentDataPayload.hasOwnProperty("assessmentName")) {
       return of(this.assessmentMock)
-    }else{
-      return throwError("Error!")
     }
+      return throwError("Error!")
+
   }
   public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
     return of(this.mockedUser)
@@ -205,9 +205,9 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should return error for an unsuccessful creation of assessment", () => {
     const assessmentDataPayload:any  = [];
+    component.saveAssessment()
     mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
       expect(data).toBeDefined()
-      console.log(data)
     },(error) => {
       expect(component.loading).toBeFalsy()
       expect(error).toBe("Error!")
