@@ -21,6 +21,7 @@ export class AssessmentModulesComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
     matIconRegistry
+      .addSvgIcon('default', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2577.svg'))
       .addSvgIcon('category1', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2577.svg'))
       .addSvgIcon('category2', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2425.svg'))
   }
@@ -41,6 +42,10 @@ export class AssessmentModulesComponent implements OnInit {
     valueEmitter.subscribe(data => {
       this.category = data
     })
+  }
+
+  getIcon(categoryId: number): string {
+    return this.categoryIconMapping.get(categoryId) || "default";
   }
 
 }
