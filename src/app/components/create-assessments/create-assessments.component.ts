@@ -91,10 +91,13 @@ export class CreateAssessmentsComponent implements OnInit {
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: users
       };
       this.appService.addAssessments(assessmentRequest).subscribe((data) => {
-          assessmentData.push(assessmentRequest);
-          window.location.reload()
-        },
-        (error) => {
+        console.log(assessmentRequest)
+        assessmentData.push(assessmentRequest);
+        window.location.reload()
+      },
+        (error) =>{
+
+          console.log("Error Log:",error)
           this.loading = false
           this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
             duration: 4000,

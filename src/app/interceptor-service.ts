@@ -13,7 +13,6 @@ export class Interceptors implements HttpInterceptor {
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private cacheService: HttpCacheService) {
   }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): any{
     this.accessToken = this.oktaAuth.getAccessToken() || "None value";
     req =  req.clone({
