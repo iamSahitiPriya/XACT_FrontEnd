@@ -21,9 +21,9 @@ export class AssessmentModulesComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
     matIconRegistry
-      .addSvgIcon('default', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2577.svg'))
-      .addSvgIcon('category1', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2577.svg'))
-      .addSvgIcon('category2', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category1/Group 2425.svg'))
+      .addSvgIcon('default', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2577.svg'))
+      .addSvgIcon('category1', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2577.svg'))
+      .addSvgIcon('category2', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2425.svg'))
   }
 
   ngOnInit(): void {

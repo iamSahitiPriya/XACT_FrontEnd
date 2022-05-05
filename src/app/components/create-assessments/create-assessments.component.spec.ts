@@ -11,11 +11,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
-import {Observable, of, throwError} from "rxjs";
+import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {User} from "../../types/user";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {HttpErrorResponse} from "@angular/common/http";
 
 
 class MockDialog {
@@ -40,17 +38,9 @@ class MockAppService {
     "assessmentStatus": "Active",
     "updatedAt": 1650886511968
   };
-  mockedUser: User = {
-    email: "sam@gmail.com",
-    firstName: "Sam",
-    lastName: "None",
-    role: ""
-  }
-  public addAssessments(assessmentDataPayload: {} ): Observable<any> {
-      return of(this.assessmentMock)
-  }
-  public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
-    return of(this.mockedUser)
+
+  public addAssessments(assessmentDataPayload: {}): Observable<any> {
+    return of(this.assessmentMock)
   }
 }
 
@@ -121,52 +111,6 @@ describe('CreateAssessmentsComponent', () => {
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
 
-  it('should add user when email is given', () => {
-    const dummyEmail = "sam@gmail.com"
-    component.loggedInUser = {
-      email: "sam1@gmail.com",
-      firstName: "sam",
-      lastName: "",
-      role: ""
-    }
-    const expectedResponse: User = {
-      email: "sam@gmail.com",
-      firstName: "Sam",
-      lastName: "None",
-      role: ""
-    }
-    component.addUser(dummyEmail)
-    mockAppService.getUserByEmail(dummyEmail).subscribe(response => {
-      expect(response).toBe(expectedResponse)
-    })
-    expect(component.dataSource.length).toBe(1)
-  });
-
-  it("should remove user", () => {
-    component.dataSource = [{
-      email: "Sam@gmail.com",
-      firstName: "sam",
-      lastName: "",
-      role: "dev"
-    }, {email: "Sam2@gmail.com", firstName: "sam", lastName: "", role: "dev"}]
-    component.removeUser({email: "Sam@gmail.com", firstName: "sam", lastName: "", role: "dev"})
-    fixture.detectChanges()
-    expect(component.dataSource.length).toBe(1)
-    expect(component.dataSource[0].email).toBe("Sam2@gmail.com")
-  })
-
-  it("should display error if the user is already present", () => {
-    component.dataSource = [{email: "Sam@gmail.com", firstName: "sam", lastName: "", role: "dev"}]
-  })
-
-  it("should not add if the user is already present", () => {
-    component.dataSource = [{email: "Sam@gmail.com", firstName: "sam", lastName: "", role: "dev"}]
-    const dummyEmail = "Sam@gmail.com"
-    component.addUser(dummyEmail)
-    fixture.detectChanges()
-    expect(component.dataSource.length).toBe(1)
-
-  });
 
   it('should save assessment and make the window reload', () => {
     const assessmentDataPayload = {
@@ -202,12 +146,12 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it("should return error for an unsuccessful creation of assessment", () => {
-    const assessmentDataPayload:any  = [];
+    const assessmentDataPayload: any = [];
     const error = {
       status: 401,
       message: 'You are not logged in',
     }
-    jest.spyOn(mockAppService,'addAssessments').mockImplementation(() =>{
+    jest.spyOn(mockAppService, 'addAssessments').mockImplementation(() => {
       throw new Error("Error!")
     })
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
@@ -217,12 +161,6 @@ describe('CreateAssessmentsComponent', () => {
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.saveAssessment()
-    // mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
-    //   expect(data).toBeDefined()
-    // },(error) => {
-    //   expect(component.loading).toBeFalsy()
-    //   expect(error).toBe("Error!")
-    // })
     expect(mockAppService.addAssessments).toThrow()
   });
 });

@@ -12,7 +12,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (history.state.assessmentName) {
+    if (history.state?.assessmentName) {
       this.assessmentName = history.state.assessmentName
       sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
     }

@@ -19,7 +19,7 @@ export class Interceptors implements HttpInterceptor {
     req =  req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.accessToken}`)
     })
-    if (!Interceptors.isRequestCachable(req)) {
+    if (!Interceptors.isRequestCacheable(req)) {
       return next.handle(req);
     }
     const cachedResponse = this.cacheService.get(req);
@@ -36,7 +36,7 @@ export class Interceptors implements HttpInterceptor {
       })
     );
   }
-  private static isRequestCachable(req: HttpRequest<any>) {
+  private static isRequestCacheable(req: HttpRequest<any>) {
     return (req.method === 'GET') && (req.url.indexOf(CACHABLE_URL) > -1);
   }
 }
