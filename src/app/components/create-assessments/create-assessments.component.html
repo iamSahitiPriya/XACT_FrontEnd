@@ -46,7 +46,7 @@
       <mat-form-field appearance="outline" class="teamSize">
         <mat-label>Team Size</mat-label>
         <input type="number" [(ngModel)]="teamSize" matInput formControlName="teamSizeValidator"
-               placeholder="Enter Team size" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+               placeholder="Enter Team size" min="1" max="10000000" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -57,7 +57,7 @@
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
         <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
-               placeholder="Enter comma separated emails, ie. abc@thoughtworks.com" id="userEmails">
+               placeholder="Enter comma separated emails, ie. abc@thoughtworks.com,xyz@thoughtworks.com" id="userEmails">
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
           Valid list of emails address
         </mat-error>

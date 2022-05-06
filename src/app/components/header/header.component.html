@@ -1,11 +1,15 @@
 <div class="container">
-    <img data-id="logo" src="../../assets/logo.png" alt="XACT Logo" class="logo" id="logo"/>
-    <div class="user">
-      <div class="userName">
-        <button mat-button [matMenuTriggerFor]="menu" data-id="username" id="username">{{username}}</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item><a href="https://thoughtworks.okta.com">Logout</a></button>
-        </mat-menu>
+  <img data-id="logo" src="../../assets/logo.png" alt="XACT Logo" class="logo" id="logo"/>
+  <div class="user">
+    <div>
+      <div class="btn-group shadow-0">
+        <div class="dropdown-toggle menuItem" data-mdb-toggle="dropdown" aria-expanded="false">
+           {{username}}
+        </div>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item  logout" href="https://thoughtworks.okta.com">Logout</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 </div>
