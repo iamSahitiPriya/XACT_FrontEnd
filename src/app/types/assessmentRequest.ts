@@ -6,6 +6,6 @@ export interface AssessmentRequest {
   "domain": string,
   "industry": string,
   "teamSize": number,
-  "users":User[]
+  "users": User[]
 
 }

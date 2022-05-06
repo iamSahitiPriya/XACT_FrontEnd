@@ -27,7 +27,8 @@
       <br>
       <mat-form-field appearance="outline" class="domain">
         <mat-label>Domain</mat-label>
-        <input matInput [(ngModel)]="domain" formControlName="domainNameValidator" placeholder="Enter Domain" required pattern="^[^\s]+(\s+[^\s]+)*$">
+        <input matInput [(ngModel)]="domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
+               pattern="^[^\s]+(\s+[^\s]+)*$">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -55,25 +56,13 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
-        <input matInput type="email" placeholder="eg:abc@thoughtworks.com" id="userEmail" #email>
+        <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
+               placeholder="Enter comma separated emails, ie. abc@thoughtworks.com" id="userEmails">
+        <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
+          Valid list of emails address
+        </mat-error>
       </mat-form-field>
-      <button type="button" mat-fab (click)="addUser(email.value)">
-        <mat-icon class="addButton">add</mat-icon>
-      </button>
     </div>
-    <table mat-table [dataSource]="dataSource" *ngIf="dataSource.length>=1" class="mat-elevation-z8 demo-table">
-      <ng-container matColumnDef="name">
-        <td mat-cell *matCellDef="let element">{{element.firstName}} {{element.lastName}}</td>
-      </ng-container>
-      <ng-container matColumnDef="delete">
-        <td mat-cell *matCellDef="let row">
-          <button type="button" mat-icon-button (click)="removeUser(row)" id="remove">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr mat-row *matRowDef="let row; columns: columnName;"></tr>
-    </table>
     <button type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
     </button>
   </form>

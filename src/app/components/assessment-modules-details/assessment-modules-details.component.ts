@@ -26,6 +26,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     }
     else {
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
+
     }
     this.appService.getCategories().subscribe(data => {
       categories = data

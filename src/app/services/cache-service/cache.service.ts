@@ -1,6 +1,6 @@
 import {HttpRequest, HttpResponse} from "@angular/common/http";
 import {Injectable} from '@angular/core';
-import {CacheEntry, MAX_CACHE_AGE} from "./types/cache-entry";
+import {CacheEntry, MAX_CACHE_AGE} from "../../types/cache-entry";
 
 
 abstract class HttpCache {
@@ -8,18 +8,19 @@ abstract class HttpCache {
   abstract put(req: HttpRequest<any>, res: HttpResponse<any>): void;
 }
 
-
 @Injectable()
 export class HttpCacheService implements HttpCache {
   cache = new Map<string, CacheEntry>();
+  public isExpired: boolean;
 
   get(req: HttpRequest<any>): HttpResponse<any> | null {
     const entry = this.cache.get(req.urlWithParams);
     if (!entry) {
       return null;
     }
-    const isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
-    return isExpired ? null : entry.response;
+    this.isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
+    console.log(this.isExpired)
+    return this.isExpired ? null : entry.response;
   }
 
   put(req: HttpRequest<any>, res: HttpResponse<any>): void {

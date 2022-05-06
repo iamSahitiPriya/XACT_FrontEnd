@@ -36,24 +36,12 @@ describe('AppServiceService', () => {
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
-        users: [
-          {
-            email: "technicalbaba4u@gmail.com",
-            firstName: "Shashank",
-            lastName: "Mishra",
-            role: "Owner"
-
-          }
-
-        ]
+        users: [{email:"technicalbaba4u@gmail.com"}]
       }
 
     expect(service.addAssessments(assessmentData)).toBeTruthy()
   });
 
-  it('should get user', () => {
-    expect(service.getUserByEmail("test@test.com")).toBeTruthy();
-  });
   it("should get categories", () => {
     expect(service.getCategories()).toBeTruthy()
   });

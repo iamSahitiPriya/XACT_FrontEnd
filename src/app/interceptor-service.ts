@@ -3,7 +3,7 @@ import {Inject, Injectable} from "@angular/core";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {of, tap} from "rxjs"
-import {HttpCacheService} from "./cache-service";
+import {HttpCacheService} from "./services/cache-service/cache.service";
 
 const CACHABLE_URL = "/v1/assessment-master-data/categories";
 
@@ -13,13 +13,12 @@ export class Interceptors implements HttpInterceptor {
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private cacheService: HttpCacheService) {
   }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): any{
     this.accessToken = this.oktaAuth.getAccessToken() || "None value";
     req =  req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.accessToken}`)
     })
-    if (!Interceptors.isRequestCachable(req)) {
+    if (!Interceptors.isRequestCacheable(req)) {
       return next.handle(req);
     }
     const cachedResponse = this.cacheService.get(req);
@@ -36,7 +35,7 @@ export class Interceptors implements HttpInterceptor {
       })
     );
   }
-  private static isRequestCachable(req: HttpRequest<any>) {
+  private static isRequestCacheable(req: HttpRequest<any>) {
     return (req.method === 'GET') && (req.url.indexOf(CACHABLE_URL) > -1);
   }
 }

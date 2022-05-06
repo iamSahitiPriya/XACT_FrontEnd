@@ -15,6 +15,7 @@ div {
   position: relative;
   font: 900 30vmin "Consolas";
   letter-spacing: 5vmin;
+  font-family: Consolas, sans-serif;
   text-shadow: 2px -1px 0 #000, 4px -2px 0 #0a0a0a, 6px -3px 0 #0f0f0f, 8px -4px 0 #141414, 10px -5px 0 #1a1a1a, 12px -6px 0 #1f1f1f, 14px -7px 0 #242424, 16px -8px 0 #292929;
 }
 .number::before {
@@ -45,6 +46,7 @@ div {
 
 .text {
   font: 400 5vmin "Courgette";
+  font-family: 'Inter', sans-serif;
 }
 .text span {
   font-size: 10vmin;

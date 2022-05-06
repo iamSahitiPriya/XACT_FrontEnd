@@ -33,6 +33,7 @@
     letter-spacing: 0.25px;
     color: #000000DE;
     font-weight: medium;
+    font-family: 'Inter', sans-serif;
 }
 .arrow {
     width: 1px;
@@ -78,6 +79,7 @@ div.user{
     position: relative;
     text-align:start;
     font: normal normal normal 14px/20px Inter;
+    font-family: 'Inter', sans-serif;
     letter-spacing: 0.25px;
     color: #043D4E;
     opacity: 1;
