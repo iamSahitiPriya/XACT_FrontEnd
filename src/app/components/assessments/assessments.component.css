@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+.header-container{
+  padding-left: 5%;
+  padding-right: 4%;
+}
 table {
 
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 15px;
+  padding-left: 4%;
+  padding-right: 4%;
 
 }
 
@@ -37,6 +43,7 @@ td.mat-cell{
 }
 
 .heading{
+  padding-left: 4%;
   text-align: left;
   letter-spacing: 0.44px;
   color: #043D4E;
@@ -85,6 +92,5 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   background: transparent;
   box-shadow: none;
 }
-
 
 
