@@ -102,6 +102,11 @@ html,body{
   padding-left: 64px;
 
 }
+
+.moduleCard:hover {
+  background-color: #2f2f2f;
+  cursor: pointer;
+}
 .mat-card:not([class*=mat-elevation-z]){
   box-shadow: none;
 }
@@ -116,4 +121,13 @@ html,body{
 
 ::ng-deep .mat-expansion-panel-body{
   padding: 0px 24px 0px !important;
+}
+.mat-tab-group{
+
+}
+.topicTab{
+  padding-left: 220px;
+}
+.mat-tab-header{
+  width: 400px;
 }

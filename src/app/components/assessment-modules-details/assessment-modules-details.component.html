@@ -11,7 +11,14 @@
 
 <mat-toolbar class="moduleToolbar">
   Modules
+<div class="topicTab">
+<mat-tab-group mat-align-tabs="left">
+  <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}></mat-tab>
+</mat-tab-group>
+</div>
 </mat-toolbar>
+<mat-divider></mat-divider>
+
 <mat-expansion-panel *ngFor="let category of category">
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -19,11 +26,13 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div class="categoryModules">
-    <mat-card class="moduleCard" *ngFor="let module of category.modules">
-         {{module.moduleName}}
+    <mat-card class="moduleCard" (click)="navigate(module)"  *ngFor="let module of category.modules" [ngClass]="{'selected-card': topics === topics}">
+     {{module.moduleName}}
     </mat-card>
   </div>
 </mat-expansion-panel>
+
+
 
 
 

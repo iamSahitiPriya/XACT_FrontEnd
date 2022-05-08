@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {TopicStructure} from "../../types/topicStructure";
+import {ModuleStructure} from "../../types/moduleStructure";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -13,10 +15,18 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 })
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
+  moduleName:string
   category: CategoryStructure[] = []
+  topics: TopicStructure[];
 
   constructor(private appService: AppServiceService) {
   }
+
+  navigate(moduleName: ModuleStructure){
+   this.topics=moduleName.topics;
+  }
+
+
 
   ngOnInit(): void {
 
