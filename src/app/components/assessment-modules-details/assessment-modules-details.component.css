@@ -32,7 +32,6 @@ html,body{
   font-size: 17px ;
   font-family: 'Inter', sans-serif;
   padding-left: 20px;
-
   letter-spacing: 1.35px ;
   width: 275px;
 }
@@ -69,12 +68,11 @@ html,body{
 .mat-expansion-panel-header{
   background-color: transparent;
   font-size: 18px;
-  /*color:#043D4E;*/
   padding-left: 64px;
 }
 
 .moduleToolbar{
-  background-color: #5D9EAA;
+  background-color: #F4FAFC;
   color: #043D4E;
   padding-left:64px;
   margin-left: -12px;
@@ -91,21 +89,24 @@ html,body{
 .moduleCard{
   width:306px ;
   height: 59px;
-  font-family: 'Inter', sans-serif;
+  /*font-family: 'Inter', sans-serif;*/
+  /*font-size: 16px;*/
+  font: normal normal normal 1em/1.18em Inter;
   border-radius: 0;
   display: flex;
   text-align: center;
   flex-direction: row;
   background-color: white;
-  opacity: 90%;
+  opacity: 95%;
   border-color: transparent;
   padding-left: 64px;
 
 }
 
 .moduleCard:hover {
-  background-color: #2f2f2f;
+  background-color: white;
   cursor: pointer;
+  opacity: 90%;
 }
 .mat-card:not([class*=mat-elevation-z]){
   box-shadow: none;
@@ -117,6 +118,7 @@ html,body{
 .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
   background: transparent;
   height: 50px;
+
 }
 
 ::ng-deep .mat-expansion-panel-body{
@@ -131,3 +133,20 @@ html,body{
 .mat-tab-header{
   width: 400px;
 }
+::ng-deep .mat-tab-label{
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #043D4E !important;
+
+}
+.mat-expansion-panel-header-title{
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: white;
+}
+
+::ng-deep .mat-expansion-indicator::after, .mat-expansion-panel-header-description {
+  color: white;
+}
+
+
