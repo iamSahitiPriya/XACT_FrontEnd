@@ -1,75 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 
-.mat-raised-button{
+.mat-raised-button {
   background-color: #043d4e;
   color: #fff;
   height: 54px;
   text-transform: capitalize;
-  font-size: 17px ;
+  font-size: 17px;
   font-family: 'Inter', sans-serif;
-  padding-left: 20px;
-  letter-spacing: 1.35px ;
-  width: 243px;
+  letter-spacing: 1.45px;
+  width: 100%;
 }
-.mat-error{
-  margin-top:14px;
+
+.mat-error {
+  margin-top: 14px;
 }
-.mat-fab{
+
+.mat-fab {
   background-color: #043d4e;
   border-radius: 0;
   top: -0.5px;
   left: -22px;
   height: 52.4px;
 }
-.addUserEmail{
+
+.addUserEmail {
   width: 100%;
   height: 50%;
   color-rendering: auto;
 }
-.saveButton{
+
+.saveButton {
   width: 18%;
-  position:relative;
+  position: relative;
   left: 40%;
-  margin-top:6%;
+  margin-top: 6%;
   height: 38px;
 }
-table.mat-table{
+
+table.mat-table {
   width: 94%;
 }
-h1{
-  color:#043D4E;
+
+h1 {
+  color: #043D4E;
   margin-bottom: -30px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 22px;
 }
-h2{
-  color:#043D4E;
+
+h2 {
+  color: #043D4E;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 22px;
 }
 
-.mat-icon-button{
+.mat-icon-button {
   position: relative;
   margin-left: 92%;
   top: -12px;
 
 }
-.assessmentName, .organizationName, .domain{
-  width:100%;
+
+.assessmentName, .organizationName, .domain {
+  width: 100%;
   height: 50%;
 
 }
-.industry{
+
+.industry {
   width: 70%;
   height: 50%;
 }
-.mat-form-field{
-  height: 75px ;
+
+.mat-form-field {
+  height: 75px;
 }
+
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .spinner:before {
@@ -87,10 +99,12 @@ h2{
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
-.teamSize{
+
+.teamSize {
   width: 27%;
 }
-.mat-column-name{
+
+.mat-column-name {
   padding-left: 50px;
 }
 

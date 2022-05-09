@@ -92,7 +92,7 @@ h2{
   font-size: 14px;
 }
 
-.assessmentCards {
+.categoryModules {
   display: flex;
   flex-wrap: wrap;
   list-style: none;

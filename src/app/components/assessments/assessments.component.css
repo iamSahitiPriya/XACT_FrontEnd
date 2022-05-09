@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+.header-container{
+  padding-left: 5%;
+  padding-right: 4%;
+}
+
 table {
 
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 15px;
+  padding-left: 4%;
+  padding-right: 4%;
 
 }
 
@@ -19,7 +26,10 @@ td.mat-cell{
   text-align: left;
   flex-basis: 34%;
 }
-
+.mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky
+{
+  overflow-wrap: break-word;
+}
 .mat-column-organisationName{
   width: 20%;
   text-align: left;
@@ -37,6 +47,7 @@ td.mat-cell{
 }
 
 .heading{
+  padding-left: 4%;
   text-align: left;
   letter-spacing: 0.44px;
   color: #043D4E;
@@ -82,9 +93,9 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-elevation-z8 {
+  padding-top: 10px;
   background: transparent;
   box-shadow: none;
 }
-
 
 

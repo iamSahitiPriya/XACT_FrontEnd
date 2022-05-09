@@ -1,16 +1,37 @@
-<div class="container-xxl">
-<div class="row">
-  <div class="col-md-1">
+<p>
+  <mat-toolbar>
     <button mat-icon-button [routerLink]="['']">
-      <mat-icon class="backIcon">keyboard_backspace</mat-icon>
+            <mat-icon class="backIcon">keyboard_backspace</mat-icon>
     </button>
-  </div>
-  <div class="col-md-1">
-    <h2>{{assessmentName}}</h2>
-  </div>
-<!--  <div class="col-md-1">-->
-<!--  <button mat-raised-button>Add To Assessment Team</button>-->
-<!--  </div>-->
+    <span class="Name"> {{assessmentName}}</span>
+    <span class="example-spacer"></span>
+    <button mat-fab color="primary"><mat-icon>person_add</mat-icon></button>
+  </mat-toolbar>
+</p>
+
+<mat-toolbar class="moduleToolbar">
+  Modules
+<div class="topicTab">
+<mat-tab-group mat-align-tabs="left">
+  <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}></mat-tab>
+</mat-tab-group>
 </div>
-</div>
+</mat-toolbar>
+
+<mat-expansion-panel *ngFor="let category of category">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{category.categoryName}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="categoryModules">
+    <mat-card class="moduleCard" (click)="navigate(module)"  *ngFor="let module of category.modules" >
+     {{module.moduleName}}
+    </mat-card>
+  </div>
+</mat-expansion-panel>
+
+
+
+
 

@@ -11,9 +11,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+
+import {AssessmentRequest} from "../../types/assessmentRequest";
+import {User} from "../../types/user";
 
 
 class MockDialog {
@@ -39,8 +42,21 @@ class MockAppService {
     "updatedAt": 1650886511968
   };
 
-  public addAssessments(assessmentDataPayload: {}): Observable<any> {
-    return of(this.assessmentMock)
+
+  mockedUser: User = {
+    email: "sam@gmail.com",
+    role: ""
+  }
+  public addAssessments(assessmentDataPayload: AssessmentRequest ): Observable<any> {
+    if(assessmentDataPayload.assessmentName === "xact"){
+      return of(this.assessmentMock)
+    }
+    else{
+      return throwError("Error!")
+    }
+  }
+  public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
+    return of(this.mockedUser)
   }
 }
 
@@ -113,16 +129,17 @@ describe('CreateAssessmentsComponent', () => {
 
 
   it('should save assessment and make the window reload', () => {
-    const assessmentDataPayload = {
+    const assessmentDataPayload:AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
+    component.assessmentName = "xact"
     const assessmentData =
       {
         "assessmentId": 45,
         "assessmentName": "xact",
         "organisationName": "abc",
-        "assessmentStatus": "ACTIVE",
+        "assessmentStatus": "Active",
         "updatedAt": 1650886511968
       }
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
@@ -135,6 +152,8 @@ describe('CreateAssessmentsComponent', () => {
     expect(component).toBeTruthy()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
       expect(data).toBe(assessmentData)
+    },(error) =>{
+      console.log(error)
     })
     reloadFn()
     expect(window.location.reload).toHaveBeenCalled()
@@ -146,21 +165,24 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it("should return error for an unsuccessful creation of assessment", () => {
-    const assessmentDataPayload: any = [];
-    const error = {
-      status: 401,
-      message: 'You are not logged in',
-    }
-    jest.spyOn(mockAppService, 'addAssessments').mockImplementation(() => {
-      throw new Error("Error!")
-    })
-    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+
+    const assessmentDataPayload:AssessmentRequest  = {
+      assessmentName:"abc",organisationName:"abc",domain:"123", industry:"hello", teamSize:12, users:[]
+    };
+    component.assessmentName = "abc"
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.saveAssessment()
-    expect(mockAppService.addAssessments).toThrow()
+
+    mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
+      expect(data).toBeUndefined()
+    },(error) => {
+      expect(component.loading).toBeFalsy()
+      expect(error).toBe(new Error("Error!"))
+    })
   });
 });
