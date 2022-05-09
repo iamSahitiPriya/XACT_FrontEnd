@@ -4,6 +4,7 @@
   padding-left: 5%;
   padding-right: 4%;
 }
+
 table {
 
   width: 100%;
@@ -89,6 +90,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-elevation-z8 {
+  padding-top: 10px;
   background: transparent;
   box-shadow: none;
 }
