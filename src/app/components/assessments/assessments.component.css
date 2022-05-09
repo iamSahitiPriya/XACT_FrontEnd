@@ -26,7 +26,10 @@ td.mat-cell{
   text-align: left;
   flex-basis: 34%;
 }
-
+.mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky
+{
+  overflow-wrap: break-word;
+}
 .mat-column-organisationName{
   width: 20%;
   text-align: left;

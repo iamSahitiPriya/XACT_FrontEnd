@@ -6,4 +6,4 @@ export interface CacheEntry {
   entryTime: number;
 }
 
-export const MAX_CACHE_AGE = 60000;
+export let MAX_CACHE_AGE = 60000;
