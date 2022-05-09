@@ -19,12 +19,12 @@ export class HttpCacheService implements HttpCache {
       return null;
     }
     this.isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
-    console.log(this.isExpired)
     return this.isExpired ? null : entry.response;
   }
 
   put(req: HttpRequest<any>, res: HttpResponse<any>): void {
     const entry: CacheEntry = {url: req.urlWithParams, response: res, entryTime: Date.now()}
+    console.log(entry)
     this.cache.set(req.urlWithParams, entry);
     this.deleteExpiredCache();
   }

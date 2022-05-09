@@ -91,14 +91,11 @@ export class CreateAssessmentsComponent implements OnInit {
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: users
       };
       this.appService.addAssessments(assessmentRequest).subscribe((data) => {
-        console.log(assessmentRequest)
         assessmentData.push(assessmentRequest);
         window.location.reload()
       },
         (error) =>{
-
-          console.log("Error Log:",error)
-          this.loading = false
+         this.loading = false
           this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
             duration: 4000,
             horizontalPosition: "center",
@@ -114,7 +111,7 @@ export class CreateAssessmentsComponent implements OnInit {
     userData.push(this.loggedInUserEmail);
     userData = [...new Set(userData.filter(function (el) {
       return el != null;
-    }))]; // remove duplicates & blank elements
+    }))];
 
     const users: User[] = [];
     userData.forEach((email) => {
