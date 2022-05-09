@@ -18,12 +18,14 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   moduleName:string
   category: CategoryStructure[] = []
   topics: TopicStructure[];
+  moduleSelected: number;
 
   constructor(private appService: AppServiceService) {
   }
 
-  navigate(moduleName: ModuleStructure){
-   this.topics=moduleName.topics;
+  navigate(module: ModuleStructure){
+    this.moduleSelected=module.moduleId;
+    this.topics=module.topics;
   }
 
   ngOnInit(): void {
@@ -34,7 +36,6 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     }
     else {
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
-
     }
     this.appService.getCategories().subscribe(data => {
       categories = data
@@ -42,6 +43,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     })
     valueEmitter.subscribe(data => {
       this.category = data
+      this.navigate(this.category[0].modules[0])
     })
   }
 }

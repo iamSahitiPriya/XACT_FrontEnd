@@ -18,15 +18,16 @@
 </div>
 </mat-toolbar>
 
-<mat-expansion-panel *ngFor="let category of category">
+
+<mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
   <mat-expansion-panel-header>
     <mat-panel-title>
       {{category.categoryName}}
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div class="categoryModules">
-    <mat-card class="moduleCard" (click)="navigate(module)"  *ngFor="let module of category.modules" >
-     {{module.moduleName}}
+    <mat-card  class="moduleCard"  (click)="navigate(module)"  *ngFor="let module of category.modules; first as selectedIndex" [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">
+    {{module.moduleName}}
     </mat-card>
   </div>
 </mat-expansion-panel>

@@ -38,6 +38,7 @@ import { AssessmentModulesDetailsComponent } from './components/assessment-modul
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from "@angular/material/select";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -103,7 +104,8 @@ export const appRoutes: Routes = [
     MatSnackBarModule,
     MatSidenavModule,
     MatListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule
   ],
   exports: [
     MatButtonModule,
