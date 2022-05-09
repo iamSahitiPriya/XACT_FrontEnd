@@ -2,7 +2,7 @@
 <ng-template #content>
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
     <h1 mat-dialog-title>Create Assessment</h1>
-    <button id="close" mat-icon-button (click)="closePopUp()">
+    <button type="button" id="close" mat-icon-button (click)="closePopUp()">
       <mat-icon>close</mat-icon>
     </button>
 
@@ -14,6 +14,9 @@
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
+        <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
+          No special character allowed except -(Hyphen) & _(Underscore)
+        </mat-error>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="organizationName">
@@ -23,14 +26,20 @@
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
+        <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
+          No special character allowed except -(Hyphen) & _(Underscore)
+        </mat-error>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="domain">
         <mat-label>Domain</mat-label>
         <input matInput [(ngModel)]="domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
-               pattern="^[^\s]+(\s+[^\s]+)*$">
+               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
           Mandatory field
+        </mat-error>
+        <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
+          No special character allowed except -(Hyphen) & _(Underscore)
         </mat-error>
       </mat-form-field>
       <br>
@@ -42,13 +51,19 @@
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
           Mandatory field
         </mat-error>
+        <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
+          No special character allowed except -(Hyphen) & _(Underscore)
+        </mat-error>
       </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field appearance="outline" class="teamSize">
         <mat-label>Team Size</mat-label>
         <input type="number" [(ngModel)]="teamSize" matInput formControlName="teamSizeValidator"
-               placeholder="Enter Team size" min="1" max="10000000" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+               placeholder="Enter Team size" min="1" max="10000000" required pattern="^[1-9]\d*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          Mandatory field
+          Mandatory number field
+        </mat-error>
+        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
+          Valid positive integer value
         </mat-error>
       </mat-form-field>
     </div>
@@ -59,7 +74,7 @@
         <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
                placeholder="Enter comma separated emails, ie. abc@thoughtworks.com,xyz@thoughtworks.com" id="userEmails">
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
-          Valid list of emails address
+          Valid list of comma sepa:rated email address
         </mat-error>
       </mat-form-field>
     </div>
