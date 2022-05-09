@@ -14,7 +14,10 @@
       "showSkipped": true,
       "charts": true,
       "quiet": true,
-      "embeddedScreenshots": true
+      "embeddedScreenshots": true,
+      "testFiles": "**/*.feature",
+      "testFiles": "**/*.js"
+
     }
   },
   "screenshotOnRunFailure": true,
@@ -27,4 +30,6 @@
   "defaultCommandTimeout": 10000,
   "watchForFileChanges": true,
   "chromeWebSecurity": false
+
+
 }
