@@ -106,7 +106,7 @@ html,body{
 .moduleCard:hover {
   background-color: white;
   cursor: pointer;
-  opacity: 90%;
+  opacity: 85%;
 }
 .mat-card:not([class*=mat-elevation-z]){
   box-shadow: none;
@@ -149,4 +149,7 @@ html,body{
   color: white;
 }
 
-
+.moduleCard-active{
+  background-color: white !important;
+  opacity: 85%;
+}
