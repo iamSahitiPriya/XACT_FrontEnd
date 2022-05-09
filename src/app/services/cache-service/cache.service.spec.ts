@@ -2,8 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpCacheService } from './cache.service';
 import {HttpRequest, HttpResponse} from "@angular/common/http";
-import {delay} from "rxjs";
-import {CacheEntry} from "../../types/cache-entry";
+import {CacheEntry, MAX_CACHE_AGE} from "../../types/cache-entry";
 
 describe('CacheService', () => {
   let service: HttpCacheService;
@@ -63,12 +62,14 @@ describe('CacheService', () => {
   });
   it('should delete cache when the time is expired', () => {
     let dummyReq = new HttpRequest('GET', 'https://localhost:8100')
-    let dummyResponse = new HttpResponse({body: "Hello", url: 'https://localhost:8100'})
+    let dummyReq2 = new HttpRequest('GET', 'https://localhost:8200')
 
-    Date.now = jest.fn(() => 7487076708000)
+    let dummyResponse = new HttpResponse({body: "Hello", url: 'https://localhost:8100'})
+    let dummyResponse2 = new HttpResponse({body: "Hello", url: 'https://localhost:8200'})
+
     service.put(dummyReq,dummyResponse)
     Date.now = jest.fn(() => 8487076708000)
-    service.put(dummyReq,dummyResponse)
+    service.put(dummyReq2,dummyResponse2)
 
   });
 });

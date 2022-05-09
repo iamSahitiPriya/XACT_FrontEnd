@@ -26,8 +26,6 @@ export class AssessmentModulesDetailsComponent implements OnInit {
    this.topics=moduleName.topics;
   }
 
-
-
   ngOnInit(): void {
 
     if (history.state.assessmentName) {
