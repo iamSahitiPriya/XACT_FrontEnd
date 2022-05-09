@@ -27,7 +27,7 @@
 
       <ng-container matColumnDef="organisationName">
         <th mat-header-cell *matHeaderCellDef> Organisation Name</th>
-        <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
+        <td mat-cell *matCellDef="let element" [routerLink]="['/assessmentModule']"> {{element.organisationName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="assessmentStatus">

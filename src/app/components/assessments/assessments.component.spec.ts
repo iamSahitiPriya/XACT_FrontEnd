@@ -19,6 +19,7 @@ import {FormBuilder} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class MockAppService{
   ASSESSMENT_DATA:AssessmentStructure [] = [

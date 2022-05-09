@@ -89,8 +89,6 @@ html,body{
 .moduleCard{
   width:306px ;
   height: 59px;
-  /*font-family: 'Inter', sans-serif;*/
-  /*font-size: 16px;*/
   font: normal normal normal 1em/1.18em Inter;
   border-radius: 0;
   display: flex;
@@ -100,6 +98,7 @@ html,body{
   opacity: 95%;
   border-color: transparent;
   padding-left: 64px;
+  padding-top: 20px;
 
 }
 
@@ -152,4 +151,7 @@ html,body{
 .moduleCard-active{
   background-color: white !important;
   opacity: 85%;
+}
+.mat-expansion-panel-header.mat-expanded {
+  height: 50px !important;
 }
