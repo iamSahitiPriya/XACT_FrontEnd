@@ -1,25 +1,55 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import selectors from '/Users/jathin.medurithoughtworks.com/Desktop/XAct_Frontend_App/cypress/fixtures/Locators/LandingPage_locators.json';
+
+  before(() => {
+    cy.fixture('Locators//LandingPage_locators.json').then(function(locator){
+    this.locator=locator
+    })
+    cy.visit('http://localhost:4200')
+  })
+
+
+  Cypress.Commands.add('login',(userName, passWord)=> {
+    cy.get('#input28').type(userName)
+    cy.get('#input36').type(passWord)
+    cy.get('.button').click()
+    cy.wait(3000);
+    expect(cy.get('#logo')).to.exist;
+    cy.title().should('eq','X-Act | Client maturity assessment tool')
+  })
+
+  Cypress.Commands.add('landingPageVerification',()=> {
+})
+
+  Cypress.Commands.add('createAssessment',(AssessmentName,OrgName,Domain,Industry,TeamSize,EmailId)=> {
+    cy.get('#createAssessment').click()
+    cy.get('#mat-dialog-0').should('be.visible')
+    cy.wait(3000);
+    cy.get('#mat-input-1').type(AssessmentName)
+    cy.get('#mat-input-2').type(OrgName)
+    cy.get('#mat-input-3').type(Domain)
+    cy.get('#mat-input-4').type(Industry)
+    cy.get('#mat-input-5').type(TeamSize)
+    cy.get('#userEmails').type(EmailId)
+    cy.get('.saveButton').click()
+
+    //validating the new assessment added
+    cy.get('tbody > :nth-child(1) > .cdk-column-assessmentName').invoke('text').then((actualText) => {
+      actualText.replace(' ','').trim()
+      expect(actualText).to.eq(AssessmentName)
+
+    })
+
+
+  })
+
+
+
+
+
+
+
+
+
+
+

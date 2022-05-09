@@ -1,0 +1,20 @@
+
+
+{
+  "AssessmentButton": "#createAssessment",
+  "AssessmentName": "Using fixtures to represent data",
+  "OrganisationName": "hello@cypress.io",
+  "Domain": "Fixtures are a great way to mock data for responses to routes",
+  "AssessmentPopup": "#mat-dialog-0",
+  "AssessmentName": "#mat-input-1",
+  "OrganisationName": "#mat-input-2",
+  "Domain": "#mat-input-3",
+  "Industry": "#mat-input-4",
+  "TeamSize": "#mat-input-5",
+  "emailId": "#userEmails",
+
+  "_comment": "Login page locators",
+  "userName": "#input28",
+  "passWord": "#input36",
+  "loginButton": ".button"
+}
