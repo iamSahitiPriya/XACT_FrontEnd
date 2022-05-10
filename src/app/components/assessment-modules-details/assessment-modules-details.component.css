@@ -178,11 +178,7 @@ html, body {
   height: 50px !important;
 }
 
-element.style {
-  visibility: visible;
-  left: 0px;
-  width: 173px;
-}
+
 ::ng-deep .mat-ink-bar{
   height: 5px !important;
   background-color: #4BA1AC !important;
