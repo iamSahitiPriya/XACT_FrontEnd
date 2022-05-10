@@ -4,6 +4,7 @@ import {BehaviorSubject} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -16,6 +17,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
   moduleName: string
+  assessment:AssessmentStructure[]=[]
   category: CategoryStructure[] = []
   topics: TopicStructure[];
   moduleSelected: number;

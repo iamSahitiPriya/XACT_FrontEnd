@@ -4,6 +4,7 @@ import {HeaderComponent} from './header.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from "../search/search.component";
 import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {RouterTestingModule} from "@angular/router/testing";
 
 
 describe('HeaderComponent', () => {
@@ -16,7 +17,7 @@ describe('HeaderComponent', () => {
     oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam'}));
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent,SearchComponent,CreateAssessmentsComponent],
-      imports: [MatMenuModule],
+      imports: [MatMenuModule,RouterTestingModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
 

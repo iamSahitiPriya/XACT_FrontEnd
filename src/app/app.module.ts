@@ -29,12 +29,14 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MDBBootstrapModule} from "angular-bootstrap-md";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import { AssessmentModulesComponent } from './components/assessment-modules/assessment-modules.component';
+import {AssessmentModulesComponent} from './components/assessment-modules/assessment-modules.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {HttpCacheService} from "./services/cache-service/cache.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { AssessmentModulesDetailsComponent } from './components/assessment-modules-details/assessment-modules-details.component';
+import {
+  AssessmentModulesDetailsComponent
+} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -54,15 +56,15 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path:'assessmentModule',
-    component:AssessmentModulesComponent,
-    pathMatch:'full',
+    path: 'assessmentModule',
+    component: AssessmentModulesComponent,
+    pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
   {
-    path:'assessmentModulesDetails',
-    component:AssessmentModulesDetailsComponent,
-    pathMatch:'full',
+    path: 'assessmentModulesDetails',
+    component: AssessmentModulesDetailsComponent,
+    pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   }
 
