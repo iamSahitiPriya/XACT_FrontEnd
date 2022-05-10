@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 
 .mat-raised-button {
-  background-color: #043d4e;
+  background-color: #005161;
   color: #fff;
   height: 54px;
   text-transform: capitalize;
@@ -12,7 +12,7 @@
 }
 
 .mat-error {
-  margin-top: 14px;
+  margin-top: 15px;
 }
 
 .mat-fab {
@@ -33,12 +33,12 @@
   width: 18%;
   position: relative;
   left: 40%;
-  margin-top: 6%;
+  margin-top: 2%;
   height: 38px;
 }
 
-table.mat-table {
-  width: 94%;
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: white;
 }
 
 h1 {
@@ -75,7 +75,7 @@ h2 {
 }
 
 .mat-form-field {
-  height: 75px;
+  height: 77px;
 }
 
 @keyframes spinner {

@@ -74,7 +74,7 @@
         <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
                placeholder="Enter comma separated emails, ie. abc@thoughtworks.com,xyz@thoughtworks.com" id="userEmails">
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
-          Valid list of comma sepa:rated email address
+          Valid list of comma separated email address
         </mat-error>
       </mat-form-field>
     </div>

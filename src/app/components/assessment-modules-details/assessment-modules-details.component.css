@@ -86,6 +86,14 @@ html, body {
   width: 300px;
 }
 
+.topicTab{
+  padding-left: 185px;
+}
+.moduleHeading{
+  color: #043D4E;
+  height: 50px;
+  width: 100%;
+}
 .categoryModules {
   display: grid;
   list-style: none;
@@ -139,11 +147,8 @@ html, body {
 
 }
 
-.topicTab {
-  padding-left: 220px;
-}
 
-.mat-tab-header {
+.mat-tab-header{
   width: 400px;
 }
 
@@ -171,4 +176,20 @@ html, body {
 
 .mat-expansion-panel-header.mat-expanded {
   height: 50px !important;
+}
+
+element.style {
+  visibility: visible;
+  left: 0px;
+  width: 173px;
+}
+::ng-deep .mat-ink-bar{
+  height: 5px !important;
+  background-color: #4BA1AC !important;
+}
+::ng-deep .mat-tab-label{
+  height: 57px !important;
+}
+.mat-fab.mat-primary{
+  background-color: #043D4E;
 }
