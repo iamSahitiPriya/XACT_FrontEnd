@@ -16,11 +16,8 @@ describe('HeaderComponent', () => {
     jest.mock('@okta/okta-auth-js');
     oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam'}));
     await TestBed.configureTestingModule({
-<<<<<<< HEAD
       declarations: [HeaderComponent,SearchComponent,CreateAssessmentsComponent],
-=======
-      declarations: [HeaderComponent,SearchComponent,CreateAssessmentsComponent,],
->>>>>>> b74a309 ([29] | Ram | Cosmetic changes.)
+
       imports: [MatMenuModule,RouterTestingModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
