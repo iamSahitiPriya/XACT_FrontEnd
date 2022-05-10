@@ -15,7 +15,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 })
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
-  moduleName:string
+  moduleName: string
   category: CategoryStructure[] = []
   topics: TopicStructure[];
   moduleSelected: number;
@@ -23,9 +23,9 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   constructor(private appService: AppServiceService) {
   }
 
-  navigate(module: ModuleStructure){
-    this.moduleSelected=module.moduleId;
-    this.topics=module.topics;
+  navigate(module: ModuleStructure) {
+    this.moduleSelected = module.moduleId;
+    this.topics = module.topics;
   }
 
   ngOnInit(): void {
@@ -33,8 +33,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     if (history.state.assessmentName) {
       this.assessmentName = history.state.assessmentName
       sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-    }
-    else {
+    } else {
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
     }
     this.appService.getCategories().subscribe(data => {
