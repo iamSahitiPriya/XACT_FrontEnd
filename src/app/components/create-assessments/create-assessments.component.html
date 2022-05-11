@@ -15,7 +15,7 @@
           Mandatory field
         </mat-error>
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
-          No special character allowed except -(Hyphen) & _(Underscore)
+          No Special Characters allowed except hypen and underscore
         </mat-error>
       </mat-form-field>
       <br>
@@ -27,7 +27,7 @@
           Mandatory field
         </mat-error>
         <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
-          No special character allowed except -(Hyphen) & _(Underscore)
+          No Special Characters allowed except hypen and underscore
         </mat-error>
       </mat-form-field>
       <br>
@@ -39,7 +39,7 @@
           Mandatory field
         </mat-error>
         <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
-          No special character allowed except -(Hyphen) & _(Underscore)
+          No Special Characters allowed except hypen and underscore
         </mat-error>
       </mat-form-field>
       <br>
@@ -52,7 +52,7 @@
           Mandatory field
         </mat-error>
         <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
-          No special character allowed except -(Hyphen) & _(Underscore)
+          No Special Characters allowed except hypen and underscore
         </mat-error>
       </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field appearance="outline" class="teamSize">
@@ -63,7 +63,7 @@
           Mandatory number field
         </mat-error>
         <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          Valid positive integer value
+          Positive integer value allowed
         </mat-error>
       </mat-form-field>
     </div>
@@ -72,7 +72,8 @@
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
         <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
-               placeholder="Enter comma separated emails, ie. abc@thoughtworks.com,xyz@thoughtworks.com" id="userEmails">
+               placeholder="Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com"
+               id="userEmails">
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
           Valid list of comma separated email address
         </mat-error>

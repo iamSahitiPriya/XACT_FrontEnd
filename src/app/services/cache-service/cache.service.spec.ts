@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { HttpCacheService } from './cache.service';
+import {HttpCacheService} from './cache.service';
 import {HttpRequest, HttpResponse} from "@angular/common/http";
-import {CacheEntry, MAX_CACHE_AGE} from "../../types/cache-entry";
 
 describe('CacheService', () => {
   let service: HttpCacheService;
