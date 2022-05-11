@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 
 .mat-raised-button {
-  background-color: #005161;
+  background-color: #043D4E;
   color: #fff;
   height: 54px;
   text-transform: capitalize;
@@ -36,6 +36,7 @@
   left: 40%;
   margin-top: 2%;
   height: 38px;
+  opacity: 90%;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
@@ -114,8 +115,6 @@ h2 {
   border-radius: 5px;
 }
 
-
-
 ::ng-deep .mat-error{
   color: #47a1ad !important;
 }
@@ -132,8 +131,14 @@ h2 {
   color: #043D4E !important;
 }
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
-  color: #043D4E !important;
+  display: none;
 }
 ::ng-deep .mat-focused .mat-form-field-required-marker{
-  color: #043D4E !important;
+  display: none;
+}
+::ng-deep .mat-placeholder-required .mat-form-field-required-marker ng-tns-c57-19 ng-star-inserted{
+  display: none;
+}
+::ng-deep .mat-form-field .mat-form-field-label .mat-form-field-required-marker{
+  display: none;
 }
