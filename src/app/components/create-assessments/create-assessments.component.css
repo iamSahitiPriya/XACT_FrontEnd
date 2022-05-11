@@ -116,3 +116,24 @@ h2 {
 
 
 
+::ng-deep .mat-error{
+  color: #47a1ad !important;
+}
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: #47a1ad !important;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #043D4E !important;
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #043D4E !important;
+}
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label, .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #043D4E !important;
+}
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #043D4E !important;
+}
+::ng-deep .mat-focused .mat-form-field-required-marker{
+  color: #043D4E !important;
+}
