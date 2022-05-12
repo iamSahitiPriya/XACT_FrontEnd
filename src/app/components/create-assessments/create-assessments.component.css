@@ -36,11 +36,12 @@
   left: 40%;
   margin-top: 2%;
   height: 38px;
-  opacity: 90%;
+  background-color: #32616E;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
   color: white;
+
 }
 
 h1 {
@@ -97,7 +98,7 @@ h2 {
   margin-top: -10px;
   margin-left: -10px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
@@ -111,24 +112,17 @@ h2 {
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: #F8FBFD !important;
+  background-color: transparent !important;
   border-radius: 5px;
 }
-
-::ng-deep .mat-error{
-  color: #47a1ad !important;
-}
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
-  color: #47a1ad !important;
-}
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-  color: #043D4E !important;
+  color: #45A0AC !important;
 }
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: #043D4E !important;
+  color: #45A0AC !important;
 }
-::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label, .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
-  color: #043D4E !important;
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #45A0AC !important;
 }
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
   display: none;
@@ -141,4 +135,10 @@ h2 {
 }
 ::ng-deep .mat-form-field .mat-form-field-label .mat-form-field-required-marker{
   display: none;
+}
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label{
+  color: #77969F;
+}
+.mat-form-field.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
+  caret-color: #45A0AC !important;
 }
