@@ -27,9 +27,19 @@
   color: #77969F;
 }
 .text{
-  padding-left: 26px;
+  padding-left: 36px;
+  font: normal normal normal 14px/17px Inter sans-serif;;
+  font-size: small;
 }
 
-.searchicon{
+.search-icon{
   float:left;
+}
+
+.search {
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width:15px;
+  cursor: pointer;
 }

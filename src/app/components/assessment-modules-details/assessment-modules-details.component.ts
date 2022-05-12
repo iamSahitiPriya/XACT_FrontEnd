@@ -5,6 +5,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import {ParameterStructure} from "../../types/parameterStructure";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -20,6 +21,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   assessment: AssessmentStructure[] = []
   category: CategoryStructure[] = []
   topics: TopicStructure[];
+  parameters:ParameterStructure[];
   moduleSelected: number;
 
   constructor(private appService: AppServiceService) {
@@ -40,6 +42,9 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     }
     this.appService.getCategories().subscribe(data => {
       categories = data
+      categories.sort((category1, category2) =>{
+        return category1.categoryId - category2.categoryId
+      })
       valueEmitter.next(categories)
     })
     valueEmitter.subscribe(data => {

@@ -3,8 +3,8 @@
     <button mat-icon-button [routerLink]="['']">
       <mat-icon class="backIcon">keyboard_backspace</mat-icon>
     </button>
-    <span class="Name"> {{assessmentName}}</span>
-    <span class="example-spacer"></span>
+    <span class="name"> {{assessmentName}}</span>
+    <span class="module-spacer"></span>
     <button mat-fab color="primary">
       <mat-icon>person_add</mat-icon>
     </button>
@@ -15,10 +15,12 @@
   <div class="moduleHead">
   Modules
   </div>
-<mat-tab-group mat-align-tabs="start" class="topicTab">
-  <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}></mat-tab>
-</mat-tab-group>
 </mat-toolbar>
+<mat-tab-group mat-align-tabs="start" class="topicTab">
+  <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}>
+  </mat-tab>
+</mat-tab-group>
+
 
 <mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
   <mat-expansion-panel-header>

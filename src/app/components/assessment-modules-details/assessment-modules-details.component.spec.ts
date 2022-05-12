@@ -48,7 +48,40 @@ class MockAppService {
               ]
             },
           ]
-        },
+        },{
+        "categoryId": 2,
+        "categoryName": "My Category1",
+        "modules": [
+          {
+            "moduleId": 2,
+            "moduleName": "My Module",
+            "category": 2,
+            "topics": [
+              {
+                "topicId": 1,
+                "topicName": "My Topic",
+                "module": 2,
+                "parameters": [
+                  {
+                    "parameterId": 1,
+                    "parameterName": "My Parameter",
+                    "topic": 1,
+                    "questions": [
+                      {
+                        "questionId": 1,
+                        "questionText": "My Question",
+                        "parameter": 1
+                      }
+                    ],
+                    "references": []
+                  }
+                ],
+                "references": []
+              }
+            ]
+          },
+        ]
+      },
       ]
     return of(mockCategory)
   }
@@ -104,6 +137,41 @@ describe('AssessmentModulesDetailsComponent', () => {
                 "topicId": 1,
                 "topicName": "My Topic",
                 "module": 1,
+                "parameters": [
+                  {
+                    "parameterId": 1,
+                    "parameterName": "My Parameter",
+                    "topic": 1,
+                    "questions": [
+                      {
+                        "questionId": 1,
+                        "questionText": "My Question",
+                        "parameter": 1
+                      }
+                    ],
+                    "references": []
+                  }
+                ],
+                "references": []
+              }
+            ]
+          },
+        ]
+      },
+
+      {
+        "categoryId": 2,
+        "categoryName": "My Category1",
+        "modules": [
+          {
+            "moduleId": 2,
+            "moduleName": "My Module",
+            "category": 2,
+            "topics": [
+              {
+                "topicId": 1,
+                "topicName": "My Topic",
+                "module": 2,
                 "parameters": [
                   {
                     "parameterId": 1,

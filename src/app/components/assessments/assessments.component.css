@@ -17,6 +17,7 @@ table {
 
 td.mat-cell{
   font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
   font-size: 16px;
   padding-top: 17px;
 }
@@ -24,6 +25,7 @@ td.mat-cell{
 .mat-column-assessmentName{
   width: 30%;
   text-align: left;
+  text-transform: capitalize;
   flex-basis: 34%;
 }
 .mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky

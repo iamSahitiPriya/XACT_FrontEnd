@@ -17,6 +17,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
+import {RouterModule} from "@angular/router";
 
 
 class MockDialog {
@@ -84,7 +85,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
         ReactiveFormsModule, MatSnackBarModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
