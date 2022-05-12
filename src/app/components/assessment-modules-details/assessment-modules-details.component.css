@@ -5,11 +5,15 @@ html, body {
   height: 100%;
 }
 
-.example-spacer {
+.module-spacer {
   flex: 1 1 auto;
 }
 
-.Name {
+.mat-tab-group{
+  width: 100%;
+}
+
+.name {
   padding-top: 6px;
   text-transform: capitalize;
   letter-spacing: normal;
