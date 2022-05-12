@@ -17,7 +17,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
   moduleName: string
-  assessment:AssessmentStructure[]=[]
+  assessment: AssessmentStructure[] = []
   category: CategoryStructure[] = []
   topics: TopicStructure[];
   moduleSelected: number;

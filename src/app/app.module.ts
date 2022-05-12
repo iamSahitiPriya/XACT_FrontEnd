@@ -62,7 +62,7 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path: 'assessmentModulesDetails',
+    path: 'assessment/:assessmentId',
     component: AssessmentModulesDetailsComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
