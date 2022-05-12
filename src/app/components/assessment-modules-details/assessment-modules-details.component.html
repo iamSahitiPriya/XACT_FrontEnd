@@ -12,14 +12,12 @@
 </p>
 
 <mat-toolbar class="moduleToolbar">
+  <div class="moduleHead">
   Modules
-
-<div class="topicTab">
-<mat-tab-group mat-align-tabs="start">
+  </div>
+<mat-tab-group mat-align-tabs="start" class="topicTab">
   <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}></mat-tab>
-
 </mat-tab-group>
-</div>
 </mat-toolbar>
 
 <mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
@@ -36,6 +34,7 @@
     </mat-card>
   </div>
 </mat-expansion-panel>
+
 
 
 
