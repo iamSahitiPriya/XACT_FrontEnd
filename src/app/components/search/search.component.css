@@ -28,11 +28,11 @@
 }
 .text{
   padding-left: 36px;
-  font: normal normal normal 14px/17px Inter;
+  font: normal normal normal 14px/17px Inter sans-serif;;
   font-size: small;
 }
 
-.searchicon{
+.search-icon{
   float:left;
 }
 
