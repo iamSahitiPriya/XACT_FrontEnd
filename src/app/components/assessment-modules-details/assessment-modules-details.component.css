@@ -78,16 +78,21 @@ html, body {
 }
 
 .moduleToolbar {
-  background-color: #F4FAFC;
   color: #043D4E;
-  padding-left: 64px;
-  margin-left: -12px;
+  margin-left: -28px;
   height: 50px;
-  width: 300px;
+}
+.moduleHead{
+  background-color: #F4FAFC;
+  padding-right: 156px;
+  height: 49px;
+  padding-left: 66px;
+  padding-top: 10px;
 }
 
 .topicTab{
-  padding-left: 185px;
+  padding-left: 45px;
+  overflow: scroll;
 }
 .moduleHeading{
   color: #043D4E;
@@ -143,11 +148,6 @@ html, body {
   padding: 0px 24px 0px !important;
 }
 
-.mat-tab-group {
-
-}
-
-
 .mat-tab-header{
   width: 400px;
 }
@@ -188,4 +188,19 @@ html, body {
 }
 .mat-fab.mat-primary{
   background-color: #043D4E;
+}
+::ng-deep .mat-tab-header-pagination {
+  display: none !important;
+}
+
+::ng-deep .mat-tab-header {
+  overflow-x: scroll !important;
+}
+
+::ng-deep .mat-tab-label-container {
+  overflow: visible !important;
+}
+
+::ng-deep .mat-tab-header::-webkit-scrollbar {
+  display: none;
 }
