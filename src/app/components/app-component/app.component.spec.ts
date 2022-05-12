@@ -6,6 +6,7 @@ import {AppServiceService} from '../../services/app-service/app-service.service'
 import {AppComponent} from './app.component';
 import {SearchComponent} from "../search/search.component";
 import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {RouterModule} from "@angular/router";
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -23,6 +24,7 @@ describe('AppComponent', () => {
       imports: [
         HttpClientModule,
         RouterTestingModule,
+        RouterModule,
       ],
       providers: [
         AppServiceService,

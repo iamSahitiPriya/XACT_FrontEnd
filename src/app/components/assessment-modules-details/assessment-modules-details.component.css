@@ -92,8 +92,10 @@ html, body {
 }
 
 .topicTab{
-  padding-left: 45px;
+  padding-left: 350px;
   overflow: scroll;
+  position: absolute;
+  margin-top: -60px;
 }
 .moduleHeading{
   color: #043D4E;
@@ -204,4 +206,8 @@ html, body {
 
 ::ng-deep .mat-tab-header::-webkit-scrollbar {
   display: none;
+}
+.parameterHeading{
+  background-color: #45A0AC1D;
+  height: 10%;
 }
