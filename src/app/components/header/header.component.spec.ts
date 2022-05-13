@@ -5,6 +5,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from "../search/search.component";
 import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
+import {RouterModule} from "@angular/router";
 
 
 describe('HeaderComponent', () => {
@@ -18,7 +19,7 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent,SearchComponent,CreateAssessmentsComponent],
 
-      imports: [MatMenuModule,RouterTestingModule],
+      imports: [MatMenuModule,RouterTestingModule,RouterModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
 
