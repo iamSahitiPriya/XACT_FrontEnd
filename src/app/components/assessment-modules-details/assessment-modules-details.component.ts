@@ -44,9 +44,6 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     }
     this.appService.getCategories().subscribe(data => {
       categories = data
-      categories.sort((category1, category2) => {
-        return category1.categoryId - category2.categoryId
-      })
       valueEmitter.next(categories)
     })
     valueEmitter.subscribe(data => {
