@@ -21,8 +21,10 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   assessment: AssessmentStructure[] = []
   category: CategoryStructure[] = []
   topics: TopicStructure[];
-  parameters:ParameterStructure[];
+  parameters: ParameterStructure[];
   moduleSelected: number;
+  topic: TopicStructure;
+
 
   constructor(private appService: AppServiceService) {
   }
@@ -42,7 +44,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     }
     this.appService.getCategories().subscribe(data => {
       categories = data
-      categories.sort((category1, category2) =>{
+      categories.sort((category1, category2) => {
         return category1.categoryId - category2.categoryId
       })
       valueEmitter.next(categories)
@@ -50,6 +52,8 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     valueEmitter.subscribe(data => {
       this.category = data
       this.navigate(this.category[0].modules[0])
+
     })
   }
+
 }

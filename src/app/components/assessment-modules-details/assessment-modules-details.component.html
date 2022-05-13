@@ -13,10 +13,10 @@
 
 <mat-toolbar class="moduleToolbar">
   <div class="moduleHead">
-  Modules
+    Modules
   </div>
 </mat-toolbar>
-<mat-tab-group mat-align-tabs="start" class="topicTab">
+<mat-tab-group #tabs mat-align-tabs="start" class="topicTab">
   <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}>
   </mat-tab>
 </mat-tab-group>
@@ -29,8 +29,8 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div class="categoryModules">
-    <mat-card class="moduleCard" (click)="navigate(module)"
-              *ngFor="let module of category.modules; first as selectedIndex"
+    <mat-card class="moduleCard" (click)="navigate(module);tabs.selectedIndex=0"
+              *ngFor="let module of category.modules"
               [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">
       {{module.moduleName}}
     </mat-card>

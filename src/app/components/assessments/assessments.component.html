@@ -19,7 +19,7 @@
       <ng-container matColumnDef="assessmentName">
         <th mat-header-cell *matHeaderCellDef> Assessment Name</th>
         <td mat-cell *matCellDef="let element">
-          <span [routerLink]="['/assessment',element.assessmentId]" [state]="{assessmentName:element.assessmentName}"
+          <span [routerLink]="['/assessment',element.assessmentId]" [state]="{assessmentName:element.assessmentName, assessmentId:element.assessmentId}"
                 role="button">
             {{element.assessmentName}} </span>
         </td>

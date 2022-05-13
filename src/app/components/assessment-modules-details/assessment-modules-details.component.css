@@ -9,7 +9,7 @@ html, body {
   flex: 1 1 auto;
 }
 
-.mat-tab-group{
+.mat-tab-group {
   width: 100%;
 }
 
@@ -19,7 +19,6 @@ html, body {
   letter-spacing: normal;
   color: #043D4E;
 }
-
 
 .backIcon {
   color: #043D4E;
@@ -87,7 +86,8 @@ html, body {
   margin-left: -28px;
   height: 50px;
 }
-.moduleHead{
+
+.moduleHead {
   background-color: #F4FAFC;
   padding-right: 156px;
   height: 49px;
@@ -95,17 +95,20 @@ html, body {
   padding-top: 10px;
 }
 
-.topicTab{
+.topicTab {
   padding-left: 350px;
   overflow: scroll;
   position: absolute;
   margin-top: -60px;
+
 }
-.moduleHeading{
+
+.moduleHeading {
   color: #043D4E;
   height: 50px;
   width: 100%;
 }
+
 .categoryModules {
   display: grid;
   list-style: none;
@@ -117,7 +120,7 @@ html, body {
 .moduleCard {
   width: 306px;
   height: 59px;
-  font-size: 16px ;
+  font-size: 16px;
   font-family: 'Inter', sans-serif;
   border-radius: 0;
   display: flex;
@@ -155,7 +158,7 @@ html, body {
   padding: 0px 24px 0px !important;
 }
 
-.mat-tab-header{
+.mat-tab-header {
   width: 400px;
 }
 
@@ -185,23 +188,22 @@ html, body {
   height: 50px !important;
 }
 
-
-::ng-deep .mat-ink-bar{
+::ng-deep .mat-ink-bar {
   height: 5px !important;
   background-color: #4BA1AC !important;
 }
-::ng-deep .mat-tab-label{
-  height: 57px !important;
-}
-.mat-fab.mat-primary{
+
+.mat-fab.mat-primary {
   background-color: #043D4E;
 }
+
 ::ng-deep .mat-tab-header-pagination {
   display: none !important;
 }
 
 ::ng-deep .mat-tab-header {
   overflow-x: scroll !important;
+  border-bottom: 1.5px solid #4BA1AD !important;
 }
 
 ::ng-deep .mat-tab-label-container {
@@ -211,7 +213,8 @@ html, body {
 ::ng-deep .mat-tab-header::-webkit-scrollbar {
   display: none;
 }
-.parameterHeading{
+
+.parameterHeading {
   background-color: #45A0AC1D;
   height: 10%;
 }
