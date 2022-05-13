@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 .searchBar {
   width: 60%;
   position: relative;
@@ -28,8 +28,9 @@
 }
 .text{
   padding-left: 36px;
-  font: normal normal normal 14px/17px Inter sans-serif;;
-  font-size: small;
+  font-size: 14px;
+  font-family: "Inter",sans-serif;
+  color: #77969F;
 }
 
 .search-icon{
