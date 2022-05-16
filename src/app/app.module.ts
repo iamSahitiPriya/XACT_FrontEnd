@@ -41,6 +41,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
+import {ParameterDetailsComponent} from './components/parameter-details/parameter-details.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -66,7 +67,7 @@ export const appRoutes: Routes = [
     component: AssessmentModulesDetailsComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
-  }
+  },
 
 ];
 
@@ -79,6 +80,7 @@ export const appRoutes: Routes = [
     CreateAssessmentsComponent,
     AssessmentModulesComponent,
     AssessmentModulesDetailsComponent,
+    ParameterDetailsComponent,
 
   ],
   imports: [

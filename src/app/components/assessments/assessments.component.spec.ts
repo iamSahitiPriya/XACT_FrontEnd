@@ -19,11 +19,10 @@ import {FormBuilder} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {RouterLink, RouterModule} from "@angular/router";
+import {RouterModule} from "@angular/router";
 
-class MockAppService{
-  ASSESSMENT_DATA:AssessmentStructure [] = [
+class MockAppService {
+  ASSESSMENT_DATA: AssessmentStructure [] = [
     {
       "assessmentId": 1,
       "assessmentName": "xact",
@@ -39,32 +38,36 @@ class MockAppService{
       "updatedAt": 1649836702000
     }
   ]
-  public getAssessments():Observable<AssessmentStructure[]>{
+
+  public getAssessments(): Observable<AssessmentStructure[]> {
     return of(this.ASSESSMENT_DATA)
   }
 }
+
 describe('AssessmentsComponent', () => {
   let component: AssessmentsComponent;
-  let mockAppService:MockAppService
+  let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentsComponent>;
 
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentsComponent,SearchComponent,CreateAssessmentsComponent ],
-      imports:[MatFormFieldModule,MatIconModule,MatInputModule, RouterTestingModule,MatPaginatorModule,
-        BrowserAnimationsModule,MatTableModule, MatDialogModule,MatSnackBarModule,RouterModule,
-      RouterTestingModule.withRoutes([{
-        path:"assessmentModule",component:AssessmentModulesComponent
-      }])],
-      providers:[HttpClient,HttpHandler,FormBuilder,RouterTestingModule,
-        {provide: AppServiceService,
-          useClass: MockAppService},
-      {provide: OKTA_AUTH, useValue: oktaAuth},
+      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
+      imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
+        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule,
+        RouterTestingModule.withRoutes([{
+          path: "assessmentModule", component: AssessmentModulesComponent
+        }])],
+      providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
+        {
+          provide: AppServiceService,
+          useClass: MockAppService
+        },
+        {provide: OKTA_AUTH, useValue: oktaAuth},
 
-    ]
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
   });
 
@@ -79,7 +82,7 @@ describe('AssessmentsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should get response', () => {
-    let assData:AssessmentStructure[] = [
+    let assData: AssessmentStructure[] = [
       {
         "assessmentId": 1,
         "assessmentName": "xact",
@@ -103,9 +106,9 @@ describe('AssessmentsComponent', () => {
     })
   });
   it("should get navigated to the module route.", () => {
-    jest.spyOn(component.router,'navigateByUrl')
+    jest.spyOn(component.router, 'navigateByUrl')
     const dummyAssessmentName = "hello123"
     expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith('assessmentModule',{state:{assessmentName:dummyAssessmentName}})
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('assessmentModule', {state: {assessmentName: dummyAssessmentName}})
   });
 });

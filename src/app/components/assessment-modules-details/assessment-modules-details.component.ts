@@ -24,7 +24,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   parameters: ParameterStructure[];
   moduleSelected: number;
   topic: TopicStructure;
-
+  topicName: string;
 
   constructor(private appService: AppServiceService) {
   }
@@ -55,5 +55,4 @@ export class AssessmentModulesDetailsComponent implements OnInit {
 
     })
   }
-
 }
