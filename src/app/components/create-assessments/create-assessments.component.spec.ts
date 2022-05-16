@@ -17,7 +17,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
-import {RouterModule} from "@angular/router";
+import {RouterLink, RouterModule} from "@angular/router";
 
 
 class MockDialog {
