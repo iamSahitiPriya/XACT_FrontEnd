@@ -1,2 +1,10 @@
-<mat-card *ngFor="let parameter of topicInput.parameters">{{parameter.parameterName}}</mat-card>
-<!--  <mat-card *ngFor="let question of parameter.questions">{{question.questionText}}</mat-card></mat-card>-->
+<div *ngFor="let parameter of topicInput.parameters; let i =index;">
+  <div class="parameter"><b>{{i + 1}}.</b>&nbsp;{{parameter.parameterName}}</div>
+  <div class="question"
+       *ngFor="let question of parameter.questions; let j=index;">
+    <b>{{i + 1}}.{{j + 1}}</b>&nbsp;{{question.questionText}}
+    <br>
+    <input class="assessmentQuestions" matInput placeholder="Notes">
+  </div>
+</div>
+

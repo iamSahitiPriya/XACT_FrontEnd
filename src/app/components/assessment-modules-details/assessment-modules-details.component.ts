@@ -24,6 +24,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   parameters: ParameterStructure[];
   moduleSelected: number;
   topic: TopicStructure;
+  parameter: ParameterStructure;
   topicName: string;
 
   constructor(private appService: AppServiceService) {
@@ -33,6 +34,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
   }
+
 
   ngOnInit(): void {
 
