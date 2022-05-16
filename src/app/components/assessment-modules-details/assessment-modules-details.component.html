@@ -19,7 +19,6 @@
 <mat-tab-group #tabs mat-align-tabs="start" class="topicTab">
   <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}>
     <app-topic-details-screen [topicInput]="topic"></app-topic-details-screen>
-
   </mat-tab>
 </mat-tab-group>
 
