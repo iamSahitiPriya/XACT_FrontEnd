@@ -1,5 +1,5 @@
 <div *ngFor="let parameter of topicInput.parameters; let i =index;">
-  <div class="parameter"><b>{{i + 1}}.</b>&nbsp;{{parameter.parameterName}}</div>
+  <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter.parameterName}}</div>
   <div class="question"
        *ngFor="let question of parameter.questions; let j=index;">
     <b>{{i + 1}}.{{j + 1}}</b>&nbsp;{{question.questionText}}
