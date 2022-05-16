@@ -42,6 +42,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {ParameterDetailsComponent} from './components/parameter-details/parameter-details.component';
+import { ParameterScoreComponent } from './components/parameter-score/parameter-score.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -81,6 +82,7 @@ export const appRoutes: Routes = [
     AssessmentModulesComponent,
     AssessmentModulesDetailsComponent,
     ParameterDetailsComponent,
+    ParameterScoreComponent,
 
   ],
   imports: [

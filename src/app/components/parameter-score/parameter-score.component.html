@@ -1,0 +1,10 @@
+<mat-card class="scoreHeading">Assign Maturity score</mat-card>
+<div *ngFor="let pScore  of parameterScore">
+  <mat-toolbar class="scoreReference">
+    <p>{{pScore.reference}}</p>
+    <span class="spacer"></span>
+    <span class="rating">
+      <div class="image"></div>{{pScore.rating}}</span>
+  </mat-toolbar>
+</div>
+
