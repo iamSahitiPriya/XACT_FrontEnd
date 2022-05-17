@@ -1,4 +1,5 @@
-<div *ngFor="let parameter of topicInput.parameters; let i =index;">
+<div class="topicQuestions">
+<div class="topicAssessment" *ngFor="let parameter of topicInput.parameters; let i =index;">
   <div class="parameter"><b>{{i + 1}}.</b>&nbsp;{{parameter.parameterName}}</div>
   <div class="question"
        *ngFor="let question of parameter.questions; let j=index;">
@@ -14,5 +15,4 @@
   </div>
   <app-parameter-score [parameterScore]="parameter.references"></app-parameter-score>
 </div>
-
-
+</div>

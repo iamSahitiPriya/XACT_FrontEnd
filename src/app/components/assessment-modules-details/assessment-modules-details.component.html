@@ -1,3 +1,4 @@
+
 <p>
   <mat-toolbar>
     <button mat-icon-button [routerLink]="['']">
@@ -11,6 +12,7 @@
   </mat-toolbar>
 </p>
 
+
 <mat-toolbar class="moduleToolbar">
   <div class="moduleHead">
     Modules
@@ -22,6 +24,7 @@
   </mat-tab>
 </mat-tab-group>
 
+<div class="sideBar">
 <mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -36,8 +39,7 @@
     </mat-card>
   </div>
 </mat-expansion-panel>
-
-
+</div>
 
 
 

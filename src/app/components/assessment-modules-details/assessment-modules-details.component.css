@@ -42,13 +42,13 @@ html, body {
 
 .mat-expansion-panel {
   width: 300px;
-  height: auto;
   border-radius: 0;
   margin-left: -12px;
   background-color: transparent;
   box-shadow: none;
   margin-bottom: 15px;
   text-align: center;
+  scroll-behavior: auto;
 }
 
 .mat-expansion-panel-header[_ngcontent-oyg-c113] {
@@ -93,6 +93,7 @@ html, body {
   height: 49px;
   padding-left: 66px;
   padding-top: 10px;
+
 }
 
 .topicTab {
@@ -205,9 +206,11 @@ html, body {
   border-bottom: 1.5px solid #4BA1AD !important;
 }
 
+
 ::ng-deep .mat-tab-label-container {
   overflow: visible !important;
 }
+
 
 ::ng-deep .mat-tab-header::-webkit-scrollbar {
   display: none;
@@ -216,4 +219,10 @@ html, body {
 .parameterHeading {
   background-color: #45A0AC1D;
   height: 10%;
+}
+
+.sideBar{
+  height: 640px;
+  overflow:auto;
+  margin-left:-12px;
 }
