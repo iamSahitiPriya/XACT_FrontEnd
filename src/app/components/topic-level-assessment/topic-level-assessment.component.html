@@ -1,0 +1,10 @@
+<div class="topicQuestions">
+  <div *ngFor="let parameter of topicInput.parameters; let i=index;">
+    <app-assessment-question [parameterDetails]="parameter" [initial]="i"></app-assessment-question>
+  </div>
+  <app-topic-score [topicScore]="topicInput.references"></app-topic-score>
+  <div>
+    <app-assessment-recommendation></app-assessment-recommendation>
+  </div>
+</div>
+
