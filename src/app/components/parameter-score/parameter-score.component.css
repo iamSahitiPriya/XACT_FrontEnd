@@ -1,4 +1,4 @@
-.scoreHeading{
+.scoreHeading {
   display: block;
   position: relative;
   padding: 12px;
@@ -13,18 +13,21 @@
   text-align: left;
   margin-top: 13px;
 }
-p{
+
+p {
   word-wrap: break-word;
   width: 1244px;
 }
+
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: 0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
 }
 
-.spacer{
+.spacer {
   flex: 1 1 auto;
 }
-.scoreReference{
+
+.scoreReference {
   height: 100px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
@@ -38,10 +41,11 @@ p{
   margin-top: 25px;
   margin-bottom: 22px;
   white-space: pre-wrap !important;
-  overflow-y:scroll;
+  overflow-y: scroll;
 
 }
-.rating{
+
+.rating {
   width: 76px;
   height: 76px;
   background: #F7F7F7 0% 0% no-repeat padding-box;
@@ -52,12 +56,14 @@ p{
   cursor: pointer;
   margin-right: 28px;
 }
-.rating:hover{
+
+.rating:hover {
   background: #6D9D79 0% 0% no-repeat padding-box;
   color: white;
 
 }
-.image{
+
+.image {
   width: 26px;
   height: 25px;
   background: transparent url('src/assets/Path 3378/Path 3378.png') 0% 0% no-repeat padding-box;
@@ -65,9 +71,11 @@ p{
   margin-left: 26px;
   margin-top: 16px
 }
-.rating :hover{
+
+.rating :hover {
   background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
 }
-.parameterScoring{
+
+.parameterScoring {
   width: 95%;
 }

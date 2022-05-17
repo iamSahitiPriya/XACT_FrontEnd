@@ -6,9 +6,8 @@ import {ParameterReference} from "../../types/parameterReference";
   templateUrl: './parameter-score.component.html',
   styleUrls: ['./parameter-score.component.css']
 })
-export class ParameterScoreComponent{
-  @Input() parameterScore:ParameterReference[];
-  constructor() { }
+export class ParameterScoreComponent {
+  @Input() parameterScore: ParameterReference[];
 
 
 }
