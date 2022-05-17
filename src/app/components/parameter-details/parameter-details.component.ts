@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
-import {ParameterStructure} from "../../types/parameterStructure";
 
 
 @Component({
@@ -9,9 +8,6 @@ import {ParameterStructure} from "../../types/parameterStructure";
   styleUrls: ['./parameter-details.component.css']
 })
 export class ParameterDetailsComponent {
-  parameter: ParameterStructure
-  parameters: ParameterStructure[];
-
   @Input()
   topicInput: TopicStructure;
 
