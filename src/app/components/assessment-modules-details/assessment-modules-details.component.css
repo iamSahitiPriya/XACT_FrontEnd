@@ -166,6 +166,7 @@ html, body {
 ::ng-deep .mat-tab-label {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
+  opacity: 1 !important;
   color: #043D4E !important;
 }
 

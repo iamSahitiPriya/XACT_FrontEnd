@@ -31,7 +31,8 @@
   padding-bottom: 35px;
   padding-left: 15px;
   font-size: 19px;
-  font-weight: bolder;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
   color: #000000;
   opacity: 1;
 }
