@@ -48,6 +48,7 @@ import { TopicLevelAssessmentComponent } from './components/topic-level-assessme
 import { ParameterLevelAssessmentComponent } from './components/parameter-level-assessment/parameter-level-assessment.component';
 import { AssessmentRecommendationComponent } from './components/assessment-recommendation/assessment-recommendation.component';
 import { TopicScoreComponent } from './components/topic-score/topic-score.component';
+import {CommonModule} from '@angular/common';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -98,6 +99,7 @@ export const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CommonModule,
     MDBBootstrapModule.forRoot(),
     MatButtonModule,
     HttpClientModule,
@@ -121,7 +123,8 @@ export const appRoutes: Routes = [
     MatSidenavModule,
     MatListModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+
   ],
   exports: [
     MatButtonModule,

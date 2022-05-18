@@ -31,7 +31,8 @@
   padding-bottom: 35px;
   padding-left: 15px;
   font-size: 19px;
-  font-weight: bolder;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
   color: #000000;
   opacity: 1;
 }
@@ -39,6 +40,7 @@
 .textArea {
   width: 95%;
   height: 99px;
+  margin-top: 35px;
 }
 
 textArea.mat-input-element {
@@ -48,21 +50,29 @@ textArea.mat-input-element {
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
+
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
   color: #00000099 !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
-.mat-form-field.mat-warn .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
+
+.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
+
 ::ng-deep .topicAssessment {
   overflow-y: scroll !important;
 }
 
-.topicQuestions{
+.topicQuestions {
   height: 640px;
-  overflow:auto;
+  overflow: auto;
   margin-right: 20px;
+}
+
+.text {
+  color: #000000;
 }

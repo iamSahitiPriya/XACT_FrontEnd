@@ -3,7 +3,7 @@ import {TopicStructure} from "../../types/topicStructure";
 
 
 @Component({
-  selector: 'app-topic-details-screen',
+  selector: 'app-parameter-details',
   templateUrl: './parameter-details.component.html',
   styleUrls: ['./parameter-details.component.css']
 })

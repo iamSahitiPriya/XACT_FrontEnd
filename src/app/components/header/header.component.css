@@ -35,7 +35,8 @@
   letter-spacing: 0.30px;
   text-align: right;
   font-size: medium;
-  font-weight: bold;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
   color: #000000;
   opacity: 1;
 }

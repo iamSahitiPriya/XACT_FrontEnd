@@ -8,6 +8,7 @@ import {TopicStructure} from "../../types/topicStructure";
 })
 export class TopicLevelAssessmentComponent {
 
+
   @Input()
   topicInput: TopicStructure;
 

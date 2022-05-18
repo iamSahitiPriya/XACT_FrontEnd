@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ParameterScoreComponent } from './parameter-score.component';
+import {ParameterScoreComponent} from './parameter-score.component';
 import {MatCardModule} from "@angular/material/card";
 
 describe('ParameterScoreComponent', () => {
@@ -9,10 +9,10 @@ describe('ParameterScoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParameterScoreComponent ],
-      imports:[MatCardModule]
+      declarations: [ParameterScoreComponent],
+      imports: [MatCardModule]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
