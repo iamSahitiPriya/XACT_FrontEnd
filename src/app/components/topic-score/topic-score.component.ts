@@ -7,7 +7,11 @@ import {TopicReference} from "../../types/topicReference";
   styleUrls: ['./topic-score.component.css']
 })
 export class TopicScoreComponent {
+
   @Input()
   topicScore: TopicReference[];
 
+  next() {
+
+  }
 }

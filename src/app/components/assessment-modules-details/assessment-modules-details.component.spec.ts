@@ -10,6 +10,8 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatCardModule} from "@angular/material/card";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 class MockAppService {
   public getCategories() {
@@ -102,6 +104,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesDetailsComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule,NoopAnimationsModule,
+        MatCardModule,MatFormFieldModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],

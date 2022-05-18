@@ -5,3 +5,18 @@
   overflow:auto;
   margin-right: 20px;
 }
+.col-md-8{
+  flex: 0 0 auto;
+  width: 73.666667%;
+  padding-left: 52%;
+}
+.mat-stroked-button{
+  min-width: 88px;
+  color: #32616E;
+}
+.nextButton{
+  margin-left: 102px;
+}
+.cancelButton{
+  margin-right: 102px;
+}

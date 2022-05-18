@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicScoreComponent } from './topic-score.component';
+import {MatCardModule} from "@angular/material/card";
 
 describe('TopicScoreComponent', () => {
   let component: TopicScoreComponent;
@@ -8,7 +9,8 @@ describe('TopicScoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopicScoreComponent ]
+      declarations: [ TopicScoreComponent ],
+      imports:[MatCardModule]
     })
     .compileComponents();
   });

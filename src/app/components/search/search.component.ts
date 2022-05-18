@@ -25,7 +25,6 @@ export class SearchComponent {
       return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1;
     }
     this.dataSource.filter = filterValue.value.trim().toLowerCase();
-
   }
 }
 

@@ -7,6 +7,7 @@ import {ParameterReference} from "../../types/parameterReference";
   styleUrls: ['./parameter-score.component.css']
 })
 export class ParameterScoreComponent {
+
   @Input()
   parameterScore: ParameterReference[];
 }

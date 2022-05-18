@@ -6,3 +6,24 @@
   overflow:auto;
   margin-right: 20px;
 }
+.col-md-8{
+  flex: 0 0 auto;
+  width: 73.666667%;
+  padding-left: 53%;
+}
+.mat-stroked-button{
+  min-width: 88px;
+  color: #32616E;
+}
+.saveButton {
+  width: 18%;
+  height: 38px;
+  background-color: #32616E;
+  color: white;
+}
+.nextButton{
+  margin-left: 102px;
+}
+.cancelButton{
+  margin-right: 102px;
+}

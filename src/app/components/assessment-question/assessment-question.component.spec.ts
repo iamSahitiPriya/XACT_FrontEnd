@@ -20,6 +20,7 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it('should create', () => {
+    component.parameterDetails = {parameterId:1,parameterName:"abc", topic:1,questions:[],references:[]}
     expect(component).toBeTruthy();
   });
 });

@@ -1,7 +1,0 @@
-<div class="topicQuestions">
-  <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-    <app-assessment-question [parameterDetails]="parameter" [initial]="i"></app-assessment-question>
-    <app-parameter-score [parameterScore]="parameter.references"></app-parameter-score>
-  </div>
-</div>
-

@@ -20,6 +20,12 @@ describe('ParameterLevelAssessmentComponent', () => {
   });
 
   it('should create', () => {
+
     expect(component).toBeTruthy();
+  });
+  it('should fetch the selected index', () => {
+    component.selectedIndex = 0
+    component.next()
+    expect(component.selectedIndex).toBe(1)
   });
 });

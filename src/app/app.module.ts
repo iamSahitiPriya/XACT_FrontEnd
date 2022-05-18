@@ -41,7 +41,6 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
-import {ParameterDetailsComponent} from './components/parameter-details/parameter-details.component';
 import { ParameterScoreComponent } from './components/parameter-score/parameter-score.component';
 import { AssessmentQuestionComponent } from './components/assessment-question/assessment-question.component';
 import { TopicLevelAssessmentComponent } from './components/topic-level-assessment/topic-level-assessment.component';
@@ -49,6 +48,7 @@ import { ParameterLevelAssessmentComponent } from './components/parameter-level-
 import { AssessmentRecommendationComponent } from './components/assessment-recommendation/assessment-recommendation.component';
 import { TopicScoreComponent } from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
+import { FunctionalitiesComponent } from './components/functionalities/functionalities.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -87,21 +87,19 @@ export const appRoutes: Routes = [
     CreateAssessmentsComponent,
     AssessmentModulesComponent,
     AssessmentModulesDetailsComponent,
-    ParameterDetailsComponent,
     ParameterScoreComponent,
     AssessmentQuestionComponent,
     TopicLevelAssessmentComponent,
     ParameterLevelAssessmentComponent,
     AssessmentRecommendationComponent,
     TopicScoreComponent,
-
+    FunctionalitiesComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
     MDBBootstrapModule.forRoot(),
-    MatButtonModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     OktaAuthModule,
@@ -112,6 +110,7 @@ export const appRoutes: Routes = [
     MatIconModule,
     MatDialogModule,
     FormsModule,
+    MatButtonModule,
     ReactiveFormsModule,
     RouterModule,
     MatToolbarModule,

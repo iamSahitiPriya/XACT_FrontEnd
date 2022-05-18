@@ -5,27 +5,21 @@
     </button>
     <span class="name"> {{assessmentName}}</span>
     <span class="module-spacer"></span>
-<!--    <button mat-fab color="primary">-->
-<!--      <mat-icon>person_add</mat-icon>-->
-<!--    </button>-->
   </mat-toolbar>
 </p>
-
 
 <mat-toolbar class="moduleToolbar">
   <div class="moduleHead">
     Modules
   </div>
 </mat-toolbar>
-<mat-tab-group #tabs mat-align-tabs="start" class="topicTab">
-  <mat-tab *ngFor="let topic of topics" label={{topic.topicName}}>
+<mat-tab-group #tabs mat-align-tabs="start" class="topicTab" [selectedIndex]="selectedIndex">
+  <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
     <div *ngIf="topic.assessmentLevel === 'Topic'">
-      <app-topic-level-assessment [topicInput]="topic"></app-topic-level-assessment>
+      <app-topic-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)"></app-topic-level-assessment>
     </div>
-
-
     <div *ngIf="topic.assessmentLevel === 'Parameter'">
-      <app-parameter-level-assessment [topicInput]="topic"></app-parameter-level-assessment>
+      <app-parameter-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)"></app-parameter-level-assessment>
     </div>
   </mat-tab>
 </mat-tab-group>

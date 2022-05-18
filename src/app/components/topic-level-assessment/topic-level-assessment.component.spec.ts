@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicLevelAssessmentComponent } from './topic-level-assessment.component';
+import {TopicScoreComponent} from "../topic-score/topic-score.component";
+import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
+import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatCardModule} from "@angular/material/card";
 
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent;
@@ -8,7 +12,8 @@ describe('TopicLevelAssessmentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopicLevelAssessmentComponent ]
+      declarations: [ TopicLevelAssessmentComponent,TopicScoreComponent, AssessmentRecommendationComponent],
+      imports:[MatFormFieldModule, MatCardModule]
     })
     .compileComponents();
   });
