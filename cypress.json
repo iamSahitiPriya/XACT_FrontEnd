@@ -15,9 +15,7 @@
       "charts": true,
       "quiet": true,
       "embeddedScreenshots": true,
-      "testFiles": "**/*.feature",
       "testFiles": "**/*.js"
-
     }
   },
   "screenshotOnRunFailure": true,
@@ -29,7 +27,12 @@
   "responseTimeout": 10000,
   "defaultCommandTimeout": 10000,
   "watchForFileChanges": true,
-  "chromeWebSecurity": false
-
-
+  "chromeWebSecurity": false,
+  "env": {
+    "url": "http://localhost:4200",
+    "userName": "technicalbaba4u@gmail.com",
+    "password": "Sam@12345"
+  },
+  "projectId": "rjmg83",
+  "CYPRESS_RECORD_KEY": "c9068031-47ae-43fd-988a-8741b1a9107e"
 }

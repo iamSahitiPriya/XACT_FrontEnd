@@ -3,93 +3,85 @@ class loginPage {
 
 
 
-  xActlogo() {
-    const field = cy.get('#logo')
-    field.should('be.visible')
-    return this
+  static xActlogo() {
+    return cy.get('#input28')
+
   }
 
-  userName() {
-    const field = cy.get('.dropdown-toggle')
-    field.should('be.visible').then(   ($el)  =>  {   $el.click}    )
-    return this
+  static userName() {
+    return cy.get('.dropdown-toggle')
   }
 
-  Search(value) {
-    const field = cy.get('#search')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
+  static Search(value) {
+    return cy.get('#search')
   }
 
-  createAssessment() {
-    const button = cy.get('#createAssessment')
-    field.should('be.visible').then(   ($el)  =>  {   $el.click}    )
-    return this
+  static createAssessment() {
+    return cy.get('#createAssessment')
+
   }
 
-  AssessmentPopup() {
-    const button = cy.get('#mat-dialog-0')
-    field.should('be.visible')
-    return this
+  static AssessmentPopup() {
+    return cy.get('#mat-dialog-0')
+
   }
 
-  AssessmentName() {
-    const button = cy.get('#mat-input-1')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
+  static AssessmentName() {
+   return cy.get('#mat-input-1')
+
   }
 
-  OrganisationName() {
-    const button = cy.get('#mat-input-2')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
+  static OrganisationName() {
+    return cy.get('#mat-input-2')
+
   }
 
-  Domain() {
-    const button = cy.get('#mat-input-3')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
-  }uu
-  Industry() {
-    const button = cy.get('#mat-input-4')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
+  static Domain() {
+    return cy.get('#mat-input-3')
+
+  }
+  static Industry() {
+    return cy.get('#mat-input-4')
+
   }
 
-  teamSize() {
-    const button = cy.get('#mat-input-5')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    field.type(value)
-    return this
+  static teamSize() {
+    return cy.get('#mat-input-5')
   }
 
-  email() {
-    const button = cy.get('#userEmails')
-    field.should('be.visible').then(   ($el)  =>  {   $el.clear}    )
-    return this
+  static email() {
+    return cy.get('#userEmails')
+
   }
 
-  createAssessment() {
-    const button = cy.get('.saveButton')
-    field.should('be.visible').then(   ($el)  =>  {   $el.click}    )
-    return this
+  static createAssessmentBtn() {
+    return cy.get('.saveButton')
   }
 
-  createAssessment() {
-    const button = cy.get('tbody')
-    field.should('be.visible')
-    return this
+  static AssessmentGrid() {
+    return cy.get('tbody')
+
   }
 
-  createAssessment() {
-    const button = cy.get('.heading')
-    field.should('be.visible')
-    return this
+  static createAssessment() {
+    return cy.get('.heading')
+
+  }
+
+  static logo(){
+    return cy.get('#logo')
+  }
+
+  static header(){
+    return cy.get('.heading')
+  }
+
+  static searchBox(){
+    return cy.get('.ng-tns-c93-0 > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
+  }
+
+  static emailHeader(){
+    return cy.get('#mat-dialog-title-1')
   }
 
 
@@ -97,3 +89,4 @@ class loginPage {
 }
 
 export default loginPage
+

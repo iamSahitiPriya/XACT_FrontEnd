@@ -1,17 +1,19 @@
 Feature: Implement create assessment and user profile
 
   Background: User navigates to X-Actby via Okta
-    Given User provides valid "UserName" and clicks on Next button
-    Then provide valid "Password" and clicks on Verify button
-    And complete the SSO verification
-    Then User should be navigated to Okta homepage and click on the X-Act chicklet
-    And User clicks on Create assessment button in homepage of the application
+    #Given User provides valid "UserName" and clicks on Next button
+    #Then provide valid "Password" and clicks on Verify button
+    #And complete the SSO verification
+    #Then User should be navigated to Okta homepage and click on the X-Act chicklet
+    #And User clicks on Create assessment button in homepage of the application
+    Given User launches the xAct application by providing valid url
+    And User should provides valid UserId and password and click on Signin button
+    Then User should be navigated to home page of xAct
 
   Scenario: Verify all the fields are available on Create assessments pop up
-    Given Create assessment popup is displayed
-    And Create Assessment header should be displayed
+    Given User clicks on create assessment popup and fills all the details in the popup
     And it should have  AssessmentName,OrganisationName,Domain,IndustryName,TeamSize,EmailId edit fields
-    And Add New User  sub header should be present above the Email Id field
+    And Add New User sub header should be present above the Email Id field
     And + button should be present corresponding to email id field
     And Save button should be present in the bottom of the popup
     And A close button is present in top right corner of the pop up

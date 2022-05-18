@@ -1,13 +1,17 @@
+//import  loginPage from './pageObjects/loginPage'
+
+
 describe('Validating create assessment feature', () => {
 
   before(() => {
-  cy.login('technicalbaba4u@gmail.com','Sam@12345')
+  cy.visit(Cypress.env('url'))
+  cy.login(Cypress.env('userName'),Cypress.env('password'))
   })
 
 
   it('Creating an assessment', () => {
   cy.createAssessment('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
-
-
   })
+
+
 })
