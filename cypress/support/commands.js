@@ -10,7 +10,7 @@ import landingPage from "../integration/pageObjects/landingPage";
   })
 
 
-  Cypress.Commands.add('login',(userName, passWord)=> {
+  Cypress.Commands.add('loginWith',(userName, passWord)=> {
     cy.clearCookies()
     cy.clearLocalStorage()
     loginPage.userId().type(userName)
@@ -41,8 +41,8 @@ import landingPage from "../integration/pageObjects/landingPage";
     landingPage.Industry().type(Industry)
     landingPage.teamSize().type(TeamSize)
     landingPage.email().type(EmailId)
-    landingPage.createAssessmentBtn().click()
-    cy.get(':nth-child(1) > .cdk-column-assessmentName > .ng-tns-c92-0').should('have.text',AssessmentName)
+    // landingPage.createAssessmentBtn().click()
+    // cy.get(':nth-child(1) > .cdk-column-assessmentName > .ng-tns-c92-0').should('have.text',AssessmentName)
   })
 
 

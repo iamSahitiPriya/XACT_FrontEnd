@@ -83,6 +83,14 @@ class loginPage {
   static emailHeader(){
     return cy.get('#mat-dialog-title-1')
   }
+  static closeAssessmentPopup(){
+    return cy.get('.mat-icon')
+  }
+  static saveAssessmentButton(){
+    return cy.get('.saveButton')
+  }
+
+
 
 
 
