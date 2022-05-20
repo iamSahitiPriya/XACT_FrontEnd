@@ -1,5 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
+import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
 
 @Component({
   selector: 'app-topic-level-assessment',
@@ -24,6 +26,17 @@ export class TopicLevelAssessmentComponent {
       this.selectedIndex -= 1
       this.goBack.emit(this.selectedIndex)
     }
+
+  }
+  @ViewChild(AssessmentQuestionComponent)
+  private assessmentQuestionComponent: AssessmentQuestionComponent;
+
+  @ViewChild(AssessmentRecommendationComponent)
+  private assessmentRecommendationComponent: AssessmentRecommendationComponent;
+
+  cancel() {
+    this.assessmentQuestionComponent.handleCancel()
+    this.assessmentRecommendationComponent.handleCancel()
 
   }
 }

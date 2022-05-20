@@ -1,4 +1,4 @@
-import {Component, Input, Output,EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import {ParameterStructure} from "../../types/parameterStructure";
 
 @Component({
@@ -16,10 +16,17 @@ export class AssessmentQuestionComponent  {
   textarea: string;
 
   @Output()
-  textareaValue = new EventEmitter<string>()
+  textareaValue: EventEmitter<string> = new EventEmitter<string>()
 
   cancel(){
     console.log(this.textarea)
     this.textareaValue.emit(this.textarea)
+  }
+  @ViewChild('textAreaElement') textAreaElement: ElementRef;
+
+
+  handleCancel() {
+    console.log(this.textAreaElement.nativeElement.value)
+    this.textAreaElement.nativeElement.value='';
   }
 }

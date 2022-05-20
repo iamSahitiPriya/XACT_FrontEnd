@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-assessment-recommendation',
@@ -6,5 +6,12 @@ import {Component} from '@angular/core';
   styleUrls: ['./assessment-recommendation.component.css']
 })
 export class AssessmentRecommendationComponent {
+
+  @ViewChild('recommendationElement') recommendationElement: ElementRef;
+
+  handleCancel() {
+    console.log(this.recommendationElement.nativeElement.value)
+    this.recommendationElement.nativeElement.value='';
+  }
 
 }
