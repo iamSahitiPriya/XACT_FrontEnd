@@ -14,21 +14,13 @@ Feature: Implement create assessment and user profile
     Given User clicks on create assessment popup and fills all the details in the popup
     And it should have  AssessmentName,OrganisationName,Domain,IndustryName,TeamSize,EmailId edit fields
     And Add New User sub header should be present above the Email Id field
-    And + button should be present corresponding to email id field
-    And Save button should be present in the bottom of the popup
-    And A close button is present in top right corner of the pop up
+    And Save and closebutton should be present in the bottom of the popup
+
 
   Scenario: Populate all the fields with valid input and close the pop up without saving the assessment
     Given Create assessment popup is displayed
     And provide valid AssessmentName,OrganisationName,Domain,IndustryName,TeamSize,EmailId and click on close button
     Then Popup should be closed and assessment should not be created
-
-  Scenario: Create assessment button should be disabled when create assessment popup is open
-    Given Create assessment popup is displayed
-    And the create assessment button should be disabled and not clickable
-    Then close the create asssessment popup
-    Then  the create assessment button should be enabled and clickable
-
 
   Scenario Outline: Create an assessment by providing valid details
     Given Create assessment popup is displayed

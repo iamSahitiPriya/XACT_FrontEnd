@@ -11,7 +11,7 @@ export class AssessmentRecommendationComponent {
 
   handleCancel() {
     console.log(this.recommendationElement.nativeElement.value)
-    this.recommendationElement.nativeElement.value='';
+    this.recommendationElement.nativeElement.value = '';
   }
 
 }

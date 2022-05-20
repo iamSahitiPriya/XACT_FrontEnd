@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ParameterStructure} from "../../types/parameterStructure";
 
 @Component({
@@ -6,7 +6,7 @@ import {ParameterStructure} from "../../types/parameterStructure";
   templateUrl: './assessment-question.component.html',
   styleUrls: ['./assessment-question.component.css']
 })
-export class AssessmentQuestionComponent  {
+export class AssessmentQuestionComponent {
 
   @Input()
   parameterDetails: ParameterStructure;
@@ -18,15 +18,16 @@ export class AssessmentQuestionComponent  {
   @Output()
   textareaValue: EventEmitter<string> = new EventEmitter<string>()
 
-  cancel(){
+  cancel() {
     console.log(this.textarea)
     this.textareaValue.emit(this.textarea)
   }
+
   @ViewChild('textAreaElement') textAreaElement: ElementRef;
 
 
   handleCancel() {
     console.log(this.textAreaElement.nativeElement.value)
-    this.textAreaElement.nativeElement.value='';
+    this.textAreaElement.nativeElement.value = '';
   }
 }
