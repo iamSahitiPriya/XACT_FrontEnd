@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {QuestionStructure} from "./questionStructure";
 import {ParameterReference} from "./parameterReference";
 

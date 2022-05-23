@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Inject} from '@angular/core';
 import {OKTA_AUTH, OktaAuthStateService} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';

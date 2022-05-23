@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http"
 import {Inject, Injectable} from "@angular/core";
 import {OKTA_AUTH} from "@okta/okta-angular";

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {HttpRequest, HttpResponse} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 import {CacheEntry, MAX_CACHE_AGE} from "../../types/cache-entry";

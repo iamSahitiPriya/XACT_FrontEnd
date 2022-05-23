@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 export const environment = {
   production: true,
   BaseURI:"https://api.project-xact.in",

@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
 <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
 <ng-template #content>
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">

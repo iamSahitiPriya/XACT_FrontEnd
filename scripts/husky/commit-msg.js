@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const read = require('@commitlint/read');
 

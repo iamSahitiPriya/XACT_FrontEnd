@@ -1,4 +1,8 @@
-  import { Given,When, Then,And } from "cypress-cucumber-preprocessor/steps";
+  /*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+import { Given,When, Then,And } from "cypress-cucumber-preprocessor/steps";
   import  loginPage from './pageObjects/loginPage'
   import loginPage from "../integration/pageObjects/loginPage"
   import landingPage from "../../pageObjects/landingPage";

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {HeaderComponent} from './header.component';
