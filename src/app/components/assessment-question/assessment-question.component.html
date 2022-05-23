@@ -6,7 +6,7 @@
     <div class="parameter"><strong>{{initial + 1}}.</strong>&nbsp;{{parameterDetails.parameterName}}</div>
     <div class="question"
          *ngFor="let question of parameterDetails.questions; let j=index;">
-      <b>{{initial + 1}}.{{j + 1}}</b>&nbsp;{{question.questionText}}
+      <strong>{{initial + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
       <br>
       <mat-form-field class="textArea" appearance="outline">
         <mat-label>Notes</mat-label>

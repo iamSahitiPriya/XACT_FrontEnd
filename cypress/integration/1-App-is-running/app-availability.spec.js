@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {appUrl, email,pwd} from '../../constants';
+import {appUrl, email, pwd} from '../../constants';
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests

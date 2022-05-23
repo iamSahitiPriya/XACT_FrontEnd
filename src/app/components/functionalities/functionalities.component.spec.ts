@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FunctionalitiesComponent } from './functionalities.component';
+import {FunctionalitiesComponent} from './functionalities.component';
 
 describe('FunctionalitiesComponent', () => {
   let component: FunctionalitiesComponent;
