@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 /// <reference types='cypress'/>
 class loginPage {
 

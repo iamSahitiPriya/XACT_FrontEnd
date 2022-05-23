@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";

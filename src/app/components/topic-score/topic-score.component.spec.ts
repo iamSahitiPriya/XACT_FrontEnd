@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
 
-import { TopicScoreComponent } from './topic-score.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {TopicScoreComponent} from './topic-score.component';
 import {MatCardModule} from "@angular/material/card";
 
 describe('TopicScoreComponent', () => {

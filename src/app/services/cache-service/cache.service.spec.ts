@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {TestBed} from '@angular/core/testing';
 
 import {HttpCacheService} from './cache.service';

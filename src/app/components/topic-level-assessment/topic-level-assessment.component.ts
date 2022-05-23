@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";

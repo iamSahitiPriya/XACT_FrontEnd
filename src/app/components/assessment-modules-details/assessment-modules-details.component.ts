@@ -1,4 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+import {Component, OnInit} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -6,7 +10,6 @@ import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
-import {FunctionalitiesComponent} from "../functionalities/functionalities.component";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)

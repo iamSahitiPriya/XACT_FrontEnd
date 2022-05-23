@@ -1,9 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
 
-import { TopicLevelAssessmentComponent } from './topic-level-assessment.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
-import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 
 describe('TopicLevelAssessmentComponent', () => {

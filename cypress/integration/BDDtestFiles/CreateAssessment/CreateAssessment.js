@@ -1,9 +1,11 @@
-  import { Given,When, Then,And } from "cypress-cucumber-preprocessor/steps";
-  import  loginPage from './pageObjects/loginPage'
-  import loginPage from "../integration/pageObjects/loginPage"
-  import landingPage from "../../pageObjects/landingPage";
+/*
+* Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+*/
 
-  Given('User launches the xAct application by providing valid url',function (){
+import {And, Given, Then} from "cypress-cucumber-preprocessor/steps";
+import landingPage from "../../pageObjects/landingPage";
+
+Given('User launches the xAct application by providing valid url',function (){
     cy.launchxAct()
     //loginPage.visit()
   })

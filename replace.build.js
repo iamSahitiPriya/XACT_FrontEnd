@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 var replace = require('replace-in-file');
 var environmentVar = process.argv[2];
 var clientID = process.argv[3];

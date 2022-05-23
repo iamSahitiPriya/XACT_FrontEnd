@@ -1,7 +1,12 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ParameterStructure} from "../../types/parameterStructure";
-import {Notes} from "../../types/notes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {Notes} from "../../types/notes";
+
 
 export const assessmentData = [{}]
 

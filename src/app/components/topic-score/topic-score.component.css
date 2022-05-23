@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 .scoreHeading{
   display: block;
   position: relative;
@@ -65,7 +69,8 @@ p{
   margin-left: 26px;
   margin-top: 16px
 }
-.rating :hover{
+
+.rating:hover .image{
   background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
 }
 .parameterScoring{

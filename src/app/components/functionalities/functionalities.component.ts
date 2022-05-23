@@ -1,5 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-functionalities',

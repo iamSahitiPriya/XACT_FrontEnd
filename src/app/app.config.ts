@@ -1,4 +1,9 @@
-import { environment } from './../environments/environment';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+import {environment} from './../environments/environment';
+
 export default {
   oidc: {
     clientId: environment.CLIENT_ID,

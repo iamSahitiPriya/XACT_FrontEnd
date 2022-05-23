@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 

@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
 <div class="topicQuestions">
   <div *ngFor="let parameter of topicInput.parameters; let i=index;">
     <app-assessment-question [parameterDetails]="parameter" [initial]="i" [notes]="notes"></app-assessment-question>

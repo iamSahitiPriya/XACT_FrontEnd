@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CreateAssessmentsComponent} from './create-assessments.component';
@@ -17,7 +21,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
-import {RouterLink, RouterModule} from "@angular/router";
+import {RouterModule} from "@angular/router";
 
 
 class MockDialog {

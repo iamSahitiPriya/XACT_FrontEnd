@@ -1,6 +1,11 @@
 
 
 
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+
 // Added to angular's webpack config by @angular-builders/custom-webpack
 module.exports = {
   module: {

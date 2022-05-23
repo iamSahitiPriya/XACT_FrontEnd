@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 @media screen and(max-width: 700px) {
   .header {
     min-width: 115%;

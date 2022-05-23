@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
 
-import { ParameterLevelAssessmentComponent } from './parameter-level-assessment.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {ParameterLevelAssessmentComponent} from './parameter-level-assessment.component';
 
 describe('ParameterLevelAssessmentComponent', () => {
   let component: ParameterLevelAssessmentComponent;
