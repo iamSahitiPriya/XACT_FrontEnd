@@ -1,7 +1,10 @@
 <div class="topicQuestions">
+
   <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-    <app-assessment-question [parameterDetails]="parameter" [initial]="i"></app-assessment-question>
+    <app-assessment-question [parameterDetails]="parameter" [initial]="i" [notes]="notes"></app-assessment-question>
+
   </div>
+
   <app-topic-score [topicScore]="topicInput.references"></app-topic-score>
   <div>
     <app-assessment-recommendation></app-assessment-recommendation>
@@ -14,7 +17,8 @@
 
     <div class="col-md-8">
       <button mat-stroked-button class="cancelButton" (click)="cancel()">Cancel</button>
-      <button mat-raised-button class="saveButton">Save</button>
+      <button mat-raised-button class="saveButton" (click)="save()">Save</button>
     </div>
   </div>
 </div>
+

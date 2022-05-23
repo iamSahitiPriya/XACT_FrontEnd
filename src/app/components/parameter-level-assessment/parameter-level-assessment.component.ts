@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
+import {Notes} from "../../types/notes";
 
 @Component({
   selector: 'app-parameter-level-assessment',
@@ -9,6 +10,8 @@ import {AssessmentRecommendationComponent} from "../assessment-recommendation/as
   styleUrls: ['./parameter-level-assessment.component.css']
 })
 export class ParameterLevelAssessmentComponent {
+  notes: Notes[] = [];
+
   constructor() {
   }
 
@@ -28,7 +31,6 @@ export class ParameterLevelAssessmentComponent {
       this.selectedIndex -= 1
       this.goBack.emit(this.selectedIndex)
     }
-
   }
 
   @ViewChild(AssessmentQuestionComponent)
@@ -37,12 +39,9 @@ export class ParameterLevelAssessmentComponent {
   @ViewChild(AssessmentRecommendationComponent)
   private assessmentRecommendationComponent: AssessmentRecommendationComponent;
 
-
   cancel() {
     this.assessmentQuestionComponent.handleCancel()
     this.assessmentRecommendationComponent.handleCancel()
 
   }
-
-
 }

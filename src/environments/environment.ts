@@ -7,5 +7,6 @@ export const environment = {
   ASSESSMENT_URI: "/v1/assessments",
   CATEGORY_URI:"/v1/assessment-master-data/categories",
   USER_URI: "/v1/users",
-  OKTA_TESTING_DISABLEHTTPSCHECK: true
+  OKTA_TESTING_DISABLEHTTPSCHECK: true,
+  SAVE_ASSESSMENT_URI: "/v1/notes"
 };

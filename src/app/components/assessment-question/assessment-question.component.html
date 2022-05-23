@@ -1,16 +1,16 @@
 <div>
-    <div class="parameter"><strong>{{initial + 1}}.</strong>&nbsp;{{parameterDetails.parameterName}}</div>
-    <div class="question"
+  <div class="parameter"><strong>{{initial + 1}}.</strong>&nbsp;{{parameterDetails.parameterName}}</div>
+  <div class="question"
          *ngFor="let question of parameterDetails.questions; let j=index;">
-      <b>{{initial + 1}}.{{j + 1}}</b>&nbsp;{{question.questionText}}
+      <strong>{{initial + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
       <br>
-      <mat-form-field class="textArea" appearance="outline">
+        <mat-form-field  class="textArea" appearance="outline">
         <mat-label>Notes</mat-label>
-        <textarea matInput #textAreaElement name="textarea" id="assessmentAnswer"
+        <textarea matInput name="textarea{{question.questionId}}" id="assessmentAnswer{{question.questionId}}" #textAreaElement [(ngModel)]="getAnswer(question.questionId).answer"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="7"></textarea>
       </mat-form-field>
-    </div>
+  </div>
 </div>
 
