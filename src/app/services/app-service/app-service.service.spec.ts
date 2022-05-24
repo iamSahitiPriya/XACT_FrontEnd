@@ -8,6 +8,7 @@ import {TestBed} from '@angular/core/testing';
 import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
+import {AnswerRequest} from "../../types/answerRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -40,7 +41,7 @@ describe('AppServiceService', () => {
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
-        users: [{email:"technicalbaba4u@gmail.com"}]
+        users: [{email: "technicalbaba4u@gmail.com"}]
       }
 
     expect(service.addAssessments(assessmentData)).toBeTruthy()
@@ -49,4 +50,14 @@ describe('AppServiceService', () => {
   it("should get categories", () => {
     expect(service.getCategories()).toBeTruthy()
   });
+
+  it("should save assessment notes", () => {
+    let answerRequest: AnswerRequest =
+      {
+        assessmentId: 123,
+        notes: []
+      }
+    expect(service.saveAssessment(answerRequest)).toBeTruthy()
+  });
+
 });
