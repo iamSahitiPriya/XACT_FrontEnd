@@ -31,4 +31,14 @@ describe('AssessmentRecommendationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should clear recommendation on cancel', () => {
+    fixture.nativeElement.querySelector("#recommendationElement").value = "Hello";
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("#recommendationElement").value).toEqual("Hello");
+    component.handleCancel();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("#recommendationElement").value).toEqual("");
+  });
+
 });

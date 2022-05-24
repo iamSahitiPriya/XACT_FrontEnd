@@ -129,6 +129,7 @@ describe('AssessmentModulesDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it("should return the categories", () => {
     const expectedData = [
       {
@@ -205,4 +206,19 @@ describe('AssessmentModulesDetailsComponent', () => {
       expect(data).toBe(expectedData)
     })
   });
+
+  it('should set index on next', () => {
+    component.selectedIndex=1;
+    component.next(2);
+    fixture.detectChanges();
+    expect(component.selectedIndex).toEqual(2)
+  });
+
+  it('should set index on back', () => {
+    component.selectedIndex=2;
+    component.previous(1);
+    fixture.detectChanges();
+    expect(component.selectedIndex).toEqual(1)
+  });
+
 });

@@ -17,9 +17,6 @@ export class ParameterLevelAssessmentComponent {
   notes: Notes[] = [];
 
 
-  constructor() {
-  }
-
   @Input() assessmentId :number
 
   @Input() selectedIndex: number

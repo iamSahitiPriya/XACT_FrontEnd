@@ -12,9 +12,9 @@ describe('ParameterLevelAssessmentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParameterLevelAssessmentComponent ]
+      declarations: [ParameterLevelAssessmentComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -32,4 +32,14 @@ describe('ParameterLevelAssessmentComponent', () => {
     component.next()
     expect(component.selectedIndex).toBe(1)
   });
+
+  it('should move back selected index', () => {
+    component.selectedIndex = 1
+    component.previous()
+    expect(component.selectedIndex).toBe(0)
+    component.previous()
+    expect(component.selectedIndex).toBe(0)
+  });
+
+
 });

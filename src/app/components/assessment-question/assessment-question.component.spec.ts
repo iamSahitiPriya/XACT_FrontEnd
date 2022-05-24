@@ -16,8 +16,7 @@ describe('AssessmentQuestionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentQuestionComponent],
-      providers: [{provide: AppServiceService, useClass: MockAppService}]
+      declarations: [AssessmentQuestionComponent]
     })
       .compileComponents();
   });
