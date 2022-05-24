@@ -31,7 +31,6 @@ export class TopicLevelAssessmentComponent {
   }
 
   next() {
-    console.log(this.selectedIndex)
     this.selectedIndex += 1
     this.goNext.emit(this.selectedIndex)
   }
@@ -55,11 +54,9 @@ export class TopicLevelAssessmentComponent {
   }
 
   save() {
-    console.log(this.notes)
     const answerRequest: AnswerRequest = {
       assessmentId: this.assessmentId, notes: this.notes
-    };
-    console.log(answerRequest);
+    }; 
     this.appService.saveAssessment(answerRequest).subscribe((_data) => {
         assessmentData.push(answerRequest);
         window.location.reload()

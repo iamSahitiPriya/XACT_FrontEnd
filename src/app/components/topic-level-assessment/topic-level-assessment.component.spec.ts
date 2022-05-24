@@ -9,6 +9,7 @@ import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent;
@@ -17,6 +18,7 @@ describe('TopicLevelAssessmentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TopicLevelAssessmentComponent,TopicScoreComponent, AssessmentRecommendationComponent],
+      providers:[{provide: AppServiceService, useClass: MockAppService}],
       imports:[MatFormFieldModule, MatCardModule]
     })
     .compileComponents();
@@ -32,3 +34,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+class MockAppService{
+
+}

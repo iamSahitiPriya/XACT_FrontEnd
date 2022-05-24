@@ -157,8 +157,6 @@ describe('CreateAssessmentsComponent', () => {
     expect(component).toBeTruthy()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
       expect(data).toBe(assessmentData)
-    },(error) =>{
-      console.log(error)
     })
     reloadFn()
     expect(window.location.reload).toHaveBeenCalled()

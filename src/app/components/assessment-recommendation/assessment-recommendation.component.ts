@@ -14,7 +14,6 @@ export class AssessmentRecommendationComponent {
   @ViewChild('recommendationElement') recommendationElement: ElementRef;
 
   handleCancel() {
-    console.log(this.recommendationElement.nativeElement.value)
     this.recommendationElement.nativeElement.value = '';
   }
 
