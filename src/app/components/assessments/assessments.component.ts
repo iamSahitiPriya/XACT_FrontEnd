@@ -3,7 +3,6 @@
  */
 
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {AssessmentStructure} from "../../types/assessmentStructure";

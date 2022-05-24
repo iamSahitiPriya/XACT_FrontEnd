@@ -5,16 +5,21 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
 
+  class MockAppService {
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentQuestionComponent ]
+      declarations: [AssessmentQuestionComponent],
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -24,7 +29,9 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it('should create', () => {
-    component.parameterDetails = {parameterId:1,parameterName:"abc", topic:1,questions:[],references:[]}
-    expect(component).toBeTruthy();
+    component.initial=1;
+    component.parameterDetails = {parameterId: 1, parameterName: "abc", topic: 1, questions: [], references: []}
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector(".parameter").textContent).toContain("abc");
   });
 });

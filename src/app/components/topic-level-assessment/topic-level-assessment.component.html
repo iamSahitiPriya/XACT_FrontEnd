@@ -2,13 +2,12 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div class="topicQuestions">
+<div class="topicQuestions" *ngIf="topicInput">
 
   <div *ngFor="let parameter of topicInput.parameters; let i=index;">
     <app-assessment-question [parameterDetails]="parameter" [initial]="i" [notes]="notes"></app-assessment-question>
 
   </div>
-
   <app-topic-score [topicScore]="topicInput.references"></app-topic-score>
   <div>
     <app-assessment-recommendation></app-assessment-recommendation>
