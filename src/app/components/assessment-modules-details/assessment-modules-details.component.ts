@@ -10,6 +10,7 @@ import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
+import {MatTabChangeEvent} from "@angular/material/tabs";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -36,6 +37,9 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   constructor(private appService: AppServiceService) {
   }
 
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.selectedIndex = tabChangeEvent.index;
+  }
   navigate(module: ModuleStructure) {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;

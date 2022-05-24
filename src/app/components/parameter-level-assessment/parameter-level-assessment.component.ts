@@ -7,6 +7,8 @@ import {TopicStructure} from "../../types/topicStructure";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
 import {Notes} from "../../types/notes";
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-parameter-level-assessment',
@@ -15,6 +17,9 @@ import {Notes} from "../../types/notes";
 })
 export class ParameterLevelAssessmentComponent {
   notes: Notes[] = [];
+
+  constructor(public dialog: MatDialog) {
+  }
 
 
   @Input() assessmentId :number
@@ -44,8 +49,16 @@ export class ParameterLevelAssessmentComponent {
   private assessmentRecommendationComponent: AssessmentRecommendationComponent;
 
   cancel() {
-    this.assessmentQuestionComponent.handleCancel()
-    this.assessmentRecommendationComponent.handleCancel()
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    })
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.assessmentQuestionComponent.handleCancel()
+        this.assessmentRecommendationComponent.handleCancel()
+      }
+    })
 
   }
 }

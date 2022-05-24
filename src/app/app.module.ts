@@ -51,6 +51,7 @@ import {AssessmentRecommendationComponent} from './components/assessment-recomme
 import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
 import {FunctionalitiesComponent} from './components/functionalities/functionalities.component';
+import { PopupConfirmationComponent } from './components/popup-confirmation/popup-confirmation.component';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -96,6 +97,7 @@ export const appRoutes: Routes = [
     AssessmentRecommendationComponent,
     TopicScoreComponent,
     FunctionalitiesComponent,
+    PopupConfirmationComponent,
   ],
   imports: [
     BrowserModule,

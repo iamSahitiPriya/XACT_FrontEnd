@@ -5,6 +5,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ParameterLevelAssessmentComponent} from './parameter-level-assessment.component';
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 
 describe('ParameterLevelAssessmentComponent', () => {
   let component: ParameterLevelAssessmentComponent;
@@ -12,7 +13,8 @@ describe('ParameterLevelAssessmentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ParameterLevelAssessmentComponent]
+      declarations: [ ParameterLevelAssessmentComponent ],
+      imports:[MatDialogModule]
     })
       .compileComponents();
   });

@@ -7,6 +7,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AssessmentQuestionComponent} from './assessment-question.component';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 
+
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
@@ -17,6 +18,8 @@ describe('AssessmentQuestionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentQuestionComponent]
+
+
     })
       .compileComponents();
   });

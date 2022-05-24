@@ -1,0 +1,22 @@
+.okButton{
+  background:#013D4F 0% 0% no-repeat padding-box;
+  color: white;
+  font:normal normal medium 14px/16px Inter;
+  width: 80px;
+  height: 33px;
+  border-radius: 4px;
+  margin-top: 20px;
+
+}
+#close{
+  margin-left: 379px;
+  position: relative;
+  top: -20px;
+}
+.cancelText{
+  text-align: center;
+  font: normal normal normal 18px/24px Inter;
+  letter-spacing: 0.17px;
+  color: #000000;
+  opacity: 1;
+}

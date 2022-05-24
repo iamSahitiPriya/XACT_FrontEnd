@@ -9,26 +9,30 @@ import {AssessmentRecommendationComponent} from "../assessment-recommendation/as
 import {Notes} from "../../types/notes";
 import {AnswerRequest} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {MatDialog} from "@angular/material/dialog";
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
   styleUrls: ['./topic-level-assessment.component.css']
 })
-export class TopicLevelAssessmentComponent {
 
-  notes: Notes[] = [];
 
-  @Input() assessmentId: number
+export class TopicLevelAssessmentComponent{
+  textAreaElement: FormGroup;
+  notes: Notes[] =[];
+  constructor(public dialog:MatDialog, private appService: AppServiceService) {
+  }
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();
+  @Input() assessmentId: number
 
   @Input()
   topicInput: TopicStructure;
 
-  constructor(private appService: AppServiceService) {
-  }
 
   next() {
     this.selectedIndex += 1
@@ -49,8 +53,16 @@ export class TopicLevelAssessmentComponent {
   private assessmentRecommendationComponent: AssessmentRecommendationComponent;
 
   cancel() {
-    this.assessmentQuestionComponent.handleCancel()
-    this.assessmentRecommendationComponent.handleCancel()
+    const openConfirm = this.dialog.open(PopupConfirmationComponent,{
+      width: '448px',
+      height: '203px'
+    })
+    openConfirm.afterClosed().subscribe(result =>{
+      if (result === 1){
+        this.assessmentQuestionComponent.handleCancel()
+        this.assessmentRecommendationComponent.handleCancel()
+      }
+    })
   }
 
   save() {

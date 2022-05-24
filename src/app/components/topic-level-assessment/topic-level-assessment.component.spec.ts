@@ -13,6 +13,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {AnswerRequest} from "../../types/answerRequest";
 import {of} from "rxjs";
 
+
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent;
   let fixture: ComponentFixture<TopicLevelAssessmentComponent>;
@@ -22,6 +23,7 @@ describe('TopicLevelAssessmentComponent', () => {
       declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentRecommendationComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService}],
       imports: [MatFormFieldModule, MatCardModule]
+
     })
       .compileComponents();
   });
