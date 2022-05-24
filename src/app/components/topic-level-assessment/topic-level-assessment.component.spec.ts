@@ -53,7 +53,7 @@ describe('TopicLevelAssessmentComponent', () => {
   it('should save answers', () => {
     component.assessmentId = 123;
     component.notes = [];
-    expect(component.save()).toBeTruthy();
+    component.save();
   });
 
 
