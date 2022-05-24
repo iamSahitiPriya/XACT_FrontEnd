@@ -16,9 +16,6 @@ import {Notes} from "../../types/notes";
 export class ParameterLevelAssessmentComponent {
   notes: Notes[] = [];
 
-  constructor() {
-  }
-
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();
