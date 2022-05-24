@@ -33,9 +33,9 @@ export class AppServiceService {
     return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
   }
 
-  public saveAssessment(assessmentAnswer: AnswerRequest):Observable<any> {
+  public saveAssessment(assessmentAnswer: AnswerRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI, assessmentAnswer, {'headers': headers})
+    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer.notes, {'headers': headers})
 
   }
 

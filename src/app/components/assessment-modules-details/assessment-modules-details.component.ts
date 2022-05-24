@@ -31,6 +31,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   parameter: ParameterStructure;
   topicName: string;
   selectedIndex: number = 0;
+  assessmentId: number;
 
   constructor(private appService: AppServiceService) {
   }
@@ -43,9 +44,12 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (history.state.assessmentName) {
       this.assessmentName = history.state.assessmentName
+      this.assessmentId = history.state.assessmentId
       sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
+      sessionStorage.setItem('assessmentId', JSON.stringify(this.assessmentId))
     } else {
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
+      this.assessmentId = JSON.parse(sessionStorage.getItem('assessmentId') || "No value")
     }
     this.appService.getCategories().subscribe(data => {
       categories = data
@@ -57,10 +61,12 @@ export class AssessmentModulesDetailsComponent implements OnInit {
 
     })
   }
-  next(index:number){
+
+  next(index: number) {
     this.selectedIndex = index;
   }
-  previous(index:number){
+
+  previous(index: number) {
     this.selectedIndex = index;
   }
 

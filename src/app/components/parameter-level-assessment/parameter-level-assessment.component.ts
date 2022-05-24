@@ -19,6 +19,7 @@ export class ParameterLevelAssessmentComponent {
   constructor() {
   }
 
+  @Input() assessmentId :number
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();

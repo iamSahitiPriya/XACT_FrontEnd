@@ -4,26 +4,31 @@
 
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {assessmentData, AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
-import {FormGroup} from "@angular/forms";
 import {Notes} from "../../types/notes";
+import {AnswerRequest} from "../../types/answerRequest";
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
   styleUrls: ['./topic-level-assessment.component.css']
 })
-export class TopicLevelAssessmentComponent{
-  textAreaElement: FormGroup;
-  notes: Notes[] =[];
+export class TopicLevelAssessmentComponent {
 
+  notes: Notes[] = [];
+
+  @Input() assessmentId: number
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();
 
   @Input()
   topicInput: TopicStructure;
+
+  constructor(private appService: AppServiceService) {
+  }
 
   next() {
     console.log(this.selectedIndex)
@@ -50,6 +55,15 @@ export class TopicLevelAssessmentComponent{
   }
 
   save() {
-    this.assessmentQuestionComponent.saveAnswer()
+    console.log(this.notes)
+    const answerRequest: AnswerRequest = {
+      assessmentId: this.assessmentId, notes: this.notes
+    };
+    console.log(answerRequest);
+    this.appService.saveAssessment(answerRequest).subscribe((_data) => {
+        assessmentData.push(answerRequest);
+        window.location.reload()
+      }
+    )
   }
 }

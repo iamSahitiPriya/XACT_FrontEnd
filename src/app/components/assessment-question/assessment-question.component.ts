@@ -2,9 +2,7 @@ import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-
 import {ParameterStructure} from "../../types/parameterStructure";
-import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Notes} from "../../types/notes";
 
 
@@ -17,6 +15,9 @@ export const assessmentData = [{}]
   styleUrls: ['./assessment-question.component.css']
 })
 export class AssessmentQuestionComponent {
+
+  @Input()
+  assessmentId: number;
   @Input()
   parameterDetails: ParameterStructure;
 
@@ -27,8 +28,6 @@ export class AssessmentQuestionComponent {
   initial: number
   textarea: string;
 
-  constructor(private appService: AppServiceService) {
-  }
 
   handleCancel() {
     this.notes.forEach((note) => {
@@ -39,17 +38,6 @@ export class AssessmentQuestionComponent {
 
   @ViewChild('textAreaElement') textAreaElement: ElementRef;
 
-
-  saveAnswer() {
-    console.log(this.notes)
-    // const answerRequest: AnswerRequest = {
-    //   notes: this.notes};
-    //
-    // this.appService.saveAssessment(answerRequest).subscribe((_data) => {
-    //   assessmentData.push(answerRequest);
-    //   window.location.reload() }
-    // )
-  }
 
   getAnswer(questionId: number): Notes {
     const note = this.notes.find(function (el) {

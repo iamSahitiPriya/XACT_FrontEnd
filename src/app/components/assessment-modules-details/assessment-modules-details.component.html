@@ -20,10 +20,10 @@
 <mat-tab-group #tabs mat-align-tabs="start" class="topicTab" [selectedIndex]="selectedIndex">
   <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
     <div *ngIf="topic.assessmentLevel === 'Topic'">
-      <app-topic-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)"></app-topic-level-assessment>
+      <app-topic-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)" [assessmentId]="assessmentId"></app-topic-level-assessment>
     </div>
     <div *ngIf="topic.assessmentLevel === 'Parameter'">
-      <app-parameter-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)"></app-parameter-level-assessment>
+      <app-parameter-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)" [assessmentId]="assessmentId"></app-parameter-level-assessment>
     </div>
   </mat-tab>
 
