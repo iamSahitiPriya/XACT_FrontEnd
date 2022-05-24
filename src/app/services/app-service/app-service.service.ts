@@ -9,6 +9,7 @@ import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {CategoryStructure} from "../../types/categoryStructure";
+import {AnswerRequest} from "../../types/answerRequest";
 
 
 @Injectable({
@@ -30,6 +31,12 @@ export class AppServiceService {
 
   public getCategories(): Observable<CategoryStructure[]> {
     return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
+  }
+
+  public saveAssessment(assessmentAnswer: AnswerRequest):Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI, assessmentAnswer, {'headers': headers})
+
   }
 
 }

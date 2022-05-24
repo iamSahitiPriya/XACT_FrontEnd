@@ -20,14 +20,7 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 @Component({
   selector: 'app-assessments',
   templateUrl: './assessments.component.html',
-  styleUrls: ['./assessments.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./assessments.component.css']
 })
 
 export class AssessmentsComponent implements OnInit {

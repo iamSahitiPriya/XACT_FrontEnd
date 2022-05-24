@@ -1,15 +1,11 @@
-
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import selectors from '/Users/jathin.medurithoughtworks.com/Desktop/XAct_Frontend_App/cypress/fixtures/Locators/LandingPage_locators.json';
-
-
 import loginPage from "../integration/pageObjects/loginPage"
 import landingPage from "../integration/pageObjects/landingPage";
 
-  Cypress.Commands.add('launchxAct',(userName, passWord)=> {
+Cypress.Commands.add('launchxAct',(userName, passWord)=> {
     cy.visit(Cypress.env('url'))
   })
 

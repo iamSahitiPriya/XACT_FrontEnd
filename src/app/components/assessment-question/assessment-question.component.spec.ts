@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AssessmentQuestionComponent } from './assessment-question.component';
+import {AssessmentQuestionComponent} from './assessment-question.component';
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;

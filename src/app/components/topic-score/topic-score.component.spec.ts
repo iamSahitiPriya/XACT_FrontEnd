@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TopicScoreComponent } from './topic-score.component';
+import {TopicScoreComponent} from './topic-score.component';
 import {MatCardModule} from "@angular/material/card";
 
 describe('TopicScoreComponent', () => {

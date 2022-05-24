@@ -1,14 +1,13 @@
-  /*
- * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
- */
-
+/*
+* Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+*/
 import { Given,When,Then,And } from "@badeball/cypress-cucumber-preprocessor";
   import { Given,When,Then,And } from "@badeball/cypress-cucumber-preprocessor";
   import  loginPage from './pageObjects/loginPage'
   import loginPage from "../integration/pageObjects/loginPage"
   import landingPage from "../../pageObjects/landingPage";
 
-  Given('User launches the xAct application by providing valid url',function (){
+Given('User launches the xAct application by providing valid url',function (){
     cy.launchxAct()
     //loginPage.visit()
   })
