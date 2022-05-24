@@ -15,8 +15,20 @@
       "charts": true,
       "quiet": true,
       "embeddedScreenshots": true,
-      "testFiles": "**/*.js"
+      "testFiles": "**/*.js",
+      "testFiles": "**/*.feature"
     }
+  },
+  "scripts": {
+    "test": "/node_modules/.bin/cypress open",
+    "headTest": "npm run test -- --headed",
+    "chromeTest": "npm run test -- --browser chrome",
+    "recordDashboardTest": "npm eun test -- --record --key cb56a4be-554c-4323-aa92-3f4e0e8d9ec6 --reporter mochawsome"
+
+
+  },
+  "cypress-cucumber-preprocessor": {
+    "step_definitions": "cypress/integration/features/BDDtestFiles"
   },
   "screenshotOnRunFailure": true,
   "screenshotsFolder": "mochawesome-report/assets/screenshots",

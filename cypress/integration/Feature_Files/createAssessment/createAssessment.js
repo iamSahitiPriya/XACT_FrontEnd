@@ -1,9 +1,11 @@
 /*
 * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
 */
-
-import {And, Given, Then} from "cypress-cucumber-preprocessor/steps";
-import landingPage from "../../pageObjects/landingPage";
+import { Given,When,Then,And } from "@badeball/cypress-cucumber-preprocessor";
+  import { Given,When,Then,And } from "@badeball/cypress-cucumber-preprocessor";
+  import  loginPage from './pageObjects/loginPage'
+  import loginPage from "../integration/pageObjects/loginPage"
+  import landingPage from "../../pageObjects/landingPage";
 
 Given('User launches the xAct application by providing valid url',function (){
     cy.launchxAct()
