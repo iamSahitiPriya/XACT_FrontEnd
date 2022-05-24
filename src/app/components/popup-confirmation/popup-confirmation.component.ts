@@ -1,7 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
-import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
 
 @Component({
   selector: 'app-popup-confirmation',

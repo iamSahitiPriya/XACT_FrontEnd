@@ -20,7 +20,20 @@
 }
 .nextButton{
   margin-left: 102px;
+  width: 87px;
+  height: 33px;
+  border-radius: 4px;
 }
 .cancelButton{
   margin-right: 102px;
+  width: 87px;
+  height: 33px;
+  border-radius: 4px;
+}
+.saveButton {
+  width: 87px;
+  height: 33px;
+  border-radius: 4px;
+  background-color: #32616E;
+  color: white;
 }

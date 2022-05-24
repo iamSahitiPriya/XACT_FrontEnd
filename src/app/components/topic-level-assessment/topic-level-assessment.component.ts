@@ -23,8 +23,10 @@ import {FormGroup} from "@angular/forms";
 export class TopicLevelAssessmentComponent{
   textAreaElement: FormGroup;
   notes: Notes[] =[];
-  constructor(public dialog:MatDialog, private appService: AppServiceService) {
-  }
+  constructor(public dialog:MatDialog, private appService: AppServiceService) {}
+  public answerSaved: boolean = false;
+
+
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();
@@ -35,8 +37,19 @@ export class TopicLevelAssessmentComponent{
 
 
   next() {
-    this.selectedIndex += 1
-    this.goNext.emit(this.selectedIndex)
+    const openConfirm = this.dialog.open(PopupConfirmationComponent,{
+      width: '448px',
+      height: '203px'
+    })
+    openConfirm.afterClosed().subscribe(result =>{
+      if (result === 1){
+        this.assessmentQuestionComponent.handleCancel()
+        this.assessmentRecommendationComponent.handleCancel()
+        this.selectedIndex += 1
+        this.goNext.emit(this.selectedIndex)
+      }
+    })
+
   }
 
   previous() {
@@ -68,11 +81,13 @@ export class TopicLevelAssessmentComponent{
   save() {
     const answerRequest: AnswerRequest = {
       assessmentId: this.assessmentId, notes: this.notes
-    }; 
+    };
     this.appService.saveAssessment(answerRequest).subscribe((_data) => {
         assessmentData.push(answerRequest);
         window.location.reload()
       }
     )
+    this.answerSaved = true
+
   }
 }
