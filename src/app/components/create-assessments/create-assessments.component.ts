@@ -94,11 +94,12 @@ export class CreateAssessmentsComponent implements OnInit {
         assessmentName: this.assessmentName, organisationName: this.organizationName,
         domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: users
       };
-      this.appService.addAssessments(assessmentRequest).subscribe((_data) => {
+      this.appService.addAssessments(assessmentRequest).subscribe({
+        next: (_data) => {
           assessmentData.push(assessmentRequest);
           window.location.reload()
         },
-        (_error) => {
+        error: (_error) => {
           this.loading = false
           this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
             duration: 4000,
@@ -106,7 +107,8 @@ export class CreateAssessmentsComponent implements OnInit {
             verticalPosition: "bottom",
             panelClass: ['error-snackBar']
           })
-        })
+        }
+      })
     }
   }
 
