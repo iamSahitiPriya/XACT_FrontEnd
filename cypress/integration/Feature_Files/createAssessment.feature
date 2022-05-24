@@ -1,6 +1,6 @@
 Feature: Implement create assessment and user profile
 
-  Background: User navigates to X-Actby via Okta
+  Scenario:User navigates to X-Actby via Okta
     #Given User provides valid "UserName" and clicks on Next button
     #Then provide valid "Password" and clicks on Verify button
     #And complete the SSO verification
@@ -65,7 +65,7 @@ Feature: Implement create assessment and user profile
     When alphabetical values are provided in the team size field
     Then the user cannot enter values in the field
     And provide negative values in the team size field
-  Then
+  #Then
 
   @@@@@@@@@@@
   Scenario: The red colored border and the error must disappear when the fields are filled wih proper input
