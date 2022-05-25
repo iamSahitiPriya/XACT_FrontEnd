@@ -46,7 +46,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {ParameterScoreComponent} from './components/parameter-score/parameter-score.component';
 import {AssessmentQuestionComponent} from './components/assessment-question/assessment-question.component';
 import {TopicLevelAssessmentComponent} from './components/topic-level-assessment/topic-level-assessment.component';
-import {ParameterLevelAssessmentComponent} from './components/parameter-level-assessment/parameter-level-assessment.component';
 import {AssessmentRecommendationComponent} from './components/assessment-recommendation/assessment-recommendation.component';
 import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
@@ -93,7 +92,6 @@ export const appRoutes: Routes = [
     ParameterScoreComponent,
     AssessmentQuestionComponent,
     TopicLevelAssessmentComponent,
-    ParameterLevelAssessmentComponent,
     AssessmentRecommendationComponent,
     TopicScoreComponent,
     FunctionalitiesComponent,
@@ -128,6 +126,9 @@ export const appRoutes: Routes = [
     MatTabsModule,
     MatSelectModule,
     NgHttpLoaderModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+
   ],
   exports: [
     MatButtonModule,
@@ -135,7 +136,8 @@ export const appRoutes: Routes = [
     MatMenuModule,
     MatIconModule,
     MatToolbarModule,
-    NgHttpLoaderModule
+    NgHttpLoaderModule,
+    FormsModule
   ],
   providers: [
     AppServiceService,

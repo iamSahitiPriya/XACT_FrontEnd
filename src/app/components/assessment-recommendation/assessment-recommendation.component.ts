@@ -13,6 +13,7 @@ export class AssessmentRecommendationComponent {
 
   @ViewChild('recommendationElement') recommendationElement: ElementRef;
 
+
   handleCancel() {
     this.recommendationElement.nativeElement.value = '';
   }

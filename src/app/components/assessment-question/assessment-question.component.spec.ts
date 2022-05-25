@@ -5,7 +5,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
-import {AppServiceService} from "../../services/app-service/app-service.service";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -17,7 +17,8 @@ describe('AssessmentQuestionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentQuestionComponent]
+      declarations: [AssessmentQuestionComponent],
+      imports:[HttpClientTestingModule]
 
 
     })
@@ -35,5 +36,10 @@ describe('AssessmentQuestionComponent', () => {
     component.parameterDetails = {parameterId: 1, parameterName: "abc", topic: 1, questions: [], references: []}
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector(".parameter").textContent).toContain("abc");
+  });
+  it("should clear notes on cancel", () => {
+    component.notes = [{questionId:1,answer:"dummy answer"}]
+    component.handleCancel()
+    expect(component.notes[0].answer).toBe("")
   });
 });

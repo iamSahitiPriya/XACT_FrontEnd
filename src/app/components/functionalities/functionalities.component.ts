@@ -11,18 +11,5 @@ import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-lev
   styleUrls: ['./functionalities.component.css']
 })
 export class FunctionalitiesComponent{
-@ViewChild(TopicLevelAssessmentComponent) topicLevel:TopicLevelAssessmentComponent
-@Input()selectedIndex:number
-  next() {
-    this.topicLevel.next()
-  }
-  previous(){
-  this.topicLevel.previous()
-  }
-  cancel(){
-  this.topicLevel.cancel()
-  }
-  save(){
-  this.topicLevel.save()
-  }
+
 }

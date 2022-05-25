@@ -15,7 +15,6 @@ export class SearchComponent {
   @Input()
   dataSource!: MatTableDataSource<AssessmentStructure>
 
-
   constructor() {
     this.dataSource = new MatTableDataSource<AssessmentStructure>()
   }
