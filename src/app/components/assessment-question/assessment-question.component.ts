@@ -1,13 +1,11 @@
-import {Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Notes} from "../../types/notes";
-import {AnswerRequest} from "../../types/answerRequest";
-import {ControlContainer, FormControl, FormGroup, NgForm} from "@angular/forms";
+import {ControlContainer, FormControl, NgForm} from "@angular/forms";
 
 
 export const assessmentData = [{}]

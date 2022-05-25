@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {assessmentData, AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
@@ -11,8 +11,7 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
-import {AbstractControl, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {log} from "util";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-topic-level-assessment',

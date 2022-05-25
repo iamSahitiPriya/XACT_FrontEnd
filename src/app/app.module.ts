@@ -49,7 +49,6 @@ import {TopicLevelAssessmentComponent} from './components/topic-level-assessment
 import {AssessmentRecommendationComponent} from './components/assessment-recommendation/assessment-recommendation.component';
 import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
-import {FunctionalitiesComponent} from './components/functionalities/functionalities.component';
 import { PopupConfirmationComponent } from './components/popup-confirmation/popup-confirmation.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 
@@ -94,7 +93,6 @@ export const appRoutes: Routes = [
     TopicLevelAssessmentComponent,
     AssessmentRecommendationComponent,
     TopicScoreComponent,
-    FunctionalitiesComponent,
     PopupConfirmationComponent,
   ],
   imports: [
