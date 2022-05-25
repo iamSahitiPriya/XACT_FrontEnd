@@ -36,7 +36,7 @@
         {{category.categoryName}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="categoryModules">
+    <div class="categoryModules" *ngIf="category">
       <mat-card class="moduleCard" (click)="navigate(module);tabs.selectedIndex=0"
                 *ngFor="let module of category.modules"
                 [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">

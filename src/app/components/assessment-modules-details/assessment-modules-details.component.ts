@@ -40,6 +40,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.selectedIndex = tabChangeEvent.index;
   }
+
   navigate(module: ModuleStructure) {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
@@ -61,7 +62,8 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     })
     valueEmitter.subscribe(data => {
       this.category = data
-      this.navigate(this.category[0].modules[0])
+      if (this.category.length > 0)
+        this.navigate(this.category[0].modules[0])
 
     })
   }

@@ -52,7 +52,7 @@ import {TopicScoreComponent} from './components/topic-score/topic-score.componen
 import {CommonModule} from '@angular/common';
 import {FunctionalitiesComponent} from './components/functionalities/functionalities.component';
 import { PopupConfirmationComponent } from './components/popup-confirmation/popup-confirmation.component';
-
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -127,15 +127,15 @@ export const appRoutes: Routes = [
     MatListModule,
     MatTabsModule,
     MatSelectModule,
-
+    NgHttpLoaderModule.forRoot(),
   ],
   exports: [
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
     MatIconModule,
-    MatToolbarModule
-
+    MatToolbarModule,
+    NgHttpLoaderModule
   ],
   providers: [
     AppServiceService,
