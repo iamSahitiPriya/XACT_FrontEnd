@@ -39,7 +39,6 @@ export class AssessmentQuestionComponent{
     );
   }
 
-  @ViewChild('testForm') textAreaElement: any;
   getAnswer(questionId: number): Notes {
     const note = this.notes.find(function (el) {
       return el.questionId === questionId;

@@ -11,7 +11,7 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {log} from "util";
 
 @Component({
@@ -26,15 +26,23 @@ export class TopicLevelAssessmentComponent{
   notes: Notes[] =[];
   constructor(public dialog:MatDialog, private appService: AppServiceService, private _fb:FormBuilder) {}
   public answerSaved: boolean = false;
-
+  public makeDisable = false
   @Input() selectedIndex: number
   @Output() goNext = new EventEmitter<number>();
   @Output() goBack = new EventEmitter<number>();
   @Input() assessmentId: number
+  @Input() topicInput: TopicStructure;
 
-  @Input()
-  topicInput: TopicStructure;
-  next(isChanged:boolean|null) {
+  @ViewChild(AssessmentQuestionComponent)
+  private assessmentQuestionComponent: AssessmentQuestionComponent;
+
+  @ViewChild(AssessmentRecommendationComponent)
+  private assessmentRecommendationComponent: AssessmentRecommendationComponent;
+
+  @ViewChild('testForm')
+  public testForm:any
+
+  next(isChanged:boolean | null) {
     if(!isChanged) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
@@ -44,6 +52,7 @@ export class TopicLevelAssessmentComponent{
         if (result === 1) {
           this.assessmentQuestionComponent.handleCancel()
           this.assessmentRecommendationComponent.handleCancel()
+          this.testForm.control.markAsPristine()
           this.selectedIndex += 1
           this.goNext.emit(this.selectedIndex)
         }
@@ -61,13 +70,6 @@ export class TopicLevelAssessmentComponent{
     }
   }
 
-  @ViewChild(AssessmentQuestionComponent)
-  private assessmentQuestionComponent: AssessmentQuestionComponent;
-
-  @ViewChild(AssessmentRecommendationComponent)
-  private assessmentRecommendationComponent: AssessmentRecommendationComponent;
-  assessmentAns: FormControl;
-
   cancel() {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
@@ -77,6 +79,7 @@ export class TopicLevelAssessmentComponent{
         if (result === 1) {
           this.assessmentQuestionComponent.handleCancel()
           this.assessmentRecommendationComponent.handleCancel()
+          this.testForm.control.markAsPristine()
         }
       })
   }

@@ -42,4 +42,10 @@ describe('AssessmentQuestionComponent', () => {
     component.handleCancel()
     expect(component.notes[0].answer).toBe("")
   });
+  it('should get answer based on question id', function () {
+    component.notes = [{questionId:1, answer:"Dummy answer"}]
+    const expectedAnswer = {"answer": "Dummy answer", "questionId": 1}
+    component.getAnswer(2)
+    expect(component.getAnswer(1)).toStrictEqual(expectedAnswer)
+  });
 });
