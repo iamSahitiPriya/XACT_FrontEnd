@@ -37,7 +37,7 @@ describe('TopicLevelAssessmentComponent', () => {
       providers: [{provide: AppServiceService, useClass: MockAppService},
         {provide: MatDialog, useClass: MockDialog}
       ],
-      imports: [MatFormFieldModule, MatCardModule,MatDialogModule, NoopAnimationsModule,FormsModule, ReactiveFormsModule]
+      imports: [MatFormFieldModule, MatCardModule,MatDialogModule, NoopAnimationsModule,FormsModule, ReactiveFormsModule],
 
     })
       .compileComponents();

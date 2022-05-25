@@ -1,8 +1,9 @@
 .okButton{
   background:#013D4F 0% 0% no-repeat padding-box;
   color: white;
-  font: normal normal normal 14px/16px Inter sans-serif;
+  font-size: 16px ;
   font-family: 'Inter', sans-serif;
+  font-weight: normal;
   width: 80px;
   height: 33px;
   border-radius: 4px;
@@ -16,8 +17,9 @@
 }
 .cancelText{
   text-align: center;
-  font: normal normal normal 18px/24px Inter sans-serif;
+  font-size: 16px ;
   font-family: 'Inter', sans-serif;
+  font-weight: normal;
   letter-spacing: 0.17px;
   color: #000000;
   opacity: 1;

@@ -10,6 +10,7 @@
          *ngFor="let question of parameterDetails.questions; let j=index;">
       <strong>{{initial + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
       <br>
+
         <mat-form-field class="textArea" appearance="outline" id="testForm" >
           <mat-label>Notes</mat-label>
           <textarea matInput name="textarea{{question.questionId}}" id="assessmentAnswer{{question.questionId}}"
