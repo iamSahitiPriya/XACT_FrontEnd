@@ -66,7 +66,9 @@ p{
   height: 25px;
   background: transparent url('src/assets/Path 3378/Path 3378.png') 0% 0% no-repeat padding-box;
   opacity: 1;
-  margin-left: 26px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   margin-top: 16px
 }
 

@@ -11,6 +11,7 @@ import {AppComponent} from './app.component';
 import {SearchComponent} from "../search/search.component";
 import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
 import {RouterModule} from "@angular/router";
+import {NgHttpLoaderComponent} from "ng-http-loader";
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -23,7 +24,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         SearchComponent,
-        CreateAssessmentsComponent
+        CreateAssessmentsComponent,
+        NgHttpLoaderComponent
       ],
       imports: [
         HttpClientModule,
