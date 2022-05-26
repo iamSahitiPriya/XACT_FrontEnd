@@ -19,15 +19,18 @@
       "testFiles": "**/*.feature"
     }
   },
+  "retries": {
+    "runMode": 1
+  },
   "scripts": {
     "test": "/node_modules/.bin/cypress open",
     "headTest": "npm run test -- --headed",
     "chromeTest": "npm run test -- --browser chrome",
-    "recordDashboardTest": "npm eun test -- --record --key cb56a4be-554c-4323-aa92-3f4e0e8d9ec6 --reporter mochawsome"
-
-
+    "recordDashboardTest": "npm run test -- --record --key cb56a4be-554c-4323-aa92-3f4e0e8d9ec6 --reporter mochawsome",
+    "createAssessmentModule":"npm run test -- --spec \"/Users/jathin.medurithoughtworks.com/Desktop/XAct_Frontend_App/cypress/integration/Assessment/*\""
   },
   "cypress-cucumber-preprocessor": {
+
     "step_definitions": "cypress/integration/features/BDDtestFiles"
   },
   "screenshotOnRunFailure": true,
