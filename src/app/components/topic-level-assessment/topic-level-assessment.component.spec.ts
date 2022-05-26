@@ -21,6 +21,10 @@ import {AssessmentQuestionComponent} from "../assessment-question/assessment-que
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent;
   let fixture: ComponentFixture<TopicLevelAssessmentComponent>;
+  let component1: AssessmentQuestionComponent;
+  let fixture1: ComponentFixture<AssessmentQuestionComponent>;
+  let component2: AssessmentRecommendationComponent;
+  let fixture2: ComponentFixture<AssessmentRecommendationComponent>;
   let dialog: any;
   let matDialog: any
   const original = window.location;
@@ -49,6 +53,10 @@ describe('TopicLevelAssessmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TopicLevelAssessmentComponent);
     component = fixture.componentInstance;
+    fixture1 = TestBed.createComponent(AssessmentQuestionComponent);
+    component1 = fixture1.componentInstance;
+    fixture2 = TestBed.createComponent(AssessmentRecommendationComponent);
+    component2 = fixture2.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
@@ -66,9 +74,7 @@ describe('TopicLevelAssessmentComponent', () => {
 
   it('should move back selected index', () => {
     component.selectedIndex = 1
-    component.previous()
-    expect(component.selectedIndex).toBe(0)
-    component.previous()
+    component.previous(true)
     expect(component.selectedIndex).toBe(0)
   });
 
@@ -86,18 +92,32 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(matDialog.open).toHaveBeenCalled()
   });
 
-  it('should open popup before moving to next', () => {
+  it('should open popup before moving to next without saving', () => {
     jest.spyOn(matDialog, 'open')
     component.next(false)
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
   it('should close the pop on clicking the cross', () => {
-    jest.spyOn(matDialog,'closeAll')
-    component.next(false)
-    matDialog.closeAll()
-    expect(matDialog.closeAll).toHaveBeenCalled()
+    jest.spyOn(matDialog,'open')
+    jest.spyOn(component1,'handleCancel')
+    jest.spyOn(component2,'handleCancel')
+    component.selectedIndex = 0
 
+    component.next(false)
+
+    expect(matDialog.open).toHaveBeenCalled()
+    expect(component1.handleCancel).toBeTruthy()
+    expect(component2.handleCancel).toBeTruthy()
+    expect(component.selectedIndex).toBe(0)
+  });
+  it('should open popup before moving to back without saving', () => {
+    jest.spyOn(matDialog, 'open')
+    component.previous(false)
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
+  });
+  it('should do cancel when the dialog box is closed', () => {
   });
 });
 
@@ -110,7 +130,9 @@ class MockAppService {
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of({})
+      afterClosed: () =>
+        of(1)
+
     }
   }
 

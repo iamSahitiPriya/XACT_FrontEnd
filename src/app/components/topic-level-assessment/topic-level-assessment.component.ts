@@ -33,10 +33,10 @@ export class TopicLevelAssessmentComponent{
   @Input() topicInput: TopicStructure;
 
   @ViewChild(AssessmentQuestionComponent)
-  private assessmentQuestionComponent: AssessmentQuestionComponent;
+  assessmentQuestionComponent: AssessmentQuestionComponent;
 
   @ViewChild(AssessmentRecommendationComponent)
-  private assessmentRecommendationComponent: AssessmentRecommendationComponent;
+  assessmentRecommendationComponent: AssessmentRecommendationComponent;
 
   @ViewChild('testForm')
   public testForm:any
@@ -62,10 +62,24 @@ export class TopicLevelAssessmentComponent{
     }
   }
 
-  previous() {
-    if (this.selectedIndex != 0) {
+  previous(isChanged:boolean | null) {
+    if(!isChanged) {
+      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+        width: '448px',
+        height: '203px'
+      })
+      openConfirm.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.assessmentQuestionComponent.handleCancel()
+          this.assessmentRecommendationComponent.handleCancel()
+          this.testForm.control.markAsPristine()
+          this.selectedIndex -= 1
+          this.goNext.emit(this.selectedIndex)
+        }
+      })
+    }else{
       this.selectedIndex -= 1
-      this.goBack.emit(this.selectedIndex)
+      this.goNext.emit(this.selectedIndex)
     }
   }
 

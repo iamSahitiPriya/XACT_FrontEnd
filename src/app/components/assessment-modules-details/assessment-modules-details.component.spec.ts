@@ -19,6 +19,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {MatInputModule} from "@angular/material/input";
 
 class MockAppService {
   public getCategories() {
@@ -109,9 +111,9 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent,TopicLevelAssessmentComponent],
+      declarations: [AssessmentModulesDetailsComponent,TopicLevelAssessmentComponent,AssessmentQuestionComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule,NoopAnimationsModule,
-        MatCardModule,MatFormFieldModule,MatDialogModule,FormsModule,ReactiveFormsModule,
+        MatCardModule,MatFormFieldModule,MatDialogModule,FormsModule,ReactiveFormsModule,MatInputModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
