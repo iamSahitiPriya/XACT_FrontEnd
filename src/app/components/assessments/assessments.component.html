@@ -23,16 +23,13 @@
       <ng-container matColumnDef="assessmentName">
         <th mat-header-cell *matHeaderCellDef> Assessment Name</th>
         <td mat-cell *matCellDef="let element">
-          <span [routerLink]="['/assessment',element.assessmentId]"
-                [state]="{assessmentName:element.assessmentName, assessmentId:element.assessmentId}"
-                role="button">
-            {{element.assessmentName}} </span>
+          <span> {{element.assessmentName}} </span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="organisationName">
         <th mat-header-cell *matHeaderCellDef> Organisation Name</th>
-        <td mat-cell *matCellDef="let element" [routerLink]="['/assessmentModule']"> {{element.organisationName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="assessmentStatus">
@@ -46,7 +43,9 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
+      <tr [routerLink]="['/assessment',element.assessmentId]"
+          [state]="{assessmentName:element.assessmentName, assessmentId:element.assessmentId}"
+          role="button" mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No data matching the filter</td>
       </tr>
