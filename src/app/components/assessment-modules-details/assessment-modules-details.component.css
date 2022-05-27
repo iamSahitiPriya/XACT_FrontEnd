@@ -226,8 +226,8 @@ html, body {
   height: 10%;
 }
 
-.sideBar{
+.sideBar {
   height: 640px;
-  overflow:auto;
-  margin-left:-12px;
+  overflow: auto;
+  margin-left: -12px;
 }

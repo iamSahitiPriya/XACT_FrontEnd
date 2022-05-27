@@ -11,6 +11,7 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {saveAs} from 'file-saver';
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -75,5 +76,4 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   previous(index: number) {
     this.selectedIndex = index;
   }
-
 }

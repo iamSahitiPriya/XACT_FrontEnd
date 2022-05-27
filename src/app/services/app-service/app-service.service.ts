@@ -39,4 +39,7 @@ export class AppServiceService {
 
   }
 
+  generateReport(assessmentId: number) {
+    return this.http.get(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId, {responseType: 'blob'})
+  }
 }

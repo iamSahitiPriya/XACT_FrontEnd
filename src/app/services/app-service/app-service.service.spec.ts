@@ -60,4 +60,8 @@ describe('AppServiceService', () => {
     expect(service.saveAssessment(answerRequest)).toBeTruthy()
   });
 
+  it("should generate report", () => {
+    expect(service.generateReport(123)).toBeTruthy()
+  });
+
 });

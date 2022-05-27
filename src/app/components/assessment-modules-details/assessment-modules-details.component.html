@@ -2,25 +2,34 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<p>
-  <mat-toolbar>
-    <button mat-icon-button [routerLink]="['']">
-      <mat-icon class="backIcon">keyboard_backspace</mat-icon>
-    </button>
-    <span class="name"> {{assessmentName}}</span>
-    <span class="module-spacer"></span>
-  </mat-toolbar>
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <mat-toolbar>
+      <button mat-icon-button [routerLink]="['']">
+        <mat-icon class="backIcon">keyboard_backspace</mat-icon>
+      </button>
+      <span class="name"> {{assessmentName}}</span>
+      <span class="module-spacer"></span>
+    </mat-toolbar>
+  </div>
+  <div class="col-md-6 align-self-center">
+    <app-assessment-menu [assessmentId]="assessmentId"></app-assessment-menu>
+  </div>
+</div>
+
 
 <mat-toolbar class="moduleToolbar">
   <div class="moduleHead">
     Modules
   </div>
 </mat-toolbar>
-<mat-tab-group #tabs mat-align-tabs="start" class="topicTab" [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)">
+<mat-tab-group #tabs mat-align-tabs="start" class="topicTab" [selectedIndex]="selectedIndex"
+               (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
     <div>
-      <app-topic-level-assessment [topicInput]="topic" [selectedIndex] = "selectedIndex" (goNext)="next($event)" (goBack)="previous($event)" [assessmentId]="assessmentId"></app-topic-level-assessment>
+      <app-topic-level-assessment [topicInput]="topic" [selectedIndex]="selectedIndex" (goNext)="next($event)"
+                                  (goBack)="previous($event)"
+                                  [assessmentId]="assessmentId"></app-topic-level-assessment>
     </div>
   </mat-tab>
 

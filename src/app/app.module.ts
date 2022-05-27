@@ -51,6 +51,7 @@ import {TopicScoreComponent} from './components/topic-score/topic-score.componen
 import {CommonModule} from '@angular/common';
 import { PopupConfirmationComponent } from './components/popup-confirmation/popup-confirmation.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
+import { AssessmentMenuComponent } from './components/assessment-menu/assessment-menu.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -94,6 +95,7 @@ export const appRoutes: Routes = [
     AssessmentRecommendationComponent,
     TopicScoreComponent,
     PopupConfirmationComponent,
+    AssessmentMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -125,8 +127,7 @@ export const appRoutes: Routes = [
     MatSelectModule,
     NgHttpLoaderModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule,
-
+    ReactiveFormsModule
   ],
   exports: [
     MatButtonModule,
