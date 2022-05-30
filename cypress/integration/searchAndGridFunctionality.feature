@@ -33,7 +33,7 @@ Feature: User should be able to search assessments in the grid using the search 
       | Search with assessment which is unavailable    | z           |
 
 
-  Scenario: Validating water mark text in the search box
+  Scenario: Validating placeholder text in the search box
     Given Search icon and search text should be displayed as water text in the search box
     When user clicks on the both icon and search should be shifted up
     And "Ex. My Assessment" should be displayed as water text

@@ -43,10 +43,11 @@
   "defaultCommandTimeout": 10000,
   "watchForFileChanges": true,
   "chromeWebSecurity": false,
+  "baseUrl": "http://localhost:4200",
   "env": {
-    "url": "http://localhost:4200",
     "userName": "technicalbaba4u@gmail.com",
-    "password": "Sam@12345"
+    "password": "Sam@12345",
+    "FOO": "bar"
   },
   "projectId": "rjmg83",
   "CYPRESS_RECORD_KEY": "c9068031-47ae-43fd-988a-8741b1a9107e"

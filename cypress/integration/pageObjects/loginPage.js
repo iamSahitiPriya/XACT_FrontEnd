@@ -16,6 +16,44 @@ class loginPage {
   static submit(){
     return cy.get('.button')
   }
+  static oktaHeader(){
+     return cy.get('.okta-sign-in-header > h1')
+  }
+  static siginTitle(){
+    return cy.get('.okta-form-title')
+  }
+  static userNameheader(){
+    return cy.get('.okta-form-title')
+  }
+  static siginTitle(){
+    return cy.get('[data-se="o-form-fieldset-identifier"] > .okta-form-label > label')
+  }
+  static passwordTitle(){
+    return cy.get('[data-se="o-form-fieldset-credentials.passcode"] > .okta-form-label')
+  }
+  static checkBox(){
+     return cy.get('.custom-checkbox > label')
+  }
+  static forgetPasswordLink(){
+     return cy.get('.js-forgot-password')
+  }
+  static helpLink(){
+     return cy.get('.js-help')
+  }
+  static authContainer(){
+     return cy.get('.auth-content')
+  }
+  static siginContainer(){
+    return cy.get('#signin-container')
+  }
+  static invalidSigninMessage(){
+     return cy.get('.okta-form-infobox-error')
+  }static emptyuserNameError(){
+     return cy.get('#input-container-error57')
+  }static emptyPasswordError(){
+     return cy.get('#input-container-error58')
+  }
+
 
   //reusable functions
   static xActLogin(userName,passWord){

@@ -2,6 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+import landingPage from "../integration/pageObjects/landingPage";
+
 class commonFunction{
 
   static clickOnElement(webElementLocation){
@@ -26,6 +28,24 @@ class commonFunction{
       var myReg = new RegExp(assertionText, 'i')
       expect(val).to.match(myReg,msg)
     })
+  }
+
+  static elementIsDisplayed(element){
+    element.then($body => {
+      if ($body.element.length > 0) {
+        //evaluates as true if button exists at all
+        element.then($header => {
+          if ($header.is(':visible')){
+            return element
+          } else {
+            assert.isNotOk(false,'element is not visible')
+          }
+        });
+      } else {
+        //you get here if the button DOESN'T EXIST
+        assert.isOk('everything','everything is OK');
+      }
+    });
   }
 }
 
