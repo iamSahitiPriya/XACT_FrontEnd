@@ -99,6 +99,10 @@ class MockAppService {
     return of(mockCategory)
   }
 
+  getAssessment(assessmentId:number){
+    return of({assessmentId:assessmentId,assessmentName:"Demo",assessmentStatus:"Active"});
+  }
+
 }
 
 

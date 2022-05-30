@@ -11,7 +11,6 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {saveAs} from 'file-saver';
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -24,7 +23,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 export class AssessmentModulesDetailsComponent implements OnInit {
   assessmentName: string
   moduleName: string
-  assessment: AssessmentStructure[] = []
+  assessment: AssessmentStructure
   category: CategoryStructure[] = []
   topics: TopicStructure[];
   parameters: ParameterStructure[];
@@ -57,17 +56,10 @@ export class AssessmentModulesDetailsComponent implements OnInit {
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
       this.assessmentId = JSON.parse(sessionStorage.getItem('assessmentId') || "No value")
     }
-    this.appService.getCategories().subscribe(data => {
-      categories = data
-      valueEmitter.next(categories)
-    })
-    valueEmitter.subscribe(data => {
-      this.category = data
-      if (this.category.length > 0)
-        this.navigate(this.category[0].modules[0])
-
-    })
+    this.getAssessment();
+    this.getCategories();
   }
+
 
   next(index: number) {
     this.selectedIndex = index;
@@ -76,4 +68,24 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   previous(index: number) {
     this.selectedIndex = index;
   }
+
+  private getAssessment() {
+    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
+        this.assessment = _data;
+      }
+    )
+  }
+
+  private getCategories() {
+    this.appService.getCategories().subscribe(data => {
+      categories = data
+      valueEmitter.next(categories)
+    })
+    valueEmitter.subscribe(data => {
+      this.category = data
+      if (this.category.length > 0)
+        this.navigate(this.category[0].modules[0])
+    })
+  }
+
 }

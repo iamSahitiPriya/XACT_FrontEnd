@@ -2,7 +2,7 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div class="row">
+<div class="row menu-bar">
   <div class="col-md-6">
     <mat-toolbar>
       <button mat-icon-button [routerLink]="['']">
@@ -13,10 +13,10 @@
     </mat-toolbar>
   </div>
   <div class="col-md-6 align-self-center">
-    <app-assessment-menu [assessmentId]="assessmentId"></app-assessment-menu>
+    <app-assessment-menu [assessmentId]="assessmentId"
+                         [assessmentStatus]="assessment && assessment.assessmentStatus"></app-assessment-menu>
   </div>
 </div>
-
 
 <mat-toolbar class="moduleToolbar">
   <div class="moduleHead">

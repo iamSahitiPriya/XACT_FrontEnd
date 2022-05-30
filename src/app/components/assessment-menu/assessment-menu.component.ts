@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import FileSaver, {saveAs} from 'file-saver';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-assessment-menu',
@@ -11,6 +11,9 @@ export class AssessmentMenuComponent {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  assessmentStatus: string
 
   constructor(private appService: AppServiceService) {
   }
@@ -23,5 +26,17 @@ export class AssessmentMenuComponent {
   }
 
 
+  public finishAssessment() {
+    this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
+        this.assessmentStatus = _data.assessmentStatus;
+      }
+    )
+  }
 
+  reopenAssessment() {
+    this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
+        this.assessmentStatus = _data.assessmentStatus;
+      }
+    )
+  }
 }

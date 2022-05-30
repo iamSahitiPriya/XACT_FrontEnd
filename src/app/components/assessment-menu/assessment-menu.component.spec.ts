@@ -14,6 +14,12 @@ describe('AssessmentMenuComponent', () => {
     generateReport() {
       return of(new Blob());
     }
+    finishAssessment(){
+      return of({assessmentId:123,assessmentName:"Demo",assessmentStatus:"Completed"});
+    }
+    reopenAssessment(){
+      return of({assessmentId:123,assessmentName:"Demo",assessmentStatus:"Active"});
+    }
 
   }
 
@@ -40,14 +46,28 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report on click', fakeAsync(() => {
+    component.assessmentStatus = "Completed";
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
-
+    fixture.detectChanges();
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     tick();
     expect(component.generateReport).toHaveBeenCalled();
+    flush()
+  }));
+
+  it('should call finish assessment if active', fakeAsync(() => {
+    component.assessmentStatus = "Active";
+    jest.spyOn(component, 'finishAssessment');
+    global.URL.createObjectURL = jest.fn();
+    global.URL.revokeObjectURL = jest.fn();
+    fixture.detectChanges();
+    let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
+    finishAssessment.click();
+    tick();
+    //expect(component.finishAssessment()).toHaveBeenCalled();
     flush()
   }));
 });

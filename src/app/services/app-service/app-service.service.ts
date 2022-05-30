@@ -42,4 +42,16 @@ export class AppServiceService {
   generateReport(assessmentId: number) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId, {responseType: 'blob'})
   }
+
+  finishAssessment(assessmentId: number): Observable<AssessmentStructure> {
+    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_FINISH_URI, null);
+  }
+
+  getAssessment(assessmentId: number): Observable<AssessmentStructure> {
+    return this.http.get<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
+  }
+
+  reopenAssessment(assessmentId: number): Observable<AssessmentStructure> {
+    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
+  }
 }
