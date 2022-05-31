@@ -24,7 +24,8 @@
     </div>
     <div class="col-md-8">
       <button mat-stroked-button class="cancelButton" id="cancel" [disabled]="testForm.pristine" (click)="cancel()" #submitButton >Cancel</button>
-      <button mat-raised-button class="saveButton" >Save</button>
+      <button [disabled]="assessmentStatus==='Completed'" mat-raised-button class="saveButton">Save</button>
+
     </div>
   </div>
   </form>

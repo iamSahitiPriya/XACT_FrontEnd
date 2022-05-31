@@ -1,11 +1,14 @@
 <div class="row justify-content-end">
-  <div class="col-md-3">
+  <div *ngIf="assessmentStatus==='Completed'" class="col-md-3">
     <button id="generate-report"  type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
       Generate Report
     </button>
   </div>
-  <div class="col-md-3">
-    <button type="button" mat-stroked-button class="btn-reopen">
+  <div  class="col-md-3">
+    <button *ngIf="assessmentStatus!=='Completed'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="finishAssessment()">
+      Finish Assessment
+    </button>
+    <button *ngIf="assessmentStatus==='Completed'" id="reopenAssessment"  type="button" mat-stroked-button class="btn-reopen" (click)="reopenAssessment()">
       Reopen Assessment
     </button>
   </div>

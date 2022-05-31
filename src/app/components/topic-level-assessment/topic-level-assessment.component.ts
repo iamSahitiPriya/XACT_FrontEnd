@@ -23,7 +23,6 @@ import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/t
   styleUrls: ['./topic-level-assessment.component.css']
 })
 
-
 export class TopicLevelAssessmentComponent implements OnInit{
   textAreaElement: FormGroup;
 
@@ -36,6 +35,8 @@ export class TopicLevelAssessmentComponent implements OnInit{
     this.topicRatingAndRecommendation = {rating: "", recommendation: "", topicId: this.topicInput.topicId};
 
   }
+
+
   public answerSaved: boolean = false;
   public makeDisable = false
   @Input() selectedIndex: number
@@ -43,6 +44,7 @@ export class TopicLevelAssessmentComponent implements OnInit{
   @Output() goBack = new EventEmitter<number>();
   @Input() assessmentId: number
   @Input() topicInput: TopicStructure;
+  @Input() assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
@@ -53,10 +55,10 @@ export class TopicLevelAssessmentComponent implements OnInit{
   topicLevelRecommendationComponent: TopicLevelRecommendationComponent;
 
   @ViewChild('testForm')
-  public testForm:any
+  public testForm: any
 
-  next(isChanged:boolean | null) {
-    if(!isChanged) {
+  next(isChanged: boolean | null) {
+    if (!isChanged) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -69,14 +71,14 @@ export class TopicLevelAssessmentComponent implements OnInit{
           this.goNext.emit(this.selectedIndex)
         }
       })
-    }else{
+    } else {
       this.selectedIndex += 1
       this.goNext.emit(this.selectedIndex)
     }
   }
 
-  previous(isChanged:boolean | null) {
-    if(!isChanged) {
+  previous(isChanged: boolean | null) {
+    if (!isChanged) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -89,7 +91,7 @@ export class TopicLevelAssessmentComponent implements OnInit{
           this.goNext.emit(this.selectedIndex)
         }
       })
-    }else{
+    } else {
       this.selectedIndex -= 1
       this.goNext.emit(this.selectedIndex)
     }
@@ -133,4 +135,19 @@ export class TopicLevelAssessmentComponent implements OnInit{
     this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating=topicRating.rating;
   }
 
+  disableForm() {
+    this.testForm.form.disable();
+  }
+
+  enableForm() {
+    this.testForm.form.enable();
+  }
+
+  updateAssessmentStatus(assessmentStatus: string) {
+    this.assessmentStatus = assessmentStatus;
+    if (this.assessmentStatus === 'Completed')
+      this.disableForm();
+    else
+      this.enableForm();
+  }
 }

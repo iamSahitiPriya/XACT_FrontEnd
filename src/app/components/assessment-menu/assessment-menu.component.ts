@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output,EventEmitter} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import FileSaver, {saveAs} from 'file-saver';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-assessment-menu',
@@ -11,6 +11,16 @@ export class AssessmentMenuComponent {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  assessmentStatus: string
+
+  @Output() statusEvent = new EventEmitter<string>();
+
+
+  sendStatus() {
+    this.statusEvent.emit(this.assessmentStatus)
+  }
 
   constructor(private appService: AppServiceService) {
   }
@@ -23,5 +33,19 @@ export class AssessmentMenuComponent {
   }
 
 
+  public finishAssessment() {
+    this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
+        this.assessmentStatus = _data.assessmentStatus;
+        this.sendStatus();
+      }
+    )
+  }
 
+  reopenAssessment() {
+    this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
+        this.assessmentStatus = _data.assessmentStatus;
+        this.sendStatus();
+      }
+    )
+  }
 }
