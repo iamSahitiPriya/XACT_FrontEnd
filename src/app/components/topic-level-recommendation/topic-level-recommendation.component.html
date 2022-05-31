@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div>
+  <mat-form-field class="textArea" appearance="outline">
+    <mat-label>Recommendations</mat-label>
+    <textarea id="recommendationElement{{topicRecommendation}}" name="recommendationText{{topicRecommendation}}"  matInput #recommendationElement
+              [(ngModel)]="topicRatingAndRecommendation.recommendation"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="9"></textarea>
+  </mat-form-field>
+</div>
