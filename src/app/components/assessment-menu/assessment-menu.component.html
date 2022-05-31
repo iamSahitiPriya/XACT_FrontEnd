@@ -5,7 +5,7 @@
     </button>
   </div>
   <div  class="col-md-3">
-    <button *ngIf="assessmentStatus==='Active'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="finishAssessment()">
+    <button *ngIf="assessmentStatus!=='Completed'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="finishAssessment()">
       Finish Assessment
     </button>
     <button *ngIf="assessmentStatus==='Completed'" id="reopenAssessment"  type="button" mat-stroked-button class="btn-reopen" (click)="reopenAssessment()">

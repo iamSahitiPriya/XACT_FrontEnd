@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -11,6 +11,7 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -20,7 +21,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   templateUrl: './assessment-modules-details.component.html',
   styleUrls: ['./assessment-modules-details.component.css']
 })
-export class AssessmentModulesDetailsComponent implements OnInit {
+export class AssessmentModulesDetailsComponent implements OnInit, AfterViewChecked {
   assessmentName: string
   moduleName: string
   assessment: AssessmentStructure
@@ -34,7 +35,14 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   selectedIndex: number = 0;
   assessmentId: number;
 
+  @ViewChild(TopicLevelAssessmentComponent)
+  topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
+
   constructor(private appService: AppServiceService) {
+  }
+
+  ngAfterViewChecked(): void {
+    this.topicLevelAssessmentComponent && this.topicLevelAssessmentComponent.updateAssessmentStatus(this.assessment && this.assessment.assessmentStatus);
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -72,6 +80,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   private getAssessment() {
     this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
         this.assessment = _data;
+        this.receiveStatus(this.assessment.assessmentStatus);
       }
     )
   }
@@ -88,4 +97,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     })
   }
 
+  receiveStatus(assessmentStatus: string) {
+    this.assessment.assessmentStatus = assessmentStatus;
+  }
 }

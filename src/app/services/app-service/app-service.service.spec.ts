@@ -64,4 +64,16 @@ describe('AppServiceService', () => {
     expect(service.generateReport(123)).toBeTruthy()
   });
 
+  it("should call finish assessment api", () => {
+    expect(service.finishAssessment(123)).toBeTruthy()
+  });
+
+  it("should call reopen assessment api", () => {
+    expect(service.reopenAssessment(123)).toBeTruthy()
+  });
+
+  it("should call get assessment api", () => {
+    expect(service.getAssessment(123)).toBeTruthy()
+  });
+
 });

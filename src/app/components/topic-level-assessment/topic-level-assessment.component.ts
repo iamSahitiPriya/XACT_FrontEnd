@@ -20,10 +20,14 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 
 
-export class TopicLevelAssessmentComponent{
+export class TopicLevelAssessmentComponent {
   textAreaElement: FormGroup;
-  notes: Notes[] =[];
-  constructor(public dialog:MatDialog, private appService: AppServiceService, private _fb:FormBuilder) {}
+  notes: Notes[] = [];
+
+  constructor(public dialog: MatDialog, private appService: AppServiceService, private _fb: FormBuilder) {
+
+  }
+
   public answerSaved: boolean = false;
   public makeDisable = false
   @Input() selectedIndex: number
@@ -31,6 +35,7 @@ export class TopicLevelAssessmentComponent{
   @Output() goBack = new EventEmitter<number>();
   @Input() assessmentId: number
   @Input() topicInput: TopicStructure;
+  @Input() assessmentStatus: string;
 
   @ViewChild(AssessmentQuestionComponent)
   assessmentQuestionComponent: AssessmentQuestionComponent;
@@ -39,10 +44,10 @@ export class TopicLevelAssessmentComponent{
   assessmentRecommendationComponent: AssessmentRecommendationComponent;
 
   @ViewChild('testForm')
-  public testForm:any
+  public testForm: any
 
-  next(isChanged:boolean | null) {
-    if(!isChanged) {
+  next(isChanged: boolean | null) {
+    if (!isChanged) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -56,14 +61,14 @@ export class TopicLevelAssessmentComponent{
           this.goNext.emit(this.selectedIndex)
         }
       })
-    }else{
+    } else {
       this.selectedIndex += 1
       this.goNext.emit(this.selectedIndex)
     }
   }
 
-  previous(isChanged:boolean | null) {
-    if(!isChanged) {
+  previous(isChanged: boolean | null) {
+    if (!isChanged) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -77,24 +82,24 @@ export class TopicLevelAssessmentComponent{
           this.goNext.emit(this.selectedIndex)
         }
       })
-    }else{
+    } else {
       this.selectedIndex -= 1
       this.goNext.emit(this.selectedIndex)
     }
   }
 
   cancel() {
-      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-        width: '448px',
-        height: '203px'
-      })
-      openConfirm.afterClosed().subscribe(result => {
-        if (result === 1) {
-          this.assessmentQuestionComponent.handleCancel()
-          this.assessmentRecommendationComponent.handleCancel()
-          this.testForm.control.markAsPristine()
-        }
-      })
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    })
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.assessmentQuestionComponent.handleCancel()
+        this.assessmentRecommendationComponent.handleCancel()
+        this.testForm.control.markAsPristine()
+      }
+    })
   }
 
   save() {
@@ -109,4 +114,21 @@ export class TopicLevelAssessmentComponent{
     this.answerSaved = true
 
   }
+
+  disableForm() {
+    this.testForm.form.disable();
+  }
+
+  enableForm() {
+    this.testForm.form.enable();
+  }
+
+  updateAssessmentStatus(assessmentStatus: string) {
+    this.assessmentStatus = assessmentStatus;
+    if (this.assessmentStatus === 'Completed')
+      this.disableForm();
+    else
+      this.enableForm();
+  }
+
 }
