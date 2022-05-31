@@ -131,9 +131,8 @@ export const appRoutes: Routes = [
     MatListModule,
     MatTabsModule,
     MatSelectModule,
-    NgHttpLoaderModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule
+    NgHttpLoaderModule.forRoot()
+
   ],
   exports: [
     MatButtonModule,

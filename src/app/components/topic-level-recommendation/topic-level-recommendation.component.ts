@@ -7,32 +7,17 @@ import {TopicScoreComponent} from "../topic-score/topic-score.component";
   selector: 'app-topic-level-recommendation',
   templateUrl: './topic-level-recommendation.component.html',
   styleUrls: ['./topic-level-recommendation.component.css'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
+  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
 
 })
-export class TopicLevelRecommendationComponent implements OnInit{
+export class TopicLevelRecommendationComponent {
 
- @Input()
-  topicRecommendation:number;
- @Input()
+  @Input()
+  topicRecommendation: number;
+  @Input()
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
- @ViewChild(TopicScoreComponent)
- topicScoreComponent: TopicScoreComponent;
+  @ViewChild(TopicScoreComponent)
+  topicScoreComponent: TopicScoreComponent;
 
-
-  getRecommendation(topicId: number): TopicRatingAndRecommendation {
-    if (topicId == this.topicRatingAndRecommendation.topicId) {
-      console.log(this.topicRatingAndRecommendation)
-      return this.topicRatingAndRecommendation;
-    } else {
-      const newRecommendation = {topicId: topicId}
-      this.topicRatingAndRecommendation = <TopicRatingAndRecommendation>newRecommendation;
-      return this.topicRatingAndRecommendation;
-    }
-  }
-
-  ngOnInit(): void {
-    console.log("TopicId",this.topicRatingAndRecommendation)
-  }
 
 }
