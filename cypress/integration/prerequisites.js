@@ -11,9 +11,8 @@ describe('completing prerequisites to test the application', () => {
   //   loginPage.xActHomepagetitleValidation()
   // })
 
-  it('Creating 125 assessments for testing purpose',()=>{
-    for (var iCount = 1; iCount <= 125; iCount++) {
-
+  it('Creating 30 assessments for testing purpose',()=>{
+    for (var iCount = 1; iCount <= 3; iCount++) {
       landingPage.AssessmentpopupFields('TestAssessment'+iCount,'TestOrganisation'+iCount,'TestDomain'+iCount,'TestIndustry',iCount,'test@thoughtworks.com')
       landingPage.saveAssessmentButton().click()
     }

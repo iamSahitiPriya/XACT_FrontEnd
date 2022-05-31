@@ -41,6 +41,7 @@
   "requestTimeout": 10000,
   "responseTimeout": 10000,
   "defaultCommandTimeout": 10000,
+  "redirectionLimit": 500,
   "watchForFileChanges": true,
   "chromeWebSecurity": false,
   "baseUrl": "http://localhost:4200",

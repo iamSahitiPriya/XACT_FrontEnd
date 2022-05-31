@@ -51,7 +51,13 @@ class loginPage {
   }static emptyuserNameError(){
      return cy.get('#input-container-error57')
   }static emptyPasswordError(){
-     return cy.get('#input-container-error58')
+     return cy.get('p[id^=input-container-error]')
+  }
+  static userNameDisplay(){
+     return cy.get('.dropdown-toggle')
+  }
+  static logOut(){
+     return cy.get('.dropdown-item')
   }
 
 

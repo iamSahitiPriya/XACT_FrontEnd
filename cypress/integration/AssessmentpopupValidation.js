@@ -7,8 +7,9 @@ import commonFunctions from "../support/commonFunctions";
 describe('validating creating Assessment assessment popup functionality', () => {
   before('User should get navigated to Okta by launching the url', () => {
     //cy.visit(appUrl)
+    cy.clearCookies()
     cy.visit('/')
-   loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
+   //loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
 
   })
 
@@ -67,7 +68,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
         landingPage.teamSizeField().click()
         landingPage.email().click()
       var const1=landingPage.AssessmentName().should('have.a.property','color')
-
   })
 
 
@@ -131,8 +131,5 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.saveAssessmentButton().click()
     landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Mandatory number field ')
   })
-
-
-
 
 })

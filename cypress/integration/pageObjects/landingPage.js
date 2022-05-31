@@ -17,17 +17,17 @@ class landingPage {
     return cy.get('#search')
   }
   static createAssessment() {
-    return cy.get('#createAssessment')
+    return cy.get('#createAssessment',{ timeout: 10000 })
   }
   static AssessmentPopup() {
-    return cy.get('#mat-dialog-0')
+    return cy.get('#mat-dialog-0',{ timeout: 10000 })
   }
 
   static AssessmentNamePlaceholder(){
     return cy.get('#mat-input-1')
   }
   static AssessmentName() {
-   return cy.get('.assessmentName')
+   return cy.get('.assessmentName',{ timeout: 10000 })
   }
   static OrganisationName() {
     return cy.get('.organizationName')
@@ -137,7 +137,7 @@ class landingPage {
     landingPage.createAssessment().click()
     cy.wait(1000)
     expect(landingPage.AssessmentPopup()).to.exist;
-    //landingPage.AssessmentPopup().should('be.visible')
+    landingPage.AssessmentPopup().should('be.visible')
     landingPage.AssessmentName().type(AssessmentName)
     landingPage.OrganisationName().type(OrgName)
     landingPage.Domain().type(Domain)
