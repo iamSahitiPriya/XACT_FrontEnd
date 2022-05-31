@@ -1,4 +1,4 @@
-import {Component, Input, Output,EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 
@@ -33,7 +33,7 @@ export class AssessmentMenuComponent {
   }
 
 
-  public finishAssessment() {
+  finishAssessment() {
     this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
         this.assessmentStatus = _data.assessmentStatus;
         this.sendStatus();

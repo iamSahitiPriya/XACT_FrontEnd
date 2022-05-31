@@ -67,7 +67,20 @@ describe('AssessmentMenuComponent', () => {
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
     tick();
-    //expect(component.finishAssessment()).toHaveBeenCalled();
+    expect(component.finishAssessment).toHaveBeenCalled();
+    flush()
+  }));
+
+  it('should call reopen assessment if completed', fakeAsync(() => {
+    component.assessmentStatus = "Completed";
+    jest.spyOn(component, 'reopenAssessment');
+    global.URL.createObjectURL = jest.fn();
+    global.URL.revokeObjectURL = jest.fn();
+    fixture.detectChanges();
+    let reopenAssessment = fixture.debugElement.nativeElement.querySelector("#reopenAssessment");
+    reopenAssessment.click();
+    tick();
+    expect(component.reopenAssessment).toHaveBeenCalled();
     flush()
   }));
 });
