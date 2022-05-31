@@ -34,11 +34,11 @@ describe('TopicLevelAssessmentComponent', () => {
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentRecommendationComponent,AssessmentQuestionComponent,AssessmentModulesDetailsComponent],
+      declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},
         {provide: MatDialog, useClass: MockDialog}
       ],
-      imports: [MatFormFieldModule, MatCardModule,MatDialogModule, NoopAnimationsModule,FormsModule, ReactiveFormsModule],
+      imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule],
 
     })
       .compileComponents();
@@ -96,9 +96,9 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(matDialog.open).toHaveBeenCalled()
   });
   it('should close the pop on clicking the cross', () => {
-    jest.spyOn(matDialog,'open')
-    jest.spyOn(component1,'handleCancel')
-    jest.spyOn(component2,'handleCancel')
+    jest.spyOn(matDialog, 'open')
+    jest.spyOn(component1, 'handleCancel')
+    jest.spyOn(component2, 'handleCancel')
     component.selectedIndex = 0
 
     component.next(false)
@@ -124,6 +124,7 @@ class MockAppService {
   //   return of(saveRequest);
   // }
 }
+
 class MockDialog {
   open() {
     return {

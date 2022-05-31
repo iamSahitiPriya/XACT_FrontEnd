@@ -17,23 +17,23 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
+let topicId: number;
+
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
   styleUrls: ['./topic-level-assessment.component.css']
 })
 
-export class TopicLevelAssessmentComponent implements OnInit{
+export class TopicLevelAssessmentComponent {
   textAreaElement: FormGroup;
 
-  notes: Notes[] =[];
+  notes: Notes[] = [];
+
   topicRequest: TopicRequest;
   private parameterRequest: ParameterRequest[];
-  constructor(public dialog:MatDialog, private appService: AppServiceService, private _fb:FormBuilder) {}
 
-  ngOnInit(): void {
-    this.topicRatingAndRecommendation = {rating: "", recommendation: "", topicId: this.topicInput.topicId};
-
+  constructor(public dialog: MatDialog, private appService: AppServiceService, private _fb: FormBuilder) {
   }
 
 
@@ -46,7 +46,13 @@ export class TopicLevelAssessmentComponent implements OnInit{
   @Input() topicInput: TopicStructure;
   @Input() assessmentStatus: string;
 
-  topicRatingAndRecommendation: TopicRatingAndRecommendation;
+
+  topicRatingAndRecommendation: TopicRatingAndRecommendation = {
+    rating: "",
+    recommendation: "",
+    topicId: topicId
+  }
+
 
   @ViewChild(AssessmentQuestionComponent)
   assessmentQuestionComponent: AssessmentQuestionComponent;
@@ -98,16 +104,16 @@ export class TopicLevelAssessmentComponent implements OnInit{
   }
 
   cancel() {
-      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-        width: '448px',
-        height: '203px'
-      })
-      openConfirm.afterClosed().subscribe(result => {
-        if (result === 1) {
-          this.assessmentQuestionComponent.handleCancel()
-          this.testForm.control.markAsPristine()
-        }
-      })
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    })
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.assessmentQuestionComponent.handleCancel()
+        this.testForm.control.markAsPristine()
+      }
+    })
   }
 
   // save() {
@@ -131,8 +137,8 @@ export class TopicLevelAssessmentComponent implements OnInit{
 
   receiveRating(topicRating: TopicRatingAndRecommendation) {
     console.log("gotRating")
-    this.topicRatingAndRecommendation.rating=topicRating.rating
-    this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating=topicRating.rating;
+    this.topicRatingAndRecommendation.rating = topicRating.rating
+    this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
   }
 
   disableForm() {
