@@ -23,6 +23,8 @@ import {AssessmentQuestionComponent} from "../assessment-question/assessment-que
 import {MatInputModule} from "@angular/material/input";
 import { MatMenuModule } from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
+import {TopicScoreComponent} from "../topic-score/topic-score.component";
+import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
 class MockAppService {
   public getCategories() {
@@ -117,7 +119,7 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent,TopicLevelAssessmentComponent,AssessmentQuestionComponent,AssessmentMenuComponent],
+      declarations: [AssessmentModulesDetailsComponent,TopicLevelAssessmentComponent,AssessmentQuestionComponent,AssessmentMenuComponent,TopicScoreComponent,TopicLevelRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule,NoopAnimationsModule,
         MatCardModule,MatFormFieldModule,MatDialogModule,FormsModule,ReactiveFormsModule,MatInputModule, MatMenuModule,
         RouterTestingModule.withRoutes([

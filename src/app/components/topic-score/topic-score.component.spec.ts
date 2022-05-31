@@ -6,6 +6,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TopicScoreComponent} from './topic-score.component';
 import {MatCardModule} from "@angular/material/card";
+import {CommonModule} from "@angular/common";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('TopicScoreComponent', () => {
   let component: TopicScoreComponent;
@@ -14,7 +16,7 @@ describe('TopicScoreComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TopicScoreComponent ],
-      imports:[MatCardModule]
+      imports:[MatCardModule,CommonModule,BrowserAnimationsModule]
     })
     .compileComponents();
   });

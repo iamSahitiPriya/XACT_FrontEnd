@@ -18,7 +18,7 @@ export const assessmentData = [{}]
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 
-export class AssessmentQuestionComponent implements OnInit{
+export class AssessmentQuestionComponent{
   @Input()
   parameterDetails: ParameterStructure;
   @Input()
@@ -51,8 +51,5 @@ export class AssessmentQuestionComponent implements OnInit{
     }
   }
 
-  ngOnInit(): void {
-    console.log(this.notes);
-  }
 }
 
