@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
-import {assessmentData, AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -12,9 +12,7 @@ import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmati
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
-import {SaveRequest} from "../../types/saveRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
 let topicId: number;

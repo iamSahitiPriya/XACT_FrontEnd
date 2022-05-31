@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -15,10 +15,10 @@ export const assessmentData = [{}]
   selector: 'app-assessment-question',
   templateUrl: './assessment-question.component.html',
   styleUrls: ['./assessment-question.component.css'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
+  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
 })
 
-export class AssessmentQuestionComponent{
+export class AssessmentQuestionComponent {
   @Input()
   parameterDetails: ParameterStructure;
   @Input()
@@ -27,6 +27,7 @@ export class AssessmentQuestionComponent{
   initial: number
   textarea: number = 0;
   assessmentAnswerText: FormControl;
+
   constructor(private appService: AppServiceService) {
   }
 

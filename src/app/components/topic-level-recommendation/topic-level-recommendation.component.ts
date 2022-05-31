@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {ControlContainer, NgForm} from "@angular/forms";
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
