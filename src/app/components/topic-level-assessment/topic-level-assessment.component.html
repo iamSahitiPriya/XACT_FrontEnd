@@ -11,10 +11,10 @@
       <app-assessment-recommendation></app-assessment-recommendation>
     </div>
   </div>
-  <div *ngIf="topicInput.assessmentLevel === 'Topic'">
-    <app-topic-score [topicScore]="topicInput.references"></app-topic-score>
+  <div *ngIf="topicInput.references">
+    <app-topic-score [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
     <div>
-      <app-assessment-recommendation></app-assessment-recommendation>
+      <app-topic-level-recommendation [topicRecommendation]="topicInput.topicId" [topicRatingAndRecommendation]="topicRatingAndRecommendation"></app-topic-level-recommendation>
     </div>
   </div>
   <div class="row">

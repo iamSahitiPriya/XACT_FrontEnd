@@ -9,7 +9,7 @@ import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {CategoryStructure} from "../../types/categoryStructure";
-import {TopicRequest} from "../../types/topicRequest";
+import {SaveRequest} from "../../types/saveRequest";
 
 
 @Injectable({
@@ -33,12 +33,11 @@ export class AppServiceService {
     return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
   }
 
-  // public saveAssessment(assessmentAnswer: TopicRequest): Observable<any> {
-  //   const headers = {'content-type': 'application/json'}
-  //   return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer, {'headers': headers})
-  //
-  // }
+  public saveAssessment(assessmentAnswer: SaveRequest): Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer.topicRequest, {'headers': headers})
 
+  }
   generateReport(assessmentId: number) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId, {responseType: 'blob'})
   }

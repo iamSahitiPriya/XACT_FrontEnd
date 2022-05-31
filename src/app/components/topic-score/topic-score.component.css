@@ -78,3 +78,11 @@ p{
 .parameterScoring{
   width: 95%;
 }
+.rating-active{
+  background: #6D9D79 0% 0% no-repeat padding-box;
+  color: white;
+}
+
+.rating-active .image{
+  background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
+}
