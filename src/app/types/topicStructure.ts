@@ -11,5 +11,5 @@ export interface TopicStructure{
   module:number,
   assessmentLevel:string,
   parameters:ParameterStructure[],
-  references:TopicReference[],
+  references:TopicReference[]
 }

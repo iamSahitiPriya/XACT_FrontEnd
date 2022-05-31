@@ -6,8 +6,7 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {assessmentData, AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {AssessmentRecommendationComponent} from "../assessment-recommendation/assessment-recommendation.component";
-import {Notes} from "../../types/notes";
-import {AnswerRequest} from "../../types/answerRequest";
+import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
@@ -97,16 +96,16 @@ export class TopicLevelAssessmentComponent{
       })
   }
 
-  save() {
-    const answerRequest: AnswerRequest = {
-      assessmentId: this.assessmentId, notes: this.notes
-    };
-    this.appService.saveAssessment(answerRequest).subscribe((_data) => {
-        assessmentData.push(answerRequest);
-        window.location.reload()
-      }
-    )
-    this.answerSaved = true
-
-  }
+  // save() {
+  //   const answerRequest: AnswerRequest = {
+  //     assessmentId: this.assessmentId, notes: this.notes
+  //   };
+  //   this.appService.saveAssessment(answerRequest).subscribe((_data) => {
+  //       assessmentData.push(answerRequest);
+  //       window.location.reload()
+  //     }
+  //   )
+  //   this.answerSaved = true
+  //
+  // }
 }

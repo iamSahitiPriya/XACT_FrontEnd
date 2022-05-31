@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {Notes} from "../../types/notes";
+import {Notes} from "../../types/answerRequest";
 import {ControlContainer, FormControl, NgForm} from "@angular/forms";
 
 
@@ -18,7 +18,7 @@ export const assessmentData = [{}]
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 
-export class AssessmentQuestionComponent{
+export class AssessmentQuestionComponent implements OnInit{
   @Input()
   parameterDetails: ParameterStructure;
   @Input()
@@ -29,6 +29,7 @@ export class AssessmentQuestionComponent{
   assessmentAnswerText: FormControl;
   constructor(private appService: AppServiceService) {
   }
+
 
   handleCancel() {
     this.notes.forEach((note) => {
@@ -48,6 +49,10 @@ export class AssessmentQuestionComponent{
       this.notes.push(newNote)
       return newNote
     }
+  }
+
+  ngOnInit(): void {
+    console.log(this.notes);
   }
 }
 
