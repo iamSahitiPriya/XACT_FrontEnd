@@ -6,6 +6,7 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Notes} from "../../types/answerRequest";
 import {ControlContainer, FormControl, NgForm} from "@angular/forms";
+import {ParameterRequest} from "../../types/parameterRequest";
 
 
 export const assessmentData = [{}]
@@ -21,35 +22,40 @@ export const assessmentData = [{}]
 export class AssessmentQuestionComponent {
   @Input()
   parameterDetails: ParameterStructure;
+
   @Input()
-  notes: Notes[];
+  parameterRequest: ParameterRequest;
   @Input()
   initial: number
   textarea: number = 0;
   assessmentAnswerText: FormControl;
 
-  constructor(private appService: AppServiceService) {
+  constructor() {
+    console.log("AnswerREquest",this.parameterRequest)
   }
 
 
-  handleCancel() {
-    this.notes.forEach((note) => {
-        note.answer = "";
-      }
-    );
-  }
+  // handleCancel() {
+  //   this.notes.forEach((note) => {
+  //       note.answer = "";
+  //     }
+  //   );
+  // }
 
   getAnswer(questionId: number): Notes {
-    const note = this.notes.find(function (el) {
-      return el.questionId === questionId;
-    })
-    if (note != null) {
-      return note
-    } else {
-      const newNote = {questionId: questionId}
-      this.notes.push(newNote)
-      return newNote
-    }
+
+      const note = this.parameterRequest.answerRequest.find(function (el) {
+        return el.questionId === questionId
+      })
+      if (note != null) {
+        console.log(note)
+        return note
+      } else {
+        const newNote = {questionId: questionId}
+        this.parameterRequest.answerRequest.push(newNote)
+        return newNote;
+      }
+
   }
 
 }

@@ -4,6 +4,6 @@ import {ParameterRequest} from "./parameterRequest";
 
 
 export interface TopicRequest {
-  "parameterRequest": ParameterRequest[];
+  "parameterLevel": ParameterRequest[];
   "topicRatingAndRecommendation": TopicRatingAndRecommendation;
 }

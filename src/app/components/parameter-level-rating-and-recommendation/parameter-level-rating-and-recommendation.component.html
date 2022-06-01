@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+
+
+<div class="parameterScoring">
+  <mat-card class="scoreHeading">Assign Maturity score</mat-card>
+  <div *ngFor="let pScore of parameterScore">
+    <mat-toolbar class="scoreReference">
+      <p>{{pScore.reference}}</p>
+      <span class="spacer"></span>
+      <span class="rating" (click)="setRating(pScore.rating)" [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">
+       <div class="image" ></div>
+        {{pScore.rating}}</span>
+    </mat-toolbar>
+  </div>
+</div>
+
+
+<div>
+  <mat-form-field class="textArea" appearance="outline"   *ngIf="parameterRatingAndRecommendation" >
+    <mat-label>Recommendations</mat-label>
+    <textarea id="recommendationElement{{parameterRecommendation}}" name="recommendationText{{parameterRecommendation}}"  matInput #recommendationElement
+              [(ngModel)]="parameterRatingAndRecommendation.recommendation"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="100"></textarea>
+  </mat-form-field>
+</div>

@@ -13,11 +13,11 @@
 
         <mat-form-field class="textArea" appearance="outline" id="testForm" >
           <mat-label>Notes</mat-label>
-          <textarea matInput name="textarea{{question.questionId}}" id="assessmentAnswer{{question.questionId}}"
+          <textarea matInput name="textarea{{parameterDetails.parameterId}}" id="assessmentAnswer{{parameterDetails.parameterId}}"
                      [(ngModel)]="getAnswer(question.questionId).answer"
                     cdkTextareaAutosize class="textArea1"
                     cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="7" ></textarea>
+                    cdkAutosizeMaxRows="100" ></textarea>
         </mat-form-field>
     </div>
   </div>

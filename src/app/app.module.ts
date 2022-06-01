@@ -57,6 +57,7 @@ import {PopupConfirmationComponent} from './components/popup-confirmation/popup-
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
 import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
+import { ParameterLevelRatingAndRecommendationComponent } from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -101,7 +102,8 @@ export const appRoutes: Routes = [
     TopicScoreComponent,
     PopupConfirmationComponent,
     AssessmentMenuComponent,
-    TopicLevelRecommendationComponent
+    TopicLevelRecommendationComponent,
+    ParameterLevelRatingAndRecommendationComponent
   ],
   imports: [
     BrowserModule,
