@@ -18,12 +18,95 @@ import {AssessmentQuestionComponent} from "../assessment-question/assessment-que
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 
+class MockAppService {
+
+  getCategories() {
+    const mockCategory =
+      [
+        {
+          "categoryId": 1,
+          "categoryName": "My Category1",
+          "modules": [
+            {
+              "moduleId": 1,
+              "moduleName": "My Module",
+              "category": 1,
+              "topics": [
+                {
+                  "topicId": 1,
+                  "topicName": "My Topic",
+                  "module": 1,
+                  "parameters": [
+                    {
+                      "parameterId": 1,
+                      "parameterName": "My Parameter",
+                      "topic": 1,
+                      "questions": [
+                        {
+                          "questionId": 1,
+                          "questionText": "My Question",
+                          "parameter": 1
+                        }
+                      ],
+                      "references": []
+                    }
+                  ],
+                  "references": []
+                }
+              ]
+            },
+          ]
+        },{
+        "categoryId": 2,
+        "categoryName": "My Category1",
+        "modules": [
+          {
+            "moduleId": 2,
+            "moduleName": "My Module",
+            "category": 2,
+            "topics": [
+              {
+                "topicId": 1,
+                "topicName": "My Topic",
+                "module": 2,
+                "parameters": [
+                  {
+                    "parameterId": 1,
+                    "parameterName": "My Parameter",
+                    "topic": 1,
+                    "questions": [
+                      {
+                        "questionId": 1,
+                        "questionText": "My Question",
+                        "parameter": 1
+                      }
+                    ],
+                    "references": []
+                  }
+                ],
+                "references": []
+              }
+            ]
+          },
+        ]
+      },
+      ]
+    return of(mockCategory)
+  }
+  saveAssessment(saveRequest: SaveRequest) {
+    return of(saveRequest);
+  }
+}
+
+
+
 
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
     component2: AssessmentRecommendationComponent, fixture2: ComponentFixture<AssessmentRecommendationComponent>,
-    dialog: any, matDialog: any;
+    mockAppService: MockAppService,
+  dialog: any, matDialog: any;
   const original = window.location;
   const reloadFn = () => {
     window.location.reload();
@@ -57,9 +140,22 @@ describe('TopicLevelAssessmentComponent', () => {
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
+    component = fixture.debugElement.componentInstance;
   });
 
   it('should create', () => {
+    const references= [{referenceId:1,
+      topic:1,
+      rating:"1",
+      reference:"text"},
+      {referenceId:2,
+        topic:1,
+        rating:"2",
+        reference:"text"
+      }];
+    component.topicInput = {topicId:1,topicName:"topicName",module:1,assessmentLevel:"Topic",parameters:[],references: references}
+    // component.getParameterWithRatingAndRecommendationRequest(1);
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -118,12 +214,7 @@ describe('TopicLevelAssessmentComponent', () => {
   // });
 });
 
-class MockAppService {
 
-  // saveAssessment(saveRequest: SaveRequest) {
-  //   return of(saveRequest);
-  // }
-}
 
 class MockDialog {
   open() {

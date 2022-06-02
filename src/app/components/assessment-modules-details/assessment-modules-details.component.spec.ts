@@ -21,7 +21,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {MatInputModule} from "@angular/material/input";
-import { MatMenuModule } from '@angular/material/menu';
+import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
@@ -63,7 +63,7 @@ class MockAppService {
               ]
             },
           ]
-        },{
+        }, {
         "categoryId": 2,
         "categoryName": "My Category1",
         "modules": [
@@ -101,8 +101,8 @@ class MockAppService {
     return of(mockCategory)
   }
 
-  getAssessment(assessmentId:number){
-    return of({assessmentId:assessmentId,assessmentName:"Demo",assessmentStatus:"Active"});
+  getAssessment(assessmentId: number) {
+    return of({assessmentId: assessmentId, assessmentName: "Demo", assessmentStatus: "Active"});
   }
 
 }
@@ -119,9 +119,9 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent,TopicLevelAssessmentComponent,AssessmentQuestionComponent,AssessmentMenuComponent,TopicScoreComponent,TopicLevelRecommendationComponent],
-      imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule,NoopAnimationsModule,
-        MatCardModule,MatFormFieldModule,MatDialogModule,FormsModule,ReactiveFormsModule,MatInputModule, MatMenuModule,
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, TopicScoreComponent, TopicLevelRecommendationComponent],
+      imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
@@ -221,14 +221,14 @@ describe('AssessmentModulesDetailsComponent', () => {
   });
 
   it('should set index on next', () => {
-    component.selectedIndex=1;
+    component.selectedIndex = 1;
     component.next(2);
     fixture.detectChanges();
     expect(component.selectedIndex).toEqual(2)
   });
 
   it('should set index on back', () => {
-    component.selectedIndex=2;
+    component.selectedIndex = 2;
     component.previous(1);
     fixture.detectChanges();
     expect(component.selectedIndex).toEqual(1)
