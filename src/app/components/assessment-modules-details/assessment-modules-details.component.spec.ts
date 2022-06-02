@@ -25,9 +25,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 
 class MockAppService {
   public getCategories() {

@@ -8,7 +8,6 @@ import {TopicScoreComponent} from "../topic-score/topic-score.component";
   templateUrl: './topic-level-recommendation.component.html',
   styleUrls: ['./topic-level-recommendation.component.css'],
   viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
-
 })
 export class TopicLevelRecommendationComponent {
 

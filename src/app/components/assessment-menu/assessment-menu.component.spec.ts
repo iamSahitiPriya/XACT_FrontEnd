@@ -5,6 +5,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
+import {MatDialogModule} from "@angular/material/dialog";
 
 describe('AssessmentMenuComponent', () => {
   let component: AssessmentMenuComponent;
@@ -14,11 +15,13 @@ describe('AssessmentMenuComponent', () => {
     generateReport() {
       return of(new Blob());
     }
-    finishAssessment(){
-      return of({assessmentId:123,assessmentName:"Demo",assessmentStatus:"Completed"});
+
+    finishAssessment() {
+      return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Completed"});
     }
-    reopenAssessment(){
-      return of({assessmentId:123,assessmentName:"Demo",assessmentStatus:"Active"});
+
+    reopenAssessment() {
+      return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Active"});
     }
 
   }
@@ -30,7 +33,7 @@ describe('AssessmentMenuComponent', () => {
       providers: [
         {provide: AppServiceService, useClass: MockAppService}
       ],
-      imports: [MatMenuModule, MatIconModule]
+      imports: [MatMenuModule, MatDialogModule, MatIconModule]
     })
       .compileComponents();
   });
@@ -60,14 +63,14 @@ describe('AssessmentMenuComponent', () => {
 
   it('should call finish assessment if active', fakeAsync(() => {
     component.assessmentStatus = "Active";
-    jest.spyOn(component, 'finishAssessment');
+    jest.spyOn(component, 'confirmFinishAssessmentAction');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     fixture.detectChanges();
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
     tick();
-    expect(component.finishAssessment).toHaveBeenCalled();
+    expect(component.confirmFinishAssessmentAction).toHaveBeenCalled();
     flush()
   }));
 

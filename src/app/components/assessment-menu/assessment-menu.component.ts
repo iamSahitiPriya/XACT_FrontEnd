@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-assessment-menu',
@@ -22,7 +24,7 @@ export class AssessmentMenuComponent {
     this.statusEvent.emit(this.assessmentStatus)
   }
 
-  constructor(private appService: AppServiceService) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog,) {
   }
 
   generateReport() {
@@ -39,6 +41,19 @@ export class AssessmentMenuComponent {
         this.sendStatus();
       }
     )
+  }
+
+  confirmFinishAssessmentAction() {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = "Are you sure ? You will not be able to edit assessment again without reopening it.";
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.finishAssessment();
+      }
+    })
   }
 
   reopenAssessment() {

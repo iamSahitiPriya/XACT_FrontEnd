@@ -13,7 +13,6 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
 
 class MockAppService {
   public getCategories() {

@@ -8,7 +8,7 @@ import {AssessmentQuestionComponent} from "../assessment-question/assessment-que
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
-import {FormBuilder} from "@angular/forms";
+import {ControlContainer, FormBuilder, NgForm} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -39,7 +39,8 @@ let parameterRequests: parameterRequest[];
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
-  styleUrls: ['./topic-level-assessment.component.css']
+  styleUrls: ['./topic-level-assessment.component.css'],
+  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
 })
 
 

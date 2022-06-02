@@ -38,26 +38,21 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {HttpCacheService} from "./services/cache-service/cache.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  AssessmentModulesDetailsComponent
-} from './components/assessment-modules-details/assessment-modules-details.component';
+import {AssessmentModulesDetailsComponent} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-question/assessment-question.component';
 import {TopicLevelAssessmentComponent} from './components/topic-level-assessment/topic-level-assessment.component';
+import {AssessmentRecommendationComponent} from './components/assessment-recommendation/assessment-recommendation.component';
 import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
-import {
-  TopicLevelRecommendationComponent
-} from './components/topic-level-recommendation/topic-level-recommendation.component';
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
+import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
+import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

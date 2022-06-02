@@ -12,6 +12,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
+import {ControlContainer, NgForm} from "@angular/forms";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -19,7 +20,8 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 @Component({
   selector: 'app-assessment-modules-details',
   templateUrl: './assessment-modules-details.component.html',
-  styleUrls: ['./assessment-modules-details.component.css']
+  styleUrls: ['./assessment-modules-details.component.css'],
+  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
 })
 export class AssessmentModulesDetailsComponent implements OnInit, AfterViewChecked {
   assessmentName: string

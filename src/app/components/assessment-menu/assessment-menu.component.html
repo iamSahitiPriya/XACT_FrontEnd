@@ -5,7 +5,7 @@
     </button>
   </div>
   <div  class="col-md-3">
-    <button *ngIf="assessmentStatus!=='Completed'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="finishAssessment()">
+    <button *ngIf="assessmentStatus==='Active'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="confirmFinishAssessmentAction()">
       Finish Assessment
     </button>
     <button *ngIf="assessmentStatus==='Completed'" id="reopenAssessment"  type="button" mat-stroked-button class="btn-reopen" (click)="reopenAssessment()">
@@ -18,11 +18,11 @@
       <mat-icon class="menu-mat-icon">more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>person_add</mat-icon>
-        <span>Add user to assessment</span>
+      <button mat-menu-item [disabled]="assessmentStatus ==='Completed'">
+        <mat-icon>settings_applications</mat-icon>
+        <span>Manage assessment & users</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
         <span>Add module to assessment</span>
       </button>

@@ -23,7 +23,7 @@
   <mat-form-field class="textArea" appearance="outline"   *ngIf="parameterRatingAndRecommendation"  >
     <div *ngIf="parameterRecommendation"></div>
     <mat-label>Recommendations</mat-label>
-    <textarea id="recommendationElement{{parameterRecommendation}}" name="recommendationText{{parameterRecommendation}}"  matInput #recommendationElement
+    <textarea id="recommendationElement_param{{parameterRecommendation}}" name="recommendationText_param{{parameterRecommendation}}"  matInput #recommendationElement
               [(ngModel)]="parameterRatingAndRecommendation.recommendation"
               cdkTextareaAutosize
               cdkAutosizeMinRows="1"

@@ -33,7 +33,6 @@ export class TopicScoreComponent {
   setRating(rating: string) {
     this.topicRatingAndRecommendation.rating = rating;
     this.topicRatingAndRecommendation.topicId=this.topicId;
-    console.log(this.topicRatingAndRecommendation)
   }
 
 }

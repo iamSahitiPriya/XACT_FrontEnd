@@ -7,10 +7,13 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./popup-confirmation.component.css']
 })
 export class PopupConfirmationComponent{
+  text: string;
 
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) { }
 
   cancelChanges() {
     this.dialogRef.close(1)
   }
+
+
 }
