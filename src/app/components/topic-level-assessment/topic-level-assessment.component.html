@@ -3,7 +3,6 @@
   -->
 
 <div class="topicQuestions" *ngIf="topicInput">
-  <form #testForm="ngForm">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
       </div>
@@ -16,13 +15,13 @@
         </div>
       </div>
     <div *ngIf="parameter.references">
-      <app-parameter-level-rating-and-recommendation [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
+      <app-parameter-level-rating-and-recommendation [assessmentStatus]="assessmentStatus" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>
   <div *ngIf="topicInput.references">
-    <app-topic-score [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
+    <app-topic-score [assessmentStatus]="assessmentStatus" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
     <div>
-      <app-topic-level-recommendation [topicRecommendation]="topicInput.topicId" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"></app-topic-level-recommendation>
+      <app-topic-level-recommendation  [topicRecommendation]="topicInput.topicId" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"></app-topic-level-recommendation>
     </div>
   </div>
   <div class="row">
@@ -33,6 +32,5 @@
 
     </div>
   </div>
-  </form>
 </div>
 

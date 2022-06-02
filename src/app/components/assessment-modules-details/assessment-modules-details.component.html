@@ -26,13 +26,17 @@
 </mat-toolbar>
 <mat-tab-group #tabs mat-align-tabs="start" class="topicTab" [selectedIndex]="selectedIndex"
                (selectedTabChange)="tabChanged($event)">
-  <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
-    <div>
-      <app-topic-level-assessment [topicInput]="topic" [selectedIndex]="selectedIndex"
-                                  [assessmentId]="assessmentId"
-                                  [assessmentStatus]="assessment && assessment.assessmentStatus"></app-topic-level-assessment>
-    </div>
-  </mat-tab>
+
+  <form #testForm="ngForm">
+    <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
+      <div>
+        <app-topic-level-assessment [topicInput]="topic" [selectedIndex]="selectedIndex"
+                                    [assessmentId]="assessmentId"
+                                    [assessmentStatus]="assessment && assessment.assessmentStatus"></app-topic-level-assessment>
+      </div>
+    </mat-tab>
+  </form>
+
 
 </mat-tab-group>
 

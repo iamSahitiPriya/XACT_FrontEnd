@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -23,7 +23,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   styleUrls: ['./assessment-modules-details.component.css'],
   viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
 })
-export class AssessmentModulesDetailsComponent implements OnInit, AfterViewChecked {
+export class AssessmentModulesDetailsComponent {
   assessmentName: string
   moduleName: string
   assessment: AssessmentStructure
@@ -40,11 +40,10 @@ export class AssessmentModulesDetailsComponent implements OnInit, AfterViewCheck
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
 
-  constructor(private appService: AppServiceService) {
-  }
+  @ViewChild('testForm')
+  public testForm: any
 
-  ngAfterViewChecked(): void {
-    this.topicLevelAssessmentComponent && this.topicLevelAssessmentComponent.updateAssessmentStatus(this.assessment && this.assessment.assessmentStatus);
+  constructor(private appService: AppServiceService) {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -66,8 +65,8 @@ export class AssessmentModulesDetailsComponent implements OnInit, AfterViewCheck
       this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
       this.assessmentId = JSON.parse(sessionStorage.getItem('assessmentId') || "No value")
     }
-    this.getAssessment();
     this.getCategories();
+    this.getAssessment();
   }
 
 
@@ -101,5 +100,26 @@ export class AssessmentModulesDetailsComponent implements OnInit, AfterViewCheck
 
   receiveStatus(assessmentStatus: string) {
     this.assessment.assessmentStatus = assessmentStatus;
+    this.updateFormActions();
   }
+
+  disableForm() {
+    setTimeout(()=>{
+      this.testForm.form.disable();
+    }, 500);
+  }
+
+  enableForm() {
+    setTimeout(()=>{
+      this.testForm.form.enable();
+    }, 500);
+  }
+
+  updateFormActions() {
+    if (this.assessment.assessmentStatus === 'Completed')
+      this.disableForm();
+    if (this.assessment.assessmentStatus === 'Active')
+      this.enableForm();
+  }
+
 }

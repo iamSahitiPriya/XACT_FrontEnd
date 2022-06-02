@@ -20,9 +20,13 @@ export class ParameterLevelRatingAndRecommendationComponent {
   @Input()
   parameterRecommendation: number;
 
-  setRating(rating: string) {
-    this.parameterRatingAndRecommendation.rating = rating;
-    this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
+  @Input()
+  assessmentStatus: string;
 
+  setRating(rating: string) {
+    if (this.assessmentStatus === 'Active') {
+      this.parameterRatingAndRecommendation.rating = rating;
+      this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
+    }
   }
 }

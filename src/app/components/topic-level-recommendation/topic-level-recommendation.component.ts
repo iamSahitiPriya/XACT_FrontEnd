@@ -15,6 +15,7 @@ export class TopicLevelRecommendationComponent {
   topicRecommendation: number;
   @Input()
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
+
   @ViewChild(TopicScoreComponent)
   topicScoreComponent: TopicScoreComponent;
 

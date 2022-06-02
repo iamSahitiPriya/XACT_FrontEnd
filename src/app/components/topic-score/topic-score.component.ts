@@ -22,6 +22,9 @@ export class TopicScoreComponent {
   @Input()
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
+  @Input()
+  assessmentStatus: string;
+
   @Output() topicRatingEmitter = new EventEmitter<TopicRatingAndRecommendation>();
 
 
@@ -31,8 +34,10 @@ export class TopicScoreComponent {
 
 
   setRating(rating: string) {
-    this.topicRatingAndRecommendation.rating = rating;
-    this.topicRatingAndRecommendation.topicId=this.topicId;
+    if (this.assessmentStatus === 'Active') {
+      this.topicRatingAndRecommendation.rating = rating;
+      this.topicRatingAndRecommendation.topicId = this.topicId;
+    }
   }
 
 }

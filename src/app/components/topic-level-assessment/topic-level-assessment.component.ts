@@ -74,10 +74,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @ViewChild(TopicLevelRecommendationComponent)
   topicLevelRecommendationComponent: TopicLevelRecommendationComponent;
 
-  @ViewChild('testForm')
-  public testForm: any
-
-
   save() {
 
     const saveRequest: SaveRequest = {
@@ -93,22 +89,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   receiveRating(topicRating: TopicRatingAndRecommendation) {
     this.topicRatingAndRecommendation.rating = topicRating.rating
     this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
-  }
-
-  disableForm() {
-    this.testForm.form.disable();
-  }
-
-  enableForm() {
-    this.testForm.form.enable();
-  }
-
-  updateAssessmentStatus(assessmentStatus: string) {
-    this.assessmentStatus = assessmentStatus;
-    if (this.assessmentStatus === 'Completed')
-      this.disableForm();
-    else
-      this.enableForm();
   }
 
   getNotes(questionId: number): Notes {
