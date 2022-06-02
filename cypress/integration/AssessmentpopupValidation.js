@@ -5,16 +5,21 @@ import commonFunctions from "../support/commonFunctions";
 
 
 describe('validating creating Assessment assessment popup functionality', () => {
-  before('User should get navigated to Okta by launching the url', () => {
-    //cy.visit(appUrl)
-    cy.clearCookies()
+  beforeEach('User should get navigated to Okta by launching the url', () => {
+    cy.window().then(win => win.location.hash = "/foo/bar")
+    cy.intercept('GET','https://dev-47045452.okta.com/oauth2/default/v1/userinfo').as('pageLoad')
     cy.visit('/')
-   //loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
+  })
 
+  it('tc001 user tries to login  with valid userId and password',()=>{
+    loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
+    loginPage.xActHomepagetitleValidation()
   })
 
   it('tc001 validate landing page of xAct application',()=>{
    landingPage.landingPageFields()
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
     landingPage.assessmentNameInGrid('have.text','TestAssignment')
@@ -22,6 +27,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
   it('tc002 validating the error messages by providing empty values in all fields',()=>{
     landingPage.createAssessmentHeader().should('be.visible')
+    landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.AssessmentName().click()
@@ -36,6 +42,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
 
   it('tc003 providing special characters in fields and validating the error message',()=> {
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('!@#$','!@#$','!@#$','!@#$','!@@@','jathin@thoughtworks.com')
     landingPage.assessmentPopupErrorValidation(' No Special Characters allowed except hypen and underscore ',' Mandatory number field ')
     landingPage.closeAssessmentPopup().click()
@@ -43,6 +51,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
 
   it('tc004 creating assessment with more than 50 characters in assessment,organisation,domain,industry',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('morethan50charactersmorethan50charatersmorethan50characters','morethan50charactersmorethan50charatersmorethan50characters','morethan50charactersmorethan50charatersmorethan50characters','morethan50charactersmorethan50charatersmorethan50characters','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
     landingPage.serverError().should('be.visible')
@@ -51,6 +61,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
   })
 
   it('tc005 close the assessment popup with out saving the assessment',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.closeAssessmentPopup().click()
     landingPage.assessmentNameInGrid().should('not.have.text','donotsave the assessment')
@@ -67,11 +79,13 @@ describe('validating creating Assessment assessment popup functionality', () => 
         landingPage.Industry().click()
         landingPage.teamSizeField().click()
         landingPage.email().click()
-      var const1=landingPage.AssessmentName().should('have.a.property','color')
+      //var const1=landingPage.AssessmentName().should('have.a.property','color')
   })
 
 
   it('tc007 Saving the assessment without filling few andatory fields',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.AssessmentName().clear()
     landingPage.Domain().clear()
@@ -81,6 +95,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
 
   it('tc008 Saving the assessment without filling few andatory fields',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','-22','jathin@thoughtworks.com')
     landingPage.teamSizeFieldError().should('have.text',' Positive integer value allowed ')
     landingPage.closeAssessmentPopup().click()
@@ -88,6 +104,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
   })
 
   it('tc008 Error message should be disappeared when mandatory fields are populated again',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('    ','    ','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.assessmentNameError().should('have.text',' No Special Characters allowed except hypen and underscore ')
     landingPage.AssessmentName().clear().type('testAssessment')
@@ -118,7 +136,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
   it('tc011 validating placeholders after clicking in all edit boxes',()=>{
     landingPage.createAssessment().click()
-    landingPage.AssessmentName().click().should('have.text','Assessment Name *')
+    landingPage.AssessmentName().click().should('have.text','Assessment Name * Mandatory field ')
     landingPage.OrganisationName().click().should('have.text','Organization Name *')
     landingPage.Domain().click().should('have.text','Domain *')
     landingPage.Industry().click().should('have.text','Industry *')
@@ -127,9 +145,23 @@ describe('validating creating Assessment assessment popup functionality', () => 
   })
 
   it('tc012 saving assessment without providing any fields in the popup',()=>{
+    landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.saveAssessmentButton().click()
     landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Mandatory number field ')
   })
+
+  it('tc013 creating assessment with multiple emails with commas',()=>{
+    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,jathin@thoughtworks.com,jathin@thoughtworks.com,jathin@thoughtworks.com')
+    landingPage.saveAssessmentButton().click()
+    landingPage.assessmentNameInGrid('have.text','TestAssignment')
+  })
+
+  it('tc013 creating assessment with multiple emails with spaces',()=>{
+    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,jathin@thoughtworks.com jathin@thoughtworks.com jathin@thoughtworks.com')
+    landingPage.saveAssessmentButton().click()
+    landingPage.emailError().should('have.text',' Valid list of comma separated email address ')
+  })
+
 
 })

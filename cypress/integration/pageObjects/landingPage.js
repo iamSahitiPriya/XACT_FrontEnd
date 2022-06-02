@@ -20,7 +20,7 @@ class landingPage {
     return cy.get('#createAssessment',{ timeout: 10000 })
   }
   static AssessmentPopup() {
-    return cy.get('#mat-dialog-0',{ timeout: 10000 })
+    return cy.get('mat-dialog-container',{ timeout: 10000 })
   }
 
   static AssessmentNamePlaceholder(){
@@ -128,20 +128,27 @@ class landingPage {
   static noDataMessage(){
     return cy.get('.mat-cell')
   }
-
+  static emailError(){
+    return cy.get('mat-error')
+  }
 
 
 
   //reusable functions
   static AssessmentpopupFields(AssessmentName,OrgName,Domain,Industry,TeamSize,EmailId){
-    landingPage.createAssessment().click()
-    cy.wait(1000)
     expect(landingPage.AssessmentPopup()).to.exist;
     landingPage.AssessmentPopup().should('be.visible')
+    landingPage.AssessmentName().should('be.visible')
+    expect(landingPage.AssessmentName()).to.exist;
+    cy.wait(1000)
     landingPage.AssessmentName().type(AssessmentName)
+    landingPage.OrganisationName().should('be.visible')
     landingPage.OrganisationName().type(OrgName)
+    landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
+    landingPage.Industry().should('be.visible')
     landingPage.Industry().type(Industry)
+    landingPage.teamSizeField().should('be.visible')
     landingPage.teamSizeField().type(TeamSize)
     landingPage.email().type(EmailId)
   }
@@ -191,9 +198,6 @@ class landingPage {
       }
     })
   }
-
-
-
 
 
 }
