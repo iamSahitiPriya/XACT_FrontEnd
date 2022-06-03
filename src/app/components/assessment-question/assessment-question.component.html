@@ -3,23 +3,13 @@
   -->
 
 <div>
-  <div class="parameter"><strong>{{initial + 1}}.</strong>&nbsp;{{parameterDetails && parameterDetails.parameterName}}
-  </div>
-  <div *ngIf="parameterDetails">
-    <div class="question"
-         *ngFor="let question of parameterDetails.questions; let j=index;">
-      <strong>{{initial + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
-      <br>
-
-        <mat-form-field class="textArea" appearance="outline" id="testForm" >
+  <mat-form-field class="textArea" appearance="outline" id="testForm" >
           <mat-label>Notes</mat-label>
-          <textarea matInput name="textarea{{parameterDetails.parameterId}}" id="assessmentAnswer{{parameterDetails.parameterId}}"
-                     [(ngModel)]="getAnswer(question.questionId).answer"
+          <textarea matInput name="textarea{{questionDetails.questionId}}" id="assessmentAnswer{{questionDetails.questionId}}"
+                     [(ngModel)]="answerInput.answer"
                     cdkTextareaAutosize class="textArea1"
                     cdkAutosizeMinRows="1"
                     cdkAutosizeMaxRows="100" ></textarea>
         </mat-form-field>
-    </div>
-  </div>
 </div>
 

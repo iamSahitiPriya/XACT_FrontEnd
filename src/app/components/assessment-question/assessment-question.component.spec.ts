@@ -33,7 +33,7 @@ describe('AssessmentQuestionComponent', () => {
 
   it('should create', () => {
     component.initial = 1;
-    component.parameterDetails = {parameterId: 1, parameterName: "abc", topic: 1, questions: [], references: []}
+    // component.parameterDetails = {parameterId: 1, parameterName: "abc", topic: 1, questions: [], references: []}
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector(".parameter").textContent).toContain("abc");
   });

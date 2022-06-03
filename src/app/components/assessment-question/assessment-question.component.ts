@@ -6,6 +6,7 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {Notes} from "../../types/answerRequest";
 import {ControlContainer, FormControl, NgForm} from "@angular/forms";
 import {ParameterRequest} from "../../types/parameterRequest";
+import {QuestionStructure} from "../../types/questionStructure";
 
 
 export const assessmentData = [{}]
@@ -20,31 +21,30 @@ export const assessmentData = [{}]
 
 export class AssessmentQuestionComponent {
   @Input()
-  parameterDetails: ParameterStructure;
+  questionDetails: QuestionStructure;
 
   @Input()
-  parameterRequest: ParameterRequest;
+  answerInput: Notes;
   @Input()
   initial: number
   textarea: number = 0;
   assessmentAnswerText: FormControl;
 
 
-  getAnswer(questionId: number): Notes {
-
-    const note = this.parameterRequest.answerRequest.find(function (el) {
-      return el.questionId === questionId
-    })
-    if (note != null) {
-      console.log(note)
-      return note
-    } else {
-      const newNote = {questionId: questionId}
-      this.parameterRequest.answerRequest.push(newNote)
-      return newNote;
-    }
-
-  }
+  // getAnswer(questionId: number): Notes {
+  //
+  //   const note = this.answerInput.find(function (el) {
+  //     return el.questionId === questionId
+  //   })
+  //   if (note != null) {
+  //     console.log(note)
+  //     return note
+  //   } else {
+  //     const newNote = {questionId: questionId}
+  //     this.answerInput.push(newNote)
+  //     return newNote;
+  //   }
+  // }
 
 }
 

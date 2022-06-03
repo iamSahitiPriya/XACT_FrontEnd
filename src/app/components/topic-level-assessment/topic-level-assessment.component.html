@@ -5,8 +5,17 @@
 <div class="topicQuestions" *ngIf="topicInput">
   <form #testForm="ngForm">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-      <app-assessment-question [parameterDetails]="parameter" [initial]="i" [parameterRequest]="topicRequest.parameterLevel[i]"></app-assessment-question>
-        <div *ngIf="parameter.references">
+      <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
+      </div>
+      <div *ngIf="parameter">
+        <div class="question"
+             *ngFor="let question of parameter.questions; let j=index;">
+          <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
+          <br>
+      <app-assessment-question [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+        </div>
+      </div>
+    <div *ngIf="parameter.references">
       <app-parameter-level-rating-and-recommendation [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>
@@ -18,11 +27,9 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-<!--      <button [disabled]="selectedIndex===0" mat-stroked-button (click)="previous(testForm.pristine)" class="backButton">Back</button>-->
-<!--      <button mat-stroked-button (click)="next(testForm.pristine)" class="nextButton">Next</button>-->
+
     </div>
     <div class="col-md-8">
-<!--      <button mat-stroked-button class="cancelButton" id="cancel" [disabled]="testForm.pristine" (click)="cancel()" #submitButton >Cancel</button>-->
       <button [disabled]="assessmentStatus ==='Completed'" mat-raised-button class="saveButton" (click)="save()">Save</button>
 
     </div>

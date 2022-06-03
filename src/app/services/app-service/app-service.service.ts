@@ -53,4 +53,6 @@ export class AppServiceService {
   reopenAssessment(assessmentId: number): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
+
+
 }

@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {Notes} from "../../types/answerRequest";
@@ -15,6 +15,7 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {SaveRequest} from "../../types/saveRequest";
+import {ParameterStructure} from "../../types/parameterStructure";
 
 
 export const saveAssessmentData = [{}]
@@ -43,8 +44,6 @@ let parameterRequests: parameterRequest[];
 
 export class TopicLevelAssessmentComponent implements OnInit {
 
-  notes: Notes[] = [];
-
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
@@ -57,11 +56,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
   public answerSaved: boolean = false;
   public makeDisable = false
   @Input() selectedIndex: number
-  @Output() goNext = new EventEmitter<number>();
-  @Output() goBack = new EventEmitter<number>();
   @Input() assessmentId: number
   @Input() topicInput: TopicStructure;
   @Input() assessmentStatus: string;
+
 
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
@@ -164,19 +162,34 @@ export class TopicLevelAssessmentComponent implements OnInit {
       this.enableForm();
   }
 
-  getParameterRequest(parameterId: number): ParameterRequest {
+  getNotes(questionId: number): Notes {
+    return {
+      questionId: questionId, answer: ""
+    };
+  }
+
+  getParameterRequest(parameter: ParameterStructure): ParameterRequest {
+    const answerRequest = []
+    for (let question in parameter.questions) {
+      answerRequest.push(this.getNotes(parameter.questions[question].questionId))
+    }
     const newParameterRequest = {
-      answerRequest: this.notes
+      answerRequest: answerRequest
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
     console.log("request", this.topicRequest.parameterLevel)
     return <ParameterRequest>newParameterRequest;
   }
 
-  getParameterWithRatingAndRecommendationRequest(parameterId: number): ParameterRequest {
+
+  getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure): ParameterRequest {
+    const answerRequest = []
+    for (let question in parameter.questions) {
+      answerRequest.push(this.getNotes(parameter.questions[question].questionId))
+    }
     const newParameterRequest = {
-      answerRequest: this.notes, parameterRatingAndRecommendation: {
-        parameterId: parameterId, rating: "", recommendation: ""
+      answerRequest: answerRequest, parameterRatingAndRecommendation: {
+        parameterId: parameter.parameterId, rating:undefined, recommendation: ""
       }
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
@@ -187,17 +200,17 @@ export class TopicLevelAssessmentComponent implements OnInit {
   ngOnInit(): void {
     if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
-        this.getParameterRequest(this.topicInput.parameters[parameter].parameterId)
+        this.getParameterRequest(this.topicInput.parameters[parameter])
       }
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: "",
+        rating: undefined,
         recommendation: "",
         topicId: topicId
       }
 
     } else {
         for (let parameter in this.topicInput.parameters) {
-          this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter].parameterId)
+          this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter])
         }
       }
   }
