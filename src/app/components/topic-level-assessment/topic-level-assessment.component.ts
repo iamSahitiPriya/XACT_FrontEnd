@@ -15,6 +15,7 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {SaveRequest} from "../../types/saveRequest";
+import {TopicReference} from "../../types/topicReference";
 
 
 export const saveAssessmentData = [{}]
@@ -23,6 +24,7 @@ let topicId: number;
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
 export class parameterRequest {
+
   answerRequest: Notes[] = []
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
@@ -46,7 +48,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   notes: Notes[] = [];
 
   topicRequest: TopicRequest = {
-    parameterLevel: parameterRequests = [],
+    parameterLevel: parameterRequests=[],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
@@ -63,7 +65,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @Input() topicInput: TopicStructure;
   @Input() assessmentStatus: string;
 
-
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
     rating: "",
     recommendation: "",
@@ -79,55 +80,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @ViewChild('testForm')
   public testForm: any
 
-  // next(isChanged: boolean | null) {
-  //   if (!isChanged) {
-  //     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //       width: '448px',
-  //       height: '203px'
-  //     })
-  //     openConfirm.afterClosed().subscribe(result => {
-  //       if (result === 1) {
-  //         this.testForm.control.markAsPristine()
-  //         this.selectedIndex += 1
-  //         this.goNext.emit(this.selectedIndex)
-  //       }
-  //     })
-  //   } else {
-  //     this.selectedIndex += 1
-  //     this.goNext.emit(this.selectedIndex)
-  //   }
-  // }
-
-  // previous(isChanged: boolean | null) {
-  //   if (!isChanged) {
-  //     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //       width: '448px',
-  //       height: '203px'
-  //     })
-  //     openConfirm.afterClosed().subscribe(result => {
-  //       if (result === 1) {
-  //         this.testForm.control.markAsPristine()
-  //         this.selectedIndex -= 1
-  //         this.goNext.emit(this.selectedIndex)
-  //       }
-  //     })
-  //   } else {
-  //     this.selectedIndex -= 1
-  //     this.goNext.emit(this.selectedIndex)
-  //   }
-  // }
-  //
-  // cancel() {
-  //   const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //     width: '448px',
-  //     height: '203px'
-  //   })
-  //   openConfirm.afterClosed().subscribe(result => {
-  //     if (result === 1) {
-  //       this.testForm.control.markAsPristine()
-  //     }
-  //   })
-  // }
 
   save() {
 
@@ -136,14 +88,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
     };
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
         saveAssessmentData.push(saveRequest);
-        console.log(saveRequest)
       }
     )
     this.answerSaved = true
   }
 
   receiveRating(topicRating: TopicRatingAndRecommendation) {
-    console.log("gotRating")
     this.topicRatingAndRecommendation.rating = topicRating.rating
     this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
   }
@@ -164,12 +114,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
       this.enableForm();
   }
 
-  getParameterRequest(parameterId: number): ParameterRequest {
+  getParameterRequest(_parameterId: number): ParameterRequest {
     const newParameterRequest = {
       answerRequest: this.notes
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
-    console.log("request", this.topicRequest.parameterLevel)
     return <ParameterRequest>newParameterRequest;
   }
 
@@ -180,12 +129,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
-    console.log("request", this.topicRequest.parameterLevel)
     return <ParameterRequest>newParameterRequest;
   }
 
   ngOnInit(): void {
-    if (this.topicInput.references != null) {
+    if (this.topicInput.references!= null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter].parameterId)
       }
