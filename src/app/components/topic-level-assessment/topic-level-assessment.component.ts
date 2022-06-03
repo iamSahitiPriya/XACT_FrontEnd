@@ -116,6 +116,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     };
   }
 
+
   getParameterRequest(parameter: ParameterStructure): ParameterRequest {
     const answerRequest = []
     for (let question in parameter.questions) {
@@ -150,8 +151,8 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
       this.topicRequest.topicRatingAndRecommendation = {
         rating: undefined,
-        recommendation: "",
-        topicId: topicId
+        recommendation: undefined,
+        topicId: this.topicInput.topicId
       }
 
     } else {
