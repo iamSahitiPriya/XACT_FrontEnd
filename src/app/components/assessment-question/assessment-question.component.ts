@@ -2,10 +2,8 @@ import {Component, Input} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-import {ParameterStructure} from "../../types/parameterStructure";
 import {Notes} from "../../types/answerRequest";
 import {ControlContainer, NgForm} from "@angular/forms";
-import {ParameterRequest} from "../../types/parameterRequest";
 import {QuestionStructure} from "../../types/questionStructure";
 
 
