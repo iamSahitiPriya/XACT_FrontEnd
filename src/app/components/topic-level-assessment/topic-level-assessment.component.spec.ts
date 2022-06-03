@@ -4,7 +4,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {TopicLevelAssessmentComponent} from './topic-level-assessment.component';
+import {parameterRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
@@ -12,24 +12,49 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {of} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 import {
   ParameterLevelRatingAndRecommendationComponent
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
 class MockAppService {
+  // ParameterRequestMock = {
+  //   "assessmentId": 1,
+  //   topicRequest:{
+  //     parameterRequest:[
+  //       {
+  //         answerRequest:[{
+  //           questionId : 1,
+  //           answer :"text"
+  //         }]
+  //       }
+  //     ],
+  //     topicRatingAndRecommendation:{
+  //       topicId : 1,
+  //       rating :"1",
+  //       recommendation :"some text"
+  //     }
+  //   }
+  // };
+
+
+
   saveAssessment(saveRequest: SaveRequest) {
     return of(saveRequest);
   }
 }
 
+let topicRatingAndRecommendation:TopicRatingAndRecommendation
 
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
+    component2:TopicLevelRecommendationComponent,fixture2:ComponentFixture<TopicLevelRecommendationComponent>,
     mockAppService: MockAppService,
     dialog: any, matDialog: any;
   const original = window.location;
@@ -43,8 +68,8 @@ describe('TopicLevelAssessmentComponent', () => {
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent],
-      providers: [{provide: AppServiceService, useClass: MockAppService},NgForm
+      declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent,TopicLevelRecommendationComponent],
+      providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
       imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule],
 
@@ -60,6 +85,8 @@ describe('TopicLevelAssessmentComponent', () => {
     component = fixture.componentInstance;
     fixture1 = TestBed.createComponent(AssessmentQuestionComponent);
     component1 = fixture1.componentInstance;
+    fixture2 = TestBed.createComponent(TopicLevelRecommendationComponent)
+    component2 =fixture2.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
     // fixture.detectChanges();
@@ -67,7 +94,8 @@ describe('TopicLevelAssessmentComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy()
+
+  expect(component).toBeTruthy();
   });
 
   it('should save answers and reload the page', () => {
@@ -78,4 +106,11 @@ describe('TopicLevelAssessmentComponent', () => {
   });
 
 
+  it('should able to receive rating',()=>{
+
+  })
+
 });
+
+
+

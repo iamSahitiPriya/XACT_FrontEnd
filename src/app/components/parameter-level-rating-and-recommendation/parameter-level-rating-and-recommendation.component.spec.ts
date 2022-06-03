@@ -33,4 +33,18 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should able to set rating', () => {
+    const parameterRatingAndRecommendation = {
+      rating: "2",
+      recommendation: "some text",
+      parameterId: 1
+    }
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.parameterRatingAndRecommendation.rating = parameterRatingAndRecommendation.rating
+    component.parameterRatingAndRecommendation.recommendation = parameterRatingAndRecommendation.recommendation
+    component.setRating(parameterRatingAndRecommendation.rating)
+    fixture.detectChanges()
+    expect(component.parameterRatingAndRecommendation.rating).toEqual("2")
+
+  });
 });

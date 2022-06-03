@@ -30,4 +30,19 @@ describe('TopicScoreComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should able to set rating',()=>{
+    const topicRatingAndRecommendation={
+      rating :"2",
+      recommendation :"some text",
+      topicId : 1
+    }
+    component.topicRatingAndRecommendation=topicRatingAndRecommendation;
+    component.topicRatingAndRecommendation.rating=topicRatingAndRecommendation.rating
+    component.topicRatingAndRecommendation.recommendation=topicRatingAndRecommendation.recommendation
+    component.setRating(topicRatingAndRecommendation.rating)
+    fixture.detectChanges()
+    expect(component.topicRatingAndRecommendation.rating).toEqual("2")
+
+  })
 });

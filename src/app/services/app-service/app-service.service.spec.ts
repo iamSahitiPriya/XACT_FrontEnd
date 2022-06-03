@@ -52,14 +52,25 @@ describe('AppServiceService', () => {
     expect(service.getCategories()).toBeTruthy()
   });
 
-  // it("should save assessment notes", () => {
-  //   let answerRequest: SaveRequest =
-  //     {
-  //       assessmentId: 123,
-  //       topicRequest: undefined;
-  //     }
-  //   expect(service.saveAssessment(answerRequest)).toBeTruthy()
-  // });
+  it("should save assessment", () => {
+    let AssessmentRequest: SaveRequest =
+      {
+        assessmentId: 123,
+        topicRequest :{
+          parameterLevel:[
+
+          ],
+            topicRatingAndRecommendation :{
+                  topicId :1,
+                  rating:"1",
+                  recommendation:"some text"
+            }
+        },
+
+
+      };
+    expect(service.saveAssessment(AssessmentRequest)).toBeTruthy()
+  });
 
   it("should generate report", () => {
     expect(service.generateReport(123)).toBeTruthy()
