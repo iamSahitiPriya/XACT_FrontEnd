@@ -8,6 +8,7 @@ import {TestBed} from '@angular/core/testing';
 import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
+import {SaveRequest} from "../../types/saveRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;

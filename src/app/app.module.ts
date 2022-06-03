@@ -45,7 +45,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-question/assessment-question.component';
 import {TopicLevelAssessmentComponent} from './components/topic-level-assessment/topic-level-assessment.component';
-import {AssessmentRecommendationComponent} from './components/assessment-recommendation/assessment-recommendation.component';
 import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
