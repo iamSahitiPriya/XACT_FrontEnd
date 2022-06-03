@@ -18,11 +18,8 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-<!--      <button [disabled]="selectedIndex===0" mat-stroked-button (click)="previous(testForm.pristine)" class="backButton">Back</button>-->
-<!--      <button mat-stroked-button (click)="next(testForm.pristine)" class="nextButton">Next</button>-->
     </div>
     <div class="col-md-8">
-<!--      <button mat-stroked-button class="cancelButton" id="cancel" [disabled]="testForm.pristine" (click)="cancel()" #submitButton >Cancel</button>-->
       <button [disabled]="assessmentStatus ==='Completed'" mat-raised-button class="saveButton" (click)="save()">Save</button>
 
     </div>

@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
  */
 import {ParameterStructure} from "../../types/parameterStructure";
 import {Notes} from "../../types/answerRequest";
-import {ControlContainer, FormControl, NgForm} from "@angular/forms";
+import {ControlContainer, NgForm} from "@angular/forms";
 import {ParameterRequest} from "../../types/parameterRequest";
 
 
@@ -27,7 +27,7 @@ export class AssessmentQuestionComponent {
   @Input()
   initial: number
   textarea: number = 0;
-  assessmentAnswerText: FormControl;
+
 
 
   getAnswer(questionId: number): Notes {
@@ -36,7 +36,6 @@ export class AssessmentQuestionComponent {
       return el.questionId === questionId
     })
     if (note != null) {
-      console.log(note)
       return note
     } else {
       const newNote = {questionId: questionId}
