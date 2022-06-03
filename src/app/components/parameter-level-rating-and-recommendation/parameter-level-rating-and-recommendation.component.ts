@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 
@@ -20,7 +20,7 @@ export class ParameterLevelRatingAndRecommendationComponent {
 
   setRating(rating: string) {
     this.parameterRatingAndRecommendation.rating = rating;
-    this.parameterRatingAndRecommendation.parameterId=this.parameterRecommendation;
+    this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
 
   }
 }

@@ -2,7 +2,7 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div>
+<div *ngIf="questionDetails">
   <mat-form-field class="textArea" appearance="outline" id="testForm" >
           <mat-label>Notes</mat-label>
           <textarea matInput name="textarea{{questionDetails.questionId}}" id="assessmentAnswer{{questionDetails.questionId}}"

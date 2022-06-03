@@ -6,6 +6,7 @@
 
 <div class="parameterScoring">
   <mat-card class="scoreHeading">Assign Maturity score</mat-card>
+  <div *ngIf="parameterScore"></div>
   <div *ngFor="let pScore of parameterScore">
     <mat-toolbar class="scoreReference">
       <p>{{pScore.reference}}</p>
@@ -19,7 +20,8 @@
 
 
 <div>
-  <mat-form-field class="textArea" appearance="outline"   *ngIf="parameterRatingAndRecommendation" >
+  <mat-form-field class="textArea" appearance="outline"   *ngIf="parameterRatingAndRecommendation"  >
+    <div *ngIf="parameterRecommendation"></div>
     <mat-label>Recommendations</mat-label>
     <textarea id="recommendationElement{{parameterRecommendation}}" name="recommendationText{{parameterRecommendation}}"  matInput #recommendationElement
               [(ngModel)]="parameterRatingAndRecommendation.recommendation"

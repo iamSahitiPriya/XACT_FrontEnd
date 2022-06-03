@@ -24,6 +24,7 @@ let topicId: number;
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
 export class parameterRequest {
+
   answerRequest: Notes[] = []
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
@@ -45,7 +46,7 @@ let parameterRequests: parameterRequest[];
 export class TopicLevelAssessmentComponent implements OnInit {
 
   topicRequest: TopicRequest = {
-    parameterLevel: parameterRequests = [],
+    parameterLevel: parameterRequests=[],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
@@ -59,8 +60,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @Input() assessmentId: number
   @Input() topicInput: TopicStructure;
   @Input() assessmentStatus: string;
-
-
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
     rating: "",
@@ -77,55 +76,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @ViewChild('testForm')
   public testForm: any
 
-  // next(isChanged: boolean | null) {
-  //   if (!isChanged) {
-  //     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //       width: '448px',
-  //       height: '203px'
-  //     })
-  //     openConfirm.afterClosed().subscribe(result => {
-  //       if (result === 1) {
-  //         this.testForm.control.markAsPristine()
-  //         this.selectedIndex += 1
-  //         this.goNext.emit(this.selectedIndex)
-  //       }
-  //     })
-  //   } else {
-  //     this.selectedIndex += 1
-  //     this.goNext.emit(this.selectedIndex)
-  //   }
-  // }
-
-  // previous(isChanged: boolean | null) {
-  //   if (!isChanged) {
-  //     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //       width: '448px',
-  //       height: '203px'
-  //     })
-  //     openConfirm.afterClosed().subscribe(result => {
-  //       if (result === 1) {
-  //         this.testForm.control.markAsPristine()
-  //         this.selectedIndex -= 1
-  //         this.goNext.emit(this.selectedIndex)
-  //       }
-  //     })
-  //   } else {
-  //     this.selectedIndex -= 1
-  //     this.goNext.emit(this.selectedIndex)
-  //   }
-  // }
-  //
-  // cancel() {
-  //   const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-  //     width: '448px',
-  //     height: '203px'
-  //   })
-  //   openConfirm.afterClosed().subscribe(result => {
-  //     if (result === 1) {
-  //       this.testForm.control.markAsPristine()
-  //     }
-  //   })
-  // }
 
   save() {
 
@@ -134,14 +84,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
     };
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
         saveAssessmentData.push(saveRequest);
-        console.log(saveRequest)
       }
     )
     this.answerSaved = true
   }
 
   receiveRating(topicRating: TopicRatingAndRecommendation) {
-    console.log("gotRating")
     this.topicRatingAndRecommendation.rating = topicRating.rating
     this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
   }
@@ -177,7 +125,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
       answerRequest: answerRequest
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
-    console.log("request", this.topicRequest.parameterLevel)
     return <ParameterRequest>newParameterRequest;
   }
 
@@ -193,12 +140,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
-    console.log("request", this.topicRequest.parameterLevel)
     return <ParameterRequest>newParameterRequest;
   }
 
   ngOnInit(): void {
-    if (this.topicInput.references != null) {
+    if (this.topicInput.references!= null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
       }

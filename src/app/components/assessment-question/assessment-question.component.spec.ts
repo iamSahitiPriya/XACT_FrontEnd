@@ -33,9 +33,10 @@ describe('AssessmentQuestionComponent', () => {
 
   it('should create', () => {
     component.initial = 1;
-    // component.parameterDetails = {parameterId: 1, parameterName: "abc", topic: 1, questions: [], references: []}
+    component.questionDetails = { questionId:123,questionText:'Hello',parameter:1234}
+    component.answerInput = {questionId:123,answer:"My answer"}
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector(".parameter").textContent).toContain("abc");
+    //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
 
 });
