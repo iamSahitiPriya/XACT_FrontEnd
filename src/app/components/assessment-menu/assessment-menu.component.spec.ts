@@ -86,4 +86,12 @@ describe('AssessmentMenuComponent', () => {
     expect(component.reopenAssessment).toHaveBeenCalled();
     flush()
   }));
+
+  it('should complete assessment', () => {
+    component.assessmentStatus = "Active";
+    component.finishAssessment();
+    expect(component.assessmentStatus).toBe("Completed");
+  });
+
+
 });

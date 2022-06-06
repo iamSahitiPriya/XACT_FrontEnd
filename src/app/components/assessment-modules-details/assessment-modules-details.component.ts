@@ -70,13 +70,6 @@ export class AssessmentModulesDetailsComponent {
   }
 
 
-  next(index: number) {
-    this.selectedIndex = index;
-  }
-
-  previous(index: number) {
-    this.selectedIndex = index;
-  }
 
   private getAssessment() {
     this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
