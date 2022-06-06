@@ -8,7 +8,7 @@
     <mat-toolbar class="scoreReference">
       <p>{{pScore.reference}}</p>
       <span class="spacer"></span>
-      <span class="rating" (click)="setRating(pScore.rating)"[ngClass]="{'rating-active':topicRatingAndRecommendation.rating === pScore.rating}">
+      <span class="rating" (click)="setRating(pScore.rating)" [ngClass]="{'rating-active':topicRatingAndRecommendation.rating === pScore.rating}">
        <div class="image" ></div>
         {{pScore.rating}}</span>
     </mat-toolbar>

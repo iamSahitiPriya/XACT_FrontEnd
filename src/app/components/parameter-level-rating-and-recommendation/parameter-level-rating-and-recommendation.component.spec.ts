@@ -33,18 +33,17 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should able to set rating', () => {
+
+  it('should able to set rating',()=> {
     const parameterRatingAndRecommendation = {
       rating: "2",
       recommendation: "some text",
       parameterId: 1
     }
+    jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
-    component.parameterRatingAndRecommendation.rating = parameterRatingAndRecommendation.rating
-    component.parameterRatingAndRecommendation.recommendation = parameterRatingAndRecommendation.recommendation
-    component.setRating(parameterRatingAndRecommendation.rating)
-    fixture.detectChanges()
-    expect(component.parameterRatingAndRecommendation.rating).toEqual("2")
-
+    component.assessmentStatus="Active"
+    component.setRating("3")
+    expect(parameterRatingAndRecommendation.rating).toEqual("3");
   });
 });
