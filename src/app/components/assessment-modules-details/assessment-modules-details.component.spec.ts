@@ -11,7 +11,7 @@ import {of} from "rxjs";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RouterTestingModule} from "@angular/router/testing";
-import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
@@ -26,6 +26,7 @@ import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.compon
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {CommonModule} from "@angular/common";
 
 class MockAppService {
   public getCategories() {
@@ -122,7 +123,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, TopicScoreComponent, TopicLevelRecommendationComponent, ParameterLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
-        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule,CommonModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
@@ -221,18 +222,5 @@ describe('AssessmentModulesDetailsComponent', () => {
     })
   });
 
-  it('should set index on next', () => {
-    component.selectedIndex = 1;
-    component.next(2);
-    fixture.detectChanges();
-    expect(component.selectedIndex).toEqual(2)
-  });
-
-  it('should set index on back', () => {
-    component.selectedIndex = 2;
-    component.previous(1);
-    fixture.detectChanges();
-    expect(component.selectedIndex).toEqual(1)
-  });
 
 });

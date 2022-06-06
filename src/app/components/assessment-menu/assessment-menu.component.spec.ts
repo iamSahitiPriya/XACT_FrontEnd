@@ -6,6 +6,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDialogModule} from "@angular/material/dialog";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('AssessmentMenuComponent', () => {
   let component: AssessmentMenuComponent;
@@ -33,7 +34,7 @@ describe('AssessmentMenuComponent', () => {
       providers: [
         {provide: AppServiceService, useClass: MockAppService}
       ],
-      imports: [MatMenuModule, MatDialogModule, MatIconModule]
+      imports: [MatMenuModule, MatDialogModule, MatIconModule,BrowserAnimationsModule,NoopAnimationsModule]
     })
       .compileComponents();
   });

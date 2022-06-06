@@ -14,7 +14,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -22,6 +22,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
 import {RouterModule} from "@angular/router";
+import {MatButtonModule} from "@angular/material/button";
+import {MatRippleModule} from "@angular/material/core";
 
 
 class MockDialog {
@@ -90,7 +92,7 @@ describe('CreateAssessmentsComponent', () => {
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
-        ReactiveFormsModule, MatSnackBarModule],
+        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: AppServiceService, useClass: MockAppService},

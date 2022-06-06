@@ -52,6 +52,7 @@ import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
 import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
 import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
+import {MatRippleModule} from "@angular/material/core";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -126,7 +127,6 @@ export const appRoutes: Routes = [
     MatTabsModule,
     MatSelectModule,
     NgHttpLoaderModule.forRoot()
-
   ],
   exports: [
     MatButtonModule,
@@ -135,6 +135,8 @@ export const appRoutes: Routes = [
     MatIconModule,
     MatToolbarModule,
     NgHttpLoaderModule,
+    MatFormFieldModule,
+    MatRippleModule,
     FormsModule
   ],
   providers: [

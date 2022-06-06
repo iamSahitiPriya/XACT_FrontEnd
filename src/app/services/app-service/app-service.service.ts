@@ -37,7 +37,6 @@ export class AppServiceService {
   public saveAssessment(assessmentAnswer: SaveRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
     return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer.topicRequest, {'headers': headers})
-
   }
 
   generateReport(assessmentId: number) {

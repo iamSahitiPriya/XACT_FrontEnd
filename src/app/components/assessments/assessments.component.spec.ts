@@ -19,7 +19,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormsModule} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
@@ -59,7 +59,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule,
+        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule,FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }])],

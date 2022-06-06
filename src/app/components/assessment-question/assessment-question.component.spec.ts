@@ -6,6 +6,14 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {CommonModule} from "@angular/common";
+import {MatCardModule} from "@angular/material/card";
+import {MatDialogModule} from "@angular/material/dialog";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
+import {MatInputModule} from "@angular/material/input";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -18,7 +26,7 @@ describe('AssessmentQuestionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentQuestionComponent],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule,MatFormFieldModule,MatInputModule,BrowserAnimationsModule,NoopAnimationsModule,CommonModule],
 
 
     })
