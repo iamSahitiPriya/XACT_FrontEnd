@@ -59,6 +59,30 @@ class loginPage {
   static logOut(){
      return cy.get('.dropdown-item')
   }
+  static rememberMeCheckbox(){
+     return cy.get('input[name=rememberMe]')
+  }
+  static rememberMeCheckboxChecked(){
+     return cy.get('.hover')
+  }
+
+  //forgot password page
+  static oktaHeader(){
+     return cy.get('.auth-org-logo')
+  }
+  static emailId(){
+     return cy.get('input[type=text]')
+  }
+  static nextButton(){
+     return cy.get('.button')
+  }
+  static backToSignIn(){
+     return cy.get('.link')
+  }
+  static emailorUserName(){
+     return cy.get('.okta-form-label')
+  }
+
 
 
   //reusable functions
