@@ -1,6 +1,7 @@
 pipeline {
     agent any
     parameters { string(name: 'Commit_ID', defaultValue: '', description: '') }
+    parameters { string(name: 'ENV_TYPE', defaultValue: 'qa', description: '') }
 
 
     stages {
@@ -13,8 +14,8 @@ pipeline {
         }
         stage('Deploy to Prod') {
             steps {
-                sh 'aws s3 rm s3://xact-app-prod/ --recursive'
-                sh 'aws s3 cp ./prod-build/ s3://xact-app-prod/ --recursive  --include "*" '
+                sh 'aws s3 rm s3://xact-app-${ENV_TYPE}/ --recursive'
+                sh 'aws s3 cp ./prod-build/ s3://xact-app-${ENV_TYPE}/ --recursive  --include "*" '
             }
         }
 
