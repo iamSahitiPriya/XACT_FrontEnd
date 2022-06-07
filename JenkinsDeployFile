@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters {
     string(name: 'Commit_ID', defaultValue: '', description: '')
-    choice choices: ['QA', 'PROD'], name: 'ENV_TYPE'}
+    choice choices: ['qa', 'prod'], name: 'ENV_TYPE'}
 
     stages {
         stage('Fetch Artifact') {
