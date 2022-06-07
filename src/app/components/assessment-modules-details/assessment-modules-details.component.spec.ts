@@ -257,4 +257,5 @@ describe('AssessmentModulesDetailsComponent', () => {
     flush();
     expect(component).toBeTruthy();
   }))
+
 });

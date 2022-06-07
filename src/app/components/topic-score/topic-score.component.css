@@ -43,7 +43,7 @@ p{
   margin-bottom: 22px;
   white-space: pre-wrap !important;
   overflow-y:scroll;
-
+  border:1px solid transparent;
 }
 .rating-disabled{
   width: 76px;

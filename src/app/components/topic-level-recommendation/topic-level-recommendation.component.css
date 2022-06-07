@@ -11,6 +11,7 @@
 textArea.mat-input-element {
   padding-bottom: 30px;
 }
+
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
