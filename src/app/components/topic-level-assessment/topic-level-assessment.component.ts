@@ -47,7 +47,7 @@ let parameterRequests: parameterRequest[];
 export class TopicLevelAssessmentComponent implements OnInit {
 
   topicRequest: TopicRequest = {
-    parameterLevel: parameterRequests=[],
+    parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
@@ -118,7 +118,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     }
     const newParameterRequest = {
       answerRequest: answerRequest, parameterRatingAndRecommendation: {
-        parameterId: parameter.parameterId, rating:undefined, recommendation: ""
+        parameterId: parameter.parameterId, rating: undefined, recommendation: ""
       }
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
@@ -126,7 +126,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.topicInput.references!= null) {
+    if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
       }
@@ -137,9 +137,9 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
 
     } else {
-        for (let parameter in this.topicInput.parameters) {
-          this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter])
-        }
+      for (let parameter in this.topicInput.parameters) {
+        this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter])
       }
+    }
   }
 }

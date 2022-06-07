@@ -51,7 +51,7 @@ describe('TopicLevelAssessmentComponent', () => {
       declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent, TopicLevelRecommendationComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
-      imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule,BrowserAnimationsModule,CommonModule],
+      imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule],
 
     })
       .compileComponents();
@@ -85,15 +85,15 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(window.location.reload).toHaveBeenCalled()
   });
 
-  it('should able to receive rating',()=>{
-    const topicRatingAndRecommendation={
-      rating :"2",
-      recommendation :"some text",
-      topicId : 1
+  it('should able to receive rating', () => {
+    const topicRatingAndRecommendation = {
+      rating: "2",
+      recommendation: "some text",
+      topicId: 1
     }
-    component.topicRatingAndRecommendation = {rating:"1",recommendation:"none",topicId:1};
+    component.topicRatingAndRecommendation = {rating: "1", recommendation: "none", topicId: 1};
     component.topicLevelRecommendationComponent = component2;
-    component2.topicRatingAndRecommendation = {rating:"1",recommendation:"none",topicId:1};
+    component2.topicRatingAndRecommendation = {rating: "1", recommendation: "none", topicId: 1};
     component.receiveRating(topicRatingAndRecommendation)
     expect(component.topicRatingAndRecommendation.rating).toEqual("2");
     expect(component.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating).toEqual("2");

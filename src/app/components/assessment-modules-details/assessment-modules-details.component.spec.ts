@@ -11,7 +11,7 @@ import {of} from "rxjs";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RouterTestingModule} from "@angular/router/testing";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
@@ -25,7 +25,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
-import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {
+  ParameterLevelRatingAndRecommendationComponent
+} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
 
 class MockAppService {
@@ -123,7 +125,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, TopicScoreComponent, TopicLevelRecommendationComponent, ParameterLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
-        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule,CommonModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
@@ -222,37 +224,37 @@ describe('AssessmentModulesDetailsComponent', () => {
     })
   });
 
-  it('should able to disable the form after 500ms',fakeAsync(()=>{
+  it('should able to disable the form after 500ms', fakeAsync(() => {
 
-    setTimeout(()=>{
+    setTimeout(() => {
       component.testForm.form.disable();
-    },500);
+    }, 500);
     tick(500);
     component.disableForm()
     flush();
     expect(component).toBeTruthy()
   }))
 
-  it('should able to enable the form after 500ms',fakeAsync(()=>{
-    setTimeout(()=>{
+  it('should able to enable the form after 500ms', fakeAsync(() => {
+    setTimeout(() => {
       component.testForm.form.enable();
-    },500);
+    }, 500);
     tick(500);
     component.enableForm()
     flush();
     expect(component).toBeTruthy()
   }))
 
-  it('should update the form based on the status',fakeAsync(()=>{
-    component.assessment.assessmentStatus='Completed';
+  it('should update the form based on the status', fakeAsync(() => {
+    component.assessment.assessmentStatus = 'Completed';
     component.updateFormActions();
-    jest.spyOn(component,"disableForm");
-      setTimeout(()=>{
-        component.testForm.form.enable();
-      },500);
-      tick(500);
-      component.disableForm()
-      flush();
+    jest.spyOn(component, "disableForm");
+    setTimeout(() => {
+      component.testForm.form.enable();
+    }, 500);
+    tick(500);
+    component.disableForm()
+    flush();
     expect(component).toBeTruthy();
   }))
 });
