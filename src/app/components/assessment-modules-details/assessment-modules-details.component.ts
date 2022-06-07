@@ -51,6 +51,7 @@ export class AssessmentModulesDetailsComponent {
   }
 
   navigate(module: ModuleStructure) {
+    console.log(this.assessment)
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
   }
@@ -68,7 +69,6 @@ export class AssessmentModulesDetailsComponent {
     this.getCategories();
     this.getAssessment();
   }
-
 
 
   private getAssessment() {
