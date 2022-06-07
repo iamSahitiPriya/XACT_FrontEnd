@@ -30,6 +30,8 @@ class MockAppService {
   }
 }
 
+let parameter: { parameterId: number; references: any[]; questions: { questionId: number; parameter: number; questionText: string }[]; topic: number; parameterName: string }
+
 
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
@@ -97,6 +99,28 @@ describe('TopicLevelAssessmentComponent', () => {
     component.receiveRating(topicRatingAndRecommendation)
     expect(component.topicRatingAndRecommendation.rating).toEqual("2");
     expect(component.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating).toEqual("2");
+  })
+
+  it('should able to get the parameter level details from the parameter structure', () => {
+    parameter = {
+      parameterId: 1,
+      parameterName: "hello",
+      topic: 1,
+      questions: [
+        {
+          questionId: 1,
+          questionText: "some text",
+          parameter: 1
+        }
+      ],
+      references: []
+    }
+    const answerRequest = []
+    component.getParameterWithRatingAndRecommendationRequest(parameter)
+    for (let question in parameter.questions) {
+      answerRequest.push(parameter.questions[question].questionId)
+    }
+    expect(answerRequest[0]).toEqual(1);
   })
 
 });
