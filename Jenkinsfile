@@ -4,6 +4,8 @@ pipeline {
     environment {
         DEV_CLIENT_ID = credentials('DEV_CLIENT_ID')
         DEV_ISSUER = credentials('DEV_ISSUER')
+        QA_CLIENT_ID = credentials('QA_CLIENT_ID')
+        QA_ISSUER = credentials('QA_ISSUER')
         PROD_CLIENT_ID = credentials('PROD_CLIENT_ID')
         PROD_ISSUER = credentials('PROD_ISSUER')
         ARTIFACT_FILE = "xact-frontend-${env.GIT_COMMIT}.zip"
