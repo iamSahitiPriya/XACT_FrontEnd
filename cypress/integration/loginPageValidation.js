@@ -3,6 +3,11 @@ import landingPage from "./pageObjects/landingPage";
 
 describe('validating functionality of login page of xAct application', () => {
 
+  beforeEach('User should get navigated to Okta by launching the url', () => {
+    cy.window().then(win => win.location.hash = "/foo/bar")
+    cy.intercept('GET','https://dev-47045452.okta.com/oauth2/default/v1/userinfo').as('pageLoad')
+    cy.visit('/')
+  })
 
   it('tc001 validating all fields in the login page',()=>{
     cy.clearLocalStorage()
@@ -75,13 +80,30 @@ describe('validating functionality of login page of xAct application', () => {
   })
 
 
-  it('tc004 login xAct application with invalid username and valid password',()=>{
+  it('tc009 login xAct application with invalid username and valid password',()=>{
     loginPage.xActLogin('invalidemail@gmail.com','Sam@12345')
     loginPage.submit().click()
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.invalidSigninMessage().should('have.text','Unable to sign in')
   })
 
+
+  it('tc011 validating forgot password page',()=>{
+    loginPage.forgetPasswordLink().click()
+    loginPage.authContainer().should('be.visible')
+    loginPage.oktaHeader().should('be.visible')
+    loginPage.userNameheader().should('be.visible')
+    loginPage.userNameheader().should('have.text','Reset your password')
+    loginPage.emailorUserName().should('be.visible')
+    loginPage.emailId().should('be.visible')
+    loginPage.nextButton().should('be.visible')
+    loginPage.backToSignIn().should('be.visible')
+  })
+
+  it('tc010 validating whether keep me signed in can be checked successfully',()=>{
+    loginPage.checkBox().click()
+    loginPage.rememberMeCheckboxChecked().should('be.visible')
+  })
 
 
   it('tc00 user tries to login  with valid userId and password',()=>{
@@ -92,6 +114,10 @@ describe('validating functionality of login page of xAct application', () => {
     loginPage.logOut().click()
     cy.title().should('eq','Thoughtworks - Sign In')
   })
+
+
+
+
 
 
 })

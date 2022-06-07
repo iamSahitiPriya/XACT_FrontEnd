@@ -1,20 +1,21 @@
 pipeline {
     agent any
     parameters { string(name: 'Commit_ID', defaultValue: '', description: '') }
+    parameters { string(name: 'ENV_TYPE', defaultValue: 'qa', description: '') }
 
 
     stages {
         stage('Fetch Artifact') {
             steps {
-                sh 'rm -rf prod-build'
-                sh "aws s3 cp s3://xact-frontend-artifacts/prod-xact-frontend-${Commit_ID}.zip prod-build.zip"
-                unzip zipFile: 'prod-build.zip', dir: 'prod-build'
+                sh 'rm -rf xact-build'
+                sh "aws s3 cp s3://xact-frontend-artifacts/${ENV_TYPE}-xact-frontend-${Commit_ID}.zip xact-build.zip"
+                unzip zipFile: 'xact-build.zip', dir: 'xact-build'
             }
         }
-        stage('Deploy to Prod') {
+        stage('Deploy to Env') {
             steps {
-                sh 'aws s3 rm s3://xact-app-prod/ --recursive'
-                sh 'aws s3 cp ./prod-build/ s3://xact-app-prod/ --recursive  --include "*" '
+                sh 'aws s3 rm s3://xact-app-${ENV_TYPE}/ --recursive'
+                sh 'aws s3 cp ./xact-build/ s3://xact-app-${ENV_TYPE}/ --recursive  --include "*" '
             }
         }
 

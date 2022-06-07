@@ -62,6 +62,19 @@ pipeline {
                 sh 'npm run e2e'
             }
         } */
+        stage('Create & Archive QA Build') {
+                      steps {
+                          sh "npm run updateBuild -- qa ${QA_CLIENT_ID} ${QA_ISSUER}"
+                          sh 'npm run build-qa'
+                          script{
+                             zip zipFile: "qa-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                          }
+                          archiveArtifacts artifacts: "qa-${env.ARTIFACT_FILE}", fingerprint: true
+                          sh "aws s3 rm s3://xact-frontend-artifacts/qa-xact-frontend-${env.GIT_COMMIT}.zip"
+                          sh "aws s3 mv qa-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
+
+                      }
+        }
         stage('Create & Archive Prod Build') {
               steps {
                   sh "npm run updateBuild -- prod ${PROD_CLIENT_ID} ${PROD_ISSUER}"
