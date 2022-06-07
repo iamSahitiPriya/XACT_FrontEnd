@@ -85,21 +85,19 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(window.location.reload).toHaveBeenCalled()
   });
 
-  // it('should able to receive rating',()=>{
-  //   const topicRatingAndRecommendation={
-  //     rating :"2",
-  //     recommendation :"some text",
-  //     topicId : 1
-  //   }
-  //   jest.spyOn(component,"receiveRating");
-  //
-  //   component.topicRatingAndRecommendation=topicRatingAndRecommendation;
-  //   component.topicRatingAndRecommendation.rating=topicRatingAndRecommendation.rating;
-  //   component.topicLevelRecommendationComponent.topicRatingAndRecommendation=topicRatingAndRecommendation
-  //   component2.topicRatingAndRecommendation.rating=topicRatingAndRecommendation.rating;
-  //   component.receiveRating(topicRatingAndRecommendation)
-  //   expect(topicRatingAndRecommendation.rating).toEqual("2");
-  // })
+  it('should able to receive rating',()=>{
+    const topicRatingAndRecommendation={
+      rating :"2",
+      recommendation :"some text",
+      topicId : 1
+    }
+    component.topicRatingAndRecommendation = {rating:"1",recommendation:"none",topicId:1};
+    component.topicLevelRecommendationComponent = component2;
+    component2.topicRatingAndRecommendation = {rating:"1",recommendation:"none",topicId:1};
+    component.receiveRating(topicRatingAndRecommendation)
+    expect(component.topicRatingAndRecommendation.rating).toEqual("2");
+    expect(component.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating).toEqual("2");
+  })
 
 });
 

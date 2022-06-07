@@ -38,8 +38,6 @@ describe('TopicScoreComponent', () => {
       topicId : 1
     }
    jest.spyOn(component,"setRating");
-    //
-    // expect(spy).toHaveBeenCalled();
     component.topicRatingAndRecommendation=topicRatingAndRecommendation;
     component.assessmentStatus="Active"
     component.setRating("3")

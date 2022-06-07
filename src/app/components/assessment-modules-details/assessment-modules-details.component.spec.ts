@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import {AssessmentModulesDetailsComponent} from './assessment-modules-details.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -222,5 +222,37 @@ describe('AssessmentModulesDetailsComponent', () => {
     })
   });
 
+  it('should able to disable the form after 500ms',fakeAsync(()=>{
 
+    setTimeout(()=>{
+      component.testForm.form.disable();
+    },500);
+    tick(500);
+    component.disableForm()
+    flush();
+    expect(component).toBeTruthy()
+  }))
+
+  it('should able to enable the form after 500ms',fakeAsync(()=>{
+    setTimeout(()=>{
+      component.testForm.form.enable();
+    },500);
+    tick(500);
+    component.enableForm()
+    flush();
+    expect(component).toBeTruthy()
+  }))
+
+  it('should update the form based on the status',fakeAsync(()=>{
+    component.assessment.assessmentStatus='Completed';
+    component.updateFormActions();
+    jest.spyOn(component,"disableForm");
+      setTimeout(()=>{
+        component.testForm.form.enable();
+      },500);
+      tick(500);
+      component.disableForm()
+      flush();
+    expect(component).toBeTruthy();
+  }))
 });
