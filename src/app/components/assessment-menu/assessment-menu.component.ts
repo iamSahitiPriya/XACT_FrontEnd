@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-assessment-menu',
@@ -10,7 +11,6 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./assessment-menu.component.css']
 })
 export class AssessmentMenuComponent {
-
   @Input()
   assessmentId: number
 
@@ -24,7 +24,7 @@ export class AssessmentMenuComponent {
     this.statusEvent.emit(this.assessmentStatus)
   }
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog,) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog) {
   }
 
   generateReport() {
@@ -64,5 +64,9 @@ export class AssessmentMenuComponent {
       }
     )
     console.log(this.assessmentStatus)
+
   }
+
 }
+
+
