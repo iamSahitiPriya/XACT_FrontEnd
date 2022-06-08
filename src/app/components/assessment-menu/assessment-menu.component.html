@@ -8,15 +8,19 @@
     <button *ngIf="assessmentStatus==='Active'"  id="finishAssessment" type="button" mat-stroked-button class="btn-finish" (click)="confirmFinishAssessmentAction()">
       Finish Assessment
     </button>
-    <button *ngIf="assessmentStatus==='Completed'" id="reopenAssessment"  type="button" mat-stroked-button class="btn-reopen" (click)="reopenAssessment()">
-      Reopen Assessment
-    </button>
+    <div class="col-mid-4">
+      <button *ngIf="assessmentStatus==='Completed'" id="reopenAssessment"  type="button" mat-stroked-button class="btn-reopen" (click)="reopenAssessment()">
+        Reopen Assessment
+      </button>
+    </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
+    <div class="menuButton">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon class="menu-mat-icon">more_vert</mat-icon>
+      </button>
+    </div>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon class="menu-mat-icon">more_vert</mat-icon>
-    </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [disabled]="assessmentStatus ==='Completed'">
         <mat-icon>settings_applications</mat-icon>
