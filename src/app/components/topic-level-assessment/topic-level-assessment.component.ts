@@ -176,7 +176,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
     }
-
     this.topicRequest.parameterLevel.push(newParameterRequest);
     return newParameterRequest;
   }

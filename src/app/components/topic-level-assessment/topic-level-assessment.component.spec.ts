@@ -21,6 +21,8 @@ import {
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {CommonModule} from "@angular/common";
+import {ParameterStructure} from "../../types/parameterStructure";
+import {ParameterRequest} from "../../types/parameterRequest";
 
 class MockAppService {
 
@@ -93,7 +95,6 @@ describe('TopicLevelAssessmentComponent', () => {
     component2 = fixture2.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
-    // fixture.detectChanges();
     component = fixture.debugElement.componentInstance;
   });
 
@@ -153,7 +154,33 @@ describe('TopicLevelAssessmentComponent', () => {
     //     }])
     // })
   })
+  it("should get the parameter level answer request", () => {
+    parameter = {
+      parameterId: 1,
+      parameterName: "hello",
+      topic: 1,
+      questions: [
+        {
+          questionId: 1,
+          questionText: "some text",
+          parameter: 1
+        }
+      ],
+      references: []
+    }
+    component.answerResponse = {assessmentId:5, assessmentName:"abc",organisationName:"",assessmentStatus:"",
+    updatedAt:0,answerResponseList:[{questionId:0,answer:"some answer"}],topicRatingAndRecommendation:[{topicId:0,rating:"1",recommendation:"some recomm"}],
+    parameterRatingAndRecommendation:[{parameterId:0,rating:"1",recommendation:""}]}
+    expect(component.getParameterWithRatingAndRecommendationRequest(parameter)).toBeTruthy()
 
+  });
+  it("should call topic level is the topic input is null", () => {
+    component.topicInput = {topicId:0,topicName:"",parameters:[{parameterId:0,parameterName:"",topic:1,questions:[],references:[]}],references:[],module:1,assessmentLevel:""}
+    expect(component.ngOnInit()).toBe(undefined)
+  });
+  it("should call parameterRequest class", () => {
+
+  });
 });
 
 
