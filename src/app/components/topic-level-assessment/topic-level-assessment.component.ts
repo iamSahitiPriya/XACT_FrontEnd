@@ -17,8 +17,6 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {SaveRequest} from "../../types/saveRequest";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import EventEmitter from "events";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 
 
 export const saveAssessmentData = [{}]
@@ -28,7 +26,7 @@ let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
 export class parameterRequest {
 
-  answerRequest1: Notes[] = [{questionId:0, answer:""}];
+  answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
   constructor(answerRequest: Notes[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
@@ -37,9 +35,7 @@ export class parameterRequest {
   }
 }
 
-
 let parameterRequests: parameterRequest[];
-
 
 @Component({
   selector: 'app-topic-level-assessment',
@@ -51,9 +47,6 @@ let parameterRequests: parameterRequest[];
 
 export class TopicLevelAssessmentComponent implements OnInit {
   answerResponse: AssessmentStructure
-  answer:AssessmentAnswerResponse[]
-  topicRatingAndRecommendations:TopicRatingAndRecommendation[]
-  parameterRatingAndRecommendations:ParameterRatingAndRecommendation[]
 
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
@@ -71,7 +64,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @Input() topicInput: TopicStructure;
   @Input() assessmentStatus: string;
 
-  dataEmitter = new EventEmitter();
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
     rating: "",
     recommendation: "",
@@ -84,6 +76,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @ViewChild(TopicLevelRecommendationComponent)
   topicLevelRecommendationComponent: TopicLevelRecommendationComponent;
 
+  ngOnInit(): void {
+    this.getAssessment()
+  }
+
   save() {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
@@ -95,10 +91,35 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.answerSaved = true
   }
 
+
+  private getAssessment() {
+    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
+      this.answerResponse = _data
+      this.topicParameterValidation()
+    })
+  }
+
+
+  private topicParameterValidation() {
+    if (this.topicInput.references != null) {
+      for (let parameter in this.topicInput.parameters) {
+        this.getParameterRequest(this.topicInput.parameters[parameter])
+      }
+      this.getTopicLevelRatingAndRecommendation()
+
+    } else {
+      for (let parameter in this.topicInput.parameters) {
+        this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter])
+      }
+    }
+  }
+
+
   receiveRating(topicRating: TopicRatingAndRecommendation) {
     this.topicRatingAndRecommendation.rating = topicRating.rating
     this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
   }
+
 
   getNotes(questionId: number, answer: string): Notes {
     return {
@@ -107,82 +128,68 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
 
-  getParameterRequest(parameter: ParameterStructure): ParameterRequest {
+  getAnswersList(parameter: ParameterStructure): Notes[] {
     const answerRequest = []
-    let indexQuestion = 0
     let answer = ""
-    let newParameterRequest: { answerRequest: Notes[] }
     for (let question in parameter.questions) {
       if (this.answerResponse.answerResponseList !== undefined) {
-        indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
+        let indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
         if (indexQuestion !== -1) {
           answer = this.answerResponse.answerResponseList[indexQuestion].answer
         }
       }
       answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer))
     }
+    return answerRequest
+  }
 
-    newParameterRequest = {
-      answerRequest: answerRequest
+
+  getParameterRequest(parameter: ParameterStructure): ParameterRequest {
+    let newParameterRequest = {
+      answerRequest: this.getAnswersList(parameter)
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
     return <ParameterRequest>newParameterRequest;
   }
 
 
-  getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure): ParameterRequest {
-    const answerRequest = []
-    let answer = ""
-    let indexQuestion = 0
-    for (let question in parameter.questions) {
-      if (this.answerResponse.answerResponseList !== undefined) {
-        indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
-        if (indexQuestion !== -1) {
-          answer = this.answerResponse.answerResponseList[indexQuestion].answer
-        }
-      }
-      answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer))
-    }
-    let ans = this.setParameterRatingAndRecommendation(answerRequest, parameter.parameterId)
-    return ans
-  }
-
-  ngOnInit(): void {
-    this.getAssessment()
-  }
-
-  private setParameterRatingAndRecommendation(answerRequest: Notes[], parameterId: number) {
+  private getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure) {
     let indexByParameterId = 0
     let isRatingAndRecommendationPresent = false
     let newParameterRequest: ParameterRequest = {
-      answerRequest: answerRequest, parameterRatingAndRecommendation: {
-        parameterId: parameterId, rating:"0", recommendation: ""
-      }}
+      answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
+        parameterId: parameter.parameterId, rating: undefined, recommendation: ""
+      }
+    }
+
     if (this.answerResponse.parameterRatingAndRecommendation !== undefined) {
-      indexByParameterId = this.answerResponse.parameterRatingAndRecommendation.findIndex(obj => obj.parameterId == parameterId)
+      indexByParameterId = this.answerResponse.parameterRatingAndRecommendation.findIndex(obj => obj.parameterId == parameter.parameterId)
       isRatingAndRecommendationPresent = this.answerResponse.parameterRatingAndRecommendation.some(el => el.rating || el.recommendation)
     }
+
     if (indexByParameterId !== -1 && isRatingAndRecommendationPresent) {
       newParameterRequest = {
-        answerRequest: answerRequest, parameterRatingAndRecommendation: {
-          parameterId: parameterId,
+        answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
+          parameterId: parameter.parameterId,
           rating: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].rating,
           recommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].recommendation
         }
       }
     }
+
     this.topicRequest.parameterLevel.push(newParameterRequest);
     return newParameterRequest;
   }
 
-  private setTopicLevelRatingAndRecommendation() {
+
+  private getTopicLevelRatingAndRecommendation() {
     let isRatingAndTopicPresent = false
     let indexByTopicId = 0
     if (this.answerResponse.topicRatingAndRecommendation !== undefined) {
       isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.rating && el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
-
     }
+
     if (isRatingAndTopicPresent) {
       this.topicRequest.topicRatingAndRecommendation = {
         rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating,
@@ -191,37 +198,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     } else {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: "0",
+        rating: undefined,
         recommendation: "",
         topicId: this.topicInput.topicId
       }
     }
   }
 
-  private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-      this.answerResponse = _data
-      this.topicParameterValidation()
-    })
-
-  }
-
-  private topicParameterValidation() {
-    if (this.topicInput.references != null) {
-      for (let parameter in this.topicInput.parameters) {
-        if(this.topicInput.parameters[parameter].questions) {
-          this.getParameterRequest(this.topicInput.parameters[parameter])
-        }
-      }
-      this.setTopicLevelRatingAndRecommendation()
-
-    } else {
-      for (let parameter in this.topicInput.parameters) {
-        if (this.topicInput.parameters[parameter].questions) {
-          this.getParameterWithRatingAndRecommendationRequest(this.topicInput.parameters[parameter])
-        }
-      }
-    }
-  }
 }
 
