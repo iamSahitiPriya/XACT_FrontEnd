@@ -25,8 +25,6 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -37,8 +35,8 @@ class MockAppService {
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
       "answerResponseList": [],
-      "parameterRatingAndRecommendation":[],
-      "topicRatingAndRecommendation":[]
+      "parameterRatingAndRecommendation": [],
+      "topicRatingAndRecommendation": []
     },
     {
       "assessmentId": 1,
@@ -47,8 +45,8 @@ class MockAppService {
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702000,
       "answerResponseList": [],
-      "parameterRatingAndRecommendation":[],
-      "topicRatingAndRecommendation":[]
+      "parameterRatingAndRecommendation": [],
+      "topicRatingAndRecommendation": []
     }
   ]
 
@@ -67,7 +65,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule,FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }])],
@@ -103,8 +101,8 @@ describe('AssessmentsComponent', () => {
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
         "answerResponseList": [],
-        "parameterRatingAndRecommendation":[],
-        "topicRatingAndRecommendation":[]
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": []
       },
       {
         "assessmentId": 1,
@@ -113,8 +111,8 @@ describe('AssessmentsComponent', () => {
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702000,
         "answerResponseList": [],
-        "parameterRatingAndRecommendation":[],
-        "topicRatingAndRecommendation":[]
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": []
       }
 
     ]
