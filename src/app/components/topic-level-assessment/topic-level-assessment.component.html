@@ -11,15 +11,15 @@
              *ngFor="let question of parameter.questions; let j=index;">
           <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
           <br>
-      <app-assessment-question [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
         </div>
       </div>
     <div *ngIf="parameter.references">
-      <app-parameter-level-rating-and-recommendation [assessmentStatus]="assessmentStatus" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
+      <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>
   <div *ngIf="topicInput.references">
-    <app-topic-score [assessmentStatus]="assessmentStatus" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
+    <app-topic-score *ngIf="topicRequest.topicRatingAndRecommendation" [assessmentStatus]="assessmentStatus" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
     <div>
       <app-topic-level-recommendation  [topicRecommendation]="topicInput.topicId" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"></app-topic-level-recommendation>
     </div>
