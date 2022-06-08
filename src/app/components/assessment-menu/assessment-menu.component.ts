@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";

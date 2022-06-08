@@ -24,6 +24,28 @@ import {CommonModule} from "@angular/common";
 
 class MockAppService {
 
+  public getAssessment(assessmentId : number) {
+    const mockAssessmentStructure = {
+      "assessmentId": 5,
+      "assessmentName": "abc1",
+      "organisationName": "Thoughtworks",
+      "assessmentStatus": "Active",
+      "updatedAt": 1654664982698,
+      "answerResponseList": [
+      {
+        "questionId": 1,
+        "answer": "answer1"
+      },
+      {
+        "questionId": 2,
+        "answer":"answer2"
+      }],
+      "topicRatingAndRecommendation": [],
+      "parameterRatingAndRecommendation":[]
+    }
+    return of(mockAssessmentStructure)
+
+  }
 
   saveAssessment(saveRequest: SaveRequest) {
     return of(saveRequest);
@@ -100,28 +122,37 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(component.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating).toEqual("2");
   })
 
-  // it('should able to get the parameter level details from the parameter structure', () => {
-  //   parameter = {
-  //     parameterId: 1,
-  //     parameterName: "hello",
-  //     topic: 1,
-  //     questions: [
-  //       {
-  //         questionId: 1,
-  //         questionText: "some text",
-  //         parameter: 1
-  //       }
-  //     ],
-  //     references: []
-  //   }
-  //   let answerRequest = []
-  //   answerRequest = component.getAnswersList(parameter)
-  //   component.getParameterWithRatingAndRecommendationRequest(parameter)
-  //   // for (let question in parameter.questions) {
-  //   //   answerRequest.push(parameter.questions[question].questionId)
-  //   // }
-  //   expect(answerRequest[0]).toEqual(1);
-  // })
+  it('should able to get the parameter level details from the parameter structure', () => {
+    parameter = {
+      parameterId: 1,
+      parameterName: "hello",
+      topic: 1,
+      questions: [
+        {
+          questionId: 1,
+          questionText: "some text",
+          parameter: 1
+        }
+      ],
+      references: []
+    }
+    let answerRequest = []
+    for (let question in parameter.questions) {
+      answerRequest.push(parameter.questions[question].questionId)
+    }
+    expect(answerRequest[0]).toEqual(1);
+    // mockAppService.getAssessment(5).subscribe(data => {
+    //   expect(data.answerResponseList).toBe([
+    //     {
+    //       "questionId": 1,
+    //       "answer": "answer1"
+    //     },
+    //     {
+    //       "questionId": 2,
+    //       "answer":"answer2"
+    //     }])
+    // })
+  })
 
 });
 
