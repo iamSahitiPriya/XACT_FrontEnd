@@ -25,6 +25,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
+import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
+import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -33,14 +35,20 @@ class MockAppService {
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702001
+      "updatedAt": 1649836702001,
+      "answerResponseList": [],
+      "parameterRatingAndRecommendation":[],
+      "topicRatingAndRecommendation":[]
     },
     {
       "assessmentId": 1,
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702000
+      "updatedAt": 1649836702000,
+      "answerResponseList": [],
+      "parameterRatingAndRecommendation":[],
+      "topicRatingAndRecommendation":[]
     }
   ]
 
@@ -93,14 +101,20 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702001
+        "updatedAt": 1649836702001,
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation":[],
+        "topicRatingAndRecommendation":[]
       },
       {
         "assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702000
+        "updatedAt": 1649836702000,
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation":[],
+        "topicRatingAndRecommendation":[]
       }
 
     ]

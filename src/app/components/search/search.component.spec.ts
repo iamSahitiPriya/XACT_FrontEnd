@@ -38,7 +38,11 @@ describe('SearchComponent', () => {
       assessmentName:"abc",
       organisationName:"org",
       assessmentStatus:"Active",
-      updatedAt:1002020
+      updatedAt:1002020,
+      answerResponseList: [],
+      parameterRatingAndRecommendation:[],
+      topicRatingAndRecommendation:[]
+
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
@@ -53,7 +57,10 @@ describe('SearchComponent', () => {
       assessmentName:"abc",
       organisationName:"org",
       assessmentStatus:"Active",
-      updatedAt:1002020
+      updatedAt:1002020,
+      answerResponseList: [],
+      parameterRatingAndRecommendation:[],
+      topicRatingAndRecommendation:[]
     }
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData,"xyz")).toBeFalsy()

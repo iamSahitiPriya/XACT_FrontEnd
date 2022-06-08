@@ -153,7 +153,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
 
-  private getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure) {
+  public getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure) {
     let indexByParameterId = 0
     let isRatingAndRecommendationPresent = false
     let newParameterRequest: ParameterRequest = {
