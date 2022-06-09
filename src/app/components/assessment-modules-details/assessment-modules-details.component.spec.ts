@@ -27,6 +27,12 @@ import {
   ParameterLevelRatingAndRecommendationComponent
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import oktaAuth from "@okta/okta-auth-js";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TopicLevelRatingAndRecommendationComponent
+} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 
 class MockAppService {
   public getCategories() {
@@ -121,14 +127,16 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent,TopicLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
-        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}
+        {provide: AppServiceService, useClass: MockAppService},
+        {provide: OKTA_AUTH, useValue: oktaAuth},
+
       ],
     })
       .compileComponents();
