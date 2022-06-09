@@ -25,8 +25,6 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {Notes} from "../../types/answerRequest";
-import {QuestionStructure} from "../../types/questionStructure";
-import {ParameterReference} from "../../types/parameterReference";
 
 class MockAppService {
 
@@ -42,11 +40,8 @@ class MockAppService {
         "questionId": 1,
         "answer": "answer1"
       },
-      {
-        "questionId": 2,
-        "answer":"answer2"
-      }],
-      "topicRatingAndRecommendation": [],
+     ],
+      "topicRatingAndRecommendation": [{topicId:1,rating:"2",recommendation:""}],
       "parameterRatingAndRecommendation":[]
     }
     return of(mockAssessmentStructure)
@@ -146,17 +141,6 @@ describe('TopicLevelAssessmentComponent', () => {
       answerRequest.push(parameter.questions[question].questionId)
     }
     expect(answerRequest[0]).toEqual(1);
-    // mockAppService.getAssessment(5).subscribe(data => {
-    //   expect(data.answerResponseList).toBe([
-    //     {
-    //       "questionId": 1,
-    //       "answer": "answer1"
-    //     },
-    //     {
-    //       "questionId": 2,
-    //       "answer":"answer2"
-    //     }])
-    // })
   })
   it("should get the parameter level answer request", () => {
     parameter = {
@@ -191,6 +175,24 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        },],
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation:[{parameterId:1,rating:"2",recommendation:""}]
+    }
+    const dummyAnswerRequest:Notes[] = [{questionId:1,answer:"answer1"}]
+    expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
+  });
+  it("should get parameter rating and recommendation", () => {
     let dummyParameter:ParameterStructure = { parameterId:1,
       parameterName:"",
       topic:1,
@@ -208,13 +210,13 @@ describe('TopicLevelAssessmentComponent', () => {
           answer: "answer1"
         },],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation:[]
+      parameterRatingAndRecommendation:[{parameterId:1,rating:"2",recommendation:""}]
     }
     const dummyAnswerRequest:Notes[] = [{questionId:1,answer:"answer1"}]
-    expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
+
+    let dummyNewParameter:ParameterRequest = {answerRequest:dummyAnswerRequest,parameterRatingAndRecommendation:{parameterId:1,rating:"2",recommendation:""}}
+    expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
-
-
 });
 
 

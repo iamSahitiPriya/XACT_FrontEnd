@@ -41,6 +41,7 @@ describe('TopicScoreComponent', () => {
     component.topicRatingAndRecommendation=topicRatingAndRecommendation;
     component.assessmentStatus="Active"
     component.setRating("3")
+    component.sendRating()
     expect(topicRatingAndRecommendation.rating).toEqual("3");
 
   })
