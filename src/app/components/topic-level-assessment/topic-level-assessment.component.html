@@ -3,8 +3,8 @@
   -->
 
 <div class="topicQuestions" *ngIf="topicInput">
-    <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-      <div *ngIf="parameter.references">{{averageRating}}</div>
+  <div *ngIf="!topicInput.references">{{averageRating}}</div>
+  <div *ngFor="let parameter of topicInput.parameters; let i=index;">
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
       </div>
       <div *ngIf="parameter">
