@@ -4,6 +4,7 @@
 
 <div class="topicQuestions" *ngIf="topicInput">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
+      <div *ngIf="parameter.references">{{averageRating}}</div>
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
       </div>
       <div *ngIf="parameter">
@@ -15,6 +16,7 @@
         </div>
       </div>
     <div *ngIf="parameter.references">
+<!--      <div *ngIf="topicRequest.parameterLevel[i]">{{calculateRating(topicRequest.parameterLevel[i].parameterRatingAndRecommendation)}}</div>-->
       <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>
@@ -24,7 +26,6 @@
   <div class="row">
     <div class="col-md-8">
       <button [disabled]="assessmentStatus ==='Completed'" mat-raised-button class="saveButton" (click)="save()">Save</button>
-
     </div>
   </div>
 </div>

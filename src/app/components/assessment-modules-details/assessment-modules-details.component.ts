@@ -73,9 +73,14 @@ export class AssessmentModulesDetailsComponent {
   private getAssessment() {
     this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
         this.assessment = _data;
+        this.setAssessment(this.assessment)
         this.receiveStatus(this.assessment.assessmentStatus);
       }
     )
+  }
+
+  private setAssessment(assessment: AssessmentStructure) {
+    this.assessment = assessment
   }
 
   private getCategories() {
@@ -96,13 +101,13 @@ export class AssessmentModulesDetailsComponent {
   }
 
   disableForm() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.testForm.form.disable();
     }, 500);
   }
 
   enableForm() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.testForm.form.enable();
     }, 500);
   }

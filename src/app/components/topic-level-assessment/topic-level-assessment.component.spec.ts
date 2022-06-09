@@ -171,14 +171,11 @@ describe('TopicLevelAssessmentComponent', () => {
 
   });
   it("should call topic level is the topic input is null", () => {
-    component.topicInput = {
-      topicId: 0,
-      topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
-      references: [],
-      module: 1,
-      assessmentLevel: ""
-    }
+
+    component.topicInput = {topicId:0,topicName:"",parameters:[{parameterId:0,parameterName:"",topic:1,questions:[],references:[]}],references:[],module:1,assessmentLevel:""}
+    component.answerResponse = {assessmentId:5, assessmentName:"abc",organisationName:"",assessmentStatus:"",
+      updatedAt:0,answerResponseList:[{questionId:0,answer:"some answer"}],topicRatingAndRecommendation:[{topicId:0,rating:"1",recommendation:"some recomm"}],
+      parameterRatingAndRecommendation:[{parameterId:0,rating:"1",recommendation:""}]}
     expect(component.ngOnInit()).toBe(undefined)
   });
   it("should call parameterRequest class", () => {

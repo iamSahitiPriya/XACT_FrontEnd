@@ -44,7 +44,9 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  answerResponse: AssessmentStructure
+  averageRating:number = 0
+
+  @Input() answerResponse: AssessmentStructure
 
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
@@ -85,15 +87,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
 
   private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-      this.answerResponse = _data
-      this.topicParameterValidation()
-    })
+    this.topicParameterValidation()
   }
 
 
   private topicParameterValidation() {
-    if (this.topicInput.references != null ) {
+    if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
       }
@@ -189,5 +188,9 @@ export class TopicLevelAssessmentComponent implements OnInit {
     }
   }
 
+  // calculateRating(parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
+  //   console.log(parameterRatingAndRecommendation)
+  //   this.averageRating = this.averageRating + Number(parameterRatingAndRecommendation.rating)
+  // }
 }
 

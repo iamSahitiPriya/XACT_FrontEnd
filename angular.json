@@ -87,6 +87,8 @@
           },
           "configurations": {
             "developer": {
+              "sourceMap": true,
+
               "budgets": [
                 {
                   "type": "initial",
