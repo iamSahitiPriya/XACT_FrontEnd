@@ -19,14 +19,9 @@
     </div>
   </div>
   <div *ngIf="topicInput.references">
-    <app-topic-score *ngIf="topicRequest.topicRatingAndRecommendation" [assessmentStatus]="assessmentStatus" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" (topicRatingEmitter)="receiveRating($event)"></app-topic-score>
-    <div>
-      <app-topic-level-recommendation  [topicRecommendation]="topicInput.topicId" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"></app-topic-level-recommendation>
-    </div>
+    <app-topic-level-rating-and-recommendation *ngIf="topicRequest.topicRatingAndRecommendation" [assessmentStatus]="assessmentStatus" [topicRecommendation]="topicInput.topicId" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId"></app-topic-level-rating-and-recommendation>
   </div>
   <div class="row">
-<!--    <div class="col-md-3">-->
-<!--    </div>-->
     <div class="col-md-8">
       <button [disabled]="assessmentStatus ==='Completed'" mat-raised-button class="saveButton" (click)="save()">Save</button>
 

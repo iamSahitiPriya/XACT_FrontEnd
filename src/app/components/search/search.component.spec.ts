@@ -33,29 +33,36 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should call the search', () => {
-    const mockData:AssessmentStructure = {
-      assessmentId:2,
-      assessmentName:"abc",
-      organisationName:"org",
-      assessmentStatus:"Active",
-      updatedAt:1002020
+    const mockData: AssessmentStructure = {
+      assessmentId: 2,
+      assessmentName: "abc",
+      organisationName: "org",
+      assessmentStatus: "Active",
+      updatedAt: 1002020,
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
     component.searchAssessments()
-    expect(component.dataSource.filterPredicate(mockData,"abc")).toBeTruthy()
-    expect(component.dataSource.filterPredicate(mockData,"org")).toBeTruthy()
+    expect(component.dataSource.filterPredicate(mockData, "abc")).toBeTruthy()
+    expect(component.dataSource.filterPredicate(mockData, "org")).toBeTruthy()
     expect(component.dataSource.filter).toBe("dummyvalue")
   });
   it("should return false if no result came", () => {
-    const mockData:AssessmentStructure = {
-      assessmentId:2,
-      assessmentName:"abc",
-      organisationName:"org",
-      assessmentStatus:"Active",
-      updatedAt:1002020
+    const mockData: AssessmentStructure = {
+      assessmentId: 2,
+      assessmentName: "abc",
+      organisationName: "org",
+      assessmentStatus: "Active",
+      updatedAt: 1002020,
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
     }
     component.searchAssessments()
-    expect(component.dataSource.filterPredicate(mockData,"xyz")).toBeFalsy()
+    expect(component.dataSource.filterPredicate(mockData, "xyz")).toBeFalsy()
   });
 });

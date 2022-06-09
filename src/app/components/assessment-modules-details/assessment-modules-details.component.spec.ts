@@ -23,8 +23,6 @@ import {AssessmentQuestionComponent} from "../assessment-question/assessment-que
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import {TopicScoreComponent} from "../topic-score/topic-score.component";
-import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {
   ParameterLevelRatingAndRecommendationComponent
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
@@ -123,7 +121,7 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, TopicScoreComponent, TopicLevelRecommendationComponent, ParameterLevelRatingAndRecommendationComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,
         RouterTestingModule.withRoutes([

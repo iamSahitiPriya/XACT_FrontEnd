@@ -33,14 +33,20 @@ class MockAppService {
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702001
+      "updatedAt": 1649836702001,
+      "answerResponseList": [],
+      "parameterRatingAndRecommendation": [],
+      "topicRatingAndRecommendation": []
     },
     {
       "assessmentId": 1,
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702000
+      "updatedAt": 1649836702000,
+      "answerResponseList": [],
+      "parameterRatingAndRecommendation": [],
+      "topicRatingAndRecommendation": []
     }
   ]
 
@@ -59,7 +65,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule,FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }])],
@@ -93,14 +99,20 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702001
+        "updatedAt": 1649836702001,
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": []
       },
       {
         "assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702000
+        "updatedAt": 1649836702000,
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": []
       }
 
     ]

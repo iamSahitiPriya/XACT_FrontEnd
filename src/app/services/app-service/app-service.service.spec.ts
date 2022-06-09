@@ -55,15 +55,13 @@ describe('AppServiceService', () => {
     let AssessmentRequest: SaveRequest =
       {
         assessmentId: 123,
-        topicRequest :{
-          parameterLevel:[
-
-          ],
-            topicRatingAndRecommendation :{
-                  topicId :1,
-                  rating:"1",
-                  recommendation:"some text"
-            }
+        topicRequest: {
+          parameterLevel: [],
+          topicRatingAndRecommendation: {
+            topicId: 1,
+            rating: "1",
+            recommendation: "some text"
+          }
         },
 
 

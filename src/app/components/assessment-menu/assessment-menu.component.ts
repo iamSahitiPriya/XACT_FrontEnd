@@ -1,4 +1,7 @@
+
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+
+
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
@@ -87,11 +90,9 @@ export class AssessmentMenuComponent  implements OnInit{
   reopenAssessment() {
     this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
         this.assessmentStatus = _data.assessmentStatus;
-        console.log(this.assessmentStatus)
         this.sendStatus();
       }
     )
-    console.log(this.assessmentStatus)
 
   }
 

@@ -6,13 +6,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {CommonModule} from "@angular/common";
-import {MatCardModule} from "@angular/material/card";
-import {MatDialogModule} from "@angular/material/dialog";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {BrowserModule} from "@angular/platform-browser";
 import {MatInputModule} from "@angular/material/input";
 
 
@@ -26,7 +22,7 @@ describe('AssessmentQuestionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentQuestionComponent],
-      imports: [HttpClientTestingModule,MatFormFieldModule,MatInputModule,BrowserAnimationsModule,NoopAnimationsModule,CommonModule],
+      imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule],
 
 
     })
@@ -41,8 +37,8 @@ describe('AssessmentQuestionComponent', () => {
 
   it('should create', () => {
     component.initial = 1;
-    component.questionDetails = { questionId:123,questionText:'Hello',parameter:1234}
-    component.answerInput = {questionId:123,answer:"My answer"}
+    component.questionDetails = {questionId: 123, questionText: 'Hello', parameter: 1234}
+    component.answerInput = {questionId: 123, answer: "My answer"}
     fixture.detectChanges();
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
