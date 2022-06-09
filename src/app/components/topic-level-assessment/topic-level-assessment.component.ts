@@ -101,7 +101,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
 
   private topicParameterValidation() {
-    if (this.topicInput.references != null) {
+    if (this.topicInput.references != null ) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
       }
