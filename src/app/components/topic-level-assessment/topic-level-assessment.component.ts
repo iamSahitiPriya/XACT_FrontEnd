@@ -2,9 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -12,7 +11,6 @@ import {ControlContainer, FormBuilder, NgForm} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
-import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {SaveRequest} from "../../types/saveRequest";
 import {ParameterStructure} from "../../types/parameterStructure";
@@ -70,12 +68,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicId: topicId
   }
 
-  @ViewChild(AssessmentQuestionComponent)
-  assessmentQuestionComponent: AssessmentQuestionComponent;
-
-  @ViewChild(TopicLevelRecommendationComponent)
-  topicLevelRecommendationComponent: TopicLevelRecommendationComponent;
-
   ngOnInit(): void {
     this.getAssessment()
   }
@@ -113,13 +105,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
   }
-
-
-  receiveRating(topicRating: TopicRatingAndRecommendation) {
-    this.topicRatingAndRecommendation.rating = topicRating.rating
-    this.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating = topicRating.rating;
-  }
-
 
   getNotes(questionId: number, answer: string): Notes {
     return {

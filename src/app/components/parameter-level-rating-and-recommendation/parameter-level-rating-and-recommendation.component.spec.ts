@@ -34,7 +34,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should able to set rating',()=> {
+  it('should able to set rating', () => {
     const parameterRatingAndRecommendation = {
       rating: "2",
       recommendation: "some text",
@@ -42,7 +42,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
-    component.assessmentStatus="Active"
+    component.assessmentStatus = "Active"
     component.setRating("3")
     expect(parameterRatingAndRecommendation.rating).toEqual("3");
   });

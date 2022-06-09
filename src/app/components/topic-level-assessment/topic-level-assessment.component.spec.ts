@@ -5,7 +5,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TopicLevelAssessmentComponent} from './topic-level-assessment.component';
-import {TopicScoreComponent} from "../topic-score/topic-score.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,12 +18,14 @@ import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/a
 import {
   ParameterLevelRatingAndRecommendationComponent
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
-import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 import {CommonModule} from "@angular/common";
+import {
+  TopicLevelRatingAndRecommendationComponent
+} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 
 class MockAppService {
 
-  public getAssessment(assessmentId : number) {
+  public getAssessment(assessmentId: number) {
     const mockAssessmentStructure = {
       "assessmentId": 5,
       "assessmentName": "abc1",
@@ -32,16 +33,16 @@ class MockAppService {
       "assessmentStatus": "Active",
       "updatedAt": 1654664982698,
       "answerResponseList": [
-      {
-        "questionId": 1,
-        "answer": "answer1"
-      },
-      {
-        "questionId": 2,
-        "answer":"answer2"
-      }],
+        {
+          "questionId": 1,
+          "answer": "answer1"
+        },
+        {
+          "questionId": 2,
+          "answer": "answer2"
+        }],
       "topicRatingAndRecommendation": [],
-      "parameterRatingAndRecommendation":[]
+      "parameterRatingAndRecommendation": []
     }
     return of(mockAssessmentStructure)
 
@@ -58,7 +59,8 @@ let parameter: { parameterId: number; references: any[]; questions: { questionId
 describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
-    component2: TopicLevelRecommendationComponent, fixture2: ComponentFixture<TopicLevelRecommendationComponent>,
+    component2: TopicLevelRatingAndRecommendationComponent,
+    fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
     mockAppService: MockAppService,
     dialog: any, matDialog: any;
   const original = window.location;
@@ -72,7 +74,7 @@ describe('TopicLevelAssessmentComponent', () => {
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelAssessmentComponent, TopicScoreComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent, TopicLevelRecommendationComponent],
+      declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
       imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule],
@@ -89,7 +91,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component = fixture.componentInstance;
     fixture1 = TestBed.createComponent(AssessmentQuestionComponent);
     component1 = fixture1.componentInstance;
-    fixture2 = TestBed.createComponent(TopicLevelRecommendationComponent)
+    fixture2 = TestBed.createComponent(TopicLevelRatingAndRecommendationComponent)
     component2 = fixture2.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
@@ -114,12 +116,11 @@ describe('TopicLevelAssessmentComponent', () => {
       recommendation: "some text",
       topicId: 1
     }
-    component.topicRatingAndRecommendation = {rating: "1", recommendation: "none", topicId: 1};
-    component.topicLevelRecommendationComponent = component2;
-    component2.topicRatingAndRecommendation = {rating: "1", recommendation: "none", topicId: 1};
-    component.receiveRating(topicRatingAndRecommendation)
+    component.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
+    // component.topicLevelRecommendationComponent = component2;
+    component2.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
     expect(component.topicRatingAndRecommendation.rating).toEqual("2");
-    expect(component.topicLevelRecommendationComponent.topicRatingAndRecommendation.rating).toEqual("2");
+    expect(topicRatingAndRecommendation.rating).toEqual("2");
   })
 
   it('should able to get the parameter level details from the parameter structure', () => {

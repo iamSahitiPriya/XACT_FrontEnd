@@ -45,14 +45,13 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-question/assessment-question.component';
 import {TopicLevelAssessmentComponent} from './components/topic-level-assessment/topic-level-assessment.component';
-import {TopicScoreComponent} from './components/topic-score/topic-score.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
-import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
 import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 import {MatRippleModule} from "@angular/material/core";
+import { TopicLevelRatingAndRecommendationComponent } from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -92,11 +91,10 @@ export const appRoutes: Routes = [
     AssessmentModulesDetailsComponent,
     AssessmentQuestionComponent,
     TopicLevelAssessmentComponent,
-    TopicScoreComponent,
     PopupConfirmationComponent,
     AssessmentMenuComponent,
-    TopicLevelRecommendationComponent,
-    ParameterLevelRatingAndRecommendationComponent
+    ParameterLevelRatingAndRecommendationComponent,
+    TopicLevelRatingAndRecommendationComponent
   ],
   imports: [
     BrowserModule,
