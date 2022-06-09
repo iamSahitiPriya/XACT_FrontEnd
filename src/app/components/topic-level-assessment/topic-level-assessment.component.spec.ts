@@ -4,7 +4,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {TopicLevelAssessmentComponent} from './topic-level-assessment.component';
+import {parameterRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -22,6 +22,10 @@ import {CommonModule} from "@angular/common";
 import {
   TopicLevelRatingAndRecommendationComponent
 } from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {ParameterStructure} from 'src/app/types/parameterStructure';
+import {Notes} from 'src/app/types/answerRequest';
+import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
+import {ParameterRequest} from "../../types/parameterRequest";
 
 class MockAppService {
 
@@ -37,11 +41,8 @@ class MockAppService {
           "questionId": 1,
           "answer": "answer1"
         },
-        {
-          "questionId": 2,
-          "answer": "answer2"
-        }],
-      "topicRatingAndRecommendation": [],
+      ],
+      "topicRatingAndRecommendation": [{topicId: 1, rating: "2", recommendation: ""}],
       "parameterRatingAndRecommendation": []
     }
     return of(mockAssessmentStructure)
@@ -95,7 +96,6 @@ describe('TopicLevelAssessmentComponent', () => {
     component2 = fixture2.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
-    // fixture.detectChanges();
     component = fixture.debugElement.componentInstance;
   });
 
@@ -118,7 +118,7 @@ describe('TopicLevelAssessmentComponent', () => {
     }
     component.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
     // component.topicLevelRecommendationComponent = component2;
-    component2.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
+    // component2.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
     expect(component.topicRatingAndRecommendation.rating).toEqual("2");
     expect(topicRatingAndRecommendation.rating).toEqual("2");
   })
@@ -142,19 +142,101 @@ describe('TopicLevelAssessmentComponent', () => {
       answerRequest.push(parameter.questions[question].questionId)
     }
     expect(answerRequest[0]).toEqual(1);
-    // mockAppService.getAssessment(5).subscribe(data => {
-    //   expect(data.answerResponseList).toBe([
-    //     {
-    //       "questionId": 1,
-    //       "answer": "answer1"
-    //     },
-    //     {
-    //       "questionId": 2,
-    //       "answer":"answer2"
-    //     }])
-    // })
   })
+  it("should get the parameter level answer request", () => {
+    parameter = {
+      parameterId: 1,
+      parameterName: "hello",
+      topic: 1,
+      questions: [
+        {
+          questionId: 1,
+          questionText: "some text",
+          parameter: 1
+        }
+      ],
+      references: []
+    }
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc",
+      organisationName: "",
+      assessmentStatus: "",
+      updatedAt: 0,
+      answerResponseList: [{questionId: 0, answer: "some answer"}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: "some recomm"}],
+      parameterRatingAndRecommendation: [{parameterId: 0, rating: "1", recommendation: ""}]
+    }
+    expect(component.getParameterWithRatingAndRecommendationRequest(parameter)).toBeTruthy()
 
+  });
+  it("should call topic level is the topic input is null", () => {
+    component.topicInput = {
+      topicId: 0,
+      topicName: "",
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      references: [],
+      module: 1,
+      assessmentLevel: ""
+    }
+    expect(component.ngOnInit()).toBe(undefined)
+  });
+  it("should call parameterRequest class", () => {
+    let answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
+    let parameterRatingAndRecommendation: ParameterRatingAndRecommendation = {
+      parameterId: 0, rating: undefined, recommendation: ""
+    }
+    let parameterRequest1 = new parameterRequest(answerRequest1, parameterRatingAndRecommendation)
+    expect(parameterRequest1).toBeTruthy()
+  });
+  it("should get answer when parameter is passed", () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        },],
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    }
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
+    expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
+  });
+  it("should get parameter rating and recommendation", () => {
+    let dummyParameter: ParameterStructure = {
+      parameterId: 1,
+      parameterName: "",
+      topic: 1,
+      questions: [{questionId: 1, questionText: "some text", parameter: 1}],
+      references: []
+    }
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        },],
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    }
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
+
+    let dummyNewParameter: ParameterRequest = {
+      answerRequest: dummyAnswerRequest,
+      parameterRatingAndRecommendation: {parameterId: 1, rating: "2", recommendation: ""}
+    }
+    expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
+  });
 });
 
 

@@ -59,11 +59,9 @@ export class AssessmentMenuComponent {
   reopenAssessment() {
     this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
         this.assessmentStatus = _data.assessmentStatus;
-        console.log(this.assessmentStatus)
         this.sendStatus();
       }
     )
-    console.log(this.assessmentStatus)
 
   }
 
