@@ -24,7 +24,7 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item [disabled]="assessmentStatus ==='Completed'">
         <mat-icon>settings_applications</mat-icon>
-        <span>Manage assessment & users</span>
+        <span (click)="openAssessment(content)" id="createAssessment">Manage assessment & users</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
@@ -32,5 +32,88 @@
       </button>
     </mat-menu>
 
-  </div>
+    <ng-template #content>
+      <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
+        <h1 mat-dialog-title>Manage Assessment&Users</h1>
+        <button type="button" id="close" class="closeButton" mat-icon-button (click)="closePopUp()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div mat-dialog-content>
+        <mat-form-field appearance="outline" class="assessmentName">
+          <mat-label>Assessment Name</mat-label>
+          <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
+              [(ngModel)]="assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+          <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
+            Mandatory field
+          </mat-error>
+            <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
+                          No Special Characters allowed except hypen and underscore
+                        </mat-error>
+        </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" class="organizationName">
+            <mat-label>Organization Name</mat-label>
+            <input matInput formControlName="organizationNameValidator" placeholder="Enter Organization Name" required
+                   [(ngModel)]="organizationName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+            <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
+                            Mandatory field
+                          </mat-error>
+                          <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
+                            No Special Characters allowed except hypen and underscore
+                          </mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" class="domain">
+            <mat-label>Domain</mat-label>
+            <input matInput [(ngModel)]="domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
+                               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+            <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
+                            Mandatory field
+                          </mat-error>
+                          <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
+                            No Special Characters allowed except hypen and underscore
+                          </mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" class="industry">
+            <mat-label>Industry</mat-label>
+            <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry"
+                   required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+            <mat-error *ngIf="form['industryValidator'].hasError('required')">
+                            Mandatory field
+                          </mat-error>
+                          <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
+                            No Special Characters allowed except hypen and underscore
+                          </mat-error>
+          </mat-form-field>&nbsp;
+          <mat-form-field appearance="outline" class="teamSize">
+            <mat-label>Team Size</mat-label>
+            <input type="number" [(ngModel)]="teamSize" matInput formControlName="teamSizeValidator"
+                   placeholder="Enter Team size" min="1" max="10000000" required pattern="^[1-9]\d*$">
+            <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
+                            Mandatory number field
+                          </mat-error>
+                          <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
+                            Positive integer value allowed
+                          </mat-error>
+          </mat-form-field>
+        </div>
+          <h2 mat-dialog-title>Add New User </h2>
+          <div mat-dialog-content>
+            <mat-form-field appearance="outline" class="addUserEmail">
+                          <mat-label>Email Id</mat-label>
+                          <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
+                                 placeholder="Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com"
+                                 id="userEmails">
+                          <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
+                            Valid list of comma separated email address
+                          </mat-error>
+                        </mat-form-field>
+            <button type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
+                      </button>
+          </div>
+      </form>
+    </ng-template>
+
+</div>
 </div>
