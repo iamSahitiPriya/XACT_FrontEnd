@@ -6,8 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ControlContainer, FormBuilder, NgForm} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -38,20 +37,21 @@ let parameterRequests: parameterRequest[];
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
-  styleUrls: ['./topic-level-assessment.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
+  styleUrls: ['./topic-level-assessment.component.css']
 })
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  answerResponse: AssessmentStructure
+  averageRating:number = 0
+
+  @Input() answerResponse: AssessmentStructure
 
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _fb: FormBuilder) {
+  constructor(private appService: AppServiceService, private _fb: FormBuilder) {
 
   }
 
@@ -85,15 +85,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
 
   private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-      this.answerResponse = _data
-      this.topicParameterValidation()
-    })
+    this.topicParameterValidation()
   }
 
 
   private topicParameterValidation() {
-    if (this.topicInput.references != null ) {
+    if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
       }
@@ -188,6 +185,5 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
   }
-
 }
 

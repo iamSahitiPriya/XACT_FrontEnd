@@ -63,7 +63,6 @@ describe('AssessmentModulesComponent', () => {
   let fixture: ComponentFixture<AssessmentModulesComponent>;
 
   beforeEach(async () => {
-    window.history.pushState({assessmentName: "hello"}, '', 'assessmentModule')
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent],
       imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, NoopAnimationsModule,

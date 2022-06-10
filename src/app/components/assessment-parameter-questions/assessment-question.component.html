@@ -9,7 +9,8 @@
                      [(ngModel)]="answerInput.answer"
                     cdkTextareaAutosize class="textArea1"
                     cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="100" ></textarea>
+                    cdkAutosizeMaxRows="100"
+                    [disabled]="assessmentStatus ==='Completed'"></textarea>
         </mat-form-field>
 </div>
 

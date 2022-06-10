@@ -9,19 +9,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {of} from "rxjs";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
-import {
-  TopicLevelRatingAndRecommendationComponent
-} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 import {ParameterStructure} from 'src/app/types/parameterStructure';
 import {Notes} from 'src/app/types/answerRequest';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
@@ -62,8 +57,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
     component2: TopicLevelRatingAndRecommendationComponent,
     fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
-    mockAppService: MockAppService,
-    dialog: any, matDialog: any;
+    mockAppService: MockAppService;
   const original = window.location;
   const reloadFn = () => {
     window.location.reload();
@@ -78,7 +72,7 @@ describe('TopicLevelAssessmentComponent', () => {
       declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
-      imports: [MatFormFieldModule, MatCardModule, MatDialogModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule],
+      imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule],
 
     })
       .compileComponents();
@@ -94,8 +88,6 @@ describe('TopicLevelAssessmentComponent', () => {
     component1 = fixture1.componentInstance;
     fixture2 = TestBed.createComponent(TopicLevelRatingAndRecommendationComponent)
     component2 = fixture2.componentInstance;
-    dialog = TestBed.inject(MatDialog);
-    matDialog = fixture.debugElement.injector.get(MatDialog)
     component = fixture.debugElement.componentInstance;
   });
 
@@ -171,14 +163,11 @@ describe('TopicLevelAssessmentComponent', () => {
 
   });
   it("should call topic level is the topic input is null", () => {
-    component.topicInput = {
-      topicId: 0,
-      topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
-      references: [],
-      module: 1,
-      assessmentLevel: ""
-    }
+
+    component.topicInput = {topicId:0,topicName:"",parameters:[{parameterId:0,parameterName:"",topic:1,questions:[],references:[]}],references:[],module:1,assessmentLevel:""}
+    component.answerResponse = {assessmentId:5, assessmentName:"abc",organisationName:"",assessmentStatus:"",
+      updatedAt:0,answerResponseList:[{questionId:0,answer:"some answer"}],topicRatingAndRecommendation:[{topicId:0,rating:"1",recommendation:"some recomm"}],
+      parameterRatingAndRecommendation:[{parameterId:0,rating:"1",recommendation:""}]}
     expect(component.ngOnInit()).toBe(undefined)
   });
   it("should call parameterRequest class", () => {

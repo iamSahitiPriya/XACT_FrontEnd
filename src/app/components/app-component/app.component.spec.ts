@@ -8,8 +8,8 @@ import {OKTA_AUTH, OKTA_CONFIG, OktaAuthStateService} from '@okta/okta-angular';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppServiceService} from '../../services/app-service/app-service.service';
 import {AppComponent} from './app.component';
-import {SearchComponent} from "../search/search.component";
-import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {SearchComponent} from "../search-component/search.component";
+import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterModule} from "@angular/router";
 import {NgHttpLoaderComponent} from "ng-http-loader";
 

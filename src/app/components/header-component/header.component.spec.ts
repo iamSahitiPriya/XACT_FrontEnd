@@ -6,8 +6,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {HeaderComponent} from './header.component';
 import {MatMenuModule} from '@angular/material/menu';
-import {SearchComponent} from "../search/search.component";
-import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {SearchComponent} from "../search-component/search.component";
+import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
 

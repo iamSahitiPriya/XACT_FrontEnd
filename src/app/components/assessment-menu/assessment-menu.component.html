@@ -35,7 +35,7 @@
     </mat-menu>
 
     <ng-template #content>
-      <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
+      <form [formGroup]="createAssessmentForm">
         <h1 mat-dialog-title>Manage Assessment&Users</h1>
         <button type="button" id="close" class="closeButton" mat-icon-button (click)="closePopUp()">
           <mat-icon>close</mat-icon>
