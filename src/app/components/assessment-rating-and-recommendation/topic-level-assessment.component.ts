@@ -6,8 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ControlContainer, FormBuilder, NgForm} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -52,7 +51,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _fb: FormBuilder) {
+  constructor(private appService: AppServiceService, private _fb: FormBuilder) {
 
   }
 

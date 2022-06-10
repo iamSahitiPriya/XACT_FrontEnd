@@ -1,4 +1,3 @@
-
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 
 
@@ -11,11 +10,8 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {BehaviorSubject} from "rxjs";
-import {MatTableDataSource} from "@angular/material/table";
 
 export const assessmentData = [{}]
 

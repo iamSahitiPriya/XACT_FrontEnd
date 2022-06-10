@@ -3,7 +3,6 @@ import {Component, Input} from '@angular/core';
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 import {Notes} from "../../types/answerRequest";
-import {ControlContainer, NgForm} from "@angular/forms";
 import {QuestionStructure} from "../../types/questionStructure";
 
 

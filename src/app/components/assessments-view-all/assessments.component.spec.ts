@@ -5,8 +5,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AssessmentsComponent} from './assessments.component';
 import {HttpClient, HttpHandler} from "@angular/common/http";
-import {SearchComponent} from "../search/search.component";
-import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {SearchComponent} from "../search-component/search.component";
+import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
@@ -15,7 +15,6 @@ import {MatTableModule} from "@angular/material/table";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable, of} from "rxjs";
-import {MatDialogModule} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -65,7 +64,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }])],

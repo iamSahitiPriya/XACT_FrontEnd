@@ -6,9 +6,8 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
