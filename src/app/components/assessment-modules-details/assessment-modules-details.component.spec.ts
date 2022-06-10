@@ -123,9 +123,6 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
   beforeEach(async () => {
-    window.history.pushState({assessmentName: "hello"}, '', 'assessmentModulesDetails')
-
-
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent,TopicLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
@@ -229,39 +226,5 @@ describe('AssessmentModulesDetailsComponent', () => {
       expect(data).toBe(expectedData)
     })
   });
-
-  it('should able to disable the form after 500ms', fakeAsync(() => {
-
-    setTimeout(() => {
-      component.testForm.form.disable();
-    }, 500);
-    tick(500);
-    component.disableForm()
-    flush();
-    expect(component).toBeTruthy()
-  }))
-
-  it('should able to enable the form after 500ms', fakeAsync(() => {
-    setTimeout(() => {
-      component.testForm.form.enable();
-    }, 500);
-    tick(500);
-    component.enableForm()
-    flush();
-    expect(component).toBeTruthy()
-  }))
-
-  it('should update the form based on the status', fakeAsync(() => {
-    component.assessment.assessmentStatus = 'Completed';
-    component.updateFormActions();
-    jest.spyOn(component, "disableForm");
-    setTimeout(() => {
-      component.testForm.form.enable();
-    }, 500);
-    tick(500);
-    component.disableForm()
-    flush();
-    expect(component).toBeTruthy();
-  }))
 
 });

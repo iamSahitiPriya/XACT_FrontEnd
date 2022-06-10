@@ -8,7 +8,7 @@
       <button mat-icon-button [routerLink]="['']">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
-      <span class="name"> {{assessmentName}}</span>
+      <span class="name"> {{assessment && assessment.assessmentName}}</span>
       <span class="module-spacer"></span>
     </mat-toolbar>
   </div>
@@ -31,7 +31,7 @@
     <div>
       <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic" [selectedIndex]="selectedIndex"
                                   [answerResponse]="assessment"
-                                  [assessmentId]="assessmentId"
+                                  [assessmentId]="assessment.assessmentId"
                                   [assessmentStatus]="assessment && assessment.assessmentStatus"></app-topic-level-assessment>
     </div>
   </mat-tab>

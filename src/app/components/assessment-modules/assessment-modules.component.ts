@@ -33,10 +33,6 @@ export class AssessmentModulesComponent implements OnInit {
   ngOnInit(): void {
     this.categoryIconMapping.set(1, "category1")
     this.categoryIconMapping.set(2, "category2")
-    if (history.state.assessmentName) {
-      this.assessmentName = history.state.assessmentName
-      sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-    }
     this.appService.getCategories().subscribe(data => {
       categories = data
       valueEmitter.next(categories)

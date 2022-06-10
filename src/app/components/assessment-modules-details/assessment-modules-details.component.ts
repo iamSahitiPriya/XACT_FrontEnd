@@ -12,7 +12,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
-import {ControlContainer, NgForm} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -23,7 +23,6 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   styleUrls: ['./assessment-modules-details.component.css']
 })
 export class AssessmentModulesDetailsComponent {
-  assessmentName: string
   moduleName: string
   assessment: AssessmentStructure
   category: CategoryStructure[] = []
@@ -39,7 +38,7 @@ export class AssessmentModulesDetailsComponent {
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
 
-  constructor(private appService: AppServiceService) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute) {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -52,15 +51,8 @@ export class AssessmentModulesDetailsComponent {
   }
 
   ngOnInit(): void {
-    if (history.state.assessmentName) {
-      this.assessmentName = history.state.assessmentName
-      this.assessmentId = history.state.assessmentId
-      sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-      sessionStorage.setItem('assessmentId', JSON.stringify(this.assessmentId))
-    } else {
-      this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
-      this.assessmentId = JSON.parse(sessionStorage.getItem('assessmentId') || "No value")
-    }
+    const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
+    this.assessmentId = +assessmentIdParam;
     this.getCategories();
     this.getAssessment();
   }

@@ -33,7 +33,7 @@
         </mat-expansion-panel-header>
         <div class="assessmentCards" *ngIf="category">
           <mat-card class="moduleCard" *ngFor="let module of category.modules">
-                       <span [routerLink]="['/assessmentModulesDetails']" [state]="{}" role="button">
+                       <span [routerLink]="['/assessmentModulesDetails']" role="button">
 
             <mat-icon svgIcon="{{getIcon(category.categoryId)}}"></mat-icon>
             <mat-card-title-group>
