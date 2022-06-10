@@ -12,11 +12,10 @@
              *ngFor="let question of parameter.questions; let j=index;">
           <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
           <br>
-      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
         </div>
       </div>
     <div *ngIf="parameter.references">
-<!--      <div *ngIf="topicRequest.parameterLevel[i]">{{calculateRating(topicRequest.parameterLevel[i].parameterRatingAndRecommendation)}}</div>-->
       <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>

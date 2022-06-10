@@ -87,7 +87,7 @@
           },
           "configurations": {
             "developer": {
-              "sourceMap": true,
+              "sourceMap": false,
 
               "budgets": [
                 {

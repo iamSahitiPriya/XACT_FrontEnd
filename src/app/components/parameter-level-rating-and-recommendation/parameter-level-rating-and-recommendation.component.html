@@ -3,7 +3,6 @@
   -->
 
 
-
 <div class="parameterScoring">
   <mat-card class="scoreHeading">Assign Maturity score</mat-card>
   <div *ngIf="parameterScore"></div>
@@ -11,8 +10,9 @@
     <mat-toolbar class="scoreReference">
       <p>{{pScore.reference}}</p>
       <span class="spacer"></span>
-      <span class="rating" (click)="setRating(pScore.rating)" [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">
-       <div class="image" ></div>
+      <span class="rating" (click)="setRating(pScore.rating)"
+            [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">
+       <div class="image"></div>
         {{pScore.rating}}</span>
     </mat-toolbar>
   </div>
@@ -20,13 +20,15 @@
 
 
 <div>
-  <mat-form-field class="textArea" appearance="outline"   *ngIf="parameterRatingAndRecommendation"  >
+  <mat-form-field class="textArea" appearance="outline" *ngIf="parameterRatingAndRecommendation">
     <div *ngIf="parameterRecommendation"></div>
     <mat-label>Recommendations</mat-label>
-    <textarea id="recommendationElement_param{{parameterRecommendation}}" name="recommendationText_param{{parameterRecommendation}}"  matInput #recommendationElement
+    <textarea id="recommendationElement_param{{parameterRecommendation}}"
+              name="recommendationText_param{{parameterRecommendation}}" matInput #recommendationElement
               [(ngModel)]="parameterRatingAndRecommendation.recommendation"
               cdkTextareaAutosize
               cdkAutosizeMinRows="1"
-              cdkAutosizeMaxRows="100"></textarea>
+              cdkAutosizeMaxRows="100"
+              [disabled]="assessmentStatus ==='Completed'"></textarea>
   </mat-form-field>
 </div>

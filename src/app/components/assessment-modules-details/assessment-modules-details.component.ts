@@ -20,8 +20,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 @Component({
   selector: 'app-assessment-modules-details',
   templateUrl: './assessment-modules-details.component.html',
-  styleUrls: ['./assessment-modules-details.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
+  styleUrls: ['./assessment-modules-details.component.css']
 })
 export class AssessmentModulesDetailsComponent {
   assessmentName: string
@@ -39,9 +38,6 @@ export class AssessmentModulesDetailsComponent {
 
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
-
-  @ViewChild('testForm')
-  public testForm: any
 
   constructor(private appService: AppServiceService) {
   }
@@ -97,26 +93,6 @@ export class AssessmentModulesDetailsComponent {
 
   receiveStatus(assessmentStatus: string) {
     this.assessment.assessmentStatus = assessmentStatus;
-    this.updateFormActions();
-  }
-
-  disableForm() {
-    setTimeout(() => {
-      this.testForm.form.disable();
-    }, 500);
-  }
-
-  enableForm() {
-    setTimeout(() => {
-      this.testForm.form.enable();
-    }, 500);
-  }
-
-  updateFormActions() {
-    if (this.assessment.assessmentStatus === 'Completed')
-      this.disableForm();
-    if (this.assessment.assessmentStatus === 'Active')
-      this.enableForm();
   }
 
 }

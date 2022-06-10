@@ -38,8 +38,7 @@ let parameterRequests: parameterRequest[];
 @Component({
   selector: 'app-topic-level-assessment',
   templateUrl: './topic-level-assessment.component.html',
-  styleUrls: ['./topic-level-assessment.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
+  styleUrls: ['./topic-level-assessment.component.css']
 })
 
 
@@ -187,10 +186,5 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
   }
-
-  // calculateRating(parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
-  //   console.log(parameterRatingAndRecommendation)
-  //   this.averageRating = this.averageRating + Number(parameterRatingAndRecommendation.rating)
-  // }
 }
 
