@@ -1,4 +1,3 @@
-
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 
 
@@ -26,7 +25,7 @@ export const assessmentData = [{}]
 })
 
 
-export class AssessmentMenuComponent  implements OnInit{
+export class AssessmentMenuComponent implements OnInit {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   assessmentName: string = '';
@@ -38,9 +37,10 @@ export class AssessmentMenuComponent  implements OnInit{
   submitted: boolean = false;
   loggedInUserEmail: string;
   loading: boolean;
-  userEmails: string = '';
+  userEmail: string = '';
+  UserEmails: string[];
   assessment: AssessmentStructure;
-  data : AssessmentStructure;
+  data: AssessmentStructure;
   @Input()
   assessmentId: number
 
@@ -48,7 +48,6 @@ export class AssessmentMenuComponent  implements OnInit{
   assessmentStatus: string
 
   @Output() statusEvent = new EventEmitter<string>();
-
 
 
   sendStatus() {
@@ -141,7 +140,7 @@ export class AssessmentMenuComponent  implements OnInit{
   }
 
   private getValidUsers() {
-    let userData = this.userEmails.split(',');
+    let userData = this.userEmail.split(',');
     userData.push(this.loggedInUserEmail);
     userData = [...new Set(userData.filter(function (el) {
       return el != null;
@@ -162,7 +161,7 @@ export class AssessmentMenuComponent  implements OnInit{
     return this.createAssessmentForm.controls;
   }
 
-   emailList: [];
+  emailList: [];
 
   ngOnInit(): void {
 
@@ -188,13 +187,15 @@ export class AssessmentMenuComponent  implements OnInit{
         this.setAssessment()
       }
     )
-  }
+  };
 
-  setAssessment()
-  {
-    this.assessmentName=this.assessment.assessmentName;
-    this.organizationName=this.assessment.organisationName;
-    this.userEmails="sahiti@thoughtworks.com";
+  setAssessment() {
+    this.assessmentName = this.assessment.assessmentName;
+    this.organizationName = this.assessment.organisationName;
+    this.domain = this.assessment.domain;
+    this.industry = this.assessment.industry;
+    this.teamSize = this.assessment.teamSize;
+    this.UserEmails = this.assessment.users;
   }
 }
 

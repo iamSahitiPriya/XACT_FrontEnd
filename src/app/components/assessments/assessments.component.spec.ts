@@ -25,6 +25,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
+import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
+import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
+import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -34,19 +37,29 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
+      "domain":"TW",
+      "industry":"IT",
+      "teamSize":2,
+      "users":[],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": []
+      "topicRatingAndRecommendation": [],
+
+
     },
     {
       "assessmentId": 1,
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702000,
+      "updatedAt": 1649836702001,
+      "domain":"TW",
+      "industry":"IT",
+      "teamSize":2,
+      "users":[],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": []
+      "topicRatingAndRecommendation": [],
     }
   ]
 
@@ -100,19 +113,26 @@ describe('AssessmentsComponent', () => {
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
+        "domain":"TW",
+        "industry":"IT",
+        "teamSize":2,
+        "users":[],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
-        "topicRatingAndRecommendation": []
+        "topicRatingAndRecommendation": [],
       },
-      {
-        "assessmentId": 1,
+      {"assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702000,
+        "updatedAt": 1649836702001,
+        "domain":"TW",
+        "industry":"IT",
+        "teamSize":2,
+        "users":[],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
-        "topicRatingAndRecommendation": []
+        "topicRatingAndRecommendation": [],
       }
 
     ]

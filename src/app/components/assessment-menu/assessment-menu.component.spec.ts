@@ -5,8 +5,20 @@ import {MatMenuModule} from "@angular/material/menu";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import oktaAuth from "@okta/okta-auth-js";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {RouterTestingModule} from "@angular/router/testing";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterModule} from "@angular/router";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
+import {MatRippleModule} from "@angular/material/core";
 
 describe('AssessmentMenuComponent', () => {
   let component: AssessmentMenuComponent;
@@ -32,9 +44,13 @@ describe('AssessmentMenuComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentMenuComponent],
       providers: [
+        {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: AppServiceService, useClass: MockAppService}
       ],
-      imports: [MatMenuModule, MatDialogModule, MatIconModule,BrowserAnimationsModule,NoopAnimationsModule]
+      imports: [MatMenuModule, MatDialogModule, MatIconModule,BrowserAnimationsModule,NoopAnimationsModule,MatSnackBarModule,
+      RouterTestingModule, MatFormFieldModule, MatInputModule,
+      MatTableModule, HttpClientTestingModule,RouterModule,
+      ReactiveFormsModule,FormsModule,MatButtonModule,MatRippleModule]
     })
       .compileComponents();
   });
