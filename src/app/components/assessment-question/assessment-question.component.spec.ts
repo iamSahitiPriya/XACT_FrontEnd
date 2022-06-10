@@ -10,6 +10,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
+import {BrowserModule} from "@angular/platform-browser";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -22,7 +23,9 @@ describe('AssessmentQuestionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentQuestionComponent],
-      imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule],
+
+      imports: [HttpClientTestingModule,MatFormFieldModule,MatInputModule,BrowserAnimationsModule,NoopAnimationsModule,CommonModule,
+      BrowserModule, CommonModule],
 
 
     })

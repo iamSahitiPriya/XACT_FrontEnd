@@ -12,7 +12,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
-import {ControlContainer, NgForm} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -20,11 +20,9 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 @Component({
   selector: 'app-assessment-modules-details',
   templateUrl: './assessment-modules-details.component.html',
-  styleUrls: ['./assessment-modules-details.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: NgForm}]
+  styleUrls: ['./assessment-modules-details.component.css']
 })
 export class AssessmentModulesDetailsComponent {
-  assessmentName: string
   moduleName: string
   assessment: AssessmentStructure
   category: CategoryStructure[] = []
@@ -40,10 +38,7 @@ export class AssessmentModulesDetailsComponent {
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
 
-  @ViewChild('testForm')
-  public testForm: any
-
-  constructor(private appService: AppServiceService) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute) {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -56,15 +51,8 @@ export class AssessmentModulesDetailsComponent {
   }
 
   ngOnInit(): void {
-    if (history.state.assessmentName) {
-      this.assessmentName = history.state.assessmentName
-      this.assessmentId = history.state.assessmentId
-      sessionStorage.setItem('assessmentName', JSON.stringify(this.assessmentName))
-      sessionStorage.setItem('assessmentId', JSON.stringify(this.assessmentId))
-    } else {
-      this.assessmentName = JSON.parse(sessionStorage.getItem('assessmentName') || "No value")
-      this.assessmentId = JSON.parse(sessionStorage.getItem('assessmentId') || "No value")
-    }
+    const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
+    this.assessmentId = +assessmentIdParam;
     this.getCategories();
     this.getAssessment();
   }
@@ -73,9 +61,14 @@ export class AssessmentModulesDetailsComponent {
   private getAssessment() {
     this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
         this.assessment = _data;
+        this.setAssessment(this.assessment)
         this.receiveStatus(this.assessment.assessmentStatus);
       }
     )
+  }
+
+  private setAssessment(assessment: AssessmentStructure) {
+    this.assessment = assessment
   }
 
   private getCategories() {
@@ -92,26 +85,6 @@ export class AssessmentModulesDetailsComponent {
 
   receiveStatus(assessmentStatus: string) {
     this.assessment.assessmentStatus = assessmentStatus;
-    this.updateFormActions();
-  }
-
-  disableForm() {
-    setTimeout(()=>{
-      this.testForm.form.disable();
-    }, 500);
-  }
-
-  enableForm() {
-    setTimeout(()=>{
-      this.testForm.form.enable();
-    }, 500);
-  }
-
-  updateFormActions() {
-    if (this.assessment.assessmentStatus === 'Completed')
-      this.disableForm();
-    if (this.assessment.assessmentStatus === 'Active')
-      this.enableForm();
   }
 
 }

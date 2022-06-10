@@ -27,6 +27,12 @@ import {
   ParameterLevelRatingAndRecommendationComponent
 } from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import oktaAuth from "@okta/okta-auth-js";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {
+  TopicLevelRatingAndRecommendationComponent
+} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 
 class MockAppService {
   public getCategories() {
@@ -117,18 +123,17 @@ describe('AssessmentModulesDetailsComponent', () => {
 
 
   beforeEach(async () => {
-    window.history.pushState({assessmentName: "hello"}, '', 'assessmentModulesDetails')
-
-
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent,TopicLevelRatingAndRecommendationComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
-        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}
+        {provide: AppServiceService, useClass: MockAppService},
+        {provide: OKTA_AUTH, useValue: oktaAuth},
+
       ],
     })
       .compileComponents();
@@ -221,39 +226,5 @@ describe('AssessmentModulesDetailsComponent', () => {
       expect(data).toBe(expectedData)
     })
   });
-
-  it('should able to disable the form after 500ms', fakeAsync(() => {
-
-    setTimeout(() => {
-      component.testForm.form.disable();
-    }, 500);
-    tick(500);
-    component.disableForm()
-    flush();
-    expect(component).toBeTruthy()
-  }))
-
-  it('should able to enable the form after 500ms', fakeAsync(() => {
-    setTimeout(() => {
-      component.testForm.form.enable();
-    }, 500);
-    tick(500);
-    component.enableForm()
-    flush();
-    expect(component).toBeTruthy()
-  }))
-
-  it('should update the form based on the status', fakeAsync(() => {
-    component.assessment.assessmentStatus = 'Completed';
-    component.updateFormActions();
-    jest.spyOn(component, "disableForm");
-    setTimeout(() => {
-      component.testForm.form.enable();
-    }, 500);
-    tick(500);
-    component.disableForm()
-    flush();
-    expect(component).toBeTruthy();
-  }))
 
 });

@@ -3,7 +3,8 @@
   -->
 
 <div class="topicQuestions" *ngIf="topicInput">
-    <div *ngFor="let parameter of topicInput.parameters; let i=index;">
+  <div *ngIf="!topicInput.references">{{averageRating}}</div>
+  <div *ngFor="let parameter of topicInput.parameters; let i=index;">
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
       </div>
       <div *ngIf="parameter">
@@ -11,7 +12,7 @@
              *ngFor="let question of parameter.questions; let j=index;">
           <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
           <br>
-      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
         </div>
       </div>
     <div *ngIf="parameter.references">
@@ -24,7 +25,6 @@
   <div class="row">
     <div class="col-md-8">
       <button [disabled]="assessmentStatus ==='Completed'" mat-raised-button class="saveButton" (click)="save()">Save</button>
-
     </div>
   </div>
 </div>
