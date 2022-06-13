@@ -7,7 +7,7 @@ import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatDialog} from "@angular/material/dialog";
-import {ControlContainer, FormBuilder, NgForm} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -43,7 +43,7 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating:number = 0
+  averageRating: number = 0
 
   @Input() answerResponse: AssessmentStructure
 
@@ -70,7 +70,8 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAssessment()
+    this.getAssessmentDetails();
+    this.getAverageRating();
   }
 
   save() {
@@ -84,13 +85,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.answerSaved = true
   }
 
-
-  private getAssessment() {
-    this.topicParameterValidation()
-  }
-
-
-  private topicParameterValidation() {
+  private getAssessmentDetails() {
     if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
@@ -141,7 +136,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndRecommendationPresent = false
     let newParameterRequest: ParameterRequest = {
       answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
-        parameterId: parameter.parameterId, rating: undefined, recommendation: ""
+        parameterId: parameter.parameterId, rating: "0", recommendation: ""
       }
     }
 
@@ -180,11 +175,25 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     } else {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: undefined,
+        rating: "0",
         recommendation: "",
         topicId: this.topicInput.topicId
       }
     }
+  }
+
+  private getAverageRating() {
+    let ratingSum = 0
+    let ratingNumber = 0
+    if (this.topicRequest.parameterLevel != null) {
+      for (let parameter in this.topicRequest.parameterLevel) {
+        if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
+          ratingSum = ratingSum + Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating);
+          ratingNumber = ratingNumber + 1;
+        }
+      }
+    }
+    this.averageRating = ratingSum / ratingNumber;
   }
 }
 
