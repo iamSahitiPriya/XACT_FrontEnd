@@ -11,9 +11,13 @@ export interface AssessmentStructure {
   "assessmentName": string,
   "organisationName": string,
   "assessmentStatus": string,
+  "domain": string,
+  "industry": string,
+  "teamSize": number,
+  "users": string[];
   "updatedAt": number,
-  "answerResponseList":AssessmentAnswerResponse[],
-  "parameterRatingAndRecommendation":ParameterRatingAndRecommendation[],
-  "topicRatingAndRecommendation":TopicRatingAndRecommendation[]
+  "answerResponseList": AssessmentAnswerResponse[],
+  "parameterRatingAndRecommendation": ParameterRatingAndRecommendation[],
+  "topicRatingAndRecommendation": TopicRatingAndRecommendation[]
 }
 

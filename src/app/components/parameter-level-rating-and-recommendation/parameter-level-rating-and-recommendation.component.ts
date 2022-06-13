@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {ControlContainer, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-parameter-level-rating-and-recommendation',

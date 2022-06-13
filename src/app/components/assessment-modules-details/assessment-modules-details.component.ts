@@ -11,7 +11,7 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
+import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {ActivatedRoute} from "@angular/router";
 
 let categories: CategoryStructure[] = []

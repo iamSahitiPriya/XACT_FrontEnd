@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentModulesDetailsComponent} from './assessment-modules-details.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -16,23 +16,19 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {TopicLevelAssessmentComponent} from "../topic-level-assessment/topic-level-assessment.component";
+import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AssessmentQuestionComponent} from "../assessment-question/assessment-question.component";
+import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  TopicLevelRatingAndRecommendationComponent
-} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 
 class MockAppService {
   public getCategories() {

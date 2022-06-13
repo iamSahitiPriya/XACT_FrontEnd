@@ -6,9 +6,8 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -48,6 +47,10 @@ describe('AssessmentMenuComponent', () => {
 
     finishAssessment() {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Completed"});
+    }
+
+    getAssessment(assessmentId:number){
+      return of({assessmentId: assessmentId, assessmentName: "Demo", assessmentStatus: "Completed"});
     }
 
     reopenAssessment() {
@@ -133,7 +136,7 @@ describe('AssessmentMenuComponent', () => {
     expect(component.assessmentStatus).toBe("Completed");
   });
   it("should set the assessment name and status", () => {
-    component.assessment = {assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]}
+    component.assessment = {assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]}
     component.setAssessment()
     expect(component.assessmentName).toBe("abc")
     expect(component.organizationName).toBe("xyz")
@@ -151,3 +154,9 @@ describe('AssessmentMenuComponent', () => {
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
 });
+
+
+
+
+
+

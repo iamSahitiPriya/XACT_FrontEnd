@@ -5,8 +5,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AssessmentsComponent} from './assessments.component';
 import {HttpClient, HttpHandler} from "@angular/common/http";
-import {SearchComponent} from "../search/search.component";
-import {CreateAssessmentsComponent} from "../create-assessments/create-assessments.component";
+import {SearchComponent} from "../search-component/search.component";
+import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
@@ -15,7 +15,6 @@ import {MatTableModule} from "@angular/material/table";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable, of} from "rxjs";
-import {MatDialogModule} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -25,6 +24,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
+import {MatDialogModule} from "@angular/material/dialog";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -34,19 +34,29 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": []
+      "topicRatingAndRecommendation": [],
+
+
     },
     {
       "assessmentId": 1,
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
-      "updatedAt": 1649836702000,
+      "updatedAt": 1649836702001,
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": []
+      "topicRatingAndRecommendation": [],
     }
   ]
 
@@ -100,19 +110,27 @@ describe('AssessmentsComponent', () => {
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
-        "topicRatingAndRecommendation": []
+        "topicRatingAndRecommendation": [],
       },
       {
         "assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702000,
+        "updatedAt": 1649836702001,
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
-        "topicRatingAndRecommendation": []
+        "topicRatingAndRecommendation": [],
       }
 
     ]

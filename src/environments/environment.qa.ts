@@ -16,7 +16,7 @@ export const environment = {
   ASSESSMENT_URI:"/v1/assessments",
   USER_URI: "/v1/users",
   CATEGORY_URI:"/v1/assessment-master-data/categories",
-  SAVE_ASSESSMENT_URI: "/v1/notes",
+  SAVE_ASSESSMENT_URI: "/v1/assessments/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/assessments/",
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",
   ASSESSMENT_STATUS_OPEN_URI: "/statuses/open",

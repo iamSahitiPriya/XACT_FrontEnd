@@ -1,17 +1,15 @@
 import {appUrl, email, pwd} from "../../constants";
-import LoginPage from "../pageObjects/loginPage";
 import landingPage from "../pageObjects/landingPage";
 
 describe('validating creating Assessment assessment popup functionality', () => {
   before('User should get navigated to Okta by launching the url',() => {
     //cy.visit(appUrl)
-    cy.visit('http://localhost:4200')
+    cy.visit(appUrl)
 
   })
 
   it('Should get redirected to Okta', () => {
-    loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
-    //loginPage.xActHomepagetitleValidation()
+    loginPage.xActLogin(email,pwd)
   })
 
   it()

@@ -41,7 +41,6 @@ export class AssessmentsComponent implements OnInit {
     this.appService.getAssessments().subscribe(
       (response) => {
         assessments = response
-
         assessments.sort((assessment1, assessment2) => {
           return assessment2.updatedAt - assessment1.updatedAt
         })
@@ -52,6 +51,7 @@ export class AssessmentsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(value);
       this.dataSource.paginator = this.paginator;
     })
+
   }
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
