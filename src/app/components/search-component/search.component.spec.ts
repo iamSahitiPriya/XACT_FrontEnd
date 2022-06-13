@@ -34,6 +34,7 @@ describe('SearchComponent', () => {
   });
   it('should call the search', () => {
     const mockData: AssessmentStructure = {
+      domain: "", industry: "", teamSize: 0, users: [],
       assessmentId: 2,
       assessmentName: "abc",
       organisationName: "org",
@@ -53,6 +54,7 @@ describe('SearchComponent', () => {
   });
   it("should return false if no result came", () => {
     const mockData: AssessmentStructure = {
+      domain: "", industry: "", teamSize: 0, users: [],
       assessmentId: 2,
       assessmentName: "abc",
       organisationName: "org",

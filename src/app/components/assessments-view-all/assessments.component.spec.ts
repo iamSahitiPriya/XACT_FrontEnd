@@ -24,9 +24,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {MatDialogModule} from "@angular/material/dialog";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -36,10 +34,10 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
-      "domain":"TW",
-      "industry":"IT",
-      "teamSize":2,
-      "users":[],
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
       "topicRatingAndRecommendation": [],
@@ -52,10 +50,10 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
-      "domain":"TW",
-      "industry":"IT",
-      "teamSize":2,
-      "users":[],
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
       "topicRatingAndRecommendation": [],
@@ -77,7 +75,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatDialogModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }])],
@@ -112,23 +110,24 @@ describe('AssessmentsComponent', () => {
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
-        "domain":"TW",
-        "industry":"IT",
-        "teamSize":2,
-        "users":[],
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
       },
-      {"assessmentId": 1,
+      {
+        "assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
-        "domain":"TW",
-        "industry":"IT",
-        "teamSize":2,
-        "users":[],
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
