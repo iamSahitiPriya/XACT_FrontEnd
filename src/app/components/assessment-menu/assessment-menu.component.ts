@@ -103,9 +103,6 @@ export class AssessmentMenuComponent implements OnInit {
       assessmentData.splice(0, assessmentData.length)
       dialogRef.close()
     });
-    // const oktaLoggedInUser = await this.oktaAuth.getUser();
-    // this.loggedInUserEmail = oktaLoggedInUser.email || "No value"
-
   }
 
 

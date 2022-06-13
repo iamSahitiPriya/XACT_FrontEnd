@@ -44,7 +44,7 @@
   "redirectionLimit": 500,
   "watchForFileChanges": true,
   "chromeWebSecurity": false,
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "https://dev.project-xact.in",
   "env": {
     "userName": "technicalbaba4u@gmail.com",
     "password": "Sam@12345",

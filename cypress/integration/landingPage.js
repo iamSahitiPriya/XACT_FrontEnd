@@ -2,6 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+import {appUrl, email, pwd} from "../constants";
+
 describe('landingpage', () => {
 
 
@@ -12,10 +14,10 @@ describe('landingpage', () => {
 
   it('LandingPage', () => {
 
-  cy.visit('http://localhost:4200')
-  cy.get('#input28').type("technicalbaba4u@gmail.com")
-  cy.get('#input36').type("Sam@12345")
-  cy.get('').click()
+    cy.visit(appUrl)
+    cy.get('#input28').type(email)
+    cy.get('#input36').type(pwd)
+    cy.get('').click()
 
   })
 })
