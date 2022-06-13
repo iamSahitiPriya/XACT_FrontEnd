@@ -30,9 +30,8 @@
   <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
     <div>
       <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic" [selectedIndex]="selectedIndex"
-                                  [answerResponse]="assessment"
                                   [assessmentId]="assessment.assessmentId"
-                                  [assessmentStatus]="assessment && assessment.assessmentStatus"></app-topic-level-assessment>
+                                  ></app-topic-level-assessment>
     </div>
   </mat-tab>
 

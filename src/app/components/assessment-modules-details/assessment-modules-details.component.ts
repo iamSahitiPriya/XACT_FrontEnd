@@ -4,7 +4,7 @@
 
 import {Component, ViewChild} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
@@ -13,6 +13,10 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {ActivatedRoute} from "@angular/router";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import * as fromActions from "../../actions/assessment_data.actions";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -37,8 +41,10 @@ export class AssessmentModulesDetailsComponent {
 
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
+  answer:Observable<AssessmentStructure>
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store:Store<AssessmentState>) {
+    this.answer = this.store.select(fromReducer.getAssessments)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -53,22 +59,26 @@ export class AssessmentModulesDetailsComponent {
   ngOnInit(): void {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
+    this.store.dispatch(fromActions.getAssessmentId({id:this.assessmentId}))
+    this.answer.subscribe(data =>{
+      if(data !== undefined) {
+        this.assessment = data
+        this.receiveStatus(this.assessment.assessmentStatus);
+      }
+    })
+
     this.getCategories();
-    this.getAssessment();
+    // this.getAssessment();
   }
 
 
   private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessment = _data;
-        this.setAssessment(this.assessment)
-        this.receiveStatus(this.assessment.assessmentStatus);
-      }
-    )
-  }
 
-  private setAssessment(assessment: AssessmentStructure) {
-    this.assessment = assessment
+    // this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
+    //     this.assessment = _data;
+    //     this.receiveStatus(this.assessment.assessmentStatus);
+    //   }
+    // )
   }
 
   private getCategories() {

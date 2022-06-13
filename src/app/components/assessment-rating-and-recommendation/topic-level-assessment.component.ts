@@ -14,6 +14,11 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {SaveRequest} from "../../types/saveRequest";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import { Store } from '@ngrx/store';
+import * as fromReducer from '../../reducers/assessment.reducer';
+import * as fromActions from '../../actions/assessment_data.actions'
+import {AssessmentState} from "../../reducers/app.states";
+import {Observable, takeUntil} from "rxjs";
 
 
 export const saveAssessmentData = [{}]
@@ -44,23 +49,24 @@ let parameterRequests: parameterRequest[];
 export class TopicLevelAssessmentComponent implements OnInit {
   averageRating:number = 0
 
-  @Input() answerResponse: AssessmentStructure
+  answerResponse: AssessmentStructure
+  answerResponse1: Observable<AssessmentStructure>
 
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder) {
-
+  constructor(private appService: AppServiceService, private _fb: FormBuilder,private store:Store<AssessmentState>) {
+    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
-
   public answerSaved: boolean = false;
   public makeDisable = false
+
   @Input() selectedIndex: number
   @Input() assessmentId: number
   @Input() topicInput: TopicStructure;
-  @Input() assessmentStatus: string;
+  assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
     rating: "",
@@ -69,7 +75,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAssessment()
+    this.store.dispatch(fromActions.getAssessmentId({id:this.assessmentId}))
+    this.answerResponse1.subscribe(data =>{
+      if(data !== undefined) {
+        this.answerResponse = data
+        this.assessmentStatus = this.answerResponse.assessmentStatus
+        this.getAssessment()
+      }
+    })
   }
 
   save() {

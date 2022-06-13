@@ -4,7 +4,8 @@
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import {AppComponent} from './components/app-component/app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
@@ -52,6 +53,8 @@ import {AssessmentMenuComponent} from './components/assessment-menu/assessment-m
 import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 import {MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
+import {Assessment_dataEffects} from "./effects/assessment_data.effects";
+import {reducers} from "./reducers/reducers";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -124,7 +127,9 @@ export const appRoutes: Routes = [
     MatListModule,
     MatTabsModule,
     MatSelectModule,
-    NgHttpLoaderModule.forRoot()
+    NgHttpLoaderModule.forRoot(),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([Assessment_dataEffects]),
   ],
   exports: [
     MatButtonModule,
