@@ -75,7 +75,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(fromActions.getAssessmentId({id:this.assessmentId}))
     this.answerResponse1.subscribe(data =>{
       if(data !== undefined) {
         this.answerResponse = data

@@ -54,7 +54,7 @@ import {ParameterLevelRatingAndRecommendationComponent} from './components/param
 import {MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
 import {Assessment_dataEffects} from "./effects/assessment_data.effects";
-import {reducers} from "./reducers/reducers";
+import { reducers} from "./reducers/reducers";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

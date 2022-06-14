@@ -3,7 +3,7 @@ import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {of} from 'rxjs';
 import {map, switchMap, mergeMap, catchError, debounceTime} from 'rxjs/operators';
 
-import {getAssessmentData, getAssessmentId} from "../actions/assessment_data.actions";
+import {getAssessmentData, getAssessmentId, getCategories} from "../actions/assessment_data.actions";
 import {AppServiceService} from "../services/app-service/app-service.service";
 
 @Injectable()
@@ -18,4 +18,12 @@ export class Assessment_dataEffects {
       map(res => getAssessmentData({payload: res}))
     )))
   )
+
+  getCategories = createEffect(() => this.actions.pipe(
+    ofType(getCategories),
+    debounceTime(500),
+    switchMap(() => this.appService.getCategories().pipe(
+      map(res => getCategories({payload:res}))
+    ))
+  ))
 }

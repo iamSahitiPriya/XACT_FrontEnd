@@ -12,8 +12,14 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import {Observable} from "rxjs";
+import * as fromActions from "../../actions/assessment_data.actions";
 
 export const assessmentData = [{}]
+
 
 @Component({
   selector: 'app-assessment-menu',
@@ -41,17 +47,14 @@ export class AssessmentMenuComponent implements OnInit {
   @Input()
   assessmentId: number
 
-  @Input()
   assessmentStatus: string
 
-  @Output() statusEvent = new EventEmitter<string>();
+  private answerResponse1: Observable<AssessmentStructure>;
+  private cloneAssessment: AssessmentStructure;
 
+  constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
+    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
 
-  sendStatus() {
-    this.statusEvent.emit(this.assessmentStatus)
-  }
-
-  constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder) {
   }
 
   generateReport() {
@@ -64,8 +67,9 @@ export class AssessmentMenuComponent implements OnInit {
 
   finishAssessment() {
     this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessmentStatus = _data.assessmentStatus;
-        this.sendStatus();
+        this.cloneAssessment = Object.assign({}, this.assessment)
+        this.cloneAssessment.assessmentStatus = _data.assessmentStatus
+        this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
       }
     )
   }
@@ -78,6 +82,7 @@ export class AssessmentMenuComponent implements OnInit {
     openConfirm.componentInstance.text = "Are you sure ? You will not be able to edit assessment again without reopening it.";
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
+        this.emailList = [];
         this.finishAssessment();
       }
     })
@@ -85,11 +90,15 @@ export class AssessmentMenuComponent implements OnInit {
 
   reopenAssessment() {
     this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessmentStatus = _data.assessmentStatus;
-        this.sendStatus();
+        this.sendAssessmentStatus(_data.assessmentStatus)
       }
     )
+  }
 
+  sendAssessmentStatus(assessmentStatus: string) {
+    this.cloneAssessment = Object.assign({}, this.assessment)
+    this.cloneAssessment.assessmentStatus = assessmentStatus
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
   }
 
 
@@ -134,9 +143,12 @@ export class AssessmentMenuComponent implements OnInit {
   emailList: [];
 
   ngOnInit(): void {
-
-    this.emailList = [];
-
+    this.answerResponse1.subscribe(data => {
+      if(data !== undefined) {
+        this.assessment = data
+        this.assessmentStatus = this.assessment.assessmentStatus
+      }
+    })
     this.createAssessmentForm = this.formBuilder.group(
       {
         assessmentNameValidator: ['', Validators.required],

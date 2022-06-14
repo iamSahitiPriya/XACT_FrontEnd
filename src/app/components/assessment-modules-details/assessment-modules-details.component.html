@@ -13,9 +13,7 @@
     </mat-toolbar>
   </div>
   <div class="col-md-6 align-self-center">
-    <app-assessment-menu [assessmentId]="assessmentId"
-                         [assessmentStatus]="assessment && assessment.assessmentStatus"
-                         (statusEvent)="receiveStatus($event)"></app-assessment-menu>
+    <app-assessment-menu [assessmentId]="assessmentId"></app-assessment-menu>
   </div>
 </div>
 
@@ -30,8 +28,7 @@
   <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
     <div>
       <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic" [selectedIndex]="selectedIndex"
-                                  [assessmentId]="assessment.assessmentId"
-                                  ></app-topic-level-assessment>
+                                  [assessmentId]="assessment.assessmentId"></app-topic-level-assessment>
     </div>
   </mat-tab>
 
