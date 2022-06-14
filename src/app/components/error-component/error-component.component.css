@@ -1,0 +1,26 @@
+.okButton{
+  background:#013D4F 0% 0% no-repeat padding-box;
+  color: white;
+  font-size: 16px ;
+  font-family: 'Inter', sans-serif;
+  font-weight: normal;
+  width: 80px;
+  height: 33px;
+  border-radius: 4px;
+  margin-top: 20px;
+
+}
+#close{
+  margin-left: 379px;
+  position: relative;
+  top: -20px;
+}
+.bodyText{
+  text-align: center;
+  font-size: 16px ;
+  font-family: 'Inter', sans-serif;
+  font-weight: normal;
+  letter-spacing: 0.17px;
+  color: #000000;
+  opacity: 1;
+}
