@@ -13,6 +13,8 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {ActivatedRoute} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorComponentComponent} from "../error-component/error-component.component";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -38,7 +40,7 @@ export class AssessmentModulesDetailsComponent {
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private dialog: MatDialog) {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -63,6 +65,10 @@ export class AssessmentModulesDetailsComponent {
         this.assessment = _data;
         this.setAssessment(this.assessment)
         this.receiveStatus(this.assessment.assessmentStatus);
+      },
+      (_error) => {
+        const openConfirm = this.dialog.open(ErrorComponentComponent,      {backdropClass:'backdrop-bg-opaque'});
+        openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
       }
     )
   }

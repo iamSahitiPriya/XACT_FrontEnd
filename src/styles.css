@@ -8,3 +8,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .error-snackBar{
   margin-bottom: 20% !important;
 }
+
+.backdrop-bg-opaque {
+  background-color: whitesmoke;
+  opacity: 0.5;
+}
