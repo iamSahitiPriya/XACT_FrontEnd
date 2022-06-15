@@ -17,7 +17,6 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment_data.actions";
-import {getCategory} from "../../reducers/category.reducer";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -43,11 +42,9 @@ export class AssessmentModulesDetailsComponent implements OnInit{
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
   answer:Observable<AssessmentStructure>
-  private categories: Observable<CategoryStructure[]>;
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private store:Store<AssessmentState>) {
     this.answer = this.store.select(fromReducer.getAssessments)
-    this.categories = this.store.select(getCategory)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -78,12 +75,6 @@ export class AssessmentModulesDetailsComponent implements OnInit{
   }
 
   private getCategories() {
-    // this.categories.subscribe(data =>{
-    //   this.category = data
-    //   console.log(this.category)
-    //   if(this.category.length > 0)
-    //     this.navigate(this.category[0].modules[0])
-    // })
     this.appService.getCategories().subscribe(data => {
       categories = data
       valueEmitter.next(categories)

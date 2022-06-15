@@ -4,5 +4,6 @@ import * as fromReducer from './assessment.reducer';
 
 export const reducers:ActionReducerMap<AppStates> ={
   assessmentState:fromReducer.assessmentReducer,
+  topicState:fromReducer.topicReducer
 }
 
