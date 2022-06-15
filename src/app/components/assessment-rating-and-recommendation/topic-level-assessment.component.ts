@@ -19,6 +19,7 @@ import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment_data.actions'
 import {AssessmentState} from "../../reducers/app.states";
 import {Observable, takeUntil} from "rxjs";
+import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 
 
 export const saveAssessmentData = [{}]
@@ -56,6 +57,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
+  private cloneAnswerResponse: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder,private store:Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -85,10 +87,17 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   save() {
+    let answers: AssessmentAnswerResponse[] = []
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
+        for(let eachParameter in saveRequest.topicRequest.parameterLevel){
+          for(let eachAnswer in saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest) {
+            answers.push(<AssessmentAnswerResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest[Number(eachAnswer)])
+          }
+        }
+        this.sendAnswers(answers)
         saveAssessmentData.push(saveRequest);
       }
     )
@@ -196,6 +205,13 @@ export class TopicLevelAssessmentComponent implements OnInit {
         topicId: this.topicInput.topicId
       }
     }
+  }
+
+  private sendAnswers(answers: AssessmentAnswerResponse[]) {
+    this.cloneAnswerResponse = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
+     eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse}))
   }
 }
 
