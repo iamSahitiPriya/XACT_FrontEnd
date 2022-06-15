@@ -42,6 +42,9 @@ export class AssessmentsComponent implements OnInit {
       (response) => {
         assessments = response
         assessments.sort((assessment1, assessment2) => {
+          const index = assessment1.assessmentStatus.localeCompare(assessment2.assessmentStatus)
+          if(index!=0)
+            return index;
           return assessment2.updatedAt - assessment1.updatedAt
         })
         valueEmitter.next(assessments)
