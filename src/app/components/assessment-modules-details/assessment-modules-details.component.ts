@@ -54,13 +54,14 @@ export class AssessmentModulesDetailsComponent implements OnInit{
   navigate(module: ModuleStructure) {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
+    this.store.dispatch(fromActions.getTopicRequest({topicRequest:this.topics}))
+
   }
 
   ngOnInit(): void {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id:this.assessmentId}))
-
     this.getCategories();
     this.getAssessment();
   }

@@ -52,13 +52,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   answerResponse: AssessmentStructure
   answerResponse1: Observable<AssessmentStructure>
-  topicStoreRequest: Observable<TopicRequest>
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
   private cloneAnswerResponse: AssessmentStructure;
-  private cloneTopicRequest: TopicRequest;
+  private topicInputRequest: Observable<TopicStructure[]>;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -79,15 +78,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = data
         this.assessmentId = this.answerResponse.assessmentId
         this.assessmentStatus = this.answerResponse.assessmentStatus
-        this.getAssessment()
       }
     })
+    this.getAssessment()
   }
 
   save() {
@@ -97,8 +95,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
-    // this.cloneTopicRequest = Object.assign({}, saveRequest.topicRequest)
-    // this.store.dispatch(fromActions.getTopicRequest({topicRequest: this.cloneTopicRequest}))
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
@@ -112,8 +108,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
             }
           }
         }
+
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
+
       }
     )
     this.answerSaved = true

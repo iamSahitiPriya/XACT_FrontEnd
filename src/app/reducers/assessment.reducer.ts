@@ -21,10 +21,9 @@ export const initialState: AssessmentState = {
   }
 }
 export const initialTopicState: TopicState = {
-  topicReq:{
-  parameterLevel:[],
-  topicRatingAndRecommendation:{topicId:0,recommendation:"",rating:"0"}}
+  topicReq:[]
 }
+
 
 const _topicReducer = createReducer(
   initialTopicState,
