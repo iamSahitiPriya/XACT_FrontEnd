@@ -157,6 +157,11 @@ describe('AssessmentMenuComponent', () => {
     component.finishAssessment();
     expect(component.assessment.assessmentStatus).toBe("Completed");
   });
+  it('should reopenAssessment', () => {
+    component.assessment.assessmentStatus="Completed";
+    component.reopenAssessment();
+    expect(component.assessment.assessmentStatus).toBe("Active");
+  });
 
 });
 
