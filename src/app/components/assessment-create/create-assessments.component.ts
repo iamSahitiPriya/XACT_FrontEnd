@@ -77,15 +77,19 @@ export class CreateAssessmentsComponent implements OnInit {
         },
         error: (_error) => {
           this.loading = false
-          this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
-            duration: 4000,
-            horizontalPosition: "center",
-            verticalPosition: "bottom",
-            panelClass: ['error-snackBar']
-          })
+          this.showError();
         }
       })
     }
+  }
+
+  private showError() {
+    this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
+      duration: 4000,
+      horizontalPosition: "center",
+      verticalPosition: "bottom",
+      panelClass: ['error-snackBar']
+    })
   }
 
   private getValidUsers() {
@@ -123,12 +127,7 @@ export class CreateAssessmentsComponent implements OnInit {
         },
         error: (_error) => {
           this.loading = false
-          this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
-            duration: 4000,
-            horizontalPosition: "center",
-            verticalPosition: "bottom",
-            panelClass: ['error-snackBar']
-          })
+          this.showError();
         }
       })
     }

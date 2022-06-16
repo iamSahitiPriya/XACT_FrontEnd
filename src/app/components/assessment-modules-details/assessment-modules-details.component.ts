@@ -61,14 +61,17 @@ export class AssessmentModulesDetailsComponent {
 
 
   private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessment = _data;
-        this.setAssessment(this.assessment)
-        this.receiveStatus(this.assessment.assessmentStatus);
-      },
-      (_error) => {
-        const openConfirm = this.dialog.open(ErrorComponentComponent,      {backdropClass:'backdrop-bg-opaque'});
-        openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
+    this.appService.getAssessment(this.assessmentId).subscribe({
+        next: (_data) => {
+          this.assessment = _data;
+          this.setAssessment(this.assessment)
+          this.receiveStatus(this.assessment.assessmentStatus);
+        }
+        ,
+        error: (_error) => {
+          const openConfirm = this.dialog.open(ErrorComponentComponent, {backdropClass: 'backdrop-bg-opaque'});
+          openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
+        }
       }
     )
   }
