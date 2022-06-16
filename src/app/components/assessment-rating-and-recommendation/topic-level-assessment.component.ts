@@ -108,10 +108,8 @@ export class TopicLevelAssessmentComponent implements OnInit {
             }
           }
         }
-
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
-
       }
     )
     this.answerSaved = true
@@ -222,7 +220,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
-    if (answers !== undefined) {
+    if (answers[0] !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
         eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
     }

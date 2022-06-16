@@ -27,6 +27,7 @@ import {MatCardModule} from "@angular/material/card";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -85,6 +86,8 @@ describe('AssessmentsComponent', () => {
         {
           provide: AppServiceService,
           useClass: MockAppService
+        },{
+          provide: MatDialog,useValue: {}
         },
         {provide: OKTA_AUTH, useValue: oktaAuth},
 

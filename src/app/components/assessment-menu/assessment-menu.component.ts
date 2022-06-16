@@ -49,7 +49,7 @@ export class AssessmentMenuComponent implements OnInit {
 
   assessmentStatus: string
 
-  private answerResponse1: Observable<AssessmentStructure>;
+  answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
@@ -118,7 +118,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
 
-  private getValidUsers() {
+   getValidUsers() {
     let userData = this.userEmail.split(',');
     userData.push(this.loggedInUserEmail);
     userData = [...new Set(userData.filter(function (el) {
@@ -160,7 +160,7 @@ export class AssessmentMenuComponent implements OnInit {
       }
     )
 
-    this.getAssessment()
+    // this.getAssessment()
   }
 
 
