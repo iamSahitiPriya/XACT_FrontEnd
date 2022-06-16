@@ -20,15 +20,16 @@ export const initialState: AssessmentState = {
     users: []
   }
 }
-export const initialTopicState: TopicRequest = {
+export const initialTopicState: TopicState = {
+  topicReq:{
   parameterLevel:[],
-  topicRatingAndRecommendation:{topicId:0,recommendation:"",rating:"0"}
+  topicRatingAndRecommendation:{topicId:0,recommendation:"",rating:"0"}}
 }
 
 const _topicReducer = createReducer(
   initialTopicState,
   on(getTopicRequest,(state,action) => {
-    console.log(state)
+    console.log(state.topicReq)
     return{
       ...state,
       topicReq:action.topicRequest
@@ -38,6 +39,7 @@ const _topicReducer = createReducer(
 const _assessmentReducer = createReducer(
   initialState,
   on(getAssessmentData, (state, {payload}) => {
+    console.log(state.assessments)
     return{
       ...state,
     assessments: payload}
@@ -59,7 +61,7 @@ export const getTopicState = createFeatureSelector<TopicState>('topicState')
 
 export const getAssessments = createSelector(
   getAssessmentState, (state: AssessmentState) => {
-    return state.assessments
+    return state && state.assessments
   },
 )
 export const getTopicRequestSelector = createSelector(

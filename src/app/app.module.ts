@@ -4,7 +4,7 @@
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import { StoreModule } from '@ngrx/store';
+import {ActionReducerMap, StoreModule} from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {AppComponent} from './components/app-component/app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -128,7 +128,13 @@ export const appRoutes: Routes = [
     MatTabsModule,
     MatSelectModule,
     NgHttpLoaderModule.forRoot(),
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers,{runtimeChecks:{
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictStateImmutability: false,
+        strictActionImmutability:false
+      }}),
     EffectsModule.forRoot([Assessment_dataEffects]),
   ],
   exports: [

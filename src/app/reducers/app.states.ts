@@ -3,7 +3,7 @@ import {TopicRequest} from "../types/topicRequest";
 
 export interface AppStates{
    assessmentState:AssessmentState;
-   topicState:TopicRequest
+   topicState:TopicState
 }
 
 export interface AssessmentState{
