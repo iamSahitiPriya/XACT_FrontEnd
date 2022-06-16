@@ -9,6 +9,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 /**
  * @title Table with expandable rows
@@ -25,8 +26,23 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 export class AssessmentsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  private dialogRef: MatDialogRef<any>;
+  blankAssessment: AssessmentStructure = {
+    answerResponseList: [],
+    assessmentId: -1,
+    assessmentName: "",
+    assessmentStatus: "",
+    domain: "",
+    industry: "",
+    organisationName: "",
+    parameterRatingAndRecommendation: [],
+    teamSize: 0,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  };
 
-  constructor(public appService: AppServiceService, public router: Router) {
+  constructor(public appService: AppServiceService, public router: Router, private dialog: MatDialog,) {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)
   }
 
@@ -43,7 +59,7 @@ export class AssessmentsComponent implements OnInit {
         assessments = response
         assessments.sort((assessment1, assessment2) => {
           const index = assessment1.assessmentStatus.localeCompare(assessment2.assessmentStatus)
-          if(index!=0)
+          if (index != 0)
             return index;
           return assessment2.updatedAt - assessment1.updatedAt
         })
@@ -59,6 +75,18 @@ export class AssessmentsComponent implements OnInit {
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
   columnsToDisplay = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt'];
+
+
+  async openAssessment(content: any) {
+    this.dialogRef = this.dialog.open(content, {
+      width: '630px', height: '650px',
+    })
+  }
+
+  closePopUp(): void {
+    this.dialogRef.close()
+  }
+
 }
 
 

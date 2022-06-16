@@ -52,7 +52,7 @@ import {AssessmentMenuComponent} from './components/assessment-menu/assessment-m
 import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 import {MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
-import { ErrorComponentComponent } from './components/error-component/error-component.component';
+import {ErrorComponentComponent} from './components/error-component/error-component.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

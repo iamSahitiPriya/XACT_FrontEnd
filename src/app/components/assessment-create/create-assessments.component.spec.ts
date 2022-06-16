@@ -24,6 +24,7 @@ import {User} from "../../types/user";
 import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 
 class MockDialog {
@@ -48,7 +49,6 @@ class MockAppService {
     "assessmentStatus": "Active",
     "updatedAt": 1650886511968
   };
-
 
   mockedUser: User = {
     email: "sam@gmail.com",
@@ -114,18 +114,28 @@ describe('CreateAssessmentsComponent', () => {
     controller = TestBed.inject(HttpTestingController)
     fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
+    component.assessment=blankAssessment;
   });
+
+  const blankAssessment : AssessmentStructure ={
+    answerResponseList: [],
+    assessmentId: -1,
+    assessmentName: "",
+    assessmentStatus: "",
+    domain: "",
+    industry: "",
+    organisationName: "",
+    parameterRatingAndRecommendation: [],
+    teamSize: 0,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open dialog box', () => {
-    jest.spyOn(matDialog, 'open')
-    component.openAssessment("")
-    fixture.detectChanges()
-    expect(matDialog.open).toHaveBeenCalled()
-  });
 
   it('should close the popup', () => {
     jest.spyOn(matDialog, 'closeAll')
@@ -140,7 +150,6 @@ describe('CreateAssessmentsComponent', () => {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
-    component.assessmentName = "xact"
     const assessmentData =
       {
         "assessmentId": 45,
@@ -149,6 +158,7 @@ describe('CreateAssessmentsComponent', () => {
         "assessmentStatus": "Active",
         "updatedAt": 1650886511968
       }
+
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -174,7 +184,6 @@ describe('CreateAssessmentsComponent', () => {
     const assessmentDataPayload:AssessmentRequest  = {
       assessmentName:"abc",organisationName:"abc",domain:"123", industry:"hello", teamSize:12, users:[]
     };
-    component.assessmentName = "abc"
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")

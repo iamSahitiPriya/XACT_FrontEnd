@@ -56,4 +56,9 @@ export class AppServiceService {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
 
+  updateAssessment(assessmentId: number, assessmentdata: AssessmentRequest): Observable<AssessmentStructure> {
+    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentdata,);
+  }
+
+
 }
