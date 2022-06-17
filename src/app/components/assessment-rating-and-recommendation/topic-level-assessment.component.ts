@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -18,7 +18,7 @@ import {Store} from '@ngrx/store';
 import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment_data.actions'
 import {AssessmentState} from "../../reducers/app.states";
-import {Observable, takeUntil} from "rxjs";
+import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 
 
@@ -59,7 +59,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   private cloneAnswerResponse: AssessmentStructure;
   private topicInputRequest: Observable<TopicStructure[]>;
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private store: Store<AssessmentState>) {
+  constructor(@Optional() private appService: AppServiceService,@Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
@@ -221,15 +221,15 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
-    if (answers[0] !== undefined) {
+    if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
         eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
     }
-    if (topic[0] !== undefined) {
+    if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>
         eachTopic['topicId'] === eachAnswerQuestion['topicId'])).concat(topic)
     }
-    if (parameter[0] !== undefined) {
+    if (parameter[0] !== undefined && this.cloneAnswerResponse.parameterRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.parameterRatingAndRecommendation = this.cloneAnswerResponse.parameterRatingAndRecommendation.filter(eachParameter => !parameter.find(eachAnswerQuestion =>
         eachParameter['parameterId'] === eachAnswerQuestion['parameterId'])).concat(parameter)
     }
