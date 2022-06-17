@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    tools { nodejs "nodejs" }
+
+    stages {
+        stage('NPM Install'){
+            steps{
+                sh 'npm install'
+            }
+        }
+
+        stage('End-to-End Testing'){
+            steps{
+                sh 'npm run e2e'
+            }
+        }
+    }
+     post {
+            always {
+                cleanWs notFailBuild: true
+                publishHTML (target : [allowMissing: false,
+                                       alwaysLinkToLastBuild: true,
+                                       keepAll: true,
+                                       reportDir: 'mochawesome-report',
+                                       reportFiles: 'mochawesome.html',
+                                       reportName: 'End-to-End Test Reports',
+                                       reportTitles: 'End-to-End Test Report'])
+            }
+    }
+
+}
