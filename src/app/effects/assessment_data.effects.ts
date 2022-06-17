@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
-import {of} from 'rxjs';
-import {map, switchMap, mergeMap, catchError, debounceTime} from 'rxjs/operators';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {debounceTime, map, switchMap} from 'rxjs/operators';
 
 import {getAssessmentData, getAssessmentId} from "../actions/assessment_data.actions";
 import {AppServiceService} from "../services/app-service/app-service.service";

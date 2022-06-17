@@ -6,7 +6,6 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
-import {TopicRequest} from "../../types/topicRequest";
 
 @Component({
   selector: 'app-topic-level-rating-and-recommendation',

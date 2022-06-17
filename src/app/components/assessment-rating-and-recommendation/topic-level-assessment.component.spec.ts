@@ -3,7 +3,8 @@
  */
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
+import * as fromReducer from '../../reducers/assessment.reducer';
+import * as fromActions from '../../actions/assessment_data.actions'
 import {parameterRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
@@ -329,6 +330,48 @@ describe('TopicLevelAssessmentComponent', () => {
     }
     component.ngOnInit()
     expect(component.answerResponse).toStrictEqual(dummyAnswerResponse)
+  });
+  it("should calculate average rating", () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    }
+    component.topicRequest = {
+      parameterLevel: [{
+        answerRequest: [{questionId: 1, answer: ""}],
+        parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+    }
+    component.topicInput = {
+      topicId: 0,
+      topicName: "",
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      references: [],
+      module: 1,
+      assessmentLevel: ""
+    }
+    component.ngOnInit()
+    expect(component.averageRating).toBe(1)
+  });
+  it("should get answers from store", () => {
+    let dummyResponse = {
+      assessments:undefined
+    }
+    expect(fromReducer.assessmentReducer({},{type:"[ASSESSMENT STRUCTURE] Get assessment"})).toStrictEqual(dummyResponse)
   });
 });
 

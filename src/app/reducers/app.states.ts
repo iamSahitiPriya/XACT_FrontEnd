@@ -4,7 +4,6 @@ import {TopicStructure} from "../types/topicStructure";
 
 export interface AppStates{
    assessmentState:AssessmentState;
-   topicState:TopicState
 }
 
 export interface AssessmentState{
@@ -14,8 +13,5 @@ export interface AssessmentStatus{
   assessmentStatus:string
 }
 
-export interface TopicState{
-  topicReq:TopicStructure[]
-}
 
 

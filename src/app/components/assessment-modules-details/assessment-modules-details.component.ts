@@ -18,7 +18,6 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment_data.actions";
 import {MatDialog} from "@angular/material/dialog";
-import {ErrorComponentComponent} from "../error-component/error-component.component";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)

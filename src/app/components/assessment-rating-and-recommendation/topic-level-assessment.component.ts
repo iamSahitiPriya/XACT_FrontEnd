@@ -86,6 +86,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     })
     this.getAssessment()
+    this.getAverageRating()
   }
 
   save() {

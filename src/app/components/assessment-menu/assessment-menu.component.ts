@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
