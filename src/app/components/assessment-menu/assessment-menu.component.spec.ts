@@ -90,10 +90,11 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report on click', fakeAsync(() => {
-    component.assessmentStatus = "Completed";
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
@@ -103,10 +104,12 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call finish assessment if active', fakeAsync(() => {
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
@@ -116,10 +119,12 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call reopen assessment if completed', fakeAsync(() => {
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let reopenAssessment = fixture.debugElement.nativeElement.querySelector("#reopenAssessment");
     reopenAssessment.click();
@@ -129,7 +134,7 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should complete assessment', () => {
-    component.assessmentStatus = "Active";
+
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",

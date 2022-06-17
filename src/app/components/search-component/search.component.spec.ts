@@ -40,10 +40,6 @@ describe('SearchComponent', () => {
       organisationName: "org",
       assessmentStatus: "Active",
       updatedAt: 1002020,
-      domain:"",
-      industry:"",
-      teamSize:0,
-      users:[],
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -64,10 +60,6 @@ describe('SearchComponent', () => {
       organisationName: "org",
       assessmentStatus: "Active",
       updatedAt: 1002020,
-      domain:"",
-      industry:"",
-      teamSize:0,
-      users:[],
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
