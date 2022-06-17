@@ -23,7 +23,11 @@ export class ParameterLevelRatingAndRecommendationComponent {
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
-      this.parameterRatingAndRecommendation.rating = rating;
+      if (this.parameterRatingAndRecommendation.rating === rating) {
+        this.parameterRatingAndRecommendation.rating = undefined;
+      } else {
+        this.parameterRatingAndRecommendation.rating = rating;
+      }
       this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
     }
   }

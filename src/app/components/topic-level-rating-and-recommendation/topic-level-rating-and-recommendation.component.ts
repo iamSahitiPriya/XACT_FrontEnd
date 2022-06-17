@@ -7,7 +7,7 @@ import {TopicReference} from "../../types/topicReference";
   templateUrl: './topic-level-rating-and-recommendation.component.html',
   styleUrls: ['./topic-level-rating-and-recommendation.component.css']
 })
-export class TopicLevelRatingAndRecommendationComponent  {
+export class TopicLevelRatingAndRecommendationComponent {
 
   @Input()
   topicRecommendation: number;
@@ -26,7 +26,11 @@ export class TopicLevelRatingAndRecommendationComponent  {
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
-      this.topicRatingAndRecommendation.rating = rating;
+      if (this.topicRatingAndRecommendation.rating === rating) {
+        this.topicRatingAndRecommendation.rating = undefined;
+      } else {
+        this.topicRatingAndRecommendation.rating = rating;
+      }
       this.topicRatingAndRecommendation.topicId = this.topicId;
     }
   }
