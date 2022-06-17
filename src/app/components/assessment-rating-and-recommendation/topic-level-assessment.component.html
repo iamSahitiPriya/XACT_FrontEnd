@@ -9,49 +9,38 @@
     <div id="questionContainer">
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
       </div>
-      <div *ngIf="i===0">
-        <div id="currentMaturityScore" *ngIf="!topicInput.references">
-          <div class="parameterScoring">
-            <div class="maturityScore">
-              Current_Maturity_Score
-            </div>
-            <div>
-              <mat-toolbar class="scoreReference">
+    <div *ngIf="i===0">
+      <div id="currentMaturityScore" *ngIf="!topicInput.references">
+        <div class="parameterScoring">
+          <div class="maturityScore">
+            Current_Maturity_Score
+          </div>
+          <div>
+            <mat-toolbar class="scoreReference">
           <span class="rating">
        <div class="image"></div>
             {{averageRating}}</span>
-              </mat-toolbar>
-            </div>
+            </mat-toolbar>
           </div>
         </div>
       </div>
+    </div>
+    </div>
 
-    </div>
-    <div *ngIf="parameter">
-      <div class="question"
-           *ngFor="let question of parameter.questions; let j=index;">
-        <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
-        <br>
-        <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus"
-                                 [questionDetails]="question"
-                                 [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+      <div *ngIf="parameter">
+        <div class="question"
+             *ngFor="let question of parameter.questions; let j=index;">
+          <strong>{{i + 1}}.{{j + 1}}</strong>&nbsp;{{question.questionText}}
+          <br>
+      <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question" [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+        </div>
       </div>
-    </div>
     <div *ngIf="parameter.references">
-      <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]"
-                                                     [assessmentStatus]="assessmentStatus"
-                                                     [parameterRecommendation]="parameter.parameterId"
-                                                     [parameterScore]="parameter.references"
-                                                     [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
+      <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"></app-parameter-level-rating-and-recommendation>
     </div>
   </div>
   <div *ngIf="topicInput.references">
-    <app-topic-level-rating-and-recommendation *ngIf="topicRequest.topicRatingAndRecommendation"
-                                               [assessmentStatus]="assessmentStatus"
-                                               [topicRecommendation]="topicInput.topicId"
-                                               [topicScore]="topicInput.references"
-                                               [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
-                                               [topicId]="topicInput.topicId"></app-topic-level-rating-and-recommendation>
+    <app-topic-level-rating-and-recommendation *ngIf="topicRequest.topicRatingAndRecommendation" [topicRecommendation]="topicInput.topicId" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId"></app-topic-level-rating-and-recommendation>
   </div>
   <div class="row">
     <div class="col-md-8">

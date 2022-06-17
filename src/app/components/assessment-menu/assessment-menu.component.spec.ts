@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {OKTA_AUTH} from "@okta/okta-angular";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -17,7 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
-import {AssessmentStructure} from "../../types/assessmentStructure";
+import {StoreModule} from "@ngrx/store";
 
 class MockDialog {
   open() {
@@ -35,6 +36,7 @@ class MockDialog {
 describe('AssessmentMenuComponent', () => {
   let dialog: any;
   let matDialog: any
+  const oktaAuth = require('@okta/okta-auth-js');
 
   let component: AssessmentMenuComponent;
   let fixture: ComponentFixture<AssessmentMenuComponent>;
@@ -46,10 +48,6 @@ describe('AssessmentMenuComponent', () => {
 
     finishAssessment() {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Completed"});
-    }
-
-    getAssessment(assessmentId:number){
-      return of({assessmentId: assessmentId, assessmentName: "Demo", assessmentStatus: "Completed"});
     }
 
     reopenAssessment() {
@@ -64,9 +62,11 @@ describe('AssessmentMenuComponent', () => {
       declarations: [AssessmentMenuComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
-        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule],
+        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,
+      StoreModule.forRoot({})],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
+        {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: MatDialog, useClass: MockDialog}
 
 
@@ -77,35 +77,20 @@ describe('AssessmentMenuComponent', () => {
 
   beforeEach(() => {
     jest.mock('@okta/okta-auth-js');
+    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam', email: "sam@gmail.com"}));
     fixture = TestBed.createComponent(AssessmentMenuComponent);
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
-    component.assessment=blankAssessment;
   });
-  const blankAssessment : AssessmentStructure ={
-    answerResponseList: [],
-    assessmentId: -1,
-    assessmentName: "",
-    assessmentStatus: "",
-    domain: "",
-    industry: "",
-    organisationName: "",
-    parameterRatingAndRecommendation: [],
-    teamSize: 0,
-    topicRatingAndRecommendation: [],
-    updatedAt: 0,
-    users: []
-  }
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should call generate report on click', fakeAsync(() => {
-    component.assessment.assessmentStatus = "Completed";
+    component.assessmentStatus = "Completed";
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -118,7 +103,7 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call finish assessment if active', fakeAsync(() => {
-    component.assessment.assessmentStatus = "Active";
+    component.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -129,8 +114,9 @@ describe('AssessmentMenuComponent', () => {
     expect(component.confirmFinishAssessmentAction).toHaveBeenCalled();
     flush()
   }));
+
   it('should call reopen assessment if completed', fakeAsync(() => {
-    component.assessment.assessmentStatus = "Completed";
+    component.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -141,10 +127,36 @@ describe('AssessmentMenuComponent', () => {
     expect(component.reopenAssessment).toHaveBeenCalled();
     flush()
   }));
+
   it('should complete assessment', () => {
-    component.assessment.assessmentStatus = "Active";
+    component.assessmentStatus = "Active";
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Completed",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    })
+    component.ngOnInit()
     component.finishAssessment();
-    expect(component.assessment.assessmentStatus).toBe("Completed");
+    expect(component.assessmentStatus).toBe("Completed");
+  });
+  it("should set the assessment name and status", () => {
+    component.assessment = {assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]}
+    component.setAssessment()
+    expect(component.assessmentName).toBe("abc")
+    expect(component.organizationName).toBe("xyz")
   });
   it('should open dialog box', () => {
     jest.spyOn(matDialog, 'open')
@@ -152,17 +164,18 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
-  it('should finishAssessment', () => {
-    component.assessment.assessmentStatus="Active";
-    component.finishAssessment();
-    expect(component.assessment.assessmentStatus).toBe("Completed");
+  it('should close the popup', () => {
+    jest.spyOn(matDialog, 'closeAll')
+    component.closePopUp()
+    fixture.detectChanges()
+    expect(matDialog.closeAll).toHaveBeenCalled()
   });
-  it('should reopenAssessment', () => {
-    component.assessment.assessmentStatus="Completed";
-    component.reopenAssessment();
-    expect(component.assessment.assessmentStatus).toBe("Active");
+  it("should get valid users", () => {
+    component.userEmail = "abc@thougworks.com, xyz@thoughtworks.com"
+    let a = component.getValidUsers()
+    let dummyResponse = [{"email": "abc@thougworks.com"}, {"email": " xyz@thoughtworks.com"}]
+    expect(a).toStrictEqual(dummyResponse)
   });
-
 });
 
 

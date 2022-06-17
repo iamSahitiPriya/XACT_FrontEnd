@@ -3,6 +3,7 @@
  */
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 
 import {AssessmentModulesDetailsComponent} from './assessment-modules-details.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -125,7 +126,7 @@ describe('AssessmentModulesDetailsComponent', () => {
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
-        ])],
+        ]), StoreModule.forRoot({})],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: OKTA_AUTH, useValue: oktaAuth},
