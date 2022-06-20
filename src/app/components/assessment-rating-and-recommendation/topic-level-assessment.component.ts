@@ -78,6 +78,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = {...data}
@@ -224,14 +225,20 @@ export class TopicLevelAssessmentComponent implements OnInit {
     if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
         eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
+    }else{
+      this.cloneAnswerResponse.answerResponseList = answers
     }
     if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>
         eachTopic['topicId'] === eachAnswerQuestion['topicId'])).concat(topic)
+    }else{
+      this.cloneAnswerResponse.topicRatingAndRecommendation = topic
     }
     if (parameter[0] !== undefined && this.cloneAnswerResponse.parameterRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.parameterRatingAndRecommendation = this.cloneAnswerResponse.parameterRatingAndRecommendation.filter(eachParameter => !parameter.find(eachAnswerQuestion =>
         eachParameter['parameterId'] === eachAnswerQuestion['parameterId'])).concat(parameter)
+    }else{
+      this.cloneAnswerResponse.parameterRatingAndRecommendation = parameter
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }

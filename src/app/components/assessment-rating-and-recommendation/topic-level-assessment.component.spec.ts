@@ -373,6 +373,17 @@ describe('TopicLevelAssessmentComponent', () => {
     }
     expect(fromReducer.assessmentReducer({},{type:"[ASSESSMENT STRUCTURE] Get assessment"})).toStrictEqual(dummyResponse)
   });
+  // it("should dispatch data to the store", () => {
+  //   component.topicRequest = {
+  //     parameterLevel: [{
+  //       answerRequest: [{questionId: 1, answer: ""}],
+  //       parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
+  //     }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+  //   }
+  //   let expectedAnswer = {"answerResponseList": [{"answer": "answer1", "questionId": 1}], "assessmentId": 5, "assessmentName": "abc1", "assessmentStatus": "Active", "assessments": undefined, "domain": "", "industry": "", "organisationName": "Thoughtworks", "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}], "teamSize": 0, "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}], "updatedAt": 1654664982698, "users": []}
+  //   component.save()
+  //   expect(fromReducer.getAssessments).toBe(undefined)
+  // });
 });
 
 

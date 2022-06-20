@@ -84,5 +84,9 @@ describe('AppServiceService', () => {
   it("should call get assessment api", () => {
     expect(service.getAssessment(123)).toBeTruthy()
   });
+  it("should call update assessment", () => {
+    let dummyAssessmentRequest:AssessmentRequest = {assessmentName:"",domain:"",organisationName:"",industry:"",teamSize:0,users:[]}
+    expect(service.updateAssessment(123,dummyAssessmentRequest)).toBeTruthy()
+  });
 
 });
