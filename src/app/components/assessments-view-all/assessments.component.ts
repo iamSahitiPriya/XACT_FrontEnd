@@ -81,6 +81,7 @@ export class AssessmentsComponent implements OnInit {
     this.dialogRef = this.dialog.open(content, {
       width: '630px', height: '650px',
     })
+    this.dialogRef.disableClose =true;
   }
 
 }
