@@ -8,6 +8,7 @@ export interface AppStates{
 
 export interface AssessmentState{
   assessments:AssessmentStructure;
+
 }
 export interface AssessmentStatus{
   assessmentStatus:string

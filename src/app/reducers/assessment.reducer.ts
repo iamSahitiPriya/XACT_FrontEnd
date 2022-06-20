@@ -1,5 +1,5 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {getAssessmentData, getUpdatedAssessmentData,} from "../actions/assessment_data.actions";
+import {getAssessmentData, getUpdatedAssessmentData, setErrorMessage,} from "../actions/assessment_data.actions";
 
 import {AssessmentState} from "./app.states";
 
@@ -24,7 +24,6 @@ export const initialState: AssessmentState = {
 const _assessmentReducer = createReducer(
   initialState,
   on(getAssessmentData, (state, {payload}) => {
-    console.log(state.assessments)
     return{
       ...state,
     assessments: payload}
@@ -34,6 +33,12 @@ const _assessmentReducer = createReducer(
       ...state,
       assessments:action.newData}
   }),
+  on(setErrorMessage, (state,action) =>{
+    return {
+      ...state,
+      errorMessage:action.error
+    }
+  })
 )
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)

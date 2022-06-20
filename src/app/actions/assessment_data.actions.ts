@@ -9,4 +9,4 @@ export const getAssessmentId = createAction('[ASSESSMENT STRUCTURE] Get assessme
 
 export const getUpdatedAssessmentData = createAction("Assessment Updated data", props<{newData:AssessmentStructure}>())
 
-export const getTopicRequest = createAction("Topic request", props<{topicRequest:TopicStructure[]}>());
+export const setErrorMessage = createAction("Error message", props<{error:string}>());

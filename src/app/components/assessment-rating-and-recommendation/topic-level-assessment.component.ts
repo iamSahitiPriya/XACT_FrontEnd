@@ -57,10 +57,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
   private cloneAnswerResponse: AssessmentStructure;
-  private topicInputRequest: Observable<TopicStructure[]>;
 
   constructor(@Optional() private appService: AppServiceService,@Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+
   }
 
   public answerSaved: boolean = false;
@@ -80,7 +80,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
-        this.answerResponse = data
+        this.answerResponse = {...data}
         this.assessmentId = this.answerResponse.assessmentId
         this.assessmentStatus = this.answerResponse.assessmentStatus
       }
