@@ -5,10 +5,8 @@
 /// <reference types='cypress'/>
 class loginPage {
 
-
-
    static userId() {
-   return cy.get('#input28')
+   return cy.get('input[name=identifier]')
   }
   static password(){
     return cy.get('#input36')
@@ -81,6 +79,24 @@ class loginPage {
   }
   static emailorUserName(){
      return cy.get('.okta-form-label')
+  }
+  static errorMessage(){
+     return cy.get('div[role=alert]')
+  }
+  static errorDescription(){
+    return cy.get('.okta-form-infobox-error > p')
+  }
+  static emptyFieldError(){
+    return cy.get('p[role=alert]')
+  }
+
+
+  //help page
+  static helpPageHeader(){
+     return cy.get('h1')
+  }
+  static backToSignInHelp(){
+     return cy.get('.header-link')
   }
 
 
