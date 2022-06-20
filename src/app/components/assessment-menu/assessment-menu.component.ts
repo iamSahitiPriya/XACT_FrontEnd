@@ -159,19 +159,7 @@ export class AssessmentMenuComponent implements OnInit {
         emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
       }
     )
-
-    // this.getAssessment()
   }
-
-
-  private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessment = _data;
-        this.setAssessment()
-      }
-    )
-  };
-
 
   setAssessment() {
     this.assessmentName = this.assessment.assessmentName;

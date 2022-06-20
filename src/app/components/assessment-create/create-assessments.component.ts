@@ -13,6 +13,7 @@ import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import cloneDeep from "lodash/cloneDeep";
 
 @Component({
   selector: 'app-create-assessments',
@@ -30,6 +31,7 @@ export class CreateAssessmentsComponent implements OnInit {
 
   @Input()
   assessment: AssessmentStructure;
+  assessmentCopy: AssessmentStructure;
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
@@ -41,7 +43,6 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-
     this.createAssessmentForm = this.formBuilder.group(
       {
         assessmentNameValidator: ['', Validators.required],
@@ -54,6 +55,7 @@ export class CreateAssessmentsComponent implements OnInit {
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     this.userEmails = this.assessment.users.join(",");
+    this.assessmentCopy = cloneDeep(this.assessment);
   }
 
   saveAssessment() {
@@ -133,7 +135,22 @@ export class CreateAssessmentsComponent implements OnInit {
     }
   }
 
-  closePopUp() {
+  private closePopUp() {
     this.dialog.closeAll();
   }
+
+  close() {
+    this.resetAssessment();
+    this.closePopUp();
+  }
+
+  resetAssessment() {
+    this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+    this.assessment.domain = this.assessmentCopy.domain;
+    this.assessment.industry = this.assessmentCopy.industry;
+    this.assessment.teamSize = this.assessmentCopy.teamSize;
+    this.assessment.organisationName = this.assessmentCopy.organisationName;
+    this.userEmails = this.assessmentCopy.users.join(",");
+  }
+
 }

@@ -6,7 +6,7 @@
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
     <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>Create Assessment</h1>
     <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>Manage Assessment</h1>
-    <button type="button" id="close" mat-icon-button (click)="closePopUp()">
+    <button type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
     <div mat-dialog-content>

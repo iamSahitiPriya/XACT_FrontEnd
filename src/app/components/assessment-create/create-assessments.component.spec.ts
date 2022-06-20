@@ -140,6 +140,21 @@ describe('CreateAssessmentsComponent', () => {
     users: []
   }
 
+  const mockAssessment : AssessmentStructure ={
+    answerResponseList: [],
+    assessmentId: 123,
+    assessmentName: "Mock",
+    assessmentStatus: "Active",
+    domain: "IT",
+    industry: "Telecom",
+    organisationName: "Rel",
+    parameterRatingAndRecommendation: [],
+    teamSize: 10,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -147,13 +162,17 @@ describe('CreateAssessmentsComponent', () => {
 
   it('should close the popup', () => {
     jest.spyOn(matDialog, 'closeAll')
-    component.closePopUp()
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
+    component.close()
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
 
 
   it('should save assessment and make the window reload', () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
     const assessmentDataPayload:AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
@@ -184,10 +203,14 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it("should call the form", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
     expect(component.form).toBeTruthy()
   });
 
   it("should return error for an unsuccessful creation of assessment", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
 
     const assessmentDataPayload:AssessmentRequest  = {
       assessmentName:"abc",organisationName:"abc",domain:"123", industry:"hello", teamSize:12, users:[]
@@ -209,6 +232,8 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it('should update assessment', () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
     const assessmentDataPayload:AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
@@ -234,6 +259,14 @@ describe('CreateAssessmentsComponent', () => {
       expect(data).toBe(assessmentData)
     })
     fixture.detectChanges()
+  });
+
+  it("should reset  the form", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
+    component.assessment.assessmentName = "Changed";
+    component.resetAssessment();
+    expect(component.assessment.assessmentName).toBe(component.assessmentCopy.assessmentName);
   });
 
 });

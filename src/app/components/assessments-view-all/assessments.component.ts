@@ -83,10 +83,6 @@ export class AssessmentsComponent implements OnInit {
     })
   }
 
-  closePopUp(): void {
-    this.dialogRef.close()
-  }
-
 }
 
 
