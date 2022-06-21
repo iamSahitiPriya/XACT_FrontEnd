@@ -6,8 +6,12 @@ import {debounceTime, Observable} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {TopicRating} from "../../types/topicRating";
+import {stringify} from "querystring";
 
-export const topicData = [{}]
+export const topicRecommendationData = [{}]
+export const topicRatingData = [{}]
+
 
 @Component({
   selector: 'app-topic-level-rating-and-recommendation',
@@ -40,6 +44,10 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit{
   topicLevelRecommendation: TopicRecommendation ={
     assessmentId:0, topicId: 0 , recommendation:"  "
   } ;
+  topicLevelRating: TopicRating ={
+    assessmentId:0, topicId: 0 , rating:"0"
+  } ;
+
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar) {
 
   }
@@ -54,7 +62,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit{
           this.topicLevelRecommendation.recommendation = value
         }
         this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
-            topicData.push(this.topicLevelRecommendation);
+            topicRecommendationData.push(this.topicLevelRecommendation);
           }
         )
         console.log(this.topicLevelRecommendation)
@@ -66,6 +74,16 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit{
     if (this.assessmentStatus === 'Active') {
       this.topicRatingAndRecommendation.rating = rating;
       this.topicRatingAndRecommendation.topicId = this.topicId;
+      if(this.topicRatingAndRecommendation.rating!="0"){
+        this.topicLevelRating.assessmentId=this.assessmentId
+        this.topicLevelRating.topicId=this.topicId
+        this.topicLevelRating.rating=rating
+        this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
+          topicRatingData.push(this.topicLevelRating);
+        })
+        console.log(this.topicLevelRating)
+      }
     }
+
   }
 }

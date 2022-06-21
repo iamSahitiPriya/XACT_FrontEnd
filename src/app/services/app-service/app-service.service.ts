@@ -14,6 +14,8 @@ import {Notes} from "../../types/answerRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
+import {TopicRating} from "../../types/topicRating";
+import {ParameterRating} from "../../types/parameterRating";
 
 
 
@@ -72,6 +74,15 @@ export class AppServiceService {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterRecommendation.assessmentId +"/"+ parameterRecommendation.parameterId , parameterRecommendation.recommendation, {'headers': headers})
   }
+  saveTopicRating(topicRating:TopicRating): Observable<any>{
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RATING_URI + "/" + topicRating.assessmentId +"/"+ topicRating.topicId , topicRating.rating, {'headers': headers})
+  }
+  saveParameterRating(parameterRating:ParameterRating): Observable<any>{
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId +"/"+ parameterRating.parameterId , parameterRating.rating, {'headers': headers})
+  }
+
 }
 
 
