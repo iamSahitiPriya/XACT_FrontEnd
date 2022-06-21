@@ -34,7 +34,7 @@
         <br>
         <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [assessmentStatus]="assessmentStatus"
                                  [questionDetails]="question"
-                                 [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"></app-assessment-question>
+                                 [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]" [assessmentId]="assessmentId"></app-assessment-question>
       </div>
     </div>
     <div *ngIf="parameter.references">

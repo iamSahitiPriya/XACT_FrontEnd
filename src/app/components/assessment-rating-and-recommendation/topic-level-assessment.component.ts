@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -14,6 +14,7 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {SaveRequest} from "../../types/saveRequest";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 export const saveAssessmentData = [{}]
@@ -32,6 +33,12 @@ export class parameterRequest {
   }
 }
 
+enum answerStatus {
+  Saving = 'Saving..',
+  Saved = 'Saved!'
+}
+
+
 let parameterRequests: parameterRequest[];
 
 @Component({
@@ -43,6 +50,7 @@ let parameterRequests: parameterRequest[];
 
 export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: number = 0
+  form: FormGroup
 
   @Input() answerResponse: AssessmentStructure
 
@@ -51,8 +59,15 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder) {
+  constructor(private appService: AppServiceService, private _fb: FormBuilder,private _snackBar: MatSnackBar) {
 
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action,{
+    verticalPosition: 'top',
+      panelClass: ['saveSnackbar'],
+      duration: 2000
+    })
   }
 
   public answerSaved: boolean = false;
@@ -81,6 +96,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         saveAssessmentData.push(saveRequest);
       }
     )
+    this.openSnackBar("Answers are being saved","Close");
     this.answerSaved = true
   }
 

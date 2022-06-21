@@ -94,7 +94,7 @@ export const appRoutes: Routes = [
     PopupConfirmationComponent,
     AssessmentMenuComponent,
     ParameterLevelRatingAndRecommendationComponent,
-    TopicLevelRatingAndRecommendationComponent
+    TopicLevelRatingAndRecommendationComponent,
   ],
   imports: [
     BrowserModule,

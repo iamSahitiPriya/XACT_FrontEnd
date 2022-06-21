@@ -147,7 +147,6 @@
 .parameterScoring{
   width: 80%;
 }
-
 #currentMaturityScore{
   display: flex;
   position: inherit;
@@ -158,4 +157,6 @@
   display: flex;
   width: 100%;
 }
-
+::ng-deep .saveSnackbar{
+  background-color: #6B9F78 !important;
+}
