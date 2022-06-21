@@ -8,6 +8,7 @@
   width: 95%;
   height: 100px;
 }
+
 textArea.mat-input-element {
   padding-bottom: 30px;
 }
@@ -15,20 +16,24 @@ textArea.mat-input-element {
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
+
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
   color: #00000099 !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
-.mat-form-field.mat-warn .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
+
+.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
+
 ::ng-deep .topicAssessment {
   overflow-y: scroll !important;
 }
 
-.scoreHeading{
+.scoreHeading {
   display: block;
   position: relative;
   padding: 12px;
@@ -43,18 +48,21 @@ textArea.mat-input-element {
   text-align: left;
   margin-top: 13px;
 }
-p{
+
+p {
   word-wrap: break-word;
   width: 1244px;
 }
+
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: 0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
 }
 
-.spacer{
+.spacer {
   flex: 1 1 auto;
 }
-.scoreReference{
+
+.scoreReference {
   height: 100px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
@@ -68,21 +76,11 @@ p{
   margin-top: 25px;
   margin-bottom: 22px;
   white-space: pre-wrap !important;
-  overflow-y:scroll;
-  border:1px solid transparent;
+  overflow-y: scroll;
+  border: 1px solid transparent;
 }
-.rating-disabled{
-  width: 76px;
-  height: 76px;
-  background: #F7F7F7 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 6px #00000029;
-  color: #6D9D79;
-  opacity: 1;
-  text-align: center;
-  cursor: pointer;
-  margin-right: 28px;
-}
-.rating{
+
+.rating-disabled {
   width: 76px;
   height: 76px;
   background: #F7F7F7 0% 0% no-repeat padding-box;
@@ -94,7 +92,19 @@ p{
   margin-right: 28px;
 }
 
-.image{
+.rating {
+  width: 76px;
+  height: 76px;
+  background: #F7F7F7 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 6px #00000029;
+  color: #6D9D79;
+  opacity: 1;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 28px;
+}
+
+.image {
   width: 26px;
   height: 25px;
   background: transparent url('src/assets/Path 3378/Path 3378.png') 0% 0% no-repeat padding-box;
@@ -105,14 +115,22 @@ p{
   margin-top: 16px
 }
 
-.parameterScoring{
+.topicScoring {
   width: 95%;
 }
-.rating-active{
+
+.rating-active {
   background: #6D9D79 0% 0% no-repeat padding-box;
   color: white;
 }
 
-.rating-active .image{
+.rating-active .image {
   background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
 }
+
+.reference {
+  padding-right: 1em;
+  text-align: justify;
+  text-justify: inter-word;
+}
+

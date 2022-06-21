@@ -80,8 +80,7 @@ export class CreateAssessmentsComponent implements OnInit {
           this.showError();
         }
       })
-    }
-    else
+    } else
       this.showFormError();
   }
 
@@ -93,6 +92,7 @@ export class CreateAssessmentsComponent implements OnInit {
       panelClass: ['error-snackBar']
     })
   }
+
   private showFormError() {
     this.errorDisplay.open("Please fill in all the required fields correctly.", "", {
       duration: 2000,
@@ -140,8 +140,7 @@ export class CreateAssessmentsComponent implements OnInit {
           this.showError();
         }
       })
-    }
-    else
+    } else
       this.showFormError();
   }
 
@@ -155,12 +154,14 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
   resetAssessment() {
-    this.assessment.assessmentName = this.assessmentCopy.assessmentName;
-    this.assessment.domain = this.assessmentCopy.domain;
-    this.assessment.industry = this.assessmentCopy.industry;
-    this.assessment.teamSize = this.assessmentCopy.teamSize;
-    this.assessment.organisationName = this.assessmentCopy.organisationName;
-    this.userEmails = this.assessmentCopy.users.join(",");
+    if (this.assessment && this.assessmentCopy) {
+      this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+      this.assessment.domain = this.assessmentCopy.domain;
+      this.assessment.industry = this.assessmentCopy.industry;
+      this.assessment.teamSize = this.assessmentCopy.teamSize;
+      this.assessment.organisationName = this.assessmentCopy.organisationName;
+      this.userEmails = this.assessmentCopy.users.join(",");
+    }
   }
 
   getUsersStructure(users: User[]) {
