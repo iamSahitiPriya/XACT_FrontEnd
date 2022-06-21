@@ -27,7 +27,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   templateUrl: './assessment-modules-details.component.html',
   styleUrls: ['./assessment-modules-details.component.css']
 })
-export class AssessmentModulesDetailsComponent implements OnInit{
+export class AssessmentModulesDetailsComponent implements OnInit {
   moduleName: string
   assessment: AssessmentStructure
   category: CategoryStructure[] = []
@@ -42,14 +42,22 @@ export class AssessmentModulesDetailsComponent implements OnInit{
 
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
-  answer:Observable<AssessmentStructure>
+  answer: Observable<AssessmentStructure>
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store:Store<AssessmentState>,private dialog: MatDialog) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>, private dialog: MatDialog) {
     this.answer = this.store.select(fromReducer.getAssessments)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.selectedIndex = tabChangeEvent.index;
+    this.scrollNext();
+  }
+
+  private scrollNext() {
+    if (this.selectedIndex > 3 && this.topics.length - this.selectedIndex > 1) {
+      const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex + 1));
+      element && element.scrollIntoView();
+    }
   }
 
   navigate(module: ModuleStructure) {
@@ -58,7 +66,7 @@ export class AssessmentModulesDetailsComponent implements OnInit{
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
@@ -68,8 +76,8 @@ export class AssessmentModulesDetailsComponent implements OnInit{
 
 
   private getAssessment() {
-    this.answer.subscribe((data) =>{
-      if(data !== undefined) {
+    this.answer.subscribe((data) => {
+      if (data !== undefined) {
         this.assessment = data
       }
     })
@@ -82,8 +90,8 @@ export class AssessmentModulesDetailsComponent implements OnInit{
     })
     valueEmitter.subscribe(data => {
       this.category = data
-    if (this.category.length > 0)
-      this.navigate(this.category[0].modules[0])
+      if (this.category.length > 0)
+        this.navigate(this.category[0].modules[0])
 
     })
   }
