@@ -9,6 +9,7 @@ import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {MatCardModule} from "@angular/material/card";
 import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 describe('ParameterLevelRatingAndRecommendationComponent', () => {
   let component: ParameterLevelRatingAndRecommendationComponent;
@@ -18,7 +19,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingAndRecommendationComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule, MatCardModule,
-      StoreModule.forRoot({})],
+       StoreModule.forRoot(reducers)],
       providers: [
         NgForm
       ],

@@ -19,6 +19,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 class MockDialog {
   open() {
@@ -63,7 +64,7 @@ describe('AssessmentMenuComponent', () => {
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
         ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,
-      StoreModule.forRoot({})],
+        StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: OKTA_AUTH, useValue: oktaAuth},

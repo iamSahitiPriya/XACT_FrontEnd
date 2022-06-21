@@ -27,6 +27,7 @@ import {Notes} from 'src/app/types/answerRequest';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
 import {ParameterRequest} from "../../types/parameterRequest";
 import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 class MockAppService {
 
@@ -79,7 +80,7 @@ describe('TopicLevelAssessmentComponent', () => {
       providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule,
-        StoreModule.forRoot({})]
+        StoreModule.forRoot(reducers)]
 
     })
       .compileComponents();

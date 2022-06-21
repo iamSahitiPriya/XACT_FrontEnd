@@ -61,7 +61,6 @@ export class AssessmentModulesDetailsComponent implements OnInit{
   ngOnInit(){
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
-    console.log(this.assessmentId)
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
     this.getCategories();
     this.getAssessment();

@@ -4,6 +4,7 @@ import {TopicLevelRatingAndRecommendationComponent} from './topic-level-rating-a
 import {MatCardModule} from "@angular/material/card";
 import {StoreModule} from "@ngrx/store";
 import {of} from "rxjs";
+import {reducers} from "../../reducers/reducers";
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
   let component: TopicLevelRatingAndRecommendationComponent;
@@ -12,7 +13,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRatingAndRecommendationComponent],
-      imports:[MatCardModule,StoreModule.forRoot({})]
+      imports:[MatCardModule, StoreModule.forRoot(reducers)]
     })
       .compileComponents();
   });
