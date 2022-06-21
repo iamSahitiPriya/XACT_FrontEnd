@@ -49,13 +49,18 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    const direction = this.selectedIndex - tabChangeEvent.index;
     this.selectedIndex = tabChangeEvent.index;
-    this.scrollNext();
+    this.scrollNext(direction);
   }
 
-  private scrollNext() {
-    if (this.selectedIndex > 3 && this.topics.length - this.selectedIndex > 1) {
+  private scrollNext(direction: number) {
+    if (direction < 0 && this.topics.length - this.selectedIndex > 1) {
       const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex + 1));
+      element && element.scrollIntoView();
+    }
+    else if (direction > 0 && this.selectedIndex > 0) {
+      const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex - 1));
       element && element.scrollIntoView();
     }
   }
