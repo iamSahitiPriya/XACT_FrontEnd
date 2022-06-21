@@ -79,7 +79,7 @@ describe('TopicLevelAssessmentComponent', () => {
       providers: [{provide: AppServiceService, useClass: MockAppService},
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, CommonModule,
-        StoreModule.forRoot({})],
+        StoreModule.forRoot({})]
 
     })
       .compileComponents();
@@ -373,17 +373,32 @@ describe('TopicLevelAssessmentComponent', () => {
     }
     expect(fromReducer.assessmentReducer({},{type:"[ASSESSMENT STRUCTURE] Get assessment"})).toStrictEqual(dummyResponse)
   });
-  // it("should dispatch data to the store", () => {
-  //   component.topicRequest = {
-  //     parameterLevel: [{
-  //       answerRequest: [{questionId: 1, answer: ""}],
-  //       parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
-  //     }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
-  //   }
-  //   let expectedAnswer = {"answerResponseList": [{"answer": "answer1", "questionId": 1}], "assessmentId": 5, "assessmentName": "abc1", "assessmentStatus": "Active", "assessments": undefined, "domain": "", "industry": "", "organisationName": "Thoughtworks", "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}], "teamSize": 0, "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}], "updatedAt": 1654664982698, "users": []}
-  //   component.save()
-  //   expect(fromReducer.getAssessments).toBe(undefined)
-  // });
+  it("should dispatch data to the store", () => {
+    component.topicRequest = {
+      parameterLevel: [{
+        answerRequest: [{questionId: 1, answer: ""}],
+        parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+    }
+    component.topicInput = {
+      topicId: 0,
+      topicName: "",
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      references: [],
+      module: 1,
+      assessmentLevel: ""
+    }
+    component.save()
+    expect(component.answerResponse).toBe(undefined)
+    let expectedAnswer = {"answerResponseList": [{"answer": "answer1", "questionId": 1}], "assessmentId": 5, "assessmentName": "abc1", "assessmentStatus": "Active", "assessments": undefined, "domain": "", "industry": "", "organisationName": "Thoughtworks", "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}], "teamSize": 0, "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}], "updatedAt": 1654664982698, "users": []}
+    expect(fromReducer.assessmentReducer(expectedAnswer,{type:"Assessment Updated data"})).toStrictEqual(expectedAnswer)
+  });
+  it("should handle errors", () => {
+    let expectedAnswer = {"answerResponseList": [{"answer": "answer1", "questionId": 1}], "assessmentId": 5, "assessmentName": "abc1", "assessmentStatus": "Active", "assessments": undefined, "domain": "", "industry": "", "organisationName": "Thoughtworks", "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}], "teamSize": 0, "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}], "updatedAt": 1654664982698, "users": []}
+    component.save()
+    let expectedErrorHandler = {errorMessage:undefined}
+    expect(fromReducer.assessmentReducer({},{type:"Error message"})).toStrictEqual(expectedErrorHandler)
+  });
 });
 
 

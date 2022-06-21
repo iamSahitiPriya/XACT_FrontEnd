@@ -67,11 +67,21 @@ class MockAppService {
     return of(this.ASSESSMENT_DATA)
   }
 }
+class MockDialog {
+  open() {
+    return {
+      afterClosed: () => of({})
+    }
+  }
 
+  close() {
+  }
+}
 describe('AssessmentsComponent', () => {
   let component: AssessmentsComponent;
   let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentsComponent>;
+  let matDialog: any
 
   beforeEach(async () => {
 
@@ -86,11 +96,9 @@ describe('AssessmentsComponent', () => {
         {
           provide: AppServiceService,
           useClass: MockAppService
-        },{
-          provide: MatDialog,useValue: {}
         },
         {provide: OKTA_AUTH, useValue: oktaAuth},
-
+        {provide: MatDialog, useClass: MockDialog}
       ]
     })
       .compileComponents();
@@ -102,6 +110,8 @@ describe('AssessmentsComponent', () => {
     fixture = TestBed.createComponent(AssessmentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    matDialog = fixture.debugElement.injector.get(MatDialog)
+
   });
 
   it('should create', () => {
@@ -149,5 +159,11 @@ describe('AssessmentsComponent', () => {
     const dummyAssessmentName = "hello123"
     expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
     expect(component.router.navigateByUrl).toHaveBeenCalledWith('assessmentModule', {state: {assessmentName: dummyAssessmentName}})
+  });
+  it("should open assessment", () => {
+    jest.spyOn(matDialog,"open")
+    component.openAssessment("")
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
   });
 });

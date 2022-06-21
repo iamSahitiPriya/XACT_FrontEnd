@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TopicLevelRatingAndRecommendationComponent} from './topic-level-rating-and-recommendation.component';
 import {MatCardModule} from "@angular/material/card";
 import {StoreModule} from "@ngrx/store";
+import {of} from "rxjs";
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
   let component: TopicLevelRatingAndRecommendationComponent;
@@ -37,5 +38,17 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.assessmentStatus = "Active"
     component.setRating("3")
     expect(topicRatingAndRecommendation.rating).toEqual("3");
+  });
+  it("should deselect rating", () => {
+    const topicRatingAndRecommendation = {
+      rating: "3",
+      recommendation: "some text",
+      topicId: 1
+    }
+    jest.spyOn(component, "setRating");
+    component.topicRatingAndRecommendation = topicRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.setRating("3")
+    expect(topicRatingAndRecommendation.rating).toEqual(undefined);
   });
 });

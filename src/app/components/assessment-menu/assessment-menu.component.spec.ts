@@ -23,7 +23,7 @@ import {StoreModule} from "@ngrx/store";
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of({})
+      afterClosed: () => of(true)
     }
   }
 
@@ -107,6 +107,8 @@ describe('AssessmentMenuComponent', () => {
     component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
+    jest.spyOn(matDialog,'open')
+    jest.spyOn(component,'finishAssessment')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()

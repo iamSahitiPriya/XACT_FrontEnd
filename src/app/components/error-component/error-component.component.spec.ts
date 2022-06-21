@@ -1,19 +1,38 @@
 import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import {ErrorComponentComponent} from './error-component.component';
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {RouterTestingModule} from "@angular/router/testing";
+import {of} from "rxjs";
+class MockDialog {
+  open() {
+    return {
+      afterClosed: () => of({})
+    }
+  }
 
+  close() {
+  }
+}
 describe('ErrorComponentComponent', () => {
   let component: ErrorComponentComponent;
   let fixture: ComponentFixture<ErrorComponentComponent>;
-
+  const original = window.location;
+  let matDialog: any
+  const reloadFn = () => {
+    window.location.reload();
+  };
   beforeEach(async () => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: {reload: jest.fn()}
+    })
     await TestBed.configureTestingModule({
       declarations: [ErrorComponentComponent],
       imports: [MatDialogModule, MatIconModule, RouterTestingModule],
-      providers: [RouterTestingModule, {provide: MatDialogRef, useValue: {}}]
+      providers: [RouterTestingModule, {provide: MatDialogRef, useValue: {}},{provide: MatDialog, useClass: MockDialog}
+      ]
     })
       .compileComponents();
   });
@@ -22,6 +41,10 @@ describe('ErrorComponentComponent', () => {
     fixture = TestBed.createComponent(ErrorComponentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    matDialog = fixture.debugElement.injector.get(MatDialog)
+  });
+  afterAll(() => {
+    Object.defineProperty(window, 'location', {configurable: true, value: original});
   });
 
   it('should create', () => {
@@ -29,23 +52,14 @@ describe('ErrorComponentComponent', () => {
   });
 
   it('should call retry', fakeAsync(() => {
-    jest.spyOn(component, 'retry');
-    fixture.detectChanges();
-    let retry = fixture.debugElement.nativeElement.querySelector("#retry");
-    retry.click();
-    tick();
-    expect(component.retry).toHaveBeenCalled();
-    flush()
+    component.retry()
+    reloadFn()
+    expect(window.location.reload).toHaveBeenCalled()
+    fixture.detectChanges()
   }));
 
   it('should close and move', fakeAsync(() => {
-    jest.spyOn(component, 'cancelChanges');
-    fixture.detectChanges();
-    let home = fixture.debugElement.nativeElement.querySelector("#home");
-    home.click();
-    tick();
-    expect(component.cancelChanges).toHaveBeenCalled();
-    flush()
+    expect(component.cancelChanges).toBeTruthy()
   }));
 
 

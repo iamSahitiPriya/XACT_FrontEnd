@@ -48,4 +48,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.setRating("3")
     expect(parameterRatingAndRecommendation.rating).toEqual("3");
   });
+  it("should deselect rating", () => {
+    const parameterRatingAndRecommendation = {
+      rating: "2",
+      recommendation: "some text",
+      parameterId: 1
+    }
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.setRating("2")
+    expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
+  });
 });
