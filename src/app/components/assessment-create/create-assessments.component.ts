@@ -94,8 +94,8 @@ export class CreateAssessmentsComponent implements OnInit {
     })
   }
   private showFormError() {
-    this.errorDisplay.open("Please fill the form correctly.", "", {
-      duration: 3000,
+    this.errorDisplay.open("Please fill in all the required fields correctly.", "", {
+      duration: 2000,
       horizontalPosition: "center",
       verticalPosition: "top",
       panelClass: ['error-snackBar']
