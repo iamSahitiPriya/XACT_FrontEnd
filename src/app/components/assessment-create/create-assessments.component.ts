@@ -24,7 +24,6 @@ import cloneDeep from "lodash/cloneDeep";
 export class CreateAssessmentsComponent implements OnInit {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
-  submitted: boolean = false;
   loggedInUserEmail: string;
   loading: boolean;
   userEmails: string = '';
@@ -59,10 +58,9 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
   saveAssessment() {
-    this.submitted = true;
-    const users = this.getValidUsers();
-
     if (this.createAssessmentForm.valid) {
+      const users = this.getValidUsers();
+      this.assessment.users = this.getUsersStructure(users);
       this.loading = true
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
@@ -83,13 +81,23 @@ export class CreateAssessmentsComponent implements OnInit {
         }
       })
     }
+    else
+      this.showFormError();
   }
 
   private showError() {
-    this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
-      duration: 4000,
+    this.errorDisplay.open("Server error. Please try again after sometime.", "", {
+      duration: 3000,
       horizontalPosition: "center",
-      verticalPosition: "bottom",
+      verticalPosition: "top",
+      panelClass: ['error-snackBar']
+    })
+  }
+  private showFormError() {
+    this.errorDisplay.open("Please fill the form correctly.", "", {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
       panelClass: ['error-snackBar']
     })
   }
@@ -103,16 +111,16 @@ export class CreateAssessmentsComponent implements OnInit {
 
     const users: User[] = [];
     userData.forEach((email) => {
-      users.push({email});
+      if (email && email.length > 0)
+        users.push({email});
     });
     return users;
   }
 
   updateAssessment() {
-    this.submitted = true;
-    const users = this.getValidUsers();
-
     if (this.createAssessmentForm.valid) {
+      const users = this.getValidUsers();
+      this.assessment.users = this.getUsersStructure(users);
       this.loading = true
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
@@ -133,6 +141,8 @@ export class CreateAssessmentsComponent implements OnInit {
         }
       })
     }
+    else
+      this.showFormError();
   }
 
   private closePopUp() {
@@ -151,6 +161,15 @@ export class CreateAssessmentsComponent implements OnInit {
     this.assessment.teamSize = this.assessmentCopy.teamSize;
     this.assessment.organisationName = this.assessmentCopy.organisationName;
     this.userEmails = this.assessmentCopy.users.join(",");
+  }
+
+  getUsersStructure(users: User[]) {
+    const userStructure: string[] = [];
+    users.forEach((user) => {
+      if (user.email !== this.loggedInUserEmail)
+        userStructure.push(user.email);
+    });
+    return userStructure;
   }
 
 }

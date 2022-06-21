@@ -6,7 +6,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .error-snackBar{
-  margin-bottom: 20% !important;
+  background-color: #f15f79;
+  color: whitesmoke;
 }
 
 .backdrop-bg-opaque {
