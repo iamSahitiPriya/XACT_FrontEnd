@@ -24,6 +24,7 @@
     <textarea id="recommendationElement_topic{{topicRecommendation}}"
               name="recommendationText_topic{{topicRecommendation}}" matInput #recommendationElement
               [(ngModel)]="topicRatingAndRecommendation.recommendation"
+              [formControl]="recommendation"
               cdkTextareaAutosize
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="100"

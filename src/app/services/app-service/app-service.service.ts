@@ -10,6 +10,12 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {SaveRequest} from "../../types/saveRequest";
+import {Notes} from "../../types/answerRequest";
+import {AssessmentNotes} from "../../types/assessmentNotes";
+import {TopicRecommendation} from "../../types/topicRecommendation";
+import {ParameterRecommendation} from "../../types/parameterRecommendation";
+
+
 
 
 @Injectable({
@@ -51,9 +57,21 @@ export class AppServiceService {
     return this.http.get<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
   }
 
-
   reopenAssessment(assessmentId: number): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
-
+  saveNotes(assessmentNotes: AssessmentNotes): Observable<any>  {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId +"/"+ assessmentNotes.questionId , assessmentNotes.notes, {'headers': headers})
+  }
+  saveTopicRecommendation(topicRecommendation:TopicRecommendation): Observable<any>{
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId +"/"+ topicRecommendation.topicId , topicRecommendation.recommendation, {'headers': headers})
+  }
+  saveParameterRecommendation(parameterRecommendation:ParameterRecommendation): Observable<any>{
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterRecommendation.assessmentId +"/"+ parameterRecommendation.parameterId , parameterRecommendation.recommendation, {'headers': headers})
+  }
 }
+
+
