@@ -4,7 +4,6 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import * as fromReducer from '../../reducers/assessment.reducer';
-import * as fromActions from '../../actions/assessment_data.actions'
 import {parameterRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
@@ -15,13 +14,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
-import {
-  TopicLevelRatingAndRecommendationComponent
-} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 import {ParameterStructure} from 'src/app/types/parameterStructure';
 import {Notes} from 'src/app/types/answerRequest';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';

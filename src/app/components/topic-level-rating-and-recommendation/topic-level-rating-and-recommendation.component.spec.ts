@@ -3,7 +3,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TopicLevelRatingAndRecommendationComponent} from './topic-level-rating-and-recommendation.component';
 import {MatCardModule} from "@angular/material/card";
 import {StoreModule} from "@ngrx/store";
-import {of} from "rxjs";
 import {reducers} from "../../reducers/reducers";
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {

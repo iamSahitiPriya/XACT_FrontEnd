@@ -1,7 +1,5 @@
 import {AssessmentStructure} from "../types/assessmentStructure";
-import { createAction, props } from '@ngrx/store';
-import {TopicRequest} from "../types/topicRequest";
-import {TopicStructure} from "../types/topicStructure";
+import {createAction, props} from '@ngrx/store';
 
 export const getAssessmentData = createAction('[ASSESSMENT STRUCTURE] Get assessment',props<{payload:AssessmentStructure}>())
 
