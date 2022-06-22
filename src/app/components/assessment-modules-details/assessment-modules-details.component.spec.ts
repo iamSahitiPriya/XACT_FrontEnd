@@ -3,6 +3,7 @@
  */
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 
 import {AssessmentModulesDetailsComponent} from './assessment-modules-details.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -29,6 +30,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {reducers} from "../../reducers/reducers";
 
 class MockAppService {
   public getCategories() {
@@ -125,7 +127,7 @@ describe('AssessmentModulesDetailsComponent', () => {
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
-        ])],
+        ]),  StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: OKTA_AUTH, useValue: oktaAuth},

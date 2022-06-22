@@ -11,6 +11,10 @@ import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserModule} from "@angular/platform-browser";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -25,7 +29,8 @@ describe('AssessmentQuestionComponent', () => {
       declarations: [AssessmentQuestionComponent],
 
       imports: [HttpClientTestingModule,MatFormFieldModule,MatInputModule,BrowserAnimationsModule,NoopAnimationsModule,CommonModule,
-      BrowserModule, CommonModule],
+        StoreModule.forRoot(reducers),
+      BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
 
 
     })

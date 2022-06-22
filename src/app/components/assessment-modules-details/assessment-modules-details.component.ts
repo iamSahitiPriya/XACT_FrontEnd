@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
@@ -13,6 +13,11 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {ActivatedRoute} from "@angular/router";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import * as fromActions from "../../actions/assessment_data.actions";
+import {MatDialog} from "@angular/material/dialog";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -22,7 +27,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   templateUrl: './assessment-modules-details.component.html',
   styleUrls: ['./assessment-modules-details.component.css']
 })
-export class AssessmentModulesDetailsComponent {
+export class AssessmentModulesDetailsComponent implements OnInit{
   moduleName: string
   assessment: AssessmentStructure
   category: CategoryStructure[] = []
@@ -37,8 +42,10 @@ export class AssessmentModulesDetailsComponent {
 
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
+  answer:Observable<AssessmentStructure>
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store:Store<AssessmentState>,private dialog: MatDialog) {
+    this.answer = this.store.select(fromReducer.getAssessments)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -48,27 +55,24 @@ export class AssessmentModulesDetailsComponent {
   navigate(module: ModuleStructure) {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
+
   }
 
-  ngOnInit(): void {
+  ngOnInit(){
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
+    this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
     this.getCategories();
     this.getAssessment();
   }
 
 
   private getAssessment() {
-    this.appService.getAssessment(this.assessmentId).subscribe((_data) => {
-        this.assessment = _data;
-        this.setAssessment(this.assessment)
-        this.receiveStatus(this.assessment.assessmentStatus);
+    this.answer.subscribe((data) =>{
+      if(data !== undefined) {
+        this.assessment = data
       }
-    )
-  }
-
-  private setAssessment(assessment: AssessmentStructure) {
-    this.assessment = assessment
+    })
   }
 
   private getCategories() {
@@ -78,13 +82,9 @@ export class AssessmentModulesDetailsComponent {
     })
     valueEmitter.subscribe(data => {
       this.category = data
-      if (this.category.length > 0)
-        this.navigate(this.category[0].modules[0])
+    if (this.category.length > 0)
+      this.navigate(this.category[0].modules[0])
+
     })
   }
-
-  receiveStatus(assessmentStatus: string) {
-    this.assessment.assessmentStatus = assessmentStatus;
-  }
-
 }

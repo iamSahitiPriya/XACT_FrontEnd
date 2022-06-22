@@ -64,7 +64,7 @@ export class AppServiceService {
   }
   saveNotes(assessmentNotes: AssessmentNotes): Observable<any>  {
     const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId +"/"+ assessmentNotes.questionId , assessmentNotes.notes, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId +"/"+ assessmentNotes.questionId , assessmentNotes.notes, {'headers': headers})
   }
   saveTopicRecommendation(topicRecommendation:TopicRecommendation): Observable<any>{
     const headers = {'content-type': 'application/json'}
@@ -82,6 +82,11 @@ export class AppServiceService {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId +"/"+ parameterRating.parameterId , parameterRating.rating, {'headers': headers})
   }
+
+  updateAssessment(assessmentId: number, assessmentdata: AssessmentRequest): Observable<AssessmentStructure> {
+    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentdata,);
+  }
+
 
 }
 

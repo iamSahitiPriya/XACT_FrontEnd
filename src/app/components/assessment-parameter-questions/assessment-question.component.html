@@ -8,17 +8,13 @@
           <mat-label>Notes</mat-label>
           <textarea matInput name="textarea{{questionDetails.questionId}}" id="assessmentAnswer{{questionDetails.questionId}}"
                     [formControl]="note"
-                     [(ngModel)]="answerInput.answer"
+                    [(ngModel)]="answerInput.answer"
                     cdkTextareaAutosize class="textArea1"
                     cdkAutosizeMinRows="1"
                     cdkAutosizeMaxRows="100"
-                    ></textarea>
+                    maxlength="10000"
+                    [readonly]="getStatus()"></textarea>
         </mat-form-field>
   </form>
 </div>
 
-<!--<div class="container">-->
-<!--  <div>Answers</div>-->
-<!--  <textarea [formControl]="note"></textarea>-->
-<!--&lt;!&ndash;  <div class="save-indicator">{{ saveIndicator$ | async }}</div>&ndash;&gt;-->
-<!--</div>-->

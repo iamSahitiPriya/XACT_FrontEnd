@@ -11,7 +11,10 @@
       <app-search [dataSource]="dataSource"></app-search>
     </div>
     <div class="col-md-2 col-sm-4">
-      <app-create-assessments></app-create-assessments>
+      <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
+      <ng-template #content>
+        <app-create-assessments [assessment]="blankAssessment"></app-create-assessments>
+      </ng-template>
     </div>
   </div>
 </div>

@@ -8,20 +8,14 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {
-  concat,
-  debounceTime, defer, delay,
-  distinctUntilChanged, empty, filter, mapTo,
-  mergeMap,
-  Observable, of,
-  share,
-  Subject,
-  switchMap,
-  takeUntil,
-  tap
-} from "rxjs";
+  debounceTime, Observable} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
-import {saveAssessmentData} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
-
+import {AssessmentStructure} from "../../types/assessmentStructure";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
+import * as fromActions from "../../actions/assessment_data.actions";
 
 export const assessmentData = [{}]
 
@@ -38,10 +32,10 @@ enum FormStatus {
   styleUrls: ['./assessment-question.component.css']
 })
 
-export class AssessmentQuestionComponent implements OnInit {
+export class AssessmentQuestionComponent implements OnInit{
   @Input()
   questionDetails: QuestionStructure;
-  @Input()
+
   assessmentStatus: string;
   @Input()
   answerInput: Notes;
@@ -55,10 +49,12 @@ export class AssessmentQuestionComponent implements OnInit {
 
 
   formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
+  private cloneAnswerResponse: AssessmentStructure;
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar) {
-
+  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar,private store:Store<AssessmentState>) {
+    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
+
 
   note = new FormControl("");
   saveIndicator$: Observable<string>;
@@ -66,48 +62,66 @@ export class AssessmentQuestionComponent implements OnInit {
   assessmentNotes: AssessmentNotes ={
     assessmentId:0, questionId: 1 , notes:" "
   } ;
+  answerNote: AssessmentAnswerResponse = { questionId:1, answer:' '};
+
+  answerResponse1: Observable<AssessmentStructure>
+  answerResponse: AssessmentStructure
 
   ngOnInit() {
+    this.answerResponse1.subscribe(data =>{
+      if(data !== undefined) {
+        this.answerResponse=data
+        this.assessmentStatus = data.assessmentStatus
+      }
+    })
+
     this.note.valueChanges.pipe(
-      debounceTime(100)
+      debounceTime(2000)
     ).subscribe({next: value => {
       this.assessmentNotes.assessmentId=this.assessmentId
       this.assessmentNotes.questionId= this.questionDetails.questionId
-        if(value!="") {
+        this.answerNote.questionId=this.questionDetails.questionId
+        if(value !== "") {
           this.assessmentNotes.notes = value
+          this.answerNote.answer=value
+          this.sendAnswer(this.answerNote);
         }
         this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
             assessmentData.push(this.assessmentNotes);
           }
         )
-        console.log(this.assessmentNotes)
+
       }});
 
-
-    // const savesCompleted$ = inputToSave$.pipe(
-    //   mergeMap(value => this.appService.(value)),
-    //   tap(() => this.saveCount--),
-    //   filter(() => !this.saveCount),
-    //   mapTo(
-    //     concat(
-    //       of('Salvo!'),
-    //       empty().pipe(delay(2000)),
-    //       defer(() =>
-    //         of(`Last  Saved: ${(Date.now(), 'dd/MM/yyyy hh:mm')}`)
-    //       )
-    //     )
-    //   )
-    // );
-
-    // this.saveIndicator$ = merge(savesInProgress$, savesCompleted$).pipe(
-    //   switchAll(),
-    //   startWith('Form Saved')
-    // );
-
-    // inputToSave$.subscribe(this.appService.saveNotes);
   }
 
+  private sendAnswer(answerNote: AssessmentAnswerResponse) {
+    let index = 0;
+    let updatedAnswerList = [];
+    updatedAnswerList.push(answerNote);
+    this.cloneAnswerResponse = Object.assign({},this.answerResponse)
+    if(this.cloneAnswerResponse.answerResponseList!=undefined){
+      index=this.cloneAnswerResponse.answerResponseList.findIndex(eachQuestion => eachQuestion.questionId === answerNote.questionId)
+      if(index !== -1){
+        this.cloneAnswerResponse.answerResponseList[index].answer = answerNote.answer
+      }
+      else{
+        this.cloneAnswerResponse.answerResponseList.push(answerNote)
+      }
+    }
+    else{
+      this.cloneAnswerResponse.answerResponseList=updatedAnswerList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
 
-
+  getStatus() {
+    if(this.assessmentStatus === 'Completed'){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 }
 

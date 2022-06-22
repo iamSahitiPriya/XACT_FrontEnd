@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -15,6 +15,13 @@ import {SaveRequest} from "../../types/saveRequest";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Store} from '@ngrx/store';
+import * as fromReducer from '../../reducers/assessment.reducer';
+import * as fromActions from '../../actions/assessment_data.actions'
+import {AssessmentState} from "../../reducers/app.states";
+import {Observable} from "rxjs";
+import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
+import { format } from 'date-fns';
 
 
 export const saveAssessmentData = [{}]
@@ -52,14 +59,16 @@ export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: number = 0
   form: FormGroup
 
-  @Input() answerResponse: AssessmentStructure
-
+  answerResponse: AssessmentStructure
+  answerResponse1: Observable<AssessmentStructure>
   topicRequest: TopicRequest = {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
+  private cloneAnswerResponse: AssessmentStructure;
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder,private _snackBar: MatSnackBar) {
+  constructor(private _snackBar: MatSnackBar,@Optional() private appService: AppServiceService,@Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
+    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
 
   }
   openSnackBar(message: string, action: string) {
@@ -72,10 +81,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   public answerSaved: boolean = false;
   public makeDisable = false
+
   @Input() selectedIndex: number
-  @Input() assessmentId: number
+  assessmentId: number
   @Input() topicInput: TopicStructure;
-  @Input() assessmentStatus: string;
+  assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
     rating: "",
@@ -84,23 +94,53 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAssessmentDetails();
-    this.getAverageRating();
+
+    this.answerResponse1.subscribe(data => {
+      if (data !== undefined) {
+        this.answerResponse = {...data}
+        this.assessmentId = this.answerResponse.assessmentId
+        this.assessmentStatus = this.answerResponse.assessmentStatus
+      }
+    })
+    this.getAssessment()
+    this.getAverageRating()
   }
 
   save() {
+    let answers: AssessmentAnswerResponse[] = []
+    let parameterRatingAndRecomm: ParameterRatingAndRecommendation[] = []
+    let topicRatingAndRecomm: TopicRatingAndRecommendation[] = []
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
+        if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
+          topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
+        }
+        for (let eachParameter in saveRequest.topicRequest.parameterLevel) {
+          if (saveRequest.topicRequest.parameterLevel[Number(eachParameter)].parameterRatingAndRecommendation !== undefined)
+            parameterRatingAndRecomm.push(saveRequest.topicRequest.parameterLevel[Number(eachParameter)].parameterRatingAndRecommendation)
+          for (let eachAnswer in saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest) {
+            if (saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest[Number(eachAnswer)] !== undefined) {
+              answers.push(<AssessmentAnswerResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest[Number(eachAnswer)])
+            }
+          }
+        }
+        this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
       }
     )
-    this.openSnackBar("Answers are being saved","Close");
+    this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`,"Close");
     this.answerSaved = true
   }
 
-  private getAssessmentDetails() {
+
+  private getAssessment() {
+    this.topicParameterValidation()
+  }
+
+
+  private topicParameterValidation() {
     if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
         this.getParameterRequest(this.topicInput.parameters[parameter])
@@ -197,6 +237,29 @@ export class TopicLevelAssessmentComponent implements OnInit {
     }
   }
 
+  private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
+    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
+    if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
+      this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
+        eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
+    }else{
+      this.cloneAnswerResponse.answerResponseList = answers
+    }
+    if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
+      this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>
+        eachTopic['topicId'] === eachAnswerQuestion['topicId'])).concat(topic)
+    }else{
+      this.cloneAnswerResponse.topicRatingAndRecommendation = topic
+    }
+    if (parameter[0] !== undefined && this.cloneAnswerResponse.parameterRatingAndRecommendation !== undefined) {
+      this.cloneAnswerResponse.parameterRatingAndRecommendation = this.cloneAnswerResponse.parameterRatingAndRecommendation.filter(eachParameter => !parameter.find(eachAnswerQuestion =>
+        eachParameter['parameterId'] === eachAnswerQuestion['parameterId'])).concat(parameter)
+    }else{
+      this.cloneAnswerResponse.parameterRatingAndRecommendation = parameter
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
+
   private getAverageRating() {
     let ratingSum = 0
     let ratingNumber = 0
@@ -211,4 +274,5 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.averageRating = ratingSum / ratingNumber;
   }
 }
+
 

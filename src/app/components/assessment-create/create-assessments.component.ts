@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
@@ -12,8 +12,8 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
-
-export const assessmentData = [{}]
+import {AssessmentStructure} from "../../types/assessmentStructure";
+import cloneDeep from "lodash/cloneDeep";
 
 @Component({
   selector: 'app-create-assessments',
@@ -24,16 +24,14 @@ export const assessmentData = [{}]
 export class CreateAssessmentsComponent implements OnInit {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
-  assessmentName: string = '';
-  organizationName: string = '';
-  domain: string = '';
-  industry: string = '';
-  teamSize: number;
-  email: string = '';
-  submitted: boolean = false;
   loggedInUserEmail: string;
   loading: boolean;
   userEmails: string = '';
+
+  @Input()
+  assessment: AssessmentStructure;
+  assessmentCopy: AssessmentStructure;
+
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
               private formBuilder: FormBuilder, private errorDisplay: MatSnackBar) {
@@ -43,11 +41,7 @@ export class CreateAssessmentsComponent implements OnInit {
     return this.createAssessmentForm.controls;
   }
 
-  emailList: string [];
-
-  ngOnInit(): void {
-    this.emailList = [];
-
+  async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
         assessmentNameValidator: ['', Validators.required],
@@ -58,58 +52,54 @@ export class CreateAssessmentsComponent implements OnInit {
         emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
       }
     )
-  }
-
-  async openAssessment(content: any) {
-    this.createAssessmentForm.reset()
-    this.assessmentName = ""
-    this.organizationName = ""
-    this.domain = ""
-    this.industry = ""
-
-    assessmentData.splice(0, assessmentData.length)
-
-    const dialogRef = this.dialog.open(content, {
-      width: '630px', height: '650px',
-    })
-    dialogRef.afterClosed().subscribe(_result => {
-      assessmentData.splice(0, assessmentData.length)
-      dialogRef.close()
-    });
-    const oktaLoggedInUser = await this.oktaAuth.getUser();
-    this.loggedInUserEmail = oktaLoggedInUser.email || "No value"
-  }
-
-  closePopUp(): void {
-    this.dialog.closeAll()
+    this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
+    this.userEmails = this.assessment.users.join(",");
+    this.assessmentCopy = cloneDeep(this.assessment);
   }
 
   saveAssessment() {
-    this.submitted = true;
-    const users = this.getValidUsers();
-
     if (this.createAssessmentForm.valid) {
+      const users = this.getValidUsers();
+      this.assessment.users = this.getUsersStructure(users);
       this.loading = true
       const assessmentRequest: AssessmentRequest = {
-        assessmentName: this.assessmentName, organisationName: this.organizationName,
-        domain: this.domain, industry: this.industry, teamSize: this.teamSize, users: users
+        assessmentName: this.assessment.assessmentName,
+        organisationName: this.assessment.organisationName,
+        domain: this.assessment.domain,
+        industry: this.assessment.industry,
+        teamSize: this.assessment.teamSize,
+        users: users
       };
       this.appService.addAssessments(assessmentRequest).subscribe({
         next: (_data) => {
-          assessmentData.push(assessmentRequest);
+          this.loading = false
           window.location.reload()
         },
         error: (_error) => {
           this.loading = false
-          this.errorDisplay.open("Error in server. Please try again after sometime.", "", {
-            duration: 4000,
-            horizontalPosition: "center",
-            verticalPosition: "bottom",
-            panelClass: ['error-snackBar']
-          })
+          this.showError();
         }
       })
     }
+    else
+      this.showFormError();
+  }
+
+  private showError() {
+    this.errorDisplay.open("Server error. Please try again after sometime.", "", {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      panelClass: ['error-snackBar']
+    })
+  }
+  private showFormError() {
+    this.errorDisplay.open("Please fill in all the required fields correctly.", "", {
+      duration: 2000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      panelClass: ['error-snackBar']
+    })
   }
 
   private getValidUsers() {
@@ -121,8 +111,65 @@ export class CreateAssessmentsComponent implements OnInit {
 
     const users: User[] = [];
     userData.forEach((email) => {
-      users.push({email});
+      if (email && email.length > 0)
+        users.push({email});
     });
     return users;
   }
+
+  updateAssessment() {
+    if (this.createAssessmentForm.valid) {
+      const users = this.getValidUsers();
+      this.assessment.users = this.getUsersStructure(users);
+      this.loading = true
+      const assessmentRequest: AssessmentRequest = {
+        assessmentName: this.assessment.assessmentName,
+        organisationName: this.assessment.organisationName,
+        domain: this.assessment.domain,
+        industry: this.assessment.industry,
+        teamSize: this.assessment.teamSize,
+        users: users
+      };
+      this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).subscribe({
+        next: (_data) => {
+          this.loading = false
+          this.closePopUp();
+        },
+        error: (_error) => {
+          this.loading = false
+          this.showError();
+        }
+      })
+    }
+    else
+      this.showFormError();
+  }
+
+  private closePopUp() {
+    this.dialog.closeAll();
+  }
+
+  close() {
+    this.resetAssessment();
+    this.closePopUp();
+  }
+
+  resetAssessment() {
+    this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+    this.assessment.domain = this.assessmentCopy.domain;
+    this.assessment.industry = this.assessmentCopy.industry;
+    this.assessment.teamSize = this.assessmentCopy.teamSize;
+    this.assessment.organisationName = this.assessmentCopy.organisationName;
+    this.userEmails = this.assessmentCopy.users.join(",");
+  }
+
+  getUsersStructure(users: User[]) {
+    const userStructure: string[] = [];
+    users.forEach((user) => {
+      if (user.email !== this.loggedInUserEmail)
+        userStructure.push(user.email);
+    });
+    return userStructure;
+  }
+
 }

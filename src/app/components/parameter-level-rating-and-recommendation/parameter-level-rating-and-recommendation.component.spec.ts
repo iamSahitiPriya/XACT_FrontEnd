@@ -8,6 +8,11 @@ import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {MatCardModule} from "@angular/material/card";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
+import {HttpClientModule} from "@angular/common/http";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 describe('ParameterLevelRatingAndRecommendationComponent', () => {
   let component: ParameterLevelRatingAndRecommendationComponent;
@@ -16,7 +21,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingAndRecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule, MatCardModule],
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule,MatSnackBarModule, MatCardModule,HttpClientTestingModule,
+       StoreModule.forRoot(reducers)],
       providers: [
         NgForm
       ],
@@ -45,5 +51,17 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.assessmentStatus = "Active"
     component.setRating("3")
     expect(parameterRatingAndRecommendation.rating).toEqual("3");
+  });
+  it("should deselect rating", () => {
+    const parameterRatingAndRecommendation = {
+      rating: "2",
+      recommendation: "some text",
+      parameterId: 1
+    }
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.setRating("2")
+    expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
   });
 });

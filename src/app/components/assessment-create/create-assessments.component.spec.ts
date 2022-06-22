@@ -24,6 +24,7 @@ import {User} from "../../types/user";
 import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 
 class MockDialog {
@@ -49,12 +50,19 @@ class MockAppService {
     "updatedAt": 1650886511968
   };
 
-
   mockedUser: User = {
     email: "sam@gmail.com",
     role: ""
   }
   public addAssessments(assessmentDataPayload: AssessmentRequest ): Observable<any> {
+    if(assessmentDataPayload.assessmentName === "xact"){
+      return of(this.assessmentMock)
+    }
+    else{
+      return throwError("Error!")
+    }
+  }
+  public updateAssessment(assessmentId:number,assessmentDataPayload: AssessmentRequest ): Observable<any> {
     if(assessmentDataPayload.assessmentName === "xact"){
       return of(this.assessmentMock)
     }
@@ -114,33 +122,61 @@ describe('CreateAssessmentsComponent', () => {
     controller = TestBed.inject(HttpTestingController)
     fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
+    component.assessment=blankAssessment;
   });
+
+  const blankAssessment : AssessmentStructure ={
+    answerResponseList: [],
+    assessmentId: -1,
+    assessmentName: "",
+    assessmentStatus: "",
+    domain: "",
+    industry: "",
+    organisationName: "",
+    parameterRatingAndRecommendation: [],
+    teamSize: 0,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
+
+  const mockAssessment : AssessmentStructure ={
+    answerResponseList: [],
+    assessmentId: 123,
+    assessmentName: "Mock",
+    assessmentStatus: "Active",
+    domain: "IT",
+    industry: "Telecom",
+    organisationName: "Rel",
+    parameterRatingAndRecommendation: [],
+    teamSize: 10,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open dialog box', () => {
-    jest.spyOn(matDialog, 'open')
-    component.openAssessment("")
-    fixture.detectChanges()
-    expect(matDialog.open).toHaveBeenCalled()
-  });
 
   it('should close the popup', () => {
     jest.spyOn(matDialog, 'closeAll')
-    component.closePopUp()
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
+    component.close()
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
 
 
   it('should save assessment and make the window reload', () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
     const assessmentDataPayload:AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
-    component.assessmentName = "xact"
     const assessmentData =
       {
         "assessmentId": 45,
@@ -149,6 +185,7 @@ describe('CreateAssessmentsComponent', () => {
         "assessmentStatus": "Active",
         "updatedAt": 1650886511968
       }
+
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -166,15 +203,18 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it("should call the form", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
     expect(component.form).toBeTruthy()
   });
 
   it("should return error for an unsuccessful creation of assessment", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
 
     const assessmentDataPayload:AssessmentRequest  = {
       assessmentName:"abc",organisationName:"abc",domain:"123", industry:"hello", teamSize:12, users:[]
     };
-    component.assessmentName = "abc"
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -190,4 +230,43 @@ describe('CreateAssessmentsComponent', () => {
       expect(error).toBe(new Error("Error!"))
     })
   });
+
+  it('should update assessment', () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
+    const assessmentDataPayload:AssessmentRequest = {
+      assessmentName: "xact", organisationName: "abc",
+      domain: "abc", industry: "abc", teamSize: 12, users: []
+    };
+    const assessmentData =
+      {
+        "assessmentId": 45,
+        "assessmentName": "xact",
+        "organisationName": "abc",
+        "assessmentStatus": "Active",
+        "updatedAt": 1650886511968
+      }
+
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
+    component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
+    expect(component.createAssessmentForm.valid).toBeTruthy()
+    component.updateAssessment()
+    expect(component).toBeTruthy()
+    mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
+      expect(data).toBe(assessmentData)
+    })
+    fixture.detectChanges()
+  });
+
+  it("should reset  the form", () => {
+    component.assessment = mockAssessment;
+    component.assessmentCopy = mockAssessment;
+    component.assessment.assessmentName = "Changed";
+    component.resetAssessment();
+    expect(component.assessment.assessmentName).toBe(component.assessmentCopy.assessmentName);
+  });
+
 });

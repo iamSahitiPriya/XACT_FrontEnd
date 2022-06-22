@@ -25,7 +25,8 @@ export class SearchComponent {
     this.dataSource.filterPredicate = (d: AssessmentStructure, filter) => {
       const assessmentNameFilter = d["assessmentName"].trim().toLowerCase();
       const organizationNameFilter = d["organisationName"].trim().toLowerCase();
-      return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1;
+      const assessmentStatusFilter = d["assessmentStatus"].trim().toLowerCase();
+      return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1 || assessmentStatusFilter.indexOf(filter) !== -1;
     }
     this.dataSource.filter = filterValue.value.trim().toLowerCase();
   }

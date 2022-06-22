@@ -18,11 +18,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of({})
+      afterClosed: () => of(true)
     }
   }
 
@@ -49,10 +51,6 @@ describe('AssessmentMenuComponent', () => {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Completed"});
     }
 
-    getAssessment(assessmentId:number){
-      return of({assessmentId: assessmentId, assessmentName: "Demo", assessmentStatus: "Completed"});
-    }
-
     reopenAssessment() {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Active"});
     }
@@ -65,7 +63,8 @@ describe('AssessmentMenuComponent', () => {
       declarations: [AssessmentMenuComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
-        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule],
+        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,
+        StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -92,10 +91,11 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report on click', fakeAsync(() => {
-    component.assessmentStatus = "Completed";
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
@@ -105,10 +105,14 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call finish assessment if active', fakeAsync(() => {
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
+    jest.spyOn(matDialog,'open')
+    jest.spyOn(component,'finishAssessment')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
@@ -118,10 +122,12 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call reopen assessment if completed', fakeAsync(() => {
+    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
     fixture.detectChanges();
     let reopenAssessment = fixture.debugElement.nativeElement.querySelector("#reopenAssessment");
     reopenAssessment.click();
@@ -131,7 +137,26 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should complete assessment', () => {
-    component.assessmentStatus = "Active";
+
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Completed",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    })
+    component.ngOnInit()
     component.finishAssessment();
     expect(component.assessmentStatus).toBe("Completed");
   });
@@ -152,6 +177,12 @@ describe('AssessmentMenuComponent', () => {
     component.closePopUp()
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
+  });
+  it("should get valid users", () => {
+    component.userEmail = "abc@thougworks.com, xyz@thoughtworks.com"
+    let a = component.getValidUsers()
+    let dummyResponse = [{"email": "abc@thougworks.com"}, {"email": " xyz@thoughtworks.com"}]
+    expect(a).toStrictEqual(dummyResponse)
   });
 });
 

@@ -104,4 +104,15 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   box-shadow: none;
 }
 
+.mat-raised-button {
+  background-color: #043D4E;
+  color: #fff;
+  height: 54px;
+  text-transform: capitalize;
+  font-size: 17px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1.45px;
+  width: 100%;
+}
+
 

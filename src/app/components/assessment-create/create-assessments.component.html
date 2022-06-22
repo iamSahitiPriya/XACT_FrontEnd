@@ -2,19 +2,18 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
-<ng-template #content>
+<div *ngIf="assessment">
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
-    <h1 mat-dialog-title>Create Assessment</h1>
-    <button type="button" id="close" mat-icon-button (click)="closePopUp()">
+    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>Create Assessment</h1>
+    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>Manage Assessment</h1>
+    <button type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
-
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>Assessment Name</mat-label>
         <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
-               [(ngModel)]="assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+               [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -25,8 +24,8 @@
       <br>
       <mat-form-field appearance="outline" class="organizationName">
         <mat-label>Organization Name</mat-label>
-        <input matInput [(ngModel)]="organizationName" formControlName="organizationNameValidator"
-               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+        <input matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
+               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -37,8 +36,8 @@
       <br>
       <mat-form-field appearance="outline" class="domain">
         <mat-label>Domain</mat-label>
-        <input matInput [(ngModel)]="domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
-               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
+               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -50,8 +49,8 @@
       <mat-form-field appearance="outline" class="industry">
         <mat-label>Industry</mat-label>
 
-        <input matInput [(ngModel)]="industry" formControlName="industryValidator" placeholder="Enter Industry"
-               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" placeholder="Enter Industry"
+               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -61,7 +60,7 @@
       </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field appearance="outline" class="teamSize">
         <mat-label>Team Size</mat-label>
-        <input type="number" [(ngModel)]="teamSize" matInput formControlName="teamSizeValidator"
+        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
                placeholder="Enter Team size" min="1" max="10000000" required pattern="^[1-9]\d*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
           Mandatory number field
@@ -78,13 +77,16 @@
         <mat-label>Email Id</mat-label>
         <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
                placeholder="Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com"
-               id="userEmails">
+               id="userEmails" maxlength="1000">
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
           Valid list of comma separated email address
         </mat-error>
       </mat-form-field>
     </div>
-    <button type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
+    <button *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
+    </button>
+    <button *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
+            (click)="updateAssessment()">Update
     </button>
   </form>
-</ng-template>
+</div>
