@@ -8,15 +8,15 @@ import {MatDialog} from "@angular/material/dialog";
 
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment_data.actions";
+import * as moment from 'moment';
 
 export const assessmentData = [{}]
 
@@ -31,23 +31,10 @@ export const assessmentData = [{}]
 export class AssessmentMenuComponent implements OnInit {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
-  assessmentName: string = '';
-  organizationName: string = '';
-  domain: string = '';
-  industry: string = '';
-  teamSize: number;
-  email: string = '';
-  submitted: boolean = false;
-  loggedInUserEmail: string;
-  loading: boolean;
-  userEmail: string = '';
-  UserEmails: string[];
   assessment: AssessmentStructure;
   data: AssessmentStructure;
   @Input()
   assessmentId: number
-
-  assessmentStatus: string
 
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
@@ -58,7 +45,9 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   generateReport() {
-    const reportName = "xact-report-" + this.assessmentId + ".xlsx";
+    let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'Interim' : 'Final';
+    const date = moment().format('DD-MM-YYYY');
+    const reportName = reportStatus + "-xact-report-" + this.assessment.assessmentName + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).subscribe(blob => {
       saveAs(blob, reportName);
     });
@@ -79,10 +68,9 @@ export class AssessmentMenuComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure ? You will not be able to edit assessment again without reopening it.";
+    openConfirm.componentInstance.text = "Are you sure? You will not be able to edit assessment again without reopening it.";
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
-        this.emailList = [];
         this.finishAssessment();
       }
     })
@@ -108,60 +96,20 @@ export class AssessmentMenuComponent implements OnInit {
     const dialogRef = this.dialog.open(content, {
       width: '630px', height: '650px',
     })
-    dialogRef.disableClose =true;
+    dialogRef.disableClose = true;
   }
 
-
-   getValidUsers() {
-    let userData = this.userEmail.split(',');
-    userData.push(this.loggedInUserEmail);
-    userData = [...new Set(userData.filter(function (el) {
-      return el != null;
-    }))];
-
-    const users: User[] = [];
-    userData.forEach((email) => {
-      users.push({email});
-    });
-    return users;
-  }
 
   closePopUp(): void {
     this.dialog.closeAll()
   }
 
-  get form(): { [key: string]: AbstractControl } {
-    return this.createAssessmentForm.controls;
-  }
-
-  emailList: [];
-
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
-      if(data !== undefined) {
+      if (data !== undefined) {
         this.assessment = data
-        this.assessmentStatus = this.assessment.assessmentStatus
       }
     })
-    this.createAssessmentForm = this.formBuilder.group(
-      {
-        assessmentNameValidator: ['', Validators.required],
-        organizationNameValidator: ['', Validators.required],
-        domainNameValidator: ['', Validators.required],
-        industryValidator: ['', Validators.required],
-        teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
-      }
-    )
-  }
-
-  setAssessment() {
-    this.assessmentName = this.assessment.assessmentName;
-    this.organizationName = this.assessment.organisationName;
-    this.domain = this.assessment.domain;
-    this.industry = this.assessment.industry;
-    this.teamSize = this.assessment.teamSize;
-    this.UserEmails = this.assessment.users;
   }
 }
 
