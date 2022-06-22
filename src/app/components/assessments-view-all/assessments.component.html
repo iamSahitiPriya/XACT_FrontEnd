@@ -4,13 +4,13 @@
 
 <div class="header-container">
   <div class="row">
-    <div class="col-md-2 col-sm-4">
+    <div class="col-md-2 col-sm-2">
       <h1 class="heading">My Assessments</h1>
     </div>
-    <div class="col-md-8 col-sm-4">
+    <div class="col-md-8 col-sm-6" align="end">
       <app-search [dataSource]="dataSource"></app-search>
     </div>
-    <div class="col-md-2 col-sm-4">
+    <div align="end" class="col-md-2 col-sm-4">
       <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
       <ng-template #content>
         <app-create-assessments [assessment]="blankAssessment"></app-create-assessments>
