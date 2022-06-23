@@ -9,6 +9,11 @@ import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {SaveRequest} from "../../types/saveRequest";
+import {AssessmentNotes} from "../../types/assessmentNotes";
+import {TopicRecommendation} from "../../types/topicRecommendation";
+import {TopicRating} from "../../types/topicRating";
+import {ParameterRecommendation} from "../../types/parameterRecommendation";
+import {ParameterRating} from "../../types/parameterRating";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -84,9 +89,42 @@ describe('AppServiceService', () => {
   it("should call get assessment api", () => {
     expect(service.getAssessment(123)).toBeTruthy()
   });
+
   it("should call update assessment", () => {
-    let dummyAssessmentRequest:AssessmentRequest = {assessmentName:"",domain:"",organisationName:"",industry:"",teamSize:0,users:[]}
-    expect(service.updateAssessment(123,dummyAssessmentRequest)).toBeTruthy()
+    let dummyAssessmentRequest: AssessmentRequest = {
+      assessmentName: "",
+      domain: "",
+      organisationName: "",
+      industry: "",
+      teamSize: 0,
+      users: []
+    }
+    expect(service.updateAssessment(123, dummyAssessmentRequest)).toBeTruthy()
+  });
+
+  it("should update particular answer", () => {
+    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes: "abc"}
+    expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
+  });
+
+  it("should update particular topic Recommendation", () => {
+    let dummyTopicRecommendation: TopicRecommendation = {assessmentId: 1, topicId: 1, recommendation: "abc"}
+    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
+  });
+
+  it("should update particular topic Rating", () => {
+    let dummyTopicRating: TopicRating = {assessmentId: 1, topicId: 1, rating: "1"}
+    expect(service.saveTopicRating(dummyTopicRating)).toBeTruthy()
+  });
+
+  it("should update particular parameter Recommendation", () => {
+    let dummyParameterRecommendation: ParameterRecommendation = {assessmentId: 1, parameterId: 1, recommendation: "abc"}
+    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
+  });
+
+  it("should update particular parameter Rating", () => {
+    let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: "1"}
+    expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
   });
 
 });

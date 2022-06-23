@@ -10,14 +10,11 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {SaveRequest} from "../../types/saveRequest";
-import {Notes} from "../../types/answerRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
-
-
 
 
 @Injectable({
@@ -62,31 +59,35 @@ export class AppServiceService {
   reopenAssessment(assessmentId: number): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
-  saveNotes(assessmentNotes: AssessmentNotes): Observable<any>  {
+
+  saveNotes(assessmentNotes: AssessmentNotes): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId +"/"+ assessmentNotes.questionId , assessmentNotes.notes, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers': headers})
   }
-  saveTopicRecommendation(topicRecommendation:TopicRecommendation): Observable<any>{
+
+  saveTopicRecommendation(topicRecommendation: TopicRecommendation): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId +"/"+ topicRecommendation.topicId , topicRecommendation.recommendation, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId + "/" + topicRecommendation.topicId, topicRecommendation.recommendation, {'headers': headers})
   }
-  saveParameterRecommendation(parameterRecommendation:ParameterRecommendation): Observable<any>{
+
+  saveParameterRecommendation(parameterRecommendation: ParameterRecommendation): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterRecommendation.assessmentId +"/"+ parameterRecommendation.parameterId , parameterRecommendation.recommendation, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterRecommendation.assessmentId + "/" + parameterRecommendation.parameterId, parameterRecommendation.recommendation, {'headers': headers})
   }
-  saveTopicRating(topicRating:TopicRating): Observable<any>{
+
+  saveTopicRating(topicRating: TopicRating): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RATING_URI + "/" + topicRating.assessmentId +"/"+ topicRating.topicId , topicRating.rating, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RATING_URI + "/" + topicRating.assessmentId + "/" + topicRating.topicId, topicRating.rating, {'headers': headers})
   }
-  saveParameterRating(parameterRating:ParameterRating): Observable<any>{
+
+  saveParameterRating(parameterRating: ParameterRating): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId +"/"+ parameterRating.parameterId , parameterRating.rating, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId + "/" + parameterRating.parameterId, parameterRating.rating, {'headers': headers})
   }
 
   updateAssessment(assessmentId: number, assessmentdata: AssessmentRequest): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentdata,);
   }
-
 
 }
 
