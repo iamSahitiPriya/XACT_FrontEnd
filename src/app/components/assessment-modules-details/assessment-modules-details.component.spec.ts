@@ -3,14 +3,14 @@
  */
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 
 import {AssessmentModulesDetailsComponent} from './assessment-modules-details.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {of} from "rxjs";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatTabsModule} from "@angular/material/tabs";
+import {MatTabChangeEvent, MatTabsModule} from "@angular/material/tabs";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
@@ -223,6 +223,14 @@ describe('AssessmentModulesDetailsComponent', () => {
     mockAppService.getCategories().subscribe(data => {
       expect(data).toBe(expectedData)
     })
+  });
+
+  it('Tab change should select new tab', () => {
+    // @ts-ignore
+    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:2};
+    component.selectedIndex=0;
+    component.tabChanged(tabChangeEvent);
+    expect(component.selectedIndex).toBe(2);
   });
 
 });

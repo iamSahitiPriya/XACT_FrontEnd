@@ -8,7 +8,7 @@
   <div *ngIf="parameterScore"></div>
   <div *ngFor="let pScore of parameterScore">
     <mat-toolbar class="scoreReference">
-      <p>{{pScore.reference}}</p>
+      <p class="reference">{{pScore.reference}}</p>
       <span class="spacer"></span>
       <span class="rating" (click)="setRating(pScore.rating)"
             [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">

@@ -1,24 +1,17 @@
 <div class="row justify-content-end" *ngIf="assessment">
-  <div *ngIf="assessment.assessmentStatus==='Completed'" class="col-md-3">
+  <div class="col-md-7">
+
     <button id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
       Generate Report
     </button>
-  </div>
-  <div class="col-md-3">
     <button *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
             class="btn-finish" (click)="confirmFinishAssessmentAction()">
       Finish Assessment
     </button>
-    <div class="col-mid-4">
-      <button *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
-              class="btn-reopen" (click)="reopenAssessment()">
-        Reopen Assessment
-      </button>
-    </div>
-  </div>
-  <div class="col-md-3">
-
-
+    <button *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
+            class="btn-reopen" (click)="reopenAssessment()">
+      Reopen Assessment
+    </button>
 
     <div class="menuButton">
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -36,6 +29,7 @@
         <span>Add module to assessment</span>
       </button>
     </mat-menu>
+
     <ng-template #content>
       <app-create-assessments [assessment]="assessment"></app-create-assessments>
     </ng-template>

@@ -1,10 +1,11 @@
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {ErrorComponentComponent} from './error-component.component';
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {RouterTestingModule} from "@angular/router/testing";
 import {of} from "rxjs";
+
 class MockDialog {
   open() {
     return {

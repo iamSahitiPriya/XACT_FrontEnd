@@ -68,11 +68,7 @@ p{
   cursor: pointer;
   margin-right: 28px;
 }
-.rating:hover{
-  background: #9fd6ac 0% 0% no-repeat padding-box;
-  color: white;
 
-}
 .image{
   width: 26px;
   height: 25px;
@@ -84,9 +80,6 @@ p{
   margin-top: 16px
 }
 
-.rating:hover .image{
-  background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
-}
 .parameterScoring{
   width: 95%;
 }
@@ -120,4 +113,9 @@ textArea.mat-input-element {
 }
 ::ng-deep .topicAssessment {
   overflow-y: scroll !important;
+}
+.reference {
+  padding-right: 1em;
+  text-align: justify;
+  text-justify: inter-word;
 }

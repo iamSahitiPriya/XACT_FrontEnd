@@ -88,12 +88,13 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         if (value != "") {
           this.topicLevelRecommendation.recommendation = value
           this.topicRecommendationResponse.recommendation = value
-          this.sendRecommendation(this.topicRecommendationResponse)
         }
         this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
             topicRecommendationData.push(this.topicLevelRecommendation);
           }
         )
+        this.sendRecommendation(this.topicRecommendationResponse)
+
       }
     });
   }
@@ -117,7 +118,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
         })
-        console.log(this.topicLevelRating)
       }
     }
   }

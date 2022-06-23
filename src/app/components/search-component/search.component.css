@@ -4,11 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 .searchBar {
-  width: 60%;
-  position: relative;
+  width: 53em;
   top: 2px;
-  left: 36%;
-  right:12%;
 }
 
 

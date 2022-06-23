@@ -87,12 +87,12 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         if (value !== "") {
           this.parameterLevelRecommendation.recommendation = value
           this.parameterRecommendationResponse.recommendation = value
-          this.sendRecommendation(this.parameterRecommendationResponse)
         }
         this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
             parameterRecommendationData.push(this.parameterLevelRecommendation);
           }
         )
+        this.sendRecommendation(this.parameterRecommendationResponse)
       }
     });
   }

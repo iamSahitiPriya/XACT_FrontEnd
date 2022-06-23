@@ -62,7 +62,8 @@
               "core-js-pure/features/reflect/get",
               "core-js-pure/features/symbol",
               "core-js-pure/features/symbol/iterator",
-              "core-js-pure/features/array/is-array"
+              "core-js-pure/features/array/is-array",
+              "lodash"
             ],
             "customWebpackConfig": {
               "path": "extra-webpack.config.js"
@@ -93,7 +94,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -101,14 +102,16 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "buildOptimizer": true,
+              "optimization": true
             },
             "qa": {
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -131,7 +134,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

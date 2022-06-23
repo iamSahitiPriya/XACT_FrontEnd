@@ -39,28 +39,20 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {HttpCacheService} from "./services/cache-service/cache.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  AssessmentModulesDetailsComponent
-} from './components/assessment-modules-details/assessment-modules-details.component';
+import {AssessmentModulesDetailsComponent} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-parameter-questions/assessment-question.component';
-import {
-  TopicLevelAssessmentComponent
-} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
+import {TopicLevelAssessmentComponent} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
-import {
-  ParameterLevelRatingAndRecommendationComponent
-} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
+import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 import {MatRippleModule} from "@angular/material/core";
-import {
-  TopicLevelRatingAndRecommendationComponent
-} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
+import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
 import {Assessment_dataEffects} from "./effects/assessment_data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
@@ -126,7 +118,6 @@ export const appRoutes: Routes = [
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    RouterModule,
     MatToolbarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -156,7 +147,8 @@ export const appRoutes: Routes = [
     NgHttpLoaderModule,
     MatFormFieldModule,
     MatRippleModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   providers: [
     AppServiceService,

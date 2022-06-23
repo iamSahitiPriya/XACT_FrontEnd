@@ -24,10 +24,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesComponent} from "../assessment-modules/assessment-modules.component";
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [

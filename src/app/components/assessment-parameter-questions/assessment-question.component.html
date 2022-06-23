@@ -4,17 +4,18 @@
 
 <div *ngIf="questionDetails">
   <form>
-  <mat-form-field class="textArea" appearance="outline" id="testForm" >
-          <mat-label>Notes</mat-label>
-          <textarea matInput name="textarea{{questionDetails.questionId}}" id="assessmentAnswer{{questionDetails.questionId}}"
-                    [formControl]="note"
-                    [(ngModel)]="answerInput.answer"
-                    cdkTextareaAutosize class="textArea1"
-                    cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="100"
-                    maxlength="10000"
-                    [readonly]="assessmentStatus ==='Completed'"></textarea>
-        </mat-form-field>
+    <mat-form-field class="textArea" appearance="outline" id="testForm">
+      <mat-label>Notes</mat-label>
+      <textarea matInput name="textarea{{questionDetails.questionId}}"
+                id="assessmentAnswer{{questionDetails.questionId}}"
+                [formControl]="note"
+                [(ngModel)]="answerInput.answer"
+                cdkTextareaAutosize class="textArea1"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="100"
+                maxlength="10000"
+                [readonly]="assessmentStatus ==='Completed'"></textarea>
+    </mat-form-field>
   </form>
 </div>
 

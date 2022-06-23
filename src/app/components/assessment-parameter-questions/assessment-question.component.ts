@@ -5,7 +5,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Notes} from "../../types/answerRequest";
 import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {debounceTime, Observable} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
@@ -46,7 +46,6 @@ export class AssessmentQuestionComponent implements OnInit {
   assessmentId: number
 
   textarea: number = 0;
-  form: FormGroup
 
 
   formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
@@ -86,11 +85,11 @@ export class AssessmentQuestionComponent implements OnInit {
         if (value !== "") {
           this.assessmentNotes.notes = value
           this.answerNote.answer = value
-          this.sendAnswer(this.answerNote);
         }
         this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
           assessmentData.push(this.assessmentNotes);
         })
+        this.sendAnswer(this.answerNote);
       }
     });
   }
@@ -112,6 +111,4 @@ export class AssessmentQuestionComponent implements OnInit {
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
-
 }
-

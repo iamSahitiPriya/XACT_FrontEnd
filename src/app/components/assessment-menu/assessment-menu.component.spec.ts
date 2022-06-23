@@ -20,6 +20,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 class MockDialog {
   open() {
@@ -56,6 +57,22 @@ describe('AssessmentMenuComponent', () => {
     }
 
   }
+
+  const mockAssessment : AssessmentStructure ={
+    answerResponseList: [],
+    assessmentId: 123,
+    assessmentName: "Mock",
+    assessmentStatus: "Active",
+    domain: "IT",
+    industry: "Telecom",
+    organisationName: "Rel",
+    parameterRatingAndRecommendation: [],
+    teamSize: 10,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
+
 
   beforeEach(async () => {
 
@@ -106,7 +123,8 @@ describe('AssessmentMenuComponent', () => {
 
   it('should call finish assessment if active', fakeAsync(() => {
     component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
-    component.assessmentStatus = "Active";
+    component.assessment = mockAssessment;
+    component.assessment.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
     jest.spyOn(matDialog,'open')
     jest.spyOn(component,'finishAssessment')
@@ -123,7 +141,8 @@ describe('AssessmentMenuComponent', () => {
 
   it('should call reopen assessment if completed', fakeAsync(() => {
     component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
-    component.assessmentStatus = "Completed";
+    component.assessment = mockAssessment;
+    component.assessment.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -158,13 +177,7 @@ describe('AssessmentMenuComponent', () => {
     })
     component.ngOnInit()
     component.finishAssessment();
-    expect(component.assessmentStatus).toBe("Completed");
-  });
-  it("should set the assessment name and status", () => {
-    component.assessment = {assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]}
-    component.setAssessment()
-    expect(component.assessmentName).toBe("abc")
-    expect(component.organizationName).toBe("xyz")
+    expect(component.assessment.assessmentStatus).toBe("Completed");
   });
   it('should open dialog box', () => {
     jest.spyOn(matDialog, 'open')
@@ -177,12 +190,6 @@ describe('AssessmentMenuComponent', () => {
     component.closePopUp()
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
-  });
-  it("should get valid users", () => {
-    component.userEmail = "abc@thougworks.com, xyz@thoughtworks.com"
-    let a = component.getValidUsers()
-    let dummyResponse = [{"email": "abc@thougworks.com"}, {"email": " xyz@thoughtworks.com"}]
-    expect(a).toStrictEqual(dummyResponse)
   });
 });
 
