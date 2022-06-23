@@ -8,34 +8,34 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import {AssessmentStructure} from 'src/app/types/assessmentStructure';
+import * as fromActions from "../../actions/assessment_data.actions";
+import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
+import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
 
-import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
-import { AssessmentStructure } from 'src/app/types/assessmentStructure';
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import * as fromActions from "../../actions/assessment_data.actions";
-import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
-import {getUpdatedAssessmentData} from "../../actions/assessment_data.actions";
+
+let DEBOUNCE_TIME = 2000;
 
 @Component({
   selector: 'app-parameter-level-rating-and-recommendation',
   templateUrl: './parameter-level-rating-and-recommendation.component.html',
   styleUrls: ['./parameter-level-rating-and-recommendation.component.css']
 })
-export class ParameterLevelRatingAndRecommendationComponent implements OnInit{
+export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   private answerResponse1: Observable<AssessmentStructure>;
-  recommendationResponse: AssessmentStructure
-  private cloneRecommendationResponse: AssessmentStructure;
+  private cloneParameterResponse: AssessmentStructure;
+  answerResponse: AssessmentStructure
 
-
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar,private store:Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-
   }
+
   @Input()
   parameterScore: ParameterReference[];
 
@@ -51,71 +51,50 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit{
   assessmentId: number
 
   recommendation = new FormControl("");
-  saveIndicator$: Observable<string>;
-  saveCount = 0;
-  parameterLevelRecommendation: ParameterRecommendation ={
-    assessmentId:0, parameterId: 0 , recommendation:" "
-  } ;
-  parameterLevelRating: ParameterRating ={
-    assessmentId:0, parameterId: 0 , rating:""
-  } ;
+
+  parameterLevelRecommendation: ParameterRecommendation = {
+    assessmentId: 0, parameterId: 0, recommendation: " "
+  };
+
+  parameterLevelRating: ParameterRating = {
+    assessmentId: 0, parameterId: 0, rating: ""
+  };
 
   parameterRecommendationResponse: ParameterRecommendationResponse = {
-    parameterId:0,recommendation:" "
-  }
+    parameterId: 0, recommendation: " "
+  };
 
+  parameterRatingResponse: ParameterRatingResponse = {
+    parameterId: 0, rating: ""
+  };
 
 
   ngOnInit() {
-    this.answerResponse1.subscribe(data =>{
-      if(data !== undefined) {
-        this.answerResponse=data
+    this.answerResponse1.subscribe(data => {
+      if (data !== undefined) {
+        this.answerResponse = data
         this.assessmentStatus = data.assessmentStatus
       }
     })
+
     this.recommendation.valueChanges.pipe(
-      debounceTime(100)
+      debounceTime(DEBOUNCE_TIME)
     ).subscribe({
       next: value => {
         this.parameterLevelRecommendation.assessmentId = this.assessmentId
-        this.parameterRecommendationResponse.parameterId=this.parameterRecommendation
+        this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
         this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
         if (value !== "") {
           this.parameterLevelRecommendation.recommendation = value
-          this.parameterRecommendationResponse.recommendation=value
+          this.parameterRecommendationResponse.recommendation = value
           this.sendRecommendation(this.parameterRecommendationResponse)
         }
         this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
             parameterRecommendationData.push(this.parameterLevelRecommendation);
-
           }
         )
-        console.log(this.parameterLevelRecommendation)
       }
     });
-  }
-  answerResponse: AssessmentStructure
-
-
-  private sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
-    let index = 0;
-    let updatedAnswerList = [];
-    updatedAnswerList.push(parameterRecommendation);
-    this.cloneRecommendationResponse = Object.assign({},this.answerResponse)
-    if(this.cloneRecommendationResponse.parameterRatingAndRecommendation!=undefined){
-      index=this.cloneRecommendationResponse.parameterRatingAndRecommendation.findIndex(eachQuestion => eachQuestion.parameterId === parameterRecommendation.parameterId)
-      if(index !== -1){
-        this.cloneRecommendationResponse.parameterRatingAndRecommendation[index].recommendation = parameterRecommendation.recommendation
-      }
-      else{
-        this.cloneRecommendationResponse.parameterRatingAndRecommendation.push(parameterRecommendation)
-      }
-    }
-    else{
-      this.cloneRecommendationResponse.parameterRatingAndRecommendation=updatedAnswerList
-      console.log(updatedAnswerList)
-    }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneRecommendationResponse}))
   }
 
   setRating(rating: string) {
@@ -126,16 +105,54 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit{
         this.parameterRatingAndRecommendation.rating = rating;
       }
       this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
-      if(this.parameterRatingAndRecommendation.rating !== undefined){
-        this.parameterLevelRating.assessmentId=this.assessmentId
-        this.parameterLevelRating.parameterId=this.parameterRecommendation
-        this.parameterLevelRating.rating=rating
+      if (this.parameterRatingAndRecommendation.rating !== undefined) {
+        this.parameterLevelRating.assessmentId = this.assessmentId
+        this.parameterLevelRating.parameterId = this.parameterRecommendation
+        this.parameterLevelRating.rating = rating
+        this.parameterRatingResponse.parameterId = this.parameterRecommendation
+        this.parameterRatingResponse.rating = rating
+        this.sendRating(this.parameterRatingResponse)
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);
         })
-        console.log(this.parameterLevelRating)
       }
     }
   }
 
+  private sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
+    let index = 0;
+    let updatedRecommendationList = [];
+    updatedRecommendationList.push(parameterRecommendation);
+    this.cloneParameterResponse = Object.assign({}, this.answerResponse)
+    if (this.cloneParameterResponse.parameterRatingAndRecommendation != undefined) {
+      index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendation.parameterId)
+      if (index !== -1) {
+        this.cloneParameterResponse.parameterRatingAndRecommendation[index].recommendation = parameterRecommendation.recommendation
+      } else {
+        this.cloneParameterResponse.parameterRatingAndRecommendation.push(parameterRecommendation)
+      }
+    } else {
+      this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRecommendationList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
+  }
+
+
+  private sendRating(parameterRating: ParameterRatingResponse) {
+    let index = 0;
+    let updatedRatingList = [];
+    updatedRatingList.push(parameterRating);
+    this.cloneParameterResponse = Object.assign({}, this.answerResponse)
+    if (this.cloneParameterResponse.parameterRatingAndRecommendation != undefined) {
+      index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRating.parameterId)
+      if (index !== -1) {
+        this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating = parameterRating.rating
+      } else {
+        this.cloneParameterResponse.parameterRatingAndRecommendation.push(parameterRating)
+      }
+    } else {
+      this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRatingList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
+  }
 }
