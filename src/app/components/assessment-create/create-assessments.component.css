@@ -16,7 +16,7 @@
 }
 
 .mat-error {
-  margin-top: 1em;
+  margin-top: 14px !important;
   width:102%;
 }
 
@@ -41,10 +41,6 @@
   margin-top: 2%;
   height: 2.375em;
   background-color: #32616E;
-}
-
-.mat-form-field-appearance-outline .mat-form-field-outline {
-  color: white;
 }
 
 h1 {
@@ -115,7 +111,7 @@ h2 {
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: transparent !important;
+  background-color: white !important;
   border-radius: 5px;
 }
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {

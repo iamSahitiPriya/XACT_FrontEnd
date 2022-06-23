@@ -118,7 +118,6 @@ export const appRoutes: Routes = [
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    RouterModule,
     MatToolbarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -148,7 +147,8 @@ export const appRoutes: Routes = [
     NgHttpLoaderModule,
     MatFormFieldModule,
     MatRippleModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   providers: [
     AppServiceService,

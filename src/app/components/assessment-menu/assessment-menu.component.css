@@ -43,7 +43,6 @@
 .btn-reopen{
   width: 13.125em;
   height: 2.8125em;
-  margin-left:1em;
   /* UI Properties */
   background: var(--unnamed-color-4ba1ac) 0% 0% no-repeat padding-box;
   background: #4BA1AC 0% 0% no-repeat padding-box;
@@ -63,7 +62,7 @@
 
 
 .menuButton{
-  margin-left: 1em;
+  margin-left: 1.3em;
   display: inline-grid;
 }
 

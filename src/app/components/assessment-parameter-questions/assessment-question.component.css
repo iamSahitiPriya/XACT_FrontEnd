@@ -4,22 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.parameter {
-
-  background-color: #45A0AC1D;
-  padding-right: 152px;
-  height: 50px;
-  padding-left: 20px;
-  padding-top: 15px;
-  margin-top: 35px;
-  width: 95%;
-  color: #043D4E;
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Inter', sans-serif;
-
-}
-
 .question {
   margin-top: 35px;
   padding-bottom: 35px;
@@ -34,13 +18,11 @@
   padding-top: 15px;
   width: 95%;
   height: 99px;
+  margin-top :30px;
 }
 
 textArea.mat-input-element {
   padding-bottom: 30px;
-}
-.mat-form-field{
-  margin-top :30px;
 }
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
@@ -50,6 +32,7 @@ textArea.mat-input-element {
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
+  background-color: white !important;
 }
 .mat-form-field.mat-warn .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
@@ -57,3 +40,4 @@ textArea.mat-input-element {
 ::ng-deep .topicAssessment {
   overflow-y: scroll !important;
 }
+
