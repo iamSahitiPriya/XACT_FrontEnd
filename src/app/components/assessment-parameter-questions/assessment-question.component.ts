@@ -45,8 +45,6 @@ export class AssessmentQuestionComponent implements OnInit {
   @Input()
   assessmentId: number
 
-  textarea: number = 0;
-
 
   formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
   private cloneAnswerResponse: AssessmentStructure;

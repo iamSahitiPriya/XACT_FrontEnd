@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -10,11 +10,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
-import {BrowserModule} from "@angular/platform-browser";
+import {BrowserModule, By} from "@angular/platform-browser";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {of} from "rxjs";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -50,5 +51,31 @@ describe('AssessmentQuestionComponent', () => {
     fixture.detectChanges();
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
-
+  it('should auto save the data whenever the value is changes', async () => {
+    component.questionDetails = {questionId: 123, questionText: 'Hello', parameter: 1234}
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    })
+    component.answerInput = {questionId: 123, answer: ""}
+    fixture.detectChanges()
+    component.note.setValue("hello world")
+    component.ngOnInit()
+    await new Promise((r) => setTimeout(r, 2000));
+    expect(component.assessmentNotes.notes).toBe("hello world")
+  });
 });

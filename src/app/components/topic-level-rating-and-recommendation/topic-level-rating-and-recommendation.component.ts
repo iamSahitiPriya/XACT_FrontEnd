@@ -26,7 +26,7 @@ let DEBOUNCE_TIME = 2000;
   styleUrls: ['./topic-level-rating-and-recommendation.component.css']
 })
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
-  private answerResponse1: Observable<AssessmentStructure>;
+  answerResponse1: Observable<AssessmentStructure>;
   private cloneTopicResponse: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
@@ -145,7 +145,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     let updatedRatingList = [];
     updatedRatingList.push(topicRating);
     this.cloneTopicResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
+    if (this.cloneTopicResponse.topicRatingAndRecommendation !== undefined) {
       index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRating.topicId)
       if (index !== -1) {
         this.cloneTopicResponse.topicRatingAndRecommendation[index].rating = topicRating.rating
