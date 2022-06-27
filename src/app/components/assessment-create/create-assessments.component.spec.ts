@@ -55,11 +55,14 @@ class MockAppService {
     role: ""
   }
   public addAssessments(assessmentDataPayload: AssessmentRequest ): Observable<any> {
-    if(assessmentDataPayload.assessmentName === "xact"){
-      return of(this.assessmentMock)
-    }
-    else{
-      return throwError("Error!")
+    if(assessmentDataPayload) {
+      if (assessmentDataPayload.assessmentName === "xact") {
+        return of(this.assessmentMock)
+      } else {
+        return throwError("Error!")
+      }
+    }else{
+      return of(assessmentDataPayload)
     }
   }
   public updateAssessment(assessmentId:number,assessmentDataPayload: AssessmentRequest ): Observable<any> {
@@ -179,12 +182,14 @@ describe('CreateAssessmentsComponent', () => {
     };
     const assessmentData =
       {
-        "assessmentId": 45,
-        "assessmentName": "xact",
-        "organisationName": "abc",
-        "assessmentStatus": "Active",
-        "updatedAt": 1650886511968
+        assessmentName: 'xact',
+        organisationName: 'abc',
+        domain: 'abc',
+        industry: 'abc',
+        teamSize: 12,
+        users: []
       }
+
 
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -193,14 +198,12 @@ describe('CreateAssessmentsComponent', () => {
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.saveAssessment()
-    expect(component).toBeTruthy()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
       expect(data).toBe(assessmentData)
-      console.log(data)
-      expect(component.loading).toBe(false)
-      reloadFn()
-      expect(window.location.reload).toHaveBeenCalled()
     })
+    expect(component.loading).toBe(false)
+    reloadFn()
+    expect(window.location.reload).toHaveBeenCalled()
   });
 
   it("should call the form", () => {

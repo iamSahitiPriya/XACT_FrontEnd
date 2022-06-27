@@ -16,7 +16,7 @@ import {ActivatedRoute} from "@angular/router";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
-import * as fromActions from "../../actions/assessment_data.actions";
+import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 
 let categories: CategoryStructure[] = []

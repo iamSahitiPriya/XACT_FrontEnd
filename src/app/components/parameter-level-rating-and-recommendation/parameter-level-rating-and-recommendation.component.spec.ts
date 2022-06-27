@@ -14,10 +14,9 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {of} from "rxjs";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
-import {TopicRecommendation} from "../../types/topicRecommendation";
-import {TopicRating} from "../../types/topicRating";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
+
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation:ParameterRecommendation){
     return of(parameterRecommendation)
@@ -167,5 +166,38 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterRecommendation = 1
     component.setRating("3")
     expect(parameterRatingAndRecommendation.rating).toEqual("3");
+  });
+  it("should set the parameter rating and recommendation", () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: []
+    }
+    // @ts-ignore
+    component.answerResponse.parameterRatingAndRecommendation = undefined
+    const parameterRating = {
+      rating: "2",
+      recommendation: "some text",
+      parameterId: 1
+    }
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRating;
+    component.assessmentStatus = "Active"
+    component.parameterRecommendation = 1
+    component.setRating("3")
+    expect(parameterRating.rating).toEqual("3");
   });
 });
