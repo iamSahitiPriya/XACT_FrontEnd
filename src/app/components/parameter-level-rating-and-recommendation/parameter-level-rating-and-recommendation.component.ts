@@ -153,7 +153,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     } else {
       this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRatingList
     }
-    console.log(this.cloneParameterResponse)
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
   }
 }

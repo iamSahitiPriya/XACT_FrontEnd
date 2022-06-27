@@ -196,10 +196,11 @@ describe('CreateAssessmentsComponent', () => {
     expect(component).toBeTruthy()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
       expect(data).toBe(assessmentData)
+      console.log(data)
+      expect(component.loading).toBe(false)
+      reloadFn()
+      expect(window.location.reload).toHaveBeenCalled()
     })
-    reloadFn()
-    expect(window.location.reload).toHaveBeenCalled()
-    fixture.detectChanges()
   });
 
   it("should call the form", () => {
@@ -268,5 +269,8 @@ describe('CreateAssessmentsComponent', () => {
     component.resetAssessment();
     expect(component.assessment.assessmentName).toBe(component.assessmentCopy.assessmentName);
   });
-
+  it("should throw error if the assesssment details are empty while saving/updating", () => {
+    component.saveAssessment()
+    component.updateAssessment()
+  });
 });

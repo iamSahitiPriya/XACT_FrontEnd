@@ -396,6 +396,32 @@ describe('TopicLevelAssessmentComponent', () => {
     let expectedErrorHandler = {errorMessage:undefined}
     expect(fromReducer.assessmentReducer({},{type:"Error message"})).toStrictEqual(expectedErrorHandler)
   });
+  it("should call paramater response when topic reference is null", () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    })
+    jest.spyOn(component,"getParameterWithRatingAndRecommendationRequest")
+    // @ts-ignore
+    component.topicInput = {topicId:1,topicName:"",parameters:[{parameterId:1,parameterName:"hello",topic:1,references:[]}],assessmentLevel:"Topic",references:undefined,module:1}
+    component.ngOnInit()
+    expect(component.getParameterWithRatingAndRecommendationRequest).toHaveBeenCalled()
+
+  });
 });
 
 

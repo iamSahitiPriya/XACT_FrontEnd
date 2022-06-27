@@ -225,12 +225,23 @@ describe('AssessmentModulesDetailsComponent', () => {
     })
   });
 
-  it('Tab change should select new tab', () => {
+  it('Tab change should move forward', () => {
     // @ts-ignore
-    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:2};
+    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:1};
     component.selectedIndex=0;
+    component.topics = [{topicId:1,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},{topicId:2,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},
+      {topicId:3,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]}]
     component.tabChanged(tabChangeEvent);
-    expect(component.selectedIndex).toBe(2);
+    expect(component.selectedIndex).toBe(1);
+  });
+  it('Tab change should move backward', () => {
+    // @ts-ignore
+    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:1};
+    component.selectedIndex=2;
+    component.topics = [{topicId:1,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},{topicId:2,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},
+      {topicId:3,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]}]
+    component.tabChanged(tabChangeEvent);
+    expect(component.selectedIndex).toBe(1);
   });
 
 });

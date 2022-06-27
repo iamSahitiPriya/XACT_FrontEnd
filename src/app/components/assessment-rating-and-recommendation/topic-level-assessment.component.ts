@@ -94,7 +94,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = {...data}
