@@ -15,11 +15,14 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import _ from "lodash";
 
+jest.useFakeTimers();
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
+
 
   class MockAppService {
   }
@@ -41,6 +44,7 @@ describe('AssessmentQuestionComponent', () => {
     fixture = TestBed.createComponent(AssessmentQuestionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
 
   it('should create', () => {

@@ -54,7 +54,7 @@ export class AssessmentQuestionComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularAnswer = _.debounce(this.saveParticularAnswer, 2000)
+    // this.saveParticularAnswer = _.debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
 
   }
 

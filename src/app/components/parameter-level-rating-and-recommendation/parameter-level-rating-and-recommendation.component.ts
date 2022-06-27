@@ -35,7 +35,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularParameterRecommendation = _.debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
+    // this.saveParticularParameterRecommendation = _.debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
 
   }
 

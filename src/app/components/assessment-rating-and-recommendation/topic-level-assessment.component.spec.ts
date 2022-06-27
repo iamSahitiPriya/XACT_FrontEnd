@@ -24,6 +24,7 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import _ from "lodash";
 
 class MockAppService {
 
@@ -61,6 +62,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component2: TopicLevelRatingAndRecommendationComponent,
     fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
     mockAppService: MockAppService;
+
   const original = window.location;
   const reloadFn = () => {
     window.location.reload();
@@ -93,6 +95,7 @@ describe('TopicLevelAssessmentComponent', () => {
     fixture2 = TestBed.createComponent(TopicLevelRatingAndRecommendationComponent)
     component2 = fixture2.componentInstance;
     component = fixture.debugElement.componentInstance;
+
   });
 
   it('should create', () => {
