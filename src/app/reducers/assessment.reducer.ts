@@ -24,6 +24,7 @@ export const initialState: AssessmentState = {
 const _assessmentReducer = createReducer(
   initialState,
   on(getAssessmentData, (state, {payload}) => {
+    console.log("this is state",state)
     return{
       ...state,
     assessments: payload}

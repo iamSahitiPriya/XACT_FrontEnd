@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormBuilder, FormControl} from "@angular/forms";
-import {debounceTime, Observable} from "rxjs";
+import {FormBuilder} from "@angular/forms";
+import {Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -15,6 +15,7 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment_data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
+import _ from "lodash";
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -34,6 +35,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+    this.saveParticularParameterRecommendation = _.debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
+
   }
 
   @Input()
@@ -50,10 +53,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
-  recommendation = new FormControl("");
-
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: " "
+    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterLevelRating: ParameterRating = {
@@ -61,7 +62,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   parameterRecommendationResponse: ParameterRecommendationResponse = {
-    parameterId: 0, recommendation: " "
+    parameterId: 0, recommendation: undefined
   };
 
   parameterRatingResponse: ParameterRatingResponse = {
@@ -76,26 +77,21 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.assessmentStatus = data.assessmentStatus
       }
     })
-
-    this.recommendation.valueChanges.pipe(
-      debounceTime(DEBOUNCE_TIME)
-    ).subscribe({
-      next: value => {
-        this.parameterLevelRecommendation.assessmentId = this.assessmentId
-        this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
-        this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
-        if (value !== "") {
-          this.parameterLevelRecommendation.recommendation = value
-          this.parameterRecommendationResponse.recommendation = value
-        }
-        this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
-            parameterRecommendationData.push(this.parameterLevelRecommendation);
-          }
-        )
-        this.sendRecommendation(this.parameterRecommendationResponse)
-      }
-    });
   }
+
+  saveParticularParameterRecommendation($event: KeyboardEvent) {
+    this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
+    this.parameterLevelRecommendation.assessmentId = this.assessmentId
+    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
+    this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
+    this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
+      parameterRecommendationData.push(this.parameterLevelRecommendation);
+    })
+    this.sendRecommendation(this.parameterRecommendationResponse)
+
+  }
+
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
@@ -155,4 +151,5 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
   }
+
 }

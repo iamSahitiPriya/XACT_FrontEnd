@@ -5,9 +5,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Notes} from "../../types/answerRequest";
 import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {debounceTime, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
@@ -15,6 +15,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment_data.actions";
+import _ from 'lodash';
 
 export const assessmentData = [{}]
 
@@ -33,6 +34,7 @@ enum FormStatus {
   styleUrls: ['./assessment-question.component.css']
 })
 
+
 export class AssessmentQuestionComponent implements OnInit {
   @Input()
   questionDetails: QuestionStructure;
@@ -47,25 +49,23 @@ export class AssessmentQuestionComponent implements OnInit {
 
   textarea: number = 0;
 
-
   formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
   private cloneAnswerResponse: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+    this.saveParticularAnswer = _.debounce(this.saveParticularAnswer, 2000)
+
   }
 
-
-  note = new FormControl("");
-  saveIndicator$: Observable<string>;
-  saveCount = 0;
   assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: 1, notes: " "
+    assessmentId: 0, questionId: undefined, notes: undefined
   };
-  answerNote: AssessmentAnswerResponse = {questionId: 1, answer: ' '};
+  answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
+
 
   ngOnInit() {
     this.answerResponse1.subscribe(data => {
@@ -74,25 +74,8 @@ export class AssessmentQuestionComponent implements OnInit {
         this.assessmentStatus = data.assessmentStatus
       }
     })
-
-    this.note.valueChanges.pipe(
-      debounceTime(DEBOUNCE_TIME)
-    ).subscribe({
-      next: value => {
-        this.assessmentNotes.assessmentId = this.assessmentId
-        this.assessmentNotes.questionId = this.questionDetails.questionId
-        this.answerNote.questionId = this.questionDetails.questionId
-        if (value !== "") {
-          this.assessmentNotes.notes = value
-          this.answerNote.answer = value
-        }
-        this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
-          assessmentData.push(this.assessmentNotes);
-        })
-        this.sendAnswer(this.answerNote);
-      }
-    });
   }
+
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {
     let index = 0;
@@ -110,5 +93,17 @@ export class AssessmentQuestionComponent implements OnInit {
       this.cloneAnswerResponse.answerResponseList = updatedAnswerList
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
+
+  saveParticularAnswer($event: KeyboardEvent) {
+    this.assessmentNotes.assessmentId = this.assessmentId
+    this.assessmentNotes.questionId = this.questionDetails.questionId
+    this.assessmentNotes.notes = this.answerInput.answer
+    this.answerNote.questionId = this.questionDetails.questionId
+    this.answerNote.answer = this.answerInput.answer
+    this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
+      assessmentData.push(this.assessmentNotes);
+    });
+    this.sendAnswer(this.answerNote)
   }
 }

@@ -21,7 +21,7 @@ import * as fromActions from '../../actions/assessment_data.actions'
 import {AssessmentState} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 
 
 export const saveAssessmentData = [{}]
@@ -67,13 +67,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
   };
   private cloneAnswerResponse: AssessmentStructure;
 
-  constructor(private _snackBar: MatSnackBar,@Optional() private appService: AppServiceService,@Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
+  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
 
   }
+
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action,{
-    verticalPosition: 'top',
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
       panelClass: ['saveSnackbar'],
       duration: 2000
     })
@@ -130,7 +131,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         saveAssessmentData.push(saveRequest);
       }
     )
-    this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`,"Close");
+    this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
     this.answerSaved = true
   }
 
@@ -154,7 +155,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     }
   }
 
-  getNotes(questionId: number, answer: string): Notes {
+  getNotes(questionId: number, answer: string | undefined): Notes {
     return {
       questionId: questionId, answer: answer
     };
@@ -163,7 +164,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   getAnswersList(parameter: ParameterStructure): Notes[] {
     const answerRequest = []
-    let answer = ""
+    let answer: string | undefined;
     for (let question in parameter.questions) {
       if (this.answerResponse.answerResponseList !== undefined) {
         let indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
@@ -172,6 +173,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
       answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer))
+      answer = undefined;
     }
     return answerRequest
   }
@@ -242,25 +244,25 @@ export class TopicLevelAssessmentComponent implements OnInit {
     if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
         eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
-    }else{
+    } else {
       this.cloneAnswerResponse.answerResponseList = answers
     }
     if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>
         eachTopic['topicId'] === eachAnswerQuestion['topicId'])).concat(topic)
-    }else{
+    } else {
       this.cloneAnswerResponse.topicRatingAndRecommendation = topic
     }
     if (parameter[0] !== undefined && this.cloneAnswerResponse.parameterRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.parameterRatingAndRecommendation = this.cloneAnswerResponse.parameterRatingAndRecommendation.filter(eachParameter => !parameter.find(eachAnswerQuestion =>
         eachParameter['parameterId'] === eachAnswerQuestion['parameterId'])).concat(parameter)
-    }else{
+    } else {
       this.cloneAnswerResponse.parameterRatingAndRecommendation = parameter
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  private getAverageRating() {
+  public getAverageRating() {
     let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.parameterLevel != null) {

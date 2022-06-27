@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {FormBuilder, FormControl} from "@angular/forms";
-import {debounceTime, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -14,6 +14,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment_data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
+import _ from "lodash";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -31,6 +32,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+    this.saveParticularRecommendation = _.debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
+
   }
 
   @Input()
@@ -53,7 +56,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   recommendation = new FormControl("");
   saveCount = 0;
   topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, recommendation: "  "
+    assessmentId: 0, topicId: 0, recommendation: undefined
   };
 
   topicLevelRating: TopicRating = {
@@ -61,7 +64,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   topicRecommendationResponse: TopicRecommendationResponse = {
-    topicId: 0, recommendation: " "
+    topicId: 0, recommendation: undefined
   };
 
   topicRatingResponse: TopicRatingResponse = {
@@ -78,25 +81,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       }
     })
 
-    this.recommendation.valueChanges.pipe(
-      debounceTime(DEBOUNCE_TIME)
-    ).subscribe({
-      next: value => {
-        this.topicLevelRecommendation.assessmentId = this.assessmentId
-        this.topicLevelRecommendation.topicId = this.topicId
-        this.topicRecommendationResponse.topicId = this.topicId
-        if (value != "") {
-          this.topicLevelRecommendation.recommendation = value
-          this.topicRecommendationResponse.recommendation = value
-        }
-        this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
-            topicRecommendationData.push(this.topicLevelRecommendation);
-          }
-        )
-        this.sendRecommendation(this.topicRecommendationResponse)
-
-      }
-    });
   }
 
   setRating(rating: string) {
@@ -118,6 +102,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
         })
+
       }
     }
   }
@@ -156,5 +141,18 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       this.cloneTopicResponse.topicRatingAndRecommendation = updatedRatingList
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
+  }
+
+
+  saveParticularRecommendation($event: KeyboardEvent) {
+    this.topicLevelRecommendation.topicId = this.topicId
+    this.topicLevelRecommendation.assessmentId = this.assessmentId
+    this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.topicRecommendationResponse.topicId = this.topicId
+    this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
+      topicRecommendationData.push(this.topicLevelRecommendation);
+    })
+    this.sendRecommendation(this.topicRecommendationResponse)
   }
 }

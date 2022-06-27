@@ -17,6 +17,7 @@
 </div>
 
 
+
 <div>
   <mat-form-field class="textArea" appearance="outline" *ngIf="topicRatingAndRecommendation">
     <div *ngIf="topicRecommendation"></div>
@@ -24,11 +25,11 @@
     <textarea id="recommendationElement_topic{{topicRecommendation}}"
               name="recommendationText_topic{{topicRecommendation}}" matInput #recommendationElement
               [(ngModel)]="topicRatingAndRecommendation.recommendation"
-              [formControl]="recommendation"
               cdkTextareaAutosize
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="100"
               maxlength="10000"
+              (keyup)="saveParticularRecommendation($event)"
               [readonly]="assessmentStatus ==='Completed'"></textarea>
   </mat-form-field>
 </div>

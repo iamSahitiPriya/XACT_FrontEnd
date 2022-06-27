@@ -27,6 +27,7 @@
       </div>
     </div>
 
+
     <div *ngIf="parameter">
       <div class="question"
            *ngFor="let question of parameter.questions; let j=index;">
@@ -40,6 +41,7 @@
       <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]" [parameterRecommendation]="parameter.parameterId" [parameterScore]="parameter.references" [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation" [assessmentId]="assessmentId"
       ></app-parameter-level-rating-and-recommendation>
     </div>
+
   </div>
   <div *ngIf="topicInput.references">
     <app-topic-level-rating-and-recommendation *ngIf="topicRequest.topicRatingAndRecommendation" [topicRecommendation]="topicInput.topicId" [topicScore]="topicInput.references" [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation" [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
