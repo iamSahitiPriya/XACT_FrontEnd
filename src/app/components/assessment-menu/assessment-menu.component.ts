@@ -15,7 +15,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
-import * as fromActions from "../../actions/assessment_data.actions";
+import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
 
 export const assessmentData = [{}]

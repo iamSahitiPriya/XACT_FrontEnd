@@ -1,5 +1,5 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {getAssessmentData, getUpdatedAssessmentData, setErrorMessage,} from "../actions/assessment_data.actions";
+import {getAssessmentData, getUpdatedAssessmentData, setErrorMessage,} from "../actions/assessment-data.actions";
 
 import {AssessmentState} from "./app.states";
 

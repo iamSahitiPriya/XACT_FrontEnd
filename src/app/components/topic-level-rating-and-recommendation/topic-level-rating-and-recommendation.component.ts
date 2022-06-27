@@ -11,7 +11,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
-import * as fromActions from "../../actions/assessment_data.actions";
+import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import _ from "lodash";
@@ -27,7 +27,7 @@ let DEBOUNCE_TIME = 2000;
   styleUrls: ['./topic-level-rating-and-recommendation.component.css']
 })
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
-  private answerResponse1: Observable<AssessmentStructure>;
+  answerResponse1: Observable<AssessmentStructure>;
   private cloneTopicResponse: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
@@ -129,7 +129,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     let updatedRatingList = [];
     updatedRatingList.push(topicRating);
     this.cloneTopicResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
+    if (this.cloneTopicResponse.topicRatingAndRecommendation !== undefined) {
       index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRating.topicId)
       if (index !== -1) {
         this.cloneTopicResponse.topicRatingAndRecommendation[index].rating = topicRating.rating

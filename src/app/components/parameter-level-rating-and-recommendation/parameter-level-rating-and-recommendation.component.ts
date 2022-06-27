@@ -12,7 +12,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentStructure} from 'src/app/types/assessmentStructure';
-import * as fromActions from "../../actions/assessment_data.actions";
+import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import _ from "lodash";
@@ -29,7 +29,7 @@ let DEBOUNCE_TIME = 2000;
   styleUrls: ['./parameter-level-rating-and-recommendation.component.css']
 })
 export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
-  private answerResponse1: Observable<AssessmentStructure>;
+  answerResponse1: Observable<AssessmentStructure>;
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
 
@@ -120,7 +120,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     let updatedRecommendationList = [];
     updatedRecommendationList.push(parameterRecommendation);
     this.cloneParameterResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneParameterResponse.parameterRatingAndRecommendation != undefined) {
+    if (this.cloneParameterResponse.parameterRatingAndRecommendation !== undefined) {
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendation.parameterId)
       if (index !== -1) {
         this.cloneParameterResponse.parameterRatingAndRecommendation[index].recommendation = parameterRecommendation.recommendation
@@ -139,7 +139,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     let updatedRatingList = [];
     updatedRatingList.push(parameterRating);
     this.cloneParameterResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneParameterResponse.parameterRatingAndRecommendation != undefined) {
+    if (this.cloneParameterResponse.parameterRatingAndRecommendation !== undefined) {
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRating.parameterId)
       if (index !== -1) {
         this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating = parameterRating.rating

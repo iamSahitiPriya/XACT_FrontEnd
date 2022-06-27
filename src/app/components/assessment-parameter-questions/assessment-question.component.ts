@@ -14,7 +14,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import * as fromActions from "../../actions/assessment_data.actions";
+import * as fromActions from "../../actions/assessment-data.actions";
 import _ from 'lodash';
 
 export const assessmentData = [{}]
@@ -75,7 +75,17 @@ export class AssessmentQuestionComponent implements OnInit {
       }
     })
   }
-
+  saveParticularAnswer($event: KeyboardEvent) {
+    this.assessmentNotes.assessmentId = this.assessmentId
+    this.assessmentNotes.questionId = this.questionDetails.questionId
+    this.assessmentNotes.notes = this.answerInput.answer
+    this.answerNote.questionId = this.questionDetails.questionId
+    this.answerNote.answer = this.answerInput.answer
+    this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
+      assessmentData.push(this.assessmentNotes);
+    });
+    this.sendAnswer(this.answerNote)
+  }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {
     let index = 0;
@@ -95,15 +105,4 @@ export class AssessmentQuestionComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  saveParticularAnswer($event: KeyboardEvent) {
-    this.assessmentNotes.assessmentId = this.assessmentId
-    this.assessmentNotes.questionId = this.questionDetails.questionId
-    this.assessmentNotes.notes = this.answerInput.answer
-    this.answerNote.questionId = this.questionDetails.questionId
-    this.answerNote.answer = this.answerInput.answer
-    this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
-      assessmentData.push(this.assessmentNotes);
-    });
-    this.sendAnswer(this.answerNote)
-  }
 }

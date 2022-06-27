@@ -53,7 +53,7 @@ import {AssessmentMenuComponent} from './components/assessment-menu/assessment-m
 import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
 import {MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
-import {Assessment_dataEffects} from "./effects/assessment_data.effects";
+import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
 
@@ -136,7 +136,7 @@ export const appRoutes: Routes = [
         strictStateImmutability: false,
         strictActionImmutability:false
       }}),
-    EffectsModule.forRoot([Assessment_dataEffects]),
+    EffectsModule.forRoot([AssessmentDataEffects]),
   ],
   exports: [
     MatButtonModule,
