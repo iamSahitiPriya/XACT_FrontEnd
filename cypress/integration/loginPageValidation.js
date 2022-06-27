@@ -118,27 +118,11 @@ describe('validating functionality of login page of xAct application', () => {
   it('tc013 clicking on next button with empty email id and validating the error messages',()=>{
     loginPage.forgetPasswordLink().should('be.visible')
     loginPage.forgetPasswordLink().click()
-
+    cy.wait(1000)
     loginPage.emailId().should('be.visible')
     loginPage.authContainer().should('be.visible')
     loginPage.oktaHeader().should('be.visible')
-    // cy.get('body').then($body => {
-    //   if ($body.find(loginPage.userNameheader()).length > 0) {
-    //     assert.isOk('true','user name header is visible')
-    //     loginPage.nextButton().should('be.visible')
-    //     loginPage.nextButton().click()
-    //   }
-    // });
-    cy.get('body').then($body => {
-      if ($body.find(loginPage.userNameheader()).length > 0) {
-        assert.isOk('true', 'user name header is visible')
-        cy.log('inside if condition')
-      }else {
-        assert.isNotOk(false,'element is not visible')
-        cy.log('inside else  condition')
-      }
-    })
-
+    loginPage.nextButton().click()
     //commonFunctions.elementIsDisplayed(loginPage.userNameheader())
     loginPage.errorMessage().should('be.visible')
     loginPage.errorDescription().should('be.visible')

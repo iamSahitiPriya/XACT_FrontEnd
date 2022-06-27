@@ -1,6 +1,6 @@
-import loginPage from "./pageObjects/loginPage";
-import landingPage from "./pageObjects/landingPage";
-import commonFunctions from "../support/commonFunctions";
+import loginPage from "./loginPage";
+import landingPage from "./landingPage";
+import commonFunctions from "../../support/commonFunctions";
 
 
 describe('validating creating Assessment assessment popup functionality', () => {

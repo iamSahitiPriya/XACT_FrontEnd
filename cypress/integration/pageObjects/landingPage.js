@@ -41,6 +41,7 @@ class landingPage {
   static teamSizeField() {
     return cy.get('.teamSize')
   }
+
   static pagenationDropdown(){
     //return cy.get('.mat-paginator-page-size > .mat-form-field > .mat-form-field-wrapper')
     return cy.get('.mat-paginator-page-size > .mat-form-field')
@@ -132,6 +133,22 @@ class landingPage {
     return cy.get('mat-error')
   }
 
+  //placeholders
+  static AssessmentPlaceHolder(){
+    return cy.get('input[placeholder=\'Enter Assessment Name\']')
+  }
+  static organisationPlaceHolder(){
+    return cy.get('input[placeholder=\'Enter organization Name\']')
+  }
+  static domainPlaceHolder(){
+    return cy.get('input[placeholder=\'Enter Domain\']')
+  }
+  static industryPlaceHolder(){
+    return cy.get('input[placeholder=\'Enter Industry\']')
+  }
+  static emailPlaceHolder(){
+    return cy.get('input[placeholder=\'Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com\']')
+  }
 
 
   //reusable functions
