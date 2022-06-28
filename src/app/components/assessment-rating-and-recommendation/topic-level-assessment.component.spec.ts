@@ -24,8 +24,7 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import _ from "lodash";
-
+import _, {debounce} from "lodash";
 class MockAppService {
 
   public getAssessment(assessmentId: number) {
@@ -54,9 +53,11 @@ class MockAppService {
 }
 
 let parameter: { parameterId: number; references: any[]; questions: { questionId: number; parameter: number; questionText: string }[]; topic: number; parameterName: string }
-
+jest.useFakeTimers();
 
 describe('TopicLevelAssessmentComponent', () => {
+  let func: jest.Mock;
+  let debouncedFunc: Function;
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
     component2: TopicLevelRatingAndRecommendationComponent,
@@ -69,13 +70,15 @@ describe('TopicLevelAssessmentComponent', () => {
   };
 
   beforeEach(async () => {
+    func = jest.fn();
+    debouncedFunc = debounce(func, 1000);
     Object.defineProperty(window, 'location', {
       configurable: true,
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
       declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent],
-      providers: [{provide: AppServiceService, useClass: MockAppService},
+      providers: [{provide: AppServiceService, useClass: MockAppService},{provide:debounce, useValue:debouncedFunc}
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, CommonModule, MatSnackBarModule,
         StoreModule.forRoot(reducers)]
@@ -99,6 +102,7 @@ describe('TopicLevelAssessmentComponent', () => {
   });
 
   it('should create', () => {
+    // @ts-ignore
     expect(component).toBeTruthy();
   });
 

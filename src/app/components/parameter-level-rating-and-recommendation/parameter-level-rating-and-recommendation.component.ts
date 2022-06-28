@@ -15,7 +15,7 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
-import _ from "lodash";
+import _, {debounce} from "lodash";
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -35,7 +35,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    // this.saveParticularParameterRecommendation = _.debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
+    this.saveParticularParameterRecommendation = debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
 
   }
 
@@ -88,6 +88,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
     })
+    console.log(this.parameterRecommendationResponse)
     this.sendRecommendation(this.parameterRecommendationResponse)
 
   }

@@ -16,14 +16,18 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of} from "rxjs";
+import _, {debounce} from "lodash";
 
-jest.useFakeTimers();
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
-
-
+  let debouncer:DebounceProvider
+  class DebounceProvider{
+    public debounce(){
+      return "hello"
+    }
+  }
   class MockAppService {
   }
 
@@ -36,6 +40,7 @@ describe('AssessmentQuestionComponent', () => {
       BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
 
 
+
     })
       .compileComponents();
   });
@@ -43,6 +48,7 @@ describe('AssessmentQuestionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentQuestionComponent);
     component = fixture.componentInstance;
+    debouncer = new DebounceProvider()
     fixture.detectChanges();
 
   });
@@ -55,7 +61,8 @@ describe('AssessmentQuestionComponent', () => {
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
   it('should auto save the data whenever the value is changes', async () => {
-    component.questionDetails = {questionId: 123, questionText: 'Hello', parameter: 1234}
+    component.questionDetails = {questionId: 1, questionText: 'Hello', parameter: 1}
+    component.assessmentId = 1
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -74,12 +81,16 @@ describe('AssessmentQuestionComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
+    component.answerInput = {questionId: 1, answer: ""}
+
     const keyEventData = { isTrusted: true, code: 'KeyA' };
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.answerInput = {questionId: 123, answer: ""}
-    fixture.detectChanges()
+    jest.spyOn(component, 'saveParticularAnswer')
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
+
+    await new Promise((r) => setTimeout(r, 2000));
+
     expect(component.assessmentNotes.notes).toBe("")
   });
 });

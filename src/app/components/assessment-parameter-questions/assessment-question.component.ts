@@ -15,7 +15,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
-import _ from 'lodash';
+import _, {debounce} from 'lodash';
 
 export const assessmentData = [{}]
 
@@ -54,7 +54,7 @@ export class AssessmentQuestionComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    // this.saveParticularAnswer = _.debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
+    this.saveParticularAnswer = debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
 
   }
 

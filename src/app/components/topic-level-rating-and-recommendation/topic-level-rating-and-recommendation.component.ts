@@ -14,7 +14,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import _ from "lodash";
+import _, {debounce} from "lodash";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -32,7 +32,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    // this.saveParticularRecommendation = _.debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
+    this.saveParticularRecommendation =debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
   }
 
   @Input()

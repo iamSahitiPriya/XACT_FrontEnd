@@ -152,6 +152,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.ngOnInit()
     component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: ""}
     component.saveParticularRecommendation(keyEvent)
+    await new Promise((r) => setTimeout(r, 2000));
+
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBe(topicRecommendation)
     })

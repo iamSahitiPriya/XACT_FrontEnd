@@ -18,13 +18,15 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {ParameterRating} from "../../types/parameterRating";
 
 class MockAppService {
-  saveParameterRecommendation(parameterRecommendation:ParameterRecommendation){
+  saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
     return of(parameterRecommendation)
   }
-  saveParameterRating(parameterRating:ParameterRating){
+
+  saveParameterRating(parameterRating: ParameterRating) {
     return of(parameterRating)
   }
 }
+
 describe('ParameterLevelRatingAndRecommendationComponent', () => {
   let component: ParameterLevelRatingAndRecommendationComponent;
   let fixture: ComponentFixture<ParameterLevelRatingAndRecommendationComponent>;
@@ -90,7 +92,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       recommendation: "some text",
       parameterId: 1
     }
-    let parameterRating ={
+    let parameterRating = {
       assessmentId: 0, parameterId: 0, rating: ""
     };
     jest.spyOn(component, "setRating");
@@ -98,12 +100,12 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.assessmentStatus = "Active"
     component.parameterRecommendation = 1
     component.setRating("2")
-    mockAppService.saveParameterRating(parameterRating).subscribe(data =>{
+    mockAppService.saveParameterRating(parameterRating).subscribe(data => {
       expect(data).toBe(parameterRating)
     })
     expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
   })
-  it("should auto save parameter rating and recommendation", async () => {
+  it("should auto save parameter recommendation", async () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -122,20 +124,25 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-   let parameterRecommendation = {
-     assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
-   };
+    let parameterRecommendation = {
+      assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
+    };
     component.assessmentId = 1
-    component.parameterRecommendation = 2
-    const keyEventData = { isTrusted: true, code: 'KeyA' };
+    component.parameterRecommendation = 1
+    const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: ""}
+
+    jest.spyOn(component, 'saveParticularParameterRecommendation')
+    component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: "hello"}
     component.ngOnInit()
     component.saveParticularParameterRecommendation(keyEvent);
-    mockAppService.saveParameterRecommendation(parameterRecommendation).subscribe(data =>{
+
+    await new Promise((r) => setTimeout(r, 2000));
+
+    mockAppService.saveParameterRecommendation(parameterRecommendation).subscribe(data => {
       expect(data).toBe(parameterRecommendation)
     })
-    expect(component.parameterLevelRecommendation.recommendation).toBe("")
+    expect(component.parameterRecommendationResponse.recommendation).toBe("hello")
   });
   it("should push the parameter rating if it is not present", () => {
     component.answerResponse = {
