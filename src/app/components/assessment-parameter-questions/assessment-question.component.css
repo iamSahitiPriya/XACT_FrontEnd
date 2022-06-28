@@ -41,3 +41,11 @@ textArea.mat-input-element {
   overflow-y: scroll !important;
 }
 
+::ng-deep .saveSnackbar{
+  background-color: #6B9F78 !important;
+}
+
+::ng-deep .errorSnackbar{
+  background-color: #F15F79 !important;
+}
+

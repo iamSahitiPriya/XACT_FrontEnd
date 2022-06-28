@@ -17,6 +17,8 @@ import {ParameterRecommendationResponse} from "../../types/parameterRecommendati
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 import {ParameterRecommendationStructure} from "../../types/parameterRecommendationStructure";
+import {format} from "date-fns";
+
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -92,12 +94,26 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
+      this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+
     })
-    console.log(this.parameterRecommendationResponse)
     this.sendRecommendation(this.parameterRecommendationResponse)
 
   }
-
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['saveSnackbar'],
+      duration: 2000
+    })
+  }
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
@@ -116,6 +132,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.parameterRatingResponse)
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);
+          this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+
         })
       }
     }

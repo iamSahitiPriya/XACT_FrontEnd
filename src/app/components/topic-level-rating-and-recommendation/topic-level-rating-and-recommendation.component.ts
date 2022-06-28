@@ -16,6 +16,7 @@ import {TopicRecommendationResponse} from "../../types/topicRecommendationRespos
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
 import {TopicRecommendationStructure} from "../../types/topicRecommendationStructure";
+import {format} from "date-fns";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -116,6 +117,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
+          this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+
         })
 
       }
@@ -158,4 +161,18 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['saveSnackbar'],
+      duration: 2000
+    })
+  }
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
 }

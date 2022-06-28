@@ -35,7 +35,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRatingAndRecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService, useClass: MockAppService}]
     })

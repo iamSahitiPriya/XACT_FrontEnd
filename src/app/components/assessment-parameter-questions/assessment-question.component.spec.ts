@@ -16,20 +16,29 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of} from "rxjs";
+import _, {debounce} from "lodash";
+import {AssessmentNotes} from "../../types/assessmentNotes";
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
-  let debouncer: DebounceProvider
-
-  class DebounceProvider {
-    public debounce() {
+  let mockAppService:MockAppService
+  let assessmentNotes: AssessmentNotes = {
+    assessmentId: 0, questionId: undefined, notes: undefined
+  };
+  let debouncer:DebounceProvider
+  class DebounceProvider{
+    public debounce(){
       return "hello"
     }
   }
 
   class MockAppService {
+    public saveNotes(assessmentNotes:AssessmentNotes){
+      return of(assessmentNotes)
+    }
   }
 
   beforeEach(async () => {
@@ -38,7 +47,8 @@ describe('AssessmentQuestionComponent', () => {
 
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers),
-        BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
+      BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
+      providers:[{provide:AppServiceService,useClass:MockAppService}]
 
 
     })
@@ -46,6 +56,7 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   beforeEach(() => {
+    mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentQuestionComponent);
     component = fixture.componentInstance;
     debouncer = new DebounceProvider()
@@ -81,7 +92,7 @@ describe('AssessmentQuestionComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    component.answerInput = {questionId: 1, answer: ""}
+    component.answerInput = {questionId: 1, answer: "hello"}
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
@@ -91,6 +102,9 @@ describe('AssessmentQuestionComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    expect(component.assessmentNotes.notes?.notes).toBe("")
+    mockAppService.saveNotes(assessmentNotes).subscribe(data =>{
+      expect(data).toBe(assessmentNotes)
+    })
+    expect(component.assessmentNotes.notes).toBe("hello")
   });
 });

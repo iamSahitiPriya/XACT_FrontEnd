@@ -35,7 +35,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingAndRecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
         StoreModule.forRoot(reducers)],
       providers: [
         NgForm,

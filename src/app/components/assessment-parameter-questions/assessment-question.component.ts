@@ -16,6 +16,8 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
+
+import {format} from "date-fns";
 import {AnswerStructure} from "../../types/answerStructure";
 
 export const assessmentData = [{}]
@@ -79,16 +81,34 @@ export class AssessmentQuestionComponent implements OnInit {
       }
     })
   }
-
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['saveSnackbar'],
+      duration: 2000
+    })
+  }
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
   saveParticularAnswer(_$event: KeyboardEvent) {
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
     this.answerStructure.notes = this.answerInput.answer
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
-    this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
+    this.appService.saveNotes(this.assessmentNotes).subscribe({
+      next:(_data) => {
+      this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
       assessmentData.push(this.assessmentNotes);
-    });
+    },
+    error:_err =>{
+      this.showError(`Unable to save the data will be displayed`, "Close");
+    } });
     this.sendAnswer(this.answerNote)
   }
 
