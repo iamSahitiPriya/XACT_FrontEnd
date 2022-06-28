@@ -9,10 +9,10 @@ describe('completing prerequisites to test the application', () => {
     cy.visit('/')
   })
 
-  it('tc001 user tries to login  with valid userId and password',()=>{
-    loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
-    loginPage.xActHomepagetitleValidation()
-  })
+  // it('tc001 user tries to login  with valid userId and password',()=>{
+  //   loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
+  //   loginPage.xActHomepagetitleValidation()
+  // })
 
   it('Creating 30 assessments for testing purpose',()=>{
     for (var iCount = 1; iCount <= 20; iCount++) {
