@@ -15,7 +15,7 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
-import _, {debounce} from "lodash";
+import {debounce} from "lodash";
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -79,7 +79,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     })
   }
 
-  saveParticularParameterRecommendation($event: KeyboardEvent) {
+  saveParticularParameterRecommendation(_$event: KeyboardEvent) {
     this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
     this.parameterLevelRecommendation.assessmentId = this.assessmentId
     this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation

@@ -15,7 +15,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
-import _, {debounce} from 'lodash';
+import {debounce} from 'lodash';
 
 export const assessmentData = [{}]
 
@@ -75,7 +75,7 @@ export class AssessmentQuestionComponent implements OnInit {
       }
     })
   }
-  saveParticularAnswer($event: KeyboardEvent) {
+  saveParticularAnswer(_$event: KeyboardEvent) {
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
     this.assessmentNotes.notes = this.answerInput.answer

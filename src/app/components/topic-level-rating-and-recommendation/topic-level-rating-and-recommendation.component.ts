@@ -14,7 +14,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import _, {debounce} from "lodash";
+import {debounce} from "lodash";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -143,7 +143,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   }
 
 
-  saveParticularRecommendation($event: KeyboardEvent) {
+  saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
     this.topicLevelRecommendation.assessmentId = this.assessmentId
     this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
