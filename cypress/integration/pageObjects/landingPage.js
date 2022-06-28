@@ -56,6 +56,9 @@ class landingPage {
   static pagenation100(){
     return cy.get('#mat-option-3 > .mat-option-text')
   }
+  static pagenation5(){
+    return cy.get('#mat-option-0 > .mat-option-text')
+  }
 
   static teamSize(){
     return cy.get('.teamSize > .mat-form-field-wrapper > .mat-form-field-flex')
@@ -97,7 +100,7 @@ class landingPage {
     return cy.get('.mat-header-row > .cdk-column-updatedAt')
   }
   static searchBox(){
-    return cy.get('app-search > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
+    return cy.get('#search')
   }
   static emailHeader(){
     return cy.get('#mat-dialog-title-1')
