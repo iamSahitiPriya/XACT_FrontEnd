@@ -369,7 +369,7 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentLevel: ""
     }
     component.ngOnInit()
-    expect(component.averageRating).toBe(1)
+    expect(component.averageRating).toBe("1")
   });
   it("should get answers from store", () => {
     let dummyResponse = {

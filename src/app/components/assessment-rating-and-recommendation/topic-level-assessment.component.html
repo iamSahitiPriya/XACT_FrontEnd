@@ -2,28 +2,13 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
+<div class = "newClass">
 
 <div class="topicQuestions" *ngIf="topicInput">
 
   <div *ngFor="let parameter of topicInput.parameters; let i=index;">
     <div id="questionContainer">
       <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
-      </div>
-      <div *ngIf="i===0">
-        <div id="currentMaturityScore" *ngIf="!topicInput.references">
-          <div class="parameterScoring">
-            <div class="maturityScore">
-              Current_Maturity_Score
-            </div>
-            <div>
-              <mat-toolbar class="scoreReference">
-          <span class="rating">
-       <div class="image"></div>
-            {{averageRating}}</span>
-              </mat-toolbar>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -53,4 +38,21 @@
       </button>
     </div>
   </div>
+</div>
+
+  <div id="currentMaturityScore">
+    <div class="parameterScoring">
+      <div class="maturityScore">
+        Computed Maturity Score
+      </div>
+      <div>
+        <mat-toolbar class="scoreReference">
+          <span class="rating">
+       <div class="image"></div>
+            {{averageRating}}</span>
+        </mat-toolbar>
+      </div>
+    </div>
+  </div>
+
 </div>

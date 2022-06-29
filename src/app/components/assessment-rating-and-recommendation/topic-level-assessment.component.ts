@@ -56,7 +56,7 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating: number = 0
+  averageRating: String = "0"
   form: FormGroup
 
   answerResponse: AssessmentStructure
@@ -272,7 +272,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
     }
-    this.averageRating = ratingSum / ratingNumber;
+    if(ratingSum !==0 && ratingNumber !==0){
+      this.averageRating = String(ratingSum / ratingNumber);
+
+    }
+    else{
+      this.averageRating = "0"
+
+    }
   }
 }
 
