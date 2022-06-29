@@ -24,19 +24,6 @@ pipeline {
                 sh 'npm run test:coverage'
             }
         }
-        stage('Create & Archive Dev Build') {
-            steps {
-                sh "npm run updateBuild -- dev ${DEV_CLIENT_ID} ${DEV_ISSUER}"
-                sh 'npm run build-dev'
-                sh 'rm -rf dev-build'
-                sh 'mkdir -p dev-build'
-                sh 'cp -R dist/xact-frontend-app/. dev-build/'
-                script{
-                   zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
-                }
-                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
-            }
-        }
         stage("SonarQube analysis") {
             steps {
               withSonarQubeEnv('XACT_SONAR') {
@@ -51,6 +38,19 @@ pipeline {
               }
             }
         }
+        stage('Create & Archive Dev Build') {
+            steps {
+                sh "npm run updateBuild -- dev ${DEV_CLIENT_ID} ${DEV_ISSUER}"
+                sh 'npm run build-dev'
+                sh 'rm -rf dev-build'
+                sh 'mkdir -p dev-build'
+                sh 'cp -R dist/xact-frontend-app/. dev-build/'
+                script{
+                   zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
+                }
+                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
+            }
+        }
         stage('Deploy to Dev') {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
@@ -59,11 +59,6 @@ pipeline {
 
             }
         }
-        /* stage('End-to-End Testing'){
-            steps{
-                sh 'npm run e2e'
-            }
-        } */
         stage('Create & Archive QA Build') {
                       steps {
                           sh "npm run updateBuild -- qa ${QA_CLIENT_ID} ${QA_ISSUER}"
@@ -94,13 +89,6 @@ pipeline {
      post {
             always {
                 cleanWs notFailBuild: true
-                /*publishHTML (target : [allowMissing: false,
-                                       alwaysLinkToLastBuild: true,
-                                       keepAll: true,
-                                       reportDir: 'mochawesome-report',
-                                       reportFiles: 'mochawesome.html',
-                                       reportName: 'End-to-End Test Reports',
-                                       reportTitles: 'End-to-End Test Report'])*/
             }
     }
 
