@@ -43,11 +43,13 @@
   <div id="currentMaturityScore">
     <div class="parameterScoring">
       <div class="maturityScore">
+
         Computed Maturity Score
       </div>
       <div>
         <mat-toolbar class="scoreReference">
-          <span class="rating">
+          <span class="rating"
+                [ngClass]="{'rating-disable':averageRating === disableRating}">
        <div class="image"></div>
             {{averageRating}}</span>
         </mat-toolbar>

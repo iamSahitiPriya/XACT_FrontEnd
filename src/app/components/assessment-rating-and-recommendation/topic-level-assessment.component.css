@@ -132,6 +132,10 @@
   margin-right: 72px;
   margin-left: 71px;
 }
+.rating-disable{
+  background: #C3C3C3;
+
+}
 
 .image{
   width: 26px;
