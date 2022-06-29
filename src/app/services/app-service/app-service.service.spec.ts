@@ -107,7 +107,7 @@ describe('AppServiceService', () => {
 
   it("should update particular answer", () => {
     let answerStructure :AnswerStructure = {notes: "abc"}
-    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:answerStructure }
+    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:"" }
     expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
   });
 

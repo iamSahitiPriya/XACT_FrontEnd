@@ -16,11 +16,10 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
-
-import {format} from "date-fns";
 import {AnswerStructure} from "../../types/answerStructure";
-import { UpdatedStatus } from 'src/app/types/UpdatedStatus';
+import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
+
 export const assessmentData = [{}]
 export let loading = false
 

@@ -157,7 +157,9 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBe(topicRecommendation)
     })
-    expect(component.topicLevelRecommendation.recommendation).toBe("hello")
+    let dummyExpectedRecommendation =  {"recommendation": "hello"}
+
+    expect(component.topicLevelRecommendation.recommendation).toStrictEqual(dummyExpectedRecommendation)
   });
   it('should able to set topic rating', () => {
     component.answerResponse = {
