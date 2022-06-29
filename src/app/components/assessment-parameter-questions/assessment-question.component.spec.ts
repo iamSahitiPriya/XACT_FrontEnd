@@ -49,8 +49,6 @@ describe('AssessmentQuestionComponent', () => {
         StoreModule.forRoot(reducers),
       BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
       providers:[{provide:AppServiceService,useClass:MockAppService}]
-
-
     })
       .compileComponents();
   });
@@ -72,8 +70,8 @@ describe('AssessmentQuestionComponent', () => {
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
   it('should auto save the data whenever the value is changes', async () => {
-    component.questionDetails = {questionId: 1, questionText: 'Hello', parameter: 1}
-    component.assessmentId = 1
+    component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
+    component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -89,10 +87,10 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    component.answerInput = {questionId: 1, answer: "hello"}
+    component.answerInput = {questionId: 2, answer: "hello"}
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);

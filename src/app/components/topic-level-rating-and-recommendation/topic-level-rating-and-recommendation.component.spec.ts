@@ -149,16 +149,15 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.topicId = 1
     const keyEventData = { isTrusted: true, code: 'KeyA' };
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    fixture.detectChanges()
+    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
     component.ngOnInit()
-    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: ""}
     component.saveParticularRecommendation(keyEvent)
     await new Promise((r) => setTimeout(r, 2000));
 
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBe(topicRecommendation)
     })
-    expect(component.topicLevelRecommendation.recommendation?.recommendation).toBe("")
+    expect(component.topicLevelRecommendation.recommendation).toBe("hello")
   });
   it('should able to set topic rating', () => {
     component.answerResponse = {

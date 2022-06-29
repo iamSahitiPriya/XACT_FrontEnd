@@ -103,9 +103,9 @@ export class AssessmentQuestionComponent implements OnInit {
     this.appService.saveNotes(this.assessmentNotes).subscribe({
       next:(_data) => {
         assessmentData.push(this.assessmentNotes);
-        this.updateDataSavedStatus()
     }});
     this.sendAnswer(this.answerNote)
+    this.updateDataSavedStatus()
   }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {

@@ -98,6 +98,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       topicRecommendationData.push(this.topicLevelRecommendation);
     })
     this.sendRecommendation(this.topicRecommendationResponse)
+    this.updateDataSavedStatus()
   }
 
   setRating(rating: string) {

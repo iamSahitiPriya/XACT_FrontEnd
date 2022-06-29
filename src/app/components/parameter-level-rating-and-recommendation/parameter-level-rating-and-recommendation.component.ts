@@ -95,10 +95,11 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
-      this.updateDataSavedStatus()
 
     })
     this.sendRecommendation(this.parameterRecommendationResponse)
+    this.updateDataSavedStatus()
+
 
   }
 
