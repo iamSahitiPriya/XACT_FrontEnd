@@ -18,7 +18,6 @@ pipeline {
     }
      post {
             always {
-                cleanWs notFailBuild: true
                 publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
                                        keepAll: true,
@@ -26,6 +25,7 @@ pipeline {
                                        reportFiles: 'mochawesome.html',
                                        reportName: 'End-to-End Test Reports',
                                        reportTitles: 'End-to-End Test Report'])
+                cleanWs notFailBuild: true
             }
     }
 

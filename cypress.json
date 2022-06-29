@@ -1,7 +1,7 @@
 {
   "integrationFolder": "cypress/integration",
   "supportFile": "cypress/support/index.js",
-  "video": true,
+  "video": false,
   "reporter": "mochawesome",
   "reporterOptions": {
     "reporterEnabled": "mochawesome",
