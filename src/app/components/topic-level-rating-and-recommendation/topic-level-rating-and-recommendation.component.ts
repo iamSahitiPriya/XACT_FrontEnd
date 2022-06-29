@@ -31,6 +31,7 @@ let DEBOUNCE_TIME = 2000;
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneTopicResponse: AssessmentStructure;
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -117,7 +118,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
-          this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+          this.updateDataSavedStatus()
 
         })
 
@@ -161,18 +162,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['saveSnackbar'],
-      duration: 2000
-    })
-  }
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
-    })
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
   }
 }

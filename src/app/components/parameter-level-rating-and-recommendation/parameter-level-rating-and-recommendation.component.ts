@@ -35,6 +35,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -94,26 +95,13 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
-      this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+      this.updateDataSavedStatus()
 
     })
     this.sendRecommendation(this.parameterRecommendationResponse)
 
   }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['saveSnackbar'],
-      duration: 2000
-    })
-  }
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
-    })
-  }
+
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
@@ -132,7 +120,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.parameterRatingResponse)
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);
-          this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+          this.updateDataSavedStatus()
 
         })
       }
@@ -174,6 +162,11 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRatingList
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
+  }
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
   }
 
 }

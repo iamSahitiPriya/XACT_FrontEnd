@@ -81,7 +81,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     })
   }
 
-  public answerSaved: boolean = false;
+  public answerSaved: string
   public makeDisable = false
 
   @Input() selectedIndex: number
@@ -132,7 +132,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     )
     this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
-    this.answerSaved = true
   }
 
 

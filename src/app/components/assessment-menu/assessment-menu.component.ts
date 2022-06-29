@@ -17,6 +17,8 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
+import {UpdatedStatus} from "../../types/UpdatedStatus";
+import {format} from "date-fns";
 
 export const assessmentData = [{}]
 
@@ -29,19 +31,20 @@ export const assessmentData = [{}]
 
 
 export class AssessmentMenuComponent implements OnInit {
+  public static answerSaved:string
+  savedAnswer:string
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   assessment: AssessmentStructure;
   data: AssessmentStructure;
   @Input()
   assessmentId: number
-
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
+  private updatedState: Observable<UpdatedStatus[]>;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-
   }
 
   generateReport() {
@@ -53,7 +56,9 @@ export class AssessmentMenuComponent implements OnInit {
     });
   }
 
-
+  getAnswerStatus(){
+    return AssessmentMenuComponent.answerSaved
+  }
   finishAssessment() {
     this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
         this.cloneAssessment = Object.assign({}, this.assessment)
@@ -103,11 +108,14 @@ export class AssessmentMenuComponent implements OnInit {
   closePopUp(): void {
     this.dialog.closeAll()
   }
-
+  updateAssessmentStatus(){
+    AssessmentMenuComponent.answerSaved =`Data was saved at ${format(new Date(this.assessment.updatedAt),'dd/MM/yyyy hh:mm')}`
+  }
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
         this.assessment = data
+        this.updateAssessmentStatus()
       }
     })
   }

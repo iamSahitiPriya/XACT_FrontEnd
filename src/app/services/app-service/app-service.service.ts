@@ -62,7 +62,7 @@ export class AppServiceService {
 
   saveNotes(assessmentNotes: AssessmentNotes): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers':headers})
   }
 
   saveTopicRecommendation(topicRecommendation: TopicRecommendation): Observable<any> {
