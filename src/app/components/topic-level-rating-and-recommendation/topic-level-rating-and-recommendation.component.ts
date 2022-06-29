@@ -15,6 +15,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
+import {TopicRecommendationStructure} from "../../types/topicRecommendationStructure";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -32,7 +33,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularRecommendation =debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
+    this.saveParticularRecommendation = debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
   }
 
   @Input()
@@ -54,8 +55,12 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   recommendation = new FormControl("");
   saveCount = 0;
+
+  topicRecommendationStructure: TopicRecommendationStructure = {
+    recommendation: undefined
+  }
   topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, recommendation: undefined
+    assessmentId: 0, topicId: 0, recommendation: this.topicRecommendationStructure
   };
 
   topicLevelRating: TopicRating = {
@@ -79,7 +84,18 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
+  }
 
+  saveParticularRecommendation(_$event: KeyboardEvent) {
+    this.topicLevelRecommendation.topicId = this.topicId
+    this.topicLevelRecommendation.assessmentId = this.assessmentId
+    this.topicRecommendationStructure.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.topicRecommendationResponse.topicId = this.topicId
+    this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
+      topicRecommendationData.push(this.topicLevelRecommendation);
+    })
+    this.sendRecommendation(this.topicRecommendationResponse)
   }
 
   setRating(rating: string) {
@@ -142,16 +158,4 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
 
-
-  saveParticularRecommendation(_$event: KeyboardEvent) {
-    this.topicLevelRecommendation.topicId = this.topicId
-    this.topicLevelRecommendation.assessmentId = this.assessmentId
-    this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
-    this.topicRecommendationResponse.topicId = this.topicId
-    this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
-    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
-      topicRecommendationData.push(this.topicLevelRecommendation);
-    })
-    this.sendRecommendation(this.topicRecommendationResponse)
-  }
 }

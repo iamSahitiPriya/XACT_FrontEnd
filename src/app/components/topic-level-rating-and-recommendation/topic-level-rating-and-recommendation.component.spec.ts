@@ -13,7 +13,6 @@ import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {of} from "rxjs";
-import {SaveRequest} from "../../types/saveRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
@@ -141,8 +140,10 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
+    let RecommendationStr = {recommendation: "dummyRecommendation"}
+
     let topicRecommendation = {
-      assessmentId: 0, topicId: 0, recommendation: "dummyRecommendation"
+      assessmentId: 0, topicId: 0, recommendation: RecommendationStr
     };
     component.assessmentId = 1
     component.topicId = 1
@@ -157,7 +158,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBe(topicRecommendation)
     })
-    expect(component.topicLevelRecommendation.recommendation).toBe("")
+    expect(component.topicLevelRecommendation.recommendation?.recommendation).toBe("")
   });
   it('should able to set topic rating', () => {
     component.answerResponse = {

@@ -16,6 +16,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
+import {ParameterRecommendationStructure} from "../../types/parameterRecommendationStructure";
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -53,8 +54,12 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
+  parameterRecommendationStructure : ParameterRecommendationStructure = {
+    recommendation : undefined
+  }
+
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: undefined
+    assessmentId: 0, parameterId: 0, recommendation: this.parameterRecommendationStructure
   };
 
   parameterLevelRating: ParameterRating = {
@@ -82,7 +87,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   saveParticularParameterRecommendation(_$event: KeyboardEvent) {
     this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
     this.parameterLevelRecommendation.assessmentId = this.assessmentId
-    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
+    this.parameterRecommendationStructure.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {

@@ -16,6 +16,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
+import {AnswerStructure} from "../../types/answerStructure";
 
 export const assessmentData = [{}]
 
@@ -58,8 +59,11 @@ export class AssessmentQuestionComponent implements OnInit {
 
   }
 
+  answerStructure: AnswerStructure = {
+    notes: undefined
+  }
   assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: undefined, notes: undefined
+    assessmentId: 0, questionId: undefined, notes: this.answerStructure
   };
   answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
@@ -75,10 +79,11 @@ export class AssessmentQuestionComponent implements OnInit {
       }
     })
   }
+
   saveParticularAnswer(_$event: KeyboardEvent) {
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
-    this.assessmentNotes.notes = this.answerInput.answer
+    this.answerStructure.notes = this.answerInput.answer
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
     this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {

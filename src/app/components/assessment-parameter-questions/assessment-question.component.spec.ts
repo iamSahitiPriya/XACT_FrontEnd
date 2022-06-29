@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentQuestionComponent} from './assessment-question.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -10,24 +10,25 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
-import {BrowserModule, By} from "@angular/platform-browser";
+import {BrowserModule} from "@angular/platform-browser";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of} from "rxjs";
-import _, {debounce} from "lodash";
 
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
-  let debouncer:DebounceProvider
-  class DebounceProvider{
-    public debounce(){
+  let debouncer: DebounceProvider
+
+  class DebounceProvider {
+    public debounce() {
       return "hello"
     }
   }
+
   class MockAppService {
   }
 
@@ -35,10 +36,9 @@ describe('AssessmentQuestionComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentQuestionComponent],
 
-      imports: [HttpClientTestingModule,MatFormFieldModule,MatInputModule,BrowserAnimationsModule,NoopAnimationsModule,CommonModule,
+      imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers),
-      BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
-
+        BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
 
 
     })
@@ -83,7 +83,7 @@ describe('AssessmentQuestionComponent', () => {
     })
     component.answerInput = {questionId: 1, answer: ""}
 
-    const keyEventData = { isTrusted: true, code: 'KeyA' };
+    const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component, 'saveParticularAnswer')
     component.ngOnInit()
@@ -91,6 +91,6 @@ describe('AssessmentQuestionComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    expect(component.assessmentNotes.notes).toBe("")
+    expect(component.assessmentNotes.notes?.notes).toBe("")
   });
 });
