@@ -7,7 +7,7 @@
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
     <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>Create Assessment</h1>
     <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>Manage Assessment</h1>
-    <button type="button" id="close" mat-icon-button (click)="close()">
+    <button matTooltip="Click to close the dialog box" type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
     <div mat-dialog-content>
@@ -84,9 +84,9 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <button *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
+    <button matTooltip="Click to create new assessment" *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
     </button>
-    <button *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
+    <button matTooltip="Click to update this assessment" *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
             (click)="updateAssessment()">Update
     </button>
   </form>

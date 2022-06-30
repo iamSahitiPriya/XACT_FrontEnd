@@ -11,7 +11,9 @@
       <app-search [dataSource]="dataSource"></app-search>
     </div>
     <div align="end" class="col-md-2 col-sm-4">
-      <button mat-raised-button (click)="openAssessment(content)" id="createAssessment">Create Assessment</button>
+      <button matTooltip="Click to create new assessment" mat-raised-button (click)="openAssessment(content)"
+              id="createAssessment">Create Assessment
+      </button>
       <ng-template #content>
         <app-create-assessments [assessment]="blankAssessment"></app-create-assessments>
       </ng-template>
@@ -46,7 +48,8 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr [routerLink]="['/assessment',element.assessmentId]"
+      <tr matTooltip="Click to view details of {{element.assessmentName}}"
+          [routerLink]="['/assessment',element.assessmentId]"
           role="button" mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No assessment found.</td>
