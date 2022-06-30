@@ -110,9 +110,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       if (this.parameterRatingAndRecommendation.rating !== undefined) {
         this.parameterLevelRating.assessmentId = this.assessmentId
         this.parameterLevelRating.parameterId = this.parameterRecommendation
-        this.parameterLevelRating.rating = rating
+        this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
         this.parameterRatingResponse.parameterId = this.parameterRecommendation
-        this.parameterRatingResponse.rating = rating
+        this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
         this.sendRating(this.parameterRatingResponse)
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);

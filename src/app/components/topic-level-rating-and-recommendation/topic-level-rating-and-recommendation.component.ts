@@ -109,9 +109,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       if (this.topicRatingAndRecommendation.rating != "0") {
         this.topicLevelRating.assessmentId = this.assessmentId
         this.topicLevelRating.topicId = this.topicId
-        this.topicLevelRating.rating = rating
+        this.topicLevelRating.rating = this.topicRatingAndRecommendation.rating
         this.topicRatingResponse.topicId = this.topicId
-        this.topicRatingResponse.rating = rating
+        this.topicRatingResponse.rating = this.topicRatingAndRecommendation.rating
         this.sendRating(this.topicRatingResponse)
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
