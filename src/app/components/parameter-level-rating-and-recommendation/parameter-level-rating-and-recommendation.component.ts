@@ -112,7 +112,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.parameterRatingAndRecommendation.rating = rating;
       }
       this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
-      if (this.parameterRatingAndRecommendation.rating !== undefined) {
         this.parameterLevelRating.assessmentId = this.assessmentId
         this.parameterLevelRating.parameterId = this.parameterRecommendation
         this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
@@ -122,11 +121,14 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);
           this.updateDataSavedStatus()
+<<<<<<< HEAD
 
         },_error => {
           this.showError("Data cannot be saved","Close");
+=======
+>>>>>>> [No-Card] [Shashank] | Fix select/unselect rating for parameter
         })
-      }
+
     }
   }
 
