@@ -16,7 +16,6 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of} from "rxjs";
-import _, {debounce} from "lodash";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 

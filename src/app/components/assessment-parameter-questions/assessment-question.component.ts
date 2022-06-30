@@ -16,7 +16,6 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
-import {AnswerStructure} from "../../types/answerStructure";
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 
@@ -52,7 +51,6 @@ export class AssessmentQuestionComponent implements OnInit {
   assessmentId: number
   textarea: number = 0;
 
-  formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
   private cloneAnswerResponse: AssessmentStructure;
   private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};
   private cloneAnswerResponse1: AssessmentStructure;
@@ -63,9 +61,7 @@ export class AssessmentQuestionComponent implements OnInit {
 
   }
 
-  answerStructure: AnswerStructure = {
-    notes: undefined
-  }
+
   assessmentNotes: AssessmentNotes = {
     assessmentId: 0, questionId: undefined, notes: undefined,updatedAt:undefined
   };
@@ -94,7 +90,7 @@ export class AssessmentQuestionComponent implements OnInit {
     AssessmentMenuComponent.answerSaved = "Saving..."
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
-    this.answerStructure.notes = this.answerInput.answer
+    this.assessmentNotes.notes = this.answerInput.answer
     this.assessmentNotes.notes = this.answerInput.answer
     this.assessmentNotes.updatedAt = Number(new Date(Date.now()))
     this.answerNote.questionId = this.questionDetails.questionId

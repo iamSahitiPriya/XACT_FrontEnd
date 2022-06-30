@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {FormBuilder, FormControl} from "@angular/forms";
@@ -15,8 +15,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
-import {TopicRecommendationStructure} from "../../types/topicRecommendationStructure";
-import {format} from "date-fns";
+import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -55,14 +54,15 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
+  @ViewChild('topicLevelAssessmentComponent')
+  topicLevelAssessmentComponent : TopicLevelAssessmentComponent
+
   recommendation = new FormControl("");
   saveCount = 0;
 
-  topicRecommendationStructure: TopicRecommendationStructure = {
-    recommendation: undefined
-  }
+
   topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, recommendation: this.topicRecommendationStructure
+    assessmentId: 0, topicId: 0, recommendation: undefined
   };
 
   topicLevelRating: TopicRating = {
@@ -91,7 +91,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
     this.topicLevelRecommendation.assessmentId = this.assessmentId
-    this.topicRecommendationStructure.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
@@ -122,7 +122,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
           this.updateDataSavedStatus()
 
         })
-
       }
     }
   }

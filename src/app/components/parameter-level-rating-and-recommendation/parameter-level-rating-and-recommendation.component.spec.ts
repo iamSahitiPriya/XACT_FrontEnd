@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ParameterLevelRatingAndRecommendationComponent} from './parameter-level-rating-and-recommendation.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
@@ -124,9 +124,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    let recommendatioStr = {recommendation: "dummy recommendation"}
     let parameterRecommendation = {
-      assessmentId: 0, parameterId: 0, recommendation: recommendatioStr
+      assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
     };
     component.assessmentId = 1
     component.parameterRecommendation = 1

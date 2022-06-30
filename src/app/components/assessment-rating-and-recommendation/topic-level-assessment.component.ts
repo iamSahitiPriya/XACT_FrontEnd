@@ -104,7 +104,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     })
     this.getAssessment()
-    this.getAverageRating()
+    this.updateAverageRating()
   }
 
   save() {
@@ -261,25 +261,27 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  public getAverageRating() {
+  public updateAverageRating() {
     let ratingSum = 0
     let ratingNumber = 0
-    if (this.topicRequest.parameterLevel != null) {
+    if (this.topicRequest.topicRatingAndRecommendation) {
+      this.averageRating = String(this.topicRequest.topicRatingAndRecommendation.rating)
+    } else {
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
           ratingSum = ratingSum + Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating);
-          ratingNumber = ratingNumber + 1;
+          if (Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating) > 0) {
+            ratingNumber = ratingNumber + 1;
+          }
         }
       }
+      if (ratingSum !== 0 && ratingNumber !== 0) {
+        this.averageRating = String(ratingSum / ratingNumber);
+      } else {
+        this.averageRating = "0"
+      }
     }
-    if(ratingSum !==0 && ratingNumber !==0){
-      this.averageRating = String(ratingSum / ratingNumber);
-
-    }
-    else{
-      this.averageRating = "0"
-
-    }
+    localStorage.setItem("averageRating",String(this.averageRating));
   }
 }
 

@@ -2,7 +2,6 @@ import {Action, createFeatureSelector, createReducer, createSelector, on} from '
 import {getAssessmentData, getUpdatedAssessmentData, setErrorMessage,} from "../actions/assessment-data.actions";
 
 import {AssessmentState} from "./app.states";
-import {UpdatedStatus} from "../types/UpdatedStatus";
 
 export const initialState: AssessmentState = {
   assessments: {

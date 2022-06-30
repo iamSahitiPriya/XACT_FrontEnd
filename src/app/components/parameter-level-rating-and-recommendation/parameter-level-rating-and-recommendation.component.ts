@@ -16,8 +16,6 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
-import {ParameterRecommendationStructure} from "../../types/parameterRecommendationStructure";
-import {format} from "date-fns";
 
 
 export const parameterRecommendationData = [{}]
@@ -57,12 +55,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
-  parameterRecommendationStructure : ParameterRecommendationStructure = {
-    recommendation : undefined
-  }
-
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: this.parameterRecommendationStructure
+    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterLevelRating: ParameterRating = {
@@ -90,7 +84,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   saveParticularParameterRecommendation(_$event: KeyboardEvent) {
     this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
     this.parameterLevelRecommendation.assessmentId = this.assessmentId
-    this.parameterRecommendationStructure.recommendation = this.parameterRatingAndRecommendation.recommendation
+    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
@@ -99,8 +93,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     })
     this.sendRecommendation(this.parameterRecommendationResponse)
     this.updateDataSavedStatus()
-
-
   }
 
 
@@ -164,10 +156,14 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
   }
+
   private updateDataSavedStatus() {
-    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
+  }
+  private sendAverageRating(){
+
   }
 
 }
