@@ -75,15 +75,15 @@
 
 .maturityScore{
   background-color: #45A0AC1D;
-  padding-right: 152px;
   height: 50px;
-  padding-left: 20px;
+  padding-left: 11px;
   padding-top: 15px;
   margin-top: 35px;
   color: #043D4E;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
+  width: 100%;
 }
 
 .scoreHeading {
@@ -129,8 +129,12 @@
   opacity: 1;
   text-align: center;
   cursor: pointer;
-  margin-right: 28px;
-  margin-left: 95px;
+  margin-right: 72px;
+  margin-left: 71px;
+}
+.rating-disable{
+  background: #C3C3C3;
+
 }
 
 .image{
@@ -145,13 +149,12 @@
 }
 
 .parameterScoring{
-  width: 80%;
+  width: 90%;
 }
 #currentMaturityScore{
   display: flex;
   position: inherit;
   flex-direction: row;
-  margin-left: 20px;
 }
 #questionContainer{
   display: flex;
@@ -159,4 +162,11 @@
 }
 ::ng-deep .saveSnackbar{
   background-color: #6B9F78 !important;
+}
+
+.newClass{
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  height: 95%;
 }

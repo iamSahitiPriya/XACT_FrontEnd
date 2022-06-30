@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {FormBuilder, FormControl} from "@angular/forms";
@@ -15,7 +15,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
-import {TopicRecommendationStructure} from "../../types/topicRecommendationStructure";
+import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -30,6 +30,7 @@ let DEBOUNCE_TIME = 2000;
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneTopicResponse: AssessmentStructure;
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -53,14 +54,15 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
+  @ViewChild('topicLevelAssessmentComponent')
+  topicLevelAssessmentComponent : TopicLevelAssessmentComponent
+
   recommendation = new FormControl("");
   saveCount = 0;
 
-  topicRecommendationStructure: TopicRecommendationStructure = {
-    recommendation: undefined
-  }
+
   topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, recommendation: this.topicRecommendationStructure
+    assessmentId: 0, topicId: 0, recommendation: undefined
   };
 
   topicLevelRating: TopicRating = {
@@ -89,13 +91,14 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
     this.topicLevelRecommendation.assessmentId = this.assessmentId
-    this.topicRecommendationStructure.recommendation = this.topicRatingAndRecommendation.recommendation
+    this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
       topicRecommendationData.push(this.topicLevelRecommendation);
     })
     this.sendRecommendation(this.topicRecommendationResponse)
+    this.updateDataSavedStatus()
   }
 
   setRating(rating: string) {
@@ -116,8 +119,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
-        })
+          this.updateDataSavedStatus()
 
+        })
       }
     }
   }
@@ -158,4 +162,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
 
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+  }
 }

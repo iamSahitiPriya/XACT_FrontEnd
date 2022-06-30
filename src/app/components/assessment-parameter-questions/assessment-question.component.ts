@@ -16,9 +16,11 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
-import {AnswerStructure} from "../../types/answerStructure";
+import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
+import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 
 export const assessmentData = [{}]
+export let loading = false
 
 let DEBOUNCE_TIME = 2000;
 
@@ -47,11 +49,11 @@ export class AssessmentQuestionComponent implements OnInit {
   initial: number
   @Input()
   assessmentId: number
-
   textarea: number = 0;
 
-  formStatus: FormStatus.Saving | FormStatus.Saved | FormStatus.Idle = FormStatus.Idle;
   private cloneAnswerResponse: AssessmentStructure;
+  private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -59,11 +61,9 @@ export class AssessmentQuestionComponent implements OnInit {
 
   }
 
-  answerStructure: AnswerStructure = {
-    notes: undefined
-  }
+
   assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: undefined, notes: this.answerStructure
+    assessmentId: 0, questionId: undefined, notes: undefined,updatedAt:undefined
   };
   answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
@@ -79,17 +79,28 @@ export class AssessmentQuestionComponent implements OnInit {
       }
     })
   }
-
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
   saveParticularAnswer(_$event: KeyboardEvent) {
+    AssessmentMenuComponent.answerSaved = "Saving..."
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
-    this.answerStructure.notes = this.answerInput.answer
+    this.assessmentNotes.notes = this.answerInput.answer
+    this.assessmentNotes.notes = this.answerInput.answer
+    this.assessmentNotes.updatedAt = Number(new Date(Date.now()))
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
-    this.appService.saveNotes(this.assessmentNotes).subscribe((_data) => {
-      assessmentData.push(this.assessmentNotes);
-    });
+    this.appService.saveNotes(this.assessmentNotes).subscribe({
+      next:(_data) => {
+        assessmentData.push(this.assessmentNotes);
+    }});
     this.sendAnswer(this.answerNote)
+    this.updateDataSavedStatus()
   }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {
@@ -110,4 +121,9 @@ export class AssessmentQuestionComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+  }
 }

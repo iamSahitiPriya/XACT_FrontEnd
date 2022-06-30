@@ -20,29 +20,32 @@ export const initialState: AssessmentState = {
   }
 }
 
-
 const _assessmentReducer = createReducer(
   initialState,
   on(getAssessmentData, (state, {payload}) => {
-    return{
-      ...state,
-    assessments: payload}
-  }),
-  on(getUpdatedAssessmentData, (state, action) =>{
     return {
       ...state,
-      assessments:action.newData}
-  }),
-  on(setErrorMessage, (state,action) =>{
-    return {
-      ...state,
-      errorMessage:action.error
+      assessments: payload
     }
-  })
+  }),
+  on(getUpdatedAssessmentData, (state, action) => {
+    return {
+      ...state,
+      assessments: action.newData
+    }
+  }),
+  on(setErrorMessage, (state, action) => {
+    return {
+      ...state,
+      errorMessage: action.error
+    }
+  }),
 )
+
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
 }
+
 export const getAssessmentState = createFeatureSelector<AssessmentState>('assessmentState')
 
 export const getAssessments = createSelector(

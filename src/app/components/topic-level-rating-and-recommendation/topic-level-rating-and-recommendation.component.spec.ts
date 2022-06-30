@@ -7,7 +7,7 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
@@ -35,7 +35,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRatingAndRecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserAnimationsModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
@@ -140,25 +140,24 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    let RecommendationStr = {recommendation: "dummyRecommendation"}
 
     let topicRecommendation = {
-      assessmentId: 0, topicId: 0, recommendation: RecommendationStr
+      assessmentId: 0, topicId: 0, recommendation: "dummyRecommendation"
     };
     component.assessmentId = 1
     component.topicId = 1
     const keyEventData = { isTrusted: true, code: 'KeyA' };
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    fixture.detectChanges()
+    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
     component.ngOnInit()
-    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: ""}
     component.saveParticularRecommendation(keyEvent)
     await new Promise((r) => setTimeout(r, 2000));
 
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBe(topicRecommendation)
     })
-    expect(component.topicLevelRecommendation.recommendation?.recommendation).toBe("")
+
+    expect(component.topicLevelRecommendation.recommendation).toStrictEqual("hello")
   });
   it('should able to set topic rating', () => {
     component.answerResponse = {

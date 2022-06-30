@@ -14,9 +14,6 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
-import {AnswerStructure} from "../../types/answerStructure";
-import {ParameterRecommendationStructure} from "../../types/parameterRecommendationStructure";
-import {TopicRecommendationStructure} from "../../types/topicRecommendationStructure";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -106,14 +103,12 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular answer", () => {
-    let answerStructure :AnswerStructure = {notes: "abc"}
-    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:answerStructure }
+    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:"" }
     expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
   });
 
   it("should update particular topic Recommendation", () => {
-    let recommendationStructure : ParameterRecommendationStructure = {recommendation: "abc"}
-    let dummyTopicRecommendation: TopicRecommendation = {assessmentId: 1, topicId: 1, recommendation: recommendationStructure}
+    let dummyTopicRecommendation: TopicRecommendation = {assessmentId: 1, topicId: 1, recommendation: "abc"}
     expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
   });
 
@@ -123,8 +118,7 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Recommendation", () => {
-    let recommendationStructure : TopicRecommendationStructure = {recommendation:"abc"}
-    let dummyParameterRecommendation: ParameterRecommendation = {assessmentId: 1, parameterId: 1, recommendation: recommendationStructure}
+    let dummyParameterRecommendation: ParameterRecommendation = {assessmentId: 1, parameterId: 1, recommendation: "abc"}
     expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
 

@@ -9,14 +9,18 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {of} from "rxjs";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
-import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {
+  ParameterLevelRatingAndRecommendationComponent
+} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
-import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {
+  TopicLevelRatingAndRecommendationComponent
+} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 import {ParameterStructure} from 'src/app/types/parameterStructure';
 import {Notes} from 'src/app/types/answerRequest';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
@@ -24,7 +28,8 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import _, {debounce} from "lodash";
+import {debounce} from "lodash";
+
 class MockAppService {
 
   public getAssessment(assessmentId: number) {
@@ -369,7 +374,7 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentLevel: ""
     }
     component.ngOnInit()
-    expect(component.averageRating).toBe(1)
+    expect(component.averageRating).toBe("0")
   });
   it("should get answers from store", () => {
     let dummyResponse = {

@@ -16,20 +16,28 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of} from "rxjs";
+import {AssessmentNotes} from "../../types/assessmentNotes";
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
-  let debouncer: DebounceProvider
-
-  class DebounceProvider {
-    public debounce() {
+  let mockAppService:MockAppService
+  let assessmentNotes: AssessmentNotes = {
+    assessmentId: 0, questionId: undefined, notes: undefined
+  };
+  let debouncer:DebounceProvider
+  class DebounceProvider{
+    public debounce(){
       return "hello"
     }
   }
 
   class MockAppService {
+    public saveNotes(assessmentNotes:AssessmentNotes){
+      return of(assessmentNotes)
+    }
   }
 
   beforeEach(async () => {
@@ -38,14 +46,14 @@ describe('AssessmentQuestionComponent', () => {
 
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers),
-        BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
-
-
+      BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
+      providers:[{provide:AppServiceService,useClass:MockAppService}]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
+    mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentQuestionComponent);
     component = fixture.componentInstance;
     debouncer = new DebounceProvider()
@@ -61,8 +69,8 @@ describe('AssessmentQuestionComponent', () => {
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
   it('should auto save the data whenever the value is changes', async () => {
-    component.questionDetails = {questionId: 1, questionText: 'Hello', parameter: 1}
-    component.assessmentId = 1
+    component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
+    component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -78,10 +86,10 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    component.answerInput = {questionId: 1, answer: ""}
+    component.answerInput = {questionId: 2, answer: "hello"}
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
@@ -91,6 +99,9 @@ describe('AssessmentQuestionComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    expect(component.assessmentNotes.notes?.notes).toBe("")
+    mockAppService.saveNotes(assessmentNotes).subscribe(data =>{
+      expect(data).toBe(assessmentNotes)
+    })
+    expect(component.assessmentNotes.notes).toBe("hello")
   });
 });

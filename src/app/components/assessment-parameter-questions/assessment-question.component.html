@@ -15,7 +15,7 @@
                 cdkAutosizeMaxRows="100"
                 maxlength="10000"
                 (keyup)="saveParticularAnswer($event)"
-                [readonly]="assessmentStatus ==='Completed'"></textarea>
+                [disabled]="assessmentStatus ==='Completed'"></textarea>
     </mat-form-field>
   </form>
 </div>

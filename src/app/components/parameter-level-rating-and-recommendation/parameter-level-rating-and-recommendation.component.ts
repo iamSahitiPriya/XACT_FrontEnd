@@ -16,7 +16,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
-import {ParameterRecommendationStructure} from "../../types/parameterRecommendationStructure";
+
 
 export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
@@ -33,6 +33,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -54,12 +55,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
-  parameterRecommendationStructure : ParameterRecommendationStructure = {
-    recommendation : undefined
-  }
-
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: this.parameterRecommendationStructure
+    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterLevelRating: ParameterRating = {
@@ -87,15 +84,15 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   saveParticularParameterRecommendation(_$event: KeyboardEvent) {
     this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
     this.parameterLevelRecommendation.assessmentId = this.assessmentId
-    this.parameterRecommendationStructure.recommendation = this.parameterRatingAndRecommendation.recommendation
+    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
-    })
-    console.log(this.parameterRecommendationResponse)
-    this.sendRecommendation(this.parameterRecommendationResponse)
 
+    })
+    this.sendRecommendation(this.parameterRecommendationResponse)
+    this.updateDataSavedStatus()
   }
 
 
@@ -116,6 +113,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.parameterRatingResponse)
         this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
           parameterRatingData.push(this.parameterLevelRating);
+          this.updateDataSavedStatus()
+
         })
       }
     }
@@ -156,6 +155,15 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRatingList
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
+  }
+
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
+  }
+  private sendAverageRating(){
+
   }
 
 }

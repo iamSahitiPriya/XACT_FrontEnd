@@ -56,7 +56,8 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating: number = 0
+  averageRating: String = "0"
+  disableRating: String = "0"
   form: FormGroup
 
   answerResponse: AssessmentStructure
@@ -80,7 +81,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     })
   }
 
-  public answerSaved: boolean = false;
+  public answerSaved: string
   public makeDisable = false
 
   @Input() selectedIndex: number
@@ -103,7 +104,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     })
     this.getAssessment()
-    this.getAverageRating()
+    this.updateAverageRating()
   }
 
   save() {
@@ -131,7 +132,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     )
     this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
-    this.answerSaved = true
   }
 
 
@@ -261,18 +261,27 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  public getAverageRating() {
+  public updateAverageRating() {
     let ratingSum = 0
     let ratingNumber = 0
-    if (this.topicRequest.parameterLevel != null) {
+    if (this.topicRequest.topicRatingAndRecommendation) {
+      this.averageRating = String(this.topicRequest.topicRatingAndRecommendation.rating)
+    } else {
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
           ratingSum = ratingSum + Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating);
-          ratingNumber = ratingNumber + 1;
+          if (Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating) > 0) {
+            ratingNumber = ratingNumber + 1;
+          }
         }
       }
+      if (ratingSum !== 0 && ratingNumber !== 0) {
+        this.averageRating = String(ratingSum / ratingNumber);
+      } else {
+        this.averageRating = "0"
+      }
     }
-    this.averageRating = ratingSum / ratingNumber;
+    localStorage.setItem("averageRating",String(this.averageRating));
   }
 }
 
