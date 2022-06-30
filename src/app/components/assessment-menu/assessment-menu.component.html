@@ -1,7 +1,10 @@
+<div class="dataSavedStatus">
+  <div class="dataStatus">
+    {{getAnswerStatus()}}
+  </div>
+</div>
 <div *ngIf="assessment">
   <div align="end" class="menu-bar-right">
-      {{getAnswerStatus()}}
-
     <button id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
       Generate Report
     </button>

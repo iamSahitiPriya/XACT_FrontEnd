@@ -17,6 +17,7 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
+import {HeaderComponent} from "../header-component/header.component";
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 
 export const assessmentData = [{}]
