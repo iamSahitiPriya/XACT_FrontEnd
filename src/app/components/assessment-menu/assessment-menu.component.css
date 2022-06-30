@@ -77,6 +77,7 @@
 .dataStatus{
   text-align: center;
   font: 700 13px/0px Inter;
+  font-family: 'Inter', sans-serif;
   letter-spacing: .25px;
   font-weight: bolder;
   color: #043d4e;
