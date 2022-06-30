@@ -17,13 +17,12 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
-import {HeaderComponent} from "../header-component/header.component";
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 2000;
+let DEBOUNCE_TIME = 1500;
 
 enum FormStatus {
   Saving = 'Saving',
@@ -99,9 +98,13 @@ export class AssessmentQuestionComponent implements OnInit {
     this.appService.saveNotes(this.assessmentNotes).subscribe({
       next:(_data) => {
         assessmentData.push(this.assessmentNotes);
+        this.sendAnswer(this.answerNote)
+        this.updateDataSavedStatus()
+    },
+    error:_err => {
+        this.showError("Data cannot be saved","Close");
     }});
-    this.sendAnswer(this.answerNote)
-    this.updateDataSavedStatus()
+
   }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {

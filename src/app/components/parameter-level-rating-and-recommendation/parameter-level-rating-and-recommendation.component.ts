@@ -22,7 +22,7 @@ export const parameterRecommendationData = [{}]
 export const parameterRatingData = [{}]
 
 
-let DEBOUNCE_TIME = 2000;
+let DEBOUNCE_TIME = 1500;
 
 @Component({
   selector: 'app-parameter-level-rating-and-recommendation',
@@ -89,13 +89,21 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
       parameterRecommendationData.push(this.parameterLevelRecommendation);
-
+      this.sendRecommendation(this.parameterRecommendationResponse)
+      this.updateDataSavedStatus()
+    },_error => {
+      this.showError("Data cannot be saved","Close");
     })
-    this.sendRecommendation(this.parameterRecommendationResponse)
-    this.updateDataSavedStatus()
+
   }
 
-
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
       if (this.parameterRatingAndRecommendation.rating === rating) {
@@ -115,6 +123,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
           parameterRatingData.push(this.parameterLevelRating);
           this.updateDataSavedStatus()
 
+        },_error => {
+          this.showError("Data cannot be saved","Close");
         })
       }
     }

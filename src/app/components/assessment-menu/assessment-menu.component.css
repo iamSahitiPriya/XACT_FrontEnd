@@ -74,22 +74,13 @@
 .menu-bar-right{
   padding-right: 4.98em;
 }
-.dataSavedStatus{
-  height: 51px;
-  background: #EAF4F6 0% 0% no-repeat padding-box;
-  width: 20%;
-  position: absolute;
-  top: 2%;
-  right: 18%
-
-}
 .dataStatus{
   text-align: center;
-  font: 700 14px/20px Inter;
+  font: 700 13px/0px Inter;
   letter-spacing: .25px;
   font-weight: bolder;
   color: #043d4e;
   opacity: 1;
-  margin-top: 1px;
-  padding-top: 16px
+  padding-right:20%;
+  padding-top: 2px;
 }
