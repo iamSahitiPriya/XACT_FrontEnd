@@ -24,7 +24,6 @@
   width: 13.125em;
   height: 2.8125em;
   /* UI Properties */
-  background: var(--unnamed-color-6d9d79) 0% 0% no-repeat padding-box;
   background: #6D9D79 0% 0% no-repeat padding-box;
   box-shadow: 0px 2px 2px #00000024;
   border-radius: 4px;
@@ -44,7 +43,6 @@
   width: 13.125em;
   height: 2.8125em;
   /* UI Properties */
-  background: var(--unnamed-color-4ba1ac) 0% 0% no-repeat padding-box;
   background: #4BA1AC 0% 0% no-repeat padding-box;
   box-shadow: 0px 2px 2px #00000024;
   border-radius: 4px;
@@ -76,10 +74,12 @@
 }
 .dataStatus{
   text-align: center;
-  font: 700 13px/0px Inter;
+  font-size: 12px;
+  font-weight:bold;
+  font-variant: normal;
+  font-style: normal;
   font-family: 'Inter', sans-serif;
   letter-spacing: .25px;
-  font-weight: bolder;
   color: #043d4e;
   opacity: 1;
   padding-right:20%;
