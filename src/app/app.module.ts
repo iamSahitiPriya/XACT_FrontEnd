@@ -56,6 +56,7 @@ import {TopicLevelRatingAndRecommendationComponent} from './components/topic-lev
 import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
+import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -99,7 +100,8 @@ export const appRoutes: Routes = [
     AssessmentMenuComponent,
     ParameterLevelRatingAndRecommendationComponent,
     TopicLevelRatingAndRecommendationComponent,
-    ErrorComponentComponent
+    ErrorComponentComponent,
+    ProgressComponentComponent
   ],
   imports: [
     BrowserModule,
