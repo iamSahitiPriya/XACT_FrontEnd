@@ -208,4 +208,9 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.setRating("3")
     expect(parameterRating.rating).toEqual("3");
   });
+  it("should call the error whenever a problem occurs", () => {
+    jest.spyOn(component,"showError")
+    component.showError("Error","Close")
+    expect(component.showError).toHaveBeenCalled()
+  });
 });

@@ -12,19 +12,24 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 
 class MockAppService {
   saveTopicRecommendation(topicRecommendation: TopicRecommendation) {
-    return of(topicRecommendation)
+    if(topicRecommendation.topicId === 0) {
+      return of(topicRecommendation)
+    }else{
+      return throwError("Error!")
+    }
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    return of(topicRating)
-  }
+      return of(topicRating)
+    }
+
 }
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
@@ -222,5 +227,45 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.assessmentStatus = "Active"
     component.setRating("3")
     expect(topicRatingAndRecommendation.rating).toEqual("3");
+  });
+  it("should throw error when problem occurs", async () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    })
+
+    let topicRecommendation = {
+      assessmentId: 0, topicId: 1, recommendation: "dummyRecommendation"
+    };
+    component.assessmentId = 2
+    component.topicId = 0
+    const keyEventData = {isTrusted: true, code: 'KeyA'};
+    jest.spyOn(component,"showError")
+    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
+    component.ngOnInit()
+    component.saveParticularRecommendation(keyEvent)
+    await new Promise((r) => setTimeout(r, 2000));
+
+    mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
+      expect(data).toBeUndefined()
+    },error => {
+      expect(component.showError).toHaveBeenCalled()
+      expect(error).toBe(new Error("Error!"))
+    })
   });
 });
