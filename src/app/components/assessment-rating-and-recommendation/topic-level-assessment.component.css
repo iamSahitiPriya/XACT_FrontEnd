@@ -19,14 +19,15 @@
   min-width: 88px;
   color: #32616E;
 }
+
 .saveButton {
   width: 87px;
   height: 33px;
   border-radius: 4px;
   background-color: #043D4E;
   color: white;
-  margin-top: 20px;
-  margin-right: 100px;
+  float: right;
+  margin-right: 3.8em;
 }
 
 .parameter {

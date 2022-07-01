@@ -42,12 +42,10 @@
                                                  [topicName]="topicInput.topicName"
       ></app-topic-level-rating-and-recommendation>
     </div>
-    <div class="row">
-      <div class="col-md-8">
-        <button matTooltip="Click to save" [disabled]="assessmentStatus ==='Completed'" mat-raised-button
-                class="saveButton" (click)="save()">Save
-        </button>
-      </div>
+    <div >
+      <button class="saveButton" matTooltip="Click to save" [disabled]="assessmentStatus ==='Completed'" mat-raised-button
+              (click)="save()">Save
+      </button>
     </div>
   </div>
 
