@@ -78,6 +78,7 @@
 
 .maturityScore{
   background-color: #45A0AC1D;
+  box-shadow: 0 1px 6px #013d4f29;
   height: 50px;
   padding-left: 11px;
   padding-top: 15px;
@@ -86,7 +87,11 @@
   font-size: 16px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
-  width: 100%;
+  width: 236px;
+}
+
+.maturityScore-disable{
+  color: #6F7071;
 }
 
 .scoreHeading {
@@ -109,10 +114,11 @@
 }
 .scoreReference{
   height: 100px;
+  width:236px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
   background: #FFFFFF 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 6px #013D4F29;
+  box-shadow: 0px 1px 6px #00000029;
   opacity: 1;
   letter-spacing: -0.96px;
   color: #000000;
@@ -123,8 +129,12 @@
   overflow-y:scroll;
   border:1px solid transparent;
 }
+
+.scoreReference-disable{
+  background-color: #F7F7F7;
+}
 .rating{
-  width: 76px;
+  width: 86px;
   height: 76px;
   background: #6D9D79 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 6px #00000029;
@@ -153,6 +163,8 @@
 
 .parameterScoring{
   width: 90%;
+  margin-right: 20px;
+
 }
 #currentMaturityScore{
   display: flex;
