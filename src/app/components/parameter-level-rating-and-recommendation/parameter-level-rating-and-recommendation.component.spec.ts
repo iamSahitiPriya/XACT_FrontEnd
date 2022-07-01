@@ -96,6 +96,24 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     let parameterRating = {
       assessmentId: 0, parameterId: 0, rating: ""
     };
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"

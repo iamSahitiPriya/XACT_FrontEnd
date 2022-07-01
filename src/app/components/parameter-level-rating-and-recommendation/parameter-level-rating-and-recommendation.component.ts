@@ -17,12 +17,7 @@ import {ParameterRecommendationResponse} from "../../types/parameterRecommendati
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 
-
-export const parameterRecommendationData = [{}]
-export const parameterRatingData = [{}]
-
-
-let DEBOUNCE_TIME = 1500;
+let DEBOUNCE_TIME = 2000;
 
 @Component({
   selector: 'app-parameter-level-rating-and-recommendation',
@@ -88,11 +83,10 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
-      parameterRecommendationData.push(this.parameterLevelRecommendation);
       this.sendRecommendation(this.parameterRecommendationResponse)
       this.updateDataSavedStatus()
-    },_error => {
-      this.showError("Data cannot be saved","Close");
+    }, _error => {
+      this.showError("Data cannot be saved", "Close");
     })
 
   }
@@ -104,6 +98,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       duration: 2000
     })
   }
+
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
       if (this.parameterRatingAndRecommendation.rating === rating) {
@@ -112,23 +107,17 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.parameterRatingAndRecommendation.rating = rating;
       }
       this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
-        this.parameterLevelRating.assessmentId = this.assessmentId
-        this.parameterLevelRating.parameterId = this.parameterRecommendation
-        this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
-        this.parameterRatingResponse.parameterId = this.parameterRecommendation
-        this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
-        this.sendRating(this.parameterRatingResponse)
-        this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
-          parameterRatingData.push(this.parameterLevelRating);
-          this.updateDataSavedStatus()
-<<<<<<< HEAD
-
-        },_error => {
-          this.showError("Data cannot be saved","Close");
-=======
->>>>>>> [No-Card] [Shashank] | Fix select/unselect rating for parameter
-        })
-
+      this.parameterLevelRating.assessmentId = this.assessmentId
+      this.parameterLevelRating.parameterId = this.parameterRecommendation
+      this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
+      this.parameterRatingResponse.parameterId = this.parameterRecommendation
+      this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
+      this.sendRating(this.parameterRatingResponse)
+      this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
+        this.updateDataSavedStatus()
+      }, _error => {
+        this.showError("Data cannot be saved", "Close");
+      })
     }
   }
 
@@ -173,9 +162,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
-  }
-  private sendAverageRating(){
-
   }
 
 }
