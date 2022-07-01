@@ -18,7 +18,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from '@ngrx/store';
 import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
-import {AssessmentState} from "../../reducers/app.states";
+import {AssessmentState, ComputedScore} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {format} from 'date-fns';
@@ -57,6 +57,7 @@ let parameterRequests: parameterRequest[];
 
 export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: String = "0"
+  finalAverageRating: Observable<ComputedScore>
   disableRating: String = "0"
   form: FormGroup
 
@@ -70,7 +71,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-
+    this.finalAverageRating = this.store.select(fromReducer.getAverageRating)
   }
 
   openSnackBar(message: string, action: string) {
@@ -103,8 +104,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
         this.assessmentStatus = this.answerResponse.assessmentStatus
       }
     })
+    this.finalAverageRating.subscribe(data => {
+      if (data !== undefined) {
+        this.averageRating = data.computedScore
+      }
+    })
     this.getAssessment()
     this.updateAverageRating()
+
   }
 
   save() {
@@ -281,7 +288,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
         this.averageRating = "0"
       }
     }
-    localStorage.setItem("averageRating",String(this.averageRating));
   }
 }
 

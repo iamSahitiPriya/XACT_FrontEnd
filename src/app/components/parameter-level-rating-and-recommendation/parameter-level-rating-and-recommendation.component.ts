@@ -60,7 +60,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   parameterLevelRating: ParameterRating = {
-    assessmentId: 0, parameterId: 0, rating: ""
+    assessmentId: 0, parameterId: 0, rating: undefined
   };
 
   parameterRecommendationResponse: ParameterRecommendationResponse = {
@@ -68,7 +68,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   parameterRatingResponse: ParameterRatingResponse = {
-    parameterId: 0, rating: ""
+    parameterId: 0, rating: undefined
   };
 
 
@@ -95,6 +95,14 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.updateDataSavedStatus()
   }
 
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
+
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
@@ -104,21 +112,21 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.parameterRatingAndRecommendation.rating = rating;
       }
       this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
-      if (this.parameterRatingAndRecommendation.rating !== undefined) {
-        this.parameterLevelRating.assessmentId = this.assessmentId
-        this.parameterLevelRating.parameterId = this.parameterRecommendation
-        this.parameterLevelRating.rating = rating
-        this.parameterRatingResponse.parameterId = this.parameterRecommendation
-        this.parameterRatingResponse.rating = rating
-        this.sendRating(this.parameterRatingResponse)
-        this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
-          parameterRatingData.push(this.parameterLevelRating);
-          this.updateDataSavedStatus()
-
-        })
-      }
+      this.parameterLevelRating.assessmentId = this.assessmentId
+      this.parameterLevelRating.parameterId = this.parameterRecommendation
+      this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
+      this.parameterRatingResponse.parameterId = this.parameterRecommendation
+      this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
+      this.sendRating(this.parameterRatingResponse)
+      this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
+        this.updateDataSavedStatus()
+      }, _error => {
+        this.showError("Data cannot be saved", "Close");
+      })
+      this.updateAverageRating();
     }
   }
+
 
   private sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
     let index = 0;
@@ -162,8 +170,29 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
-  private sendAverageRating(){
 
+  public updateAverageRating() {
+    let averageRating;
+    let ratingSum = 0
+    let ratingNumber = 0
+    console.log(this.cloneParameterResponse.parameterRatingAndRecommendation)
+    for (let parameter in this.cloneParameterResponse.parameterRatingAndRecommendation) {
+      if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) {
+        ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating);
+        if (Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) > 0) {
+          ratingNumber = ratingNumber + 1;
+        }
+      }
+    }
+    if (ratingSum !== 0 && ratingNumber !== 0) {
+      averageRating = String(ratingSum / ratingNumber);
+    } else {
+      averageRating = "0"
+    }
+    this.sendAverageRating(averageRating);
   }
 
+  private sendAverageRating(rating: String) {
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScore: String(rating)}))
+  }
 }

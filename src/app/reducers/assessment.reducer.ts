@@ -1,7 +1,13 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {getAssessmentData, getUpdatedAssessmentData, setErrorMessage,} from "../actions/assessment-data.actions";
+import {
+  getAssessmentData,
+  getUpdatedAssessmentData,
+  setAverageComputedScore,
+  setErrorMessage,
+} from "../actions/assessment-data.actions";
 
-import {AssessmentState} from "./app.states";
+import {AssessmentState,ComputedScore} from "./app.states";
+import {act} from "@ngrx/effects";
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -18,6 +24,10 @@ export const initialState: AssessmentState = {
     parameterRatingAndRecommendation: [],
     users: []
   }
+}
+export const initialComputedScore: ComputedScore = {
+  computedScore:"0"
+
 }
 
 const _assessmentReducer = createReducer(
@@ -41,6 +51,16 @@ const _assessmentReducer = createReducer(
     }
   }),
 )
+const _scoreReducer = createReducer(
+  initialComputedScore,
+  on(setAverageComputedScore,(state, action) => {
+    console.log(action.averageScore)
+    return{
+      ...state,
+      computedScore:action.averageScore
+    }
+  })
+)
 
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
@@ -53,6 +73,11 @@ export const getAssessments = createSelector(
     return state && state.assessments
   },
 )
+export function scoreReducer(state: any, action:Action){
+  return _scoreReducer(state,action)
+}
+export const getAverageRating = createFeatureSelector<ComputedScore>('computedScore')
+
 
 
 

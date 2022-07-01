@@ -55,7 +55,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   assessmentId: number
 
   @ViewChild('topicLevelAssessmentComponent')
-  topicLevelAssessmentComponent : TopicLevelAssessmentComponent
+  topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
   recommendation = new FormControl("");
   saveCount = 0;
@@ -66,7 +66,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   topicLevelRating: TopicRating = {
-    assessmentId: 0, topicId: 0, rating: "0"
+    assessmentId: 0, topicId: 0, rating: undefined
   };
 
   topicRecommendationResponse: TopicRecommendationResponse = {
@@ -74,7 +74,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   topicRatingResponse: TopicRatingResponse = {
-    topicId: 0, rating: "0"
+    topicId: 0, rating: undefined
   };
 
   answerResponse: AssessmentStructure
@@ -101,6 +101,14 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.updateDataSavedStatus()
   }
 
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
+
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {
       if (this.topicRatingAndRecommendation.rating === rating) {
@@ -112,16 +120,25 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       if (this.topicRatingAndRecommendation.rating != "0") {
         this.topicLevelRating.assessmentId = this.assessmentId
         this.topicLevelRating.topicId = this.topicId
-        this.topicLevelRating.rating = rating
+        this.topicLevelRating.rating = this.topicRatingAndRecommendation.rating
+
         this.topicRatingResponse.topicId = this.topicId
-        this.topicRatingResponse.rating = rating
+        this.topicRatingResponse.rating = this.topicRatingAndRecommendation.rating
+
         this.sendRating(this.topicRatingResponse)
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
           topicRatingData.push(this.topicLevelRating);
           this.updateDataSavedStatus()
 
+        }, _error => {
+          this.showError("Data cannot be saved", "Close");
         })
+        if (this.topicRatingAndRecommendation.rating !== undefined) {
+          this.sendAverageRating(String(this.topicRatingAndRecommendation.rating))
+        } else {
+          this.sendAverageRating("0")
+        }
       }
     }
   }
@@ -163,8 +180,13 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   }
 
   private updateDataSavedStatus() {
-    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
+  }
+
+  private sendAverageRating(rating: String) {
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScore: String(rating)}))
+
   }
 }
