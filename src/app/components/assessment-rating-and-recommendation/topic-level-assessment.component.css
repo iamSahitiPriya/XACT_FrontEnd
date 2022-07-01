@@ -46,14 +46,16 @@
 }
 
 .question {
-  margin-top: 35px;
-  padding-bottom: 35px;
+  margin-top: 32px;
+  padding-bottom: 32px;
   padding-left: 15px;
+  opacity: 1;
+}
+.question-content {
   font-size: 19px;
   font-weight:bolder;
   font-family: 'Inter', sans-serif;
   color: #000000;
-  opacity: 1;
 }
 
 

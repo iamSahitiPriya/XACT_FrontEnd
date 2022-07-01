@@ -50,6 +50,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   assessmentId: number
 
+  @Input()
+  parameterName: string
+
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, recommendation: undefined
   };

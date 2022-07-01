@@ -1,8 +1,9 @@
-  <div class="dataStatus">
-    {{getAnswerStatus()}}
-  </div>
+
 <div *ngIf="assessment">
   <div align="end" class="menu-bar-right">
+    <div class="dataStatus">
+      {{getAnswerStatus()}}
+    </div>
     <button matTooltip="Click to generate report" id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
       Generate Report
     </button>

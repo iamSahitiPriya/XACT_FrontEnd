@@ -22,7 +22,7 @@ import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.compon
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 1500;
+let DEBOUNCE_TIME = 1200;
 
 enum FormStatus {
   Saving = 'Saving',
@@ -102,7 +102,8 @@ export class AssessmentQuestionComponent implements OnInit {
         this.updateDataSavedStatus()
     },
     error:_err => {
-        this.showError("Data cannot be saved","Close");
+      AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
+      this.showError("Data cannot be saved","Close");
     }});
 
   }

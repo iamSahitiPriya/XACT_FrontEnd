@@ -20,7 +20,7 @@ import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommenda
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
-let DEBOUNCE_TIME = 1500;
+let DEBOUNCE_TIME = 1200;
 
 @Component({
   selector: 'app-topic-level-rating-and-recommendation',
@@ -53,6 +53,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  topicName: string
 
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent : TopicLevelAssessmentComponent
