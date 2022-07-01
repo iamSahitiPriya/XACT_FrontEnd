@@ -64,7 +64,9 @@ p {
 }
 
 .scoreReference {
-  height: 100px;
+  min-height: 100px;
+  height: auto;
+  max-height:250px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -133,6 +135,8 @@ p {
   padding-right: 1.5em;
   text-align: justify;
   text-justify: inter-word;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 ::ng-deep .saveSnackbar{
   background-color: #6B9F78 !important;
