@@ -23,20 +23,8 @@
         </mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="outline" class="organizationName">
-        <mat-label>Organization Name</mat-label>
-        <input matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
-               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
-        <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
-          Mandatory field
-        </mat-error>
-        <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
-        </mat-error>
-      </mat-form-field>
-      <br>
       <mat-form-field appearance="outline" class="domain">
-        <mat-label>Domain</mat-label>
+        <mat-label>Domain of Target Assessment</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
                pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
@@ -47,18 +35,7 @@
         </mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="outline" class="industry">
-        <mat-label>Industry</mat-label>
 
-        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" placeholder="Enter Industry"
-               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
-        <mat-error *ngIf="form['industryValidator'].hasError('required')">
-          Mandatory field
-        </mat-error>
-        <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
-        </mat-error>
-      </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field appearance="outline" class="teamSize">
         <mat-label>Team Size</mat-label>
         <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
@@ -70,6 +47,32 @@
           Positive integer value allowed
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="outline" class="organizationName">
+        <mat-label>Organization Name</mat-label>
+        <input class="colorClass" matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
+               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+        <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
+          Mandatory field
+        </mat-error>
+        <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
+          No Special Characters allowed except hyphen and underscore
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline" class="industry">
+        <mat-label>Industry of Organisation</mat-label>
+
+        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" placeholder="Enter Industry"
+               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+        <mat-error *ngIf="form['industryValidator'].hasError('required')">
+          Mandatory field
+        </mat-error>
+        <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
+          No Special Characters allowed except hyphen and underscore
+        </mat-error>
+      </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
+
     </div>
 
     <h2 mat-dialog-title>Add New User </h2>
