@@ -20,7 +20,7 @@ import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommenda
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
-let DEBOUNCE_TIME = 2000;
+let DEBOUNCE_TIME = 1200;
 
 @Component({
   selector: 'app-topic-level-rating-and-recommendation',
@@ -53,6 +53,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  topicName: string
 
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
@@ -87,7 +90,13 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       }
     })
   }
-
+  showError(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
+    })
+  }
   saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
     this.topicLevelRecommendation.assessmentId = this.assessmentId
@@ -96,18 +105,15 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
       topicRecommendationData.push(this.topicLevelRecommendation);
+      this.sendRecommendation(this.topicRecommendationResponse)
+      this.updateDataSavedStatus()
+    },_error => {
+      this.showError("Data cannot be saved","Close");
     })
-    this.sendRecommendation(this.topicRecommendationResponse)
-    this.updateDataSavedStatus()
+
   }
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
-    })
-  }
+
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {

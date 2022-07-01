@@ -5,7 +5,7 @@
 <div class="row menu-bar">
   <div class="col-md-3">
     <mat-toolbar>
-      <button mat-icon-button [routerLink]="['']">
+      <button matTooltip="Go back to dashboard" mat-icon-button [routerLink]="['']">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
       <span class="name"> {{assessment && assessment.assessmentName}}</span>

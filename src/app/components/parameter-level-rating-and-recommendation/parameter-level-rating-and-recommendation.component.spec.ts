@@ -12,14 +12,15 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
 
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
-    return of(parameterRecommendation)
+      return of(parameterRecommendation)
+
   }
 
   saveParameterRating(parameterRating: ParameterRating) {
@@ -95,6 +96,24 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     let parameterRating = {
       assessmentId: 0, parameterId: 0, rating: ""
     };
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+    }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
@@ -207,5 +226,10 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterRecommendation = 1
     component.setRating("3")
     expect(parameterRating.rating).toEqual("3");
+  });
+  it("should call the error whenever a problem occurs", () => {
+    jest.spyOn(component,"showError")
+    component.showError("Error","Close")
+    expect(component.showError).toHaveBeenCalled()
   });
 });

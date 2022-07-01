@@ -1,27 +1,29 @@
+
 <div *ngIf="assessment">
   <div align="end" class="menu-bar-right">
+    <div class="dataStatus">
       {{getAnswerStatus()}}
-
-    <button id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
+    </div>
+    <button matTooltip="Click to generate report" id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
       Generate Report
     </button>
-    <button *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
+    <button  matTooltip="Click to finish assessment" *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
             class="btn-finish" (click)="confirmFinishAssessmentAction()">
       Finish Assessment
     </button>
-    <button *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
+    <button  matTooltip="Click to reopen assessment" *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
             class="btn-reopen" (click)="reopenAssessment()">
       Reopen Assessment
     </button>
 
     <div class="menuButton">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <button  matTooltip="Click to open menu" mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <img data-id="manage" src="../../assets/navigation-bar/menu-icon.svg" alt="manage icon" class="menuIcon"/>
       </button>
     </div>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
+      <button  matTooltip="Click to manage assessment" mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
         <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
         &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">Manage assessment & users</span>
       </button>

@@ -22,7 +22,7 @@ import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.compon
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 2000;
+let DEBOUNCE_TIME = 1200;
 
 enum FormStatus {
   Saving = 'Saving',
@@ -98,9 +98,14 @@ export class AssessmentQuestionComponent implements OnInit {
     this.appService.saveNotes(this.assessmentNotes).subscribe({
       next:(_data) => {
         assessmentData.push(this.assessmentNotes);
+        this.sendAnswer(this.answerNote)
+        this.updateDataSavedStatus()
+    },
+    error:_err => {
+      AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
+      this.showError("Data cannot be saved","Close");
     }});
-    this.sendAnswer(this.answerNote)
-    this.updateDataSavedStatus()
+
   }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {

@@ -1,4 +1,12 @@
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
 import {AssessmentMenuComponent} from './assessment-menu.component';
 import {MatMenuModule} from "@angular/material/menu";
@@ -119,6 +127,8 @@ describe('AssessmentMenuComponent', () => {
     tick();
     expect(component.generateReport).toHaveBeenCalled();
     flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
   }));
 
   it('should call finish assessment if active', fakeAsync(() => {
@@ -137,9 +147,12 @@ describe('AssessmentMenuComponent', () => {
     tick();
     expect(component.confirmFinishAssessmentAction).toHaveBeenCalled();
     flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
   }));
 
   it('should call reopen assessment if completed', fakeAsync(() => {
+    discardPeriodicTasks()
     component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Completed";
@@ -153,6 +166,8 @@ describe('AssessmentMenuComponent', () => {
     tick();
     expect(component.reopenAssessment).toHaveBeenCalled();
     flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
   }));
 
   it('should complete assessment', () => {

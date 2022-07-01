@@ -8,7 +8,7 @@
     "mochawesomeReporterOptions": {
       "reportDir": "mochawesome-report",
       "overwrite": true,
-      "html": false,
+      "html": true,
       "json": true,
       "timestamp": "mmddyyyy_HHMMss",
       "showSkipped": true,

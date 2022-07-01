@@ -15,7 +15,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 
@@ -24,9 +24,7 @@ describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
   let mockAppService:MockAppService
-  let assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: undefined, notes: undefined
-  };
+
   let debouncer:DebounceProvider
   class DebounceProvider{
     public debounce(){
@@ -36,7 +34,7 @@ describe('AssessmentQuestionComponent', () => {
 
   class MockAppService {
     public saveNotes(assessmentNotes:AssessmentNotes){
-      return of(assessmentNotes)
+        return of(assessmentNotes)
     }
   }
 
@@ -69,10 +67,10 @@ describe('AssessmentQuestionComponent', () => {
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
   it('should auto save the data whenever the value is changes', async () => {
-    component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
+    component.questionDetails = {questionId: 1, questionText: 'Hello', parameter: 1}
     component.assessmentId = 5
     component.answerResponse1 = of({
-      assessmentId: 5,
+      assessmentId: 0,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
@@ -89,14 +87,16 @@ describe('AssessmentQuestionComponent', () => {
       topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
     })
-    component.answerInput = {questionId: 2, answer: "hello"}
+    component.answerInput = {questionId: 1, answer: "hello"}
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component, 'saveParticularAnswer')
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
-
+    let assessmentNotes: AssessmentNotes = {
+      assessmentId: 0, questionId: undefined, notes: undefined
+    };
     await new Promise((r) => setTimeout(r, 2000));
 
     mockAppService.saveNotes(assessmentNotes).subscribe(data =>{
@@ -104,4 +104,15 @@ describe('AssessmentQuestionComponent', () => {
     })
     expect(component.assessmentNotes.notes).toBe("hello")
   });
+  // it("should throw error on unsuccessfull save", async () => {
+  //
+  //   let assessmentNotes1:AssessmentNotes={assessmentId:1,notes:""}
+  //
+  //   mockAppService.saveNotes(assessmentNotes1).subscribe(data => {
+  //     expect(data).toBeUndefined()
+  //   },error => {
+  //     expect(error).toBe(new Error("Error!"))
+  //     expect(component.showError).toHaveBeenCalled()
+  //   })
+  // });
 });

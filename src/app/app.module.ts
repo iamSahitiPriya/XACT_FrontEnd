@@ -56,6 +56,8 @@ import {TopicLevelRatingAndRecommendationComponent} from './components/topic-lev
 import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
+import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -99,7 +101,8 @@ export const appRoutes: Routes = [
     AssessmentMenuComponent,
     ParameterLevelRatingAndRecommendationComponent,
     TopicLevelRatingAndRecommendationComponent,
-    ErrorComponentComponent
+    ErrorComponentComponent,
+    ProgressComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -127,6 +130,7 @@ export const appRoutes: Routes = [
     MatSidenavModule,
     MatListModule,
     MatTabsModule,
+    MatTooltipModule,
     MatSelectModule,
     NgHttpLoaderModule.forRoot(),
     StoreModule.forRoot(reducers,{runtimeChecks:{

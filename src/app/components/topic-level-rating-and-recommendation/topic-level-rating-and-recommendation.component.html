@@ -3,7 +3,7 @@
   -->
 
 <div class="topicScoring">
-  <mat-card class="scoreHeading">Assign Maturity score</mat-card>
+  <mat-card class="scoreHeading">Assign Maturity score - {{topicName}}</mat-card>
   <div *ngFor="let pScore of topicScore">
     <mat-toolbar class="scoreReference">
       <p class="reference">{{pScore.reference}}</p>
@@ -15,7 +15,6 @@
     </mat-toolbar>
   </div>
 </div>
-
 
 
 <div>

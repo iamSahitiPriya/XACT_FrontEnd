@@ -17,11 +17,6 @@ import {ParameterRecommendationResponse} from "../../types/parameterRecommendati
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 
-
-export const parameterRecommendationData = [{}]
-export const parameterRatingData = [{}]
-
-
 let DEBOUNCE_TIME = 2000;
 
 @Component({
@@ -54,6 +49,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  parameterName: string
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, recommendation: undefined
@@ -88,11 +86,12 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
-      parameterRecommendationData.push(this.parameterLevelRecommendation);
-
+      this.sendRecommendation(this.parameterRecommendationResponse)
+      this.updateDataSavedStatus()
+    }, _error => {
+      this.showError("Data cannot be saved", "Close");
     })
-    this.sendRecommendation(this.parameterRecommendationResponse)
-    this.updateDataSavedStatus()
+
   }
 
   showError(message: string, action: string) {
@@ -102,7 +101,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       duration: 2000
     })
   }
-
 
   setRating(rating: string) {
     if (this.assessmentStatus === 'Active') {

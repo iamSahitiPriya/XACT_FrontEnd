@@ -18,10 +18,11 @@ html, body {
 }
 
 .name {
-  padding-top: 6px;
+  padding-top: 5px;
   text-transform: capitalize;
   letter-spacing: normal;
   color: #043D4E;
+  margin-left: 1em;
 }
 
 .backIcon {

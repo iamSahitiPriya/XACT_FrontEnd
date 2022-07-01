@@ -68,6 +68,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
   private cloneAnswerResponse: AssessmentStructure;
+  private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -138,7 +139,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         saveAssessmentData.push(saveRequest);
       }
     )
-    this.openSnackBar(`Data was last saved at: ${format(Date.now(), 'dd/MM/yyyy hh:mm')}`, "Close");
+    this.updateDataSavedStatus()
   }
 
 
@@ -288,6 +289,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
         this.averageRating = "0"
       }
     }
+  }
+  private updateDataSavedStatus() {
+    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
   }
 }
 

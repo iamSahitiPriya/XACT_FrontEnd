@@ -17,11 +17,8 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
-import {UpdatedStatus} from "../../types/UpdatedStatus";
-import {format} from "date-fns";
 
 export const assessmentData = [{}]
-
 
 @Component({
   selector: 'app-assessment-menu',
@@ -31,8 +28,7 @@ export const assessmentData = [{}]
 
 
 export class AssessmentMenuComponent implements OnInit {
-  public static answerSaved:string
-  savedAnswer:string
+  savedAnswer: string
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   assessment: AssessmentStructure;
@@ -41,7 +37,7 @@ export class AssessmentMenuComponent implements OnInit {
   assessmentId: number
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
-  private updatedState: Observable<UpdatedStatus[]>;
+  public static answerSaved: string;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -56,9 +52,7 @@ export class AssessmentMenuComponent implements OnInit {
     });
   }
 
-  getAnswerStatus(){
-    return AssessmentMenuComponent.answerSaved
-  }
+
   finishAssessment() {
     this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
         this.cloneAssessment = Object.assign({}, this.assessment)
@@ -108,9 +102,11 @@ export class AssessmentMenuComponent implements OnInit {
   closePopUp(): void {
     this.dialog.closeAll()
   }
-  updateAssessmentStatus(){
-    AssessmentMenuComponent.answerSaved =`Data was saved at ${format(new Date(this.assessment.updatedAt),'dd/MM/yyyy hh:mm')}`
-  }
+
+  updateAssessmentStatus() {
+    AssessmentMenuComponent.answerSaved = `Data was saved ${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
+  };
+
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
@@ -119,6 +115,14 @@ export class AssessmentMenuComponent implements OnInit {
       }
     })
   }
+
+  getAnswerStatus() {
+    setInterval(() => {
+      this.updateAssessmentStatus()
+    }, 60000)
+    return AssessmentMenuComponent.answerSaved
+  }
+
 }
 
 

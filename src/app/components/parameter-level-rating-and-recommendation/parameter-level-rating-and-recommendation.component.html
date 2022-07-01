@@ -4,7 +4,7 @@
 
 
 <div class="parameterScoring">
-  <mat-card class="scoreHeading">Assign Maturity score</mat-card>
+  <mat-card class="scoreHeading">Assign Maturity score - {{parameterName}}</mat-card>
   <div *ngIf="parameterScore"></div>
   <div *ngFor="let pScore of parameterScore">
     <mat-toolbar class="scoreReference">
