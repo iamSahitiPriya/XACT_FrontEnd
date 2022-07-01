@@ -77,11 +77,14 @@
   font-size: 12px;
   font-weight:bold;
   font-variant: normal;
+  font-feature-settings: normal;
   font-style: normal;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter,sans-serif;
   letter-spacing: .25px;
   color: #043d4e;
   opacity: 1;
-  padding-right:20%;
+  padding-right: 12%;
   padding-top: 2px;
+  position: absolute;
+  right: 25%
 }
