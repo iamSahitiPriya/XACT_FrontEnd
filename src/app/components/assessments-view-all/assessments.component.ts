@@ -36,7 +36,7 @@ export class AssessmentsComponent implements OnInit {
     industry: "",
     organisationName: "",
     parameterRatingAndRecommendation: [],
-    teamSize: 0,
+    teamSize: undefined,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: []

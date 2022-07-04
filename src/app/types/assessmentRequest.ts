@@ -9,7 +9,7 @@ export interface AssessmentRequest {
   "organisationName": string,
   "domain": string,
   "industry": string,
-  "teamSize": number,
+  "teamSize"?: number,
   "users": User[]
 
 }

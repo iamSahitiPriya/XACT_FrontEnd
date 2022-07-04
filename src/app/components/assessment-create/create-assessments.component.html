@@ -37,7 +37,7 @@
       <br>
 
       <mat-form-field appearance="outline" class="teamSize">
-        <mat-label>Team Size</mat-label>
+        <mat-label>Size of Target Team</mat-label>
         <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
                placeholder="Enter Team size" min="1" max="10000000" required pattern="^[1-9]\d*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
@@ -49,7 +49,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="organizationName">
-        <mat-label>Organization Name</mat-label>
+        <mat-label>Organisation Name</mat-label>
         <input class="colorClass" matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
                placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
