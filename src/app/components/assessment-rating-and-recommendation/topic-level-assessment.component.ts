@@ -21,7 +21,6 @@ import * as fromActions from '../../actions/assessment-data.actions'
 import {AssessmentState, ComputedScore} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {format} from 'date-fns';
 
 
 export const saveAssessmentData = [{}]
@@ -56,9 +55,9 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating: String = "0"
+  averageRating: string = "0"
   finalAverageRating: Observable<ComputedScore>
-  disableRating: String = "0"
+  disableRating: string = "0"
   form: FormGroup
 
   answerResponse: AssessmentStructure

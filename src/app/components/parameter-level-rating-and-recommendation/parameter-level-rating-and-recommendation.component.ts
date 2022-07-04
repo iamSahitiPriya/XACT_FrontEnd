@@ -85,12 +85,13 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe((_data) => {
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe({
+    next: (_data)=> {
       this.sendRecommendation(this.parameterRecommendationResponse)
       this.updateDataSavedStatus()
-    }, _error => {
+    },error: _error => {
       this.showError("Data cannot be saved", "Close");
-    })
+    }})
 
   }
 
@@ -116,11 +117,12 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.parameterRatingResponse.parameterId = this.parameterRecommendation
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
-      this.appService.saveParameterRating(this.parameterLevelRating).subscribe((_data) => {
+      this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
+      next: (_data)=> {
         this.updateDataSavedStatus()
-      }, _error => {
+      }, error:_error => {
         this.showError("Data cannot be saved", "Close");
-      })
+      }})
       this.updateAverageRating();
     }
   }
@@ -189,7 +191,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.sendAverageRating(averageRating);
   }
 
-  private sendAverageRating(rating: String) {
+  private sendAverageRating(rating: string) {
     this.store.dispatch(fromActions.setAverageComputedScore({averageScore: String(rating)}))
   }
 }
