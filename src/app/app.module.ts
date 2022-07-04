@@ -58,6 +58,7 @@ import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
 import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatChipsModule} from "@angular/material/chips";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -104,44 +105,47 @@ export const appRoutes: Routes = [
     ErrorComponentComponent,
     ProgressComponentComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    MDBBootstrapModule.forRoot(),
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatSelectModule,
-    NgHttpLoaderModule.forRoot(),
-    StoreModule.forRoot(reducers,{runtimeChecks:{
-        strictStateSerializability: true,
-        strictActionSerializability: true,
-        strictActionWithinNgZone: true,
-        strictStateImmutability: false,
-        strictActionImmutability:false
-      }}),
-    EffectsModule.forRoot([AssessmentDataEffects]),
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        MDBBootstrapModule.forRoot(),
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatInputModule,
+        MatIconModule,
+        MatDialogModule,
+        FormsModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatExpansionModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatTabsModule,
+        MatTooltipModule,
+        MatSelectModule,
+        NgHttpLoaderModule.forRoot(),
+        StoreModule.forRoot(reducers, {
+            runtimeChecks: {
+                strictStateSerializability: true,
+                strictActionSerializability: true,
+                strictActionWithinNgZone: true,
+                strictStateImmutability: false,
+                strictActionImmutability: false
+            }
+        }),
+        EffectsModule.forRoot([AssessmentDataEffects]),
+        MatChipsModule,
+    ],
   exports: [
     MatButtonModule,
     MatTableModule,

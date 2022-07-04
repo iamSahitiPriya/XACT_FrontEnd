@@ -14,6 +14,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import { MatChipInputEvent } from '@angular/material/chips';
+
+export interface Email{
+  name : string;
+}
 
 @Component({
   selector: 'app-create-assessments',
@@ -27,6 +33,10 @@ export class CreateAssessmentsComponent implements OnInit {
   loggedInUserEmail: string;
   loading: boolean;
   userEmails: string = '';
+
+  addOnBlur = true;
+  readonly separatorKeysCodes =[ENTER , COMMA] as const;
+  emails : Email[]=[];
 
   @Input()
   assessment: AssessmentStructure;
@@ -49,7 +59,7 @@ export class CreateAssessmentsComponent implements OnInit {
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
+        emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com*$/)]
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
@@ -173,6 +183,23 @@ export class CreateAssessmentsComponent implements OnInit {
         userStructure.push(user.email);
     });
     return userStructure;
+  }
+
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.emails.push({ name: value });
+    }
+    event.chipInput!.clear();
+  }
+
+  remove(email : Email): void {
+    const index = this.emails.indexOf(email);
+
+    if (index >= 0) {
+      this.emails.splice(index, 1);
+    }
   }
 
 }
