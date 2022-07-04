@@ -232,4 +232,39 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.showError("Error","Close")
     expect(component.showError).toHaveBeenCalled()
   });
+  it("should push parameter recommendation", async () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      parameterRatingAndRecommendation: []
+    }
+    component.parameterRecommendation = 1
+    component.assessmentId = 1
+    component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: ""}
+    const keyEventData = {isTrusted: true, code: 'Key'};
+    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+    component.ngOnInit()
+    component.saveParticularParameterRecommendation(keyEvent);
+
+    await new Promise((r) => setTimeout(r, 2000));
+    let parameterRecommendation = {
+      assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
+    };
+    mockAppService.saveParameterRecommendation(parameterRecommendation).subscribe(data => {
+      expect(data).toBe(parameterRecommendation)
+    })
+  });
 });
