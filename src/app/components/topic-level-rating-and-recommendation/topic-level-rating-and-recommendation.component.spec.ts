@@ -268,40 +268,5 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       expect(error).toBe(new Error("Error!"))
     })
   });
-  it("should push topic recommendation when it is not present", async () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: []
-    }
-    component.topicId = 0
-    component.topicRatingAndRecommendation = {topicId: 1, rating: "2", recommendation: ""}
-    component.assessmentId = 1
-    jest.spyOn(component, "showError")
-    const keyEventData = {isTrusted: true, code: 'KeyA'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
-    component.ngOnInit()
-    component.saveParticularRecommendation(keyEvent)
-    await new Promise((r) => setTimeout(r, 2000));
-    let topicRecommendation = {
-      assessmentId: 0, topicId: 0, recommendation: "dummyRecommendation"
-    };
-    expect(component.answerResponse.topicRatingAndRecommendation.length).toBe(0)
 
-
-  });
 });

@@ -19,7 +19,7 @@ import {ParameterRating} from "../../types/parameterRating";
 
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
-      return of(parameterRecommendation)
+    return of(parameterRecommendation)
 
   }
 
@@ -226,10 +226,11 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterRecommendation = 1
     component.setRating("3")
     expect(parameterRating.rating).toEqual("3");
+    expect(component.answerResponse.parameterRatingAndRecommendation.length).toBe(1)
   });
   it("should call the error whenever a problem occurs", () => {
-    jest.spyOn(component,"showError")
-    component.showError("Error","Close")
+    jest.spyOn(component, "showError")
+    component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
   });
   it("should push parameter recommendation", async () => {
@@ -252,6 +253,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       parameterRatingAndRecommendation: []
     }
     component.parameterRecommendation = 1
+
     component.assessmentId = 1
     component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: ""}
     const keyEventData = {isTrusted: true, code: 'Key'};
@@ -267,4 +269,39 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       expect(data).toBe(parameterRecommendation)
     })
   });
+  // it("should push the parameter rating and recommendation", async () => {
+  //   component.answerResponse = {
+  //     assessmentId: 5,
+  //     assessmentName: "abc1",
+  //     organisationName: "Thoughtworks",
+  //     assessmentStatus: "Active",
+  //     updatedAt: 1654664982698,
+  //     domain: "",
+  //     industry: "",
+  //     teamSize: 0,
+  //     users: [],
+  //     answerResponseList: [
+  //       {
+  //         questionId: 1,
+  //         answer: "answer1"
+  //       }],
+  //     topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+  //     parameterRatingAndRecommendation: []
+  //   }
+  //
+  //   component.parameterRecommendation = 1
+  //   component.assessmentId = 1
+  //   component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: "Hello"}
+  //   // @ts-ignore
+  //   component.answerResponse.parameterRatingAndRecommendation = undefined
+  //   component.ngOnInit()
+  //
+  //   jest.spyOn(component, "saveParticularParameterRecommendation");
+  //   component.assessmentStatus = "Active"
+  //   let dummyParameterResponse = {parameterId:1,recommendation:""}
+  //   component.sendRecommendation(dummyParameterResponse)
+  //
+  //   await new Promise((r) => setTimeout(r, 2000));
+  //   expect(component.answerResponse.parameterRatingAndRecommendation.length).toBe(1)
+  // });
 });

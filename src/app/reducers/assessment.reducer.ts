@@ -54,7 +54,6 @@ const _assessmentReducer = createReducer(
 const _scoreReducer = createReducer(
   initialComputedScore,
   on(setAverageComputedScore,(state, action) => {
-    console.log(action.averageScore)
     return{
       ...state,
       computedScore:action.averageScore

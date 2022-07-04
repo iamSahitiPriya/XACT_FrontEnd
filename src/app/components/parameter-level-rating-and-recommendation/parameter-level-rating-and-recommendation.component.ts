@@ -26,7 +26,7 @@ let DEBOUNCE_TIME = 2000;
 })
 export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
-  private cloneParameterResponse: AssessmentStructure;
+  cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
   private cloneAnswerResponse1: AssessmentStructure;
 
@@ -126,7 +126,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   }
 
 
-  private sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
+  sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
     let index = 0;
     let updatedRecommendationList = [];
     updatedRecommendationList.push(parameterRecommendation);
@@ -173,7 +173,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     let averageRating;
     let ratingSum = 0
     let ratingNumber = 0
-    console.log(this.cloneParameterResponse.parameterRatingAndRecommendation)
     for (let parameter in this.cloneParameterResponse.parameterRatingAndRecommendation) {
       if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) {
         ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating);
