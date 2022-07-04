@@ -1,6 +1,6 @@
-import loginPage from "./pageObjects/loginPage";
-import landingPage from "./pageObjects/landingPage";
-import commonFunctions from "./pageObjects/commonFunctions";
+import loginPage from "../pageObjects/loginPage";
+import landingPage from "../pageObjects/landingPage";
+import commonFunctions from "../pageObjects/commonFunctions";
 describe('validating functionality of login page of xAct application', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {

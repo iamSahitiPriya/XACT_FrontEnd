@@ -2,8 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import loginPage from "../integration/pageObjects/loginPage"
-import landingPage from "../integration/pageObjects/landingPage";
+import loginPage from "../pageObjects/loginPage"
+import landingPage from "../pageObjects/landingPage";
 
 Cypress.Commands.add('launchxAct',(userName, passWord)=> {
   cy.visit(Cypress.env('url'))

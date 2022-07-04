@@ -1,5 +1,5 @@
-import loginPage from "./pageObjects/loginPage";
-import landingPage from "./pageObjects/landingPage";
+import loginPage from "../pageObjects/loginPage";
+import landingPage from "../pageObjects/landingPage";
 //import {waitForAngularReady} from "@angular/cdk/testing/selenium-webdriver";
 
 describe('completing prerequisites to test the application', () => {
