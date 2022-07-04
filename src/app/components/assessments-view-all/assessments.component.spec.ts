@@ -25,6 +25,7 @@ import {AssessmentModulesComponent} from "../assessment-modules/assessment-modul
 import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -88,7 +89,7 @@ describe('AssessmentsComponent', () => {
         BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
-        }])],
+        }]),MatTooltipModule],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
           provide: AppServiceService,
