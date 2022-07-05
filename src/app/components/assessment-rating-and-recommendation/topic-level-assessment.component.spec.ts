@@ -29,6 +29,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {debounce} from "lodash";
+import {AssessmentAverageRatingComponent} from "../assessment-average-rating/assessment-average-rating.component";
 
 class MockAppService {
 
@@ -82,7 +83,7 @@ describe('TopicLevelAssessmentComponent', () => {
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent],
+      declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent,AssessmentAverageRatingComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},{provide:debounce, useValue:debouncedFunc}
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, CommonModule, MatSnackBarModule,
@@ -374,7 +375,6 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentLevel: ""
     }
     component.ngOnInit()
-    expect(component.averageRating).toBe("0")
   });
   it("should get answers from store", () => {
     let dummyResponse = {

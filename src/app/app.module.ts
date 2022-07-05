@@ -58,6 +58,7 @@ import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
 import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -102,7 +103,8 @@ export const appRoutes: Routes = [
     ParameterLevelRatingAndRecommendationComponent,
     TopicLevelRatingAndRecommendationComponent,
     ErrorComponentComponent,
-    ProgressComponentComponent
+    ProgressComponentComponent,
+    AssessmentAverageRatingComponent
   ],
   imports: [
     BrowserModule,

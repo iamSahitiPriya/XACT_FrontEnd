@@ -26,7 +26,10 @@ export const initialState: AssessmentState = {
   }
 }
 export const initialComputedScore: ComputedScore = {
-  computedScore:"0"
+  scoreDetails : {
+    rating: '0',
+    topicId: 0
+  }
 
 }
 
@@ -53,11 +56,10 @@ const _assessmentReducer = createReducer(
 )
 const _scoreReducer = createReducer(
   initialComputedScore,
-  on(setAverageComputedScore,(state, action) => {
-    console.log(action.averageScore)
-    return{
+  on(setAverageComputedScore, (state, action) => {
+    return {
       ...state,
-      computedScore:action.averageScore
+      scoreDetails: action.averageScoreDetails
     }
   })
 )
