@@ -5,6 +5,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import appPackage  from '../../package.json';
 
 export const environment = {
   production: false,
@@ -24,7 +25,8 @@ export const environment = {
   SAVE_TOPIC_RECOMMENDATION_URI:"/v1/assessments/topicRecommendation",
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
-  SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating"
+  SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
+  VERSION: appPackage.version
 };
 
 /*
