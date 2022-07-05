@@ -17,10 +17,6 @@ import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import { MatChipInputEvent } from '@angular/material/chips';
 
-export interface Email{
-  name : string;
-}
-
 @Component({
   selector: 'app-create-assessments',
   templateUrl: './create-assessments.component.html',
@@ -36,7 +32,7 @@ export class CreateAssessmentsComponent implements OnInit {
 
   addOnBlur = true;
   readonly separatorKeysCodes =[ENTER , COMMA] as const;
-  emails : Email[]=[];
+  emails : string[]=[];
 
   @Input()
   assessment: AssessmentStructure;
@@ -114,19 +110,25 @@ export class CreateAssessmentsComponent implements OnInit {
     })
   }
 
-  private getValidUsers() {
-    let userData = this.userEmails.split(',');
-    userData.push(this.loggedInUserEmail);
-    userData = [...new Set(userData.filter(function (el) {
-      return el != null;
-    }))];
 
-    const users: User[] = [];
-    userData.forEach((email) => {
-      if (email && email.length > 0)
-        users.push({email});
+  private getValidUsers()
+  {
+    let userData =[];
+   this.emails.forEach((email) => {
+      userData.push(email)
+    });
+   userData.push(this.loggedInUserEmail);
+   userData=[...new Set(userData.filter(function(el){
+     return el != null;
+   }))]
+
+    const users : User[]=[];
+    userData.forEach((email)=>{
+      if(email)
+        users.push({email})
     });
     return users;
+
   }
 
   updateAssessment() {
@@ -189,12 +191,13 @@ export class CreateAssessmentsComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      this.emails.push({ name: value });
+      this.emails.push(value);
+      console.log("...........",this.emails)
     }
     event.chipInput!.clear();
   }
 
-  remove(email : Email): void {
+  remove(email : string): void {
     const index = this.emails.indexOf(email);
 
     if (index >= 0) {

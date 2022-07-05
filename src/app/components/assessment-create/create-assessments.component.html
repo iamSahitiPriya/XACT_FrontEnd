@@ -81,7 +81,7 @@
         <mat-label>Email Id</mat-label>
         <mat-chip-list #chipList aria-label="Email Selection">
           <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
-            {{email.name}}
+            {{email}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
