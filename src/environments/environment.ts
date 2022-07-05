@@ -22,5 +22,5 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
-  // VERSION: appPackage.version
+  VERSION: appPackage && appPackage.version
 };
