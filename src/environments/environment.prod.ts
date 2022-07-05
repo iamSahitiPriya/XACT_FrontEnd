@@ -2,6 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+import appPackage  from '../../package.json';
+
 export const environment = {
   production: true,
   BaseURI:"https://api.project-xact.in",
@@ -20,5 +22,6 @@ export const environment = {
   SAVE_TOPIC_RECOMMENDATION_URI:"/v1/assessments/topicRecommendation",
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
-  SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating"
+  SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
+  VERSION: appPackage.version
 };

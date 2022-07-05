@@ -15,8 +15,8 @@ import {ProgressComponentComponent} from "../progress-component/progress-compone
 })
 
 export class AppComponent {
-
   public progressComponent = ProgressComponentComponent;
+  public appVersion:string = "1.0.0";
 
   title = 'XACT | Welcome to client maturity assessment ';
 

@@ -79,12 +79,25 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>Email Id</mat-label>
-        <input matInput formControlName="emailValidator" type="text" [(ngModel)]="userEmails"
-               placeholder="Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com"
-               id="userEmails" maxlength="1000">
+        <mat-chip-list #chipList aria-label="Email Selection">
+          <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
+            {{email}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        <input matInput formControlName="emailValidator" type="text"
+               placeholder="abc@thoughtworks.com"
+               id="userEmails" maxlength="1000"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)">
+
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
           Valid list of comma separated email address
         </mat-error>
+        </mat-chip-list>
       </mat-form-field>
     </div>
     <button matTooltip="Click to create new assessment" *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save

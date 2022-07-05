@@ -5,11 +5,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
-import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-header',

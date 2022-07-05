@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressComponentComponent } from './progress-component.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 describe('ProgressComponentComponent', () => {
   let component: ProgressComponentComponent;
@@ -8,7 +9,8 @@ describe('ProgressComponentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProgressComponentComponent ]
+      declarations: [ ProgressComponentComponent ],
+      imports:[MatProgressSpinnerModule]
     })
     .compileComponents();
   });

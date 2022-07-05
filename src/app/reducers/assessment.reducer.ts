@@ -6,8 +6,7 @@ import {
   setErrorMessage,
 } from "../actions/assessment-data.actions";
 
-import {AssessmentState,ComputedScore} from "./app.states";
-import {act} from "@ngrx/effects";
+import {AssessmentState, ComputedScore} from "./app.states";
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -70,7 +69,7 @@ export function assessmentReducer(state: any, action: Action) {
 
 export const getAssessmentState = createFeatureSelector<AssessmentState>('assessmentState')
 
-export const getAssessments = createSelector(
+export const  getAssessments = createSelector(
   getAssessmentState, (state: AssessmentState) => {
     return state && state.assessments
   },

@@ -105,7 +105,7 @@ export class AssessmentMenuComponent implements OnInit {
 
   updateAssessmentStatus() {
     AssessmentMenuComponent.answerSaved = `Data was saved ${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
-  };
+  }
 
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {

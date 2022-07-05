@@ -19,16 +19,16 @@ import {TopicRating} from "../../types/topicRating";
 
 class MockAppService {
   saveTopicRecommendation(topicRecommendation: TopicRecommendation) {
-    if(topicRecommendation.topicId === 0) {
+    if (topicRecommendation.topicId === 0) {
       return of(topicRecommendation)
-    }else{
+    } else {
       return throwError("Error!")
     }
   }
 
   saveTopicRating(topicRating: TopicRating) {
-      return of(topicRating)
-    }
+    return of(topicRating)
+  }
 
 }
 
@@ -151,7 +151,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     };
     component.assessmentId = 1
     component.topicId = 1
-    const keyEventData = { isTrusted: true, code: 'KeyA' };
+    const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
     component.ngOnInit()
@@ -254,7 +254,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.assessmentId = 2
     component.topicId = 0
     const keyEventData = {isTrusted: true, code: 'KeyA'};
-    jest.spyOn(component,"showError")
+    jest.spyOn(component, "showError")
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
     component.ngOnInit()
@@ -263,9 +263,10 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
 
     mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
       expect(data).toBeUndefined()
-    },error => {
+    }, error => {
       expect(component.showError).toHaveBeenCalled()
       expect(error).toBe(new Error("Error!"))
     })
   });
+
 });

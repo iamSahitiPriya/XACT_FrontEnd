@@ -107,13 +107,14 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.topicLevelRecommendation.recommendation = this.topicRatingAndRecommendation.recommendation
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
-    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe((_data) => {
+    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
+    next:(_data)=> {
       topicRecommendationData.push(this.topicLevelRecommendation);
       this.sendRecommendation(this.topicRecommendationResponse)
       this.updateDataSavedStatus()
-    },_error => {
+    },error:_error => {
       this.showError("Data cannot be saved","Close");
-    })
+    }})
 
   }
 
@@ -137,13 +138,14 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
         this.sendRating(this.topicRatingResponse)
 
-        this.appService.saveTopicRating(this.topicLevelRating).subscribe((_data) => {
+        this.appService.saveTopicRating(this.topicLevelRating).subscribe({
+        next: (_data) => {
           topicRatingData.push(this.topicLevelRating);
           this.updateDataSavedStatus()
 
-        }, _error => {
+        },error: _error => {
           this.showError("Data cannot be saved", "Close");
-        })
+        }})
         if (this.topicRatingAndRecommendation.rating !== undefined) {
           this.sendAverageRating(String(this.topicRatingAndRecommendation.rating))
         } else {
