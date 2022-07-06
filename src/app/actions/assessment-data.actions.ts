@@ -1,6 +1,7 @@
 import {AssessmentStructure} from "../types/assessmentStructure";
 import {createAction, props} from '@ngrx/store';
 import {UpdatedStatus} from "../types/UpdatedStatus";
+import {TopicRatingResponse} from "../types/topicRatingResponse";
 
 export const getAssessmentData = createAction('[ASSESSMENT STRUCTURE] Get assessment',props<{payload:AssessmentStructure}>())
 
@@ -14,4 +15,4 @@ export const setUpdatedInfo = createAction("Set updated info", props<{info:Updat
 
 export const getUpdatedInfo = createAction("Get updated info", props<{info:UpdatedStatus}>());
 
-export const setAverageComputedScore = createAction("Set Average Score", props<{averageScore: string}>())
+export const setAverageComputedScore = createAction("Set Average Score", props<{averageScoreDetails: TopicRatingResponse}>())

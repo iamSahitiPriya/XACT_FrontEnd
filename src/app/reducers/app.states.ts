@@ -1,4 +1,5 @@
 import {AssessmentStructure} from "../types/assessmentStructure";
+import {TopicRatingResponse} from "../types/topicRatingResponse";
 
 export interface AppStates{
    assessmentState:AssessmentState;
@@ -14,7 +15,7 @@ export interface AssessmentStatus{
 }
 
 export interface ComputedScore{
-  computedScore:string
+  scoreDetails: TopicRatingResponse;
 }
 
 

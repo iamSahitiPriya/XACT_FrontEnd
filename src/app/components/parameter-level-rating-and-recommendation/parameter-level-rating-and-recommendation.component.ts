@@ -16,6 +16,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
+import {TopicRatingResponse} from "../../types/topicRatingResponse";
 
 let DEBOUNCE_TIME = 2000;
 
@@ -26,7 +27,9 @@ let DEBOUNCE_TIME = 2000;
 })
 export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
-  cloneParameterResponse: AssessmentStructure;
+  sendAverageScore : TopicRatingResponse;
+
+  private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
   private cloneAnswerResponse1: AssessmentStructure;
 
@@ -49,6 +52,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   assessmentId: number
+
+  @Input()
+  topicId: number
 
   @Input()
   parameterName: string
@@ -191,7 +197,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.sendAverageRating(averageRating);
   }
 
-  private sendAverageRating(rating: string) {
-    this.store.dispatch(fromActions.setAverageComputedScore({averageScore: String(rating)}))
+  private sendAverageRating(rating: String) {
+    this.sendAverageScore = {rating: String(rating), topicId: this.topicId}
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 }

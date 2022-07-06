@@ -6,7 +6,7 @@ import {Component, Inject} from '@angular/core';
 import {OKTA_AUTH, OktaAuthStateService} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {ProgressComponentComponent} from "../progress-component/progress-component.component";
-import {environment} from "../../../environments/environment";
+
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ import {environment} from "../../../environments/environment";
 
 export class AppComponent {
   public progressComponent = ProgressComponentComponent;
-  public appVersion:string = environment.VERSION;
+  public appVersion:string = "1.0.0";
 
   title = 'XACT | Welcome to client maturity assessment ';
 

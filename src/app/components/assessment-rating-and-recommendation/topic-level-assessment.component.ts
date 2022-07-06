@@ -21,6 +21,7 @@ import * as fromActions from '../../actions/assessment-data.actions'
 import {AssessmentState, ComputedScore} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
+import {TopicRatingResponse} from "../../types/topicRatingResponse";
 
 
 export const saveAssessmentData = [{}]
@@ -55,9 +56,8 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating: string = "0"
-  finalAverageRating: Observable<ComputedScore>
-  disableRating: string = "0"
+  averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
+  disableRating: String = "0"
   form: FormGroup
 
   answerResponse: AssessmentStructure
@@ -71,7 +71,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.finalAverageRating = this.store.select(fromReducer.getAverageRating)
   }
 
   openSnackBar(message: string, action: string) {
@@ -102,11 +101,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
         this.answerResponse = {...data}
         this.assessmentId = this.answerResponse.assessmentId
         this.assessmentStatus = this.answerResponse.assessmentStatus
-      }
-    })
-    this.finalAverageRating.subscribe(data => {
-      if (data !== undefined) {
-        this.averageRating = data.computedScore
       }
     })
     this.getAssessment()
@@ -272,7 +266,8 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.topicRatingAndRecommendation) {
-      this.averageRating = String(this.topicRequest.topicRatingAndRecommendation.rating)
+      this.averageRating.rating = String(this.topicRequest.topicRatingAndRecommendation.rating)
+      this.averageRating.topicId = this.topicInput.topicId
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
@@ -283,16 +278,23 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
       if (ratingSum !== 0 && ratingNumber !== 0) {
-        this.averageRating = String(ratingSum / ratingNumber);
+        this.averageRating.rating = String(ratingSum / ratingNumber);
+        this.averageRating.topicId = this.topicInput.topicId
+
+
       } else {
-        this.averageRating = "0"
+        this.averageRating.rating = "0"
+        this.averageRating.topicId = this.topicInput.topicId
+
+
       }
     }
   }
+
   private updateDataSavedStatus() {
-    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 }
 

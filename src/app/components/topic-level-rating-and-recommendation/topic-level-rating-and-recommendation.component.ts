@@ -9,7 +9,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AssessmentState, ComputedScore} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
@@ -29,8 +29,11 @@ let DEBOUNCE_TIME = 1200;
 })
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
+  sendAverageScore : TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
+  averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
+
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -89,6 +92,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
+
   }
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -193,8 +197,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 
-  private sendAverageRating(rating: string) {
-    this.store.dispatch(fromActions.setAverageComputedScore({averageScore: String(rating)}))
-
+  private sendAverageRating(rating: String) {
+    this.sendAverageScore = {rating: String(rating), topicId: this.topicRecommendation}
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails:this.sendAverageScore}))
   }
 }

@@ -1,0 +1,14 @@
+<div>
+  <div class="maturityScore" [ngClass]="{'maturityScore-disable':averageRating.rating === disableRating}">
+    Computed Maturity Score
+  </div>
+  <div>
+
+    <mat-toolbar class="scoreReference" [ngClass]="{'scoreReference-disable':averageRating.rating === disableRating}">
+          <span class="rating"
+                [ngClass]="{'rating-disable':averageRating.rating === disableRating}">
+       <div class="image"></div>
+            {{averageRating.rating}}</span>
+    </mat-toolbar>
+  </div>
+</div>

@@ -25,6 +25,7 @@
       <div *ngIf="parameter.references">
         <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]"
                                                        [parameterRecommendation]="parameter.parameterId"
+                                                       [topicId]="topicInput.topicId"
                                                        [parameterScore]="parameter.references"
                                                        [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
                                                        [assessmentId]="assessmentId"
@@ -42,27 +43,17 @@
                                                  [topicName]="topicInput.topicName"
       ></app-topic-level-rating-and-recommendation>
     </div>
-    <div >
-      <button class="saveButton" matTooltip="Click to save" [disabled]="assessmentStatus ==='Completed'" mat-raised-button
+    <div>
+      <button class="saveButton" matTooltip="Click to save" [disabled]="assessmentStatus ==='Completed'"
+              mat-raised-button
               (click)="save()">Save
       </button>
     </div>
   </div>
-
-  <div id="currentMaturityScore">
+  <div class="currentMaturityScore">
     <div class="parameterScoring">
-      <div class="maturityScore" [ngClass]="{'maturityScore-disable':averageRating === disableRating}" >
-        Computed Maturity Score
-      </div>
-      <div>
-        <mat-toolbar class="scoreReference" [ngClass]="{'scoreReference-disable':averageRating === disableRating}">
-          <span class="rating"
-                [ngClass]="{'rating-disable':averageRating === disableRating}">
-       <div class="image"></div>
-            {{averageRating}}</span>
-        </mat-toolbar>
-      </div>
+      <app-assessment-average-rating [topicId]="topicInput.topicId"
+                                     [averageRating]="averageRating"></app-assessment-average-rating>
     </div>
   </div>
-
 </div>
