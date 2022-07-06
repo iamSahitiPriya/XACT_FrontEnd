@@ -63,6 +63,7 @@ export class CreateAssessmentsComponent implements OnInit {
       this.userEmails = this.assessment.users.join(",");
       this.assessmentCopy = cloneDeep(this.assessment);
     }
+
   }
 
   saveAssessment() {
@@ -127,6 +128,7 @@ export class CreateAssessmentsComponent implements OnInit {
       if(email)
         users.push({email})
     });
+
     return users;
 
   }
@@ -192,7 +194,6 @@ export class CreateAssessmentsComponent implements OnInit {
     const value = (event.value || '').trim();
     if (value) {
       this.emails.push(value);
-      console.log("...........",this.emails)
     }
     event.chipInput!.clear();
   }
@@ -204,5 +205,6 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.splice(index, 1);
     }
   }
+
 
 }

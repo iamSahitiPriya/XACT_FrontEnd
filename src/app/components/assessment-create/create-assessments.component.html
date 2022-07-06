@@ -86,12 +86,12 @@
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-        <input matInput formControlName="emailValidator" type="text"
+        <input matInput formControlName="emailValidator" type="text" [(ngModel)]="assessment.users"
                placeholder="abc@thoughtworks.com"
                id="userEmails" maxlength="1000"
                [matChipInputFor]="chipList"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                (matChipInputTokenEnd)="add($event)">
 
         <mat-error *ngIf="form['emailValidator'].hasError('pattern')">
