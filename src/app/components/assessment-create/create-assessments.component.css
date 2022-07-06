@@ -16,7 +16,7 @@
 }
 
 .mat-error {
-  margin-top: 14px !important;
+  margin-top: 14px;
   width:102%;
 }
 
@@ -30,8 +30,9 @@
 
 .addUserEmail {
   width: 100%;
-  height: 50%;
+  max-height: 50% !important;
   color-rendering: auto;
+  overflow-y: scroll !important;
 }
 
 .saveButton {
@@ -112,7 +113,10 @@ h2 {
 .mat-column-name {
   padding-left: 50px;
 }
-
+.mat-chip-list-wrapper {
+  margin:4px;
+  overflow-y: scroll !important;
+}
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: transparent !important;
   border-radius: 5px;
@@ -144,3 +148,4 @@ h2 {
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
+
