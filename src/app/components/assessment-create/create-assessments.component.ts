@@ -28,11 +28,13 @@ export class CreateAssessmentsComponent implements OnInit {
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
   loading: boolean;
-  userEmails: string = '';
+
 
   addOnBlur = true;
   readonly separatorKeysCodes =[ENTER , COMMA] as const;
   emails : string[]=[];
+
+
 
   @Input()
   assessment: AssessmentStructure;
@@ -60,10 +62,9 @@ export class CreateAssessmentsComponent implements OnInit {
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     if(this.assessment.users !== undefined) {
-      this.userEmails = this.assessment.users.join(",");
+      this.emails = this.assessment.users;
       this.assessmentCopy = cloneDeep(this.assessment);
     }
-
   }
 
   saveAssessment() {
@@ -91,6 +92,7 @@ export class CreateAssessmentsComponent implements OnInit {
       })
     } else
       this.showFormError();
+
   }
 
   private showError() {
@@ -176,7 +178,7 @@ export class CreateAssessmentsComponent implements OnInit {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.teamSize = this.assessmentCopy.teamSize;
       this.assessment.organisationName = this.assessmentCopy.organisationName;
-      this.userEmails = this.assessmentCopy.users.join(",");
+      this.emails = this.assessmentCopy.users;
     }
   }
 
@@ -205,6 +207,5 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.splice(index, 1);
     }
   }
-
 
 }
