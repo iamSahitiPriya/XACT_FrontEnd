@@ -25,7 +25,8 @@ import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {MatChipsModule} from "@angular/material/chips";
+import { MatChipsModule} from "@angular/material/chips";
+
 
 
 
@@ -88,6 +89,7 @@ describe('CreateAssessmentsComponent', () => {
   let controller: HttpTestingController
   let mockAppService: MockAppService
   const original = window.location;
+  let chipListNativeElement: HTMLElement;
   let matDialog: any
   const oktaAuth = require('@okta/okta-auth-js');
   const reloadFn = () => {
@@ -278,4 +280,24 @@ describe('CreateAssessmentsComponent', () => {
     component.saveAssessment()
     component.updateAssessment()
   });
+  it("should remove the emails from the list on cancel click",()=>{
+    const emailList = ["abc@thoughtworks.com","hello@thoughtworks.com"];
+    component.emails = emailList;
+
+    component.remove('abc@thoughtworks.com');
+
+    expect(emailList).toHaveLength(1);
+  })
+
+  it("should add the emails from input",()=>{
+    const userEmail = "abc@thoughtworks.com";
+
+    jest.spyOn(component, 'add')
+    component.emails.push(userEmail);
+
+    expect(component.emails).toHaveLength(1);
+  })
+
+
+
 });
