@@ -44,8 +44,11 @@
   color: #000000;
   opacity: 1;
 }
+.menu{
+  margin-top: 0.8em !important;
+}
 
-.logout{
+.item{
   background: var(--unnamed-color-f4fafc) 0% 0% no-repeat padding-box;
   font-size: medium;
   background: #F4FAFC 0% 0% no-repeat padding-box;
