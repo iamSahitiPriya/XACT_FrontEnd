@@ -8,7 +8,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -41,6 +41,7 @@ export class CreateAssessmentsComponent implements OnInit {
   assessmentCopy: AssessmentStructure;
 
 
+
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
               private formBuilder: FormBuilder, private errorDisplay: MatSnackBar) {
   }
@@ -58,6 +59,7 @@ export class CreateAssessmentsComponent implements OnInit {
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
         emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com*$/)]
+        // emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
@@ -194,7 +196,8 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
+    var re =/@thoughtworks.com/
+    if (value.search(re) != -1) {
       this.emails.push(value);
     }
     event.chipInput!.clear();
