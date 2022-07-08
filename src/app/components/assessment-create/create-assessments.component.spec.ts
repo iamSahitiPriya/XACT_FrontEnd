@@ -30,6 +30,7 @@ import { MatChipsModule} from "@angular/material/chips";
 
 
 
+
 class MockDialog {
   open() {
     return {
@@ -89,7 +90,6 @@ describe('CreateAssessmentsComponent', () => {
   let controller: HttpTestingController
   let mockAppService: MockAppService
   const original = window.location;
-  let chipListNativeElement: HTMLElement;
   let matDialog: any
   const oktaAuth = require('@okta/okta-auth-js');
   const reloadFn = () => {
@@ -289,15 +289,12 @@ describe('CreateAssessmentsComponent', () => {
     expect(emailList).toHaveLength(1);
   })
 
-  it("should add the emails from input",()=>{
+  it("should add the emails from input",()=> {
     const userEmail = "abc@thoughtworks.com";
 
-    jest.spyOn(component, 'add')
     component.emails.push(userEmail);
 
     expect(component.emails).toHaveLength(1);
-  })
-
-
+  });
 
 });
