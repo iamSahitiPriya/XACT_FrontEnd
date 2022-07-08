@@ -79,7 +79,7 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline"  class="addUserEmail">
         <mat-label>Email Id</mat-label>
-        <mat-chip-list #chipList aria-label="Email Selection" formControlName="emailValidator">
+        <mat-chip-list #chipList aria-label="Email Selection">
           <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
             {{email}}
             <button matChipRemove>

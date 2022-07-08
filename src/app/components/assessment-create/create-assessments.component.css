@@ -17,7 +17,7 @@
 
 .mat-error{
   margin-top:14px;
-  display:flex;
+  position:relative;
   width:102%;
 }
 
@@ -80,7 +80,6 @@ h2 {
 }
 
 .mat-form-field {
-  /*height: 87px;*/
   height:77px;
   padding-left: 5px;
   padding-right: 5px;

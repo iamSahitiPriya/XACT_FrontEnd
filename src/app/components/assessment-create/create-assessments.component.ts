@@ -196,8 +196,8 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    var re =/@thoughtworks.com/
-    if (value.search(re) != -1) {
+    var re =/^\w+([-+.']\w+)*@thoughtworks.com*$/;
+    if (value.search(re)!=-1) {
       this.emails.push(value);
     }
     event.chipInput!.clear();
