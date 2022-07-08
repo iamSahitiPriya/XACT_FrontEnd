@@ -59,7 +59,7 @@ export class CreateAssessmentsComponent implements OnInit {
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
         emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com*$/)]
-        // emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com(, ?\w+([-+.']\w+)*@thoughtworks.com)*$/)]
+
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
