@@ -14,7 +14,7 @@
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>Assessment Name</mat-label>
         <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
-               [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()_-]+(\s+[a-zA-Z0-9-()_-]+)*$" maxlength="50">
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -26,7 +26,7 @@
       <mat-form-field appearance="outline" class="domain">
         <mat-label>Domain of Target Assessment</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
-               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               pattern="^[a-zA-Z0-9-()_-]+(\s+[a-zA-Z0-9-()_-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -51,7 +51,7 @@
       <mat-form-field appearance="outline" class="organizationName">
         <mat-label>Organisation Name</mat-label>
         <input class="colorClass" matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
-               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()_-]+(\s+[a-zA-Z0-9-()_-]+)*$" maxlength="50">
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
           Mandatory field
         </mat-error>
@@ -64,7 +64,7 @@
         <mat-label>Industry of Organisation</mat-label>
 
         <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" placeholder="Enter Industry"
-               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               required pattern="^[a-zA-Z0-9-()_-]+(\s+[a-zA-Z0-9-()_-]+)*$" maxlength="50">
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
           Mandatory field
         </mat-error>

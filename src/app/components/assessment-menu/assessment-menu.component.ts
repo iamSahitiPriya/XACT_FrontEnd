@@ -43,10 +43,14 @@ export class AssessmentMenuComponent implements OnInit {
   generateReport() {
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'Interim' : 'Final';
     const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + this.assessment.assessmentName + "-" + date + ".xlsx";
+    const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).subscribe(blob => {
       saveAs(blob, reportName);
     });
+  }
+
+  private formattedName(name: string) {
+    return name.toLowerCase().replace(/ /g, "-");
   }
 
 
