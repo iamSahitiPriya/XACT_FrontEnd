@@ -8,14 +8,15 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import { MatChipInputEvent } from '@angular/material/chips';
+import {MatChipInputEvent} from '@angular/material/chips';
+
 
 @Component({
   selector: 'app-create-assessments',
@@ -31,15 +32,13 @@ export class CreateAssessmentsComponent implements OnInit {
 
 
   addOnBlur = true;
-  readonly separatorKeysCodes =[ENTER , COMMA] as const;
-  emails : string[]=[];
-
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  emails: string[] = [];
 
 
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
-
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
@@ -58,12 +57,12 @@ export class CreateAssessmentsComponent implements OnInit {
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com*$/)]
+        emailValidator: ['', Validators.pattern(/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/)]
 
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
-    if(this.assessment.users !== undefined) {
+    if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
       this.assessmentCopy = cloneDeep(this.assessment);
     }
@@ -116,20 +115,19 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
 
-  private getValidUsers()
-  {
-    let userData =[];
-   this.emails.forEach((email) => {
+  private getValidUsers() {
+    let userData = [];
+    this.emails.forEach((email) => {
       userData.push(email)
     });
-   userData.push(this.loggedInUserEmail);
-   userData=[...new Set(userData.filter(function(el){
-     return el != null;
-   }))]
+    userData.push(this.loggedInUserEmail);
+    userData = [...new Set(userData.filter(function (el) {
+      return el != null;
+    }))]
 
-    const users : User[]=[];
-    userData.forEach((email)=>{
-      if(email)
+    const users: User[] = [];
+    userData.forEach((email) => {
+      if (email)
         users.push({email})
     });
 
@@ -196,14 +194,15 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    var re =/^\w+([-+.']\w+)*@thoughtworks.com*$/;
-    if (value.search(re)!=-1) {
+    let re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
+    if (value.search(re) != -1) {
       this.emails.push(value);
+      event.chipInput?.clear();
     }
-    event.chipInput!.clear();
+
   }
 
-  remove(email : string): void {
+  remove(email: string): void {
     const index = this.emails.indexOf(email);
 
     if (index >= 0) {
