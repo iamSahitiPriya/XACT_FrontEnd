@@ -202,8 +202,8 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.sendAverageRating(averageRating);
   }
 
-  private sendAverageRating(rating: String) {
-    this.sendAverageScore = {rating: String(rating), topicId: this.topicId}
+  private sendAverageRating(rating: string) {
+    this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 }

@@ -59,6 +59,7 @@ export class CreateAssessmentsComponent implements OnInit {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
+  
 
 
   @Input()
@@ -82,14 +83,15 @@ export class CreateAssessmentsComponent implements OnInit {
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(/^\w+([-+.']\w+)*@thoughtworks.com*$/)]
+        emailValidator: ['', Validators.pattern(/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/)]
+
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
-    if(this.assessment.users !== undefined) {
+    if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
-      this.assessmentCopy = cloneDeep(this.assessment);
     }
+    this.assessmentCopy = cloneDeep(this.assessment);
   }
 
   saveAssessment() {
@@ -139,20 +141,19 @@ export class CreateAssessmentsComponent implements OnInit {
   }
 
 
-  private getValidUsers()
-  {
-    let userData =[];
-   this.emails.forEach((email) => {
+  private getValidUsers() {
+    let userData = [];
+    this.emails.forEach((email) => {
       userData.push(email)
     });
-   userData.push(this.loggedInUserEmail);
-   userData=[...new Set(userData.filter(function(el){
-     return el != null;
-   }))]
+    userData.push(this.loggedInUserEmail);
+    userData = [...new Set(userData.filter(function (el) {
+      return el != null;
+    }))]
 
-    const users : User[]=[];
-    userData.forEach((email)=>{
-      if(email)
+    const users: User[] = [];
+    userData.forEach((email) => {
+      if (email)
         users.push({email})
     });
 
@@ -219,13 +220,15 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
+    let re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
+    if (value.search(re) != -1) {
       this.emails.push(value);
+      event.chipInput?.clear();
     }
-    event.chipInput!.clear();
+
   }
 
-  remove(email : string): void {
+  remove(email: string): void {
     const index = this.emails.indexOf(email);
 
     if (index >= 0) {

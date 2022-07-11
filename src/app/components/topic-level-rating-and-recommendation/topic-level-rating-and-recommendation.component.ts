@@ -151,7 +151,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
           this.showError("Data cannot be saved", "Close");
         }})
         if (this.topicRatingAndRecommendation.rating !== undefined) {
-          this.sendAverageRating(String(this.topicRatingAndRecommendation.rating))
+          this.sendAverageRating(this.topicRatingAndRecommendation.rating)
         } else {
           this.sendAverageRating("0")
         }
@@ -201,8 +201,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 
-  private sendAverageRating(rating: String) {
-    this.sendAverageScore = {rating: String(rating), topicId: this.topicRecommendation}
+  private sendAverageRating(rating: string) {
+    this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails:this.sendAverageScore}))
   }
 }

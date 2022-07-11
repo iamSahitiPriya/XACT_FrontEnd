@@ -1,13 +1,10 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
-
-import {OKTA_AUTH} from "@okta/okta-angular";
-import {OktaAuth} from "@okta/okta-auth-js";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AssessmentStructure} from "../../types/assessmentStructure";
@@ -50,17 +47,21 @@ export class AssessmentMenuComponent implements OnInit {
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
   generateReport() {
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'Interim' : 'Final';
     const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + this.assessment.assessmentName + "-" + date + ".xlsx";
+    const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).subscribe(blob => {
       saveAs(blob, reportName);
     });
+  }
+
+  private formattedName(name: string) {
+    return name.toLowerCase().replace(/ /g, "-");
   }
 
 

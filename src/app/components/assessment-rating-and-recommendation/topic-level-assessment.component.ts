@@ -54,7 +54,7 @@ let parameterRequests: parameterRequest[];
 
 export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
-  disableRating: String = "0"
+  disableRating: string = "0"
   form: FormGroup
 
   saveButtonToolTip = data_local.SAVE_ASSESSMENT_BUTTON.TOOLTIP;

@@ -15,7 +15,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {OKTA_AUTH} from "@okta/okta-angular";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -29,11 +28,13 @@ import {MatRippleModule} from "@angular/material/core";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of(true)
+      afterClosed: () => of(true),
+      componentInstance: jest.fn()
     }
   }
 
@@ -46,7 +47,6 @@ class MockDialog {
 describe('AssessmentMenuComponent', () => {
   let dialog: any;
   let matDialog: any
-  const oktaAuth = require('@okta/okta-auth-js');
 
   let component: AssessmentMenuComponent;
   let fixture: ComponentFixture<AssessmentMenuComponent>;
@@ -85,17 +85,14 @@ describe('AssessmentMenuComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentMenuComponent],
+      declarations: [AssessmentMenuComponent,PopupConfirmationComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
         ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,
         StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: MatDialog, useClass: MockDialog}
-
-
       ],
     })
       .compileComponents();
@@ -103,7 +100,6 @@ describe('AssessmentMenuComponent', () => {
 
   beforeEach(() => {
     jest.mock('@okta/okta-auth-js');
-    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam', email: "sam@gmail.com"}));
     fixture = TestBed.createComponent(AssessmentMenuComponent);
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
