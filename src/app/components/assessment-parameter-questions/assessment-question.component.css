@@ -11,6 +11,9 @@
   margin-top :30px;
   font-size: 15px;
 }
+/*::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {*/
+/*  margin: -1.75em 0 !important;*/
+/*}*/
 
 textArea.mat-input-element {
   padding-bottom: 30px;

@@ -8,6 +8,8 @@ import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
+import * as data from "../../../../messages.json";
+
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -22,6 +24,8 @@ export class AssessmentModulesComponent implements OnInit {
   assessmentName: string
   category: CategoryStructure[] = []
   categoryIconMapping: Map<number, string> = new Map<number, string>()
+  data_local: any = (data as any).default;
+
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
     matIconRegistry

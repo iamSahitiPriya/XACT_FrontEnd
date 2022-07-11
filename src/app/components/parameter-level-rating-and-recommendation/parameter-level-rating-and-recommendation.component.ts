@@ -17,6 +17,7 @@ import {ParameterRecommendationResponse} from "../../types/parameterRecommendati
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
+import * as data from "../../../../messages.json";
 
 let DEBOUNCE_TIME = 2000;
 
@@ -58,6 +59,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   parameterName: string
+
+  data_local: any = (data as any).default;
+
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, recommendation: undefined

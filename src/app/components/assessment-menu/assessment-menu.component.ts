@@ -17,6 +17,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
+import * as data from "../../../../messages.json";
 
 export const assessmentData = [{}]
 
@@ -38,6 +39,8 @@ export class AssessmentMenuComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
   public static answerSaved: string;
+
+  data_local: any = (data as any).default;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -67,7 +70,7 @@ export class AssessmentMenuComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure? You will not be able to edit assessment again without reopening it.";
+    openConfirm.componentInstance.text = this.data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         this.finishAssessment();
@@ -104,7 +107,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   updateAssessmentStatus() {
-    AssessmentMenuComponent.answerSaved = `Data was saved ${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
+    AssessmentMenuComponent.answerSaved = this.data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT +`${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
   }
 
   ngOnInit(): void {

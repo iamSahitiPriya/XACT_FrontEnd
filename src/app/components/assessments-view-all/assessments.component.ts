@@ -10,7 +10,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-
+import * as data from 'messages.json';
 /**
  * @title Table with expandable rows
  */
@@ -41,6 +41,8 @@ export class AssessmentsComponent implements OnInit {
     updatedAt: 0,
     users: []
   };
+
+  data_local: any = (data as any).default;
 
   constructor(public appService: AppServiceService, public router: Router, private dialog: MatDialog,) {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)

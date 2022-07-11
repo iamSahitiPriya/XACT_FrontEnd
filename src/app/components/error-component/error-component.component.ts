@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
+import * as data from "../../../../messages.json";
 
 @Component({
   selector: 'app-error-component',
@@ -7,6 +8,8 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./error-component.component.css']
 })
 export class ErrorComponentComponent {
+
+  data_local: any = (data as any).default;
 
   bodyText: string;
 

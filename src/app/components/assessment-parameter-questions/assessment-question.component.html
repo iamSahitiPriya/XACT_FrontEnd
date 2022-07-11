@@ -5,7 +5,7 @@
 <div *ngIf="questionDetails">
   <form>
     <mat-form-field class="textArea" appearance="outline" id="testForm">
-      <mat-label>Notes</mat-label>
+      <mat-label>{{data_local.ASSESSMENT_QUESTION_FIELD.LABEL}}</mat-label>
       <textarea matInput name="textarea{{questionDetails.questionId}}"
                 id="assessmentAnswer{{questionDetails.questionId}}"
                 [(ngModel)]="answerInput.answer"

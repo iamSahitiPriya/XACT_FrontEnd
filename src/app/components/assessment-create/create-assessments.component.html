@@ -5,80 +5,80 @@
 
 <div *ngIf="assessment">
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
-    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>Create Assessment</h1>
-    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>Manage Assessment</h1>
+    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>{{data_local.ASSESSMENT.CREATE.TITLE}}</h1>
+    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{data_local.ASSESSMENT.MANAGE.TITLE}}</h1>
     <button matTooltip="Click to close the dialog box" type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
-        <mat-label>Assessment Name</mat-label>
-        <input matInput formControlName="assessmentNameValidator" placeholder="Enter Assessment Name" required
+        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE}}</mat-label>
+        <input matInput formControlName="assessmentNameValidator" [placeholder]=data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER required
                [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
-          Mandatory field
+          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
         </mat-error>
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
+          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
         </mat-error>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="domain">
-        <mat-label>Domain of Target Assessment</mat-label>
-        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" placeholder="Enter Domain" required
+        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_DOMAIN.TITLE}}</mat-label>
+        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" [placeholder]=data_local.ASSESSMENT.ASSESSMENT_DOMAIN.PLACEHOLDER required
                pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
-          Mandatory field
+          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
         </mat-error>
         <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
+          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
         </mat-error>
       </mat-form-field>
       <br>
 
       <mat-form-field appearance="outline" class="teamSize">
-        <mat-label>Size of Target Team</mat-label>
+        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_TEAM.TITLE}}</mat-label>
         <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
-               placeholder="Enter Team size" min="1" max="10000000" required pattern="^[1-9]\d*$">
+               [placeholder]=data_local.ASSESSMENT.ASSESSMENT_TEAM.PLACEHOLDER min="1" max="10000000" required pattern="^[1-9]\d*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          Mandatory number field
+          {{data_local.ASSESSMENT.MANDATORY_FIELD_NUMBER}}
         </mat-error>
         <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          Positive integer value allowed
+          {{data_local.ASSESSMENT.ERROR_MESSAGE_NUMBER}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="organizationName">
-        <mat-label>Organisation Name</mat-label>
+        <mat-label>{{data_local.ASSESSMENT.ORGANISATION_NAME.TITLE}}</mat-label>
         <input class="colorClass" matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
-               placeholder="Enter organization Name" required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               [placeholder]=data_local.ASSESSMENT.ORGANISATION_NAME.PLACEHOLDER required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
-          Mandatory field
+          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
         </mat-error>
         <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
+          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
         </mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="outline" class="industry">
-        <mat-label>Industry of Organisation</mat-label>
 
-        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" placeholder="Enter Industry"
+      <mat-form-field appearance="outline" class="industry">
+        <mat-label>{{data_local.ASSESSMENT.ORGANISATION_INDUSTRY.TITLE}}</mat-label>
+        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" [placeholder]="data_local.ASSESSMENT.ORGANISATION_INDUSTRY.PLACEHOLDER"
                required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
-          Mandatory field
+          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
         </mat-error>
         <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
-          No Special Characters allowed except hyphen and underscore
+          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
         </mat-error>
-      </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
+      </mat-form-field>&nbsp;&nbsp;
 
     </div>
 
-    <h2 mat-dialog-title>Add New User </h2>
+    <h2 mat-dialog-title>{{data_local.ASSESSMENT.ADD_ASSESSMENT_USERS}} </h2>
     <div mat-dialog-content>
       <mat-form-field appearance="outline"  class="addUserEmail">
-        <mat-label>Email Id</mat-label>
+        <mat-label>{{data_local.ASSESSMENT.USER_EMAIL.TITLE}}</mat-label>
         <mat-chip-list #chipList aria-label="Email Selection">
           <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
             {{email}}
@@ -87,7 +87,7 @@
             </button>
           </mat-chip>
         <input matInput formControlName="emailValidator" type="text"
-               placeholder="abc@thoughtworks.com"
+               [placeholder]=data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER
                id="userEmails" maxlength="1000"
                [matChipInputFor]="chipList"
                [matChipInputAddOnBlur]="addOnBlur"
@@ -96,15 +96,15 @@
         </mat-chip-list>
       </mat-form-field>
      <mat-error  *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-8px;margin-left:17px">
-        Valid list of comma separated email address
+        {{data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE}}
       </mat-error>
 
 
     </div>
-    <button matTooltip="Click to create new assessment" *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">Save
+    <button [matTooltip]=data_local.ASSESSMENT.CREATE.HOVER_MESSAGE *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">{{data_local.ASSESSMENT.CREATE.BUTTON_TEXT}}
     </button>
-    <button matTooltip="Click to update this assessment" *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
-            (click)="updateAssessment()">Update
+    <button [matTooltip]=data_local.ASSESSMENT.MANAGE.HOVER_MESSAGE *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
+            (click)="updateAssessment()">{{data_local.ASSESSMENT.MANAGE.BUTTON_TEXT}}
     </button>
   </form>
 </div>

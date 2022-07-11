@@ -16,6 +16,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import { MatChipInputEvent } from '@angular/material/chips';
+import * as data from "../../../../messages.json";
 
 @Component({
   selector: 'app-create-assessments',
@@ -33,8 +34,7 @@ export class CreateAssessmentsComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes =[ENTER , COMMA] as const;
   emails : string[]=[];
-
-
+  data_local: any = (data as any).default;
 
   @Input()
   assessment: AssessmentStructure;

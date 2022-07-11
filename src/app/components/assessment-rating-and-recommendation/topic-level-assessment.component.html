@@ -44,9 +44,9 @@
       ></app-topic-level-rating-and-recommendation>
     </div>
     <div>
-      <button class="saveButton" matTooltip="Click to save" [disabled]="assessmentStatus ==='Completed'"
+      <button class="saveButton" [matTooltip]=data_local.SAVE_ASSESSMENT_BUTTON.HOVER_MESSAGE [disabled]="assessmentStatus ==='Completed'"
               mat-raised-button
-              (click)="save()">Save
+              (click)="save()">{{data_local.SAVE_ASSESSMENT_BUTTON.TITLE}}
       </button>
     </div>
   </div>

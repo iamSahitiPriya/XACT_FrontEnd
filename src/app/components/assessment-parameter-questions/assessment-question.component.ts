@@ -18,6 +18,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
+import * as data from "../../../../messages.json";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -50,6 +51,8 @@ export class AssessmentQuestionComponent implements OnInit {
   @Input()
   assessmentId: number
   textarea: number = 0;
+  data_local: any = (data as any).default;
+
 
   private cloneAnswerResponse: AssessmentStructure;
   private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};

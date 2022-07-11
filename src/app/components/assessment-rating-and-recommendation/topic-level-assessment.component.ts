@@ -18,10 +18,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from '@ngrx/store';
 import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
-import {AssessmentState, ComputedScore} from "../../reducers/app.states";
+import {AssessmentState} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
+import * as data from "../../../../messages.json";
 
 
 export const saveAssessmentData = [{}]
@@ -40,10 +41,6 @@ export class parameterRequest {
   }
 }
 
-enum answerStatus {
-  Saving = 'Saving..',
-  Saved = 'Saved!'
-}
 
 
 let parameterRequests: parameterRequest[];
@@ -59,6 +56,8 @@ export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
   disableRating: String = "0"
   form: FormGroup
+  data_local: any = (data as any).default;
+
 
   answerResponse: AssessmentStructure
   answerResponse1: Observable<AssessmentStructure>
@@ -73,13 +72,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['saveSnackbar'],
-      duration: 2000
-    })
-  }
 
   public answerSaved: string
   public makeDisable = false

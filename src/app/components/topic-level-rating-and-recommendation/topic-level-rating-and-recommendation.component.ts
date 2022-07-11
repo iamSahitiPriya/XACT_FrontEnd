@@ -16,6 +16,7 @@ import {TopicRecommendationResponse} from "../../types/topicRecommendationRespos
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
+import * as data from "../../../../messages.json";
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -33,6 +34,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   private cloneTopicResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
   averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
+  data_local: any = (data as any).default;
+
 
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {

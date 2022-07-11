@@ -18,6 +18,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
+import * as data from "../../../../messages.json";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -39,6 +40,8 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   topicName: string;
   selectedIndex: number = 0;
   assessmentId: number;
+  data_local: any = (data as any).default;
+
 
   @ViewChild(TopicLevelAssessmentComponent)
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
