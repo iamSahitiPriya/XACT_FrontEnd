@@ -1,13 +1,10 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
-
-import {OKTA_AUTH} from "@okta/okta-angular";
-import {OktaAuth} from "@okta/okta-auth-js";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AssessmentStructure} from "../../types/assessmentStructure";
@@ -39,7 +36,7 @@ export class AssessmentMenuComponent implements OnInit {
   private cloneAssessment: AssessmentStructure;
   public static answerSaved: string;
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
