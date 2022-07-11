@@ -11,14 +11,13 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {ActivatedRoute} from "@angular/router";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
-import * as data from "../../../../messages.json";
+import {data_local} from "../../../assets/messages";
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -40,11 +39,8 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   topicName: string;
   selectedIndex: number = 0;
   assessmentId: number;
-  data_local: any = (data as any).default;
 
-
-  @ViewChild(TopicLevelAssessmentComponent)
-  topicLevelAssessmentComponent: TopicLevelAssessmentComponent;
+  assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   answer: Observable<AssessmentStructure>
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>, private dialog: MatDialog) {

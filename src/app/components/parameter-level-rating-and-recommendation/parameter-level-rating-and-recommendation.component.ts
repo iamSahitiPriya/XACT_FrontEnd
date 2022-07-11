@@ -17,8 +17,7 @@ import {ParameterRecommendationResponse} from "../../types/parameterRecommendati
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import * as data from "../../../../messages.json";
-
+import {data_local} from "../../../assets/messages";
 let DEBOUNCE_TIME = 2000;
 
 @Component({
@@ -29,6 +28,9 @@ let DEBOUNCE_TIME = 2000;
 export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore : TopicRatingResponse;
+
+  maturityScoreTitle = data_local.ASSESSMENT_PARAMETER.MATURITY_SCORE_TITLE;
+  recommendationLabel = data_local.ASSESSMENT_PARAMETER.RECOMMENDATION_LABEL;
 
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
@@ -60,7 +62,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   parameterName: string
 
-  data_local: any = (data as any).default;
 
 
   parameterLevelRecommendation: ParameterRecommendation = {

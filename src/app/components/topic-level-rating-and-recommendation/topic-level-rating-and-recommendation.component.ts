@@ -9,14 +9,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState, ComputedScore} from "../../reducers/app.states";
+import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {debounce} from "lodash";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
-import * as data from "../../../../messages.json";
+import {data_local} from "src/assets/messages"
 
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
@@ -34,8 +34,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   private cloneTopicResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
   averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
-  data_local: any = (data as any).default;
 
+  maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
+  recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
 
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {

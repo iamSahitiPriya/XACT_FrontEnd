@@ -5,80 +5,80 @@
 
 <div *ngIf="assessment">
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
-    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>{{data_local.ASSESSMENT.CREATE.TITLE}}</h1>
-    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{data_local.ASSESSMENT.MANAGE.TITLE}}</h1>
-    <button matTooltip="Click to close the dialog box" type="button" id="close" mat-icon-button (click)="close()">
+    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>{{createAssessmentTitle}}</h1>
+    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{manageAssessmentTitle}}</h1>
+    <button [matTooltip]=closeToolTip  type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
-        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE}}</mat-label>
-        <input matInput formControlName="assessmentNameValidator" [placeholder]=data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER required
+        <mat-label>{{assessmentNameTitle}}</mat-label>
+        <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
                [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
-          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
+          {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
-          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
+          {{commonErrorFieldText}}
         </mat-error>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="domain">
-        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_DOMAIN.TITLE}}</mat-label>
-        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" [placeholder]=data_local.ASSESSMENT.ASSESSMENT_DOMAIN.PLACEHOLDER required
+        <mat-label>{{assessmentDomainTitle}}</mat-label>
+        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator" [placeholder]=assessmentDomainPlaceholder required
                pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
-          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
+          {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
-          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
+          {{commonErrorFieldText}}
         </mat-error>
       </mat-form-field>
       <br>
 
       <mat-form-field appearance="outline" class="teamSize">
-        <mat-label>{{data_local.ASSESSMENT.ASSESSMENT_TEAM.TITLE}}</mat-label>
+        <mat-label>{{assessmentTeamTitle}}</mat-label>
         <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
-               [placeholder]=data_local.ASSESSMENT.ASSESSMENT_TEAM.PLACEHOLDER min="1" max="10000000" required pattern="^[1-9]\d*$">
+               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
         <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          {{data_local.ASSESSMENT.MANDATORY_FIELD_NUMBER}}
+          {{mandatoryNumberField}}
         </mat-error>
         <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          {{data_local.ASSESSMENT.ERROR_MESSAGE_NUMBER}}
+          {{numberErrorField}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="organizationName">
-        <mat-label>{{data_local.ASSESSMENT.ORGANISATION_NAME.TITLE}}</mat-label>
+        <mat-label>{{organisationNameTitle}}</mat-label>
         <input class="colorClass" matInput [(ngModel)]="assessment.organisationName" formControlName="organizationNameValidator"
-               [placeholder]=data_local.ASSESSMENT.ORGANISATION_NAME.PLACEHOLDER required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               [placeholder]=organisationNamePlaceholder required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
-          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
+          {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
-          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
+          {{commonErrorFieldText}}
         </mat-error>
       </mat-form-field>
       <br>
 
       <mat-form-field appearance="outline" class="industry">
-        <mat-label>{{data_local.ASSESSMENT.ORGANISATION_INDUSTRY.TITLE}}</mat-label>
-        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" [placeholder]="data_local.ASSESSMENT.ORGANISATION_INDUSTRY.PLACEHOLDER"
+        <mat-label>{{organisationIndustryTitle}}</mat-label>
+        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator" [placeholder]=organisationIndustryPlaceholder
                required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
-          {{data_local.ASSESSMENT.MANDATORY_FIELD_TEXT}}
+          {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
-          {{data_local.ASSESSMENT.ERROR_MESSAGE_TEXT}}
+          {{commonErrorFieldText}}
         </mat-error>
       </mat-form-field>&nbsp;&nbsp;
 
     </div>
 
-    <h2 mat-dialog-title>{{data_local.ASSESSMENT.ADD_ASSESSMENT_USERS}} </h2>
+    <h2 mat-dialog-title>{{addAssessmentUsers}} </h2>
     <div mat-dialog-content>
       <mat-form-field appearance="outline"  class="addUserEmail">
-        <mat-label>{{data_local.ASSESSMENT.USER_EMAIL.TITLE}}</mat-label>
+        <mat-label>{{userEmailTitle}}</mat-label>
         <mat-chip-list #chipList aria-label="Email Selection">
           <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
             {{email}}
@@ -87,7 +87,7 @@
             </button>
           </mat-chip>
         <input matInput formControlName="emailValidator" type="text"
-               [placeholder]=data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER
+               [placeholder]=userEmailPlaceholder
                id="userEmails" maxlength="1000"
                [matChipInputFor]="chipList"
                [matChipInputAddOnBlur]="addOnBlur"
@@ -96,15 +96,15 @@
         </mat-chip-list>
       </mat-form-field>
      <mat-error  *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-8px;margin-left:17px">
-        {{data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE}}
+        {{userEmailErrorMessage}}
       </mat-error>
 
 
     </div>
-    <button [matTooltip]=data_local.ASSESSMENT.CREATE.HOVER_MESSAGE *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">{{data_local.ASSESSMENT.CREATE.BUTTON_TEXT}}
+    <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading">{{createAssessmentButtonText}}
     </button>
-    <button [matTooltip]=data_local.ASSESSMENT.MANAGE.HOVER_MESSAGE *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
-            (click)="updateAssessment()">{{data_local.ASSESSMENT.MANAGE.BUTTON_TEXT}}
+    <button [matTooltip]=manageAssessmentToolTip *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button class="saveButton" [class.spinner]="loading" [disabled]="loading"
+            (click)="updateAssessment()">{{manageAssessmentButtonText}}
     </button>
   </form>
 </div>

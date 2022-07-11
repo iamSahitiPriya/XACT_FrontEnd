@@ -22,7 +22,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import * as data from "../../../../messages.json";
+import {data_local} from "../../../assets/messages";
 
 
 export const saveAssessmentData = [{}]
@@ -56,8 +56,9 @@ export class TopicLevelAssessmentComponent implements OnInit {
   averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
   disableRating: String = "0"
   form: FormGroup
-  data_local: any = (data as any).default;
 
+  saveButtonToolTip = data_local.SAVE_ASSESSMENT_BUTTON.TOOLTIP;
+  saveButtonText = data_local.SAVE_ASSESSMENT_BUTTON.TITLE;
 
   answerResponse: AssessmentStructure
   answerResponse1: Observable<AssessmentStructure>

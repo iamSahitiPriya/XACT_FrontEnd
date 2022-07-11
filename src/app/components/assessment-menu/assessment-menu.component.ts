@@ -17,7 +17,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
-import * as data from "../../../../messages.json";
+import {data_local} from "../../../assets/messages";
 
 export const assessmentData = [{}]
 
@@ -39,8 +39,16 @@ export class AssessmentMenuComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
   public static answerSaved: string;
-
-  data_local: any = (data as any).default;
+  generateReportToolTip = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TOOLTIP;
+  generateReportTitle = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TITLE;
+  finishAssessmentToolTip = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TOOLTIP;
+  finishAssessmentTitle = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TITLE;
+  reopenAssessmentToolTip = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TOOLTIP;
+  reopenAssessmentTitle = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TITLE;
+  menuButtonToolTip = data_local.ASSESSMENT_MENU.MENU_BUTTON.TOOLTIP;
+  manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
+  manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
+  addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -70,7 +78,7 @@ export class AssessmentMenuComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = this.data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
+    openConfirm.componentInstance.text = data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         this.finishAssessment();
@@ -107,7 +115,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   updateAssessmentStatus() {
-    AssessmentMenuComponent.answerSaved = this.data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT +`${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
+    AssessmentMenuComponent.answerSaved = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT +`${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
   }
 
   ngOnInit(): void {

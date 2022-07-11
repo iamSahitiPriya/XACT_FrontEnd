@@ -18,18 +18,12 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import * as data from "../../../../messages.json";
+import { data_local } from 'src/assets/messages';
 
 export const assessmentData = [{}]
 export let loading = false
 
 let DEBOUNCE_TIME = 1200;
-
-enum FormStatus {
-  Saving = 'Saving',
-  Saved = 'Saved',
-  Idle = ''
-}
 
 
 @Component({
@@ -51,8 +45,8 @@ export class AssessmentQuestionComponent implements OnInit {
   @Input()
   assessmentId: number
   textarea: number = 0;
-  data_local: any = (data as any).default;
 
+  questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
 
   private cloneAnswerResponse: AssessmentStructure;
   private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};

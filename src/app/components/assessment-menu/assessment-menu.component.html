@@ -4,32 +4,32 @@
     <div class="dataStatus">
       {{getAnswerStatus()}}
     </div>
-    <button [matTooltip]=data_local.ASSESSMENT_MENU.GENERATE_REPORT.HOVER_MESSAGE id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
-      {{data_local.ASSESSMENT_MENU.GENERATE_REPORT.TITLE}}
+    <button [matTooltip]=generateReportToolTip id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
+      {{generateReportTitle}}
     </button>
-    <button  [matTooltip]=data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.HOVER_MESSAGE *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
+    <button  [matTooltip]=finishAssessmentToolTip *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
             class="btn-finish" (click)="confirmFinishAssessmentAction()">
-      {{data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TITLE}}
+      {{finishAssessmentTitle}}
     </button>
-    <button  [matTooltip]=data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.HOVER_MESSAGE *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
+    <button  [matTooltip]=reopenAssessmentToolTip *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
             class="btn-reopen" (click)="reopenAssessment()">
-      {{data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TITLE}}
+      {{reopenAssessmentTitle}}
     </button>
 
     <div class="menuButton">
-      <button  [matTooltip]=data_local.ASSESSMENT_MENU.MENU_BUTTON.HOVER_MESSAGE mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+      <button  [matTooltip]=menuButtonToolTip mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <img data-id="manage" src="../../assets/navigation-bar/menu-icon.svg" alt="manage icon" class="menuIcon"/>
       </button>
     </div>
 
     <mat-menu #menu="matMenu">
-      <button  [matTooltip]=data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.HOVER_MESSAGE mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
+      <button  [matTooltip]=manageAssessmentToolTip mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
         <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
-        &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">{{data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE}}</span>
+        &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
-        <span>{{data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE}}</span>
+        <span>{{addModuleTitle}}</span>
       </button>
     </mat-menu>
 

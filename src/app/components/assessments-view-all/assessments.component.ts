@@ -10,7 +10,8 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import * as data from 'messages.json';
+import {data_local} from "../../../assets/messages";
+
 /**
  * @title Table with expandable rows
  */
@@ -42,7 +43,15 @@ export class AssessmentsComponent implements OnInit {
     users: []
   };
 
-  data_local: any = (data as any).default;
+  homePageTitle = data_local.HOME.TITLE;
+  createAssessment = data_local.HOME.BUTTON;
+  assessmentNameHeading = data_local.HOME.TABLE_HEADING.ASSESSMENT_NAME;
+  organisationNameHeading = data_local.HOME.TABLE_HEADING.ORGANISATION_NAME;
+  statusHeading= data_local.HOME.TABLE_HEADING.STATUS;
+  lastUpdatedHeading = data_local.HOME.TABLE_HEADING.LAST_UPDATED;
+  toolTipAssessmentCol = data_local.HOME.ASSESSMENT_TOOLTIP;
+  assessmentNotAvailable = data_local.HOME.ERROR_MESSAGE.ASSESSMENT_UNAVAILABLE ;
+  buttonToolTip = data_local.HOME.BUTTON_TOOLTIP;
 
   constructor(public appService: AppServiceService, public router: Router, private dialog: MatDialog,) {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)

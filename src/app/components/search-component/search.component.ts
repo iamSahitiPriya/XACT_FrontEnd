@@ -5,7 +5,7 @@
 import {Component, Input} from '@angular/core';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatTableDataSource} from "@angular/material/table";
-import * as data from 'messages.json';
+import {data_local} from "../../../assets/messages";
 
 @Component({
   selector: 'app-search',
@@ -16,8 +16,7 @@ export class SearchComponent {
   @Input()
   dataSource!: MatTableDataSource<AssessmentStructure>
 
-  data_local: any = (data as any).default;
-
+  searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
   constructor() {
     this.dataSource = new MatTableDataSource<AssessmentStructure>()
   }

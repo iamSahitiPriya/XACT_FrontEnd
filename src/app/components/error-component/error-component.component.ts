@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import * as data from "../../../../messages.json";
+import {data_local} from "../../../assets/messages";
 
 @Component({
   selector: 'app-error-component',
@@ -9,8 +9,8 @@ import * as data from "../../../../messages.json";
 })
 export class ErrorComponentComponent {
 
-  data_local: any = (data as any).default;
-
+  homePageText = data_local.ERROR_MESSAGE_LINK_TEXT.HOMEPAGE_LINK_TEXT;
+  retryText = data_local.ERROR_MESSAGE_LINK_TEXT.RETRY_TEXT;
   bodyText: string;
 
   constructor(public dialogRef: MatDialogRef<ErrorComponentComponent>) {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import * as data from "../../../../messages.json";
+import {data_local} from "../../../assets/messages";
 
 @Component({
   selector: 'app-popup-confirmation',
@@ -10,8 +10,7 @@ import * as data from "../../../../messages.json";
 export class PopupConfirmationComponent{
   text: string;
 
-  data_local: any = (data as any).default;
-
+  buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
 
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) { }
 
