@@ -64,8 +64,8 @@ export class CreateAssessmentsComponent implements OnInit {
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
-      this.assessmentCopy = cloneDeep(this.assessment);
     }
+    this.assessmentCopy = cloneDeep(this.assessment);
   }
 
   saveAssessment() {
