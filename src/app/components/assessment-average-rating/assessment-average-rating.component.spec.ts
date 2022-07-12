@@ -9,10 +9,17 @@ import {CommonModule} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
+import {of} from "rxjs";
+import {ParameterRecommendation} from "../../types/parameterRecommendation";
+import {ParameterRating} from "../../types/parameterRating";
+
+
+
 
 describe('AssessmentAverageRatingComponent', () => {
   let component: AssessmentAverageRatingComponent;
   let fixture: ComponentFixture<AssessmentAverageRatingComponent>;
+
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,9 +34,22 @@ describe('AssessmentAverageRatingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentAverageRatingComponent);
     component = fixture.componentInstance;
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should give average rating of particular topic', () => {
+    component.finalAverageRating = of({scoreDetails : {topicId:1,
+      rating:"1"}})
+    let newAverageRating = {topicId:1,rating:"1"};
+    component.averageRating = {topicId:1,rating:"1"};
+
+    fixture.detectChanges();
+    component.finalAverageRating.subscribe(data => {
+      expect(data).toBe(newAverageRating)
+    })
+  })
 });

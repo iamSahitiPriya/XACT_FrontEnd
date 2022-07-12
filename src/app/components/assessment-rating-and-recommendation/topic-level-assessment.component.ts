@@ -275,11 +275,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
         this.averageRating.topicId = this.topicInput.topicId
 
 
-      } else {
-        this.averageRating.rating = "0"
-        this.averageRating.topicId = this.topicInput.topicId
-
-
       }
     }
   }

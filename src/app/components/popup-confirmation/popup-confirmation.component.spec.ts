@@ -13,7 +13,7 @@ describe('PopupConfirmationComponent', () => {
       declarations: [ PopupConfirmationComponent ],
       imports:[MatDialogModule,MatIconModule],
       providers:[{
-        provide:MatDialogRef,useValue:{}
+        provide:MatDialogRef,useValue:{ close: () => {} }
       }]
     })
     .compileComponents();
@@ -23,12 +23,17 @@ describe('PopupConfirmationComponent', () => {
     fixture = TestBed.createComponent(PopupConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
   it('should close dialog box', () => {
-    expect(component.cancelChanges).toBeTruthy()
+    jest.spyOn(component.dialogRef, 'close');
+    component.cancelChanges();
+    expect(component.dialogRef.close).toHaveBeenCalled();
   });
+
+
 });
