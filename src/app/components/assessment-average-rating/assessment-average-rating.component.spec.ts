@@ -16,6 +16,7 @@ import {ParameterRating} from "../../types/parameterRating";
 
 
 
+
 describe('AssessmentAverageRatingComponent', () => {
   let component: AssessmentAverageRatingComponent;
   let fixture: ComponentFixture<AssessmentAverageRatingComponent>;

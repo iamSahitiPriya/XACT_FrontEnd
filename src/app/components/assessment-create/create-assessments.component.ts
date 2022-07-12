@@ -59,7 +59,7 @@ export class CreateAssessmentsComponent implements OnInit {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
-  
+
 
 
   @Input()
@@ -90,8 +90,9 @@ export class CreateAssessmentsComponent implements OnInit {
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
+      this.assessmentCopy = cloneDeep(this.assessment);
     }
-    this.assessmentCopy = cloneDeep(this.assessment);
+
   }
 
   saveAssessment() {
@@ -204,8 +205,9 @@ export class CreateAssessmentsComponent implements OnInit {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.teamSize = this.assessmentCopy.teamSize;
       this.assessment.organisationName = this.assessmentCopy.organisationName;
-      this.emails = this.assessmentCopy.users;
+      this.assessment.users= this.assessmentCopy.users;
     }
+
   }
 
   getUsersStructure(users: User[]) {
@@ -225,7 +227,6 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.push(value);
       event.chipInput?.clear();
     }
-
   }
 
   remove(email: string): void {

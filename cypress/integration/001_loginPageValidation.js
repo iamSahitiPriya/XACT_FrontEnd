@@ -1,6 +1,6 @@
 import loginPage from "../pageObjects/loginPage";
 import landingPage from "../pageObjects/landingPage";
-import commonFunctions from "../pageObjects/commonFunctions";
+import commonFunctions from "../pageObjects/commonFunction";
 describe('validating functionality of login page of xAct application', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {
@@ -29,12 +29,12 @@ describe('validating functionality of login page of xAct application', () => {
 
 
   it('tc002 user tries to login xAct application with invalid credentials',()=>{
-    loginPage.xActLogin('invalid@gmail.com','invalid@12345')
+    loginPage.invalidLogin('invalid@gmail.com','invalid@12345')
     loginPage.invalidSigninMessage().should('be.visible')
   })
 
   it('tc003 login xAct application with empty credentials',()=>{
-    loginPage.xActLogin('invalid@gmail.com','invalid@12345')
+    loginPage.invalidLogin('invalid@gmail.com','invalid@12345')
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.userId().clear()
     loginPage.password().clear()
@@ -60,21 +60,21 @@ describe('validating functionality of login page of xAct application', () => {
   })
 
   it('tc006 login xAct application with valid username and invalid password',()=>{
-    loginPage.xActLogin('technicalbaba4u@gmail.com','invalidpassword')
+    loginPage.invalidLogin('technicalbaba4u@gmail.com','invalidpassword')
     loginPage.submit().click()
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.invalidSigninMessage().should('have.text','Unable to sign in')
   })
 
   it('tc007 login xAct application with invalid username and valid password',()=>{
-    loginPage.xActLogin('invalidemail@gmail.com','Sam@12345')
+    loginPage.invalidLogin('invalidemail@gmail.com','invalid@12345')
     loginPage.submit().click()
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.invalidSigninMessage().should('have.text','Unable to sign in')
   })
 
   it('tc008 login xAct application with valid username and valid password in uppercase',()=>{
-    loginPage.xActLogin('invalidemail@gmail.com','Sam@12345')
+    loginPage.invalidLogin('invalidemail@gmail.com','invalid@12345')
     loginPage.submit().click()
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.invalidSigninMessage().should('have.text','Unable to sign in')
@@ -82,7 +82,7 @@ describe('validating functionality of login page of xAct application', () => {
 
 
   it('tc009 login xAct application with invalid username and valid password',()=>{
-    loginPage.xActLogin('invalidemail@gmail.com','Sam@12345')
+    loginPage.invalidLogin('invalidemail@gmail.com','invalid@12345')
     loginPage.submit().click()
     loginPage.invalidSigninMessage().should('be.visible')
     loginPage.invalidSigninMessage().should('have.text','Unable to sign in')
@@ -135,7 +135,7 @@ describe('validating functionality of login page of xAct application', () => {
 
   it('tc00 user tries to login  with valid userId and password',()=>{
     cy.visit('/')
-    loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
+    loginPage.xActLogin()
     loginPage.xActHomepagetitleValidation()
     loginPage.userNameDisplay().click()
     loginPage.logOut().click()

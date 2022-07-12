@@ -55,7 +55,7 @@ class loginPage {
      return cy.get('.dropdown-toggle')
   }
   static logOut(){
-     return cy.get('.dropdown-item')
+     return cy.get(':nth-child(4) > .dropdown-item')
   }
   static rememberMeCheckbox(){
      return cy.get('input[name=rememberMe]')
@@ -102,15 +102,24 @@ class loginPage {
 
 
   //reusable functions
-  static xActLogin(userName,passWord){
+  static xActLogin(){
     cy.clearCookies()
     cy.clearLocalStorage()
+    const userName = Cypress.env('userName')
+    const passWord = Cypress.env('passWord')
+    expect(userName, 'username was set').to.be.a('string').and.not.be.empty
+    if (typeof passWord !== 'string' || !passWord) {
+      throw new Error('Missing password value, set using CYPRESS_password=...')
+    }
     loginPage.userId().type(userName)
-    loginPage.password().type(passWord)
+    loginPage.password().type(passWord, {log: false})
     loginPage.submit().click()
+  }
 
-    // let element = cy.get(webElementLocation)
-    // element.click()
+  static invalidLogin(userName,passWord){
+    loginPage.userId().type(userName)
+    loginPage.password().type(passWord, {log: false})
+    loginPage.submit().click()
   }
 
   static xActHomepagetitleValidation(){
