@@ -52,7 +52,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   generateReport() {
-    let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'Interim' : 'Final';
+    let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
     const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).subscribe(blob => {
