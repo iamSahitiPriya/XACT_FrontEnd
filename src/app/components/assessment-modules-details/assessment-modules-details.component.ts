@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";

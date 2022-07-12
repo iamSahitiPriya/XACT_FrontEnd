@@ -29,6 +29,8 @@ export class CreateAssessmentsComponent implements OnInit {
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
   loading: boolean;
+  re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
+
 
 
   addOnBlur = true;
@@ -83,7 +85,7 @@ export class CreateAssessmentsComponent implements OnInit {
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/)]
+        emailValidator: ['', Validators.pattern(this.re)]
 
       }
     )
@@ -222,8 +224,7 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    let re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
-    if (value.search(re) != -1) {
+    if (value.search(this.re) != -1) {
       this.emails.push(value);
       event.chipInput?.clear();
     }
