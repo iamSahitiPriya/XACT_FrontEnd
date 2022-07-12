@@ -15,8 +15,8 @@ import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from '@angular/material/chips';
-
+import { MatChipInputEvent } from '@angular/material/chips';
+import {data_local} from "../../../assets/messages";
 
 @Component({
   selector: 'app-create-assessments',
@@ -32,8 +32,34 @@ export class CreateAssessmentsComponent implements OnInit {
 
 
   addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  emails: string[] = [];
+  readonly separatorKeysCodes =[ENTER , COMMA] as const;
+  emails : string[]=[];
+  createAssessmentTitle =data_local.ASSESSMENT.CREATE.TITLE;
+  manageAssessmentTitle = data_local.ASSESSMENT.MANAGE.TITLE;
+  closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
+  assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
+  assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
+  mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
+  assessmentDomainTitle = data_local.ASSESSMENT.ASSESSMENT_DOMAIN.TITLE;
+  assessmentDomainPlaceholder = data_local.ASSESSMENT.ASSESSMENT_DOMAIN.PLACEHOLDER;
+  assessmentTeamTitle = data_local.ASSESSMENT.ASSESSMENT_TEAM.TITLE;
+  assessmentTeamPlaceholder = data_local.ASSESSMENT.ASSESSMENT_TEAM.PLACEHOLDER;
+  mandatoryNumberField = data_local.ASSESSMENT.ASSESSMENT_TEAM.MANDATORY_FIELD_NUMBER;
+  numberErrorField = data_local.ASSESSMENT.ASSESSMENT_TEAM.ERROR_MESSAGE_NUMBER;
+  organisationNameTitle = data_local.ASSESSMENT.ORGANISATION_NAME.TITLE;
+  organisationNamePlaceholder = data_local.ASSESSMENT.ORGANISATION_NAME.PLACEHOLDER;
+  organisationIndustryTitle= data_local.ASSESSMENT.ORGANISATION_INDUSTRY.TITLE;
+  organisationIndustryPlaceholder = data_local.ASSESSMENT.ORGANISATION_INDUSTRY.PLACEHOLDER;
+  addAssessmentUsers = data_local.ASSESSMENT.ADD_ASSESSMENT_USERS;
+  userEmailTitle = data_local.ASSESSMENT.USER_EMAIL.TITLE;
+  userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
+  userEmailErrorMessage = data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE;
+  createAssessmentToolTip = data_local.ASSESSMENT.CREATE.TOOLTIP;
+  createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
+  manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
+  manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
+
 
 
   @Input()

@@ -4,32 +4,32 @@
     <div class="dataStatus">
       {{getAnswerStatus()}}
     </div>
-    <button matTooltip="Click to generate report" id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
-      Generate Report
+    <button [matTooltip]=generateReportToolTip id="generate-report" type="button" mat-stroked-button (click)="generateReport()" class="btn-report">
+      {{generateReportTitle}}
     </button>
-    <button  matTooltip="Click to finish assessment" *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
+    <button  [matTooltip]=finishAssessmentToolTip *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment" type="button" mat-stroked-button
             class="btn-finish" (click)="confirmFinishAssessmentAction()">
-      Finish Assessment
+      {{finishAssessmentTitle}}
     </button>
-    <button  matTooltip="Click to reopen assessment" *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
+    <button  [matTooltip]=reopenAssessmentToolTip *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment" type="button" mat-stroked-button
             class="btn-reopen" (click)="reopenAssessment()">
-      Reopen Assessment
+      {{reopenAssessmentTitle}}
     </button>
 
     <div class="menuButton">
-      <button  matTooltip="Click to open menu" mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+      <button  [matTooltip]=menuButtonToolTip mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <img data-id="manage" src="../../assets/navigation-bar/menu-icon.svg" alt="manage icon" class="menuIcon"/>
       </button>
     </div>
 
     <mat-menu #menu="matMenu">
-      <button  matTooltip="Click to manage assessment" mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
+      <button  [matTooltip]=manageAssessmentToolTip mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
         <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
-        &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">Manage assessment & users</span>
+        &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
-        <span>Add module to assessment</span>
+        <span>{{addModuleTitle}}</span>
       </button>
     </mat-menu>
 

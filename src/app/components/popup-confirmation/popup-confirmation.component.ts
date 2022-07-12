@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
+import {data_local} from "../../../assets/messages";
 
 @Component({
   selector: 'app-popup-confirmation',
@@ -8,6 +9,8 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class PopupConfirmationComponent{
   text: string;
+
+  buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
 
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) { }
 

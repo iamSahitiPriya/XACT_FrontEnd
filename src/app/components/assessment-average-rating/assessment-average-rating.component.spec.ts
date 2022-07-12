@@ -10,6 +10,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 
+
 describe('AssessmentAverageRatingComponent', () => {
   let component: AssessmentAverageRatingComponent;
   let fixture: ComponentFixture<AssessmentAverageRatingComponent>;
@@ -32,4 +33,6 @@ describe('AssessmentAverageRatingComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
 });

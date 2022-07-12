@@ -3,7 +3,7 @@
   {{bodyText}}
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close [routerLink]="['']" (click)="cancelChanges()" id="home">Homepage</button>
-  <button mat-button mat-dialog-close cdkFocusInitial (click)="retry()" id="retry">Retry</button>
+  <button mat-button mat-dialog-close [routerLink]="['']" (click)="cancelChanges()" id="home">{{homePageText}}</button>
+  <button mat-button mat-dialog-close cdkFocusInitial (click)="retry()" id="retry">{{retryText}}</button>
 </div>
 

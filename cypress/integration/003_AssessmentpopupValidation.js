@@ -21,7 +21,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
-    landingPage.assessmentNameInGrid('have.text','TestAssignment')
+    landingPage.assessmentNameInGrid(1).should('have.text',' TestAssignment ')
   })
 
   it('tc002 validating the error messages by providing empty values in all fields',()=>{
@@ -35,7 +35,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.Industry().click()
     landingPage.teamSizeField().click()
     landingPage.email().click()
-    landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Positive integer value allowed ')
+    landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Mandatory number field ')
     landingPage.closeAssessmentPopup().click()
   })
 
@@ -44,7 +44,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('!@#$','!@#$','!@#$','!@#$','!@@@','jathin@thoughtworks.com')
-    landingPage.assessmentPopupErrorValidation(' No Special Characters allowed except hyphen and underscore ',' Positive integer value allowed ')
+    landingPage.assessmentPopupErrorValidation(' No Special Characters allowed except hyphen and underscore ',' Mandatory number field ')
     landingPage.closeAssessmentPopup().click()
     })
 
@@ -64,7 +64,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.closeAssessmentPopup().click()
-    landingPage.assessmentNameInGrid().should('not.have.text','donotsave the assessment')
+    landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
 
     it('tc006 validate color of the assessment popup fields hen values are not provided',()=>{
@@ -89,7 +89,8 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentName().clear()
     landingPage.Domain().clear()
     landingPage.closeAssessmentPopup().click()
-    landingPage.assessmentNameInGrid().should('not.have.text','donotsave the assessment')
+
+    landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
 
 
@@ -99,10 +100,10 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','-22','jathin@thoughtworks.com')
     landingPage.teamSizeFieldError().should('have.text',' Positive integer value allowed ')
     landingPage.closeAssessmentPopup().click()
-    landingPage.assessmentNameInGrid().should('not.have.text','donotsave the assessment')
+    landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
 
-  it('tc008 Error message should be disappeared when mandatory fields are populated again',()=>{
+  it('tc009 Error message should be disappeared when mandatory fields are populated again',()=>{
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('    ','    ','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
@@ -114,7 +115,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.closeAssessmentPopup().click()
   })
 
-  it('tc009 functionality of up and down arrows in teamsize field',()=>{
+  it('tc010 functionality of up and down arrows in teamsize field',()=>{
     landingPage.createAssessment().click()
    //landingPage.teamSizeField().click().type('{upArrow}').type('{upArrow}')
     landingPage.teamSize().click().type(100)
@@ -123,18 +124,18 @@ describe('validating creating Assessment assessment popup functionality', () => 
     //landingPage.teamSize().should('have.string','100')
   })
 
-  it('tc010 validating placeholders of all edit boxes',()=>{
+  it('tc011 validating placeholders of all edit boxes',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentName().should('have.text','Assessment Name *')
-    landingPage.OrganisationName().should('have.text','Organization Name *')
-    landingPage.Domain().should('have.text','Domain *')
-    landingPage.Industry().should('have.text','Industry *')
-    landingPage.teamSizeField().should('have.text','Team Size *')
+    landingPage.OrganisationName().should('have.text','Organisation Name *')
+    landingPage.Domain().should('have.text','Domain of Target Assessment *')
+    landingPage.Industry().should('have.text','Industry of Organisation *')
+    landingPage.teamSizeField().should('have.text','Size of Target Team *')
     landingPage.closeAssessmentPopup().click()
 
   })
 
-  it('tc011 validating placeholders after clicking in all edit boxes',()=>{
+  it('tc012 validating placeholders after clicking in all edit boxes',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentName().click()
     landingPage.AssessmentName().clear()
@@ -148,69 +149,70 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.Industry().click()
     landingPage.Industry().clear()
     landingPage.industryPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Industry')
-    landingPage.email().click()
-    landingPage.email().clear()
-    landingPage.emailPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com')
+    //landingPage.email().click()
+    //landingPage.email().clear()
+    //landingPage.emailPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Valid list of comma separated thoughtworks email address')
     landingPage.closeAssessmentPopup().click()
   })
 
-  it('tc012 saving assessment without providing any fields in the popup',()=>{
+  it('tc013 saving assessment without providing any fields in the popup',()=>{
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.saveAssessmentButton().click()
-    landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Positive integer value allowed ')
+    landingPage.assessmentPopupErrorValidation(' Mandatory field ',' Mandatory number field ')
   })
 
-  it('tc013 creating assessment with multiple emails with commas',()=>{
+  it('tc014 creating assessment with multiple emails with commas',()=>{
       landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,jathin@thoughtworks.com,jathin@thoughtworks.com,jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
-    landingPage.assessmentNameInGrid('have.text','TestAssignment')
+
+    landingPage.assessmentNameInGrid(1).should('have.text',' TestAssignment ')
   })
 
-  it('tc014 refresh the page when assessment popup is displayed',()=>{
+  it('tc015 refresh the page when assessment popup is displayed',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
     cy.reload()
     landingPage.AssessmentPopup().should('not.exist')
   })
 
-  it('tc015 Creating assessment with invalid email domain',()=>{
+  it('tc016 Creating assessment with invalid email domain',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,jathin@gmail.com')
     landingPage.teamSize().click()
-    landingPage.emailError().should('have.text',' Valid list of comma separated email address ')
+      landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks email address ')
   })
 
-  it('tc016 Creating assessment with comma in the end of email',()=>{
+  it('tc017 Creating assessment with comma in the end of email',()=>{
     landingPage.createAssessment().click()
-    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,')
+    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com      ')
     landingPage.teamSize().click()
-    landingPage.emailError().should('have.text',' Valid list of comma separated email address ')
-  })
-
-  it('tc017 Creating assessment with special characters with email',()=>{
-    landingPage.createAssessment().click()
-    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,')
-    landingPage.teamSize().click()
-    landingPage.emailError().should('have.text',' Valid list of comma separated email address ')
+    landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks email address ')
   })
 
   it('tc018 Creating assessment with special characters with email',()=>{
     landingPage.createAssessment().click()
-    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,')
+    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','!!!!!@thoughtworks.com,')
     landingPage.teamSize().click()
-    landingPage.emailError().should('have.text',' Valid list of comma separated email address ')
+    landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks email address ')
   })
 
-  it('tc019 close the assessment popup without providing input',()=>{
+  it('tc019 Creating assessment with special characters with email',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@!!!.com,')
+    landingPage.teamSize().click()
+    landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks email address ')
+  })
+
+  it('tc020 close the assessment popup without providing input',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.closeAssessmentPopup().click()
     landingPage.AssessmentPopup().should('not.exist')
   })
 
-  it('tc020 enter values in the fields and clear them, then mandatory field error should be displayed',()=>{
+  it('tc021 enter values in the fields and clear them, then mandatory field error should be displayed',()=>{
     landingPage.createAssessmentHeader().should('be.visible')
       landingPage.createAssessment().should('be.visible')
       landingPage.createAssessment().click()

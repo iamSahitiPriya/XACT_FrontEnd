@@ -14,6 +14,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
+import {data_local} from "../../../assets/messages";
 
 export const assessmentData = [{}]
 
@@ -35,6 +36,16 @@ export class AssessmentMenuComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
   public static answerSaved: string;
+  generateReportToolTip = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TOOLTIP;
+  generateReportTitle = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TITLE;
+  finishAssessmentToolTip = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TOOLTIP;
+  finishAssessmentTitle = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TITLE;
+  reopenAssessmentToolTip = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TOOLTIP;
+  reopenAssessmentTitle = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TITLE;
+  menuButtonToolTip = data_local.ASSESSMENT_MENU.MENU_BUTTON.TOOLTIP;
+  manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
+  manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
+  addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -43,10 +54,14 @@ export class AssessmentMenuComponent implements OnInit {
   generateReport() {
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'Interim' : 'Final';
     const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + this.assessment.assessmentName + "-" + date + ".xlsx";
+    const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).subscribe(blob => {
       saveAs(blob, reportName);
     });
+  }
+
+  private formattedName(name: string) {
+    return name.toLowerCase().replace(/ /g, "-");
   }
 
 
@@ -64,7 +79,7 @@ export class AssessmentMenuComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure? You will not be able to edit assessment again without reopening it.";
+    openConfirm.componentInstance.text = data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         this.finishAssessment();
@@ -101,7 +116,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   updateAssessmentStatus() {
-    AssessmentMenuComponent.answerSaved = `Data was saved ${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
+    AssessmentMenuComponent.answerSaved = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT +`${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
   }
 
   ngOnInit(): void {

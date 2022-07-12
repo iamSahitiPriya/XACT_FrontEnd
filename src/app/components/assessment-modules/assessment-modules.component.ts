@@ -8,6 +8,8 @@ import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject} from "rxjs";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
+import {data_local} from "../../../assets/messages";
+
 
 let categories: CategoryStructure[] = []
 let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
@@ -23,6 +25,7 @@ export class AssessmentModulesComponent implements OnInit {
   category: CategoryStructure[] = []
   categoryIconMapping: Map<number, string> = new Map<number, string>()
 
+  assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
     matIconRegistry
       .addSvgIcon('default', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2577.svg'))

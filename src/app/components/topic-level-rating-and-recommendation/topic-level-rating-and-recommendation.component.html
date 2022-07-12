@@ -2,8 +2,10 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
+<script src="../assessment-menu/assessment-menu.component.ts"></script>
 <div class="topicScoring">
-  <mat-card class="scoreHeading">Assign Maturity score - {{topicName}}</mat-card>
+
+  <mat-card class="scoreHeading">{{maturityScoreTitle}} {{topicName}}</mat-card>
   <div *ngFor="let pScore of topicScore">
     <mat-toolbar class="scoreReference">
       <p class="reference">{{pScore.reference}}</p>
@@ -20,7 +22,7 @@
 <div>
   <mat-form-field class="textArea" appearance="outline" *ngIf="topicRatingAndRecommendation">
     <div *ngIf="topicRecommendation"></div>
-    <mat-label>Recommendations</mat-label>
+    <mat-label>{{recommendationLabel}}</mat-label>
     <textarea id="recommendationElement_topic{{topicRecommendation}}"
               name="recommendationText_topic{{topicRecommendation}}" matInput #recommendationElement
               [(ngModel)]="topicRatingAndRecommendation.recommendation"

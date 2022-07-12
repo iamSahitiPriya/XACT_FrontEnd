@@ -49,18 +49,7 @@ class commonFunction{
   }
 
 
-  static displayeOfElement(element,passMessage,failureMessage){
-    cy.get("body").then($body => {
-      if ($body.find(element).length > 0) {
-        //evaluates as true
-        return element
-        assert.isOk('everything',passMessage);
-      }else{
-        assert.fail(true,failureMessage);
 
-        }
-      });
-    }
 
 }
 

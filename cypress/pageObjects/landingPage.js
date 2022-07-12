@@ -16,6 +16,12 @@ class landingPage {
   static Search(value) {
     return cy.get('#search')
   }
+  static SearchIcon(value) {
+    return cy.get('.search')
+  }
+  static searchPlaceholder(){
+    return cy.get('.text')
+  }
   static createAssessment() {
     return cy.get('#createAssessment',{ timeout: 10000 })
   }
@@ -106,14 +112,14 @@ class landingPage {
     return cy.get('#mat-dialog-title-1')
   }
   static closeAssessmentPopup(){
-    return cy.get('.mat-icon')
+    return cy.get('button[id=close]')
   }
   static saveAssessmentButton(){
     return cy.get('.saveButton')
   }
 
-  static assessmentNameInGrid(){
-    return cy.get(':nth-child(1) > .cdk-column-assessmentName > span')
+  static assessmentNameInGrid(index){
+    return cy.get(':nth-child('+index+') > .cdk-column-assessmentName > span')
   }
   static assessmentNameError(){
     return cy.get('.assessmentName > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
@@ -150,7 +156,7 @@ class landingPage {
     return cy.get('input[placeholder=\'Enter Industry\']')
   }
   static emailPlaceHolder(){
-    return cy.get('input[placeholder=\'Use comma separated values (not spaces), ie. abc@thoughtworks.com,xyz@thoughtworks.com\']')
+    return cy.get('input[placeholder=\'abc@thoughtworks.com\']')
   }
 
 
@@ -218,7 +224,40 @@ class landingPage {
       }
     })
   }
+  static clickCreateAssessmentButton(){
+    if(landingPage.createAssessment().should('be.visible')) {
+      landingPage.createAssessment().click({force:true})
+    }
+    else{
+      assert.isNotOk('createassessment button is not visible')
+    }
+  }
 
+  static displayeOfElement(element,passMessage,failureMessage){
+    cy.get("body").then($body => {
+      if ($body.find(element).length > 0) {
+        //evaluates as true
+        return element
+        assert.isOk('everything',passMessage);
+      }else{
+        assert.fail(true,failureMessage);
+
+      }
+    });
+  }
+
+  static clickCreateAssessment(){
+    cy.wait(500)
+    cy.get('#createAssessment', { timeout: 10000 }).should('be.visible');
+    //landingPage.createAssessment().click({force:true});
+    landingPage.createAssessment().trigger("click")
+  }
+
+  static searchAssessment(value){
+    landingPage.searchBox().click()
+    landingPage.searchBox().clear()
+    landingPage.searchBox().type(value)
+  }
 
 }
 

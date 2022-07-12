@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {ComputedScore} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
+import {data_local} from "../../../assets/messages";
+
 
 @Component({
   selector: 'app-assessment-average-rating',
@@ -20,6 +22,8 @@ export class AssessmentAverageRatingComponent implements OnInit {
 
   @Input()
   topicId: number
+
+  averageRatingTitle = data_local.TOPIC_AVERAGE_RATING.TITLE;
 
   constructor(private store: Store<TopicRatingResponse>) {
     this.finalAverageRating = this.store.select(fromReducer.getAverageRating)
