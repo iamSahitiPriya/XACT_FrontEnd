@@ -66,6 +66,7 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails = this.assessment.users;
       this.assessmentCopy = cloneDeep(this.assessment);
     }
+
   }
 
   saveAssessment() {
@@ -178,8 +179,9 @@ export class CreateAssessmentsComponent implements OnInit {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.teamSize = this.assessmentCopy.teamSize;
       this.assessment.organisationName = this.assessmentCopy.organisationName;
-      this.emails = this.assessmentCopy.users;
+      this.assessment.users= this.assessmentCopy.users;
     }
+
   }
 
   getUsersStructure(users: User[]) {
@@ -199,7 +201,6 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.push(value);
       event.chipInput?.clear();
     }
-
   }
 
   remove(email: string): void {
