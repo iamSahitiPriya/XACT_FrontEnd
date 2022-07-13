@@ -71,7 +71,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   it('tc006 searching a non existing assessment',()=>{
     landingPage.searchBox().type('!!!!!')
     landingPage.noDataMessage().should('be.visible')
-    landingPage.noDataMessage().should('have.text','No assessment found.')
+    landingPage.noDataMessage().should('have.text','No Assessment Found.')
   })
   it('tc007 searching an assessment with domain or industry or team size',()=>{
     landingPage.searchBox().clear()

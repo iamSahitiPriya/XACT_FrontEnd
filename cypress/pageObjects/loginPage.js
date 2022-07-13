@@ -105,14 +105,15 @@ class loginPage {
   static xActLogin(){
     cy.clearCookies()
     cy.clearLocalStorage()
-    const userName = Cypress.env('userName')
-    const passWord = Cypress.env('passWord')
-    expect(userName, 'username was set').to.be.a('string').and.not.be.empty
-    if (typeof passWord !== 'string' || !passWord) {
+
+    const username = Cypress.env('xAct_username')
+    const password = Cypress.env('xAct_password')
+    expect(username, 'username was set').to.be.a('string').and.not.be.empty
+    if (typeof password !== 'string' || !password) {
       throw new Error('Missing password value, set using CYPRESS_password=...')
     }
-    loginPage.userId().type(userName)
-    loginPage.password().type(passWord, {log: false})
+    loginPage.userId().clear().type(username)
+    loginPage.password().clear().type(password, {log: false})
     loginPage.submit().click()
   }
 
