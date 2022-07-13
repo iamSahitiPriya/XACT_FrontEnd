@@ -60,7 +60,7 @@ export const data_local =
       USER_EMAIL: {
         TITLE: "Email Id",
         PLACEHOLDER: "abc@thoughtworks.com",
-        ERROR_MESSAGE: "Valid list of comma separated email address"
+        ERROR_MESSAGE: "Valid list of comma separated thoughtworks email address"
       }
     },
     ASSESSMENT_MENU: {
