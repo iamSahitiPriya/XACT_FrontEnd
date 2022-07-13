@@ -17,7 +17,7 @@ pipeline {
 
         stage('End-to-End Testing'){
             steps{
-                sh 'cypress run --env username=${ENV_CYPRESS_USERNAME},password=${ENV_CYPRESS_PASSWORD}'
+                sh 'npm run e2e -- -e username=${ENV_CYPRESS_USERNAME},password=${ENV_CYPRESS_PASSWORD}'
             }
         }
     }
