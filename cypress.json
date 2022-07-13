@@ -46,8 +46,7 @@
   "chromeWebSecurity": false,
   "baseUrl": "https://dev.project-xact.in",
   "env": {
-    "userName": "technicalbaba4u@gmail.com",
-    "passWord": "Sam@12345",
+
     "FOO": "bar"
   },
   "projectId": "rjmg83",

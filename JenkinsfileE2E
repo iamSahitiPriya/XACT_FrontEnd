@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+     environment {
+            ENV_CYPRESS_USERNAME = credentials('ENV_CYPRESS_USERNAME')
+            ENV_CYPRESS_PASSWORD = credentials('ENV_CYPRESS_PASSWORD')
+        }
+
     tools { nodejs "nodejs" }
 
     stages {
@@ -12,7 +17,7 @@ pipeline {
 
         stage('End-to-End Testing'){
             steps{
-                sh 'npm run e2e'
+                sh 'npm run e2e -- -e username=${ENV_CYPRESS_USERNAME},password=${ENV_CYPRESS_PASSWORD}'
             }
         }
     }
