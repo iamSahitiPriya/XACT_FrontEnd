@@ -4,7 +4,7 @@ export const data_local =
       TITLE: "My Assessments",
       BUTTON: "Create Assessment",
       BUTTON_TOOLTIP:"Click to create new assessment",
-      ASSESSMENT_TOOLTIP: "Click to view details of",
+      ASSESSMENT_TOOLTIP: "Click to view details of ",
       TABLE_HEADING: {
         ASSESSMENT_NAME: "Assessment Name",
         ORGANISATION_NAME: "Organisation Name",

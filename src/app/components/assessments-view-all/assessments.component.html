@@ -48,7 +48,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr [matTooltip]=toolTipAssessmentCol
+      <tr [matTooltip]=toolTipAssessmentCol+element.assessmentName
           [routerLink]="['/assessment',element.assessmentId]"
           role="button" mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
       <tr class="mat-row" *matNoDataRow>

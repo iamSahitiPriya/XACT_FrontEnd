@@ -18,6 +18,7 @@ import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
+import {ParameterRequest} from "../../types/parameterRequest";
 let DEBOUNCE_TIME = 2000;
 
 @Component({
@@ -61,6 +62,10 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   @Input()
   parameterName: string
+
+  @Input()
+  parameterList : ParameterRequest[];
+
 
 
 
@@ -187,10 +192,14 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     let ratingSum = 0
     let ratingNumber = 0
     for (let parameter in this.cloneParameterResponse.parameterRatingAndRecommendation) {
-      if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) {
-        ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating);
-        if (Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) > 0) {
-          ratingNumber = ratingNumber + 1;
+      for (let pId in this.parameterList) {
+        if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].parameterId == this.parameterList[pId].parameterRatingAndRecommendation.parameterId) {
+          if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) {
+            ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating);
+            if (Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) > 0) {
+              ratingNumber = ratingNumber + 1;
+            }
+          }
         }
       }
     }
@@ -199,6 +208,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     } else {
       averageRating = "0"
     }
+
     this.sendAverageRating(averageRating);
   }
 
