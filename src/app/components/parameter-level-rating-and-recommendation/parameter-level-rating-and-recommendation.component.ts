@@ -19,6 +19,7 @@ import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 import {ParameterRequest} from "../../types/parameterRequest";
+
 let DEBOUNCE_TIME = 2000;
 
 @Component({
@@ -28,7 +29,7 @@ let DEBOUNCE_TIME = 2000;
 })
 export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
-  sendAverageScore : TopicRatingResponse;
+  sendAverageScore: TopicRatingResponse;
 
   maturityScoreTitle = data_local.ASSESSMENT_PARAMETER.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_PARAMETER.RECOMMENDATION_LABEL;
@@ -64,9 +65,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   parameterName: string
 
   @Input()
-  parameterList : ParameterRequest[];
-
-
+  parameterList: ParameterRequest[];
 
 
   parameterLevelRecommendation: ParameterRecommendation = {
@@ -102,12 +101,13 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe({
-    next: (_data)=> {
-      this.sendRecommendation(this.parameterRecommendationResponse)
-      this.updateDataSavedStatus()
-    },error: _error => {
-      this.showError("Data cannot be saved", "Close");
-    }})
+      next: (_data) => {
+        this.sendRecommendation(this.parameterRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
 
   }
 
@@ -134,11 +134,12 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
       this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
-      next: (_data)=> {
-        this.updateDataSavedStatus()
-      }, error:_error => {
-        this.showError("Data cannot be saved", "Close");
-      }})
+        next: (_data) => {
+          this.updateDataSavedStatus()
+        }, error: _error => {
+          this.showError("Data cannot be saved", "Close");
+        }
+      })
       this.updateAverageRating();
     }
   }
@@ -188,27 +189,22 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   }
 
   public updateAverageRating() {
-    let averageRating;
+    let averageRating = "0";
     let ratingSum = 0
     let ratingNumber = 0
-    for (let parameter in this.cloneParameterResponse.parameterRatingAndRecommendation) {
-      for (let pId in this.parameterList) {
-        if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].parameterId == this.parameterList[pId].parameterRatingAndRecommendation.parameterId) {
-          if (this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) {
-            ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating);
-            if (Number(this.cloneParameterResponse.parameterRatingAndRecommendation[parameter].rating) > 0) {
-              ratingNumber = ratingNumber + 1;
-            }
-          }
+    let index=0;
+    for (let pId in this.parameterList) {
+      index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterList[pId].parameterRatingAndRecommendation.parameterId)
+        if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating!=undefined) {
+          ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
+            ratingNumber = ratingNumber + 1;
         }
       }
-    }
-    if (ratingSum !== 0 && ratingNumber !== 0) {
-      averageRating = String(ratingSum / ratingNumber);
-    } else {
-      averageRating = "0"
-    }
 
+
+    if (ratingSum !== 0 && ratingNumber !== 0) {
+      averageRating = String((ratingSum / ratingNumber).toFixed(1));
+    }
     this.sendAverageRating(averageRating);
   }
 
