@@ -71,23 +71,23 @@ describe('validating creating Assessment assessment popup functionality', () => 
   it('tc006 searching a non existing assessment',()=>{
     landingPage.searchBox().type('!!!!!')
     landingPage.noDataMessage().should('be.visible')
-    landingPage.noDataMessage().should('have.text','No Assessment Found.')
+    landingPage.noDataMessage().should('have.text','No Assessments Found.')
   })
   it('tc007 searching an assessment with domain or industry or team size',()=>{
     landingPage.searchBox().clear()
     landingPage.searchBox().type('Domain')
     landingPage.noDataMessage().should('be.visible')
-    landingPage.noDataMessage().should('have.text','No assessment found.')
+    landingPage.noDataMessage().should('have.text','No Assessments Found.')
     landingPage.searchBox().clear()
     landingPage.searchBox().type('industry')
     landingPage.noDataMessage().should('be.visible')
-    landingPage.noDataMessage().should('have.text','No assessment found.')
+    landingPage.noDataMessage().should('have.text','No Assessments Found.')
 
   })
   it('tc008 searching an assessment with numbers and special characters',()=>{
     landingPage.searchAssessment('!!!!!!')
     landingPage.noDataMessage().should('be.visible')
-    landingPage.noDataMessage().should('have.text','No assessment found.')
+    landingPage.noDataMessage().should('have.text','No Assessments Found.')
     landingPage.searchAssessment('123456789')
     landingPage.assessmentNameInGrid(1).should('have.text',' 123456789 ')
   })

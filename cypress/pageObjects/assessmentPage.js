@@ -40,6 +40,33 @@ class landingPage {
     return cy.get('.menuIcon')
   }
 
+  static notesForQuestions(index){
+    return cy.get('#assessmentAnswer'+index)
+  }
 
+  static recomendation(index){
+    return cy.get('#recommendationElement_topic'+index)
+  }
+
+  static asessmentMaturityScoreDescription(index){
+
+  }
+
+  static assessmentMaturityScoreRating(index){
+
+  }
+
+  static topicSaveButton(index){
+
+  }
+
+  static parameterTab(index){
+
+  }
+
+  static Modules(){
+    return cy.get('#cdk-accordion-child-0 > .mat-expansion-panel-body > .categoryModules > :nth-child(1)')
+
+  }
 
 }

@@ -140,6 +140,7 @@ class landingPage {
   }
   static emailError(){
     return cy.get('mat-error')
+
   }
 
   //placeholders
@@ -147,7 +148,7 @@ class landingPage {
     return cy.get('input[placeholder=\'Enter Assessment Name\']')
   }
   static organisationPlaceHolder(){
-    return cy.get('input[placeholder=\'Enter organization Name\']')
+    return cy.get('input[placeholder=\'Enter Organisation Name\']')
   }
   static domainPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Domain\']')

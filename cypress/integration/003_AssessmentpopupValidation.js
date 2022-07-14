@@ -142,7 +142,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Assessment Name')
     landingPage.OrganisationName().click()
     landingPage.OrganisationName().clear()
-    landingPage.organisationPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter organization Name')
+    landingPage.organisationPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Organisation Name')
     landingPage.Domain().click()
     landingPage.Domain().clear()
     landingPage.domainPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Domain')
