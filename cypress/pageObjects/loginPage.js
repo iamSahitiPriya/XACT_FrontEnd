@@ -106,8 +106,8 @@ class loginPage {
     cy.clearCookies()
     cy.clearLocalStorage()
 
-    const username = Cypress.env('xAct_username')
-    const password = Cypress.env('xAct_password')
+    const username = Cypress.env('ENV_CYPRESS_USERNAME')
+    const password = Cypress.env('ENV_CYPRESS_PASSWORD')
     expect(username, 'username was set').to.be.a('string').and.not.be.empty
     if (typeof password !== 'string' || !password) {
       throw new Error('Missing password value, set using CYPRESS_password=...')
