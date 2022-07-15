@@ -15,7 +15,7 @@ import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import { MatChipInputEvent } from '@angular/material/chips';
+import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../../assets/messages";
 
 @Component({
@@ -31,12 +31,10 @@ export class CreateAssessmentsComponent implements OnInit {
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
 
-
-
   addOnBlur = true;
-  readonly separatorKeysCodes =[ENTER , COMMA] as const;
-  emails : string[]=[];
-  createAssessmentTitle =data_local.ASSESSMENT.CREATE.TITLE;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  emails: string[] = [];
+  createAssessmentTitle = data_local.ASSESSMENT.CREATE.TITLE;
   manageAssessmentTitle = data_local.ASSESSMENT.MANAGE.TITLE;
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
@@ -51,7 +49,7 @@ export class CreateAssessmentsComponent implements OnInit {
   numberErrorField = data_local.ASSESSMENT.ASSESSMENT_TEAM.ERROR_MESSAGE_NUMBER;
   organisationNameTitle = data_local.ASSESSMENT.ORGANISATION_NAME.TITLE;
   organisationNamePlaceholder = data_local.ASSESSMENT.ORGANISATION_NAME.PLACEHOLDER;
-  organisationIndustryTitle= data_local.ASSESSMENT.ORGANISATION_INDUSTRY.TITLE;
+  organisationIndustryTitle = data_local.ASSESSMENT.ORGANISATION_INDUSTRY.TITLE;
   organisationIndustryPlaceholder = data_local.ASSESSMENT.ORGANISATION_INDUSTRY.PLACEHOLDER;
   addAssessmentUsers = data_local.ASSESSMENT.ADD_ASSESSMENT_USERS;
   userEmailTitle = data_local.ASSESSMENT.USER_EMAIL.TITLE;
@@ -61,7 +59,6 @@ export class CreateAssessmentsComponent implements OnInit {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
-
 
 
   @Input()
@@ -207,7 +204,7 @@ export class CreateAssessmentsComponent implements OnInit {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.teamSize = this.assessmentCopy.teamSize;
       this.assessment.organisationName = this.assessmentCopy.organisationName;
-      this.assessment.users= this.assessmentCopy.users;
+      this.assessment.users = this.assessmentCopy.users;
     }
 
   }

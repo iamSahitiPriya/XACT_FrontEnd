@@ -69,12 +69,12 @@ h2 {
 
 }
 
-.assessmentName, .industry, .domain {
+.assessmentName, .industry, .organizationName {
   width: 100%;
   height: 50%;
 }
 
-.organizationName {
+.domain {
   width: 70%;
   height: 50%;
 }

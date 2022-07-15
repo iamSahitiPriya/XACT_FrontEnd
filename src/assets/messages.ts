@@ -40,7 +40,7 @@ export const data_local =
       },
       ASSESSMENT_DOMAIN: {
         TITLE: "Domain of Target Assessment",
-        PLACEHOLDER: "Enter Domain"
+        PLACEHOLDER: "Enter Domain of Target Assessment"
       },
       ASSESSMENT_TEAM: {
         TITLE: "Size of Target Team",
@@ -54,7 +54,7 @@ export const data_local =
       },
       ORGANISATION_INDUSTRY: {
         TITLE: "Industry of Organisation",
-        PLACEHOLDER: "Enter Industry"
+        PLACEHOLDER: "Enter Industry of Organisation"
       },
       ADD_ASSESSMENT_USERS: "Add New User",
       USER_EMAIL: {

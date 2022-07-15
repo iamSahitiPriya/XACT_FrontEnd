@@ -24,19 +24,7 @@
         </mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="outline" class="domain">
-        <mat-label>{{assessmentDomainTitle}}</mat-label>
-        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
-               [placeholder]=assessmentDomainPlaceholder required
-               pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
-        <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
-          {{commonErrorFieldText}}
-        </mat-error>
-      </mat-form-field>
-      <br>
+
 
       <mat-form-field appearance="outline" class="teamSize">
         <mat-label>{{assessmentTeamTitle}}</mat-label>
@@ -49,6 +37,20 @@
           {{numberErrorField}}
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="outline" class="domain">
+        <mat-label>{{assessmentDomainTitle}}</mat-label>
+        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
+               [placeholder]=assessmentDomainPlaceholder required
+               pattern="^[a-zA-Z0-9-()._-]+( \s+[a-zA-Z0-9-()._- ]+)*$" maxlength="50">
+        <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
+          {{mandatoryFieldText}}
+        </mat-error>
+        <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
+          {{commonErrorFieldText}}
+        </mat-error>
+      </mat-form-field>
+      <br>
 
       <mat-form-field appearance="outline" class="organizationName">
         <mat-label>{{organisationNameTitle}}</mat-label>

@@ -203,7 +203,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
 
     if (ratingSum !== 0 && ratingNumber !== 0) {
-      averageRating = String((ratingSum / ratingNumber).toFixed(1));
+      averageRating = String((ratingSum / ratingNumber));
     }
     this.sendAverageRating(averageRating);
   }
