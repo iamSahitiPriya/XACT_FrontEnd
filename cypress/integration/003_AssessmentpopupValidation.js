@@ -142,7 +142,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Assessment Name')
     landingPage.OrganisationName().click()
     landingPage.OrganisationName().clear()
-    landingPage.organisationPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter organization Name')
+    landingPage.organisationPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Organisation Name')
     landingPage.Domain().click()
     landingPage.Domain().clear()
     landingPage.domainPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Domain')
@@ -228,7 +228,33 @@ describe('validating creating Assessment assessment popup functionality', () => 
       landingPage.closeAssessmentPopup().click()
   })
 
-
+  // it('tc022 A chip should be formed when valid email id is entered',()=>{
+  //   landingPage.createAssessment().click()
+  //   landingPage.AssessmentPopup().should('be.visible')
+  //   landingPage.email().clear()
+  //   landingPage.email().type('jathin@thoughtworks.com')
+  //   landingPage.emailHeader().click()
+  //   landingPage.emailChip().should('be.visible')
+  //   landingPage.emailChip().should('have.text','jathin@thoughtworks.com')
+  // })
+  //
+  // it('tc023 Chip should not be formed when invalid email is provided',()=>{
+  //   landingPage.createAssessment().click()
+  //   landingPage.AssessmentPopup().should('be.visible')
+  //   landingPage.email().clear()
+  //   landingPage.email().type('jathin@gmail.com')
+  //   landingPage.emailHeader().click()
+  //   landingPage.emailChip().should('not.be.visible')
+  // })
+  //
+  // it('tc024 chip should be formed when , is entered after a valid email',()=>{
+  //   landingPage.createAssessment().click()
+  //   landingPage.AssessmentPopup().should('be.visible')
+  //   landingPage.email().clear()
+  //   landingPage.email().type('jathin@gmail.com,')
+  //   landingPage.emailChip().should('be.visible')
+  //   landingPage.emailChip().should('have.text','jathin@thoughtworks.com')
+  // })
 
 
 

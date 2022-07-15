@@ -109,7 +109,7 @@ class landingPage {
     return cy.get('#search')
   }
   static emailHeader(){
-    return cy.get('#mat-dialog-title-1')
+    return cy.get('#mat-dialog-title-0')
   }
   static closeAssessmentPopup(){
     return cy.get('button[id=close]')
@@ -141,13 +141,16 @@ class landingPage {
   static emailError(){
     return cy.get('mat-error')
   }
+  static emailChip(){
+    return cy.get('.mat-chip-ripple')
+  }
 
   //placeholders
   static AssessmentPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Assessment Name\']')
   }
   static organisationPlaceHolder(){
-    return cy.get('input[placeholder=\'Enter organization Name\']')
+    return cy.get('input[placeholder=\'Enter Organisation Name\']')
   }
   static domainPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Domain\']')

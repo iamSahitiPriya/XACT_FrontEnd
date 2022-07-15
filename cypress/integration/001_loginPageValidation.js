@@ -131,7 +131,7 @@ describe('validating functionality of login page of xAct application', () => {
   //   loginPage.emptyFieldError().should('have.text','This field cannot be left blank')
   //
   // })
-  //
+
 
   it('tc00 user tries to login  with valid userId and password',()=>{
     cy.visit('/')
