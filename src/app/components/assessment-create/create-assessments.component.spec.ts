@@ -26,6 +26,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import { MatChipsModule} from "@angular/material/chips";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 
@@ -106,7 +107,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,MatTooltipModule,
         ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatChipsModule,ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},

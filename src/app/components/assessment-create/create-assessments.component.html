@@ -42,7 +42,7 @@
         <mat-label>{{assessmentDomainTitle}}</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
                [placeholder]=assessmentDomainPlaceholder required
-               pattern="^[a-zA-Z0-9-()._-]+( \s+[a-zA-Z0-9-()._- ]+)*$" maxlength="50">
+               pattern="^[a-zA-Z0-9-()._-]+( \s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
         <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>

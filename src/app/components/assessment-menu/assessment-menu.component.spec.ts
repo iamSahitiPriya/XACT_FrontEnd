@@ -29,6 +29,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockDialog {
   open() {
@@ -88,7 +89,7 @@ describe('AssessmentMenuComponent', () => {
       declarations: [AssessmentMenuComponent,PopupConfirmationComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
-        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,
+        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,MatTooltipModule,
         StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
