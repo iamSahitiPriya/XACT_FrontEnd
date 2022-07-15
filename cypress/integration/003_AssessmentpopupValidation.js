@@ -1,6 +1,6 @@
 import loginPage from "../pageObjects/loginPage";
 import landingPage from "../pageObjects/landingPage";
-import commonFunctions from "../support/commonFunctions";
+import commonFunction from "../pageObjects/commonFunction";
 
 describe('validating creating Assessment assessment popup functionality', () => {
 
@@ -82,7 +82,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   })
 
 
-  it('tc007 Saving the assessment without filling few andatory fields',()=>{
+  it('tc007 Saving the assessment without filling few mandatory fields',()=>{
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
@@ -145,10 +145,10 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.organisationPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Organisation Name')
     landingPage.Domain().click()
     landingPage.Domain().clear()
-    landingPage.domainPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Domain')
+    landingPage.domainPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Domain of Target Assessment')
     landingPage.Industry().click()
     landingPage.Industry().clear()
-    landingPage.industryPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Industry')
+    landingPage.industryPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Industry of Organisation')
     //landingPage.email().click()
     //landingPage.email().clear()
     //landingPage.emailPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Valid list of comma separated thoughtworks email address')
@@ -228,33 +228,71 @@ describe('validating creating Assessment assessment popup functionality', () => 
       landingPage.closeAssessmentPopup().click()
   })
 
-  // it('tc022 A chip should be formed when valid email id is entered',()=>{
-  //   landingPage.createAssessment().click()
-  //   landingPage.AssessmentPopup().should('be.visible')
-  //   landingPage.email().clear()
-  //   landingPage.email().type('jathin@thoughtworks.com')
-  //   landingPage.emailHeader().click()
-  //   landingPage.emailChip().should('be.visible')
-  //   landingPage.emailChip().should('have.text','jathin@thoughtworks.com')
-  // })
-  //
-  // it('tc023 Chip should not be formed when invalid email is provided',()=>{
-  //   landingPage.createAssessment().click()
-  //   landingPage.AssessmentPopup().should('be.visible')
-  //   landingPage.email().clear()
-  //   landingPage.email().type('jathin@gmail.com')
-  //   landingPage.emailHeader().click()
-  //   landingPage.emailChip().should('not.be.visible')
-  // })
-  //
-  // it('tc024 chip should be formed when , is entered after a valid email',()=>{
-  //   landingPage.createAssessment().click()
-  //   landingPage.AssessmentPopup().should('be.visible')
-  //   landingPage.email().clear()
-  //   landingPage.email().type('jathin@gmail.com,')
-  //   landingPage.emailChip().should('be.visible')
-  //   landingPage.emailChip().should('have.text','jathin@thoughtworks.com')
-  // })
+  it('tc022 A chip should be formed when valid email id is entered',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    commonFunction.typeInElement('jathin@thoughtworks.com',landingPage.email())
+    landingPage.email().type('{enter}')
+    landingPage.emailChip().should('be.visible')
+    landingPage.emailChip().contains(' jathin@thoughtworks.com ')
+  })
+
+  it('tc023 Chip should not be formed when invalid email is provided',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    commonFunction.typeInElement('@thoughtworks.com',landingPage.email())
+    landingPage.emailChip().should('not.exist')
+  })
+
+  it('tc024 chip should be formed when , is entered after a valid email',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    landingPage.email().clear()
+    landingPage.email().type('jathin@thoughtworks.com,')
+    landingPage.emailChip().should('be.visible')
+    landingPage.emailChip().contains('jathin@thoughtworks.com')
+  })
+
+  it('tc025 chip should be formed when user hits enter after a valid email',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    landingPage.email().clear()
+    landingPage.email().type('jathin@thoughtworks.com')
+    cy.wait(100)
+    landingPage.email().type('{enter}')
+    landingPage.emailChip().should('be.visible')
+    landingPage.emailChip().contains('jathin@thoughtworks.com')
+  })
+
+
+  it('tc025 Chip should not be formed when invalid email domain is provided',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    commonFunction.typeInElement('jathin@gmail.com',landingPage.email())
+    landingPage.emailChip().should('not.exist')
+  })
+
+
+  it('tc026 Email place holder should be displayed even after valid email ids are provided in the email field',()=>{
+    landingPage.createAssessment().click()
+    landingPage.AssessmentPopup().should('be.visible')
+    landingPage.email().clear()
+    landingPage.email().type('jathin@thoughtworks.com')
+    landingPage.email().type('{enter}')
+    landingPage.emailChip().should('be.visible')
+    landingPage.emailPlaceHolder().should('be.visible')
+    landingPage.emailPlaceHolder().invoke('attr', 'placeholder').should('contain', 'abc@thoughtworks.com')
+  })
+
+  it('tc027 create an assessment without providing email id',()=>{
+      landingPage.createAssessment().click()
+      landingPage.AssessmentpopupFields('noemailid','testOrg','testIndustry','testDOMAIN','22','{enter}')
+      landingPage.saveAssessmentButton().click()
+      landingPage.assessmentNameInGrid(1).should('have.text',' noemailid ')
+  })
+
+
+
 
 
 

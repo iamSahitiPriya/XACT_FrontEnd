@@ -11,9 +11,13 @@ class commonFunction{
     element.click()
   }
 
-  static typeInElement(value, webElementLocation){
-    let typeElement = cy.get(webElementLocation)
-    typeElement.type(value)
+  static typeInElement(value, webElementLocation) {
+    webElementLocation.clear().type(value)
+    if(webElementLocation.should('have.value',value)){
+      assert.isOk(value+' is entered successfully')
+    }else {
+      assert.fail(value+' is not entered successfully')
+    }
   }
 
   static elementShould(webElementLocation, shouldMatch){

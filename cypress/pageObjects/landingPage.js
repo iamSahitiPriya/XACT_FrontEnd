@@ -142,7 +142,7 @@ class landingPage {
     return cy.get('mat-error')
   }
   static emailChip(){
-    return cy.get('.mat-chip-ripple')
+    return cy.get('.mat-chip')
   }
 
   //placeholders
@@ -153,10 +153,10 @@ class landingPage {
     return cy.get('input[placeholder=\'Enter Organisation Name\']')
   }
   static domainPlaceHolder(){
-    return cy.get('input[placeholder=\'Enter Domain\']')
+    return cy.get('input[placeholder=\'Enter Domain of Target Assessment\']')
   }
   static industryPlaceHolder(){
-    return cy.get('input[placeholder=\'Enter Industry\']')
+    return cy.get('input[placeholder=\'Enter Industry of Organisation\']')
   }
   static emailPlaceHolder(){
     return cy.get('input[placeholder=\'abc@thoughtworks.com\']')
