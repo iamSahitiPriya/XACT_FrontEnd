@@ -16,7 +16,7 @@ export const data_local =
       }
     },
     SEARCH: {
-      SEARCH_BAR_TEXT: "Search..."
+      SEARCH_BAR_TEXT: "Search"
     },
     ASSESSMENT: {
       CREATE: {
@@ -39,8 +39,8 @@ export const data_local =
         PLACEHOLDER: "Enter Assessment Name"
       },
       ASSESSMENT_DOMAIN: {
-        TITLE: "Domain of Target Assessment",
-        PLACEHOLDER: "Enter Domain of Target Assessment"
+        TITLE: "Domain of Target",
+        PLACEHOLDER: "Enter Domain of Target"
       },
       ASSESSMENT_TEAM: {
         TITLE: "Size of Target Team",
@@ -56,11 +56,11 @@ export const data_local =
         TITLE: "Industry of Organisation",
         PLACEHOLDER: "Enter Industry of Organisation"
       },
-      ADD_ASSESSMENT_USERS: "Add New User",
+      ADD_ASSESSMENT_USERS: "Grant Access",
       USER_EMAIL: {
-        TITLE: "Email Id",
+        TITLE: "Email",
         PLACEHOLDER: "abc@thoughtworks.com",
-        ERROR_MESSAGE: "Valid list of comma separated thoughtworks email address"
+        ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address"
       }
     },
     ASSESSMENT_MENU: {
@@ -80,8 +80,8 @@ export const data_local =
         TOOLTIP: "Click to open menu"
       },
       MANAGE_ASSESSMENT: {
-        TITLE: "Manage assessment & users",
-        TOOLTIP: "Click to manage assessment"
+        TITLE: "Manage",
+        TOOLTIP: "Click to manage assessment and users"
       },
       ADD_ASSESSMENT_MODULE: {
         TITLE: "Add module to assessment"
@@ -108,7 +108,7 @@ export const data_local =
       RETRY_TEXT: "Retry"
     },
     HEADER_LINK_TEXT: {
-      MICRO_SITE: "Micro-site",
+      MICRO_SITE: "Microsite",
       SUPPORT: "Support",
       FEEDBACK: "Feedback",
       LOGOUT: "Logout"
