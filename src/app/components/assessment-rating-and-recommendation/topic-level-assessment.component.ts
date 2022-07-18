@@ -271,7 +271,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
       if (ratingSum !== 0 && ratingNumber !== 0) {
-        this.averageRating.rating = String((ratingSum / ratingNumber).toFixed(1));
+        this.averageRating.rating = String(Math.round(ratingSum / ratingNumber).toFixed(1));
         this.averageRating.topicId = this.topicInput.topicId
 
 

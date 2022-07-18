@@ -15,7 +15,7 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
-import {debounce} from "lodash";
+import {debounce, isInteger} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -203,7 +203,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
 
     if (ratingSum !== 0 && ratingNumber !== 0) {
-      averageRating = String((ratingSum / ratingNumber));
+      averageRating = String(Math.round(ratingSum / ratingNumber));
     }
     this.sendAverageRating(averageRating);
   }
