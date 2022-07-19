@@ -25,19 +25,6 @@
       </mat-form-field>
       <br>
 
-
-      <mat-form-field appearance="outline" class="teamSize">
-        <mat-label>{{assessmentTeamTitle}}</mat-label>
-        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
-               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          {{mandatoryNumberField}}
-        </mat-error>
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          {{numberErrorField}}
-        </mat-error>
-      </mat-form-field>
-
       <mat-form-field appearance="outline" class="domain">
         <mat-label>{{assessmentDomainTitle}}</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
@@ -48,6 +35,18 @@
         </mat-error>
         <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
           {{commonErrorFieldText}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="teamSize">
+        <mat-label>{{assessmentTeamTitle}}</mat-label>
+        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
+               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
+        <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
+          {{mandatoryNumberField}}
+        </mat-error>
+        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
+          {{numberErrorField}}
         </mat-error>
       </mat-form-field>
       <br>
@@ -95,19 +94,18 @@
           </mat-chip>
           <input matInput formControlName="emailValidator" type="text"
                  [placeholder]=userEmailPlaceholder
-                 id="userEmails" maxlength="1000"
+                 id="userEmails" maxlength="1200"
                  [matChipInputFor]="chipList"
                  [matChipInputAddOnBlur]="addOnBlur"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  (matChipInputTokenEnd)="add($event)">
-
         </mat-chip-list>
-
       </mat-form-field>
+
+
       <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-8px;margin-left:17px">
         {{userEmailErrorMessage}}
       </mat-error>
-
 
     </div>
     <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button

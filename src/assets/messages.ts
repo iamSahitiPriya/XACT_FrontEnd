@@ -56,7 +56,7 @@ export const data_local =
         TITLE: "Industry of Organisation",
         PLACEHOLDER: "Enter Industry of Organisation"
       },
-      ADD_ASSESSMENT_USERS: "Add New User",
+      ADD_ASSESSMENT_USERS: "Grant Access",
       USER_EMAIL: {
         TITLE: "Email Id",
         PLACEHOLDER: "abc@thoughtworks.com",

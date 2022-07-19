@@ -270,4 +270,5 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       expect(data).toBe(parameterRecommendation)
     })
   });
+
 });

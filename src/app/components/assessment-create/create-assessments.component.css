@@ -31,9 +31,10 @@
 
 .addUserEmail {
   width: 100%;
-  max-height: 50% !important;
+  height: 100px !important;
+  max-height:600px !important;
   color-rendering: auto;
-  overflow-y: scroll !important;
+  overflow-y:scroll !important;
 }
 
 .saveButton {
@@ -113,6 +114,14 @@ h2 {
 
 .mat-column-name {
   padding-left: 50px;
+}
+.mat-dialog-content {
+  display: block;
+  margin: 0 -24px;
+  padding: 0 24px;
+  max-height: 109vh;
+  overflow: unset;
+  overflow-y: unset !important;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
