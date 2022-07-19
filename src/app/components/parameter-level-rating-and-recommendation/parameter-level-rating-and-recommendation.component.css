@@ -16,6 +16,7 @@
   opacity: 1;
   text-align: left;
   margin-top: 13px;
+  text-transform: capitalize;
 }
 p{
   word-wrap: break-word;
@@ -39,7 +40,7 @@ p{
   opacity: 1;
   letter-spacing: -0.96px;
   color: #000000;
-  text-transform: capitalize;
+  text-transform: initial;
   text-align: left;
   margin-top: 25px;
   margin-bottom: 22px;
