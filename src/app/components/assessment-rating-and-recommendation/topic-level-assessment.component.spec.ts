@@ -434,6 +434,27 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(component.getParameterWithRatingAndRecommendationRequest).toHaveBeenCalled()
 
   });
+  it('should not able to calculate the rating when none of the rating is selected',()=>{
+   component.topicRequest = {
+      parameterLevel: [{
+        answerRequest: [{questionId: 1, answer: ""}],
+        parameterRatingAndRecommendation: {parameterId: 0, rating: "", recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:"",recommendation:""}
+    }
+  component.topicInput = {
+      topicId: 2,
+      topicName: "",
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      references: [],
+      module: 1,
+      assessmentLevel: ""
+    }
+    component.ngOnInit();
+    component.updateAverageRating();
+
+    expect(component.averageRating.topicId).toEqual(2);
+    expect(component.averageRating.rating).toEqual("0");
+  })
 });
 
 
