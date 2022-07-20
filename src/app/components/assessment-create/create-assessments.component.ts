@@ -30,6 +30,7 @@ export class CreateAssessmentsComponent implements OnInit {
   loggedInUserEmail: string;
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
+  duplicateFound: boolean = false;
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -221,7 +222,16 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value.search(this.re) != -1) {
+    if(this.emails.includes(value)==true){
+      this.duplicateFound=true;
+      setTimeout(() => {
+        this.duplicateFound = false;
+        console.log('END OF TIMEOUT');
+        console.log('allowResendSMS: ', this.duplicateFound)
+      }, 4000);
+    }
+    if (value.search(this.re) != -1 && this.emails.includes(value)==false) {
+      this.duplicateFound=false;
       this.emails.push(value);
       event.chipInput?.clear();
     }
@@ -234,5 +244,6 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.splice(index, 1);
     }
   }
+
 
 }
