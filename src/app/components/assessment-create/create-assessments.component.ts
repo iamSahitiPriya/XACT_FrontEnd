@@ -226,8 +226,6 @@ export class CreateAssessmentsComponent implements OnInit {
       this.duplicateFound=true;
       setTimeout(() => {
         this.duplicateFound = false;
-        console.log('END OF TIMEOUT');
-        console.log('allowResendSMS: ', this.duplicateFound)
       }, 4000);
     }
     if (value.search(this.re) != -1 && this.emails.includes(value)==false) {
