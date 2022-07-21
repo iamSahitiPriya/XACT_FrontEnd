@@ -228,7 +228,7 @@ export class CreateAssessmentsComponent implements OnInit {
         this.duplicateFound = false;
       }, 2000);
     }
-    if (value.search(this.re) != -1 && this.emails.includes(value)) {
+    if (value.search(this.re) != -1 && !this.emails.includes(value)) {
       this.duplicateFound=false;
       this.emails.push(value);
       event.chipInput?.clear();
