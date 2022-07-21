@@ -222,13 +222,13 @@ export class CreateAssessmentsComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if(this.emails.includes(value)==true){
+    if(this.emails.includes(value)){
       this.duplicateFound=true;
       setTimeout(() => {
         this.duplicateFound = false;
       }, 2000);
     }
-    if (value.search(this.re) != -1 && this.emails.includes(value)==false) {
+    if (value.search(this.re) != -1 && this.emails.includes(value)) {
       this.duplicateFound=false;
       this.emails.push(value);
       event.chipInput?.clear();
