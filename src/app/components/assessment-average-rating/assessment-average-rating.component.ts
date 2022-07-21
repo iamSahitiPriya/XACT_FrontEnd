@@ -18,7 +18,7 @@ export class AssessmentAverageRatingComponent implements OnInit {
 
   @Input()
   averageRating: TopicRatingResponse
-  disableRating: string = "0"
+  disableRating: number = 0
 
   @Input()
   topicId: number

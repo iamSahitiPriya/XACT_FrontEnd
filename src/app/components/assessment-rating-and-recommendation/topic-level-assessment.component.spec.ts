@@ -46,7 +46,7 @@ class MockAppService {
           "answer": "answer1"
         },
       ],
-      "topicRatingAndRecommendation": [{topicId: 1, rating: "2", recommendation: ""}],
+      "topicRatingAndRecommendation": [{topicId: 1, rating: 2, recommendation: ""}],
       "parameterRatingAndRecommendation": []
     }
     return of(mockAssessmentStructure)
@@ -117,8 +117,8 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
-      }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:3,recommendation:""}
     }
     component.answerResponse = {
       assessmentId: 5,
@@ -131,8 +131,8 @@ describe('TopicLevelAssessmentComponent', () => {
       users: [],
       updatedAt: 0,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: "some recomm"}],
-      parameterRatingAndRecommendation: [{parameterId: 0, rating: "1", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: "some recomm"}],
+      parameterRatingAndRecommendation: [{parameterId: 0, rating: 1, recommendation: ""}]
     }
     component.save();
     reloadFn()
@@ -141,15 +141,15 @@ describe('TopicLevelAssessmentComponent', () => {
 
   it('should able to receive rating', () => {
     const topicRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       topicId: 1
     }
-    component.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
+    component.topicRatingAndRecommendation = {rating: 2, recommendation: "none", topicId: 1};
     // component.topicLevelRecommendationComponent = component2;
-    // component2.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
-    expect(component.topicRatingAndRecommendation.rating).toEqual("2");
-    expect(topicRatingAndRecommendation.rating).toEqual("2");
+    // component2.topicRatingAndRecommendation = {rating: 2, recommendation: "none", topicId: 1};
+    expect(component.topicRatingAndRecommendation.rating).toEqual(2);
+    expect(topicRatingAndRecommendation.rating).toEqual(2);
   })
 
   it('should able to get the parameter level details from the parameter structure', () => {
@@ -197,8 +197,8 @@ describe('TopicLevelAssessmentComponent', () => {
       teamSize: 0,
       users: [],
       answerResponseList: [{questionId: 0, answer: "some answer"}],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: "some recomm"}],
-      parameterRatingAndRecommendation: [{parameterId: 0, rating: "1", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: "some recomm"}],
+      parameterRatingAndRecommendation: [{parameterId: 0, rating: 1, recommendation: ""}]
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(parameter)).toBeTruthy()
 
@@ -225,7 +225,7 @@ describe('TopicLevelAssessmentComponent', () => {
       updatedAt: 0,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 0, rating: "1", recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 0, rating: 1, recommendation: ""}]
     }
     expect(component.ngOnInit()).toBe(undefined)
   });
@@ -254,7 +254,7 @@ describe('TopicLevelAssessmentComponent', () => {
           answer: "answer1"
         },],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
     expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
@@ -283,13 +283,13 @@ describe('TopicLevelAssessmentComponent', () => {
           answer: "answer1"
         },],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
 
     let dummyNewParameter: ParameterRequest = {
       answerRequest: dummyAnswerRequest,
-      parameterRatingAndRecommendation: {parameterId: 1, rating: "2", recommendation: ""}
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, recommendation: ""}
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
@@ -309,8 +309,8 @@ describe('TopicLevelAssessmentComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     const dummyAnswerResponse = {
       assessmentId: 5,
@@ -327,8 +327,8 @@ describe('TopicLevelAssessmentComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     component.topicInput = {
       topicId: 0,
@@ -357,14 +357,14 @@ describe('TopicLevelAssessmentComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
-      }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:3,recommendation:""}
     }
     component.topicInput = {
       topicId: 0,
@@ -386,8 +386,8 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: "1", recommendation: ""}
-      }],topicRatingAndRecommendation:{topicId:1,rating:"3",recommendation:""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,rating:3,recommendation:""}
     }
     component.topicInput = {
       topicId: 0,
@@ -424,8 +424,8 @@ describe('TopicLevelAssessmentComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     jest.spyOn(component,"getParameterWithRatingAndRecommendationRequest")
     // @ts-ignore
@@ -438,8 +438,8 @@ describe('TopicLevelAssessmentComponent', () => {
    component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: "", recommendation: ""}
-      }],topicRatingAndRecommendation:{topicId:1,rating:"",recommendation:""}
+        parameterRatingAndRecommendation: {parameterId: 0, recommendation: ""}
+      }],topicRatingAndRecommendation:{topicId:1,recommendation:""}
     }
   component.topicInput = {
       topicId: 2,
@@ -453,7 +453,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component.updateAverageRating();
 
     expect(component.averageRating.topicId).toEqual(2);
-    expect(component.averageRating.rating).toEqual("0");
+    expect(component.averageRating.rating).toEqual(0);
   })
 });
 

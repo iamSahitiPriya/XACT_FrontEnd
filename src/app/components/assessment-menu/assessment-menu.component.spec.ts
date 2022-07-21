@@ -184,8 +184,8 @@ describe('AssessmentMenuComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.ngOnInit()
     component.finishAssessment();

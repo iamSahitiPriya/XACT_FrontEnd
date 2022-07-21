@@ -64,7 +64,7 @@ describe('AppServiceService', () => {
           parameterLevel: [],
           topicRatingAndRecommendation: {
             topicId: 1,
-            rating: "1",
+            rating: 1,
             recommendation: "some text"
           }
         },
@@ -113,7 +113,7 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular topic Rating", () => {
-    let dummyTopicRating: TopicRating = {assessmentId: 1, topicId: 1, rating: "1"}
+    let dummyTopicRating: TopicRating = {assessmentId: 1, topicId: 1, rating: 1}
     expect(service.saveTopicRating(dummyTopicRating)).toBeTruthy()
   });
 
@@ -123,7 +123,7 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Rating", () => {
-    let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: "1"}
+    let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
   });
 

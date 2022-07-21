@@ -44,9 +44,9 @@ describe('AssessmentAverageRatingComponent', () => {
 
   it('should give average rating of particular topic', () => {
     component.finalAverageRating = of({scoreDetails : {topicId:1,
-      rating:"1"}})
-    let newAverageRating = {topicId:1,rating:"1"};
-    component.averageRating = {topicId:1,rating:"1"};
+      rating:1}})
+    let newAverageRating = {topicId:1,rating:1};
+    component.averageRating = {topicId:1,rating:1};
 
     fixture.detectChanges();
     component.finalAverageRating.subscribe(data => {

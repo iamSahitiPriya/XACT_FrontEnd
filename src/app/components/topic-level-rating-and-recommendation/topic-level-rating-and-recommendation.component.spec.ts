@@ -74,26 +74,26 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const topicRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       topicId: 2
     }
     jest.spyOn(component, "setRating");
     let topicRating = {
-      assessmentId: 0, topicId: 0, rating: "0"
+      assessmentId: 0, topicId: 0, rating: 0
     };
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.topicId = 2
     component.assessmentStatus = "Active"
-    component.setRating("3")
+    component.setRating(3)
     mockAppService.saveTopicRating(topicRating).subscribe(data => {
       expect(data).toBe(topicRating)
     })
-    expect(topicRatingAndRecommendation.rating).toEqual("3");
+    expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
   it("should deselect rating", () => {
     component.answerResponse = {
@@ -111,11 +111,11 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const topicRatingAndRecommendation = {
-      rating: "3",
+      rating: 3,
       recommendation: "some text",
       topicId: 1
     }
@@ -123,7 +123,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "setRating");
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.setRating("3")
+    component.setRating(3)
     expect(topicRatingAndRecommendation.rating).toEqual(undefined);
   });
   it("should autoSave topic recommendation", async () => {
@@ -142,8 +142,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
 
     let topicRecommendation = {
@@ -153,7 +153,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.topicId = 1
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
+    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, recommendation: "hello"}
     component.ngOnInit()
     component.saveParticularRecommendation(keyEvent)
     await new Promise((r) => setTimeout(r, 2000));
@@ -181,10 +181,10 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const topicRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       topicId: 1
     }
@@ -192,8 +192,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "setRating");
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.setRating("3")
-    expect(topicRatingAndRecommendation.rating).toEqual("3");
+    component.setRating(3)
+    expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
   it("should able to set topic rating if it is not defined", () => {
     component.answerResponse = {
@@ -215,7 +215,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       parameterRatingAndRecommendation: []
     }
     const topicRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       topicId: 1
     }
@@ -225,8 +225,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "setRating");
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.setRating("3")
-    expect(topicRatingAndRecommendation.rating).toEqual("3");
+    component.setRating(3)
+    expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
   it("should throw error when problem occurs", async () => {
     component.answerResponse1 = of({
@@ -244,8 +244,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
 
     let topicRecommendation = {
@@ -256,7 +256,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     jest.spyOn(component, "showError")
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.topicRatingAndRecommendation = {topicId: 0, rating: "1", recommendation: "hello"}
+    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, recommendation: "hello"}
     component.ngOnInit()
     component.saveParticularRecommendation(keyEvent)
     await new Promise((r) => setTimeout(r, 2000));

@@ -30,10 +30,10 @@ let DEBOUNCE_TIME = 1200;
 })
 export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
-  sendAverageScore : TopicRatingResponse;
+  sendAverageScore: TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
-  averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
+  averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
@@ -98,6 +98,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     })
 
   }
+
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
@@ -105,6 +106,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       duration: 2000
     })
   }
+
   saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
     this.topicLevelRecommendation.assessmentId = this.assessmentId
@@ -112,19 +114,19 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
-    next:(_data)=> {
-      topicRecommendationData.push(this.topicLevelRecommendation);
-      this.sendRecommendation(this.topicRecommendationResponse)
-      this.updateDataSavedStatus()
-    },error:_error => {
-      this.showError("Data cannot be saved","Close");
-    }})
+      next: (_data) => {
+        topicRecommendationData.push(this.topicLevelRecommendation);
+        this.sendRecommendation(this.topicRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
 
   }
 
 
-
-  setRating(rating: string) {
+  setRating(rating: number) {
     if (this.assessmentStatus === 'Active') {
       if (this.topicRatingAndRecommendation.rating === rating) {
         this.topicRatingAndRecommendation.rating = undefined;
@@ -132,7 +134,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.topicRatingAndRecommendation.rating = rating;
       }
       this.topicRatingAndRecommendation.topicId = this.topicId;
-      if (this.topicRatingAndRecommendation.rating != "0") {
+      if (this.topicRatingAndRecommendation.rating != 0) {
         this.topicLevelRating.assessmentId = this.assessmentId
         this.topicLevelRating.topicId = this.topicId
         this.topicLevelRating.rating = this.topicRatingAndRecommendation.rating
@@ -143,17 +145,18 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.topicRatingResponse)
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe({
-        next: (_data) => {
-          topicRatingData.push(this.topicLevelRating);
-          this.updateDataSavedStatus()
+          next: (_data) => {
+            topicRatingData.push(this.topicLevelRating);
+            this.updateDataSavedStatus()
 
-        },error: _error => {
-          this.showError("Data cannot be saved", "Close");
-        }})
+          }, error: _error => {
+            this.showError("Data cannot be saved", "Close");
+          }
+        })
         if (this.topicRatingAndRecommendation.rating !== undefined) {
           this.sendAverageRating(this.topicRatingAndRecommendation.rating)
         } else {
-          this.sendAverageRating("0")
+          this.sendAverageRating(0)
         }
       }
     }
@@ -201,8 +204,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 
-  private sendAverageRating(rating: string) {
+  private sendAverageRating(rating: number) {
     this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
-    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails:this.sendAverageScore}))
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 }
