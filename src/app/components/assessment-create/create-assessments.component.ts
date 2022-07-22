@@ -226,7 +226,7 @@ export class CreateAssessmentsComponent implements OnInit {
       this.duplicateFound=true;
       setTimeout(() => {
         this.duplicateFound = false;
-      }, 4000);
+      }, 2000);
     }
     if (value.search(this.re) != -1 && this.emails.includes(value)==false) {
       this.duplicateFound=false;
