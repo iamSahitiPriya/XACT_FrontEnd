@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Observable} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -88,6 +88,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   answerResponse: AssessmentStructure
+  form: FormGroup;
 
   ngOnInit() {
     this.answerResponse1.subscribe(data => {
@@ -96,7 +97,13 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-
+    this.form = new FormGroup({
+      recommendationTemplate: new FormArray([
+        new FormGroup({
+          name: new FormControl(''),
+        })
+      ])
+    });
   }
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -104,6 +111,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       panelClass: ['errorSnackbar'],
       duration: 2000
     })
+
   }
   saveParticularRecommendation(_$event: KeyboardEvent) {
     this.topicLevelRecommendation.topicId = this.topicId
@@ -204,5 +212,17 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   private sendAverageRating(rating: string) {
     this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails:this.sendAverageScore}))
+  }
+
+  get recommendationTemplate(): FormArray {
+    return this.form.get('recommendationTemplate') as FormArray;
+  }
+
+  addTemplate() {
+    this.recommendationTemplate.push(
+      new FormGroup({
+        name: new FormControl(''),
+      })
+    );
   }
 }
