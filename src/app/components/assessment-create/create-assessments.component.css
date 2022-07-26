@@ -14,9 +14,12 @@
   letter-spacing: 1.45px;
   width: 100%;
 }
+::ng-deep .mat-form-field-subscript-wrapper {
+  margin-top: 0.4em !important;
+}
 
 .mat-error{
-  margin-top:14px;
+  margin-top:-0.5px;
   position:relative;
   width:102%;
 }
