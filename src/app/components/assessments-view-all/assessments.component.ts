@@ -53,6 +53,7 @@ export class AssessmentsComponent implements OnInit {
   statusHeading = data_local.HOME.TABLE_HEADING.STATUS;
   lastUpdatedHeading = data_local.HOME.TABLE_HEADING.LAST_UPDATED;
   toolTipAssessmentCol = data_local.HOME.ASSESSMENT_TOOLTIP;
+  toolTipSortingCol = data_local.HOME.SORTING_TOOLTIP;
   assessmentNotAvailable = data_local.HOME.ERROR_MESSAGE.ASSESSMENT_UNAVAILABLE;
   buttonToolTip = data_local.HOME.BUTTON_TOOLTIP;
 
