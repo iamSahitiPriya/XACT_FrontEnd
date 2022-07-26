@@ -42,7 +42,6 @@ export class parameterRequest {
 }
 
 
-
 let parameterRequests: parameterRequest[];
 
 @Component({
@@ -53,8 +52,8 @@ let parameterRequests: parameterRequest[];
 
 
 export class TopicLevelAssessmentComponent implements OnInit {
-  averageRating: TopicRatingResponse = {topicId: 0, rating: "0"}
-  disableRating: string = "0"
+  averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
+  disableRating: number = 0
   form: FormGroup
 
   saveButtonToolTip = data_local.SAVE_ASSESSMENT_BUTTON.TOOLTIP;
@@ -83,7 +82,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
-    rating: "",
     recommendation: "",
     topicId: topicId
   }
@@ -186,7 +184,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndRecommendationPresent = false
     let newParameterRequest: ParameterRequest = {
       answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
-        parameterId: parameter.parameterId, rating: "0", recommendation: ""
+        parameterId: parameter.parameterId, rating: 0, recommendation: ""
       }
     }
 
@@ -225,7 +223,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     } else {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: "0",
+        rating: 0,
         recommendation: "",
         topicId: this.topicInput.topicId
       }
@@ -259,7 +257,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.topicRatingAndRecommendation) {
-      this.averageRating.rating = String(this.topicRequest.topicRatingAndRecommendation.rating)
+      this.averageRating.rating =  this.topicRequest.topicRatingAndRecommendation.rating
       this.averageRating.topicId = this.topicInput.topicId
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
@@ -271,13 +269,12 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
       }
       if (ratingSum !== 0 && ratingNumber !== 0) {
-        this.averageRating.rating = String(Math.round(ratingSum / ratingNumber).toFixed(1));
+        this.averageRating.rating = Math.round(ratingSum / ratingNumber);
         this.averageRating.topicId = this.topicInput.topicId
 
 
-      }
-      else {
-        this.averageRating.rating = "0"
+      } else {
+        this.averageRating.rating = 0
         this.averageRating.topicId = this.topicInput.topicId
       }
     }

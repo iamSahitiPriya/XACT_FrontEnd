@@ -6,14 +6,11 @@
 .searchBar {
   width: 53em;
   top: 2px;
-}
-
-
-::ng-deep .mat-form-field-wrapper  {
   background-color: #F4FAFC !important;
-  padding-bottom: 0em;
   border-bottom: None;
+  height: 51px;
 }
+
 .mat-icon{
   padding-right: 0.4cm;
   padding-top: 2px;

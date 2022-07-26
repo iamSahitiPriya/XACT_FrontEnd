@@ -12,7 +12,7 @@
     </button>
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
-        <mat-label>{{assessmentNameTitle}}</mat-label>
+        <mat-label>{{assessmentNameTitle}} *</mat-label>
         <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
                [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$"
                maxlength="50">
@@ -25,21 +25,8 @@
       </mat-form-field>
       <br>
 
-
-      <mat-form-field appearance="outline" class="teamSize">
-        <mat-label>{{assessmentTeamTitle}}</mat-label>
-        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
-               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          {{mandatoryNumberField}}
-        </mat-error>
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          {{numberErrorField}}
-        </mat-error>
-      </mat-form-field>
-
       <mat-form-field appearance="outline" class="domain">
-        <mat-label>{{assessmentDomainTitle}}</mat-label>
+        <mat-label>{{assessmentDomainTitle}} *</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
                [placeholder]=assessmentDomainPlaceholder required
                pattern="^[a-zA-Z0-9-()._-]+( \s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
@@ -50,10 +37,22 @@
           {{commonErrorFieldText}}
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="outline" class="teamSize">
+        <mat-label>{{assessmentTeamTitle}} *</mat-label>
+        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
+               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
+        <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
+          {{mandatoryNumberField}}
+        </mat-error>
+        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
+          {{numberErrorField}}
+        </mat-error>
+      </mat-form-field>
       <br>
 
       <mat-form-field appearance="outline" class="organizationName">
-        <mat-label>{{organisationNameTitle}}</mat-label>
+        <mat-label>{{organisationNameTitle}} *</mat-label>
         <input class="colorClass" matInput [(ngModel)]="assessment.organisationName"
                formControlName="organizationNameValidator"
                [placeholder]=organisationNamePlaceholder required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$"
@@ -68,7 +67,7 @@
       <br>
 
       <mat-form-field appearance="outline" class="industry">
-        <mat-label>{{organisationIndustryTitle}}</mat-label>
+        <mat-label>{{organisationIndustryTitle}} *</mat-label>
         <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator"
                [placeholder]=organisationIndustryPlaceholder
                required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
@@ -86,29 +85,30 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>{{userEmailTitle}}</mat-label>
-        <mat-chip-list #chipList aria-label="Email Selection">
-          <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
-            {{email}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input matInput formControlName="emailValidator" type="text"
-                 [placeholder]=userEmailPlaceholder
-                 id="userEmails" maxlength="1000"
-                 [matChipInputFor]="chipList"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 (matChipInputTokenEnd)="add($event)">
-
-        </mat-chip-list>
-
+          <mat-chip-list #chipList aria-label="Email Selection">
+            <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
+              {{email}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input matInput type="text"
+                   [placeholder]=userEmailPlaceholder
+                   formControlName="emailValidator"
+                   id="userEmails" maxlength="1200"
+                   [matChipInputFor]="chipList"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
       </mat-form-field>
-      <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-8px;margin-left:17px">
+      <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}
       </mat-error>
-
-
+      <br>
+      <mat-error *ngIf="duplicateFound" style="margin-top:-10px;margin-left:17px">
+        Duplicates are not allowed
+      </mat-error>
     </div>
     <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button
             class="saveButton" [class.spinner]="loading" [disabled]="loading">{{createAssessmentButtonText}}

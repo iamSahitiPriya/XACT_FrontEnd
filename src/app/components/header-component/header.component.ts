@@ -15,19 +15,25 @@ import {data_local} from "../../../assets/messages";
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated?: boolean;
-  public static answerSaved:string
+  public static answerSaved: string
   assessment: AssessmentStructure;
   microSite = data_local.HEADER_LINK_TEXT.MICRO_SITE;
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
-  feedback= data_local.HEADER_LINK_TEXT.FEEDBACK;
+  feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
   username?: string
+
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
+  }
+
+  async signOut() {
+    await this.oktaAuth.signOut();
+    //window.location.href = "https://thoughtworks.okta.com";
   }
 
 }

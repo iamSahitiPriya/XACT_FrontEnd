@@ -60,6 +60,7 @@ import { ProgressComponentComponent } from './components/progress-component/prog
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {MatSortModule} from "@angular/material/sort";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -135,6 +136,7 @@ export const appRoutes: Routes = [
         MatTabsModule,
         MatTooltipModule,
         MatSelectModule,
+        MatSortModule,
         NgHttpLoaderModule.forRoot(),
         StoreModule.forRoot(reducers, {
             runtimeChecks: {

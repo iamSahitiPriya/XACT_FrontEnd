@@ -84,8 +84,8 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 1, answer: "hello"}
 
@@ -122,8 +122,8 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
 
@@ -155,8 +155,8 @@ describe('AssessmentQuestionComponent', () => {
       teamSize: 0,
       users: [],
       answerResponseList: [],
-      topicRatingAndRecommendation: [{topicId: 1, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
 

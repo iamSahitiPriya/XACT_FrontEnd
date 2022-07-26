@@ -5,6 +5,6 @@
 export interface TopicReference{
   referenceId:number,
   topic:number,
-  rating:string,
+  rating:number,
   reference:string
 }

@@ -119,7 +119,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     })
   }
 
-  setRating(rating: string) {
+  setRating(rating: number) {
     if (this.assessmentStatus === 'Active') {
       if (this.parameterRatingAndRecommendation.rating === rating) {
         this.parameterRatingAndRecommendation.rating = undefined;
@@ -189,26 +189,26 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   }
 
   public updateAverageRating() {
-    let averageRating = "0";
+    let averageRating = 0;
     let ratingSum = 0
     let ratingNumber = 0
-    let index=0;
+    let index = 0;
     for (let pId in this.parameterList) {
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterList[pId].parameterRatingAndRecommendation.parameterId)
-        if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating!=undefined) {
-          ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
-            ratingNumber = ratingNumber + 1;
-        }
+      if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating != undefined) {
+        ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
+        ratingNumber = ratingNumber + 1;
       }
+    }
 
 
     if (ratingSum !== 0 && ratingNumber !== 0) {
-      averageRating = String(Math.round(ratingSum / ratingNumber));
+      averageRating = Math.round(ratingSum / ratingNumber);
     }
     this.sendAverageRating(averageRating);
   }
 
-  private sendAverageRating(rating: string) {
+  private sendAverageRating(rating: number) {
     this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }

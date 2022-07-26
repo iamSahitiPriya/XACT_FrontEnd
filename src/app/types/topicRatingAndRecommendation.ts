@@ -1,5 +1,5 @@
 export interface TopicRatingAndRecommendation {
   "topicId": number;
-  "rating"?: string;
+  "rating"?: number;
   "recommendation"?: string;
 }

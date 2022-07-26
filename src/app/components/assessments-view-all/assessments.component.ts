@@ -11,6 +11,7 @@ import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {data_local} from "../../../assets/messages";
+import {MatSort} from '@angular/material/sort';
 
 /**
  * @title Table with expandable rows
@@ -27,6 +28,8 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 export class AssessmentsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+
   private dialogRef: MatDialogRef<any>;
   blankAssessment: AssessmentStructure = {
     answerResponseList: [],
@@ -47,10 +50,11 @@ export class AssessmentsComponent implements OnInit {
   createAssessment = data_local.HOME.BUTTON;
   assessmentNameHeading = data_local.HOME.TABLE_HEADING.ASSESSMENT_NAME;
   organisationNameHeading = data_local.HOME.TABLE_HEADING.ORGANISATION_NAME;
-  statusHeading= data_local.HOME.TABLE_HEADING.STATUS;
+  statusHeading = data_local.HOME.TABLE_HEADING.STATUS;
   lastUpdatedHeading = data_local.HOME.TABLE_HEADING.LAST_UPDATED;
   toolTipAssessmentCol = data_local.HOME.ASSESSMENT_TOOLTIP;
-  assessmentNotAvailable = data_local.HOME.ERROR_MESSAGE.ASSESSMENT_UNAVAILABLE ;
+  toolTipSortingCol = data_local.HOME.SORTING_TOOLTIP;
+  assessmentNotAvailable = data_local.HOME.ERROR_MESSAGE.ASSESSMENT_UNAVAILABLE;
   buttonToolTip = data_local.HOME.BUTTON_TOOLTIP;
 
   constructor(public appService: AppServiceService, public router: Router, private dialog: MatDialog,) {
@@ -58,11 +62,6 @@ export class AssessmentsComponent implements OnInit {
   }
 
   assessments: AssessmentStructure[]
-
-  assessmentModule(assessmentName: string) {
-    this.router.navigateByUrl("assessmentModule", {state: {assessmentName: assessmentName}})
-    return true
-  }
 
   ngOnInit(): void {
     this.appService.getAssessments().subscribe(
@@ -80,6 +79,7 @@ export class AssessmentsComponent implements OnInit {
     valueEmitter.subscribe((value) => {
       this.dataSource = new MatTableDataSource(value);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
 
   }
@@ -92,7 +92,7 @@ export class AssessmentsComponent implements OnInit {
     this.dialogRef = this.dialog.open(content, {
       width: '630px', height: '650px',
     })
-    this.dialogRef.disableClose =true;
+    this.dialogRef.disableClose = true;
   }
 
 }
