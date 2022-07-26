@@ -31,6 +31,7 @@ export class CreateAssessmentsComponent implements OnInit {
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
   duplicateFound: boolean = false;
+  patternMatching: boolean = false;
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -82,9 +83,7 @@ export class CreateAssessmentsComponent implements OnInit {
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
-        teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(this.re)]
-
+        teamSizeValidator: ['', Validators.required]
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
@@ -221,17 +220,26 @@ export class CreateAssessmentsComponent implements OnInit {
 
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if(this.emails.includes(value)){
-      this.duplicateFound=true;
-      setTimeout(() => {
+    let value = (event.value).trim().split(',');
+    value = value.filter(ele => ele !== '')
+    for (const eachEmail in value) {
+      if (value[eachEmail].search(this.re) === -1) {
+        this.patternMatching = true
+        setTimeout(() => {
+          this.patternMatching = false;
+        }, 2000);
+      }
+      if (this.emails.includes(value[eachEmail])) {
+        this.duplicateFound = true;
+        setTimeout(() => {
+          this.duplicateFound = false;
+        }, 2000);
+      }
+      if (value[eachEmail].search(this.re) != -1 && !this.emails.includes(value[eachEmail])) {
         this.duplicateFound = false;
-      }, 2000);
-    }
-    if (value.search(this.re) != -1 && !this.emails.includes(value)) {
-      this.duplicateFound=false;
-      this.emails.push(value);
-      event.chipInput?.clear();
+        this.emails.push(value[eachEmail]);
+        event.chipInput?.clear();
+      }
     }
   }
 

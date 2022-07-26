@@ -107,7 +107,7 @@ describe('AssessmentsComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentsComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
 
   });
@@ -148,7 +148,7 @@ describe('AssessmentsComponent', () => {
     ]
 
     expect(component).toBeTruthy();
-    // fixture.detectChanges()
+    fixture.detectChanges()
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData)
     })
@@ -156,7 +156,7 @@ describe('AssessmentsComponent', () => {
   it("should open assessment", () => {
     jest.spyOn(matDialog,"open")
     component.openAssessment("")
-    // fixture.detectChanges()
+    fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
 });

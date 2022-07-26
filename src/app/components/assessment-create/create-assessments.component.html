@@ -92,7 +92,7 @@
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-          <input matInput formControlName="emailValidator" type="text"
+          <input matInput type="text"
                  [placeholder]=userEmailPlaceholder
                  id="userEmails" maxlength="1200"
                  [matChipInputFor]="chipList"
@@ -101,7 +101,7 @@
                  (matChipInputTokenEnd)="add($event)">
         </mat-chip-list>
       </mat-form-field>
-      <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
+      <mat-error *ngIf=patternMatching style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}
       </mat-error>
       <br>
