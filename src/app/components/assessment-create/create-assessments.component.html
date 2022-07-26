@@ -94,6 +94,7 @@
           </mat-chip>
           <input matInput type="text"
                  [placeholder]=userEmailPlaceholder
+                 formControlName="emailValidator"
                  id="userEmails" maxlength="1200"
                  [matChipInputFor]="chipList"
                  [matChipInputAddOnBlur]="addOnBlur"
@@ -101,7 +102,7 @@
                  (matChipInputTokenEnd)="add($event)">
         </mat-chip-list>
       </mat-form-field>
-      <mat-error *ngIf=patternMatching style="margin-top:-10px;margin-left:17px">
+      <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}
       </mat-error>
       <br>

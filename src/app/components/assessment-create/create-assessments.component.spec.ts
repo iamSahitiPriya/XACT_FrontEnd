@@ -309,13 +309,5 @@ describe('CreateAssessmentsComponent', () => {
     } as MatChipInputEvent)
     expect(component.duplicateFound).toBeTruthy()
   });
-  it("should generate error if the pattern is not matching", () => {
-    const userEmail = "abc"
-    component.add({
-      value: userEmail,
-    } as MatChipInputEvent)
-    expect(component.patternMatching).toBeTruthy()
-    expect(component.emails).toHaveLength(1)
-  });
 
 });

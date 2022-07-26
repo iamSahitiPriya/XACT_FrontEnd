@@ -29,7 +29,7 @@ export class CreateAssessmentsComponent implements OnInit {
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
   loading: boolean;
-  re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
+  re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   duplicateFound: boolean = false;
   patternMatching: boolean = false;
 
@@ -83,7 +83,8 @@ export class CreateAssessmentsComponent implements OnInit {
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
-        teamSizeValidator: ['', Validators.required]
+        teamSizeValidator: ['', Validators.required],
+        emailValidator: ['',Validators.pattern(this.re)]
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
@@ -223,12 +224,6 @@ export class CreateAssessmentsComponent implements OnInit {
     let value = (event.value).trim().split(',');
     value = value.filter(ele => ele !== '')
     for (const eachEmail in value) {
-      if (value[eachEmail].search(this.re) === -1) {
-        this.patternMatching = true
-        setTimeout(() => {
-          this.patternMatching = false;
-        }, 2000);
-      }
       if (this.emails.includes(value[eachEmail])) {
         this.duplicateFound = true;
         setTimeout(() => {
@@ -236,6 +231,7 @@ export class CreateAssessmentsComponent implements OnInit {
         }, 2000);
       }
       if (value[eachEmail].search(this.re) != -1 && !this.emails.includes(value[eachEmail])) {
+        this.patternMatching = false
         this.duplicateFound = false;
         this.emails.push(value[eachEmail]);
         event.chipInput?.clear();
