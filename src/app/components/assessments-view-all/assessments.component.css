@@ -18,6 +18,11 @@ table {
   padding-right: 4%;
 
 }
+::ng-deep .mat-sort-header-container {
+  outline: none !important;
+  border-bottom: 0  !important;
+  text-decoration: none !important;
+}
 
 td.mat-cell{
   font-family: 'Inter', sans-serif;
