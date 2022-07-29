@@ -61,6 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatRadioModule} from "@angular/material/radio";
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -107,6 +108,7 @@ export const appRoutes: Routes = [
     ErrorComponentComponent,
     ProgressComponentComponent,
     AssessmentAverageRatingComponent,
+    RecommendationComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,14 +162,14 @@ export const appRoutes: Routes = [
     MatFormFieldModule,
     MatRippleModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
   providers: [
     AppServiceService,
     {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
     {provide: OKTA_CONFIG, useValue: {oktaAuth}},
     HttpClientTestingModule,
-    HttpCacheService
+    HttpCacheService,
 
   ],
   bootstrap: [AppComponent]

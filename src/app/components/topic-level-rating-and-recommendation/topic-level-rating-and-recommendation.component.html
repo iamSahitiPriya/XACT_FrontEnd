@@ -1,11 +1,10 @@
 <!--
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
-
 <script src="../assessment-menu/assessment-menu.component.ts"></script>
 <div class="topicScoring">
 
-  <mat-card class="scoreHeading" style="box-shadow:0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;margin-right:-8px">{{maturityScoreTitle}} {{topicName}}</mat-card>
+  <mat-card class="scoreHeading">{{maturityScoreTitle}} {{topicName}}</mat-card>
   <div *ngFor="let pScore of topicScore">
     <mat-toolbar class="scoreReference">
       <p class="reference">{{pScore.reference}}</p>
@@ -18,62 +17,18 @@
   </div>
 </div>
 
-<form [formGroup]="form">
   <mat-card class="recommendationHeading">Recommendations
 
-    <button (click)="addTemplate()" class="plusIcon">
+    <button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="plusIcon">
       <img data-id="manage" src="../../assets/plus-icon/plus.svg" alt="plus icon" />
     </button>
   </mat-card>
-<div formArrayName="recommendationTemplate">
-  <div    *ngFor="let recommendation of recommendationTemplate?.controls; let i = index"
-          [formGroupName]="i">
-  <mat-card class="recommendation">
-    <mat-card-header>
-  <mat-form-field class="textArea" appearance="outline" *ngIf="topicRatingAndRecommendation">
-    <div *ngIf="topicRecommendation"></div>
-    <mat-label>{{recommendationLabel}}</mat-label>
-    <textarea id="recommendationElement_topic{{topicRecommendation}}"
-              name="recommendationText_topic{{topicRecommendation}}" matInput #recommendationElement
-              [(ngModel)]="topicRatingAndRecommendation.recommendation"
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="4"
-              cdkAutosizeMaxRows="5"
-              maxlength="30000"
-              (keyup)="saveParticularRecommendation($event)"
-              [readonly]="assessmentStatus ==='Completed'"></textarea>
-  </mat-form-field>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="parent">
-      <div class="impact">Impact
-        <div class="radio1"><mat-radio-group aria-label="Select an option" >
-          <mat-radio-button value="1">&nbsp;High</mat-radio-button>
-          &nbsp;<mat-radio-button value="2">Medium</mat-radio-button>
-          &nbsp;<mat-radio-button value="3">Low</mat-radio-button>
-        </mat-radio-group></div>
-      </div>
-      <div class="effect">Effect
-        <div class="radio2">
-        <mat-radio-group aria-label="Select an option">
-          <mat-radio-button value="1">&nbsp;High</mat-radio-button>
-          &nbsp;<mat-radio-button value="2">Medium</mat-radio-button>
-          &nbsp;<mat-radio-button value="3">Low</mat-radio-button>
-        </mat-radio-group>
-        </div>
-      </div>
-      <div class="deliveryHorizon">Delivery Horizon
-        <div class="input1" >
-        <mat-form-field  appearance="outline"  formcontrolName="name" >
-          <input matInput>
-        </mat-form-field>
-        </div>
-      </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  </div>
-
+<div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation">
+<app-recommendation [recommendation]="recommendation"></app-recommendation>
 </div>
 
-</form>
+
+
+<!--</form>-->
+
+

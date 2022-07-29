@@ -26,7 +26,7 @@ export const initialState: AssessmentState = {
 }
 export const initialComputedScore: ComputedScore = {
   scoreDetails : {
-    rating: '0',
+    rating: 0,
     topicId: 0
   }
 

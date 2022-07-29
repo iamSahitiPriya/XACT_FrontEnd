@@ -67,7 +67,7 @@ export class AppServiceService {
 
   saveTopicRecommendation(topicRecommendation: TopicRecommendation): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId + "/" + topicRecommendation.topicId, topicRecommendation.recommendation, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId + "/" + topicRecommendation.topicId, topicRecommendation.topicLevelRecommendation, {'headers': headers})
   }
 
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation): Observable<any> {

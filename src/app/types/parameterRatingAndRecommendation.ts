@@ -1,5 +1,5 @@
 export interface ParameterRatingAndRecommendation {
   "parameterId": number;
-  "rating"?: string;
+  "rating"?: number;
   "recommendation"?: string;
 }
