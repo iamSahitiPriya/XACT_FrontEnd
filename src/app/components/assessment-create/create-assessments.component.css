@@ -34,7 +34,7 @@
 
 .addUserEmail {
   width: 100%;
-  height: 90px !important;
+  height: 100px !important;
   /*max-height:500px !important;*/
   color-rendering: auto;
   overflow-y:scroll !important;
