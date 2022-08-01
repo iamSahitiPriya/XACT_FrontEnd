@@ -116,7 +116,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
-    console.log(saveRequest);
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
@@ -132,7 +131,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
-        window.location.reload();
+        // window.location.reload();
       }
     )
     this.updateDataSavedStatus()

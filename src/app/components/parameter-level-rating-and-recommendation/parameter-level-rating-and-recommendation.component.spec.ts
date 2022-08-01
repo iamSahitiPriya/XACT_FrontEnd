@@ -74,28 +74,36 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+        topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+            {
+              recommendationId:1,
+              recommendation:"some text",
+              impact:"HIGH",
+              effect:"LOW",
+              deliveryHorizon:"some more text"
+            }
+          ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const parameterRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       parameterId: 1
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.setRating("3")
-    expect(parameterRatingAndRecommendation.rating).toEqual("3");
+    component.setRating(3);
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
   it("should deselect rating", () => {
     const parameterRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       parameterId: 1
     }
     let parameterRating = {
-      assessmentId: 0, parameterId: 0, rating: ""
+      assessmentId: 0, parameterId: 0, rating: 0
     };
     component.answerResponse = {
       assessmentId: 5,
@@ -112,14 +120,22 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
     component.parameterRecommendation = 1
-    component.setRating("2")
+    component.setRating(2)
     mockAppService.saveParameterRating(parameterRating).subscribe(data => {
       expect(data).toBe(parameterRating)
     })
@@ -141,8 +157,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     let parameterRecommendation = {
       assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
@@ -153,7 +177,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component, 'saveParticularParameterRecommendation')
-    component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: "hello"}
+    component.parameterRatingAndRecommendation = {parameterId: 1, rating: 2, recommendation: "hello"}
     component.ngOnInit()
     component.saveParticularParameterRecommendation(keyEvent);
 
@@ -180,11 +204,19 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: "2", recommendation: ""}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     const parameterRatingAndRecommendation = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       parameterId: 1
     }
@@ -192,8 +224,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
     component.parameterRecommendation = 1
-    component.setRating("3")
-    expect(parameterRatingAndRecommendation.rating).toEqual("3");
+    component.setRating(3)
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
   it("should set the parameter rating and recommendation", () => {
     component.answerResponse = {
@@ -211,13 +243,21 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
       parameterRatingAndRecommendation: []
     }
     // @ts-ignore
     component.answerResponse.parameterRatingAndRecommendation = undefined
     const parameterRating = {
-      rating: "2",
+      rating: 2,
       recommendation: "some text",
       parameterId: 1
     }
@@ -225,8 +265,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterRatingAndRecommendation = parameterRating;
     component.assessmentStatus = "Active"
     component.parameterRecommendation = 1
-    component.setRating("3")
-    expect(parameterRating.rating).toEqual("3");
+    component.setRating(3)
+    expect(parameterRating.rating).toEqual(3);
     expect(component.answerResponse.parameterRatingAndRecommendation.length).toBe(1)
   });
   it("should call the error whenever a problem occurs", () => {
@@ -250,13 +290,21 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: "1", recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
       parameterRatingAndRecommendation: []
     }
     component.parameterRecommendation = 1
 
     component.assessmentId = 1
-    component.parameterRatingAndRecommendation = {parameterId: 1, rating: "2", recommendation: ""}
+    component.parameterRatingAndRecommendation = {parameterId: 1, rating: 2, recommendation: ""}
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     component.ngOnInit()

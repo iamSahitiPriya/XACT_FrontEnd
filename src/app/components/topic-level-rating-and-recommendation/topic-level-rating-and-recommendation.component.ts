@@ -72,9 +72,8 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   form: FormGroup;
 
-  // recommendation = new FormControl("");
   saveCount = 0;
-  recommendationCount : number = 0;
+
   // recommendationData : TopicLevelRecommendation [] = new Array();
   recommendationSample : TopicLevelRecommendation = {
     recommendationId : undefined,
@@ -111,13 +110,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-    this.form = new FormGroup({
-      recommendationTemplate: new FormArray([
-        new FormGroup({
-          name: new FormControl(''),
-        })
-      ])
-    });
 
   }
 
@@ -229,10 +221,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   private sendAverageRating(rating: number) {
     this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
-  }
-
-  get recommendationTemplate(): FormArray {
-    return this.form.get('recommendationTemplate') as FormArray;
   }
 
   addTemplate(topicLevelRecommendation : any) {

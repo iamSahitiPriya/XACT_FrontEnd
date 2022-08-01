@@ -17,7 +17,7 @@
   <mat-card-content>
     <div class="parent">
       <div class="impact">Impact
-        <div *ngIf="recommendation"></div>
+        <div *ngIf="recommendation.impact"></div>
         <div class="radio1"><mat-radio-group [(ngModel)]="recommendation.impact" aria-label="Select an option" >
           <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
           &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
@@ -25,7 +25,7 @@
         </mat-radio-group></div>
       </div>
       <div class="effect">Effect
-        <div *ngIf="recommendation"></div>
+        <div *ngIf="recommendation.effect"></div>
         <div class="radio2">
           <mat-radio-group [(ngModel)]="recommendation.effect" aria-label="Select an option">
             <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
@@ -34,7 +34,7 @@
           </mat-radio-group>
         </div>
       </div>
-      <div *ngIf="recommendation"></div>
+      <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1" >
           <mat-form-field  appearance="outline"  formcontrolName="name" >
