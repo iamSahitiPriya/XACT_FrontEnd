@@ -75,7 +75,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   // recommendation = new FormControl("");
   saveCount = 0;
   recommendationCount : number = 0;
-  recommendationData : TopicLevelRecommendation [] = new Array();
+  // recommendationData : TopicLevelRecommendation [] = new Array();
   recommendationSample : TopicLevelRecommendation = {
     recommendationId : undefined,
     recommendation : "",

@@ -116,6 +116,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
+    console.log(saveRequest);
     this.appService.saveAssessment(saveRequest).subscribe((_data) => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
@@ -131,6 +132,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
+        window.location.reload();
       }
     )
     this.updateDataSavedStatus()
@@ -221,7 +223,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndTopicPresent = false
     let indexByTopicId = 0
     if (this.answerResponse.topicRatingAndRecommendation !== undefined) {
-      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.rating && el.topicId == this.topicInput.topicId)
+      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el =>  el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
     }
 
