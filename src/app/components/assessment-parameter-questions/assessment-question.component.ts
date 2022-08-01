@@ -47,6 +47,8 @@ export class AssessmentQuestionComponent implements OnInit {
   textarea: number = 0;
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+
 
   private cloneAnswerResponse: AssessmentStructure;
   private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};

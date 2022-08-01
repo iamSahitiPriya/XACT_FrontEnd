@@ -33,6 +33,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   maturityScoreTitle = data_local.ASSESSMENT_PARAMETER.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_PARAMETER.RECOMMENDATION_LABEL;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
