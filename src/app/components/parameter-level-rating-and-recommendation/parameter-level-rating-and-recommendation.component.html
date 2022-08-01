@@ -22,7 +22,7 @@
 <div>
   <mat-form-field class="textArea" appearance="outline" *ngIf="parameterRatingAndRecommendation">
     <div *ngIf="parameterRecommendation"></div>
-    <mat-label>{{recommendationLabel}}</mat-label>
+    <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
     <textarea id="recommendationElement_param{{parameterRecommendation}}"
               name="recommendationText_param{{parameterRecommendation}}" matInput #recommendationElement
               [(ngModel)]="parameterRatingAndRecommendation.recommendation"
