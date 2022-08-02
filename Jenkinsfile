@@ -17,18 +17,14 @@ pipeline {
         stage("Security check"){
                         steps{
                             script{
-                                try{
                                     sh "set +e"
                                     sh "docker run -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common filesystem --directory ${env.WORKSPACE} --debug"
                                     ERROR_COUNT = sh(returnStdout: true, script: "docker run -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common filesystem --directory ${env.WORKSPACE} --json | grep -c Filesystem")
                                     if(ERROR_COUNT != 0){
-                                        error("Build failed due to security issues. Please check the above logs.")
-                                        sh "false"
+                                        currentBuild.result = "FAILURE"
+                                        throw new Exception("Build failed due to security issues. Please check the above logs.")
+                                        System.exit(1)
                                     }
-                                }
-                                catch(Exception e){
-                                    echo "${e}"
-                                }
                             }
 
                         }
