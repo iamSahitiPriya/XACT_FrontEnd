@@ -79,9 +79,9 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     recommendationId : undefined,
     recommendation : "",
     impact : "",
-    effect : "",
+    effort : "",
     deliveryHorizon : ""
-  }
+  };
 
 
   topicLevelRecommendation: TopicRecommendation = {
@@ -109,7 +109,16 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.assessmentStatus = data.assessmentStatus
         this.answerResponse = data
       }
-    })
+    });
+
+    // this.topicRatingAndRecommendation.topicLevelRecommendation=[{
+    //   recommendationId: undefined,
+    //   recommendation : "",
+    //   impact : "",
+    //   effect : "",
+    //   deliveryHorizon : ""
+    // }]
+
 
   }
 
@@ -177,21 +186,21 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   }
 
   private sendRecommendation(topicRecommendation: TopicRecommendationResponse) {
-    let index = 0;
-    let updatedRecommendationList = [];
-    updatedRecommendationList.push(topicRecommendation);
-    this.cloneTopicResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
-      index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendation.topicId)
-      if (index !== -1) {
-        this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = topicRecommendation.topicLevelRecommendation
-      } else {
-        this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendation)
-      }
-    } else {
-      this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList
-    }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
+    // let index = 0;
+    // let updatedRecommendationList = [];
+    // updatedRecommendationList.push(topicRecommendation);
+    // this.cloneTopicResponse = Object.assign({}, this.answerResponse)
+    // if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
+    //   index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendation.topicId)
+    //   if (index !== -1) {
+    //     this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = topicRecommendation.topicLevelRecommendation
+    //   } else {
+    //     this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendation)
+    //   }
+    // } else {
+    //   this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList
+    // }
+    // this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
 
   private sendRating(topicRating: TopicRatingResponse) {
@@ -228,7 +237,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       recommendationId : undefined,
       recommendation : "",
       impact : "",
-      effect : "",
+      effort : "",
       deliveryHorizon : ""
     };
    topicLevelRecommendation.unshift(this.recommendationSample);

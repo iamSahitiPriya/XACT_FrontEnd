@@ -84,12 +84,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
   assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
-
     topicLevelRecommendation : [{
       recommendationId: undefined,
       recommendation : "",
       impact : "",
-      effect : "",
+      effort : "",
       deliveryHorizon : ""
     }],
     topicId: topicId,
@@ -131,7 +130,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
-        // window.location.reload();
+        window.location.reload();
       }
     )
     this.updateDataSavedStatus()
@@ -239,7 +238,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
           recommendationId: undefined,
           recommendation : "",
           impact : "",
-          effect : "",
+          effort : "",
           deliveryHorizon : ""}],
         topicId: this.topicInput.topicId
       }

@@ -69,7 +69,7 @@ describe('AppServiceService', () => {
               {
                 recommendation: "some text",
                 impact: "HIGH",
-                effect: "LOW",
+                effort: "LOW",
                 deliveryHorizon: "some text"
               }
             ],
@@ -120,7 +120,7 @@ describe('AppServiceService', () => {
         {
           recommendation: "some text",
           impact: "HIGH",
-          effect: "LOW",
+          effort: "LOW",
           deliveryHorizon: "some text"
         }
       ], }

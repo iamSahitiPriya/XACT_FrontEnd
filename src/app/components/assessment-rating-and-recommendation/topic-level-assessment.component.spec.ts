@@ -123,7 +123,7 @@ describe('TopicLevelAssessmentComponent', () => {
             recommendationId:1,
             recommendation:"some text",
             impact:"HIGH",
-            effect:"LOW",
+            effort:"LOW",
             deliveryHorizon:"some more text"
           }
         ]}
@@ -144,7 +144,7 @@ describe('TopicLevelAssessmentComponent', () => {
             recommendationId:1,
             recommendation:"some text",
             impact:"HIGH",
-            effect:"LOW",
+            effort:"LOW",
             deliveryHorizon:"some more text"
           }
         ]}],
@@ -218,7 +218,7 @@ describe('TopicLevelAssessmentComponent', () => {
             recommendationId:1,
             recommendation:"some text",
             impact:"HIGH",
-            effect:"LOW",
+            effort:"LOW",
             deliveryHorizon:"some more text"
           }
         ]}],
@@ -403,7 +403,7 @@ describe('TopicLevelAssessmentComponent', () => {
             recommendationId:1,
             recommendation:"some text",
             impact:"HIGH",
-            effect:"LOW",
+            effort:"LOW",
             deliveryHorizon:"some more text"
           }
         ]}],
