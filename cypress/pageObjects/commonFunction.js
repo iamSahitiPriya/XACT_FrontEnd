@@ -11,7 +11,7 @@ class commonFunction{
     element.click()
   }
 
-  static typeInElement(value, webElementLocation) {
+  static typeInElement(webElementLocation,value) {
     webElementLocation.clear().type(value)
     if(webElementLocation.should('have.value',value)){
       assert.isOk(value+' is entered successfully')
@@ -39,7 +39,7 @@ class commonFunction{
       if ($body.element.length() > 0) {
         //evaluates as true if button exists at all
         element.then($header => {
-          if ($header.is(':visible')){
+          if ($header.is(element,'element is visible')){
             return element
           } else {
             assert.isNotOk(false,'element is not visible')
@@ -47,9 +47,18 @@ class commonFunction{
         });
       } else {
         //you get here if the button DOESN'T EXIST
-        assert.isOk('everything','everything is OK');
+        assert.isNotOk(false,'element doesnot exist')
       }
     });
+  }
+
+  static elementIsVisible(element,message){
+    if(element.should('be.visible')){
+      cy.log(message)
+      assert.isOk(element+' is visible for test')
+    }else {
+      assert.isNotOk(false, element+' is not visible')
+    }
   }
 
 

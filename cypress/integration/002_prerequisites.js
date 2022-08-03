@@ -17,7 +17,7 @@ describe('completing prerequisites to test the application', () => {
   // })
 
   it('Creating 30 assessments for testing purpose',()=>{
-    for (var iCount = 1; iCount <= 20; iCount++) {
+    for (var iCount = 1; iCount <= 100; iCount++) {
       landingPage.clickCreateAssessment()
       landingPage.AssessmentpopupFields('TestAssessment'+iCount,'TestOrganisation'+iCount,'TestDomain'+iCount,'TestIndustry',iCount,'test@thoughtworks.com')
       landingPage.saveAssessmentButton().click()
