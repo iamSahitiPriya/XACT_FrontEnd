@@ -8,7 +8,7 @@
 .topicQuestions {
   height: 640px;
   overflow: auto;
-  margin-right: 20px;
+  margin-right: -6px;
 }
 
 .col-md-8 {
@@ -36,12 +36,11 @@
 .parameter {
 
   background-color: #45A0AC1D;
-  padding-right: 152px;
   height: 50px;
   padding-left: 20px;
   padding-top: 15px;
   margin-top: 35px;
-  width: 95%;
+  width: 97%;
   color: #043D4E;
   font-size: 20px;
   font-weight: bold;
@@ -53,6 +52,7 @@
   margin-top: 32px;
   padding-bottom: 32px;
   padding-left: 15px;
+  padding-right: 21px;
   opacity: 1;
 }
 
@@ -111,3 +111,18 @@
   width: 98%;
   height: 95%;
 }
+@media screen and (max-width: 1000px) {
+  .assessmentDetailsDisplay{
+    width: 100%;
+  }
+  .topicQuestions{
+    margin-right: -4px;
+  }
+  .question-content{
+    font-size: 14px;
+  }
+  .parameter{
+    font-size: 17px;
+  }
+}
+
