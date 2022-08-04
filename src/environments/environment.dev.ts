@@ -10,10 +10,10 @@ import appPackage from '../../package.json';
 
 export const environment = {
   production: false,
-  BaseURI: "https://api-dev.project-xact.in",
+  BaseURI: "https://api-dev.xact.thoughtworks.net",
   ISSUER: '{ISSUER}',
   CLIENT_ID: '{CLIENT_ID}',
-  REDIRECT_URI: "https://dev.project-xact.in/login/callback",
+  REDIRECT_URI: "https://dev.xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
   USER_URI: "/v1/users",
