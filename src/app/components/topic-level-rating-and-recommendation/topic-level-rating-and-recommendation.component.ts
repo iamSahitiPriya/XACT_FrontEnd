@@ -72,16 +72,17 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   form: FormGroup;
 
+  // recommendation = new FormControl("");
   saveCount = 0;
-
-  // recommendationData : TopicLevelRecommendation [] = new Array();
+  recommendationCount : number = 0;
+  recommendationData : TopicLevelRecommendation [] = new Array();
   recommendationSample : TopicLevelRecommendation = {
     recommendationId : undefined,
     recommendation : "",
     impact : "",
     effort : "",
     deliveryHorizon : ""
-  };
+  }
 
 
   topicLevelRecommendation: TopicRecommendation = {
@@ -92,33 +93,27 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     assessmentId: 0, topicId: 0, rating: undefined
   };
 
-  topicRecommendationResponse: TopicRecommendationResponse = {
-    topicId: 0, topicLevelRecommendation: undefined
-  };
+
 
   topicRatingResponse: TopicRatingResponse = {
     topicId: 0, rating: undefined
   };
 
-  answerResponse: AssessmentStructure
-
-
+  answerResponse: AssessmentStructure;
   ngOnInit() {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
         this.answerResponse = data
       }
-    });
-
-    // this.topicRatingAndRecommendation.topicLevelRecommendation=[{
-    //   recommendationId: undefined,
-    //   recommendation : "",
-    //   impact : "",
-    //   effect : "",
-    //   deliveryHorizon : ""
-    // }]
-
+    })
+    // this.form = new FormGroup({
+    //   recommendationTemplate: new FormArray([
+    //     new FormGroup({
+    //       name: new FormControl(''),
+    //     })
+    //   ])
+    // });
 
   }
 
@@ -131,20 +126,20 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   }
 
   saveParticularRecommendation(_$event: KeyboardEvent) {
-    this.topicLevelRecommendation.topicId = this.topicId
-    this.topicLevelRecommendation.assessmentId = this.assessmentId
-    this.topicLevelRecommendation.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
-    this.topicRecommendationResponse.topicId = this.topicId
-    this.topicRecommendationResponse.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
-    this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
-      next: (_data) => {
-        topicRecommendationData.push(this.topicLevelRecommendation);
-        this.sendRecommendation(this.topicRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
+    // this.topicLevelRecommendation.topicId = this.topicId
+    // this.topicLevelRecommendation.assessmentId = this.assessmentId
+    // this.topicLevelRecommendation.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
+    // this.topicRecommendationResponse.topicId = this.topicId
+    // this.topicRecommendationResponse.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
+    // this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
+    //   next: (_data) => {
+    //     topicRecommendationData.push(this.topicLevelRecommendation);
+    //     this.sendRecommendation(this.topicRecommendationResponse)
+    //     this.updateDataSavedStatus()
+    //   }, error: _error => {
+    //     this.showError("Data cannot be saved", "Close");
+    //   }
+    // })
 
   }
 
@@ -202,7 +197,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     // }
     // this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
   }
-
   private sendRating(topicRating: TopicRatingResponse) {
     let index = 0;
     let updatedRatingList = [];
@@ -232,6 +226,10 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 
+  get recommendationTemplate(): FormArray {
+    return this.form.get('recommendationTemplate') as FormArray;
+  }
+
   addTemplate(topicLevelRecommendation : any) {
     this.recommendationSample = {
       recommendationId : undefined,
@@ -240,6 +238,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       effort : "",
       deliveryHorizon : ""
     };
-   topicLevelRecommendation.unshift(this.recommendationSample);
+    topicLevelRecommendation.unshift(this.recommendationSample);
   }
 }

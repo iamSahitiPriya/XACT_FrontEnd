@@ -11,6 +11,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatCardModule} from "@angular/material/card";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatRadioModule} from "@angular/material/radio";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
+import {AppServiceService} from "../../services/app-service/app-service.service";
 
 
 describe('RecommendationComponent', () => {
@@ -20,10 +23,13 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RecommendationComponent ],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,MatRadioModule],
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,MatRadioModule,
+        StoreModule.forRoot(reducers)],
+      providers: [{provide: AppServiceService}]
     })
-    .compileComponents();
+      .compileComponents();
   });
+
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecommendationComponent);

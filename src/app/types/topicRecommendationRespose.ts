@@ -1,6 +1,8 @@
 import {TopicLevelRecommendation} from "./topicLevelRecommendation";
 
 export interface TopicRecommendationResponse{
-  "topicId":number,
-  "topicLevelRecommendation"?: TopicLevelRecommendation[]
+  "assessmentId":number;
+  "topicId":number;
+  "recommendationId"?:number;
+  "recommendation"?:string;
 }

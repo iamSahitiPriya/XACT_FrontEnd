@@ -14,6 +14,7 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
+import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -115,16 +116,15 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular topic Recommendation", () => {
-    let dummyTopicRecommendation: TopicRecommendation = {assessmentId: 1, topicId: 1,
-      topicLevelRecommendation: [
+    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {assessmentId: 1, topicId: 1,
+      topicLevelRecommendation:
         {
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some text"
+          recommendationId:1,
+          recommendation: "some text"
+
         }
-      ], }
-    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
+       }
+    expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
   });
 
   it("should update particular topic Rating", () => {

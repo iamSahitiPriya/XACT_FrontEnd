@@ -15,6 +15,8 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 
 
 @Injectable({
@@ -65,9 +67,9 @@ export class AppServiceService {
     return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers':headers})
   }
 
-  saveTopicRecommendation(topicRecommendation: TopicRecommendation): Observable<any> {
+  saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_URI + "/" + topicRecommendation.assessmentId + "/" + topicRecommendation.topicId, topicRecommendation.topicLevelRecommendation, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
   }
 
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation): Observable<any> {

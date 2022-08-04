@@ -10,8 +10,9 @@
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="10"
                 maxlength="10000"
-                [readonly]="assessmentStatus ==='Completed'"></textarea>
-      <!--                (keyup)="saveParticularRecommendation($event)"-->
+                (keyup)="saveParticularRecommendationText($event)"
+                [disabled]="assessmentStatus ==='Completed'"></textarea>
+
     </mat-form-field>
   </div>
   <mat-card-content>

@@ -84,6 +84,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   assessmentStatus: string;
 
   topicRatingAndRecommendation: TopicRatingAndRecommendation = {
+
     topicLevelRecommendation : [{
       recommendationId: undefined,
       recommendation : "",
@@ -94,7 +95,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     topicId: topicId,
     rating:0
   }
-
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
@@ -140,8 +140,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   private getAssessment() {
     this.topicParameterValidation()
   }
-
-
   private topicParameterValidation() {
     if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
@@ -221,7 +219,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndTopicPresent = false
     let indexByTopicId = 0
     if (this.answerResponse.topicRatingAndRecommendation !== undefined) {
-      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el =>  el.topicId == this.topicInput.topicId)
+      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.rating && el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
     }
 
@@ -244,7 +242,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
   }
-
   private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
     if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
@@ -300,5 +297,4 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 }
-
 
