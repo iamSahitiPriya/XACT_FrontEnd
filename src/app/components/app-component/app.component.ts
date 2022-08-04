@@ -7,6 +7,7 @@ import {OKTA_AUTH, OktaAuthStateService} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {ProgressComponentComponent} from "../progress-component/progress-component.component";
 import {data_local} from "../../../assets/messages";
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {data_local} from "../../../assets/messages";
 
 export class AppComponent {
   public progressComponent = ProgressComponentComponent;
-  public appVersion:string = "1.0.0";
+  public appVersion:string = environment.VERSION;
   copyright = data_local.COPYRIGHT_MESSAGE.COPYRIGHT_TEXT;
   thoughtworks = data_local.COPYRIGHT_MESSAGE.THOUGHTWORKS_TAG;
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;

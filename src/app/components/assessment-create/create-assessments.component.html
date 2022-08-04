@@ -99,15 +99,12 @@
                    [matChipInputFor]="chipList"
                    [matChipInputAddOnBlur]="addOnBlur"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   (matChipInputTokenEnd)="add($event)">
+                   (matChipInputTokenEnd)="add($event)"
+                   [(ngModel)]="emailTextField" >
           </mat-chip-list>
       </mat-form-field>
       <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}
-      </mat-error>
-      <br>
-      <mat-error *ngIf="duplicateFound" style="margin-top:-10px;margin-left:17px">
-        Duplicates are not allowed
       </mat-error>
     </div>
     <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button

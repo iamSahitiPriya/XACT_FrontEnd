@@ -211,14 +211,14 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndTopicPresent = false
     let indexByTopicId = 0
     if (this.answerResponse.topicRatingAndRecommendation !== undefined) {
-      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.rating && el.topicId == this.topicInput.topicId)
+      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
     }
 
     if (isRatingAndTopicPresent) {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating,
-        recommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].recommendation,
+        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating:0,
+        recommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].recommendation?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].recommendation:"",
         topicId: this.topicInput.topicId
       }
     } else {

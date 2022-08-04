@@ -307,7 +307,6 @@ describe('CreateAssessmentsComponent', () => {
     component.add({
       value: userEmail,
     } as MatChipInputEvent)
-    expect(component.duplicateFound).toBeTruthy()
   });
 
 });

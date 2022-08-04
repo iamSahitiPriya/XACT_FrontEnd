@@ -7,8 +7,11 @@
   <div class="user">
     <div>
       <div class="btn-group shadow-0">
-        <div class="dropdown-toggle menuItem" data-mdb-toggle="dropdown" aria-expanded="false">
+        <div *ngIf="username.length <= 10" class="dropdown-toggle menuItem" data-mdb-toggle="dropdown" aria-expanded="false">
            {{username}}
+        </div>
+        <div *ngIf="username.length >= 10" class="dropdown-toggle menuItem" matTooltip="{{username}}" data-mdb-toggle="dropdown" aria-expanded="false">
+          {{trimmedUsername}}...
         </div>
         <ul class="dropdown-menu menu">
           <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" href="https://sites.google.com/thoughtworks.com/x-act">{{microSite}}</a></li>

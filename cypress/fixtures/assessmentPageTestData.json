@@ -1,0 +1,26 @@
+{
+
+  "question1": "components map to the domain at hand",
+  "question1": "components interacting with each other  ",
+  "question1": "modularity is ensured at low-level implementation",
+  "question1": "enternal and external system dependencies",
+  "question1": "components have their own data model,they map to the underlying data model",
+  "question1": "overview of the underlying data model",
+  "question14": "API follow standards like RESTful",
+  "question15": "style guide for APIs",
+  "question16": "API versioning done",
+  "question17": "API support file upload",
+  "question18": "API validate the request params",
+  "question19": "Data format supports",
+  "question20": "API protected",
+  "question21": "API response data restricted",
+  "question22": "API validate file size, format etc",
+  "question23": "APIs documented",
+  "question24": "cross-cutting concerns such as authentication, rate limiting etc. implemented",
+  "question25": " APM tools to monitor APIs",
+  "question26": "test2",
+  "question17": "test2",
+  "question18": "test2"
+
+
+}
