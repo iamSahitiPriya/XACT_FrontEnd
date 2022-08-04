@@ -39,7 +39,9 @@
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1" >
           <mat-form-field  appearance="outline"  formcontrolName="name" >
-            <input [(ngModel)]="recommendation.deliveryHorizon" matInput
+            <input id="recommendationElement_topic{{recommendation.recommendationId}}"
+                   name="recommendationText_topic{{recommendation.recommendationId}}"
+                   [(ngModel)]="recommendation.deliveryHorizon" matInput
                    (keyup)="saveParticularRecommendationDeliveryHorizon($event)"
             >
 

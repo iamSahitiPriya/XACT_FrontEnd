@@ -50,7 +50,9 @@ export class RecommendationComponent implements OnInit {
   recommendations: TopicLevelRecommendation = {
     recommendationId: undefined,
     recommendation: undefined,
-    impact: undefined
+    impact: undefined,
+    effort:undefined,
+    deliveryHorizon:undefined
   }
 
   topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
