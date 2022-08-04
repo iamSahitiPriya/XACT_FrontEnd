@@ -6,10 +6,12 @@
 
 
 .topicQuestions {
-  height: 640px;
+  height: 70vh;
   overflow: auto;
   margin-right: -6px;
+  width: 340vh;
 }
+
 
 .col-md-8 {
   flex: 0 0 auto;
@@ -90,7 +92,7 @@
 
 }
 
-#currentMaturityScore {
+#averageMaturityScore {
   display: flex;
   position: inherit;
   flex-direction: row;
