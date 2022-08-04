@@ -10,6 +10,7 @@ import {SearchComponent} from "../search-component/search.component";
 import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
+import oktaAuth from "@okta/okta-auth-js";
 
 
 describe('HeaderComponent', () => {
@@ -19,7 +20,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     jest.mock('@okta/okta-auth-js');
-    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam'}));
+    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'dummyUserWithMoreThen10'}));
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent,SearchComponent,CreateAssessmentsComponent],
 
@@ -48,7 +49,11 @@ describe('HeaderComponent', () => {
   });
 
   it('should pass user name to html', () => {
-    expect(component.username).toBe('Sam');
+    expect(component.username).toBe('dummyUserWithMoreThen10');
+  });
+  it('should trim the username if the length exceeds 10', () => {
+    expect(component.username.length).toBeGreaterThan(10)
+    expect(component.trimmedUsername).toBe("dummyUserWi")
   });
 
 });

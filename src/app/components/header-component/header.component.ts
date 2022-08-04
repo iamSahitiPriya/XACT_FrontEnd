@@ -25,23 +25,19 @@ export class HeaderComponent implements OnInit {
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
-  username: string
+  username: string = ""
   trimmedUsername:string
 
   async ngOnInit(): Promise<void> {
-    await this.getTrimUserName()
-  }
+    // @ts-ignore
+    this.username = (await this.oktaAuth.getUser()).name;
+    if(this.username.length >=10) {
+      this.trimmedUsername = this.username.substring(0,11)
+    }  }
 
   async signOut() {
     await this.oktaAuth.signOut();
     //window.location.href = "https://thoughtworks.okta.com";
   }
 
-  private async getTrimUserName() {
-    // @ts-ignore
-    this.username = (await this.oktaAuth.getUser()).name;
-    if(this.username.length >=10) {
-      this.trimmedUsername = this.username.substring(0,11)
-    }
-  }
 }
