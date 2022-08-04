@@ -19,6 +19,7 @@ export const environment = {
   ASSESSMENT_STATUS_OPEN_URI: "/statuses/open",
   SAVE_ASSESSMENT_ANSWER_URI: "/v1/assessments/answers",
   SAVE_TOPIC_RECOMMENDATION_TEXT_URI:"/v1/assessments/topicRecommendationText",
+  SAVE_TOPIC_RECOMMENDATION_Field_URI:"/v1/assessments/topicRecommendationImpact",
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",

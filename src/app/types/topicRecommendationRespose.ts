@@ -5,4 +5,7 @@ export interface TopicRecommendationResponse{
   "topicId":number;
   "recommendationId"?:number;
   "recommendation"?:string;
+  "impact"?:string;
+  "effort"?:string;
+  "deliveryHorizon"?:string;
 }

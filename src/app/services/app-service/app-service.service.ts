@@ -72,6 +72,11 @@ export class AppServiceService {
     return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
   }
 
+  saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_Field_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
+  }
+
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation): Observable<any> {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterRecommendation.assessmentId + "/" + parameterRecommendation.parameterId, parameterRecommendation.recommendation, {'headers': headers})

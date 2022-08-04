@@ -23,7 +23,6 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
-let DEBOUNCE_TIME = 1200;
 let RECOMMENDATION_MAX_LIMIT = 50;
 
 @Component({
@@ -44,7 +43,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularRecommendation = debounce(this.saveParticularRecommendation, DEBOUNCE_TIME)
   }
 
   @Input()
@@ -125,23 +123,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     })
   }
 
-  saveParticularRecommendation(_$event: KeyboardEvent) {
-    // this.topicLevelRecommendation.topicId = this.topicId
-    // this.topicLevelRecommendation.assessmentId = this.assessmentId
-    // this.topicLevelRecommendation.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
-    // this.topicRecommendationResponse.topicId = this.topicId
-    // this.topicRecommendationResponse.topicLevelRecommendation = this.topicRatingAndRecommendation.topicLevelRecommendation
-    // this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
-    //   next: (_data) => {
-    //     topicRecommendationData.push(this.topicLevelRecommendation);
-    //     this.sendRecommendation(this.topicRecommendationResponse)
-    //     this.updateDataSavedStatus()
-    //   }, error: _error => {
-    //     this.showError("Data cannot be saved", "Close");
-    //   }
-    // })
-
-  }
 
 
   setRating(rating: number) {
@@ -180,23 +161,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     }
   }
 
-  private sendRecommendation(topicRecommendation: TopicRecommendationResponse) {
-    // let index = 0;
-    // let updatedRecommendationList = [];
-    // updatedRecommendationList.push(topicRecommendation);
-    // this.cloneTopicResponse = Object.assign({}, this.answerResponse)
-    // if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
-    //   index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendation.topicId)
-    //   if (index !== -1) {
-    //     this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = topicRecommendation.topicLevelRecommendation
-    //   } else {
-    //     this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendation)
-    //   }
-    // } else {
-    //   this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList
-    // }
-    // this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
-  }
   private sendRating(topicRating: TopicRatingResponse) {
     let index = 0;
     let updatedRatingList = [];
@@ -226,9 +190,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 
-  get recommendationTemplate(): FormArray {
-    return this.form.get('recommendationTemplate') as FormArray;
-  }
 
   addTemplate(topicLevelRecommendation : any) {
     this.recommendationSample = {
