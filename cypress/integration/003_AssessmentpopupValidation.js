@@ -10,11 +10,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     cy.visit('/')
   })
 
-  it('tc001 user tries to login  with valid userId and password',()=>{
-    loginPage.xActLogin('technicalbaba4u@gmail.com','Sam@12345')
-    loginPage.xActHomepagetitleValidation()
-  })
-
   it('tc001 validate landing page of xAct application',()=>{
    landingPage.landingPageFields()
     landingPage.createAssessment().should('be.visible')
