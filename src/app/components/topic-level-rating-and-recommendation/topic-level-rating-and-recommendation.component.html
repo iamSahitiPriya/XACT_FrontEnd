@@ -24,7 +24,12 @@
     </button>
   </mat-card>
 <div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation">
-<app-recommendation [recommendation]="recommendation" [assessmentId]="assessmentId" [topicId]="topicId"></app-recommendation>
+<app-recommendation
+  [recommendation]="recommendation"
+  [assessmentId]="assessmentId"
+  [topicId]="topicId"
+  [topicRecommendationArray]="topicRatingAndRecommendation.topicLevelRecommendation"
+></app-recommendation>
 </div>
 
 

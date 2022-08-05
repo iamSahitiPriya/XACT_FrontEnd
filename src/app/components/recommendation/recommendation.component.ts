@@ -33,6 +33,9 @@ export class RecommendationComponent implements OnInit {
   @Input()
   topicId: number
 
+  @Input()
+  topicRecommendationArray : TopicLevelRecommendation[] | undefined
+
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   assessmentStatus: string;
   answerResponse1: Observable<AssessmentStructure>;
@@ -59,7 +62,7 @@ export class RecommendationComponent implements OnInit {
     assessmentId: 0, topicId: 0, topicLevelRecommendation: this.recommendations
   }
   topicRecommendationResponse: TopicRecommendationResponse = {
-    assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: undefined
+    assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: undefined, impact: undefined, effort:undefined,deliveryHorizon:undefined
   };
 
 
@@ -147,11 +150,12 @@ export class RecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  impactChange(event: MatRadioChange) {
+  impactChange(_$event: MatRadioChange) {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.impact = event.value;
+    this.recommendations.impact =this.recommendation.impact;
+    this.topicRecommendationResponse.impact = this.recommendation.impact;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         topicRecommendationData.push(this.topicLevelRecommendationText);
@@ -166,11 +170,12 @@ export class RecommendationComponent implements OnInit {
   }
 
 
-  effortChange(event: MatRadioChange) {
+  effortChange(_$event: MatRadioChange) {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.effort = event.value;
+    this.recommendations.effort = this.recommendation.effort;
+    this.topicRecommendationResponse.effort = this.recommendation.effort;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         topicRecommendationData.push(this.topicLevelRecommendationText);
@@ -187,6 +192,7 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.deliveryHorizon=this.recommendation.deliveryHorizon;
+    this.topicRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         topicRecommendationData.push(this.topicLevelRecommendationText);
@@ -196,5 +202,21 @@ export class RecommendationComponent implements OnInit {
         this.showError("Data cannot be saved", "Close");
       }
     })
+  }
+  deleteTemplate(recommendation: TopicLevelRecommendation) {
+    let index = -1;
+    if(this.topicRecommendationArray != undefined) {
+      recommendation.recommendation = "";
+      recommendation.deliveryHorizon="";
+      recommendation.effort ="";
+      recommendation.impact="";
+      index =this.topicRecommendationArray.indexOf(recommendation);
+      if (index !== -1) {
+        this.topicRecommendationArray.splice(index, 1);
+      }
+      // delete(this.topicRecommendationArray[this.topicRecommendationArray.indexOf(recommendation)]);
+
+    }
+
   }
 }
