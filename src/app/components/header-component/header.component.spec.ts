@@ -51,11 +51,6 @@ describe('HeaderComponent', () => {
   it('should pass user name to html', () => {
     expect(component.username).toBe('dummyUserWithMoreThen10');
   });
-  it('should trim the username if the length exceeds 10', () => {
-    expect(component.username.length).toBeGreaterThan(10)
-    expect(component.trimmedUsername).toBe("dummyUserWi")
-  });
-
 });
 
 
