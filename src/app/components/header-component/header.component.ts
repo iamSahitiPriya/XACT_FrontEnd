@@ -31,9 +31,8 @@ export class HeaderComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // @ts-ignore
     this.username = (await this.oktaAuth.getUser()).name;
-    if(this.username.length >=10) {
-      this.trimmedUsername = this.username.substring(0,11)
-    }  }
+  }
+
 
   async signOut() {
     await this.oktaAuth.signOut();
