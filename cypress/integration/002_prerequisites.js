@@ -40,7 +40,7 @@ describe('completing prerequisites to test the application', () => {
     }
   })
 
-  })
+
   it('search prerequisites',()=>{
     landingPage.clickCreateAssessment()
       landingPage.AssessmentpopupFields('searchAssessment','searchOrganisation','TestDomain','TestIndustry','22','test@thoughtworks.com')
