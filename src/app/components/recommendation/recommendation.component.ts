@@ -53,18 +53,20 @@ export class RecommendationComponent implements OnInit {
 
   recommendations: TopicLevelRecommendation = {
     recommendationId: undefined,
-    recommendation: undefined,
-    impact: undefined,
-    effort:undefined,
-    deliveryHorizon:undefined
+    recommendation: "",
+    impact: "",
+    effort:"",
+    deliveryHorizon:""
   }
 
   topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
     assessmentId: 0, topicId: 0, topicLevelRecommendation: this.recommendations
   }
   topicRecommendationResponse: TopicRecommendationResponse = {
-    assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: undefined, impact: undefined, effort:undefined,deliveryHorizon:undefined
+    assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""
   };
+
+  topicRecommendationSample: TopicLevelRecommendation[] | undefined;
 
 
   showError(message: string, action: string) {
@@ -93,12 +95,12 @@ export class RecommendationComponent implements OnInit {
     this.topicRecommendationResponse.assessmentId = this.assessmentId;
     this.topicRecommendationResponse.recommendationId = this.recommendation.recommendationId;
     this.topicRecommendationResponse.recommendation = this.recommendation.recommendation;
+    this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         topicRecommendationData.push(this.topicLevelRecommendationText);
         this.topicRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicRecommendationResponse.recommendationId;
-        this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -111,15 +113,15 @@ export class RecommendationComponent implements OnInit {
   private sendRecommendation(topicRecommendationResponse: TopicRecommendationResponse) {
     let index = 0;
     let updatedRecommendationList = [];
-    let topicRecommendationSample: TopicLevelRecommendation[] | undefined;
+
     updatedRecommendationList.push(topicRecommendationResponse);
     this.cloneTopicResponse = Object.assign({}, this.answerResponse)
     if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
       index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendationResponse.topicId)
       if (index !== -1) {
-        topicRecommendationSample = this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
-        this.getRecommendation(topicRecommendationSample, topicRecommendationResponse)
-        this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = topicRecommendationSample;
+        this.topicRecommendationSample = this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
+        this.getRecommendation(this.topicRecommendationSample, topicRecommendationResponse)
+        this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
         this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendationResponse)
       }
@@ -130,7 +132,7 @@ export class RecommendationComponent implements OnInit {
 
   }
 
-  private getRecommendation(topicRecommendationSample: TopicLevelRecommendation[] | undefined, topicRecommendationResponse: TopicRecommendationResponse) {
+  getRecommendation(topicRecommendationSample: TopicLevelRecommendation[] | undefined, topicRecommendationResponse: TopicRecommendationResponse) {
     if (topicRecommendationSample != undefined) {
       this.topicRecommendationIndex = topicRecommendationSample.findIndex(eachRecommendation => eachRecommendation.recommendationId === topicRecommendationResponse.recommendationId);
       if (this.topicRecommendationIndex !== -1) {
@@ -151,7 +153,7 @@ export class RecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  impactChange(_$event: MatRadioChange) {
+  impactChange() {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
@@ -171,7 +173,7 @@ export class RecommendationComponent implements OnInit {
   }
 
 
-  effortChange(_$event: MatRadioChange) {
+  effortChange() {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
