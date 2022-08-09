@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RecommendationComponent } from './recommendation.component';
+import {RecommendationComponent} from './recommendation.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -10,7 +10,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatCardModule} from "@angular/material/card";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {MatRadioChange, MatRadioModule} from "@angular/material/radio";
+import {MatRadioModule} from "@angular/material/radio";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -65,7 +65,7 @@ describe('RecommendationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should auto save parameter recommendation", async () => {
+  it("should auto save  recommendation", async () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",

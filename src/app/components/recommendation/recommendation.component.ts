@@ -215,9 +215,9 @@ export class RecommendationComponent implements OnInit {
       index =this.topicRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
         this.topicRecommendationArray.splice(index, 1);
-      }
+        this.deleteRecommendationTemplate(recommendation);
     }
-
+    }
   }
 
   disableFields(recommendationId: number | undefined) :boolean{
@@ -225,5 +225,16 @@ export class RecommendationComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
+    if(recommendation.recommendationId != undefined){
+      this.appService.deleteTopicRecommendation(this.assessmentId,this.topicId,recommendation.recommendationId).subscribe({
+        next: (_data) => {
+        }, error: _error => {
+          this.showError("Data cannot be deleted", "Close");
+        }
+      })
+    }
   }
 }
