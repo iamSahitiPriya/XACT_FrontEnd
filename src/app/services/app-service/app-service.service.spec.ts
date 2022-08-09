@@ -111,34 +111,45 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular answer", () => {
-    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:"" }
+    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes: ""}
     expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
   });
 
   it("should update particular topic Recommendation", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {assessmentId: 1, topicId: 1,
+    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
+      assessmentId: 1, topicId: 1,
       topicLevelRecommendation:
         {
-          recommendationId:1,
+          recommendationId: 1,
           recommendation: "some text"
 
         }
-       }
+    }
     expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
   });
 
   it("should update particular topic Recommendation fields", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {assessmentId: 1, topicId: 1,
+    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
+      assessmentId: 1, topicId: 1,
       topicLevelRecommendation:
         {
-          recommendationId:1,
+          recommendationId: 1,
           recommendation: "some text",
-          impact:"HIGH",
-          effort:"LOW",
-          deliveryHorizon:"some more text"
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
         }
     }
     expect(service.saveTopicRecommendationFields(dummyTopicRecommendation)).toBeTruthy()
+  });
+
+
+  it("should delete topic recommendation", () => {
+    let assessmentId = 1;
+    let topicId = 1;
+    let recommendationId = 1
+
+    expect(service.deleteTopicRecommendation(assessmentId, topicId, recommendationId)).toBeTruthy()
   });
 
   it("should update particular topic Rating", () => {

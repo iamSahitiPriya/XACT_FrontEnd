@@ -12,7 +12,7 @@ import {TopicRecommendationResponse} from "../../types/topicRecommendationRespos
 import {Observable} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
-import {MatRadioChange} from "@angular/material/radio";
+
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -34,7 +34,7 @@ export class RecommendationComponent implements OnInit {
   topicId: number
 
   @Input()
-  topicRecommendationArray : TopicLevelRecommendation[] | undefined
+  topicRecommendationArray: TopicLevelRecommendation[] | undefined
 
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
@@ -48,22 +48,28 @@ export class RecommendationComponent implements OnInit {
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularRecommendationText = debounce(this.saveParticularRecommendationText, DEBOUNCE_TIME)
-    this.saveParticularRecommendationDeliveryHorizon=debounce(this.saveParticularRecommendationDeliveryHorizon,DEBOUNCE_TIME)
+    this.saveParticularRecommendationDeliveryHorizon = debounce(this.saveParticularRecommendationDeliveryHorizon, DEBOUNCE_TIME)
   }
 
   recommendations: TopicLevelRecommendation = {
     recommendationId: undefined,
     recommendation: "",
     impact: "",
-    effort:"",
-    deliveryHorizon:""
+    effort: "",
+    deliveryHorizon: ""
   }
 
   topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
     assessmentId: 0, topicId: 0, topicLevelRecommendation: this.recommendations
   }
   topicRecommendationResponse: TopicRecommendationResponse = {
-    assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""
+    assessmentId: 0,
+    topicId: 0,
+    recommendationId: undefined,
+    recommendation: "",
+    impact: "",
+    effort: "",
+    deliveryHorizon: ""
   };
 
   topicRecommendationSample: TopicLevelRecommendation[] | undefined;
@@ -98,7 +104,7 @@ export class RecommendationComponent implements OnInit {
     this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        topicRecommendationData.push(this.topicLevelRecommendationText);
+        // topicRecommendationData.push(this.topicLevelRecommendationText);
         this.topicRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicRecommendationResponse.recommendationId;
         this.updateDataSavedStatus()
@@ -109,6 +115,23 @@ export class RecommendationComponent implements OnInit {
 
   }
 
+
+  impactChange() {
+    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
+    this.topicLevelRecommendationText.topicId = this.topicId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.impact = this.recommendation.impact;
+    this.topicRecommendationResponse.impact = this.recommendation.impact;
+    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
+      next: (_data) => {
+        // topicRecommendationData.push(this.topicLevelRecommendationText);
+        this.sendRecommendation(this.topicRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
+  }
 
   private sendRecommendation(topicRecommendationResponse: TopicRecommendationResponse) {
     let index = 0;
@@ -140,7 +163,7 @@ export class RecommendationComponent implements OnInit {
         topicRecommendationSample[this.topicRecommendationIndex].recommendation = topicRecommendationResponse.recommendation;
         topicRecommendationSample[this.topicRecommendationIndex].impact = topicRecommendationResponse.impact;
         topicRecommendationSample[this.topicRecommendationIndex].effort = topicRecommendationResponse.effort;
-        topicRecommendationSample[this.topicRecommendationIndex].deliveryHorizon= topicRecommendationResponse.deliveryHorizon;
+        topicRecommendationSample[this.topicRecommendationIndex].deliveryHorizon = topicRecommendationResponse.deliveryHorizon;
       } else {
         topicRecommendationSample.push(topicRecommendationResponse);
       }
@@ -153,25 +176,6 @@ export class RecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
-  impactChange() {
-    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
-    this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.impact =this.recommendation.impact;
-    this.topicRecommendationResponse.impact = this.recommendation.impact;
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
-      next: (_data) => {
-        topicRecommendationData.push(this.topicLevelRecommendationText);
-        this.sendRecommendation(this.topicRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-
-
-  }
-
 
   effortChange() {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
@@ -179,10 +183,10 @@ export class RecommendationComponent implements OnInit {
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.effort = this.recommendation.effort;
     this.topicRecommendationResponse.effort = this.recommendation.effort;
+    this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        topicRecommendationData.push(this.topicLevelRecommendationText);
-        this.sendRecommendation(this.topicRecommendationResponse)
+        // topicRecommendationData.push(this.topicLevelRecommendationText);
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -194,12 +198,12 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.deliveryHorizon=this.recommendation.deliveryHorizon;
+    this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
     this.topicRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        topicRecommendationData.push(this.topicLevelRecommendationText);
-        this.sendRecommendation(this.topicRecommendationResponse)
+        // topicRecommendationData.push(this.topicLevelRecommendationText);
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -209,29 +213,29 @@ export class RecommendationComponent implements OnInit {
 
   deleteTemplate(recommendation: TopicLevelRecommendation) {
     let index = -1;
-    if(this.topicRecommendationArray != undefined) {
+    if (this.topicRecommendationArray != undefined) {
       recommendation.recommendation = "";
-      recommendation.deliveryHorizon="";
-      recommendation.effort ="";
-      recommendation.impact="";
-      index =this.topicRecommendationArray.indexOf(recommendation);
+      recommendation.deliveryHorizon = "";
+      recommendation.effort = "";
+      recommendation.impact = "";
+      index = this.topicRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
         this.topicRecommendationArray.splice(index, 1);
         this.deleteRecommendationTemplate(recommendation);
-    }
+      }
     }
   }
 
-  disableFields(recommendationId: number | undefined) :boolean{
-    if(recommendationId === undefined) {
+  disableFields(recommendationId: number | undefined): boolean {
+    if (recommendationId === undefined) {
       return true;
     }
     return false;
   }
 
   private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
-    if(recommendation.recommendationId != undefined){
-      this.appService.deleteTopicRecommendation(this.assessmentId,this.topicId,recommendation.recommendationId).subscribe({
+    if (recommendation.recommendationId != undefined) {
+      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
         next: (_data) => {
         }, error: _error => {
           this.showError("Data cannot be deleted", "Close");

@@ -17,6 +17,8 @@ import {of, throwError} from "rxjs";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { MatRadioModule } from '@angular/material/radio';
+
 
 class MockAppService {
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
@@ -51,7 +53,7 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule,MatRadioModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
     })
@@ -103,7 +105,7 @@ describe('RecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component, 'saveParticularRecommendationText')
-    component.recommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
+    component.recommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
     component.assessmentStatus="Active"
     component.ngOnInit()
     component.saveParticularRecommendationText(keyEvent);
