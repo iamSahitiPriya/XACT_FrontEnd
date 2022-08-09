@@ -36,6 +36,7 @@ export class RecommendationComponent implements OnInit {
   @Input()
   topicRecommendationArray : TopicLevelRecommendation[] | undefined
 
+
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   assessmentStatus: string;
   answerResponse1: Observable<AssessmentStructure>;
@@ -203,6 +204,7 @@ export class RecommendationComponent implements OnInit {
       }
     })
   }
+
   deleteTemplate(recommendation: TopicLevelRecommendation) {
     let index = -1;
     if(this.topicRecommendationArray != undefined) {
@@ -214,9 +216,14 @@ export class RecommendationComponent implements OnInit {
       if (index !== -1) {
         this.topicRecommendationArray.splice(index, 1);
       }
-      // delete(this.topicRecommendationArray[this.topicRecommendationArray.indexOf(recommendation)]);
-
     }
 
+  }
+
+  disableFields(recommendationId: number | undefined) :boolean{
+    if(recommendationId === undefined) {
+      return true;
+    }
+    return false;
   }
 }

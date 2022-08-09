@@ -22,7 +22,7 @@
         <div class="radio1"><mat-radio-group
           id="recommendationElement_topic{{recommendation.recommendationId}}_impact"
           name="recommendationText_topic{{recommendation.recommendationId}}_impact"
-          [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="impactChange($event)">
+          [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="impactChange($event)" [disabled]="disableFields(recommendation.recommendationId)">
           <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
           &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
           &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
@@ -34,7 +34,7 @@
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_effort"
             name="recommendationText_topic{{recommendation.recommendationId}}_effort"
-            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="effortChange($event)">
+            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="effortChange($event)" [disabled]="disableFields(recommendation.recommendationId)">
             <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
             &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
             &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
@@ -48,6 +48,7 @@
             <input id="recommendationElement_topic{{recommendation.recommendationId}}_deliverHorizon"
                    name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
                    [(ngModel)]="recommendation.deliveryHorizon" matInput
+                   [disabled]="disableFields(recommendation.recommendationId)"
                    (keyup)="saveParticularRecommendationDeliveryHorizon($event)"
             >
 
