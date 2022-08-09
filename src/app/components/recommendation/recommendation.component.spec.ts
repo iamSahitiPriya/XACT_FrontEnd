@@ -34,6 +34,13 @@ class MockAppService {
       return throwError("Error!")
     }
   }
+  deleteTopicRecommendation(topicId : number) {
+    if (topicId === 0) {
+      return of(true)
+    } else {
+      return throwError("Error!")
+    }
+  }
 
 }
 
