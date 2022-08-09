@@ -74,12 +74,13 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   saveCount = 0;
   recommendationCount : number = 0;
   recommendationData : TopicLevelRecommendation [] = new Array();
-  recommendationSample : TopicLevelRecommendation = {
-    recommendationId : undefined,
-    recommendation : "",
-    impact : "",
-    effort : "",
-    deliveryHorizon : ""
+  recommendationSample : TopicLevelRecommendation ={
+      recommendationId : undefined,
+      recommendation : "",
+      impact : "",
+      effort : "",
+      deliveryHorizon : ""
+
   }
 
 
@@ -105,13 +106,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-    // this.form = new FormGroup({
-    //   recommendationTemplate: new FormArray([
-    //     new FormGroup({
-    //       name: new FormControl(''),
-    //     })
-    //   ])
-    // });
 
   }
 
