@@ -95,7 +95,7 @@ export class AssessmentQuestionComponent implements OnInit {
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
     this.appService.saveNotes(this.assessmentNotes).subscribe({
-      next:(_data) => {
+      next:() => {
         assessmentData.push(this.assessmentNotes);
         this.sendAnswer(this.answerNote)
         this.updateDataSavedStatus()
