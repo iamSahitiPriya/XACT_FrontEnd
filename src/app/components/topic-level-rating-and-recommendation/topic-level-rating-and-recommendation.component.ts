@@ -115,7 +115,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
-      next: (_data) => {
+      next: () => {
         topicRecommendationData.push(this.topicLevelRecommendation);
         this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
@@ -146,7 +146,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.topicRatingResponse)
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe({
-          next: (_data) => {
+          next: () => {
             topicRatingData.push(this.topicLevelRating);
             this.updateDataSavedStatus()
 
