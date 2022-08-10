@@ -6,7 +6,7 @@
 
 .textArea {
   width: 101%;
-  height: 155px;
+  height: 166px;
   margin-left:-12px;
   font-size: 15px;
 }
@@ -180,6 +180,11 @@ p {
   margin-left:78%;
   background-color:unset;
   border :none;
+}
+
+.deleteIcon{
+  background-color: unset;
+  border:none;
 }
 
 .parent {

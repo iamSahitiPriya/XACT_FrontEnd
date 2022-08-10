@@ -8,7 +8,7 @@
                 [(ngModel)]="recommendation.recommendation"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="10"
+                cdkAutosizeMaxRows="5"
                 maxlength="10000"
                 (keyup)="saveParticularRecommendationText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
@@ -56,8 +56,8 @@
         </div>
       </div>
       <div>
-        <button (click)="deleteTemplate(recommendation)" class="plusIcon">
-          Delete
+        <button (click)="deleteTemplate(recommendation)" class="deleteIcon">
+          <img data-id="delete" src="../../assets/delete-icon/delete.svg" alt="plus icon" />
         </button>
       </div>
 
