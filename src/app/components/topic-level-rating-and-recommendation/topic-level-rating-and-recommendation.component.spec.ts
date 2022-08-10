@@ -150,7 +150,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   });
 
   it('should able to set topic rating', () => {
-    component.answerResponse = {
+    component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -167,7 +167,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
-    }
+    })
     const topicRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -177,6 +177,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "setRating");
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.assessmentStatus = "Active"
+    component.ngOnInit()
     component.setRating(3)
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
@@ -213,62 +214,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.setRating(3)
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
-  // it("should throw error when problem occurs", async () => {
-  //   component.answerResponse1 = of({
-  //     assessmentId: 5,
-  //     assessmentName: "abc1",
-  //     organisationName: "Thoughtworks",
-  //     assessmentStatus: "Active",
-  //     updatedAt: 1654664982698,
-  //     domain: "",
-  //     industry: "",
-  //     teamSize: 0,
-  //     users: [],
-  //     answerResponseList: [
-  //       {
-  //         questionId: 1,
-  //         answer: "answer1"
-  //       }],
-  //     topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-  //         {
-  //           recommendationId:1,
-  //           recommendation:"some text",
-  //           impact:"HIGH",
-  //           effect:"LOW",
-  //           deliveryHorizon:"some more text"
-  //         }
-  //       ]}],
-  //     parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
-  //   })
-  //
-  //   let topicRecommendation = {
-  //     assessmentId: 0, topicId: 1, recommendation: "dummyRecommendation"
-  //   };
-  //   component.assessmentId = 2
-  //   component.topicId = 0
-  //   const keyEventData = {isTrusted: true, code: 'KeyA'};
-  //   jest.spyOn(component, "showError")
-  //   const keyEvent = new KeyboardEvent('keyup', keyEventData);
-  //   component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation :[
-  //       {
-  //         recommendationId:1,
-  //         recommendation:"some text",
-  //         impact:"HIGH",
-  //         effort:"LOW",
-  //         deliveryHorizon:"some more text"
-  //       }
-  //     ]};
-  //   component.ngOnInit()
-  //   component.saveParticularRecommendation(keyEvent)
-  //   await new Promise((r) => setTimeout(r, 2000));
-  //
-  //   mockAppService.saveTopicRecommendation(topicRecommendation).subscribe((data) => {
-  //     expect(data).toBeUndefined()
-  //   }, error => {
-  //     expect(component.showError).toHaveBeenCalled()
-  //     expect(error).toBe(new Error("Error!"))
-  //   })
-  // });
+
 
   it('should able to add recommendation when add template is clicked',()=>{
     component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation :[

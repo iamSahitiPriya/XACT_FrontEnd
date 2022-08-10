@@ -57,10 +57,6 @@ p {
   width: 1244px;
 }
 
-/*.mat-card:not([class*=mat-elevation-z]) {*/
-/*  box-shadow: 0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;*/
-/*}*/
-
 
 .recommendationHeading{
   display: block;
@@ -185,23 +181,30 @@ p {
 .deleteIcon{
   background-color: unset;
   border:none;
+  margin-left:15em;
+  margin-top:40px;
 }
 
 .parent {
   display: flex;
 }
-
+.impact{
+  font-weight:bold;
+  font-family: "Inter", sans-serif;
+}
 .effect{
-  padding-left:10%;
+  padding-left:6%;
+  font-weight:bold;
 }
 
 .deliveryHorizon{
-  padding-left:12%;
+  padding-left:6%;
+  font-weight:bold;
 }
 .radio1, .radio2, .input1{
   padding-top:10px;
 }
 
 .input1{
-  width:auto;
+  width:100px;
 }

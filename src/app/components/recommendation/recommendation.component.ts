@@ -12,7 +12,7 @@ import {TopicRecommendationResponse} from "../../types/topicRecommendationRespos
 import {Observable} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
-
+import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -90,9 +90,11 @@ export class RecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
+    console.log(this.answerResponse)
   }
 
   saveParticularRecommendationText(_$event: KeyboardEvent) {
+
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
@@ -101,55 +103,50 @@ export class RecommendationComponent implements OnInit {
     this.topicRecommendationResponse.assessmentId = this.assessmentId;
     this.topicRecommendationResponse.recommendationId = this.recommendation.recommendationId;
     this.topicRecommendationResponse.recommendation = this.recommendation.recommendation;
-    this.sendRecommendation(this.topicRecommendationResponse)
+
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        // topicRecommendationData.push(this.topicLevelRecommendationText);
+        //topicRecommendationData.push(this.topicLevelRecommendationText);
         this.topicRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicRecommendationResponse.recommendationId;
-        this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
       }
     })
-
-  }
-
-
-  impactChange() {
-    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
-    this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.impact = this.recommendation.impact;
-    this.topicRecommendationResponse.impact = this.recommendation.impact;
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
-      next: (_data) => {
-        // topicRecommendationData.push(this.topicLevelRecommendationText);
-        this.sendRecommendation(this.topicRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
+    this.sendRecommendation(this.topicRecommendationResponse)
+    this.updateDataSavedStatus()
   }
 
   private sendRecommendation(topicRecommendationResponse: TopicRecommendationResponse) {
+
     let index = 0;
     let updatedRecommendationList = [];
-
-    updatedRecommendationList.push(topicRecommendationResponse);
     this.cloneTopicResponse = Object.assign({}, this.answerResponse)
+    let topicRecommendation: TopicRatingAndRecommendation = {
+      topicId: topicRecommendationResponse.topicId,
+      rating: 0,
+      topicLevelRecommendation: [{
+        recommendationId: topicRecommendationResponse.recommendationId,
+        recommendation: topicRecommendationResponse.recommendation,
+        impact: topicRecommendationResponse.impact,
+        effort: topicRecommendationResponse.effort,
+        deliveryHorizon: topicRecommendationResponse.deliveryHorizon
+      }]
+    };
+    updatedRecommendationList.push(topicRecommendation);
     if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
       index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendationResponse.topicId)
       if (index !== -1) {
         this.topicRecommendationSample = this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
         this.getRecommendation(this.topicRecommendationSample, topicRecommendationResponse)
+        topicRecommendation.rating = this.cloneTopicResponse.topicRatingAndRecommendation[index].rating;
         this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
-        this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendationResponse)
+        this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendation);
+
       }
     } else {
-      this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList
+      this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList;
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
 
@@ -170,10 +167,28 @@ export class RecommendationComponent implements OnInit {
     }
   }
 
-  private updateDataSavedStatus() {
+  updateDataSavedStatus() {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
+
+  impactChange() {
+    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
+    this.topicLevelRecommendationText.topicId = this.topicId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.impact = this.recommendation.impact;
+    this.topicRecommendationResponse.impact = this.recommendation.impact;
+    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
+      next: (_data) => {
+
+        //topicRecommendationData.push(this.topicLevelRecommendationText);
+        this.sendRecommendation(this.topicRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
   }
 
 
@@ -183,10 +198,10 @@ export class RecommendationComponent implements OnInit {
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.effort = this.recommendation.effort;
     this.topicRecommendationResponse.effort = this.recommendation.effort;
-    this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        // topicRecommendationData.push(this.topicLevelRecommendationText);
+        //topicRecommendationData.push(this.topicLevelRecommendationText);
+        this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -200,10 +215,9 @@ export class RecommendationComponent implements OnInit {
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
     this.topicRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
-    this.sendRecommendation(this.topicRecommendationResponse)
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        // topicRecommendationData.push(this.topicLevelRecommendationText);
+        this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -224,6 +238,7 @@ export class RecommendationComponent implements OnInit {
         this.deleteRecommendationTemplate(recommendation);
       }
     }
+
   }
 
   disableFields(recommendationId: number | undefined): boolean {
@@ -243,4 +258,5 @@ export class RecommendationComponent implements OnInit {
       })
     }
   }
+
 }

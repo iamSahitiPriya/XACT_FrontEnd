@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RecommendationComponent} from './recommendation.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
@@ -17,8 +17,8 @@ import {of, throwError} from "rxjs";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { MatRadioModule } from '@angular/material/radio';
-
+import {MatRadioModule} from "@angular/material/radio";
+import exp from "constants";
 
 class MockAppService {
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
@@ -35,6 +35,7 @@ class MockAppService {
       return throwError("Error!")
     }
   }
+
   deleteTopicRecommendation(topicId : number) {
     if (topicId === 0) {
       return of(true)
@@ -42,7 +43,6 @@ class MockAppService {
       return throwError("Error!")
     }
   }
-
 }
 
 describe('RecommendationComponent', () => {
@@ -53,7 +53,7 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule,MatRadioModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
     })
@@ -64,6 +64,7 @@ describe('RecommendationComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(RecommendationComponent);
     component = fixture.componentInstance;
+    //fixture.detectChanges();
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -100,10 +101,11 @@ describe('RecommendationComponent', () => {
       assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendation : ""}
     };
     component.assessmentId = 1
-    component.topicId = 1
+    component.topicId = 0
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
+    jest.spyOn(component,'updateDataSavedStatus')
     jest.spyOn(component, 'saveParticularRecommendationText')
     component.recommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
     component.assessmentStatus="Active"
@@ -113,6 +115,7 @@ describe('RecommendationComponent', () => {
     await new Promise((r) => setTimeout(r, 2000));
 
     mockAppService.saveTopicRecommendationText(topicLevelRecommendationText).subscribe(data => {
+      expect(component.updateDataSavedStatus).toHaveBeenCalled()
       expect(data).toBe(topicLevelRecommendationText)
     })
     expect(component.topicRecommendationResponse.recommendation).toBe("some more");
@@ -150,10 +153,10 @@ describe('RecommendationComponent', () => {
       assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendation : ""}
     };
     component.assessmentId = 1
-    component.topicId = 1
+    component.topicId = 0
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
-
+    jest.spyOn(component,'updateDataSavedStatus')
     jest.spyOn(component, 'saveParticularRecommendationDeliveryHorizon')
     component.recommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "some text"}
     component.assessmentStatus="Active"
@@ -164,33 +167,61 @@ describe('RecommendationComponent', () => {
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
+      expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
     expect(component.topicRecommendationResponse.deliveryHorizon).toBe("some text");
   });
 
 
-  it("should auto save impact change", async () => {
+  it("should auto save impact change",  () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+    })
+
     let topicLevelRecommendationText : TopicLevelRecommendationTextRequest = {
       assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "LOW", deliveryHorizon: "some text"}
     };
-    component.assessmentId = 2
-    component.topicId = 2
+    component.assessmentId = 5
+    component.topicId = 0
 
-
+    jest.spyOn(component,'updateDataSavedStatus')
     jest.spyOn(component,'impactChange')
     component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "" ,deliveryHorizon : ""}
     component.ngOnInit()
     component.impactChange();
 
-    await new Promise((r) => setTimeout(r, 2000));
-
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+      //console.log(data)
       expect(data).toBe(topicLevelRecommendationText)
+      //expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
     expect(component.topicRecommendationResponse.impact).toBe("LOW");
   });
 
-  it("should auto save effort change", async () => {
+  it("should auto save effort change", () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -218,22 +249,21 @@ describe('RecommendationComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.assessmentId = 1
-    component.topicId = 1
+    component.topicId = 0
 
     let topicLevelRecommendationText : TopicLevelRecommendationTextRequest = {
       assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "HIGH", deliveryHorizon: "some text"}
     };
 
-
+    jest.spyOn(component,'updateDataSavedStatus')
     jest.spyOn(component,'effortChange')
     component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "HIGH" ,deliveryHorizon : ""}
     component.ngOnInit()
     component.effortChange();
 
-    await new Promise((r) => setTimeout(r, 2000));
-
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
+      // expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
     expect(component.topicRecommendationResponse.effort).toBe("HIGH");
   });
@@ -258,12 +288,12 @@ describe('RecommendationComponent', () => {
 
   it('should be able to enable the fields when recommendationId is defined',()=>{
     let recommendationId : number | undefined;
-     let value : boolean;
+    let value : boolean;
 
-     recommendationId =1,
-     value = component.disableFields(recommendationId);
+    recommendationId =1,
+      value = component.disableFields(recommendationId);
 
-     expect(value).toBe(false);
+    expect(value).toBe(false);
   })
 
   it('should be able to disable the fields when recommendationId is undefined',()=>{
@@ -283,7 +313,7 @@ describe('RecommendationComponent', () => {
 
   });
 
-  it("should throw error when problem occurs", async () => {
+  it("should throw error when problem occurs in delivery horizon", async () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -312,17 +342,20 @@ describe('RecommendationComponent', () => {
     })
 
     let topicLevelRecommendationText = {
-      assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendationId : 1,deliveryHorizon:""}
+      assessmentId: 5,topicId: 1, topicLevelRecommendation : {recommendationId : 1,deliveryHorizon:""}
     };
-    component.assessmentId = 1
+    component.assessmentId = 5
     component.topicId = 1
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component, 'saveParticularRecommendationText')
-    component.recommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon :"new text"}
+    jest.spyOn(component, 'saveParticularRecommendationDeliveryHorizon')
+    component.recommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
     component.ngOnInit()
     component.saveParticularRecommendationDeliveryHorizon(keyEvent);
+    component.saveParticularRecommendationText(keyEvent)
+    component.impactChange()
+    component.effortChange()
 
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -350,14 +383,136 @@ describe('RecommendationComponent', () => {
       recommendation : "sample text",
       impact : "LOW",
       effort : "HIGH",
-      deliveryHorizon : "text"}];
+      deliveryHorizon : "sample text"}];
+
+    component.topicRecommendationIndex = -1
 
     component.getRecommendation(component.topicRecommendationSample,component.topicRecommendationResponse)
 
     if (component.topicRecommendationSample) {
-      expect(component.topicRecommendationSample[0].recommendation).toBe("text");
+      expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
     }
 
   });
+
+  it("should set the topic recommendation", () => {
+    component.answerResponse = {
+      assessmentId: 1,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effort:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
+      parameterRatingAndRecommendation: []
+    }
+    component.recommendations = {
+      recommendationId: undefined,
+      recommendation: "",
+      impact: "",
+      effort:"",
+      deliveryHorizon:""
+    }
+
+    component.topicLevelRecommendationText = {assessmentId: 0, topicId: 0, topicLevelRecommendation: component.recommendations}
+
+    component.topicRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
+
+    const topicRecommendation = {
+      recommendationId : 1,
+      recommendation: "some text",
+      impact : "LOW",
+      effort : "HIGH",
+      deliveryHorizon : "text"
+    }
+
+    const keyEventData = {isTrusted: true, code: 'Key'};
+    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+
+    jest.spyOn(component, "saveParticularRecommendationText");
+    component.recommendation = topicRecommendation;
+    component.assessmentStatus = "Active"
+    component.assessmentId = 1
+    component.topicId = 0
+    component.saveParticularRecommendationText(keyEvent);
+    expect(component.recommendation.recommendation).toEqual("some text");
+    expect(component.answerResponse.topicRatingAndRecommendation).toBeDefined();
+  });
+
+  // it("should set the topic recommendation for new topic", () => {
+  //
+  //   component.answerResponse1 = of( {
+  //     assessmentId: 1,
+  //     assessmentName: "abc1",
+  //     organisationName: "Thoughtworks",
+  //     assessmentStatus: "Active",
+  //     updatedAt: 1654664982698,
+  //     domain: "",
+  //     industry: "",
+  //     teamSize: 0,
+  //     users: [],
+  //     answerResponseList: [
+  //       {
+  //         questionId: 1,
+  //         answer: "answer1"
+  //       }],
+  //     topicRatingAndRecommendation : [],
+  //     parameterRatingAndRecommendation: []
+  //   } )
+  //   component.ngOnInit()
+  //   // @ts-ignore
+  //   component.answerResponse.topicRatingAndRecommendation = undefined
+  //
+  //   component.recommendations = {
+  //     recommendationId: undefined,
+  //     recommendation: "",
+  //     impact: "",
+  //     effort:"",
+  //     deliveryHorizon:""
+  //   }
+  //
+  //
+  //   component.topicLevelRecommendationText = {assessmentId: 0, topicId: 0, topicLevelRecommendation: component.recommendations}
+  //
+  //   component.topicRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
+  //
+  //   const topicRecommendation = {
+  //     recommendationId : 1,
+  //     recommendation: "some text",
+  //     impact : "LOW",
+  //     effort : "HIGH",
+  //     deliveryHorizon : "text"
+  //   }
+  //
+  //   const keyEventData = {isTrusted: true, code: 'Key'};
+  //   const keyEvent = new KeyboardEvent('keyup', keyEventData);
+  //
+  //   jest.spyOn(component,"updateDataSavedStatus")
+  //   jest.spyOn(component, "saveParticularRecommendationText");
+  //   component.recommendation = topicRecommendation;
+  //   component.assessmentStatus = "Active"
+  //   component.assessmentId = 1
+  //   component.topicId = 0
+  //   component.saveParticularRecommendationText(keyEvent);
+  //
+  //   expect(component.recommendation.recommendation).toEqual("some text");
+  //   expect(component.answerResponse.topicRatingAndRecommendation).toBeDefined();
+  // });
 
 });
