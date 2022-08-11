@@ -200,7 +200,6 @@ export class RecommendationComponent implements OnInit {
     this.topicRecommendationResponse.effort = this.recommendation.effort;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        //topicRecommendationData.push(this.topicLevelRecommendationText);
         this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
