@@ -18,7 +18,7 @@ import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecomme
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
-import exp from "constants";
+
 
 class MockAppService {
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
@@ -263,7 +263,6 @@ describe('RecommendationComponent', () => {
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
-      // expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
     expect(component.topicRecommendationResponse.effort).toBe("HIGH");
   });
@@ -290,7 +289,7 @@ describe('RecommendationComponent', () => {
     let recommendationId : number | undefined;
     let value : boolean;
 
-    recommendationId =1,
+    recommendationId =1
       value = component.disableFields(recommendationId);
 
     expect(value).toBe(false);
@@ -300,7 +299,7 @@ describe('RecommendationComponent', () => {
     let recommendationId : number | undefined;
     let value : boolean;
 
-    recommendationId =undefined,
+    recommendationId =undefined
       value = component.disableFields(recommendationId);
 
     expect(value).toBe(true);
@@ -454,65 +453,5 @@ describe('RecommendationComponent', () => {
     expect(component.recommendation.recommendation).toEqual("some text");
     expect(component.answerResponse.topicRatingAndRecommendation).toBeDefined();
   });
-
-  // it("should set the topic recommendation for new topic", () => {
-  //
-  //   component.answerResponse1 = of( {
-  //     assessmentId: 1,
-  //     assessmentName: "abc1",
-  //     organisationName: "Thoughtworks",
-  //     assessmentStatus: "Active",
-  //     updatedAt: 1654664982698,
-  //     domain: "",
-  //     industry: "",
-  //     teamSize: 0,
-  //     users: [],
-  //     answerResponseList: [
-  //       {
-  //         questionId: 1,
-  //         answer: "answer1"
-  //       }],
-  //     topicRatingAndRecommendation : [],
-  //     parameterRatingAndRecommendation: []
-  //   } )
-  //   component.ngOnInit()
-  //   // @ts-ignore
-  //   component.answerResponse.topicRatingAndRecommendation = undefined
-  //
-  //   component.recommendations = {
-  //     recommendationId: undefined,
-  //     recommendation: "",
-  //     impact: "",
-  //     effort:"",
-  //     deliveryHorizon:""
-  //   }
-  //
-  //
-  //   component.topicLevelRecommendationText = {assessmentId: 0, topicId: 0, topicLevelRecommendation: component.recommendations}
-  //
-  //   component.topicRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
-  //
-  //   const topicRecommendation = {
-  //     recommendationId : 1,
-  //     recommendation: "some text",
-  //     impact : "LOW",
-  //     effort : "HIGH",
-  //     deliveryHorizon : "text"
-  //   }
-  //
-  //   const keyEventData = {isTrusted: true, code: 'Key'};
-  //   const keyEvent = new KeyboardEvent('keyup', keyEventData);
-  //
-  //   jest.spyOn(component,"updateDataSavedStatus")
-  //   jest.spyOn(component, "saveParticularRecommendationText");
-  //   component.recommendation = topicRecommendation;
-  //   component.assessmentStatus = "Active"
-  //   component.assessmentId = 1
-  //   component.topicId = 0
-  //   component.saveParticularRecommendationText(keyEvent);
-  //
-  //   expect(component.recommendation.recommendation).toEqual("some text");
-  //   expect(component.answerResponse.topicRatingAndRecommendation).toBeDefined();
-  // });
 
 });

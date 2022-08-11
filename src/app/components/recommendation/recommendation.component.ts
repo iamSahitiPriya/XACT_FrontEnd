@@ -36,6 +36,9 @@ export class RecommendationComponent implements OnInit {
   @Input()
   topicRecommendationArray: TopicLevelRecommendation[] | undefined
 
+  @Input()
+  index: number;
+
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   assessmentStatus: string;
@@ -75,6 +78,7 @@ export class RecommendationComponent implements OnInit {
   topicRecommendationSample: TopicLevelRecommendation[] | undefined;
 
 
+
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
@@ -90,7 +94,7 @@ export class RecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-    console.log(this.answerResponse)
+
   }
 
   saveParticularRecommendationText(_$event: KeyboardEvent) {
@@ -181,8 +185,6 @@ export class RecommendationComponent implements OnInit {
     this.topicRecommendationResponse.impact = this.recommendation.impact;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-
-        //topicRecommendationData.push(this.topicLevelRecommendationText);
         this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
@@ -241,10 +243,7 @@ export class RecommendationComponent implements OnInit {
   }
 
   disableFields(recommendationId: number | undefined): boolean {
-    if (recommendationId === undefined) {
-      return true;
-    }
-    return false;
+    return recommendationId === undefined;
   }
 
   private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {Observable} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -12,9 +12,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
-import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import {debounce} from "lodash";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {data_local} from "src/assets/messages"
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
@@ -23,7 +21,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
-let RECOMMENDATION_MAX_LIMIT = 50;
+let RECOMMENDATION_MAX_LIMIT = 10;
 
 @Component({
   selector: 'app-topic-level-rating-and-recommendation',
@@ -70,16 +68,16 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   form: FormGroup;
 
-  // recommendation = new FormControl("");
+
   saveCount = 0;
-  recommendationCount : number = 0;
-  recommendationData : TopicLevelRecommendation [] = new Array();
-  recommendationSample : TopicLevelRecommendation ={
-      recommendationId : undefined,
-      recommendation : "",
-      impact : "",
-      effort : "",
-      deliveryHorizon : ""
+  recommendationCount: number = 0;
+
+  recommendationSample: TopicLevelRecommendation = {
+    recommendationId: undefined,
+    recommendation: "",
+    impact: "",
+    effort: "",
+    deliveryHorizon: ""
 
   }
 
@@ -93,12 +91,12 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   };
 
 
-
   topicRatingResponse: TopicRatingResponse = {
     topicId: 0, rating: undefined
   };
 
   answerResponse: AssessmentStructure;
+
   ngOnInit() {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
@@ -106,7 +104,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-
+    this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse();
   }
 
   showError(message: string, action: string) {
@@ -116,7 +114,6 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
       duration: 2000
     })
   }
-
 
 
   setRating(rating: number) {
@@ -185,14 +182,16 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
   }
 
 
-  addTemplate(topicLevelRecommendation : any) {
-    this.recommendationSample = {
-      recommendationId : undefined,
-      recommendation : "",
-      impact : "",
-      effort : "",
-      deliveryHorizon : ""
-    };
-    topicLevelRecommendation.unshift(this.recommendationSample);
+  addTemplate(topicLevelRecommendation: any) {
+    if (topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+      this.recommendationSample = {
+        recommendationId: undefined,
+        recommendation: "",
+        impact: "",
+        effort: "",
+        deliveryHorizon: ""
+      };
+      topicLevelRecommendation.unshift(this.recommendationSample);
+    }
   }
 }

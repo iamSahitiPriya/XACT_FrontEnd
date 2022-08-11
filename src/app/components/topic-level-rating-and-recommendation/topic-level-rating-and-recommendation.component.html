@@ -19,12 +19,18 @@
 
   <mat-card class="recommendationHeading">Recommendations
 
-    <button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="plusIcon">
-      <img data-id="manage" src="../../assets/plus-icon/plus.svg" alt="plus icon" />
-    </button>
+
   </mat-card>
-<div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation">
+
+<div class="addRecommendation">
+  <button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="plusIcon">
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" /> &nbsp;Add Recommendations
+  </button>
+</div>
+
+<div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation ; let i=index">
 <app-recommendation
+  [index] = "i"
   [recommendation]="recommendation"
   [assessmentId]="assessmentId"
   [topicId]="topicId"
@@ -33,7 +39,5 @@
 </div>
 
 
-
-<!--</form>-->
 
 
