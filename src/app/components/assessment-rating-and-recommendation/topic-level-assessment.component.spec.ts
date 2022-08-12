@@ -67,8 +67,8 @@ describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
     component2: TopicLevelRatingAndRecommendationComponent,
-    fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
-    mockAppService: MockAppService;
+    fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>
+
 
   const original = window.location;
   const reloadFn = () => {
@@ -452,7 +452,6 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(fromReducer.assessmentReducer(expectedAnswer,{type:"Assessment Updated data"})).toStrictEqual(expectedAnswer)
   });
   it("should handle errors", () => {
-    let expectedAnswer = {"answerResponseList": [{"answer": "answer1", "questionId": 1}], "assessmentId": 5, "assessmentName": "abc1", "assessmentStatus": "Active", "assessments": undefined, "domain": "", "industry": "", "organisationName": "Thoughtworks", "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}], "teamSize": 0, "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}], "updatedAt": 1654664982698, "users": []}
     component.save()
     let expectedErrorHandler = {errorMessage:undefined}
     expect(fromReducer.assessmentReducer({},{type:"Error message"})).toStrictEqual(expectedErrorHandler)

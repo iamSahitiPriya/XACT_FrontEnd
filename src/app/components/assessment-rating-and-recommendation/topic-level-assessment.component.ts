@@ -23,14 +23,14 @@ import {Observable} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
-import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+
 
 
 export const saveAssessmentData = [{}]
 
 let topicId: number;
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
-let topicLevelRecommendation : TopicLevelRecommendation [];
+
 
 export class parameterRequest {
 

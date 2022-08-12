@@ -104,7 +104,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.answerResponse = data
       }
     })
-    this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse();
+    this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse()
   }
 
   showError(message: string, action: string) {
