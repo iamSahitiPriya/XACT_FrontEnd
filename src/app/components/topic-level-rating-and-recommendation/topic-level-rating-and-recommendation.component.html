@@ -21,12 +21,11 @@
 
 
   </mat-card>
-
-<div class="addRecommendation">
-  <button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="plusIcon">
-    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" /> &nbsp;Add Recommendations
-  </button>
+<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1">
+<div>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> &nbsp;Add Recommendations
 </div>
+</button>
 
 <div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation ; let i=index">
 <app-recommendation
