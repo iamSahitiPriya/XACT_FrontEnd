@@ -88,6 +88,9 @@ export class AppServiceService {
   updateAssessment(assessmentId: number, assessmentData: AssessmentRequest): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentData,);
   }
+  getUserRole(){
+    return this.http.get(environment.BaseURI + environment.ROLE_URI);
+  }
 
 }
 
