@@ -99,14 +99,16 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   saveParticularRecommendationText(_$event: KeyboardEvent) {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.topicId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.recommendation = this.recommendation.recommendation;
     this.parameterLevelRecommendationResponse.parameterId = this.parameterId;
     this.parameterLevelRecommendationResponse.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
     this.parameterLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
-
+    this.parameterLevelRecommendationResponse.deliveryHorizon=this.recommendation.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.effort=this.recommendation.effort;
+    this.parameterLevelRecommendationResponse.impact=this.recommendation.impact;
     this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
@@ -178,8 +180,13 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.recommendation = this.recommendation.recommendation;
     this.recommendations.impact = this.recommendation.impact;
-    this.parameterLevelRecommendationResponse.impact = this.recommendation.impact;
+    this.parameterLevelRecommendationResponse.recommendationId = this.recommendations.recommendationId;
+    this.parameterLevelRecommendationResponse.recommendation = this.recommendations.recommendation;
+    this.parameterLevelRecommendationResponse.deliveryHorizon=this.recommendations.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.effort=this.recommendations.effort;
+    this.parameterLevelRecommendationResponse.impact=this.recommendations.impact;
     this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
@@ -195,8 +202,13 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.recommendation = this.recommendation.recommendation;
     this.recommendations.effort = this.recommendation.effort;
-    this.parameterLevelRecommendationResponse.effort = this.recommendation.effort;
+    this.parameterLevelRecommendationResponse.recommendationId = this.recommendations.recommendationId;
+    this.parameterLevelRecommendationResponse.recommendation = this.recommendations.recommendation;
+    this.parameterLevelRecommendationResponse.deliveryHorizon=this.recommendations.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.effort=this.recommendations.effort;
+    this.parameterLevelRecommendationResponse.impact=this.recommendations.impact;
     this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
@@ -211,8 +223,13 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.recommendation = this.recommendation.recommendation;
     this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
-    this.parameterLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.recommendationId = this.recommendations.recommendationId;
+    this.parameterLevelRecommendationResponse.recommendation = this.recommendations.recommendation;
+    this.parameterLevelRecommendationResponse.deliveryHorizon=this.recommendations.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.effort=this.recommendations.effort;
+    this.parameterLevelRecommendationResponse.impact=this.recommendations.impact;
     this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
