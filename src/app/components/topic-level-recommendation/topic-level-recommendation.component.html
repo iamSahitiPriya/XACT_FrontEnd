@@ -4,7 +4,7 @@
       <div *ngIf="recommendation"></div>
       <mat-label>{{recommendationLabel}}</mat-label>
       <textarea id="recommendationElement_topic{{recommendation.recommendationId}}"
-                name="recommendationText_topic{{recommendation.recommendationId}}" matInput #recommendationElement
+                name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                 [(ngModel)]="recommendation.recommendation"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="3"
@@ -48,7 +48,7 @@
       <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
-          <mat-form-field appearance="outline" formcontrolName="name" style="width:22em;height:10px">
+          <mat-form-field appearance="outline" formControlName="name" style="width:22em;height:10px">
             <input id="recommendationElement_topic{{recommendation.recommendationId}}_deliverHorizon"
                    name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
                    [(ngModel)]="recommendation.deliveryHorizon" matInput

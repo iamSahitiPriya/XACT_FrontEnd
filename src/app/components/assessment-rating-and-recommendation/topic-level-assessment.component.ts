@@ -24,7 +24,6 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 
-
 export const saveAssessmentData = [{}]
 
 let topicId: number;
@@ -333,4 +332,3 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 }
-
