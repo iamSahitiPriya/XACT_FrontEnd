@@ -15,6 +15,7 @@ import {TopicRating} from "../../types/topicRating";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
+import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -158,13 +159,36 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Recommendation", () => {
-    let dummyParameterRecommendation: ParameterRecommendation = {assessmentId: 1, parameterId: 1, recommendation: "abc"}
-    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
+    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {assessmentId: 1, parameterId: 1, parameterLevelRecommendation:{recommendationId:1,recommendation:""}}
+    expect(service.saveParameterRecommendationText(dummyParameterRecommendation)).toBeTruthy()
   });
 
   it("should update particular parameter Rating", () => {
     let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
+  });
+
+  it("should delete parameter recommendation", () => {
+    let assessmentId = 1;
+    let parameterId = 1;
+    let recommendationId = 1
+
+    expect(service.deleteParameterRecommendation(assessmentId, parameterId, recommendationId)).toBeTruthy()
+  });
+
+  it("should update particular parameter Recommendation fields", () => {
+    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 1, parameterId: 1,
+      parameterLevelRecommendation:
+        {
+          recommendationId: 1,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+    }
+    expect(service.saveParameterRecommendationFields(dummyParameterRecommendation)).toBeTruthy()
   });
 
 });

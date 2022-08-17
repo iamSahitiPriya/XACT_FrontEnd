@@ -117,7 +117,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
       }],topicRatingAndRecommendation:{topicId:1,rating:3,topicLevelRecommendation :[
           {
             recommendationId:1,
@@ -148,7 +148,7 @@ describe('TopicLevelAssessmentComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     component.save();
     reloadFn()
@@ -222,7 +222,7 @@ describe('TopicLevelAssessmentComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
 
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(parameter)).toBeTruthy()
@@ -250,14 +250,14 @@ describe('TopicLevelAssessmentComponent', () => {
       updatedAt: 0,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     expect(component.ngOnInit()).toBe(undefined)
   });
   it("should call parameterRequest class", () => {
     let answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
     let parameterRatingAndRecommendation: ParameterRatingAndRecommendation = {
-      parameterId: 0, rating: undefined, recommendation: ""
+      parameterId: 0, rating: undefined, parameterLevelRecommendation: [{}]
     }
     let parameterRequest1 = new parameterRequest(answerRequest1, parameterRatingAndRecommendation)
     expect(parameterRequest1).toBeTruthy()
@@ -279,7 +279,7 @@ describe('TopicLevelAssessmentComponent', () => {
           answer: "answer1"
         },],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
     }
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
     expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
@@ -308,13 +308,13 @@ describe('TopicLevelAssessmentComponent', () => {
           answer: "answer1"
         },],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
 
     let dummyNewParameter: ParameterRequest = {
       answerRequest: dummyAnswerRequest,
-      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, recommendation: ""}
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
@@ -407,12 +407,12 @@ describe('TopicLevelAssessmentComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
       }],topicRatingAndRecommendation:{topicId:1,rating:3,topicLevelRecommendation:[]}
     }
     component.topicInput = {
@@ -435,7 +435,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, recommendation: ""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
       }],topicRatingAndRecommendation:{topicId:1,rating:3,topicLevelRecommendation:[]}
     }
     component.topicInput = {
@@ -494,7 +494,7 @@ describe('TopicLevelAssessmentComponent', () => {
    component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 0, recommendation: ""}
+        parameterRatingAndRecommendation: {parameterId: 0, rating: 0, parameterLevelRecommendation: [{}]}
       }],topicRatingAndRecommendation:{topicId:1,rating:0,topicLevelRecommendation:[]}
     }
   component.topicInput = {

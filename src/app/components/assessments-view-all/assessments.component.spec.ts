@@ -148,7 +148,7 @@ describe('AssessmentsComponent', () => {
     ]
 
     expect(component).toBeTruthy();
-    // fixture.detectChanges()
+    component.ngOnInit()
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData)
     })

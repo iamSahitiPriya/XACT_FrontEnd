@@ -49,7 +49,7 @@ export class ParameterLevelRatingComponent implements OnInit {
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation;
 
   @Input()
-  parameterRecommendation: number;
+  parameterId: number;
 
   assessmentStatus: string;
 
@@ -120,11 +120,11 @@ export class ParameterLevelRatingComponent implements OnInit {
       } else {
         this.parameterRatingAndRecommendation.rating = rating;
       }
-      this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
+      this.parameterRatingAndRecommendation.parameterId = this.parameterId;
       this.parameterLevelRating.assessmentId = this.assessmentId
-      this.parameterLevelRating.parameterId = this.parameterRecommendation
+      this.parameterLevelRating.parameterId = this.parameterId
       this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
-      this.parameterRatingResponse.parameterId = this.parameterRecommendation
+      this.parameterRatingResponse.parameterId = this.parameterId
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
       this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
@@ -188,8 +188,8 @@ export class ParameterLevelRatingComponent implements OnInit {
   }
 
 
-  addTemplate(topicLevelRecommendation: any) {
-    if (topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+  addTemplate(parameterLevelRecommendation: any) {
+    if (parameterLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
       this.recommendationSample = {
         recommendationId: undefined,
         recommendation: "",
@@ -197,7 +197,7 @@ export class ParameterLevelRatingComponent implements OnInit {
         effort: "",
         deliveryHorizon: ""
       };
-      topicLevelRecommendation.unshift(this.recommendationSample);
+      parameterLevelRecommendation.unshift(this.recommendationSample);
     }
   }
 }

@@ -17,6 +17,7 @@ import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import exp from "constants";
 
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
@@ -51,60 +52,14 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(ParameterLevelRatingComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should able to set rating', () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-        topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-            {
-              recommendationId:1,
-              recommendation:"some text",
-              impact:"HIGH",
-              effort:"LOW",
-              deliveryHorizon:"some more text"
-            }
-          ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
-    }
-    const parameterRatingAndRecommendation = {
-      rating: 2,
-      recommendation: "some text",
-      parameterId: 1
-    }
-    jest.spyOn(component, "setRating");
-    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
-    component.assessmentStatus = "Active"
-    component.setRating(3);
-    expect(parameterRatingAndRecommendation.rating).toEqual(3);
-  });
-  it("should deselect rating", () => {
-    const parameterRatingAndRecommendation = {
-      rating: 2,
-      recommendation: "some text",
-      parameterId: 1
-    }
-    let parameterRating = {
-      assessmentId: 0, parameterId: 0, rating: 0
-    };
+  it('should able to set parameter rating', () => {
     component.answerResponse = {
       assessmentId: 5,
       assessmentName: "abc1",
@@ -129,19 +84,28 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+    }
+    const parameterRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      parameterId: 2
     }
     jest.spyOn(component, "setRating");
+    let parameterRating = {
+      assessmentId: 0, parameterId: 0, rating: 0
+    };
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.parameterId = 2
     component.assessmentStatus = "Active"
-    component.parameterRecommendation = 1
-    component.setRating(2)
+    component.setRating(3)
     mockAppService.saveParameterRating(parameterRating).subscribe(data => {
       expect(data).toBe(parameterRating)
     })
-    expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
-  })
-  it("should auto save parameter recommendation", async () => {
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
+  });
+
+  it("should deselect parameter rating", () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -162,33 +126,58 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
             recommendationId:1,
             recommendation:"some text",
             impact:"HIGH",
-            effect:"LOW",
+            effort:"LOW",
             deliveryHorizon:"some more text"
           }
         ]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
+    })
+    const parameterRatingAndRecommendation = {
+      rating: 3,
+      recommendation: "some text",
+      parameterId: 1
+    }
+    component.parameterId = 1
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.setRating(3)
+    expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
+  });
+
+  it('should able to set parameter rating', () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
-    let parameterRecommendation = {
-      assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
-    };
-    component.assessmentId = 1
-    component.parameterRecommendation = 1
-    const keyEventData = {isTrusted: true, code: 'Key'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-
-    jest.spyOn(component, 'saveParticularParameterRecommendation')
-    component.parameterRatingAndRecommendation = {parameterId: 1, rating: 2, recommendation: "hello"}
+    const parameterRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      parameterId: 1
+    }
+    component.parameterId = 1
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
     component.ngOnInit()
-    component.saveParticularParameterRecommendation(keyEvent);
-
-    await new Promise((r) => setTimeout(r, 2000));
-
-    mockAppService.saveParameterRecommendation(parameterRecommendation).subscribe(data => {
-      expect(data).toBe(parameterRecommendation)
-    })
-    expect(component.parameterRecommendationResponse.recommendation).toBe("hello")
+    component.setRating(3)
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
-  it("should push the parameter rating if it is not present", () => {
+  it("should able to set parameter rating if it is not defined", () => {
     component.answerResponse = {
       assessmentId: 5,
       assessmentName: "abc1",
@@ -204,119 +193,74 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-          {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
-          }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation: []
     }
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
       parameterId: 1
     }
+    // @ts-ignore
+    component.answerResponse.parameterRatingAndRecommendation = undefined
+    component.parameterId = 1
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.parameterRecommendation = 1
     component.setRating(3)
     expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
-  it("should set the parameter rating and recommendation", () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
+
+
+  it('should able to add parameter recommendation when add template is clicked',()=>{
+    component.parameterRatingAndRecommendation = {parameterId: 0, rating: 1, parameterLevelRecommendation :[
         {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-          {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
-          }
-        ]}],
-      parameterRatingAndRecommendation: []
-    }
-    // @ts-ignore
-    component.answerResponse.parameterRatingAndRecommendation = undefined
-    const parameterRating = {
-      rating: 2,
-      recommendation: "some text",
-      parameterId: 1
-    }
-    jest.spyOn(component, "setRating");
-    component.parameterRatingAndRecommendation = parameterRating;
-    component.assessmentStatus = "Active"
-    component.parameterRecommendation = 1
-    component.setRating(3)
-    expect(parameterRating.rating).toEqual(3);
-    expect(component.answerResponse.parameterRatingAndRecommendation.length).toBe(1)
+          recommendationId:undefined,
+          recommendation:"some text",
+          impact:"HIGH",
+          effort:"LOW",
+          deliveryHorizon:"some more text"
+        }
+      ]};
+
+
+    jest.spyOn(component, "addTemplate");
+    component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);
+
+    expect(component.parameterRatingAndRecommendation.parameterLevelRecommendation).toHaveLength(2);
+
+  })
+
+  it('should able to erase the parameter recommendation sample data when add template is clicked',()=>{
+    component.recommendationSample={
+      recommendationId:undefined,
+      recommendation:"some text",
+      impact:"HIGH",
+      effort:"LOW",
+      deliveryHorizon:"some more text"
+    };
+
+    component.parameterRatingAndRecommendation = {parameterId: 0, rating: 1, parameterLevelRecommendation :[
+        {
+          recommendationId:undefined,
+          recommendation:"some text",
+          impact:"HIGH",
+          effort:"LOW",
+          deliveryHorizon:"some more text"
+        }
+      ]};
+
+    jest.spyOn(component, "addTemplate");
+    component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);
+
+    expect(component.recommendationSample.recommendation).toBe("");
+    expect(component.recommendationSample.deliveryHorizon).toBe("");
   });
+
   it("should call the error whenever a problem occurs", () => {
     jest.spyOn(component, "showError")
     component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
-  });
-  it("should push parameter recommendation", async () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-          {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
-          }
-        ]}],
-      parameterRatingAndRecommendation: []
-    }
-    component.parameterRecommendation = 1
-
-    component.assessmentId = 1
-    component.parameterRatingAndRecommendation = {parameterId: 1, rating: 2, recommendation: ""}
-    const keyEventData = {isTrusted: true, code: 'Key'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.ngOnInit()
-    component.saveParticularParameterRecommendation(keyEvent);
-
-    await new Promise((r) => setTimeout(r, 2000));
-    let parameterRecommendation = {
-      assessmentId: 0, parameterId: 0, recommendation: "dummy recommendation"
-    };
-    mockAppService.saveParameterRecommendation(parameterRecommendation).subscribe(data => {
-      expect(data).toBe(parameterRecommendation)
-    })
   });
 
 });

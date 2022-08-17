@@ -100,130 +100,130 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   saveParticularRecommendationText(_$event: KeyboardEvent) {
 
-    // this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    // this.parameterLevelRecommendationText.parameterId = this.topicId;
-    // this.recommendations.recommendationId = this.recommendation.recommendationId;
-    // this.recommendations.recommendation = this.recommendation.recommendation;
-    // this.parameterLevelRecommendationResponse.parameterId = this.parameterId;
-    // this.parameterLevelRecommendationResponse.assessmentId = this.assessmentId;
-    // this.parameterLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
-    // this.parameterLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
-    //
-    // this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
-    //   next: (_data) => {
-    //     this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
-    //     this.recommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
-    //   }, error: _error => {
-    //     this.showError("Data cannot be saved", "Close");
-    //   }
-    // })
-    // this.sendRecommendation(this.parameterLevelRecommendationResponse)
-    // this.updateDataSavedStatus()
+    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.recommendation = this.recommendation.recommendation;
+    this.parameterLevelRecommendationResponse.parameterId = this.parameterId;
+    this.parameterLevelRecommendationResponse.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
+    this.parameterLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
+
+    this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
+      next: (_data) => {
+        this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.recommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
+    this.sendRecommendation(this.parameterLevelRecommendationResponse)
+    this.updateDataSavedStatus()
   }
 
   private sendRecommendation(parameterRecommendationResponse: ParameterRecommendationResponse) {
 
-    // let index = 0;
-    // let updatedRecommendationList = [];
-    // this.cloneParameterRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
-    // let parameterRecommendation: ParameterRatingAndRecommendation = {
-    //   parameterId: parameterRecommendationResponse.parameterId,
-    //   rating: 0,
-    //   parameterLevelRecommendation: [{
-    //     recommendationId: parameterRecommendationResponse.recommendationId,
-    //     recommendation: parameterRecommendationResponse.recommendation,
-    //     impact: parameterRecommendationResponse.impact,
-    //     effort: parameterRecommendationResponse.effort,
-    //     deliveryHorizon: parameterRecommendationResponse.deliveryHorizon
-    //   }]
-    // };
-    // updatedRecommendationList.push(parameterRecommendation);
-    // if (this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation != undefined) {
-    //   index = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendationResponse.parameterId)
-    //   if (index !== -1) {
-    //     this.parameterRecommendationSample = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation;
-    //     this.getRecommendation(this.parameterRecommendationSample, parameterRecommendationResponse)
-    //     parameterRecommendation.rating = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].rating;
-    //     this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation = this.parameterRecommendationSample;
-    //   } else {
-    //     this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.push(parameterRecommendation);
-    //
-    //   }
-    // } else {
-    //   this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation = updatedRecommendationList;
-    // }
-    // this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterRecommendationResponse}))
+    let index = 0;
+    let updatedRecommendationList = [];
+    this.cloneParameterRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
+    let parameterRecommendation: ParameterRatingAndRecommendation = {
+      parameterId: parameterRecommendationResponse.parameterId,
+      rating: 0,
+      parameterLevelRecommendation: [{
+        recommendationId: parameterRecommendationResponse.recommendationId,
+        recommendation: parameterRecommendationResponse.recommendation,
+        impact: parameterRecommendationResponse.impact,
+        effort: parameterRecommendationResponse.effort,
+        deliveryHorizon: parameterRecommendationResponse.deliveryHorizon
+      }]
+    };
+    updatedRecommendationList.push(parameterRecommendation);
+    if (this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation != undefined) {
+      index = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendationResponse.parameterId)
+      if (index !== -1) {
+        this.parameterRecommendationSample = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation;
+        this.getRecommendation(this.parameterRecommendationSample, parameterRecommendationResponse)
+        parameterRecommendation.rating = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].rating;
+        this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation = this.parameterRecommendationSample;
+      } else {
+        this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.push(parameterRecommendation);
+
+      }
+    } else {
+      this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation = updatedRecommendationList;
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterRecommendationResponse}))
 
   }
 
   getRecommendation(parameterRecommendationSample: ParameterLevelRecommendation[] | undefined, parameterRecommendationResponse: ParameterRecommendationResponse) {
-    // if (parameterRecommendationSample != undefined) {
-    //   this.parameterRecommendationIndex = parameterRecommendationSample.findIndex(eachRecommendation => eachRecommendation.recommendationId === parameterRecommendationResponse.recommendationId);
-    //   if (this.parameterRecommendationIndex !== -1) {
-    //     parameterRecommendationSample[this.parameterRecommendationIndex].recommendationId = parameterRecommendationResponse.recommendationId;
-    //     parameterRecommendationSample[this.parameterRecommendationIndex].recommendation = parameterRecommendationResponse.recommendation;
-    //     parameterRecommendationSample[this.parameterRecommendationIndex].impact = parameterRecommendationResponse.impact;
-    //     parameterRecommendationSample[this.parameterRecommendationIndex].effort = parameterRecommendationResponse.effort;
-    //     parameterRecommendationSample[this.parameterRecommendationIndex].deliveryHorizon = parameterRecommendationResponse.deliveryHorizon;
-    //   } else {
-    //     parameterRecommendationSample.push(parameterRecommendationResponse);
-    //   }
-    // }
+    if (parameterRecommendationSample != undefined) {
+      this.parameterRecommendationIndex = parameterRecommendationSample.findIndex(eachRecommendation => eachRecommendation.recommendationId === parameterRecommendationResponse.recommendationId);
+      if (this.parameterRecommendationIndex !== -1) {
+        parameterRecommendationSample[this.parameterRecommendationIndex].recommendationId = parameterRecommendationResponse.recommendationId;
+        parameterRecommendationSample[this.parameterRecommendationIndex].recommendation = parameterRecommendationResponse.recommendation;
+        parameterRecommendationSample[this.parameterRecommendationIndex].impact = parameterRecommendationResponse.impact;
+        parameterRecommendationSample[this.parameterRecommendationIndex].effort = parameterRecommendationResponse.effort;
+        parameterRecommendationSample[this.parameterRecommendationIndex].deliveryHorizon = parameterRecommendationResponse.deliveryHorizon;
+      } else {
+        parameterRecommendationSample.push(parameterRecommendationResponse);
+      }
+    }
   }
 
   updateDataSavedStatus() {
-    // this.cloneParameterLevelRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
-    // this.cloneParameterLevelRecommendationResponse.updatedAt = Number(new Date(Date.now()))
-    // this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterLevelRecommendationResponse}))
+    this.cloneParameterLevelRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
+    this.cloneParameterLevelRecommendationResponse.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterLevelRecommendationResponse}))
   }
 
   impactChange() {
-    // this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    // this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    // this.recommendations.recommendationId = this.recommendation.recommendationId;
-    // this.recommendations.impact = this.recommendation.impact;
-    // this.parameterLevelRecommendationResponse.impact = this.recommendation.impact;
-    // this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
-    //   next: (_data) => {
-    //     this.sendRecommendation(this.parameterLevelRecommendationResponse)
-    //     this.updateDataSavedStatus()
-    //   }, error: _error => {
-    //     this.showError("Data cannot be saved", "Close");
-    //   }
-    // })
+    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.impact = this.recommendation.impact;
+    this.parameterLevelRecommendationResponse.impact = this.recommendation.impact;
+    this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
+      next: (_data) => {
+        this.sendRecommendation(this.parameterLevelRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
   }
 
 
   effortChange() {
-    // this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    // this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    // this.recommendations.recommendationId = this.recommendation.recommendationId;
-    // this.recommendations.effort = this.recommendation.effort;
-    // this.parameterLevelRecommendationResponse.effort = this.recommendation.effort;
-    // this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
-    //   next: (_data) => {
-    //     this.sendRecommendation(this.parameterLevelRecommendationResponse)
-    //     this.updateDataSavedStatus()
-    //   }, error: _error => {
-    //     this.showError("Data cannot be saved", "Close");
-    //   }
-    // })
+    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.effort = this.recommendation.effort;
+    this.parameterLevelRecommendationResponse.effort = this.recommendation.effort;
+    this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
+      next: (_data) => {
+        this.sendRecommendation(this.parameterLevelRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
   }
 
   saveParticularRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
-    // this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    // this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    // this.recommendations.recommendationId = this.recommendation.recommendationId;
-    // this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
-    // this.parameterLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
-    // this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
-    //   next: (_data) => {
-    //     this.sendRecommendation(this.parameterLevelRecommendationResponse)
-    //     this.updateDataSavedStatus()
-    //   }, error: _error => {
-    //     this.showError("Data cannot be saved", "Close");
-    //   }
-    // })
+    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.parameterLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.appService.saveParameterRecommendationFields(this.parameterLevelRecommendationText).subscribe({
+      next: (_data) => {
+        this.sendRecommendation(this.parameterLevelRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
   }
 
   deleteTemplate(recommendation: ParameterLevelRecommendation) {
@@ -248,7 +248,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteTopicRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         next: (_data) => {
         }, error: _error => {
           this.showError("Data cannot be deleted", "Close");

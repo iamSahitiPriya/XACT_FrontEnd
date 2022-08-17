@@ -32,7 +32,6 @@ class MockAppService {
   saveTopicRating(topicRating: TopicRating) {
     return of(topicRating)
   }
-
 }
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
@@ -89,7 +88,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     const topicRatingAndRecommendation = {
       rating: 2,
@@ -109,6 +108,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     })
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
+
   it("should deselect rating", () => {
     component.answerResponse = {
       assessmentId: 5,
@@ -134,7 +134,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
     }
     const topicRatingAndRecommendation = {
       rating: 3,
@@ -259,6 +259,12 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
 
     expect(component.recommendationSample.recommendation).toBe("");
     expect(component.recommendationSample.deliveryHorizon).toBe("");
-  })
+  });
+
+  it("should call the error whenever a problem occurs", () => {
+    jest.spyOn(component, "showError")
+    component.showError("Error", "Close")
+    expect(component.showError).toHaveBeenCalled()
+  });
 
 });

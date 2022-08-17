@@ -24,7 +24,7 @@
       </div>
       <div *ngIf="parameter.references">
         <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
-                                                       [parameterRecommendation]="parameter.parameterId"
+                                                       [parameterId]="parameter.parameterId"
                                                        [topicId]="topicInput.topicId"
                                                        [parameterScore]="parameter.references"
                                                        [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
