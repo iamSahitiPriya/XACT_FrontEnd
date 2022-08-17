@@ -18,11 +18,11 @@ export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
 
 @Component({
-  selector: 'app-recommendation',
-  templateUrl: './recommendation.component.html',
-  styleUrls: ['./recommendation.component.css']
+  selector: 'app-topic-level-recommendation',
+  templateUrl: './topic-level-recommendation.component.html',
+  styleUrls: ['./topic-level-recommendation.component.css']
 })
-export class RecommendationComponent implements OnInit {
+export class TopicLevelRecommendationComponent implements OnInit {
 
   @Input()
   recommendation: TopicLevelRecommendation
@@ -42,14 +42,14 @@ export class RecommendationComponent implements OnInit {
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   assessmentStatus: string;
-  answerResponse1: Observable<AssessmentStructure>;
-  private cloneTopicResponse: AssessmentStructure;
-  private cloneAnswerResponse: AssessmentStructure;
-  answerResponse: AssessmentStructure;
+  topicRecommendationResponse1: Observable<AssessmentStructure>;
+  private cloneTopicRecommendationResponse: AssessmentStructure;
+  private cloneTopicLevelRecommendationResponse: AssessmentStructure;
+  topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+    this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularRecommendationText = debounce(this.saveParticularRecommendationText, DEBOUNCE_TIME)
     this.saveParticularRecommendationDeliveryHorizon = debounce(this.saveParticularRecommendationDeliveryHorizon, DEBOUNCE_TIME)
   }
@@ -65,7 +65,7 @@ export class RecommendationComponent implements OnInit {
   topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
     assessmentId: 0, topicId: 0, topicLevelRecommendation: this.recommendations
   }
-  topicRecommendationResponse: TopicRecommendationResponse = {
+  topicLevelRecommendationResponse: TopicRecommendationResponse = {
     assessmentId: 0,
     topicId: 0,
     recommendationId: undefined,
@@ -88,10 +88,10 @@ export class RecommendationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.answerResponse1.subscribe(data => {
+    this.topicRecommendationResponse1.subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
-        this.answerResponse = data
+        this.topicRecommendationResponse = data
       }
     })
 
@@ -103,21 +103,20 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.recommendation = this.recommendation.recommendation;
-    this.topicRecommendationResponse.topicId = this.topicId;
-    this.topicRecommendationResponse.assessmentId = this.assessmentId;
-    this.topicRecommendationResponse.recommendationId = this.recommendation.recommendationId;
-    this.topicRecommendationResponse.recommendation = this.recommendation.recommendation;
+    this.topicLevelRecommendationResponse.topicId = this.topicId;
+    this.topicLevelRecommendationResponse.assessmentId = this.assessmentId;
+    this.topicLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
+    this.topicLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
 
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        //topicRecommendationData.push(this.topicLevelRecommendationText);
-        this.topicRecommendationResponse.recommendationId = _data.recommendationId;
-        this.recommendation.recommendationId = this.topicRecommendationResponse.recommendationId;
+        this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
       }
     })
-    this.sendRecommendation(this.topicRecommendationResponse)
+    this.sendRecommendation(this.topicLevelRecommendationResponse)
     this.updateDataSavedStatus()
   }
 
@@ -125,7 +124,7 @@ export class RecommendationComponent implements OnInit {
 
     let index = 0;
     let updatedRecommendationList = [];
-    this.cloneTopicResponse = Object.assign({}, this.answerResponse)
+    this.cloneTopicRecommendationResponse = Object.assign({}, this.topicRecommendationResponse)
     let topicRecommendation: TopicRatingAndRecommendation = {
       topicId: topicRecommendationResponse.topicId,
       rating: 0,
@@ -138,21 +137,21 @@ export class RecommendationComponent implements OnInit {
       }]
     };
     updatedRecommendationList.push(topicRecommendation);
-    if (this.cloneTopicResponse.topicRatingAndRecommendation != undefined) {
-      index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendationResponse.topicId)
+    if (this.cloneTopicRecommendationResponse.topicRatingAndRecommendation != undefined) {
+      index = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendationResponse.topicId)
       if (index !== -1) {
-        this.topicRecommendationSample = this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
+        this.topicRecommendationSample = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
         this.getRecommendation(this.topicRecommendationSample, topicRecommendationResponse)
-        topicRecommendation.rating = this.cloneTopicResponse.topicRatingAndRecommendation[index].rating;
-        this.cloneTopicResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
+        topicRecommendation.rating = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].rating;
+        this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
-        this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRecommendation);
+        this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.push(topicRecommendation);
 
       }
     } else {
-      this.cloneTopicResponse.topicRatingAndRecommendation = updatedRecommendationList;
+      this.cloneTopicRecommendationResponse.topicRatingAndRecommendation = updatedRecommendationList;
     }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicRecommendationResponse}))
 
   }
 
@@ -172,9 +171,9 @@ export class RecommendationComponent implements OnInit {
   }
 
   updateDataSavedStatus() {
-    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
-    this.cloneAnswerResponse.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+    this.cloneTopicLevelRecommendationResponse = Object.assign({}, this.topicRecommendationResponse)
+    this.cloneTopicLevelRecommendationResponse.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicLevelRecommendationResponse}))
   }
 
   impactChange() {
@@ -182,10 +181,10 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.impact = this.recommendation.impact;
-    this.topicRecommendationResponse.impact = this.recommendation.impact;
+    this.topicLevelRecommendationResponse.impact = this.recommendation.impact;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        this.sendRecommendation(this.topicRecommendationResponse)
+        this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -199,10 +198,10 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.effort = this.recommendation.effort;
-    this.topicRecommendationResponse.effort = this.recommendation.effort;
+    this.topicLevelRecommendationResponse.effort = this.recommendation.effort;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        this.sendRecommendation(this.topicRecommendationResponse)
+        this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
@@ -215,10 +214,10 @@ export class RecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.recommendations.recommendationId = this.recommendation.recommendationId;
     this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
-    this.topicRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.topicLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
-        this.sendRecommendation(this.topicRecommendationResponse)
+        this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");

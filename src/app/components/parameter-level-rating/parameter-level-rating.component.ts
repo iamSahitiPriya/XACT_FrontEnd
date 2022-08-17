@@ -15,19 +15,19 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
-import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 import {ParameterRequest} from "../../types/parameterRequest";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
-let DEBOUNCE_TIME = 2000;
+let RECOMMENDATION_MAX_LIMIT = 10;
 
 @Component({
-  selector: 'app-parameter-level-rating-and-recommendation',
-  templateUrl: './parameter-level-rating-and-recommendation.component.html',
-  styleUrls: ['./parameter-level-rating-and-recommendation.component.css']
+  selector: 'app-parameter-level-rating',
+  templateUrl: './parameter-level-rating.component.html',
+  styleUrls: ['./parameter-level-rating.component.css']
 })
-export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
+export class ParameterLevelRatingComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
 
@@ -40,8 +40,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularParameterRecommendation = debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
-
   }
 
   @Input()
@@ -67,9 +65,20 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   parameterList: ParameterRequest[];
 
+  saveCount = 0;
+  recommendationCount: number = 0;
+
+  recommendationSample: ParameterLevelRecommendation = {
+    recommendationId: undefined,
+    recommendation: "",
+    impact: "",
+    effort: "",
+    deliveryHorizon: ""
+
+  }
 
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: undefined
+    assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined
   };
 
   parameterLevelRating: ParameterRating = {
@@ -77,7 +86,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   parameterRecommendationResponse: ParameterRecommendationResponse = {
-    parameterId: 0, recommendation: undefined
+    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterRatingResponse: ParameterRatingResponse = {
@@ -92,24 +101,9 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.assessmentStatus = data.assessmentStatus
       }
     })
+    this.parameterRatingAndRecommendation.parameterLevelRecommendation?.reverse();
   }
 
-  saveParticularParameterRecommendation(_$event: KeyboardEvent) {
-    this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
-    this.parameterLevelRecommendation.assessmentId = this.assessmentId
-    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
-    this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
-    this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.parameterRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-
-  }
 
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -144,26 +138,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     }
   }
 
-
-  sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
-    let index = 0;
-    let updatedRecommendationList = [];
-    updatedRecommendationList.push(parameterRecommendation);
-    this.cloneParameterResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneParameterResponse.parameterRatingAndRecommendation !== undefined) {
-      index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendation.parameterId)
-      if (index !== -1) {
-        this.cloneParameterResponse.parameterRatingAndRecommendation[index].recommendation = parameterRecommendation.recommendation
-      } else {
-        this.cloneParameterResponse.parameterRatingAndRecommendation.push(parameterRecommendation)
-      }
-    } else {
-      this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRecommendationList
-    }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
-  }
-
-
   private sendRating(parameterRating: ParameterRatingResponse) {
     let index = 0;
     let updatedRatingList = [];
@@ -192,14 +166,14 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     let averageRating = 0;
     let ratingSum = 0
     let ratingNumber = 0
-    let index=0;
+    let index = 0;
     for (let pId in this.parameterList) {
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterList[pId].parameterRatingAndRecommendation.parameterId)
-        if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating!=undefined) {
-          ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
-            ratingNumber = ratingNumber + 1;
-        }
+      if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating != undefined) {
+        ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
+        ratingNumber = ratingNumber + 1;
       }
+    }
 
 
     if (ratingSum !== 0 && ratingNumber !== 0) {
@@ -211,5 +185,19 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   private sendAverageRating(rating: number) {
     this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
+  }
+
+
+  addTemplate(topicLevelRecommendation: any) {
+    if (topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+      this.recommendationSample = {
+        recommendationId: undefined,
+        recommendation: "",
+        impact: "",
+        effort: "",
+        deliveryHorizon: ""
+      };
+      topicLevelRecommendation.unshift(this.recommendationSample);
+    }
   }
 }

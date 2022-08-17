@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+
+<div class="parameterScoring">
+  <mat-card class="scoreHeading">{{maturityScoreTitle}} {{parameterName}}</mat-card>
+  <div *ngIf="parameterScore"></div>
+  <div *ngFor="let pScore of parameterScore">
+    <mat-toolbar class="scoreReference">
+      <p class="reference">{{pScore.reference}}</p>
+      <span class="spacer"></span>
+      <span class="rating" (click)="setRating(pScore.rating)"
+            [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">
+       <div class="image"></div>
+        {{pScore.rating}}</span>
+    </mat-toolbar>
+  </div>
+</div>
+
+
+<div class="addRecommendation">
+  <button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)" class="plusIcon">
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" /> &nbsp;Add Recommendations
+  </button>
+</div>
+
+<div *ngFor="let recommendation of parameterRatingAndRecommendation.parameterLevelRecommendation ; let i=index">
+  <app-parameter-level-recommendation
+    [parameterIndex] = "i"
+    [recommendation]="recommendation"
+    [assessmentId]="assessmentId"
+    [topicId]="topicId"
+    [parameterId]="parameterRatingAndRecommendation.parameterId"
+    [parameterRecommendationArray]="parameterRatingAndRecommendation.parameterLevelRecommendation"
+  ></app-parameter-level-recommendation>
+</div>

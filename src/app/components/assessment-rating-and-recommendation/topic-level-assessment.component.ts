@@ -24,8 +24,6 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 
-
-
 export const saveAssessmentData = [{}]
 
 let topicId: number;
@@ -45,6 +43,7 @@ export class parameterRequest {
 
 
 let parameterRequests: parameterRequest[];
+
 
 @Component({
   selector: 'app-topic-level-assessment',
@@ -67,6 +66,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
+
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
 
@@ -93,6 +93,19 @@ export class TopicLevelAssessmentComponent implements OnInit {
       deliveryHorizon : ""
     }],
     topicId: topicId,
+    rating:0
+  }
+
+  parameterRatingAndRecommendation: ParameterRatingAndRecommendation = {
+
+    parameterLevelRecommendation : [{
+      recommendationId: undefined,
+      recommendation : "",
+      impact : "",
+      effort : "",
+      deliveryHorizon : ""
+    }],
+    parameterId: 0,
     rating:0
   }
   ngOnInit(): void {
@@ -189,23 +202,38 @@ export class TopicLevelAssessmentComponent implements OnInit {
   public getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure) {
     let indexByParameterId = 0
     let isRatingAndRecommendationPresent = false
-    let newParameterRequest: ParameterRequest = {
-      answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
-        parameterId: parameter.parameterId, rating: 0, recommendation: ""
-      }
-    }
+    let newParameterRequest: ParameterRequest;
 
     if (this.answerResponse.parameterRatingAndRecommendation !== undefined) {
       indexByParameterId = this.answerResponse.parameterRatingAndRecommendation.findIndex(obj => obj.parameterId == parameter.parameterId)
-      isRatingAndRecommendationPresent = this.answerResponse.parameterRatingAndRecommendation.some(el => el.rating || el.recommendation)
+      isRatingAndRecommendationPresent = this.answerResponse.parameterRatingAndRecommendation.some(el => el.parameterId == parameter.parameterId)
     }
-
     if (indexByParameterId !== -1 && isRatingAndRecommendationPresent) {
       newParameterRequest = {
         answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
           parameterId: parameter.parameterId,
           rating: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].rating,
-          recommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].recommendation
+          parameterLevelRecommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation ? this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation : [{
+            recommendationId: undefined,
+            recommendation: "",
+            impact: "",
+            effort: "",
+            deliveryHorizon: ""
+          }]
+        }
+      } }else {
+      newParameterRequest = {
+        answerRequest: this.getAnswersList(parameter),
+        parameterRatingAndRecommendation : {
+          rating: 0,
+          parameterLevelRecommendation: [{
+            recommendationId: undefined,
+            recommendation: "",
+            impact: "",
+            effort: "",
+            deliveryHorizon: ""
+          }],
+          parameterId: parameter.parameterId
         }
       }
     }
@@ -304,4 +332,3 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 }
-
