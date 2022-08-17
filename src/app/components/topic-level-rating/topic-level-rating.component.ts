@@ -21,7 +21,7 @@ import {  TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
-let RECOMMENDATION_MAX_LIMIT = 10;
+let RECOMMENDATION_MAX_LIMIT = 20;
 
 @Component({
   selector: 'app-topic-level-rating',

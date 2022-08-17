@@ -18,12 +18,11 @@
   </div>
 </div>
 
-
-<div class="addRecommendation">
-  <button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)" class="plusIcon">
-    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" /> &nbsp;Add Recommendations
-  </button>
-</div>
+<button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)" class="addRecommendation button1">
+  <div>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> &nbsp;Add Recommendations
+  </div>
+</button>
 
 <div *ngFor="let recommendation of parameterRatingAndRecommendation.parameterLevelRecommendation ; let i=index">
   <app-parameter-level-recommendation

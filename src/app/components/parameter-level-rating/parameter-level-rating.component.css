@@ -150,15 +150,21 @@ textArea.mat-input-element {
 
 .addRecommendation {
   width: 95%;
-  padding: 23px 0px 21px 36%;
+  padding: 23px 0px 21px 0;
   margin: 29px 0px 25px 3px;
   background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
   background-position: top, right, bottom, left;
   background-repeat: repeat-x, repeat-y;
   background-size: 10px 1px, 1px 10px;
-  /*border: 2px lightgrey;*/
-  /*background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='1.5' stroke-dasharray='5%2c 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");*/
+  border: none;
 }
+
+.button1:hover {
+  background-color: #00000024;
+}
+
+
+
 .parent {
   display: flex;
 }
