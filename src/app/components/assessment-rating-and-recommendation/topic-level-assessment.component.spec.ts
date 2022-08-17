@@ -15,12 +15,12 @@ import {AssessmentQuestionComponent} from "../assessment-parameter-questions/ass
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 import {
-  ParameterLevelRatingAndRecommendationComponent
-} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+  ParameterLevelRatingComponent
+} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
 import {
-  TopicLevelRatingAndRecommendationComponent
-} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+  TopicLevelRatingComponent
+} from "../topic-level-rating/topic-level-rating.component";
 import {ParameterStructure} from 'src/app/types/parameterStructure';
 import {Notes} from 'src/app/types/answerRequest';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
@@ -66,8 +66,8 @@ describe('TopicLevelAssessmentComponent', () => {
   let debouncedFunc: Function;
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
-    component2: TopicLevelRatingAndRecommendationComponent,
-    fixture2: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
+    component2: TopicLevelRatingComponent,
+    fixture2: ComponentFixture<TopicLevelRatingComponent>,
     mockAppService: MockAppService;
 
   const original = window.location;
@@ -83,7 +83,7 @@ describe('TopicLevelAssessmentComponent', () => {
       value: {reload: jest.fn()}
     })
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelAssessmentComponent, TopicLevelRatingAndRecommendationComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingAndRecommendationComponent,AssessmentAverageRatingComponent],
+      declarations: [TopicLevelAssessmentComponent, TopicLevelRatingComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingComponent,AssessmentAverageRatingComponent],
       providers: [{provide: AppServiceService, useClass: MockAppService},{provide:debounce, useValue:debouncedFunc}
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, CommonModule, MatSnackBarModule,
@@ -101,7 +101,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component = fixture.componentInstance;
     fixture1 = TestBed.createComponent(AssessmentQuestionComponent);
     component1 = fixture1.componentInstance;
-    fixture2 = TestBed.createComponent(TopicLevelRatingAndRecommendationComponent)
+    fixture2 = TestBed.createComponent(TopicLevelRatingComponent)
     component2 = fixture2.componentInstance;
     component = fixture.debugElement.componentInstance;
 

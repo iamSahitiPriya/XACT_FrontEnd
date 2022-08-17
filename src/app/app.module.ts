@@ -50,9 +50,9 @@ import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
-import {ParameterLevelRatingAndRecommendationComponent} from './components/parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component';
+import {ParameterLevelRatingComponent} from './components/parameter-level-rating/parameter-level-rating.component';
 import {MatRippleModule} from "@angular/material/core";
-import {TopicLevelRatingAndRecommendationComponent} from './components/topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component';
+import {TopicLevelRatingComponent} from './components/topic-level-rating/topic-level-rating.component';
 import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
@@ -61,7 +61,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatRadioModule} from "@angular/material/radio";
-import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
+import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -103,12 +104,13 @@ export const appRoutes: Routes = [
     TopicLevelAssessmentComponent,
     PopupConfirmationComponent,
     AssessmentMenuComponent,
-    ParameterLevelRatingAndRecommendationComponent,
-    TopicLevelRatingAndRecommendationComponent,
+    ParameterLevelRatingComponent,
+    TopicLevelRatingComponent,
     ErrorComponentComponent,
     ProgressComponentComponent,
     AssessmentAverageRatingComponent,
-    RecommendationComponent,
+    TopicLevelRecommendationComponent,
+    ParameterLevelRecommendationComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {TopicLevelRatingAndRecommendationComponent} from './topic-level-rating-and-recommendation.component';
+import {TopicLevelRatingComponent} from './topic-level-rating.component';
 import {MatCardModule} from "@angular/material/card";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
@@ -17,7 +17,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {MatRadioModule} from "@angular/material/radio";
-import {RecommendationComponent} from "../recommendation/recommendation.component";
+import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
 
 class MockAppService {
@@ -36,14 +36,14 @@ class MockAppService {
 }
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
-  let component: TopicLevelRatingAndRecommendationComponent ,fixture: ComponentFixture<TopicLevelRatingAndRecommendationComponent>,
-      component1:RecommendationComponent , fixture1:ComponentFixture<RecommendationComponent>;
+  let component: TopicLevelRatingComponent ,fixture: ComponentFixture<TopicLevelRatingComponent>,
+      component1:TopicLevelRecommendationComponent , fixture1:ComponentFixture<TopicLevelRecommendationComponent>;
 
   let mockAppService: MockAppService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TopicLevelRatingAndRecommendationComponent],
+      declarations: [TopicLevelRatingComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule,MatRadioModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService, useClass: MockAppService}]
@@ -53,9 +53,9 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
 
   beforeEach(() => {
     mockAppService = new MockAppService()
-    fixture = TestBed.createComponent(TopicLevelRatingAndRecommendationComponent);
+    fixture = TestBed.createComponent(TopicLevelRatingComponent);
     component = fixture.componentInstance;
-    fixture1 = TestBed.createComponent(RecommendationComponent);
+    fixture1 = TestBed.createComponent(TopicLevelRecommendationComponent);
     component1 = fixture1.componentInstance;
 
   });

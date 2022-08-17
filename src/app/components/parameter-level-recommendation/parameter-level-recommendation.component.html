@@ -1,0 +1,71 @@
+<mat-card class="parameterRecommendation" [ngStyle]="{'background-color': parameterIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
+  <div>
+    <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="recommendation">
+      <div *ngIf="recommendation"></div>
+      <mat-label>{{recommendationLabel}}</mat-label>
+      <textarea id="recommendationElement_parameter{{recommendation.recommendationId}}"
+                name="recommendationText_parameter{{recommendation.recommendationId}}" matInput #recommendationElement
+                [(ngModel)]="recommendation.recommendation"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="3"
+                cdkAutosizeMaxRows="4"
+                maxlength="10000"
+                (keyup)="saveParticularRecommendationText($event)"
+                [disabled]="assessmentStatus ==='Completed'"></textarea>
+
+    </mat-form-field>
+  </div>
+  <mat-card-content>
+    <div class="parent">
+      <div class="impact">Impact
+        <div *ngIf="recommendation.impact"></div>
+        <div class="radio1">
+          <mat-radio-group
+            id="recommendationElement_parameter{{recommendation.recommendationId}}_impact"
+            name="recommendationText_parameter{{recommendation.recommendationId}}_impact"
+            [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="impactChange()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
+            <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
+            &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="effect">Effort
+        <div *ngIf="recommendation.effort"></div>
+        <div class="radio2">
+          <mat-radio-group
+            id="recommendationElement_parameter{{recommendation.recommendationId}}_effort"
+            name="recommendationText_parameter{{recommendation.recommendationId}}_effort"
+            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="effortChange()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
+            <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>&nbsp;
+            &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div *ngIf="recommendation.deliveryHorizon"></div>
+      <div class="deliveryHorizon">Delivery Horizon
+        <div class="input1">
+          <mat-form-field appearance="outline" formcontrolName="name" style="width:22em;height:10px">
+            <input id="recommendationElement_parameter{{recommendation.recommendationId}}_deliverHorizon"
+                   name="recommendationText_parameter{{recommendation.recommendationId}}_deliveryHorizon"
+                   [(ngModel)]="recommendation.deliveryHorizon" matInput
+                   [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'"
+                   (keyup)="saveParticularRecommendationDeliveryHorizon($event)"
+
+            >
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button (click)="deleteTemplate(recommendation)" class="deleteIcon">
+          <img data-id="delete" src="../../assets/delete-icon/delete.svg" alt="plus icon"/>
+        </button>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -24,11 +24,11 @@ export const topicRatingData = [{}]
 let RECOMMENDATION_MAX_LIMIT = 10;
 
 @Component({
-  selector: 'app-topic-level-rating-and-recommendation',
-  templateUrl: './topic-level-rating-and-recommendation.component.html',
-  styleUrls: ['./topic-level-rating-and-recommendation.component.css']
+  selector: 'app-topic-level-rating',
+  templateUrl: './topic-level-rating.component.html',
+  styleUrls: ['./topic-level-rating.component.css']
 })
-export class TopicLevelRatingAndRecommendationComponent implements OnInit {
+export class TopicLevelRatingComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;

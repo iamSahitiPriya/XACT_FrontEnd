@@ -1,4 +1,3 @@
-import {TopicLevelRecommendation} from "./topicLevelRecommendation";
 
 export interface TopicRecommendationResponse{
   "assessmentId":number;

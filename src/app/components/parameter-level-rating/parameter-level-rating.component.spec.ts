@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ParameterLevelRatingAndRecommendationComponent} from './parameter-level-rating-and-recommendation.component';
+import {ParameterLevelRatingComponent} from './parameter-level-rating.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
@@ -30,13 +30,13 @@ class MockAppService {
 }
 
 describe('ParameterLevelRatingAndRecommendationComponent', () => {
-  let component: ParameterLevelRatingAndRecommendationComponent;
-  let fixture: ComponentFixture<ParameterLevelRatingAndRecommendationComponent>;
+  let component: ParameterLevelRatingComponent;
+  let fixture: ComponentFixture<ParameterLevelRatingComponent>;
   let mockAppService: MockAppService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ParameterLevelRatingAndRecommendationComponent],
+      declarations: [ParameterLevelRatingComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule,
         StoreModule.forRoot(reducers)],
       providers: [
@@ -49,7 +49,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
 
   beforeEach(() => {
     mockAppService = new MockAppService()
-    fixture = TestBed.createComponent(ParameterLevelRatingAndRecommendationComponent);
+    fixture = TestBed.createComponent(ParameterLevelRatingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

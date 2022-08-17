@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {RecommendationComponent} from './recommendation.component';
+import {TopicLevelRecommendationComponent} from './topic-level-recommendation.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -46,13 +46,13 @@ class MockAppService {
 }
 
 describe('RecommendationComponent', () => {
-  let component: RecommendationComponent;
-  let fixture: ComponentFixture<RecommendationComponent>;
+  let component: TopicLevelRecommendationComponent;
+  let fixture: ComponentFixture<TopicLevelRecommendationComponent>;
   let mockAppService: MockAppService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RecommendationComponent],
+      declarations: [TopicLevelRecommendationComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
@@ -62,7 +62,7 @@ describe('RecommendationComponent', () => {
 
   beforeEach(() => {
     mockAppService = new MockAppService()
-    fixture = TestBed.createComponent(RecommendationComponent);
+    fixture = TestBed.createComponent(TopicLevelRecommendationComponent);
     component = fixture.componentInstance;
     //fixture.detectChanges();
   });
@@ -71,7 +71,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should auto save  recommendation", async () => {
-    component.answerResponse1 = of({
+    component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -118,12 +118,12 @@ describe('RecommendationComponent', () => {
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
       expect(data).toBe(topicLevelRecommendationText)
     })
-    expect(component.topicRecommendationResponse.recommendation).toBe("some more");
+    expect(component.topicLevelRecommendationResponse.recommendation).toBe("some more");
   });
 
 
   it("should auto save delivery horizon", async () => {
-    component.answerResponse1 = of({
+    component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -169,12 +169,12 @@ describe('RecommendationComponent', () => {
       expect(data).toBe(topicLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
-    expect(component.topicRecommendationResponse.deliveryHorizon).toBe("some text");
+    expect(component.topicLevelRecommendationResponse.deliveryHorizon).toBe("some text");
   });
 
 
   it("should auto save impact change",  () => {
-    component.answerResponse1 = of({
+    component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -218,11 +218,11 @@ describe('RecommendationComponent', () => {
       expect(data).toBe(topicLevelRecommendationText)
       //expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
-    expect(component.topicRecommendationResponse.impact).toBe("LOW");
+    expect(component.topicLevelRecommendationResponse.impact).toBe("LOW");
   });
 
   it("should auto save effort change", () => {
-    component.answerResponse1 = of({
+    component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -264,7 +264,7 @@ describe('RecommendationComponent', () => {
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
     })
-    expect(component.topicRecommendationResponse.effort).toBe("HIGH");
+    expect(component.topicLevelRecommendationResponse.effort).toBe("HIGH");
   });
 
   it('should able to delete recommendation template',()=>{
@@ -313,7 +313,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should throw error when problem occurs in delivery horizon", async () => {
-    component.answerResponse1 = of({
+    component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -368,7 +368,7 @@ describe('RecommendationComponent', () => {
   });
 
   it('should update topic level recommendation according to recommendation response', function () {
-    component.topicRecommendationResponse = {
+    component.topicLevelRecommendationResponse = {
       assessmentId : 0,
       topicId : 0,
       recommendationId : 1,
@@ -386,7 +386,7 @@ describe('RecommendationComponent', () => {
 
     component.topicRecommendationIndex = -1
 
-    component.getRecommendation(component.topicRecommendationSample,component.topicRecommendationResponse)
+    component.getRecommendation(component.topicRecommendationSample,component.topicLevelRecommendationResponse)
 
     if (component.topicRecommendationSample) {
       expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
@@ -395,7 +395,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should set the topic recommendation", () => {
-    component.answerResponse = {
+    component.topicRecommendationResponse = {
       assessmentId: 1,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -431,7 +431,7 @@ describe('RecommendationComponent', () => {
 
     component.topicLevelRecommendationText = {assessmentId: 0, topicId: 0, topicLevelRecommendation: component.recommendations}
 
-    component.topicRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
+    component.topicLevelRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
 
     const topicRecommendation = {
       recommendationId : 1,
@@ -451,7 +451,7 @@ describe('RecommendationComponent', () => {
     component.topicId = 0
     component.saveParticularRecommendationText(keyEvent);
     expect(component.recommendation.recommendation).toEqual("some text");
-    expect(component.answerResponse.topicRatingAndRecommendation).toBeDefined();
+    expect(component.topicRecommendationResponse.topicRatingAndRecommendation).toBeDefined();
   });
 
 });

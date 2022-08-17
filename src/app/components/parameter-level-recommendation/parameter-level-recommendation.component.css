@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.parameterTextArea {
+  width: 99%;
+  height: 166px;
+  margin-left: 3px;
+  font-size: 15px;
+}
+
+textArea.mat-input-element {
+  padding-bottom: 30px;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #00000099 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
+}
+
+.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
+  caret-color: #45A0AC !important;
+}
+
+::ng-deep .topicAssessment {
+  overflow-y: scroll !important;
+}
+
+
+.parameterRecommendation {
+  margin-top: 13px;
+  margin-right: 50px;
+  margin-bottom: 35px;
+  background: #FFFFFF 1% 1% no-repeat padding-box;
+  box-shadow: 1px 1px 6px #013D4F29;
+  border-left: 1px solid #FFFFFF;
+}
+
+.plusIcon {
+  margin-left: 78%;
+  background-color: unset;
+  border: none;
+}
+
+.deleteIcon {
+  background-color: unset;
+  border: none;
+  margin-left: 20em;
+  margin-top: 45px;
+  position: relative;
+}
+
+.parent {
+  display: flex;
+}
+
+.impact {
+  font-weight: bold;
+}
+
+.effect {
+  padding-left: 6%;
+  font-weight: bold;
+}
+
+.deliveryHorizon {
+  padding-left: 6%;
+  font-weight: bold;
+  border-radius: inherit;
+}
+
+.radio1, .radio2, .input1 {
+  padding-top: 10px;
+  padding-bottom: 15px;
+  padding-right: 10px;
+}
+
+.input1 {
+  width: 100px;
+}
+
+.mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
+  margin-bottom: 0;
+  margin-left: 4px;
+}
+

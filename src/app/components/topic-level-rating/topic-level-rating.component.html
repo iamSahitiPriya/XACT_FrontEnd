@@ -29,13 +29,13 @@
 </div>
 
 <div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation ; let i=index">
-<app-recommendation
+<app-topic-level-recommendation
   [index] = "i"
   [recommendation]="recommendation"
   [assessmentId]="assessmentId"
   [topicId]="topicId"
   [topicRecommendationArray]="topicRatingAndRecommendation.topicLevelRecommendation"
-></app-recommendation>
+></app-topic-level-recommendation>
 </div>
 
 
