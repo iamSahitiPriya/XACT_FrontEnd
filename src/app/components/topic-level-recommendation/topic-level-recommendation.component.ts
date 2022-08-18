@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {FormGroup} from "@angular/forms";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -38,6 +39,8 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   @Input()
   index: number;
+
+  form: FormGroup;
 
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
@@ -101,15 +104,12 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.recommendation = this.recommendation.recommendation;
-    this.topicLevelRecommendationResponse.topicId = this.topicId;
-    this.topicLevelRecommendationResponse.assessmentId = this.assessmentId;
-    this.topicLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
-    this.topicLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
-
+    this.setRecommendationsFields();
+    this.setTopicLevelRecommendationResponse();
+    this.topicLevelRecommendationText.topicLevelRecommendation= this.recommendations;
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
-      next: (_data) => {
+      next: (_data) =>
+      {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
       }, error: _error => {
@@ -120,28 +120,46 @@ export class TopicLevelRecommendationComponent implements OnInit {
     this.updateDataSavedStatus()
   }
 
-  private sendRecommendation(topicRecommendationResponse: TopicRecommendationResponse) {
+  private setRecommendationsFields() {
+    this.recommendations.recommendationId = this.recommendation.recommendationId;
+    this.recommendations.recommendation = this.recommendation.recommendation;
+    this.recommendations.effort = this.recommendation.effort;
+    this.recommendations.impact = this.recommendation.impact;
+    this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
+  }
+
+  private setTopicLevelRecommendationResponse() {
+    this.topicLevelRecommendationResponse.topicId = this.topicId;
+    this.topicLevelRecommendationResponse.assessmentId = this.assessmentId;
+    this.topicLevelRecommendationResponse.recommendationId = this.recommendation.recommendationId;
+    this.topicLevelRecommendationResponse.recommendation = this.recommendation.recommendation;
+    this.topicLevelRecommendationResponse.effort = this.recommendation.effort;
+    this.topicLevelRecommendationResponse.impact = this.recommendation.impact;
+    this.topicLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+  }
+
+  private sendRecommendation(topicLevelRecommendationResponse: TopicRecommendationResponse) {
 
     let index = 0;
     let updatedRecommendationList = [];
     this.cloneTopicRecommendationResponse = Object.assign({}, this.topicRecommendationResponse)
     let topicRecommendation: TopicRatingAndRecommendation = {
-      topicId: topicRecommendationResponse.topicId,
+      topicId: topicLevelRecommendationResponse.topicId,
       rating: 0,
       topicLevelRecommendation: [{
-        recommendationId: topicRecommendationResponse.recommendationId,
-        recommendation: topicRecommendationResponse.recommendation,
-        impact: topicRecommendationResponse.impact,
-        effort: topicRecommendationResponse.effort,
-        deliveryHorizon: topicRecommendationResponse.deliveryHorizon
+        recommendationId: topicLevelRecommendationResponse.recommendationId,
+        recommendation: topicLevelRecommendationResponse.recommendation,
+        impact: topicLevelRecommendationResponse.impact,
+        effort: topicLevelRecommendationResponse.effort,
+        deliveryHorizon: topicLevelRecommendationResponse.deliveryHorizon
       }]
     };
     updatedRecommendationList.push(topicRecommendation);
     if (this.cloneTopicRecommendationResponse.topicRatingAndRecommendation != undefined) {
-      index = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRecommendationResponse.topicId)
+      index = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicLevelRecommendationResponse.topicId)
       if (index !== -1) {
         this.topicRecommendationSample = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation;
-        this.getRecommendation(this.topicRecommendationSample, topicRecommendationResponse)
+        this.getRecommendation(this.topicRecommendationSample, topicLevelRecommendationResponse)
         topicRecommendation.rating = this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].rating;
         this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
@@ -176,29 +194,11 @@ export class TopicLevelRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicLevelRecommendationResponse}))
   }
 
-  impactChange() {
+  inputChange() {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.impact = this.recommendation.impact;
-    this.topicLevelRecommendationResponse.impact = this.recommendation.impact;
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.topicLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-  }
-
-
-  effortChange() {
-    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
-    this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.effort = this.recommendation.effort;
-    this.topicLevelRecommendationResponse.effort = this.recommendation.effort;
+    this.setRecommendationsFields()
+    this.setTopicLevelRecommendationResponse()
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.topicLevelRecommendationResponse)
@@ -212,9 +212,9 @@ export class TopicLevelRecommendationComponent implements OnInit {
   saveParticularRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
-    this.topicLevelRecommendationResponse.deliveryHorizon = this.recommendation.deliveryHorizon;
+    this.setRecommendationsFields()
+    this.setTopicLevelRecommendationResponse()
+    this.topicLevelRecommendationText.topicLevelRecommendation= this.recommendations;
     this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.topicLevelRecommendationResponse)

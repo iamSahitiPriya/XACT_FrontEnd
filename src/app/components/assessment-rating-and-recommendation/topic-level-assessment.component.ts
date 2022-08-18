@@ -26,9 +26,7 @@ import {data_local} from "../../../assets/messages";
 
 export const saveAssessmentData = [{}]
 
-let topicId: number;
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
-
 
 export class parameterRequest {
 
@@ -37,13 +35,11 @@ export class parameterRequest {
 
   constructor(answerRequest: Notes[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
     this.answerRequest1 = answerRequest;
-    this.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    this.parameterRatingAndRecommendation = parameterRatingAndRecommendation
   }
 }
 
-
 let parameterRequests: parameterRequest[];
-
 
 @Component({
   selector: 'app-topic-level-assessment',
@@ -83,31 +79,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
 
-  topicRatingAndRecommendation: TopicRatingAndRecommendation = {
 
-    topicLevelRecommendation : [{
-      recommendationId: undefined,
-      recommendation : "",
-      impact : "",
-      effort : "",
-      deliveryHorizon : ""
-    }],
-    topicId: topicId,
-    rating:0
-  }
-
-  parameterRatingAndRecommendation: ParameterRatingAndRecommendation = {
-
-    parameterLevelRecommendation : [{
-      recommendationId: undefined,
-      recommendation : "",
-      impact : "",
-      effort : "",
-      deliveryHorizon : ""
-    }],
-    parameterId: 0,
-    rating:0
-  }
   ngOnInit(): void {
     this.answerResponse1.subscribe(data => {
       if (data !== undefined) {
@@ -152,6 +124,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
   private getAssessment() {
     this.topicParameterValidation()
   }
+
   private topicParameterValidation() {
     if (this.topicInput.references != null) {
       for (let parameter in this.topicInput.parameters) {
@@ -221,10 +194,11 @@ export class TopicLevelAssessmentComponent implements OnInit {
             deliveryHorizon: ""
           }]
         }
-      } }else {
+      }
+    } else {
       newParameterRequest = {
         answerRequest: this.getAnswersList(parameter),
-        parameterRatingAndRecommendation : {
+        parameterRatingAndRecommendation: {
           rating: 0,
           parameterLevelRecommendation: [{
             recommendationId: undefined,
@@ -246,18 +220,18 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let isRatingAndTopicPresent = false
     let indexByTopicId = 0
     if (this.answerResponse.topicRatingAndRecommendation !== undefined) {
-      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el =>el.topicId == this.topicInput.topicId)
+      isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
     }
     if (isRatingAndTopicPresent) {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating:0,
-        topicLevelRecommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation:[{
+        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating : 0,
+        topicLevelRecommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation : [{
           recommendationId: undefined,
-          recommendation : "",
-          impact : "",
-          effort : "",
-          deliveryHorizon : ""
+          recommendation: "",
+          impact: "",
+          effort: "",
+          deliveryHorizon: ""
         }],
         topicId: this.topicInput.topicId
       }
@@ -266,15 +240,15 @@ export class TopicLevelAssessmentComponent implements OnInit {
         rating: 0,
         topicLevelRecommendation: [{
           recommendationId: undefined,
-          recommendation : "",
-          impact : "",
-          effort : "",
-          deliveryHorizon : ""}],
+          recommendation: "",
+          impact: "",
+          effort: "",
+          deliveryHorizon: ""
+        }],
         topicId: this.topicInput.topicId
       }
     }
   }
-
 
 
   private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
@@ -304,7 +278,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.topicRatingAndRecommendation) {
-      this.averageRating.rating =  this.topicRequest.topicRatingAndRecommendation.rating
+      this.averageRating.rating = this.topicRequest.topicRatingAndRecommendation.rating
       this.averageRating.topicId = this.topicInput.topicId
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
@@ -326,6 +300,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
       }
     }
   }
+
   private updateDataSavedStatus() {
     this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
