@@ -188,7 +188,7 @@ describe('AppServiceService', () => {
           deliveryHorizon: "some more text"
         }
     }
-    expect(service.saveParameterRecommendationFields(dummyParameterRecommendation)).toBeTruthy()
+    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
 
 });
