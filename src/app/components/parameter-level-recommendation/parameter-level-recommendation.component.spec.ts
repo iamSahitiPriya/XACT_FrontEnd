@@ -21,21 +21,13 @@ import {MatRadioModule} from "@angular/material/radio";
 
 
 class MockAppService {
-  saveParameterRecommendationText(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest) {
+  saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest) {
     if (parameterLevelRecommendationText.parameterId === 0) {
       return of(parameterLevelRecommendationText)
     } else {
       return throwError("Error!")
     }
   }
-  saveParameterRecommendationFields(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest) {
-    if (parameterLevelRecommendationText.parameterId === 0) {
-      return of(parameterLevelRecommendationText)
-    } else {
-      return throwError("Error!")
-    }
-  }
-
   deleteParameterRecommendation(parameterId : number) {
     if (parameterId === 0) {
       return of(true)
@@ -122,7 +114,7 @@ describe('ParameterRecommendationComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveParameterRecommendationText(parameterLevelRecommendationText).subscribe(data => {
+    mockAppService.saveParameterRecommendation(parameterLevelRecommendationText).subscribe(data => {
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
       expect(data).toBe(parameterLevelRecommendationText)
     })
@@ -173,15 +165,15 @@ describe('ParameterRecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularParameterRecommendationDeliveryHorizon')
+    jest.spyOn(component, 'saveParticularParameterText')
     component.parameterLevelRecommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "some text"}
     component.assessmentStatus="Active"
     component.ngOnInit()
-    component.saveParticularParameterRecommendationDeliveryHorizon(keyEvent);
+    component.saveParticularParameterText(keyEvent);
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveParameterRecommendationFields(parameterLevelRecommendationText).subscribe(data => {
+    mockAppService.saveParameterRecommendation(parameterLevelRecommendationText).subscribe(data => {
       expect(data).toBe(parameterLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
@@ -232,12 +224,12 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterId = 0
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'impactChange')
+    jest.spyOn(component,'inputChange')
     component.parameterLevelRecommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "" ,deliveryHorizon : ""}
     component.ngOnInit()
-    component.impactChange();
+    component.inputChange();
 
-    mockAppService.saveParameterRecommendationFields(parameterLevelRecommendationText).subscribe(data => {
+    mockAppService.saveParameterRecommendation(parameterLevelRecommendationText).subscribe(data => {
       expect(data).toBe(parameterLevelRecommendationText)
     })
     expect(component.parameterLevelRecommendationResponse.impact).toBe("LOW");
@@ -286,12 +278,12 @@ describe('ParameterRecommendationComponent', () => {
     };
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'effortChange')
+    jest.spyOn(component,'inputChange')
     component.parameterLevelRecommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "HIGH" ,deliveryHorizon : ""}
     component.ngOnInit()
-    component.effortChange();
+    component.inputChange();
 
-    mockAppService.saveParameterRecommendationFields(parameterLevelRecommendationText).subscribe(data => {
+    mockAppService.saveParameterRecommendation(parameterLevelRecommendationText).subscribe(data => {
       expect(data).toBe(parameterLevelRecommendationText)
     })
     expect(component.parameterLevelRecommendationResponse.effort).toBe("HIGH");
@@ -386,18 +378,18 @@ describe('ParameterRecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component, 'saveParticularParameterRecommendationDeliveryHorizon')
+    jest.spyOn(component, 'saveParticularParameterText')
     component.parameterLevelRecommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
     component.ngOnInit()
-    component.saveParticularParameterRecommendationDeliveryHorizon(keyEvent);
+    component.saveParticularParameterText(keyEvent);
     component.saveParticularParameterText(keyEvent)
-    component.impactChange()
-    component.effortChange()
+    component.inputChange()
+    component.inputChange()
 
     await new Promise((r) => setTimeout(r, 2000));
 
 
-    mockAppService.saveParameterRecommendationFields(parameterLevelRecommendationText).subscribe((data) => {
+    mockAppService.saveParameterRecommendation(parameterLevelRecommendationText).subscribe((data) => {
       expect(data).toBeUndefined()
     }, error => {
       expect(component.showError).toHaveBeenCalled()
