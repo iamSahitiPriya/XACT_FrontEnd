@@ -10,7 +10,7 @@
                 cdkAutosizeMinRows="3"
                 cdkAutosizeMaxRows="4"
                 maxlength="10000"
-                (keyup)="saveParticularRecommendationText($event)"
+                (keyup)="saveParticularTopicRecommendationText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
 
     </mat-form-field>
@@ -53,7 +53,7 @@
                    name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
                    [(ngModel)]="recommendation.deliveryHorizon" matInput
                    [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'"
-                   (keyup)="saveParticularRecommendationDeliveryHorizon($event)"
+                   (keyup)="saveParticularTopicRecommendationText($event)"
             >
           </mat-form-field>
         </div>

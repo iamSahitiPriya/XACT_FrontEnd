@@ -26,6 +26,5 @@ export const environment = {
   VERSION: appPackage && appPackage.version,
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   SAVE_PARAMETER_RECOMMENDATION_TEXT_URI: "/v1/assessments/parameterRecommendation",
-  SAVE_PARAMETER_RECOMMENDATION_FIELD_URI:"/v1/assessments/parameterRecommendation",
-  DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/parameterRecommendation/deleteRecommendation",
+  DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
 };

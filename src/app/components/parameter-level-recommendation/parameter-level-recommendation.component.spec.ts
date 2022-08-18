@@ -114,11 +114,11 @@ describe('ParameterRecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularParameterRecommendationText')
+    jest.spyOn(component, 'saveParticularParameterText')
     component.parameterLevelRecommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
     component.assessmentStatus="Active"
     component.ngOnInit()
-    component.saveParticularParameterRecommendationText(keyEvent);
+    component.saveParticularParameterText(keyEvent);
 
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -390,7 +390,7 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterLevelRecommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
     component.ngOnInit()
     component.saveParticularParameterRecommendationDeliveryHorizon(keyEvent);
-    component.saveParticularParameterRecommendationText(keyEvent)
+    component.saveParticularParameterText(keyEvent)
     component.impactChange()
     component.effortChange()
 
@@ -490,12 +490,12 @@ describe('ParameterRecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component, "saveParticularParameterRecommendationText");
+    jest.spyOn(component, "saveParticularParameterText");
     component.parameterLevelRecommendation = parameterRecommendation;
     component.assessmentStatus = "Active"
     component.assessmentId = 1
     component.parameterId = 0
-    component.saveParticularParameterRecommendationText(keyEvent);
+    component.saveParticularParameterText(keyEvent);
     expect(component.parameterLevelRecommendation.recommendation).toEqual("some text");
     expect(component.parameterRecommendationResponse.parameterRatingAndRecommendation).toBeDefined();
   });

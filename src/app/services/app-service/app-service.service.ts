@@ -83,14 +83,9 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_RECOMMENDATION_URI + "/" + assessmentId + "/"+topicId+"/"+recommendationId,{'headers':headers} );
   }
 
-  saveParameterRecommendationText(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
+  saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_TEXT_URI + "/" + parameterLevelRecommendationText.assessmentId + "/" + parameterLevelRecommendationText.parameterId, parameterLevelRecommendationText.parameterLevelRecommendation, {'headers': headers})
-  }
-
-  saveParameterRecommendationFields(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_FIELD_URI + "/" + parameterLevelRecommendationText.assessmentId + "/" + parameterLevelRecommendationText.parameterId, parameterLevelRecommendationText.parameterLevelRecommendation, {'headers': headers})
   }
 
   deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number):Observable<any>{

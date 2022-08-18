@@ -54,8 +54,8 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.parameterRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularParameterRecommendationText = debounce(this.saveParticularParameterRecommendationText, DEBOUNCE_TIME)
-    this.saveParticularParameterRecommendationDeliveryHorizon = debounce(this.saveParticularParameterRecommendationDeliveryHorizon, DEBOUNCE_TIME)
+    this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
+    // this.saveParticularParameterRecommendationDeliveryHorizon = debounce(this.saveParticularParameterRecommendationDeliveryHorizon, DEBOUNCE_TIME)
   }
 
   parameterRecommendation: ParameterLevelRecommendation = {
@@ -100,13 +100,13 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   }
 
-  saveParticularParameterRecommendationText(_$event: KeyboardEvent) {
+  saveParticularParameterText(_$event: KeyboardEvent) {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.setParameterRecommendationFields();
     this.setParameterLevelRecommendationResponseFields();
     this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
@@ -190,54 +190,54 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterLevelRecommendationResponse}))
   }
 
-  impactChange() {
-    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    this.setParameterRecommendationFields()
-    this.setParameterLevelRecommendationResponseFields()
-    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.parameterLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-  }
+  // impactChange() {
+  //   this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+  //   this.parameterLevelRecommendationText.parameterId = this.parameterId;
+  //   this.setParameterRecommendationFields()
+  //   this.setParameterLevelRecommendationResponseFields()
+  //   this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+  //   this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+  //     next: (_data) => {
+  //       this.sendRecommendation(this.parameterLevelRecommendationResponse)
+  //       this.updateDataSavedStatus()
+  //     }, error: _error => {
+  //       this.showError("Data cannot be saved", "Close");
+  //     }
+  //   })
+  // }
+  //
+  //
+  // effortChange() {
+  //   this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+  //   this.parameterLevelRecommendationText.parameterId = this.parameterId;
+  //   this.setParameterRecommendationFields()
+  //   this.setParameterLevelRecommendationResponseFields()
+  //   this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+  //   this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+  //     next: (_data) => {
+  //       this.sendRecommendation(this.parameterLevelRecommendationResponse)
+  //       this.updateDataSavedStatus()
+  //     }, error: _error => {
+  //       this.showError("Data cannot be saved", "Close");
+  //     }
+  //   })
+  // }
 
-
-  effortChange() {
-    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    this.setParameterRecommendationFields()
-    this.setParameterLevelRecommendationResponseFields()
-    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.parameterLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-  }
-
-  saveParticularParameterRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
-    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    this.setParameterRecommendationFields()
-    this.setParameterLevelRecommendationResponseFields()
-    this.parameterLevelRecommendationText.parameterLevelRecommendation= this.parameterRecommendation;
-    this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.parameterLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-  }
+  // saveParticularParameterRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
+  //   this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+  //   this.parameterLevelRecommendationText.parameterId = this.parameterId;
+  //   this.setParameterRecommendationFields()
+  //   this.setParameterLevelRecommendationResponseFields()
+  //   this.parameterLevelRecommendationText.parameterLevelRecommendation= this.parameterRecommendation;
+  //   this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+  //     next: (_data) => {
+  //       this.sendRecommendation(this.parameterLevelRecommendationResponse)
+  //       this.updateDataSavedStatus()
+  //     }, error: _error => {
+  //       this.showError("Data cannot be saved", "Close");
+  //     }
+  //   })
+  // }
 
   deleteTemplate(recommendation: ParameterLevelRecommendation) {
     let index = -1;
@@ -270,4 +270,19 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     }
   }
 
+  inputChange() {
+    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
+    this.parameterLevelRecommendationText.parameterId = this.parameterId;
+    this.setParameterRecommendationFields()
+    this.setParameterLevelRecommendationResponseFields()
+    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+      next: (_data) => {
+        this.sendRecommendation(this.parameterLevelRecommendationResponse)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError("Data cannot be saved", "Close");
+      }
+    })
+  }
 }

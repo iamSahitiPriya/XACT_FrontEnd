@@ -12,7 +12,7 @@
                 cdkAutosizeMinRows="3"
                 cdkAutosizeMaxRows="4"
                 maxlength="10000"
-                (keyup)="saveParticularParameterRecommendationText($event)"
+                (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
 
     </mat-form-field>
@@ -25,7 +25,7 @@
           <mat-radio-group
             id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
             name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
-            [(ngModel)]="parameterLevelRecommendation.impact" aria-label="Select an option" (change)="impactChange()"
+            [(ngModel)]="parameterLevelRecommendation.impact" aria-label="Select an option" (change)="inputChange()"
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
             &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
@@ -39,7 +39,7 @@
           <mat-radio-group
             id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
             name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
-            [(ngModel)]="parameterLevelRecommendation.effort" aria-label="Select an option" (change)="effortChange()"
+            [(ngModel)]="parameterLevelRecommendation.effort" aria-label="Select an option" (change)="inputChange()"
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
@@ -55,7 +55,7 @@
                    name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
                    [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" matInput
                    [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'"
-                   (keyup)="saveParticularParameterRecommendationDeliveryHorizon($event)"
+                   (keyup)="saveParticularParameterText($event)"
             >
           </mat-form-field>
         </div>

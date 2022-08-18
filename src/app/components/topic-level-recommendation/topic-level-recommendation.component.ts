@@ -53,8 +53,8 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularRecommendationText = debounce(this.saveParticularRecommendationText, DEBOUNCE_TIME)
-    this.saveParticularRecommendationDeliveryHorizon = debounce(this.saveParticularRecommendationDeliveryHorizon, DEBOUNCE_TIME)
+    this.saveParticularTopicRecommendationText = debounce(this.saveParticularTopicRecommendationText, DEBOUNCE_TIME)
+    // this.saveParticularRecommendationDeliveryHorizon = debounce(this.saveParticularRecommendationDeliveryHorizon, DEBOUNCE_TIME)
   }
 
   recommendations: TopicLevelRecommendation = {
@@ -100,7 +100,7 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   }
 
-  saveParticularRecommendationText(_$event: KeyboardEvent) {
+  saveParticularTopicRecommendationText(_$event: KeyboardEvent) {
 
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
@@ -209,21 +209,21 @@ export class TopicLevelRecommendationComponent implements OnInit {
     })
   }
 
-  saveParticularRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
-    this.topicLevelRecommendationText.assessmentId = this.assessmentId;
-    this.topicLevelRecommendationText.topicId = this.topicId;
-    this.setRecommendationsFields()
-    this.setTopicLevelRecommendationResponse()
-    this.topicLevelRecommendationText.topicLevelRecommendation= this.recommendations;
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.topicLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-  }
+  // saveParticularRecommendationDeliveryHorizon(_$event: KeyboardEvent) {
+  //   this.topicLevelRecommendationText.assessmentId = this.assessmentId;
+  //   this.topicLevelRecommendationText.topicId = this.topicId;
+  //   this.setRecommendationsFields()
+  //   this.setTopicLevelRecommendationResponse()
+  //   this.topicLevelRecommendationText.topicLevelRecommendation= this.recommendations;
+  //   this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
+  //     next: (_data) => {
+  //       this.sendRecommendation(this.topicLevelRecommendationResponse)
+  //       this.updateDataSavedStatus()
+  //     }, error: _error => {
+  //       this.showError("Data cannot be saved", "Close");
+  //     }
+  //   })
+  // }
 
   deleteTemplate(recommendation: TopicLevelRecommendation) {
     let index = -1;

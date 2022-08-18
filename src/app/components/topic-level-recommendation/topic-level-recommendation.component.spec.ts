@@ -106,11 +106,11 @@ describe('RecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularRecommendationText')
+    jest.spyOn(component, 'saveParticularTopicRecommendationText')
     component.recommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
     component.assessmentStatus="Active"
     component.ngOnInit()
-    component.saveParticularRecommendationText(keyEvent);
+    component.saveParticularTopicRecommendationText(keyEvent);
 
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -352,7 +352,7 @@ describe('RecommendationComponent', () => {
     component.recommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
     component.ngOnInit()
     component.saveParticularRecommendationDeliveryHorizon(keyEvent);
-    component.saveParticularRecommendationText(keyEvent)
+    component.saveParticularTopicRecommendationText(keyEvent)
     component.inputChange()
 
     await new Promise((r) => setTimeout(r, 2000));
@@ -443,12 +443,12 @@ describe('RecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component, "saveParticularRecommendationText");
+    jest.spyOn(component, "saveParticularTopicRecommendationText");
     component.recommendation = topicRecommendation;
     component.assessmentStatus = "Active"
     component.assessmentId = 1
     component.topicId = 0
-    component.saveParticularRecommendationText(keyEvent);
+    component.saveParticularTopicRecommendationText(keyEvent);
     expect(component.recommendation.recommendation).toEqual("some text");
     expect(component.topicRecommendationResponse.topicRatingAndRecommendation).toBeDefined();
   });
