@@ -161,10 +161,8 @@ describe('TopicLevelAssessmentComponent', () => {
       recommendation: "some text",
       topicId: 1
     }
-    component.topicRatingAndRecommendation = {rating: 2, topicId: 1,topicLevelRecommendation:[]};
-    // component.topicLevelRecommendationComponent = component2;
-    // component2.topicRatingAndRecommendation = {rating: "2", recommendation: "none", topicId: 1};
-    expect(component.topicRatingAndRecommendation.rating).toEqual(2);
+    component.topicRequest.topicRatingAndRecommendation = {rating: 2, topicId: 1,topicLevelRecommendation:[]};
+    expect(component.topicRequest.topicRatingAndRecommendation.rating).toEqual(2);
     expect(topicRatingAndRecommendation.rating).toEqual(2);
   })
 

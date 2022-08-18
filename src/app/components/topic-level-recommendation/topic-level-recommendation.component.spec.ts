@@ -208,10 +208,10 @@ describe('RecommendationComponent', () => {
     component.topicId = 0
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'impactChange')
+    jest.spyOn(component,'inputChange')
     component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "" ,deliveryHorizon : ""}
     component.ngOnInit()
-    component.impactChange();
+    component.inputChange();
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       //console.log(data)
@@ -256,10 +256,10 @@ describe('RecommendationComponent', () => {
     };
 
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'effortChange')
+    jest.spyOn(component,'inputChange')
     component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "HIGH" ,deliveryHorizon : ""}
     component.ngOnInit()
-    component.effortChange();
+    component.inputChange();
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
@@ -353,8 +353,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.saveParticularRecommendationDeliveryHorizon(keyEvent);
     component.saveParticularRecommendationText(keyEvent)
-    component.impactChange()
-    component.effortChange()
+    component.inputChange()
 
     await new Promise((r) => setTimeout(r, 2000));
 
