@@ -47,14 +47,14 @@
           </mat-radio-group>
         </div>
       </div>
-      <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
+      <div *ngIf="parameterRecommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
           <mat-form-field appearance="outline" style="width:22em;height:10px">
-            <input id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_deliverHorizon"
-                   name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-                   [(ngModel)]="parameterLevelRecommendation.deliveryHorizon"
-                   [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'"
+            <input id="recommendationElement_parameter{{parameterRecommendation.recommendationId}}_deliverHorizon"
+                   name="recommendationText_parameter{{parameterRecommendation.recommendationId}}_deliveryHorizon"
+                   [(ngModel)]="parameterRecommendation.deliveryHorizon" matInput
+                   [disabled]="disableFields(parameterRecommendation.recommendationId) || assessmentStatus ==='Completed'"
                    (keyup)="saveParticularParameterRecommendationDeliveryHorizon($event)"
             >
           </mat-form-field>

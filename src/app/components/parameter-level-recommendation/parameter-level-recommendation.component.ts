@@ -228,7 +228,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
     this.setParameterRecommendationFields()
     this.setParameterLevelRecommendationResponseFields()
-    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+    this.parameterLevelRecommendationText.parameterLevelRecommendation= this.parameterRecommendation;
     this.appService.saveParameterRecommendationText(this.parameterLevelRecommendationText).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.parameterLevelRecommendationResponse)

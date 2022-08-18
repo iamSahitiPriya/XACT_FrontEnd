@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {Store} from "@ngrx/store";
@@ -76,6 +75,8 @@ export class ParameterLevelRatingComponent implements OnInit {
     deliveryHorizon: ""
 
   }
+
+  form : FormGroup
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined
