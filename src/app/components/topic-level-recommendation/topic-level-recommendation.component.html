@@ -7,8 +7,8 @@
                 name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                 [(ngModel)]="recommendation.recommendation"
                 cdkTextareaAutosize
-                cdkAutosizeMinRows="3"
-                cdkAutosizeMaxRows="4"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="2"
                 maxlength="10000"
                 (keyup)="saveParticularTopicRecommendationText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
@@ -48,13 +48,18 @@
       <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
-          <mat-form-field appearance="outline" style="width:22em;height:10px">
-            <input id="recommendationElement_topic{{recommendation.recommendationId}}_deliverHorizon"
-                   name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
-                   [(ngModel)]="recommendation.deliveryHorizon" matInput
-                   [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'"
-                   (keyup)="saveParticularTopicRecommendationText($event)"
-            >
+          <mat-form-field appearance="fill">
+            <mat-label>Select an option</mat-label>
+            <mat-select
+              id="recommendationElement_parameter{{recommendation.recommendationId}}_deliveryHorizon"
+              name="recommendationText_parameter{{recommendation.recommendationId}}_deliveryHorizon"
+              (selectionChange)="inputChange()"
+              [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'"
+              [(ngModel)]="recommendation.deliveryHorizon">
+              <mat-option value="NOW">Now</mat-option>
+              <mat-option value="NEXT">Next</mat-option>
+              <mat-option value="LATER">Later</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

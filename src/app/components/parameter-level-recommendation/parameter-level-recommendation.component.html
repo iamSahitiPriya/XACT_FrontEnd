@@ -9,8 +9,8 @@
                 #recommendationElement
                 [(ngModel)]="parameterLevelRecommendation.recommendation"
                 cdkTextareaAutosize
-                cdkAutosizeMinRows="3"
-                cdkAutosizeMaxRows="4"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="2"
                 maxlength="10000"
                 (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
@@ -50,13 +50,18 @@
       <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
-          <mat-form-field appearance="outline" style="width:22em;height:10px">
-            <input id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_deliverHorizon"
-                   name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-                   [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" matInput
-                   [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'"
-                   (keyup)="saveParticularParameterText($event)"
-            >
+          <mat-form-field appearance="fill">
+            <mat-label>Select an option</mat-label>
+            <mat-select
+              id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
+              name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
+              (selectionChange)="inputChange()"
+              [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'"
+              [(ngModel)]="parameterLevelRecommendation.deliveryHorizon">
+              <mat-option value="NOW">Now</mat-option>
+              <mat-option value="NEXT">Next</mat-option>
+              <mat-option value="LATER">Later</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
