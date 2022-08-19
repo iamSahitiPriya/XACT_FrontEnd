@@ -18,6 +18,7 @@ import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecomme
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatOptionModule} from "@angular/material/core";
 
 
 class MockAppService {
@@ -53,7 +54,7 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRecommendationComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,
+      imports: [MatFormFieldModule, MatOptionModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
     })
