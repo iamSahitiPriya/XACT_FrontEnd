@@ -162,14 +162,13 @@ describe('ParameterRecommendationComponent', () => {
     };
     component.assessmentId = 1
     component.parameterId = 0
-    const keyEventData = {isTrusted: true, code: 'Key'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularParameterText')
-    component.parameterLevelRecommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "some text"}
+    jest.spyOn(component, 'inputChange')
+    component.parameterLevelRecommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "NOW"}
     component.assessmentStatus="Active"
     component.ngOnInit()
-    component.saveParticularParameterText(keyEvent);
+    component.inputChange();
 
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -177,7 +176,7 @@ describe('ParameterRecommendationComponent', () => {
       expect(data).toBe(parameterLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
-    expect(component.parameterLevelRecommendationResponse.deliveryHorizon).toBe("some text");
+    expect(component.parameterLevelRecommendationResponse.deliveryHorizon).toBe("NOW");
   });
 
 

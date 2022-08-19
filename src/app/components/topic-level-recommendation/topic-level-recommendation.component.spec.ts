@@ -154,22 +154,18 @@ describe('RecommendationComponent', () => {
     };
     component.assessmentId = 1
     component.topicId = 0
-    const keyEventData = {isTrusted: true, code: 'Key'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularTopicRecommendationText')
-    component.recommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "some text"}
+    jest.spyOn(component, 'inputChange')
+    component.recommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "NOW"}
     component.assessmentStatus="Active"
     component.ngOnInit()
-    component.saveParticularTopicRecommendationText(keyEvent);
-
-    await new Promise((r) => setTimeout(r, 2000));
+    component.inputChange();
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
-    expect(component.topicLevelRecommendationResponse.deliveryHorizon).toBe("some text");
+    expect(component.topicLevelRecommendationResponse.deliveryHorizon).toBe("NOW");
   });
 
 
@@ -214,9 +210,7 @@ describe('RecommendationComponent', () => {
     component.inputChange();
 
     mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
-      //console.log(data)
       expect(data).toBe(topicLevelRecommendationText)
-      //expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
     expect(component.topicLevelRecommendationResponse.impact).toBe("LOW");
   });
@@ -312,7 +306,7 @@ describe('RecommendationComponent', () => {
 
   });
 
-  it("should throw error when problem occurs in delivery horizon", async () => {
+  it("should throw error when problem occurs if undefined is sent", async () => {
     component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
