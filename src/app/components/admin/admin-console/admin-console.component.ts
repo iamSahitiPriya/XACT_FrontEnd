@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-admin-console',
@@ -7,7 +9,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AdminConsoleComponent{
   type:string;
-  constructor() {
+  constructor(private matIconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon("parameter",this.sanitizer.bypassSecurityTrustResourceUrl("../../../../assets/Group 3732.svg"))
   }
 
   setEvent(name: string) {

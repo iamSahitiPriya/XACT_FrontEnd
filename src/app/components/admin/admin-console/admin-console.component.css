@@ -77,3 +77,7 @@ button mat-icon {
 .parameterButton {
   padding: 6px 5px;
 }
+.parameterIcon{
+  height: 16px;
+  margin-bottom: 23px;
+}
