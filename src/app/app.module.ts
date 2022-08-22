@@ -61,6 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
+import { AdminConsoleComponent } from './components/admin/admin-console/admin-console.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -86,6 +87,12 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
+  {
+    path:'admin',
+    component:AdminConsoleComponent,
+    pathMatch:'full',
+    canActivate:[OktaAuthGuard]
+  }
 
 ];
 
@@ -106,7 +113,8 @@ export const appRoutes: Routes = [
     TopicLevelRatingAndRecommendationComponent,
     ErrorComponentComponent,
     ProgressComponentComponent,
-    AssessmentAverageRatingComponent
+    AssessmentAverageRatingComponent,
+    AdminConsoleComponent
   ],
     imports: [
         BrowserModule,

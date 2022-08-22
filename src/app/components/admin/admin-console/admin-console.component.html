@@ -1,0 +1,34 @@
+<div class="row" id="adminConsole">
+  <br>
+  <div class="col-md-3">
+    <mat-card class="consoleBox">
+      <mat-card-title class="cardTitle">Admin - Console</mat-card-title>
+      <mat-card-actions>
+        <div class="buttons">
+
+          <button mat-button class="dashboardButton" (click)="setEvent('dashboard')" [ngClass]="{'button-active':type === 'dashboard'}">
+            <mat-icon class="dashboardIcon">dashboard</mat-icon>
+            Dashboard
+          </button>
+          <button mat-button class="categoryButton" (click)="setEvent('category')" [ngClass]="{'button-active':type === 'category'}">
+            <mat-icon>category</mat-icon>
+               Category
+          </button>
+          <button mat-button class="moduleButton" (click)="setEvent('module')" [ngClass]="{'button-active':type === 'module'}">
+            <mat-icon>view_module</mat-icon>
+            Module
+          </button>
+          <button mat-button class="topicButton" (click)="setEvent('topic')" [ngClass]="{'button-active':type === 'topic'}">
+            <mat-icon>list</mat-icon>
+            Topic
+          </button>
+          <button mat-button class="parameterButton" (click)="setEvent('parameter')" [ngClass]="{'button-active':type === 'parameter'}">
+            <mat-icon>equalizer</mat-icon>
+            Parameter
+          </button>
+
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
