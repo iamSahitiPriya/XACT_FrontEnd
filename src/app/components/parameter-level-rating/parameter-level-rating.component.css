@@ -150,8 +150,8 @@ textArea.mat-input-element {
 
 .addRecommendation {
   width: 95%;
-  padding: 23px 0px 21px 0;
-  margin: 29px 0px 25px 3px;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
   background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
   background-position: top, right, bottom, left;
   background-repeat: repeat-x, repeat-y;
@@ -193,4 +193,6 @@ textArea.mat-input-element {
   border-radius: 0px;
 }
 
-
+#addRecommendation {
+  color: #4ba1ac;
+}

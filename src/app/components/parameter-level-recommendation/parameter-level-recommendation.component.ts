@@ -14,6 +14,8 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 let DEBOUNCE_TIME = 1200;
 
@@ -45,6 +47,8 @@ export class ParameterLevelRecommendationComponent implements OnInit {
   form: FormGroup;
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_TEXT_FIELDS
+
   assessmentStatus: string;
   parameterRecommendationResponse1: Observable<AssessmentStructure>;
   private cloneParameterRecommendationResponse: AssessmentStructure;
@@ -52,9 +56,10 @@ export class ParameterLevelRecommendationComponent implements OnInit {
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>,private matIconRegistry : MatIconRegistry,private sanitizer : DomSanitizer) {
     this.parameterRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
+    this.matIconRegistry.addSvgIcon("deleteIcon",this.sanitizer.bypassSecurityTrustResourceUrl("../../../../../assets/delete-icon/delete.svg"))
   }
 
   parameterRecommendation: ParameterLevelRecommendation = {

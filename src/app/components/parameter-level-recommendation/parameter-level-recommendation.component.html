@@ -10,12 +10,12 @@
                 [(ngModel)]="parameterLevelRecommendation.recommendation"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="2"
-                maxlength="10000"
+                cdkAutosizeMaxRows="3"
+                maxlength="100"
                 (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
-
     </mat-form-field>
+    <p class="recommendationText">{{inputWarningLabel}}</p>
   </div>
   <mat-card-content>
     <div class="parent">
@@ -50,8 +50,7 @@
       <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
-          <mat-form-field appearance="fill">
-            <mat-label>Select an option</mat-label>
+          <mat-form-field appearance="outline">
             <mat-select
               id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
               name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
@@ -66,8 +65,8 @@
         </div>
       </div>
       <div>
-        <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon">
-          <img data-id="delete" src="../../assets/delete-icon/delete.svg" alt="plus icon"/>
+        <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon" title="Delete Recommendation">
+          <mat-icon svgIcon="deleteIcon"></mat-icon>
         </button>
       </div>
 

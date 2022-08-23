@@ -14,6 +14,8 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -42,8 +44,9 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   form: FormGroup;
 
-
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_TEXT_FIELDS;
+
   assessmentStatus: string;
   topicRecommendationResponse1: Observable<AssessmentStructure>;
   private cloneTopicRecommendationResponse: AssessmentStructure;
@@ -51,9 +54,10 @@ export class TopicLevelRecommendationComponent implements OnInit {
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>, private matIconRegistry : MatIconRegistry,private sanitizer : DomSanitizer) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularTopicRecommendationText = debounce(this.saveParticularTopicRecommendationText, DEBOUNCE_TIME)
+    this.matIconRegistry.addSvgIcon("deleteIcon",this.sanitizer.bypassSecurityTrustResourceUrl("../../../../../assets/delete-icon/delete.svg"))
   }
 
   recommendations: TopicLevelRecommendation = {
@@ -239,5 +243,6 @@ export class TopicLevelRecommendationComponent implements OnInit {
       })
     }
   }
+
 
 }

@@ -17,13 +17,10 @@
   </div>
 </div>
 
-  <mat-card class="recommendationHeading">Recommendations
-
-
-  </mat-card>
+  <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
 <button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1">
 <div>
-    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> &nbsp;Add Recommendations
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span id="addRecommendation"> Add Recommendations</span>
 </div>
 </button>
 
