@@ -5,6 +5,7 @@ export const data_local =
       BUTTON: "Create Assessment",
       BUTTON_TOOLTIP:"Click to create new assessment",
       ASSESSMENT_TOOLTIP: "Click to view details of ",
+      SORTING_TOOLTIP: "Click to sort on ",
       TABLE_HEADING: {
         ASSESSMENT_NAME: "Assessment Name",
         ORGANISATION_NAME: "Organisation Name",
@@ -128,5 +129,6 @@ export const data_local =
       COPYRIGHT_TEXT:"Copyright (c) 2022 -",
       THOUGHTWORKS_TAG: "Thoughtworks Inc.",
       RIGHTS_RESERVED_TEXT:"All rights reserved. v"
-    }
+    },
+    LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)"
   };

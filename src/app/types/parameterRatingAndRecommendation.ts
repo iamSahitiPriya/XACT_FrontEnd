@@ -4,4 +4,5 @@ export interface ParameterRatingAndRecommendation {
   "parameterId": number;
   "rating"?: number;
   "parameterLevelRecommendation"?: ParameterLevelRecommendation[];
+
 }

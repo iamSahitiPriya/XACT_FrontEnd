@@ -60,9 +60,11 @@ import { ProgressComponentComponent } from './components/progress-component/prog
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {MatSortModule} from "@angular/material/sort";
 import {MatRadioModule} from "@angular/material/radio";
 import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
 import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -154,6 +156,8 @@ export const appRoutes: Routes = [
     MatChipsModule,
     MatRadioModule,
   ],
+
+
   exports: [
     MatButtonModule,
     MatTableModule,

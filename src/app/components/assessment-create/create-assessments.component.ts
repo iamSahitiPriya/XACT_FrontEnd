@@ -29,8 +29,8 @@ export class CreateAssessmentsComponent implements OnInit {
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
   loading: boolean;
-  re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com))$/;
-  duplicateFound: boolean = false;
+  re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
+  emailTextField: string;
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -84,7 +84,6 @@ export class CreateAssessmentsComponent implements OnInit {
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
         emailValidator: ['', Validators.pattern(this.re)]
-
       }
     )
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
@@ -221,18 +220,17 @@ export class CreateAssessmentsComponent implements OnInit {
 
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if(this.emails.includes(value)==true){
-      this.duplicateFound=true;
-      setTimeout(() => {
-        this.duplicateFound = false;
-      }, 2000);
+    const invalidEmails: string[] = [];
+    let value = (event.value).trim().split(',');
+    value = value.filter(ele => ele !== '')
+    for (const eachEmail in value) {
+      if (!this.emails.includes(value[eachEmail]) && value[eachEmail].search(this.re) != -1) {
+        this.emails.push(value[eachEmail]);
+      } else {
+        invalidEmails.push(value[eachEmail]);
+      }
     }
-    if (value.search(this.re) != -1 && this.emails.includes(value)==false) {
-      this.duplicateFound=false;
-      this.emails.push(value);
-      event.chipInput?.clear();
-    }
+    this.emailTextField = invalidEmails.join(",");
   }
 
   remove(email: string): void {
@@ -242,6 +240,4 @@ export class CreateAssessmentsComponent implements OnInit {
       this.emails.splice(index, 1);
     }
   }
-
-
 }

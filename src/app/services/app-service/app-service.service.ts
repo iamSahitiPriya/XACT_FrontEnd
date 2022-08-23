@@ -42,7 +42,7 @@ export class AppServiceService {
   }
 
 
-  public saveAssessment(assessmentAnswer: SaveRequest): Observable<any> {
+  public saveAssessment(assessmentAnswer: SaveRequest) {
     const headers = {'content-type': 'application/json'}
     return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer.topicRequest, {'headers': headers})
   }
@@ -63,15 +63,17 @@ export class AppServiceService {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
 
-  saveNotes(assessmentNotes: AssessmentNotes): Observable<any> {
+  saveNotes(assessmentNotes: AssessmentNotes){
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers':headers})
   }
+
 
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
   }
+
 
   saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
@@ -93,18 +95,21 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.DELETE_PARAMETER_RECOMMENDATION_URI + "/" + assessmentId + "/"+parameterId+"/"+recommendationId,{'headers':headers} );
   }
 
-  saveTopicRating(topicRating: TopicRating): Observable<any> {
+  saveTopicRating(topicRating: TopicRating){
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RATING_URI + "/" + topicRating.assessmentId + "/" + topicRating.topicId, topicRating.rating, {'headers': headers})
   }
 
-  saveParameterRating(parameterRating: ParameterRating): Observable<any> {
+  saveParameterRating(parameterRating: ParameterRating){
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId + "/" + parameterRating.parameterId, parameterRating.rating, {'headers': headers})
   }
 
-  updateAssessment(assessmentId: number, assessmentdata: AssessmentRequest): Observable<AssessmentStructure> {
-    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentdata,);
+  updateAssessment(assessmentId: number, assessmentData: AssessmentRequest): Observable<AssessmentStructure> {
+    return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentData,);
+  }
+  getUserRole(){
+    return this.http.get(environment.BaseURI + environment.ROLE_URI);
   }
 
 }

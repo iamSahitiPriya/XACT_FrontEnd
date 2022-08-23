@@ -93,20 +93,20 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     const topicRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
-      topicId: 2
+      topicId: 0
     }
     jest.spyOn(component, "setRating");
     let topicRating = {
       assessmentId: 0, topicId: 0, rating: 0
     };
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
-    component.topicId = 2
+    component.topicId = 0
     component.assessmentStatus = "Active"
     component.setRating(3)
     mockAppService.saveTopicRating(topicRating).subscribe(data => {
       expect(data).toBe(topicRating)
     })
-    expect(topicRatingAndRecommendation.rating).toEqual(3);
+    expect(component.topicRatingAndRecommendation.rating).toEqual(3);
   });
 
   it("should deselect rating", () => {
@@ -181,6 +181,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.setRating(3)
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
+
   it("should able to set topic rating if it is not defined", () => {
     component.answerResponse = {
       assessmentId: 5,
@@ -215,25 +216,23 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
 
+    it('should able to add recommendation when add template is clicked',()=>{
+      component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:undefined,
+            recommendation:"some text",
+            impact:"HIGH",
+            effort:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]};
 
-  it('should able to add recommendation when add template is clicked',()=>{
-    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation :[
-        {
-          recommendationId:undefined,
-          recommendation:"some text",
-          impact:"HIGH",
-          effort:"LOW",
-          deliveryHorizon:"some more text"
-        }
-      ]};
 
+      jest.spyOn(component, "addTemplate");
+      component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
 
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
-
-    expect(component.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
-
-  })
+      expect(component.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
+  });
 
   it('should able to erase the recommendation sample data when add template is clicked',()=>{
     component.recommendationSample={
@@ -243,7 +242,13 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       effort:"LOW",
       deliveryHorizon:"some more text"
     };
-
+    component.assessmentId = 2
+    component.topicId = 0
+    const keyEventData = {isTrusted: true, code: 'KeyA'};
+    jest.spyOn(component, "showError")
+    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation: [{}]}
+    component.ngOnInit()
     component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation :[
         {
           recommendationId:undefined,

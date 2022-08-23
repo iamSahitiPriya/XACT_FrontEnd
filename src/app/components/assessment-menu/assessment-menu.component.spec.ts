@@ -193,6 +193,7 @@ describe('AssessmentMenuComponent', () => {
             deliveryHorizon:"some more text"
           }
         ]}],
+
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.ngOnInit()

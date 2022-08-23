@@ -171,6 +171,7 @@ describe('AssessmentQuestionComponent', () => {
       teamSize: 0,
       users: [],
       answerResponseList: [],
+
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
           {
             recommendationId:1,

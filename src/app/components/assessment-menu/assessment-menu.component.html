@@ -23,9 +23,9 @@
     </div>
 
     <mat-menu #menu="matMenu">
-      <button  [matTooltip]=manageAssessmentToolTip mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
+      <button (click)="openAssessment(content)"  [matTooltip]=manageAssessmentToolTip mat-menu-item [disabled]="assessment.assessmentStatus ==='Completed'">
         <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
-        &nbsp; &nbsp;<span (click)="openAssessment(content)" id="createAssessment">{{manageAssessmentTitle}}</span>
+        &nbsp; &nbsp;<span  id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>

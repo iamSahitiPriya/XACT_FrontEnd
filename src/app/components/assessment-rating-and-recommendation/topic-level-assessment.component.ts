@@ -99,7 +99,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
-    this.appService.saveAssessment(saveRequest).subscribe((_data) => {
+    this.appService.saveAssessment(saveRequest).subscribe(() => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
         }
@@ -176,6 +176,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let indexByParameterId = 0
     let isRatingAndRecommendationPresent = false
     let newParameterRequest: ParameterRequest;
+
 
     if (this.answerResponse.parameterRatingAndRecommendation !== undefined) {
       indexByParameterId = this.answerResponse.parameterRatingAndRecommendation.findIndex(obj => obj.parameterId == parameter.parameterId)

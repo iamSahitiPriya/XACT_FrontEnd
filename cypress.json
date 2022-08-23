@@ -44,7 +44,7 @@
   "redirectionLimit": 500,
   "watchForFileChanges": true,
   "chromeWebSecurity": false,
-  "baseUrl": "https://dev.project-xact.in",
+  "baseUrl": "https://dev.xact.thoughtworks.net/",
   "env": {
 
     "FOO": "bar"

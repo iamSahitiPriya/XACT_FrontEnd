@@ -85,7 +85,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           }
         ]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
-    }
+ }
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -96,17 +96,20 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 0, parameterId: 0, rating: 0
     };
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
-    component.parameterId = 2
     component.assessmentStatus = "Active"
     component.setRating(3)
-    mockAppService.saveParameterRating(parameterRating).subscribe(data => {
-      expect(data).toBe(parameterRating)
-    })
     expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
-
-  it("should deselect parameter rating", () => {
-    component.answerResponse1 = of({
+  it("should deselect rating", () => {
+    const parameterRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      parameterId: 1
+    }
+    let parameterRating = {
+      assessmentId: 0, parameterId: 0
+    };
+    component.answerResponse = {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -121,19 +124,41 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
-          {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
-          }
-        ]}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
+    }
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.parameterId = 2
+    component.assessmentStatus = "Active"
+    component.setRating(3)
+    mockAppService.saveParameterRating(parameterRating).subscribe(data => {
+      expect(data).toBe(parameterRating)
     })
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
+  });
+
+  it("should push the parameter rating if it is not present", () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation:[{}]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
+    }
     const parameterRatingAndRecommendation = {
-      rating: 3,
+      rating: undefined,
       recommendation: "some text",
       parameterId: 1
     }
@@ -141,9 +166,11 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
-    component.setRating(3)
     expect(parameterRatingAndRecommendation.rating).toEqual(undefined);
-  });
+    component.parameterId = 1
+    component.setRating(3)
+    expect(parameterRatingAndRecommendation.rating).toEqual(3);
+});
 
   it('should able to set parameter rating', () => {
     component.answerResponse1 = of({
@@ -177,6 +204,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.setRating(3)
     expect(parameterRatingAndRecommendation.rating).toEqual(3);
   });
+
   it("should able to set parameter rating if it is not defined", () => {
     component.answerResponse = {
       assessmentId: 5,
@@ -262,5 +290,4 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
   });
-
 });

@@ -2,11 +2,12 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../../assets/messages";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -15,19 +16,36 @@ import {data_local} from "../../../assets/messages";
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated?: boolean;
-  public static answerSaved:string
+  public static answerSaved: string
   assessment: AssessmentStructure;
   microSite = data_local.HEADER_LINK_TEXT.MICRO_SITE;
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
-  feedback= data_local.HEADER_LINK_TEXT.FEEDBACK;
+  feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
 
+  @Input()
+  userRole:Observable<Object>
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
-  username?: string
+  username: string = ""
+  isRoleAdmin:boolean = false;
+
   async ngOnInit(): Promise<void> {
+    // @ts-ignore
     this.username = (await this.oktaAuth.getUser()).name;
+    this.userRole.subscribe(data =>{
+      if(data == "Admin"){
+        this.isRoleAdmin = true;
+      }
+    })
+  }
+
+
+  async signOut() {
+
+    await this.oktaAuth.signOut();
+    //window.location.href = "https://thoughtworks.okta.com";
   }
 
 }

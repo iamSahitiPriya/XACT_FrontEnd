@@ -9,10 +9,10 @@ import appPackage from '../../package.json';
 
 export const environment = {
   production: false,
-  BaseURI: "https://api-qa.project-xact.in",
+  BaseURI: "https://api-qa.xact.thoughtworks.net",
   ISSUER: '{ISSUER}',
   CLIENT_ID: '{CLIENT_ID}',
-  REDIRECT_URI: "https://qa.project-xact.in/login/callback",
+  REDIRECT_URI: "https://qa.xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
   USER_URI: "/v1/users",
@@ -26,7 +26,9 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI: "/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI: "/v1/assessments/parameterRating",
-  VERSION: appPackage && appPackage.version
+  VERSION: appPackage && appPackage.version,
+  ROLE_URI:"/v1/users/roles"
+
 };
 
 /*

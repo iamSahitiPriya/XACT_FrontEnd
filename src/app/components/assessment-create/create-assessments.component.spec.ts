@@ -25,8 +25,9 @@ import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import { MatChipsModule} from "@angular/material/chips";
+import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {By} from "@angular/platform-browser";
 
 
 
@@ -292,10 +293,20 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should add the emails from input",()=> {
     const userEmail = "abc@thoughtworks.com";
-
-    component.emails.push(userEmail);
+    component.add({
+      value: userEmail,} as MatChipInputEvent)
 
     expect(component.emails).toHaveLength(1);
+  });
+  it("should display duplicate", async () => {
+    const userEmail = "abc@thoughtworks.com"
+    component.add({
+      value: userEmail,
+    } as MatChipInputEvent)
+    expect(component.emails).toHaveLength(1)
+    component.add({
+      value: userEmail,
+    } as MatChipInputEvent)
   });
 
 });

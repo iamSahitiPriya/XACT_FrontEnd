@@ -96,7 +96,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   })
   it('tc0010 validating search icon is displayed in the search box',()=>{
     landingPage.SearchIcon().should('be.visible')
-    landingPage.searchPlaceholder().should('be.visible').should('have.text','Search...')
+    landingPage.searchPlaceholder().should('be.visible').should('have.text','Search')
   })
   it('tc011 Complete data is displayed when search box is cleared',()=>{
 

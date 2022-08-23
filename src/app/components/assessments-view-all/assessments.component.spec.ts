@@ -107,7 +107,7 @@ describe('AssessmentsComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentsComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
 
   });
@@ -149,20 +149,16 @@ describe('AssessmentsComponent', () => {
 
     expect(component).toBeTruthy();
     component.ngOnInit()
+
+    fixture.detectChanges()
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData)
     })
   });
-  it("should get navigated to the module route.", () => {
-    jest.spyOn(component.router, 'navigateByUrl')
-    const dummyAssessmentName = "hello123"
-    expect(component.assessmentModule(dummyAssessmentName)).toBeTruthy()
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith('assessmentModule', {state: {assessmentName: dummyAssessmentName}})
-  });
   it("should open assessment", () => {
     jest.spyOn(matDialog,"open")
     component.openAssessment("")
-    // fixture.detectChanges()
+    fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
 });
