@@ -9,7 +9,7 @@
   opacity: 1;
   width: 350px;
   height: 368px;
-  padding: 34px;
+  padding: 28px 34px 34px 34px;
   margin-left: -5px;
 }
 
@@ -21,6 +21,7 @@
   letter-spacing: 0.4px;
   color: #043D4E;
   opacity: 1;
+  padding-bottom: 6px;
 }
 
 .buttons {
@@ -28,7 +29,7 @@
   flex-direction: column;
   align-items: flex-start;
   border-top: 2px solid #C3CED1;
-  padding-top:9px;
+  padding-top:1px;
 
 }
 
