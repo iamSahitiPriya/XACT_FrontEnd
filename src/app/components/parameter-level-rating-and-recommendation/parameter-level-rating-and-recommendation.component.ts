@@ -33,6 +33,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   maturityScoreTitle = data_local.ASSESSMENT_PARAMETER.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_PARAMETER.RECOMMENDATION_LABEL;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
@@ -101,7 +102,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
     this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
     this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe({
-      next: (_data) => {
+      next: () => {
         this.sendRecommendation(this.parameterRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
@@ -134,7 +135,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
       this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
-        next: (_data) => {
+        next: () => {
           this.updateDataSavedStatus()
         }, error: _error => {
           this.showError("Data cannot be saved", "Close");

@@ -153,7 +153,7 @@ class landingPage {
     return cy.get('input[placeholder=\'Enter Organisation Name\']')
   }
   static domainPlaceHolder(){
-    return cy.get('input[placeholder=\'Enter Domain of Target Assessment\']')
+    return cy.get('input[placeholder=\'Enter Domain of Target\']')
   }
   static industryPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Industry of Organisation\']')

@@ -32,7 +32,7 @@
     <mat-card-header>
   <mat-form-field class="textArea" appearance="outline" *ngIf="topicRatingAndRecommendation">
     <div *ngIf="topicRecommendation"></div>
-    <mat-label>{{recommendationLabel}}</mat-label>
+    <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
     <textarea id="recommendationElement_topic{{topicRecommendation}}"
               name="recommendationText_topic{{topicRecommendation}}" matInput #recommendationElement
               [(ngModel)]="topicRatingAndRecommendation.recommendation"

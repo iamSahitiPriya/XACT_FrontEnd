@@ -37,6 +37,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
@@ -122,7 +123,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
     this.topicRecommendationResponse.topicId = this.topicId
     this.topicRecommendationResponse.recommendation = this.topicRatingAndRecommendation.recommendation
     this.appService.saveTopicRecommendation(this.topicLevelRecommendation).subscribe({
-      next: (_data) => {
+      next: () => {
         topicRecommendationData.push(this.topicLevelRecommendation);
         this.sendRecommendation(this.topicRecommendationResponse)
         this.updateDataSavedStatus()
@@ -153,7 +154,7 @@ export class TopicLevelRatingAndRecommendationComponent implements OnInit {
         this.sendRating(this.topicRatingResponse)
 
         this.appService.saveTopicRating(this.topicLevelRating).subscribe({
-          next: (_data) => {
+          next: () => {
             topicRatingData.push(this.topicLevelRating);
             this.updateDataSavedStatus()
 

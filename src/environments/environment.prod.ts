@@ -6,10 +6,10 @@ import appPackage  from '../../package.json';
 
 export const environment = {
   production: true,
-  BaseURI:"https://api.project-xact.in",
+  BaseURI:"https://api.xact.thoughtworks.net",
   ISSUER: '{ISSUER}',
   CLIENT_ID: '{CLIENT_ID}',
-  REDIRECT_URI:"https://www.project-xact.in/login/callback",
+  REDIRECT_URI:"https://xact.thoughtworks.net/login/callback",
   ASSESSMENT_URI:"/v1/assessments",
   USER_URI: "/v1/users",
   CATEGORY_URI:"/v1/assessment-master-data/categories",
@@ -23,5 +23,7 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
-  VERSION: appPackage && appPackage.version
+  VERSION: appPackage && appPackage.version,
+  ROLE_URI:"/v1/users/roles"
+
 };

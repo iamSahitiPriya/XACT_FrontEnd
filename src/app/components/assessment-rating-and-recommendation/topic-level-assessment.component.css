@@ -9,6 +9,7 @@
   height: 640px;
   overflow: auto;
   margin-right: 20px;
+  width: 100%;
 }
 
 .col-md-8 {

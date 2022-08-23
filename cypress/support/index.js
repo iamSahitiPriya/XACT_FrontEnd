@@ -24,6 +24,13 @@ import addContext from 'mochawesome/addContext';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+before(function() {
+  cy.visit('/')
+  cy.fixture('testData').then(function(testData) {
+    this.testData = testData
+  })
+})
+
 
 Cypress.on('test:after:run',(test,runnable)=>{
   if(test.state == 'failed'){
@@ -31,3 +38,5 @@ Cypress.on('test:after:run',(test,runnable)=>{
     addContext({test},screenshot);
   }
 });
+
+
