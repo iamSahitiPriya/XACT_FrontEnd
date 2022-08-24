@@ -196,3 +196,21 @@ textArea.mat-input-element {
 #addRecommendation {
   color: #4ba1ac;
 }
+
+.recommendationHeading {
+  display: block;
+  position: relative;
+  padding: 12px;
+  border-radius: 0;
+  background: #EAF4F6 0 0 no-repeat padding-box;
+  font: normal normal bold 18px/21px 'Inter', sans-serif;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+  text-align: left;
+  margin-top: 13px;
+  margin-right: 50px;
+  text-transform: capitalize;
+}
