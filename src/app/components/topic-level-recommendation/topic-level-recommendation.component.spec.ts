@@ -56,7 +56,7 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRecommendationComponent],
-      imports: [MatFormFieldModule, MatOptionModule, MatInputModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,MatIconModule,HttpClientModule,
+      imports: [MatFormFieldModule, MatOptionModule, MatInputModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
     })

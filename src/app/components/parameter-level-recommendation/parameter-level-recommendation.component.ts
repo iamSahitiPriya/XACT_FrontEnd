@@ -56,10 +56,9 @@ export class ParameterLevelRecommendationComponent implements OnInit {
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>,private matIconRegistry : MatIconRegistry,private sanitizer : DomSanitizer) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.parameterRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
-    this.matIconRegistry.addSvgIcon("deleteIcon",this.sanitizer.bypassSecurityTrustResourceUrl("../../../../../assets/delete-icon/delete.svg"))
   }
 
   parameterRecommendation: ParameterLevelRecommendation = {

@@ -54,10 +54,9 @@ export class TopicLevelRecommendationComponent implements OnInit {
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>, private matIconRegistry : MatIconRegistry,private sanitizer : DomSanitizer) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
     this.saveParticularTopicRecommendationText = debounce(this.saveParticularTopicRecommendationText, DEBOUNCE_TIME)
-    this.matIconRegistry.addSvgIcon("deleteIcon",this.sanitizer.bypassSecurityTrustResourceUrl("../../../../../assets/delete-icon/delete.svg"))
   }
 
   recommendations: TopicLevelRecommendation = {

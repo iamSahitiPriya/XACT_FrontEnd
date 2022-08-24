@@ -48,7 +48,7 @@ describe('ParameterRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRecommendationComponent],
-      imports: [MatFormFieldModule,MatOptionModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,MatIconModule,HttpClientModule,
+      imports: [MatFormFieldModule,MatOptionModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,MatIconModule,
         StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService,useClass: MockAppService}]
     })

@@ -52,11 +52,14 @@ textArea.mat-input-element {
 }
 
 .deleteIcon {
-  background-color: unset;
-  border: none;
+  background-color: #043D4E;
+  border: solid;
   margin-left: 20em;
   margin-top: 45px;
   position: relative;
+  color: #FFFFFF;
+  padding: 8px 10px 8px 10px;
+  width: 80px;
 }
 
 .parent {
