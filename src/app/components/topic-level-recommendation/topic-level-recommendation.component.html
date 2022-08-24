@@ -8,7 +8,7 @@
                 [(ngModel)]="recommendation.recommendation"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="3"
+                cdkAutosizeMaxRows="2"
                 maxlength="100"
                 (keyup)="saveParticularTopicRecommendationText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
@@ -48,8 +48,8 @@
       </div>
       <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
-        <div class="input1">
-          <mat-form-field appearance="outline">
+        <div class="input1" >
+          <mat-form-field appearance="outline" class="dropdown">
             <mat-select
               id="recommendationElement_parameter{{recommendation.recommendationId}}_deliveryHorizon"
               name="recommendationText_parameter{{recommendation.recommendationId}}_deliveryHorizon"
@@ -63,13 +63,12 @@
           </mat-form-field>
         </div>
       </div>
-      <div>
+      <div class="delete">
         <button (click)="deleteTemplate(recommendation)" class="deleteIcon" title="Delete Recommendation">
           <mat-icon>delete</mat-icon>
-          Delete
+          <span style="padding-top:2px;padding-left: 3px">Delete</span>
         </button>
       </div>
-
     </div>
   </mat-card-content>
 </mat-card>
