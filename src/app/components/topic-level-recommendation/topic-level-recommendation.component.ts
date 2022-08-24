@@ -81,6 +81,8 @@ export class TopicLevelRecommendationComponent implements OnInit {
   };
 
   topicRecommendationSample: TopicLevelRecommendation[] | undefined;
+  deleteRecommendationText: string = "Delete Recommendation";
+
 
 
 

@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="delete">
-        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" title="Delete Recommendation">
+        <button (click)="deleteTemplate(recommendation)"  class="deleteIcon" [matTooltip]="deleteRecommendationText">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">Delete</span>
         </button>

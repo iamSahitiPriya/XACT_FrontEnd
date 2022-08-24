@@ -14,8 +14,6 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
 
 let DEBOUNCE_TIME = 1200;
 
@@ -83,6 +81,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
   };
 
   parameterRecommendationSample: ParameterLevelRecommendation[] | undefined;
+  deleteRecommendationText: string = "Delete Recommendation";
 
 
   showError(message: string, action: string) {
