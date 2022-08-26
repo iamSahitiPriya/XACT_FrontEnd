@@ -18,10 +18,14 @@ export const environment = {
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",
   ASSESSMENT_STATUS_OPEN_URI: "/statuses/open",
   SAVE_ASSESSMENT_ANSWER_URI: "/v1/assessments/answers",
-  SAVE_TOPIC_RECOMMENDATION_URI:"/v1/assessments/topicRecommendation",
+  SAVE_TOPIC_RECOMMENDATION_TEXT_URI:"/v1/assessments/topicRecommendationText",
+  SAVE_TOPIC_RECOMMENDATION_FIELD_URI:"/v1/assessments/topicRecommendationFields",
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
   VERSION: appPackage && appPackage.version,
+  DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
+  SAVE_PARAMETER_RECOMMENDATION_TEXT_URI: "/v1/assessments/parameterRecommendation",
+  DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   ROLE_URI:"/v1/users/roles"
 };

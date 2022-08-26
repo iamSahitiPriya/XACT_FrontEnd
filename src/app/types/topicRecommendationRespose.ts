@@ -1,4 +1,10 @@
+
 export interface TopicRecommendationResponse{
-  "topicId":number,
-  "recommendation"?:string
+  "assessmentId":number;
+  "topicId":number;
+  "recommendationId"?:number;
+  "recommendation"?:string;
+  "impact"?:string;
+  "effort"?:string;
+  "deliveryHorizon"?:string;
 }

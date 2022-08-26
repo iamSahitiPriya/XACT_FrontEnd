@@ -133,3 +133,84 @@ textArea.mat-input-element {
 ::ng-deep .errorSnackbar{
   background-color: #F15F79 !important;
 }
+
+.recommendation{
+  margin-top: 13px;
+  margin-right:50px;
+  margin-bottom:20px;
+  background:1% 1% no-repeat padding-box;
+  box-shadow: 1px 1px 6px #013D4F29;
+  border-left : 1px solid #FFFFFF;
+}
+
+.plusIcon {
+  background-color: unset;
+  border: none;
+}
+
+.addRecommendation {
+  width: 95%;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
+  background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
+  border: none;
+}
+
+.button1:hover {
+  background-color: #00000024;
+}
+
+
+
+.parent {
+  display: flex;
+}
+
+.effect {
+  padding-left: 10%;
+}
+
+.deliveryHorizon {
+  padding-left: 20%;
+}
+
+.radio1, .radio2, .input1 {
+  padding-top: 10px;
+}
+
+.input1 {
+  width: auto;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 0px 0px 0px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
+}
+
+.mat-card {
+  border-radius: 0px;
+}
+
+#addRecommendation {
+  color: #4ba1ac;
+}
+
+.recommendationHeading {
+  display: block;
+  position: relative;
+  padding: 12px;
+  border-radius: 0;
+  background: #EAF4F6 0 0 no-repeat padding-box;
+  font: normal normal bold 18px/21px 'Inter', sans-serif;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+  text-align: left;
+  margin-top: 13px;
+  margin-right: 50px;
+  text-transform: capitalize;
+}

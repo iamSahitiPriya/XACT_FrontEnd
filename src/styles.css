@@ -14,3 +14,39 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: whitesmoke;
   opacity: 0.5;
 }
+
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:#4BA1AC;
+  color:#4BA1AC;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color:#4BA1AC;
+  background-color:#4BA1AC ;
+}
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color:#4BA1AC;
+}
+ .mat-radio-outer-circle{
+   border-color:#4BA1AC;
+ }
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #4BA1AC;
+}
+.mat-form-field.mat-focused.mat-primary .mat-select-arrow{
+  color: #000000;
+}
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+  color: #000000;
+}
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #4BA1AC;
+}
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #000000;
+}
+.mat-select-arrow {
+  color: #000000;
+}
+
