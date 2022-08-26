@@ -37,16 +37,15 @@
 .parameter {
 
   background-color: #45A0AC1D;
-  padding-right: 152px;
   height: 50px;
-  padding-left: 20px;
-  padding-top: 15px;
   margin-top: 35px;
   width: 95%;
   color: #043D4E;
   font-size: 20px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
+  display: inline-table;
+  padding: 15px 152px 8px 20px;
 
 }
 
