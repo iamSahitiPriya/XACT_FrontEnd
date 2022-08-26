@@ -10,8 +10,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {of} from "rxjs";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
-import {ParameterRating} from "../../types/parameterRating";
+
 
 
 

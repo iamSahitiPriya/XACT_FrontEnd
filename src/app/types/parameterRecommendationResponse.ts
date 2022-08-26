@@ -1,4 +1,9 @@
 export interface ParameterRecommendationResponse{
-  "parameterId":number,
-  "recommendation"?:string,
+  "assessmentId":number;
+  "parameterId":number;
+  "recommendationId"?:number;
+  "recommendation"?:string;
+  "impact"?:string;
+  "effort"?:string;
+  "deliveryHorizon"?:string;
 }

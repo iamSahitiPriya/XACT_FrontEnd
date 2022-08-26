@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+<script src="../assessment-menu/assessment-menu.component.ts"></script>
+<div class="topicScoring">
+
+  <mat-card class="scoreHeading">{{maturityScoreTitle}} {{topicName}}</mat-card>
+  <div *ngFor="let pScore of topicScore">
+    <mat-toolbar class="scoreReference">
+      <p class="reference">{{pScore.reference}}</p>
+      <span class="spacer"></span>
+      <span class="rating" (click)="setRating(pScore.rating)"
+            [ngClass]="{'rating-active':topicRatingAndRecommendation.rating === pScore.rating}">
+       <div class="image"></div>
+        {{pScore.rating}}</span>
+    </mat-toolbar>
+  </div>
+</div>
+
+  <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1">
+<div>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span id="addRecommendation"> Add Recommendations</span>
+</div>
+</button>
+
+<div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation ; let i=index">
+<app-topic-level-recommendation
+  [index] = "i"
+  [recommendation]="recommendation"
+  [assessmentId]="assessmentId"
+  [topicId]="topicId"
+  [topicRecommendationArray]="topicRatingAndRecommendation.topicLevelRecommendation"
+></app-topic-level-recommendation>
+</div>
+
+
+
+

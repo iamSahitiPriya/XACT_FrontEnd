@@ -130,5 +130,6 @@ export const data_local =
       THOUGHTWORKS_TAG: "Thoughtworks Inc.",
       RIGHTS_RESERVED_TEXT:"All rights reserved. v"
     },
-    LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)"
+    LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
+    LEGAL_WARNING_MSG_FOR_TEXT_FIELDS : "Never enter passwords or other confidential information in your notes or recommendations"
   };
