@@ -84,7 +84,15 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 1, answer: "hello"}
@@ -122,7 +130,15 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
@@ -155,7 +171,16 @@ describe('AssessmentQuestionComponent', () => {
       teamSize: 0,
       users: [],
       answerResponseList: [],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+          {
+            recommendationId:1,
+            recommendation:"some text",
+            impact:"HIGH",
+            effect:"LOW",
+            deliveryHorizon:"some more text"
+          }
+        ]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}

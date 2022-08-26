@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {Observable} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {Store} from "@ngrx/store";
@@ -15,19 +14,19 @@ import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
-import {debounce} from "lodash";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 import {ParameterRequest} from "../../types/parameterRequest";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
-let DEBOUNCE_TIME = 2000;
+let RECOMMENDATION_MAX_LIMIT = 10;
 
 @Component({
-  selector: 'app-parameter-level-rating-and-recommendation',
-  templateUrl: './parameter-level-rating-and-recommendation.component.html',
-  styleUrls: ['./parameter-level-rating-and-recommendation.component.css']
+  selector: 'app-parameter-level-rating',
+  templateUrl: './parameter-level-rating.component.html',
+  styleUrls: ['./parameter-level-rating.component.css']
 })
-export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
+export class ParameterLevelRatingComponent implements OnInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
 
@@ -41,8 +40,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
-    this.saveParticularParameterRecommendation = debounce(this.saveParticularParameterRecommendation, DEBOUNCE_TIME)
-
   }
 
   @Input()
@@ -52,7 +49,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation;
 
   @Input()
-  parameterRecommendation: number;
+  parameterId: number;
 
   assessmentStatus: string;
 
@@ -68,9 +65,22 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   @Input()
   parameterList: ParameterRequest[];
 
+  saveCount = 0;
+  recommendationCount: number = 0;
+
+  recommendationSample: ParameterLevelRecommendation = {
+    recommendationId: undefined,
+    recommendation: "",
+    impact: "",
+    effort: "",
+    deliveryHorizon: ""
+
+  }
+
+  form : FormGroup
 
   parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, recommendation: undefined
+    assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined
   };
 
   parameterLevelRating: ParameterRating = {
@@ -78,7 +88,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   };
 
   parameterRecommendationResponse: ParameterRecommendationResponse = {
-    parameterId: 0, recommendation: undefined
+    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterRatingResponse: ParameterRatingResponse = {
@@ -93,23 +103,7 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
         this.assessmentStatus = data.assessmentStatus
       }
     })
-  }
-
-  saveParticularParameterRecommendation(_$event: KeyboardEvent) {
-    this.parameterLevelRecommendation.parameterId = this.parameterRecommendation
-    this.parameterLevelRecommendation.assessmentId = this.assessmentId
-    this.parameterLevelRecommendation.recommendation = this.parameterRatingAndRecommendation.recommendation
-    this.parameterRecommendationResponse.parameterId = this.parameterRecommendation
-    this.parameterRecommendationResponse.recommendation = this.parameterRatingAndRecommendation.recommendation
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendation).subscribe({
-      next: () => {
-        this.sendRecommendation(this.parameterRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
-      }
-    })
-
+    this.parameterRatingAndRecommendation.parameterLevelRecommendation?.reverse();
   }
 
   showError(message: string, action: string) {
@@ -127,11 +121,11 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       } else {
         this.parameterRatingAndRecommendation.rating = rating;
       }
-      this.parameterRatingAndRecommendation.parameterId = this.parameterRecommendation;
+      this.parameterRatingAndRecommendation.parameterId = this.parameterId;
       this.parameterLevelRating.assessmentId = this.assessmentId
-      this.parameterLevelRating.parameterId = this.parameterRecommendation
+      this.parameterLevelRating.parameterId = this.parameterId
       this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
-      this.parameterRatingResponse.parameterId = this.parameterRecommendation
+      this.parameterRatingResponse.parameterId = this.parameterId
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
       this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
@@ -144,26 +138,6 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
       this.updateAverageRating();
     }
   }
-
-
-  sendRecommendation(parameterRecommendation: ParameterRecommendationResponse) {
-    let index = 0;
-    let updatedRecommendationList = [];
-    updatedRecommendationList.push(parameterRecommendation);
-    this.cloneParameterResponse = Object.assign({}, this.answerResponse)
-    if (this.cloneParameterResponse.parameterRatingAndRecommendation !== undefined) {
-      index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendation.parameterId)
-      if (index !== -1) {
-        this.cloneParameterResponse.parameterRatingAndRecommendation[index].recommendation = parameterRecommendation.recommendation
-      } else {
-        this.cloneParameterResponse.parameterRatingAndRecommendation.push(parameterRecommendation)
-      }
-    } else {
-      this.cloneParameterResponse.parameterRatingAndRecommendation = updatedRecommendationList
-    }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterResponse}))
-  }
-
 
   private sendRating(parameterRating: ParameterRatingResponse) {
     let index = 0;
@@ -212,5 +186,19 @@ export class ParameterLevelRatingAndRecommendationComponent implements OnInit {
   private sendAverageRating(rating: number) {
     this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
+  }
+
+
+  addTemplate(parameterLevelRecommendation: any) {
+    if (parameterLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+      this.recommendationSample = {
+        recommendationId: undefined,
+        recommendation: "",
+        impact: "",
+        effort: "",
+        deliveryHorizon: ""
+      };
+      parameterLevelRecommendation.unshift(this.recommendationSample);
+    }
   }
 }

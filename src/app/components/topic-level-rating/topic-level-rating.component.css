@@ -5,8 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .textArea {
-  width: 95%;
-  height: 100px;
+  width: 101%;
+  height: 155px;
+  margin-left: -35px;
   font-size: 15px;
 }
 
@@ -38,12 +39,12 @@ textArea.mat-input-element {
   display: block;
   position: relative;
   padding: 12px;
-  border-radius: 0px;
-  background: #75A9B515 0% 0% no-repeat padding-box;
+  border-radius: 0;
+  background: #EAF4F6 0% 0% no-repeat padding-box;
   font: normal normal bold 18px/21px 'Inter', sans-serif;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
-  letter-spacing: 0.36px;
+  letter-spacing: 0px;
   color: #043D4E;
   opacity: 1;
   text-align: left;
@@ -56,8 +57,22 @@ p {
   width: 1244px;
 }
 
-.mat-card:not([class*=mat-elevation-z]) {
-  box-shadow: 0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
+.recommendationHeading {
+  display: block;
+  position: relative;
+  padding: 12px;
+  border-radius: 0;
+  background: #EAF4F6 0 0 no-repeat padding-box;
+  font: normal normal bold 18px/21px 'Inter', sans-serif;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+  text-align: left;
+  margin-top: 13px;
+  margin-right: 50px;
+  text-transform: capitalize;
 }
 
 .spacer {
@@ -67,11 +82,11 @@ p {
 .scoreReference {
   min-height: 100px;
   height: auto;
-  max-height:250px;
+  max-height: 250px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
   background: #FFFFFF 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 6px #013D4F29;
+  box-shadow: 0 1px 6px #013D4F29;
   opacity: 1;
   letter-spacing: -0.96px;
   color: #000000;
@@ -87,8 +102,8 @@ p {
 .rating-disabled {
   width: 76px;
   height: 76px;
-  background: #F7F7F7 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 6px #00000029;
+  background: #F7F7F7 0 0 no-repeat padding-box;
+  box-shadow: 0 1px 6px #00000029;
   color: #6D9D79;
   opacity: 1;
   text-align: center;
@@ -113,7 +128,7 @@ p {
   height: 25px;
   background: transparent url('src/assets/Path 3378/Path 3378.png') 0% 0% no-repeat padding-box;
   opacity: 1;
-  margin-left:auto;
+  margin-left: auto;
   margin-right: auto;
   display: block;
   margin-top: 16px
@@ -139,10 +154,73 @@ p {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-::ng-deep .saveSnackbar{
+
+::ng-deep .saveSnackbar {
   background-color: #6B9F78 !important;
 }
 
-::ng-deep .errorSnackbar{
+::ng-deep .errorSnackbar {
   background-color: #F15F79 !important;
 }
+
+.recommendation {
+  margin-top: 13px;
+  margin-right: 50px;
+  margin-bottom: 20px;
+  background: 1% 1% no-repeat padding-box;
+  box-shadow: 1px 1px 6px #013D4F29;
+  border-left: 1px solid #FFFFFF;
+}
+
+.plusIcon {
+  background-color: unset;
+  border: none;
+}
+
+.addRecommendation {
+  width: 95%;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
+  background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
+  border: none;
+}
+
+.button1:hover {
+  background-color: #00000024;
+}
+
+.parent {
+  display: flex;
+}
+
+.effect {
+  padding-left: 10%;
+}
+
+.deliveryHorizon {
+  padding-left: 20%;
+}
+
+.radio1, .radio2, .input1 {
+  padding-top: 10px;
+}
+
+.input1 {
+  width: auto;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 0px 0px 0px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
+}
+
+.mat-card {
+  border-radius: 0px;
+}
+
+#addRecommendation {
+  color: #4ba1ac;
+}
+

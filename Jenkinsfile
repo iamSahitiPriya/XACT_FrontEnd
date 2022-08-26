@@ -75,14 +75,14 @@ pipeline {
                 archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
             }
         }
-        stage('Deploy to Dev') {
+        /* stage('Deploy to Dev') {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
 
 
             }
-        }
+        } */
         stage('Create & Archive QA Build') {
                       steps {
                           sh "npm run updateBuild -- qa ${QA_CLIENT_ID} ${QA_ISSUER}"
