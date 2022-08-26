@@ -65,6 +65,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
 import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 
+import { AdminConsoleComponent } from './components/admin/admin-console/admin-console.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -90,6 +91,12 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
+  {
+    path:'admin',
+    component:AdminConsoleComponent,
+    pathMatch:'full',
+    canActivate:[OktaAuthGuard]
+  }
 
 ];
 
@@ -113,6 +120,7 @@ export const appRoutes: Routes = [
     AssessmentAverageRatingComponent,
     TopicLevelRecommendationComponent,
     ParameterLevelRecommendationComponent,
+    AdminConsoleComponent
   ],
   imports: [
     BrowserModule,
