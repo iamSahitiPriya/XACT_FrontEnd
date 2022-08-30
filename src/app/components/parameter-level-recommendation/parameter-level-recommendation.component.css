@@ -54,7 +54,7 @@ textArea.mat-input-element {
 
 .deleteIcon {
   background-color: #043D4E;
-  margin-left:14em;
+  margin-left:13em;
   margin-top:23px;
   position: relative;
   color: #FFFFFF;
@@ -76,27 +76,21 @@ textArea.mat-input-element {
 }
 
 .effect {
-  padding-left: 5%;
+  padding-left: 4%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  margin-left:8%;
+  padding-left: 4%;
   font-weight: bold;
   border-radius: inherit;
   margin-bottom:2px;
 }
 
-
-.radio1, .radio2 {
+.radio1, .radio2 , .input1 {
   padding-top: 10px;
-  padding-right: 10px;
 }
 
-.input1 {
-  width: 100px;
-  padding-top:0px;
-}
 
 .mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
   margin-bottom: -10px;
@@ -113,14 +107,6 @@ textArea.mat-input-element {
   padding-left:18px;
 }
 
-.dropdown{
-  display: block;
-  position: relative;
-  flex: auto;
-  min-width: 0;
-  width: 150px;
-}
-
 
 .mat-icon {
   -webkit-user-select: none;
@@ -133,14 +119,6 @@ textArea.mat-input-element {
   margin-left: -5px;
 }
 
-:host ::ng-deep .deliveryHorizon div.mat-form-field-infix{
-  margin-top:-10px !important;
-  width:140px !important;
-}
-:host ::ng-deep .deliveryHorizon div.mat-select-arrow-wrapper {
-  transform: translateY(-25%);
-  margin-top: 10px;
-}
 
 
 
