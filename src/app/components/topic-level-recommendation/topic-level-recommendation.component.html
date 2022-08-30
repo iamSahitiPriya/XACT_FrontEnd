@@ -2,7 +2,7 @@
   <div>
     <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
       <div *ngIf="recommendation"></div>
-      <mat-label>{{recommendationLabel}}</mat-label>
+      <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
       <textarea id="recommendationElement_topic{{recommendation.recommendationId}}"
                 name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                 [(ngModel)]="recommendation.recommendation"
@@ -14,7 +14,6 @@
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
 
     </mat-form-field>
-    <p class="recommendationText">{{inputWarningLabel}}</p>
   </div>
   <mat-card-content>
     <div class="parent">

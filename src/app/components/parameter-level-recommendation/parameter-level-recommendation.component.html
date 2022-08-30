@@ -3,7 +3,7 @@
   <div>
     <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation">
       <div *ngIf="parameterLevelRecommendation"></div>
-      <mat-label>{{recommendationLabel}}</mat-label>
+      <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
       <textarea id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
                 name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
                 #recommendationElement
@@ -15,7 +15,6 @@
                 (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
     </mat-form-field>
-    <p class="recommendationText">{{inputWarningLabel}}</p>
   </div>
   <mat-card-content>
     <div class="parent">
