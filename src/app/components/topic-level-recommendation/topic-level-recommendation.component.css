@@ -75,12 +75,13 @@ textArea.mat-input-element {
 }
 
 .effect {
-  padding-left: 5%;
+  padding-left:8%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  margin-left:8%;
+  /*margin-left:10%;*/
+  /*padding-left:5%;*/
   font-weight: bold;
   border-radius: inherit;
   margin-bottom:2px;
@@ -93,8 +94,9 @@ textArea.mat-input-element {
 }
 
 .input1 {
-  width: 100px;
-  padding-top:0px;
+  padding-top: 10px;
+  padding-right: 10px;
+  font-weight: bold;
 }
 
 .mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
@@ -112,13 +114,6 @@ textArea.mat-input-element {
   padding-left:18px;
 }
 
-.dropdown{
-  display: block;
-  position: relative;
-  flex: auto;
-  min-width: 0;
-  width: 150px;
-}
 
 
 .mat-icon {
