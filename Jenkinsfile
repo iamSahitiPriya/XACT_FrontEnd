@@ -72,17 +72,17 @@ pipeline {
                 script{
                    zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
-                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
+                //archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
             }
         }
-        /* stage('Deploy to Dev') {
+        stage('Deploy to Dev') {
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
 
 
             }
-        } */
+        }
         stage('Create & Archive QA Build') {
                       steps {
                           sh "npm run updateBuild -- qa ${QA_CLIENT_ID} ${QA_ISSUER}"
@@ -90,7 +90,7 @@ pipeline {
                           script{
                              zip zipFile: "qa-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                           }
-                          archiveArtifacts artifacts: "qa-${env.ARTIFACT_FILE}", fingerprint: true
+                          //archiveArtifacts artifacts: "qa-${env.ARTIFACT_FILE}", fingerprint: true
                           sh "aws s3 rm s3://xact-frontend-artifacts/qa-xact-frontend-${env.GIT_COMMIT}.zip"
                           sh "aws s3 mv qa-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 
@@ -103,7 +103,7 @@ pipeline {
                   script{
                      zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                   }
-                  archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                  //archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
                   sh "aws s3 rm s3://xact-frontend-artifacts/prod-xact-frontend-${env.GIT_COMMIT}.zip"
                   sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 
