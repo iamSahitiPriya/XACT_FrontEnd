@@ -3,19 +3,18 @@
   <div>
     <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation">
       <div *ngIf="parameterLevelRecommendation"></div>
-      <mat-label>{{recommendationLabel}}</mat-label>
+      <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
       <textarea id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
                 name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
                 #recommendationElement
                 [(ngModel)]="parameterLevelRecommendation.recommendation"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="3"
+                cdkAutosizeMaxRows="2"
                 maxlength="100"
                 (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
     </mat-form-field>
-    <p class="recommendationText">{{inputWarningLabel}}</p>
   </div>
   <mat-card-content>
     <div class="parent">
@@ -50,18 +49,15 @@
       <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1">
-          <mat-form-field appearance="outline">
-            <mat-select
-              id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-              name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-              (selectionChange)="inputChange()"
-              [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'"
-              [(ngModel)]="parameterLevelRecommendation.deliveryHorizon">
-              <mat-option value="NOW">Now</mat-option>
-              <mat-option value="NEXT">Next</mat-option>
-              <mat-option value="LATER">Later</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <mat-radio-group
+            id="recommendationElement_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
+            name="recommendationText_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
+            [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" aria-label="Select an option" (change)="inputChange()"
+            [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
+            <mat-radio-button value="NOW">&nbsp;Now</mat-radio-button>&nbsp;
+            &nbsp;<mat-radio-button value="NEXT">Next</mat-radio-button>
+            &nbsp;<mat-radio-button value="LATER">Later</mat-radio-button>
+          </mat-radio-group>
         </div>
       </div>
       <div class="delete">

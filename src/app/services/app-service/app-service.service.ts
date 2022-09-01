@@ -11,11 +11,8 @@ import {AssessmentRequest} from "../../types/assessmentRequest";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
-import {TopicRecommendation} from "../../types/topicRecommendation";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
-import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 
@@ -87,7 +84,7 @@ export class AppServiceService {
 
   saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_TEXT_URI + "/" + parameterLevelRecommendationText.assessmentId + "/" + parameterLevelRecommendationText.parameterId, parameterLevelRecommendationText.parameterLevelRecommendation, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterLevelRecommendationText.assessmentId + "/" + parameterLevelRecommendationText.parameterId, parameterLevelRecommendationText.parameterLevelRecommendation, {'headers': headers})
   }
 
   deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number):Observable<any>{
