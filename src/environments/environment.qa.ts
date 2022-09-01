@@ -27,4 +27,6 @@ export const environment = {
   ROLE_URI:"/v1/users/roles",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
+  IDLE_TIMEOUT: 60,  //in sec
+  TIMEOUT: 600, // 10 min
 };

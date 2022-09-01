@@ -66,6 +66,7 @@ import { TopicLevelRecommendationComponent } from './components/topic-level-reco
 import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 
 import { AdminConsoleComponent } from './components/admin/admin-console/admin-console.component';
+import {NgIdleModule} from "@ng-idle/core";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -163,7 +164,8 @@ export const appRoutes: Routes = [
     EffectsModule.forRoot([AssessmentDataEffects]),
     MatChipsModule,
     MatRadioModule,
-    MatSortModule
+    MatSortModule,
+    NgIdleModule.forRoot(),
   ],
 
 
