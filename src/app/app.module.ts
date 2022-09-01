@@ -163,6 +163,7 @@ export const appRoutes: Routes = [
     EffectsModule.forRoot([AssessmentDataEffects]),
     MatChipsModule,
     MatRadioModule,
+    MatSortModule
   ],
 
 
