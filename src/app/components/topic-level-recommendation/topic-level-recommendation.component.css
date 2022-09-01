@@ -53,8 +53,8 @@ textArea.mat-input-element {
 
 .deleteIcon {
   background-color: #043D4E;
-  margin-left:14em;
-  margin-top:23px;
+  margin-left:8em;
+  margin-top:7px;
   position: relative;
   color: #FFFFFF;
   width: 95px;
@@ -75,30 +75,24 @@ textArea.mat-input-element {
 }
 
 .effect {
-  padding-left: 5%;
+  padding-left:8%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  margin-left:8%;
+  padding-left: 8%;
   font-weight: bold;
   border-radius: inherit;
   margin-bottom:2px;
 }
 
 
-.radio1, .radio2 {
-  padding-top: 10px;
-  padding-right: 10px;
-}
-
-.input1 {
-  width: 100px;
-  padding-top:0px;
+.radio1, .radio2 , .input1 {
+  padding-top: 11px;
 }
 
 .mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
-  margin-bottom: -10px;
+  margin-bottom: 3px;
   margin-left: -8px;
 }
 
@@ -112,13 +106,6 @@ textArea.mat-input-element {
   padding-left:18px;
 }
 
-.dropdown{
-  display: block;
-  position: relative;
-  flex: auto;
-  min-width: 0;
-  width: 150px;
-}
 
 
 .mat-icon {
@@ -132,10 +119,3 @@ textArea.mat-input-element {
   margin-left: -5px;
 }
 
-:host ::ng-deep .deliveryHorizon div.mat-form-field-infix{
-  margin-top:-10px !important;
-}
-:host ::ng-deep .deliveryHorizon div.mat-select-arrow-wrapper {
-  transform: translateY(-25%);
-  margin-top: 10px;
-}

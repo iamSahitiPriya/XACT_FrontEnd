@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminConsoleComponent } from './admin-console.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('AdminConsoleComponent', () => {
   let component: AdminConsoleComponent;
@@ -11,7 +12,7 @@ describe('AdminConsoleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminConsoleComponent ],
-      imports:[MatIconModule, MatCardModule]
+      imports:[MatIconModule, MatCardModule,HttpClientModule]
     })
     .compileComponents();
   });

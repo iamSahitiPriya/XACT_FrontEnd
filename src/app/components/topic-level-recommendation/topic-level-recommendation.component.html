@@ -2,7 +2,7 @@
   <div>
     <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
       <div *ngIf="recommendation"></div>
-      <mat-label>{{recommendationLabel}}</mat-label>
+      <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
       <textarea id="recommendationElement_topic{{recommendation.recommendationId}}"
                 name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                 [(ngModel)]="recommendation.recommendation"
@@ -14,7 +14,6 @@
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
 
     </mat-form-field>
-    <p class="recommendationText">{{inputWarningLabel}}</p>
   </div>
   <mat-card-content>
     <div class="parent">
@@ -49,18 +48,15 @@
       <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
         <div class="input1" >
-          <mat-form-field appearance="outline" class="dropdown">
-            <mat-select
-              id="recommendationElement_parameter{{recommendation.recommendationId}}_deliveryHorizon"
-              name="recommendationText_parameter{{recommendation.recommendationId}}_deliveryHorizon"
-              (selectionChange)="inputChange()"
-              [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'"
-              [(ngModel)]="recommendation.deliveryHorizon">
-              <mat-option value="NOW">Now</mat-option>
-              <mat-option value="NEXT">Next</mat-option>
-              <mat-option value="LATER">Later</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <mat-radio-group
+            id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
+            name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
+            [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option" (change)="inputChange()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
+            <mat-radio-button value="NOW">&nbsp;Now</mat-radio-button>&nbsp;
+            &nbsp;<mat-radio-button value="NEXT">Next</mat-radio-button>
+            &nbsp;<mat-radio-button value="LATER">Later</mat-radio-button>
+          </mat-radio-group>
         </div>
       </div>
       <div class="delete">

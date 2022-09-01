@@ -45,7 +45,7 @@ export class TopicLevelRecommendationComponent implements OnInit {
   form: FormGroup;
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
-  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_TEXT_FIELDS;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
   assessmentStatus: string;
   topicRecommendationResponse1: Observable<AssessmentStructure>;
