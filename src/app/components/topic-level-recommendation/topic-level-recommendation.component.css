@@ -53,8 +53,8 @@ textArea.mat-input-element {
 
 .deleteIcon {
   background-color: #043D4E;
-  margin-left:13em;
-  margin-top:23px;
+  margin-left:8em;
+  margin-top:7px;
   position: relative;
   color: #FFFFFF;
   width: 95px;
@@ -75,12 +75,12 @@ textArea.mat-input-element {
 }
 
 .effect {
-  padding-left:4%;
+  padding-left:8%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  padding-left: 4%;
+  padding-left: 8%;
   font-weight: bold;
   border-radius: inherit;
   margin-bottom:2px;
@@ -88,11 +88,11 @@ textArea.mat-input-element {
 
 
 .radio1, .radio2 , .input1 {
-  padding-top: 10px;
+  padding-top: 11px;
 }
 
 .mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
-  margin-bottom: -10px;
+  margin-bottom: 3px;
   margin-left: -8px;
 }
 
