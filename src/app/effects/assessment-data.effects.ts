@@ -27,6 +27,7 @@ export class AssessmentDataEffects {
     )
    public errorHandler = () =>{
     const openConfirm = this.dialog.open(ErrorComponentComponent, {backdropClass: 'backdrop-bg-opaque'});
+      openConfirm.componentInstance.headerText = "Error";
       openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
     }
 
