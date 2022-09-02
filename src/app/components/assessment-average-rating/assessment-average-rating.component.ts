@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {ComputedScore} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
@@ -12,9 +12,10 @@ import {data_local} from "../../../assets/messages";
   templateUrl: './assessment-average-rating.component.html',
   styleUrls: ['./assessment-average-rating.component.css']
 })
-export class AssessmentAverageRatingComponent implements OnInit {
+export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
 
   finalAverageRating: Observable<ComputedScore>
+  private destroy$: Subject<void> = new Subject<void>();
 
   @Input()
   averageRating: TopicRatingResponse
@@ -31,12 +32,17 @@ export class AssessmentAverageRatingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.finalAverageRating.subscribe(data => {
+    this.finalAverageRating.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         if (this.averageRating.topicId === data.scoreDetails.topicId) {
           this.averageRating.rating = data.scoreDetails.rating
         }
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

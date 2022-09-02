@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-.scoreHeading{
+.scoreHeading {
   display: block;
   position: relative;
   padding: 12px;
@@ -18,21 +18,24 @@
   margin-top: 13px;
   text-transform: capitalize;
 }
-p{
+
+p {
   word-wrap: break-word;
   width: 1244px;
 }
+
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: 0 0px 0px -2px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
 }
 
-.spacer{
+.spacer {
   flex: 1 1 auto;
 }
-.scoreReference{
+
+.scoreReference {
   min-height: 100px;
   height: auto;
-  max-height:250px;
+  max-height: 250px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -45,10 +48,11 @@ p{
   margin-top: 25px;
   margin-bottom: 22px;
   white-space: pre-wrap !important;
-  overflow-y:scroll;
+  overflow-y: scroll;
 
 }
-.rating-disabled{
+
+.rating-disabled {
   width: 76px;
   height: 76px;
   background: #F7F7F7 0% 0% no-repeat padding-box;
@@ -60,7 +64,7 @@ p{
   margin-right: 0.6em;
 }
 
-.rating{
+.rating {
   width: 76px;
   height: 76px;
   background: #F7F7F7 0% 0% no-repeat padding-box;
@@ -72,7 +76,7 @@ p{
   margin-right: 0.6em;
 }
 
-.image{
+.image {
   width: 26px;
   height: 25px;
   background: transparent url('src/assets/Path 3378/Path 3378.png') 0% 0% no-repeat padding-box;
@@ -83,15 +87,16 @@ p{
   margin-top: 16px
 }
 
-.parameterScoring{
+.parameterScoring {
   width: 95%;
 }
-.rating-active{
+
+.rating-active {
   background: #6D9D79 0% 0% no-repeat padding-box;
   color: white;
 }
 
-.rating-active .image{
+.rating-active .image {
   background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
 }
 
@@ -104,21 +109,27 @@ p{
 textArea.mat-input-element {
   padding-bottom: 30px;
 }
+
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
+
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
   color: #00000099 !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
-.mat-form-field.mat-warn .mat-input-element,.mat-form-field.mat-focused .mat-input-element {
+
+.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
+
 ::ng-deep .topicAssessment {
   overflow-y: scroll !important;
 }
+
 .reference {
   padding-right: 1.5em;
   text-align: justify;
@@ -126,21 +137,22 @@ textArea.mat-input-element {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-::ng-deep .saveSnackbar{
+
+::ng-deep .saveSnackbar {
   background-color: #6B9F78 !important;
 }
 
-::ng-deep .errorSnackbar{
+::ng-deep .errorSnackbar {
   background-color: #F15F79 !important;
 }
 
-.recommendation{
+.recommendation {
   margin-top: 13px;
-  margin-right:50px;
-  margin-bottom:20px;
-  background:1% 1% no-repeat padding-box;
+  margin-right: 50px;
+  margin-bottom: 20px;
+  background: 1% 1% no-repeat padding-box;
   box-shadow: 1px 1px 6px #013D4F29;
-  border-left : 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
 }
 
 .plusIcon {
@@ -162,7 +174,6 @@ textArea.mat-input-element {
 .button1:hover {
   background-color: #00000024;
 }
-
 
 
 .parent {

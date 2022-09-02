@@ -10,13 +10,16 @@ describe('PopupConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PopupConfirmationComponent ],
-      imports:[MatDialogModule,MatIconModule],
-      providers:[{
-        provide:MatDialogRef,useValue:{ close: () => {} }
+      declarations: [PopupConfirmationComponent],
+      imports: [MatDialogModule, MatIconModule],
+      providers: [{
+        provide: MatDialogRef, useValue: {
+          close: () => {
+          }
+        }
       }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

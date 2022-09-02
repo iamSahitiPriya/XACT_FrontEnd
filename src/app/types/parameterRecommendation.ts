@@ -1,7 +1,7 @@
 import {ParameterLevelRecommendation} from "./parameterLevelRecommendation";
 
-export interface ParameterRecommendation{
+export interface ParameterRecommendation {
   "assessmentId": number,
-  "parameterId":number,
+  "parameterId": number,
   "parameterLevelRecommendation"?: ParameterLevelRecommendation[]
 }

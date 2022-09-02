@@ -2,12 +2,12 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {data_local} from "../../../assets/messages";
@@ -25,7 +25,7 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
   styleUrls: ['./assessments.component.css']
 })
 
-export class AssessmentsComponent implements OnInit {
+export class AssessmentsComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -56,6 +56,7 @@ export class AssessmentsComponent implements OnInit {
   toolTipSortingCol = data_local.HOME.SORTING_TOOLTIP;
   assessmentNotAvailable = data_local.HOME.ERROR_MESSAGE.ASSESSMENT_UNAVAILABLE;
   buttonToolTip = data_local.HOME.BUTTON_TOOLTIP;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(public appService: AppServiceService, public router: Router, private dialog: MatDialog,) {
     this.dataSource = new MatTableDataSource<AssessmentStructure>(assessments)
@@ -63,8 +64,9 @@ export class AssessmentsComponent implements OnInit {
 
   assessments: AssessmentStructure[]
 
+
   ngOnInit(): void {
-    this.appService.getAssessments().subscribe(
+    this.appService.getAssessments().pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         assessments = response
         assessments.sort((assessment1, assessment2) => {
@@ -76,7 +78,7 @@ export class AssessmentsComponent implements OnInit {
         valueEmitter.next(assessments)
       }
     )
-    valueEmitter.subscribe((value) => {
+    valueEmitter.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.dataSource = new MatTableDataSource(value);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -93,6 +95,11 @@ export class AssessmentsComponent implements OnInit {
       width: '630px', height: '650px',
     })
     this.dialogRef.disableClose = true;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

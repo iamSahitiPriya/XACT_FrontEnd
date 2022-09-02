@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
@@ -17,6 +17,7 @@ import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../../assets/messages";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-create-assessments',
@@ -24,7 +25,8 @@ import {data_local} from "../../../assets/messages";
   styleUrls: ['./create-assessments.component.css']
 })
 
-export class CreateAssessmentsComponent implements OnInit {
+export class CreateAssessmentsComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<void> = new Subject<void>();
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
@@ -107,7 +109,8 @@ export class CreateAssessmentsComponent implements OnInit {
         teamSize: this.assessment.teamSize,
         users: users
       };
-      this.appService.addAssessments(assessmentRequest).subscribe({
+
+      this.appService.addAssessments(assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false
           window.location.reload()
@@ -174,7 +177,7 @@ export class CreateAssessmentsComponent implements OnInit {
         teamSize: this.assessment.teamSize,
         users: users
       };
-      this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).subscribe({
+      this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false
           this.closePopUp();
@@ -239,5 +242,10 @@ export class CreateAssessmentsComponent implements OnInit {
     if (index >= 0) {
       this.emails.splice(index, 1);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

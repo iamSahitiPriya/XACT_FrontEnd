@@ -29,7 +29,7 @@
   flex-direction: column;
   align-items: flex-start;
   border-top: 2px solid #C3CED1;
-  padding-top:1px;
+  padding-top: 1px;
 
 }
 
@@ -78,7 +78,8 @@ button mat-icon {
 .parameterButton {
   padding: 6px 5px;
 }
-.parameterIcon{
+
+.parameterIcon {
   height: 16px;
   margin-bottom: 23px;
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {data_local} from "../../../assets/messages";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -9,13 +9,11 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {debounce} from "lodash";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -25,7 +23,7 @@ let DEBOUNCE_TIME = 1200;
   templateUrl: './topic-level-recommendation.component.html',
   styleUrls: ['./topic-level-recommendation.component.css']
 })
-export class TopicLevelRecommendationComponent implements OnInit {
+export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
 
   @Input()
   recommendation: TopicLevelRecommendation
@@ -82,8 +80,7 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   topicRecommendationSample: TopicLevelRecommendation[] | undefined;
   deleteRecommendationText: string = "Delete Recommendation";
-
-
+  private destroy$: Subject<void> = new Subject<void>();
 
 
   showError(message: string, action: string) {
@@ -95,7 +92,7 @@ export class TopicLevelRecommendationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.topicRecommendationResponse1.subscribe(data => {
+    this.topicRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
         this.topicRecommendationResponse = data
@@ -110,10 +107,9 @@ export class TopicLevelRecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.setRecommendationsFields();
     this.setTopicLevelRecommendationResponse();
-    this.topicLevelRecommendationText.topicLevelRecommendation= this.recommendations;
-    this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).subscribe({
-      next: (_data) =>
-      {
+    this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
+    this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_data) => {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
       }, error: _error => {
@@ -203,7 +199,7 @@ export class TopicLevelRecommendationComponent implements OnInit {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.setRecommendationsFields()
     this.setTopicLevelRecommendationResponse()
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).subscribe({
+    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
@@ -236,13 +232,18 @@ export class TopicLevelRecommendationComponent implements OnInit {
 
   private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
+      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
         }, error: _error => {
           this.showError("Data cannot be deleted", "Close");
         }
       })
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

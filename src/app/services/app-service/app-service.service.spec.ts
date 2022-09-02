@@ -10,9 +10,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
@@ -159,7 +157,11 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Recommendation", () => {
-    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {assessmentId: 1, parameterId: 1, parameterLevelRecommendation:{recommendationId:1,recommendation:""}}
+    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 1,
+      parameterId: 1,
+      parameterLevelRecommendation: {recommendationId: 1, recommendation: ""}
+    }
     expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
 

@@ -32,5 +32,5 @@ export const environment = {
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   IDLE_TIMEOUT: 10,  //in sec
-  TIMEOUT: 30, // 2 min
+  TIMEOUT: 12000, // 2 min
 };

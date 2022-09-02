@@ -17,7 +17,6 @@ import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import exp from "constants";
 
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
@@ -38,7 +37,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingComponent],
-      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule,
+      imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, MatTooltipModule, HttpClientTestingModule,
         StoreModule.forRoot(reducers)],
       providers: [
         NgForm,
@@ -75,17 +74,19 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
- }
+    }
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -125,7 +126,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
@@ -154,8 +155,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation:[{}]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation:[{}]}]
+      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
     }
     const parameterRatingAndRecommendation = {
       rating: undefined,
@@ -170,7 +171,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.parameterId = 1
     component.setRating(3)
     expect(parameterRatingAndRecommendation.rating).toEqual(3);
-});
+  });
 
   it('should able to set parameter rating', () => {
     component.answerResponse1 = of({
@@ -240,16 +241,18 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   });
 
 
-  it('should able to add parameter recommendation when add template is clicked',()=>{
-    component.parameterRatingAndRecommendation = {parameterId: 0, rating: 1, parameterLevelRecommendation :[
+  it('should able to add parameter recommendation when add template is clicked', () => {
+    component.parameterRatingAndRecommendation = {
+      parameterId: 0, rating: 1, parameterLevelRecommendation: [
         {
-          recommendationId:undefined,
-          recommendation:"some text",
-          impact:"HIGH",
-          effort:"LOW",
-          deliveryHorizon:"some more text"
+          recommendationId: undefined,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
         }
-      ]};
+      ]
+    };
 
 
     jest.spyOn(component, "addTemplate");
@@ -259,24 +262,26 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
 
   })
 
-  it('should able to erase the parameter recommendation sample data when add template is clicked',()=>{
-    component.recommendationSample={
-      recommendationId:undefined,
-      recommendation:"some text",
-      impact:"HIGH",
-      effort:"LOW",
-      deliveryHorizon:"some more text"
+  it('should able to erase the parameter recommendation sample data when add template is clicked', () => {
+    component.recommendationSample = {
+      recommendationId: undefined,
+      recommendation: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some more text"
     };
 
-    component.parameterRatingAndRecommendation = {parameterId: 0, rating: 1, parameterLevelRecommendation :[
+    component.parameterRatingAndRecommendation = {
+      parameterId: 0, rating: 1, parameterLevelRecommendation: [
         {
-          recommendationId:undefined,
-          recommendation:"some text",
-          impact:"HIGH",
-          effort:"LOW",
-          deliveryHorizon:"some more text"
+          recommendationId: undefined,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
         }
-      ]};
+      ]
+    };
 
     jest.spyOn(component, "addTemplate");
     component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);

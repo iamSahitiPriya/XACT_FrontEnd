@@ -2,19 +2,19 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../../assets/messages";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated?: boolean;
   public static answerSaved: string
   assessment: AssessmentStructure;
@@ -22,20 +22,23 @@ export class HeaderComponent implements OnInit {
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
   feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
+  private destroy$: Subject<void> = new Subject<void>();
+
 
   @Input()
-  userRole:Observable<Object>
+  userRole: Observable<Object>
+
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
   }
 
   username: string = ""
-  isRoleAdmin:boolean = false;
+  isRoleAdmin: boolean = false;
 
   async ngOnInit(): Promise<void> {
     // @ts-ignore
     this.username = (await this.oktaAuth.getUser()).name;
-    this.userRole.subscribe(data =>{
-      if(data == "Admin"){
+    this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data == "Admin") {
         this.isRoleAdmin = true;
       }
     })
@@ -46,6 +49,11 @@ export class HeaderComponent implements OnInit {
 
     await this.oktaAuth.signOut();
     //window.location.href = "https://thoughtworks.okta.com";
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

@@ -19,8 +19,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatOptionModule} from "@angular/material/core";
-import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
-import {HttpClientModule} from "@angular/common/http";
+import {MatIconModule} from "@angular/material/icon";
 
 
 class MockAppService {
@@ -31,7 +30,8 @@ class MockAppService {
       return throwError("Error!")
     }
   }
-  deleteParameterRecommendation(parameterId : number) {
+
+  deleteParameterRecommendation(parameterId: number) {
     if (parameterId === 0) {
       return of(true)
     } else {
@@ -48,9 +48,9 @@ describe('ParameterRecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRecommendationComponent],
-      imports: [MatFormFieldModule,MatOptionModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule,MatIconModule,
+      imports: [MatFormFieldModule, MatOptionModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,
         StoreModule.forRoot(reducers)],
-      providers: [{provide: AppServiceService,useClass: MockAppService}]
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
       .compileComponents();
   });
@@ -81,37 +81,47 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation :[
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 1, rating: 2, parameterLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}]
+        ]
+      }]
     })
     let parameterLevelRecommendationText = {
-      assessmentId: 0,parameterId: 0, parameterLevelRecommendation : {recommendation : ""}
+      assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
     };
     component.assessmentId = 1
     component.parameterId = 0
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component,'updateDataSavedStatus')
+    jest.spyOn(component, 'updateDataSavedStatus')
     jest.spyOn(component, 'saveParticularParameterText')
-    component.parameterLevelRecommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
-    component.assessmentStatus="Active"
+    component.parameterLevelRecommendation = {
+      recommendationId: 1,
+      recommendation: "some more",
+      impact: undefined,
+      effort: undefined,
+      deliveryHorizon: undefined
+    }
+    component.assessmentStatus = "Active"
     component.ngOnInit()
     component.saveParticularParameterText(keyEvent);
 
@@ -141,35 +151,45 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation :[
-            {
-              recommendationId:1,
-              recommendation:"some text",
-              impact:"HIGH",
-              effect:"LOW",
-              deliveryHorizon:"some more text"
-            }
-          ]}]
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 1, rating: 2, parameterLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }]
     })
     let parameterLevelRecommendationText = {
-      assessmentId: 0,parameterId: 0, parameterLevelRecommendation : {recommendation : ""}
+      assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
     };
     component.assessmentId = 1
     component.parameterId = 0
 
-    jest.spyOn(component,'updateDataSavedStatus')
+    jest.spyOn(component, 'updateDataSavedStatus')
     jest.spyOn(component, 'inputChange')
-    component.parameterLevelRecommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "NOW"}
-    component.assessmentStatus="Active"
+    component.parameterLevelRecommendation = {
+      recommendationId: undefined,
+      recommendation: "some more",
+      impact: undefined,
+      effort: undefined,
+      deliveryHorizon: "NOW"
+    }
+    component.assessmentStatus = "Active"
     component.ngOnInit()
     component.inputChange();
 
@@ -183,7 +203,7 @@ describe('ParameterRecommendationComponent', () => {
   });
 
 
-  it("should auto save impact change",  () => {
+  it("should auto save impact change", () => {
     component.parameterRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -199,35 +219,53 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation :[
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 1, rating: 2, parameterLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}]
+        ]
+      }]
     })
 
-    let parameterLevelRecommendationText : ParameterLevelRecommendationTextRequest = {
-      assessmentId: 0,parameterId: 0, parameterLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "LOW", deliveryHorizon: "some text"}
+    let parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 0,
+      parameterId: 0,
+      parameterLevelRecommendation: {
+        recommendationId: 1,
+        recommendation: "text",
+        impact: "HIGH",
+        effort: "LOW",
+        deliveryHorizon: "some text"
+      }
     };
     component.assessmentId = 5
     component.parameterId = 0
 
-    jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'inputChange')
-    component.parameterLevelRecommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "" ,deliveryHorizon : ""}
+    jest.spyOn(component, 'updateDataSavedStatus')
+    jest.spyOn(component, 'inputChange')
+    component.parameterLevelRecommendation = {
+      recommendationId: 1,
+      recommendation: "",
+      impact: "LOW",
+      effort: "",
+      deliveryHorizon: ""
+    }
     component.ngOnInit()
     component.inputChange();
 
@@ -253,35 +291,53 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation :[
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 1, rating: 2, parameterLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}]
+        ]
+      }]
     })
     component.assessmentId = 1
     component.parameterId = 0
 
-    let parameterLevelRecommendationText : ParameterLevelRecommendationTextRequest = {
-      assessmentId: 0,parameterId: 0, parameterLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "HIGH", deliveryHorizon: "some text"}
+    let parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 0,
+      parameterId: 0,
+      parameterLevelRecommendation: {
+        recommendationId: 1,
+        recommendation: "text",
+        impact: "HIGH",
+        effort: "HIGH",
+        deliveryHorizon: "some text"
+      }
     };
 
-    jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'inputChange')
-    component.parameterLevelRecommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "HIGH" ,deliveryHorizon : ""}
+    jest.spyOn(component, 'updateDataSavedStatus')
+    jest.spyOn(component, 'inputChange')
+    component.parameterLevelRecommendation = {
+      recommendationId: 1,
+      recommendation: "",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: ""
+    }
     component.ngOnInit()
     component.inputChange();
 
@@ -291,17 +347,17 @@ describe('ParameterRecommendationComponent', () => {
     expect(component.parameterLevelRecommendationResponse.effort).toBe("HIGH");
   });
 
-  it('should able to delete recommendation template',()=>{
-    let recommendation={
-      recommendationId:1,
-      recommendation:"some text",
-      impact:"HIGH",
-      effort:"LOW",
-      deliveryHorizon:"some dummy text"
+  it('should able to delete recommendation template', () => {
+    let recommendation = {
+      recommendationId: 1,
+      recommendation: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some dummy text"
     }
-    let topicArray : ParameterLevelRecommendation[];
-    topicArray =[];
-    component.parameterRecommendationArray=topicArray;
+    let topicArray: ParameterLevelRecommendation[];
+    topicArray = [];
+    component.parameterRecommendationArray = topicArray;
     component.parameterRecommendationArray?.push(recommendation);
 
     component.deleteTemplate(recommendation);
@@ -309,21 +365,21 @@ describe('ParameterRecommendationComponent', () => {
     expect(component.parameterRecommendationArray?.length).toBe(0);
   })
 
-  it('should be able to enable the fields when parameter level recommendationId is defined',()=>{
-    let recommendationId : number | undefined;
-    let value : boolean;
+  it('should be able to enable the fields when parameter level recommendationId is defined', () => {
+    let recommendationId: number | undefined;
+    let value: boolean;
 
-    recommendationId =1
+    recommendationId = 1
     value = component.disableFields(recommendationId);
 
     expect(value).toBe(false);
   })
 
-  it('should be able to disable the fields when parameter level recommendationId is undefined',()=>{
-    let recommendationId : number | undefined;
-    let value : boolean;
+  it('should be able to disable the fields when parameter level recommendationId is undefined', () => {
+    let recommendationId: number | undefined;
+    let value: boolean;
 
-    recommendationId =undefined
+    recommendationId = undefined
     value = component.disableFields(recommendationId);
 
     expect(value).toBe(true);
@@ -352,28 +408,32 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation :[
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 1, rating: 2, parameterLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}]
+        ]
+      }]
     })
 
     let parameterLevelRecommendationText = {
-      assessmentId: 5,parameterId: 1, parameterLevelRecommendation : {recommendationId : 1,deliveryHorizon:""}
+      assessmentId: 5, parameterId: 1, parameterLevelRecommendation: {recommendationId: 1, deliveryHorizon: ""}
     };
     component.assessmentId = 5
     component.parameterId = 1
@@ -381,7 +441,13 @@ describe('ParameterRecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component, 'saveParticularParameterText')
-    component.parameterLevelRecommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
+    component.parameterLevelRecommendation = {
+      recommendationId: 1,
+      recommendation: "",
+      impact: "",
+      effort: "",
+      deliveryHorizon: ""
+    }
     component.ngOnInit()
     component.saveParticularParameterText(keyEvent);
     component.saveParticularParameterText(keyEvent)
@@ -401,24 +467,26 @@ describe('ParameterRecommendationComponent', () => {
 
   it('should update parameter level recommendation according to recommendation response', function () {
     component.parameterLevelRecommendationResponse = {
-      assessmentId : 0,
-      parameterId : 0,
-      recommendationId : 1,
-      recommendation : "text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "text"}
+      assessmentId: 0,
+      parameterId: 0,
+      recommendationId: 1,
+      recommendation: "text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
+    }
 
     component.parameterRecommendationSample = [{
-      recommendationId : 1,
-      recommendation : "sample text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "sample text"}];
+      recommendationId: 1,
+      recommendation: "sample text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "sample text"
+    }];
 
     component.parameterRecommendationIndex = -1
 
-    component.getRecommendation(component.parameterRecommendationSample,component.parameterLevelRecommendationResponse)
+    component.getRecommendation(component.parameterRecommendationSample, component.parameterLevelRecommendationResponse)
 
     if (component.parameterRecommendationSample) {
       expect(component.parameterRecommendationSample[component.parameterRecommendationIndex].recommendation).toBe("text");
@@ -442,43 +510,59 @@ describe('ParameterRecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
-      parameterRatingAndRecommendation: [{parameterId: 0, rating: 1, parameterLevelRecommendation :[
+        ]
+      }],
+      parameterRatingAndRecommendation: [{
+        parameterId: 0, rating: 1, parameterLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}]
+        ]
+      }]
     }
     component.parameterRecommendation = {
       recommendationId: undefined,
       recommendation: "",
       impact: "",
-      effort:"",
-      deliveryHorizon:""
+      effort: "",
+      deliveryHorizon: ""
     }
 
-    component.parameterLevelRecommendationText = {assessmentId: 0, parameterId: 0, parameterLevelRecommendation: component.parameterRecommendation}
+    component.parameterLevelRecommendationText = {
+      assessmentId: 0,
+      parameterId: 0,
+      parameterLevelRecommendation: component.parameterRecommendation
+    }
 
-    component.parameterLevelRecommendationResponse = {assessmentId: 0, parameterId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
+    component.parameterLevelRecommendationResponse = {
+      assessmentId: 0,
+      parameterId: 0,
+      recommendationId: undefined,
+      recommendation: "",
+      impact: "",
+      effort: "",
+      deliveryHorizon: ""
+    };
 
     const parameterRecommendation = {
-      recommendationId : 1,
+      recommendationId: 1,
       recommendation: "some text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "text"
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
     }
 
     const keyEventData = {isTrusted: true, code: 'Key'};

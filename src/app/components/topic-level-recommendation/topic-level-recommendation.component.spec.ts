@@ -19,8 +19,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatOptionModule} from "@angular/material/core";
-import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
-import {HttpClientModule} from "@angular/common/http";
+import {MatIconModule} from "@angular/material/icon";
 
 
 class MockAppService {
@@ -31,6 +30,7 @@ class MockAppService {
       return throwError("Error!")
     }
   }
+
   saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
     if (topicLevelRecommendationText.topicId === 0) {
       return of(topicLevelRecommendationText)
@@ -39,7 +39,7 @@ class MockAppService {
     }
   }
 
-  deleteTopicRecommendation(topicId : number) {
+  deleteTopicRecommendation(topicId: number) {
     if (topicId === 0) {
       return of(true)
     } else {
@@ -56,9 +56,9 @@ describe('RecommendationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRecommendationComponent],
-      imports: [MatFormFieldModule, MatOptionModule, MatInputModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,
+      imports: [MatFormFieldModule, MatOptionModule, MatInputModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,
         StoreModule.forRoot(reducers)],
-      providers: [{provide: AppServiceService,useClass: MockAppService}]
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
       .compileComponents();
   });
@@ -89,29 +89,37 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     let topicLevelRecommendationText = {
-      assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendation : ""}
+      assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
     };
     component.assessmentId = 1
     component.topicId = 0
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component,'updateDataSavedStatus')
+    jest.spyOn(component, 'updateDataSavedStatus')
     jest.spyOn(component, 'saveParticularTopicRecommendationText')
-    component.recommendation = {recommendationId : 1, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : undefined}
-    component.assessmentStatus="Active"
+    component.recommendation = {
+      recommendationId: 1,
+      recommendation: "some more",
+      impact: undefined,
+      effort: undefined,
+      deliveryHorizon: undefined
+    }
+    component.assessmentStatus = "Active"
     component.ngOnInit()
     component.saveParticularTopicRecommendationText(keyEvent);
 
@@ -141,26 +149,34 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     let topicLevelRecommendationText = {
-      assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendation : ""}
+      assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
     };
     component.assessmentId = 1
     component.topicId = 0
-    jest.spyOn(component,'updateDataSavedStatus')
+    jest.spyOn(component, 'updateDataSavedStatus')
     jest.spyOn(component, 'inputChange')
-    component.recommendation = {recommendationId : undefined, recommendation : "some more",impact:undefined ,effort : undefined ,deliveryHorizon : "NOW"}
-    component.assessmentStatus="Active"
+    component.recommendation = {
+      recommendationId: undefined,
+      recommendation: "some more",
+      impact: undefined,
+      effort: undefined,
+      deliveryHorizon: "NOW"
+    }
+    component.assessmentStatus = "Active"
     component.ngOnInit()
     component.inputChange();
 
@@ -172,7 +188,7 @@ describe('RecommendationComponent', () => {
   });
 
 
-  it("should auto save impact change",  () => {
+  it("should auto save impact change", () => {
     component.topicRecommendationResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
@@ -188,27 +204,37 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
 
-    let topicLevelRecommendationText : TopicLevelRecommendationTextRequest = {
-      assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "LOW", deliveryHorizon: "some text"}
+    let topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
+      assessmentId: 0,
+      topicId: 0,
+      topicLevelRecommendation: {
+        recommendationId: 1,
+        recommendation: "text",
+        impact: "HIGH",
+        effort: "LOW",
+        deliveryHorizon: "some text"
+      }
     };
     component.assessmentId = 5
     component.topicId = 0
 
-    jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'inputChange')
-    component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "" ,deliveryHorizon : ""}
+    jest.spyOn(component, 'updateDataSavedStatus')
+    jest.spyOn(component, 'inputChange')
+    component.recommendation = {recommendationId: 1, recommendation: "", impact: "LOW", effort: "", deliveryHorizon: ""}
     component.ngOnInit()
     component.inputChange();
 
@@ -234,27 +260,43 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.assessmentId = 1
     component.topicId = 0
 
-    let topicLevelRecommendationText : TopicLevelRecommendationTextRequest = {
-      assessmentId: 0,topicId: 0, topicLevelRecommendation : {recommendationId : 1 , recommendation:"text",impact:"HIGH", effort: "HIGH", deliveryHorizon: "some text"}
+    let topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
+      assessmentId: 0,
+      topicId: 0,
+      topicLevelRecommendation: {
+        recommendationId: 1,
+        recommendation: "text",
+        impact: "HIGH",
+        effort: "HIGH",
+        deliveryHorizon: "some text"
+      }
     };
 
-    jest.spyOn(component,'updateDataSavedStatus')
-    jest.spyOn(component,'inputChange')
-    component.recommendation = {recommendationId :1, recommendation : "",impact:"LOW" ,effort : "HIGH" ,deliveryHorizon : ""}
+    jest.spyOn(component, 'updateDataSavedStatus')
+    jest.spyOn(component, 'inputChange')
+    component.recommendation = {
+      recommendationId: 1,
+      recommendation: "",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: ""
+    }
     component.ngOnInit()
     component.inputChange();
 
@@ -264,17 +306,17 @@ describe('RecommendationComponent', () => {
     expect(component.topicLevelRecommendationResponse.effort).toBe("HIGH");
   });
 
-  it('should able to delete recommendation template',()=>{
-    let recommendation={
-      recommendationId:1,
-      recommendation:"some text",
-      impact:"HIGH",
-      effort:"LOW",
-      deliveryHorizon:"some dummy text"
+  it('should able to delete recommendation template', () => {
+    let recommendation = {
+      recommendationId: 1,
+      recommendation: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some dummy text"
     }
-    let topicArray : TopicLevelRecommendation[];
-    topicArray =[];
-    component.topicRecommendationArray=topicArray;
+    let topicArray: TopicLevelRecommendation[];
+    topicArray = [];
+    component.topicRecommendationArray = topicArray;
     component.topicRecommendationArray?.push(recommendation);
 
     component.deleteTemplate(recommendation);
@@ -282,22 +324,22 @@ describe('RecommendationComponent', () => {
     expect(component.topicRecommendationArray?.length).toBe(0);
   })
 
-  it('should be able to enable the fields when recommendationId is defined',()=>{
-    let recommendationId : number | undefined;
-    let value : boolean;
+  it('should be able to enable the fields when recommendationId is defined', () => {
+    let recommendationId: number | undefined;
+    let value: boolean;
 
-    recommendationId =1
-      value = component.disableFields(recommendationId);
+    recommendationId = 1
+    value = component.disableFields(recommendationId);
 
     expect(value).toBe(false);
   })
 
-  it('should be able to disable the fields when recommendationId is undefined',()=>{
-    let recommendationId : number | undefined;
-    let value : boolean;
+  it('should be able to disable the fields when recommendationId is undefined', () => {
+    let recommendationId: number | undefined;
+    let value: boolean;
 
-    recommendationId =undefined
-      value = component.disableFields(recommendationId);
+    recommendationId = undefined
+    value = component.disableFields(recommendationId);
 
     expect(value).toBe(true);
   })
@@ -325,20 +367,22 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effect:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
 
     let topicLevelRecommendationText = {
-      assessmentId: 5,topicId: 1, topicLevelRecommendation : {recommendationId : 1,deliveryHorizon:""}
+      assessmentId: 5, topicId: 1, topicLevelRecommendation: {recommendationId: 1, deliveryHorizon: ""}
     };
     component.assessmentId = 5
     component.topicId = 1
@@ -346,7 +390,7 @@ describe('RecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component, 'saveParticularTopicRecommendationText')
-    component.recommendation = {recommendationId : 1, recommendation : "",impact:"" ,effort : "" ,deliveryHorizon :""}
+    component.recommendation = {recommendationId: 1, recommendation: "", impact: "", effort: "", deliveryHorizon: ""}
     component.ngOnInit()
     component.saveParticularTopicRecommendationText(keyEvent);
     component.saveParticularTopicRecommendationText(keyEvent)
@@ -365,24 +409,26 @@ describe('RecommendationComponent', () => {
 
   it('should update topic level recommendation according to recommendation response', function () {
     component.topicLevelRecommendationResponse = {
-      assessmentId : 0,
-      topicId : 0,
-      recommendationId : 1,
-      recommendation : "text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "text"}
+      assessmentId: 0,
+      topicId: 0,
+      recommendationId: 1,
+      recommendation: "text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
+    }
 
     component.topicRecommendationSample = [{
-      recommendationId : 1,
-      recommendation : "sample text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "sample text"}];
+      recommendationId: 1,
+      recommendation: "sample text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "sample text"
+    }];
 
     component.topicRecommendationIndex = -1
 
-    component.getRecommendation(component.topicRecommendationSample,component.topicLevelRecommendationResponse)
+    component.getRecommendation(component.topicRecommendationSample, component.topicLevelRecommendationResponse)
 
     if (component.topicRecommendationSample) {
       expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
@@ -406,35 +452,49 @@ describe('RecommendationComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation :[
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
           {
-            recommendationId:1,
-            recommendation:"some text",
-            impact:"HIGH",
-            effort:"LOW",
-            deliveryHorizon:"some more text"
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
           }
-        ]}],
+        ]
+      }],
       parameterRatingAndRecommendation: []
     }
     component.recommendations = {
       recommendationId: undefined,
       recommendation: "",
       impact: "",
-      effort:"",
-      deliveryHorizon:""
+      effort: "",
+      deliveryHorizon: ""
     }
 
-    component.topicLevelRecommendationText = {assessmentId: 0, topicId: 0, topicLevelRecommendation: component.recommendations}
+    component.topicLevelRecommendationText = {
+      assessmentId: 0,
+      topicId: 0,
+      topicLevelRecommendation: component.recommendations
+    }
 
-    component.topicLevelRecommendationResponse = {assessmentId: 0, topicId: 0, recommendationId: undefined, recommendation: "", impact: "", effort:"",deliveryHorizon:""};
+    component.topicLevelRecommendationResponse = {
+      assessmentId: 0,
+      topicId: 0,
+      recommendationId: undefined,
+      recommendation: "",
+      impact: "",
+      effort: "",
+      deliveryHorizon: ""
+    };
 
     const topicRecommendation = {
-      recommendationId : 1,
+      recommendationId: 1,
       recommendation: "some text",
-      impact : "LOW",
-      effort : "HIGH",
-      deliveryHorizon : "text"
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
     }
 
     const keyEventData = {isTrusted: true, code: 'Key'};

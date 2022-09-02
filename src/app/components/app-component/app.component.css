@@ -3,10 +3,10 @@
  */
 
 section {
-    display: table;
-  }
+  display: table;
+}
 
-.container-xxl{
+.container-xxl {
   max-width: 100%;
 }
 

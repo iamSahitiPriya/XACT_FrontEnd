@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {data_local} from "../../../assets/messages";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -9,7 +9,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {debounce} from "lodash";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
@@ -22,7 +22,7 @@ let DEBOUNCE_TIME = 1200;
   templateUrl: './parameter-level-recommendation.component.html',
   styleUrls: ['./parameter-level-recommendation.component.css']
 })
-export class ParameterLevelRecommendationComponent implements OnInit {
+export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy {
 
   @Input()
   parameterLevelRecommendation: ParameterLevelRecommendation
@@ -82,7 +82,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   parameterRecommendationSample: ParameterLevelRecommendation[] | undefined;
   deleteRecommendationText: string = "Delete Recommendation";
-
+  private destroy$: Subject<void> = new Subject<void>();
 
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -93,7 +93,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parameterRecommendationResponse1.subscribe(data => {
+    this.parameterRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
         this.parameterRecommendationResponse = data
@@ -108,7 +108,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.setParameterRecommendationFields();
     this.setParameterLevelRecommendationResponseFields();
     this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
@@ -215,7 +215,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
 
   private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
         }, error: _error => {
           this.showError("Data cannot be deleted", "Close");
@@ -230,7 +230,7 @@ export class ParameterLevelRecommendationComponent implements OnInit {
     this.setParameterRecommendationFields()
     this.setParameterLevelRecommendationResponseFields()
     this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).subscribe({
+    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
@@ -238,5 +238,10 @@ export class ParameterLevelRecommendationComponent implements OnInit {
         this.showError("Data cannot be saved", "Close");
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
