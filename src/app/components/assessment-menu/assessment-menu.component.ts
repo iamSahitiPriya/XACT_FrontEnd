@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -11,7 +11,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
 import {data_local} from "../../../assets/messages";
@@ -25,7 +25,7 @@ export const assessmentData = [{}]
 })
 
 
-export class AssessmentMenuComponent implements OnInit {
+export class AssessmentMenuComponent implements OnInit, OnDestroy {
   savedAnswer: string
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
@@ -46,6 +46,8 @@ export class AssessmentMenuComponent implements OnInit {
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
+  private destroy$: Subject<void> = new Subject<void>();
+  assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -55,7 +57,7 @@ export class AssessmentMenuComponent implements OnInit {
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
     const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
-    this.appService.generateReport(this.assessmentId).subscribe(blob => {
+    this.appService.generateReport(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(blob => {
       saveAs(blob, reportName);
     });
   }
@@ -66,7 +68,7 @@ export class AssessmentMenuComponent implements OnInit {
 
 
   finishAssessment() {
-    this.appService.finishAssessment(this.assessmentId).subscribe((_data) => {
+    this.appService.finishAssessment(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((_data) => {
         this.cloneAssessment = Object.assign({}, this.assessment)
         this.cloneAssessment.assessmentStatus = _data.assessmentStatus
         this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
@@ -80,7 +82,7 @@ export class AssessmentMenuComponent implements OnInit {
       height: '203px'
     });
     openConfirm.componentInstance.text = data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
-    openConfirm.afterClosed().subscribe(result => {
+    openConfirm.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result === 1) {
         this.finishAssessment();
       }
@@ -88,7 +90,7 @@ export class AssessmentMenuComponent implements OnInit {
   }
 
   reopenAssessment() {
-    this.appService.reopenAssessment(this.assessmentId).subscribe((_data) => {
+    this.appService.reopenAssessment(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((_data) => {
         this.sendAssessmentStatus(_data.assessmentStatus)
       }
     )
@@ -115,24 +117,17 @@ export class AssessmentMenuComponent implements OnInit {
     this.dialog.closeAll()
   }
 
-  updateAssessmentStatus() {
-    AssessmentMenuComponent.answerSaved = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT +`${moment(new Date(this.assessment.updatedAt)).startOf('second').fromNow()}`
-  }
-
   ngOnInit(): void {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
-        this.assessment = data
-        this.updateAssessmentStatus()
+        this.assessment = data;
       }
     })
   }
 
-  getAnswerStatus() {
-    setInterval(() => {
-      this.updateAssessmentStatus()
-    }, 60000)
-    return AssessmentMenuComponent.answerSaved
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

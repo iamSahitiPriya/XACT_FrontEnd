@@ -1,7 +1,7 @@
-.okButton{
-  background:#013D4F 0% 0% no-repeat padding-box;
+.okButton {
+  background: #013D4F 0% 0% no-repeat padding-box;
   color: white;
-  font-size: 16px ;
+  font-size: 16px;
   font-family: 'Inter', sans-serif;
   font-weight: normal;
   width: 80px;
@@ -10,14 +10,16 @@
   margin-top: 20px;
 
 }
-#close{
+
+#close {
   margin-left: 379px;
   position: relative;
   top: -20px;
 }
-.bodyText{
+
+.bodyText {
   text-align: center;
-  font-size: 16px ;
+  font-size: 16px;
   font-family: 'Inter', sans-serif;
   font-weight: normal;
   letter-spacing: 0.17px;

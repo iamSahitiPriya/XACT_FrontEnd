@@ -52,7 +52,8 @@
           <mat-radio-group
             id="recommendationElement_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
             name="recommendationText_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-            [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" aria-label="Select an option" (change)="inputChange()"
+            [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" aria-label="Select an option"
+            (change)="inputChange()"
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="NOW">&nbsp;Now</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="NEXT">Next</mat-radio-button>
@@ -61,7 +62,8 @@
         </div>
       </div>
       <div class="delete">
-        <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText">
+        <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon"
+                [matTooltip]="deleteRecommendationText">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">Delete</span>
         </button>

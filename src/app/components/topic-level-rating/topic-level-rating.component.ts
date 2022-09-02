@@ -1,8 +1,8 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -15,7 +15,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {data_local} from "src/assets/messages"
-import {  TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 
 export const topicRecommendationData = [{}]
@@ -28,7 +28,7 @@ let RECOMMENDATION_MAX_LIMIT = 20;
   templateUrl: './topic-level-rating.component.html',
   styleUrls: ['./topic-level-rating.component.css']
 })
-export class TopicLevelRatingComponent implements OnInit {
+export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;
@@ -96,9 +96,11 @@ export class TopicLevelRatingComponent implements OnInit {
   };
 
   answerResponse: AssessmentStructure;
+  private destroy$: Subject<void> = new Subject<void>();
+
 
   ngOnInit() {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
         this.answerResponse = data
@@ -133,7 +135,7 @@ export class TopicLevelRatingComponent implements OnInit {
 
         this.sendRating(this.topicRatingResponse)
 
-        this.appService.saveTopicRating(this.topicLevelRating).subscribe({
+        this.appService.saveTopicRating(this.topicLevelRating).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             topicRatingData.push(this.topicLevelRating);
             this.updateDataSavedStatus()
@@ -192,5 +194,10 @@ export class TopicLevelRatingComponent implements OnInit {
       };
       topicLevelRecommendation.unshift(this.recommendationSample);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

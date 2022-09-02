@@ -18,15 +18,17 @@
   </div>
 </div>
 <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-<button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)" class="addRecommendation button1">
+<button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)"
+        class="addRecommendation button1">
   <div>
-    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span id="addRecommendation"> Add Recommendations </span>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+    id="addRecommendation"> Add Recommendations </span>
   </div>
 </button>
 
 <div *ngFor="let recommendation of parameterRatingAndRecommendation.parameterLevelRecommendation ; let i=index">
   <app-parameter-level-recommendation
-    [parameterIndex] = "i"
+    [parameterIndex]="i"
     [parameterLevelRecommendation]="recommendation"
     [assessmentId]="assessmentId"
     [topicId]="topicId"

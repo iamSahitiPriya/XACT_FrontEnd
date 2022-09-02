@@ -45,11 +45,12 @@
   opacity: 1;
   padding-right: 30px;
 }
-.menu{
+
+.menu {
   margin-top: 0.8em !important;
 }
 
-.item{
+.item {
   background: var(--unnamed-color-f4fafc) 0% 0% no-repeat padding-box;
   font-size: medium;
   background: #F4FAFC 0% 0% no-repeat padding-box;

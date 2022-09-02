@@ -37,7 +37,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AssessmentModulesComponent} from './components/assessment-modules/assessment-modules.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
-import {HttpCacheService} from "./services/cache-service/cache.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentModulesDetailsComponent} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -56,17 +55,16 @@ import {TopicLevelRatingComponent} from './components/topic-level-rating/topic-l
 import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
-import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
+import {ProgressComponentComponent} from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
+import {AssessmentAverageRatingComponent} from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
 import {MatRadioModule} from "@angular/material/radio";
-import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
-import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
+import {ParameterLevelRecommendationComponent} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 
-import { AdminConsoleComponent } from './components/admin/admin-console/admin-console.component';
-import {NgIdleModule} from "@ng-idle/core";
+import {AdminConsoleComponent} from './components/admin/admin-console/admin-console.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -93,10 +91,10 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path:'admin',
-    component:AdminConsoleComponent,
-    pathMatch:'full',
-    canActivate:[OktaAuthGuard]
+    path: 'admin',
+    component: AdminConsoleComponent,
+    pathMatch: 'full',
+    canActivate: [OktaAuthGuard]
   }
 
 ];
@@ -165,7 +163,6 @@ export const appRoutes: Routes = [
     MatChipsModule,
     MatRadioModule,
     MatSortModule,
-    NgIdleModule.forRoot(),
   ],
 
 
@@ -186,8 +183,6 @@ export const appRoutes: Routes = [
     {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
     {provide: OKTA_CONFIG, useValue: {oktaAuth}},
     HttpClientTestingModule,
-    HttpCacheService,
-
   ],
   bootstrap: [AppComponent]
 })

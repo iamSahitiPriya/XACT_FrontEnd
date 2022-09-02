@@ -13,7 +13,7 @@ export class ErrorComponentComponent {
   retryText = data_local.ERROR_MESSAGE_LINK_TEXT.RETRY_TEXT;
   bodyText: string;
   headerText: string;
-  displayHome:boolean =true;
+  displayHome: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<ErrorComponentComponent>) {
     dialogRef.disableClose = true;

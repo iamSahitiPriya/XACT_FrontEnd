@@ -85,23 +85,23 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="addUserEmail">
         <mat-label>{{userEmailTitle}}</mat-label>
-          <mat-chip-list #chipList aria-label="Email Selection">
-            <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
-              {{email}}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-            <input matInput type="text"
-                   [placeholder]=userEmailPlaceholder
-                   formControlName="emailValidator"
-                   id="userEmails" maxlength="1200"
-                   [matChipInputFor]="chipList"
-                   [matChipInputAddOnBlur]="addOnBlur"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   (matChipInputTokenEnd)="add($event)"
-                   [(ngModel)]="emailTextField" >
-          </mat-chip-list>
+        <mat-chip-list #chipList aria-label="Email Selection">
+          <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
+            {{email}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input matInput type="text"
+                 [placeholder]=userEmailPlaceholder
+                 formControlName="emailValidator"
+                 id="userEmails" maxlength="1200"
+                 [matChipInputFor]="chipList"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="add($event)"
+                 [(ngModel)]="emailTextField">
+        </mat-chip-list>
       </mat-form-field>
       <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}

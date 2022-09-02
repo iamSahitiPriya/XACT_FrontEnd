@@ -47,7 +47,7 @@
       </div>
       <div *ngIf="recommendation.deliveryHorizon"></div>
       <div class="deliveryHorizon">Delivery Horizon
-        <div class="input1" >
+        <div class="input1">
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
             name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="delete">
-        <button (click)="deleteTemplate(recommendation)"  class="deleteIcon" [matTooltip]="deleteRecommendationText">
+        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">Delete</span>
         </button>

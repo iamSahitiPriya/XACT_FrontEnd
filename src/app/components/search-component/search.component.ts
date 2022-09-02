@@ -17,6 +17,7 @@ export class SearchComponent {
   dataSource!: MatTableDataSource<AssessmentStructure>
 
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
+
   constructor() {
     this.dataSource = new MatTableDataSource<AssessmentStructure>()
   }

@@ -12,10 +12,6 @@ import {reducers} from "../../reducers/reducers";
 import {of} from "rxjs";
 
 
-
-
-
-
 describe('AssessmentAverageRatingComponent', () => {
   let component: AssessmentAverageRatingComponent;
   let fixture: ComponentFixture<AssessmentAverageRatingComponent>;
@@ -42,10 +38,14 @@ describe('AssessmentAverageRatingComponent', () => {
   });
 
   it('should give average rating of particular topic', () => {
-    component.finalAverageRating = of({scoreDetails : {topicId:1,
-      rating:1}})
-    let newAverageRating = {topicId:1,rating:1};
-    component.averageRating = {topicId:1,rating:1};
+    component.finalAverageRating = of({
+      scoreDetails: {
+        topicId: 1,
+        rating: 1
+      }
+    })
+    let newAverageRating = {topicId: 1, rating: 1};
+    component.averageRating = {topicId: 1, rating: 1};
 
     fixture.detectChanges();
     component.finalAverageRating.subscribe(data => {

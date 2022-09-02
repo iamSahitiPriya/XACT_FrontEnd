@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit, Optional} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,7 +19,7 @@ import {Store} from '@ngrx/store';
 import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
 import {AssessmentState} from "../../reducers/app.states";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
@@ -48,7 +48,7 @@ let parameterRequests: parameterRequest[];
 })
 
 
-export class TopicLevelAssessmentComponent implements OnInit {
+export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
   disableRating: number = 0
   form: FormGroup
@@ -65,6 +65,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -81,7 +82,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = {...data}
         this.assessmentId = this.answerResponse.assessmentId
@@ -99,7 +100,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
-    this.appService.saveAssessment(saveRequest).subscribe(() => {
+    this.appService.saveAssessment(saveRequest).pipe(takeUntil(this.destroy$)).subscribe(() => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
         }
@@ -306,5 +307,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -12,9 +12,12 @@
         </div>
         <ul class="dropdown-menu menu">
           <li><a class="dropdown-item  item" [routerLink]="['admin']" *ngIf="isRoleAdmin">Admin-Console</a></li>
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" href="https://sites.google.com/thoughtworks.com/x-act">{{microSite}}</a></li>
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" href="https://sites.google.com/thoughtworks.com/x-act">{{support}}</a></li>
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" href="https://forms.gle/eqERV28RBVyMRvp69">{{feedback}}</a></li>
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
+                 href="https://sites.google.com/thoughtworks.com/x-act">{{microSite}}</a></li>
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
+                 href="https://sites.google.com/thoughtworks.com/x-act">{{support}}</a></li>
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
+                 href="https://forms.gle/eqERV28RBVyMRvp69">{{feedback}}</a></li>
           <li><a class="dropdown-item  item" (click)="signOut()">{{logout}}</a></li>
         </ul>
       </div>

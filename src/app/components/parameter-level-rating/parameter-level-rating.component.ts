@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
@@ -26,7 +26,7 @@ let RECOMMENDATION_MAX_LIMIT = 10;
   templateUrl: './parameter-level-rating.component.html',
   styleUrls: ['./parameter-level-rating.component.css']
 })
-export class ParameterLevelRatingComponent implements OnInit {
+export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
 
@@ -37,6 +37,7 @@ export class ParameterLevelRatingComponent implements OnInit {
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
   private cloneAnswerResponse1: AssessmentStructure;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -77,7 +78,7 @@ export class ParameterLevelRatingComponent implements OnInit {
 
   }
 
-  form : FormGroup
+  form: FormGroup
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined
@@ -97,7 +98,7 @@ export class ParameterLevelRatingComponent implements OnInit {
 
 
   ngOnInit() {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = data
         this.assessmentStatus = data.assessmentStatus
@@ -128,7 +129,7 @@ export class ParameterLevelRatingComponent implements OnInit {
       this.parameterRatingResponse.parameterId = this.parameterId
       this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
       this.sendRating(this.parameterRatingResponse)
-      this.appService.saveParameterRating(this.parameterLevelRating).subscribe({
+      this.appService.saveParameterRating(this.parameterLevelRating).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           this.updateDataSavedStatus()
         }, error: _error => {
@@ -200,5 +201,10 @@ export class ParameterLevelRatingComponent implements OnInit {
       };
       parameterLevelRecommendation.unshift(this.recommendationSample);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

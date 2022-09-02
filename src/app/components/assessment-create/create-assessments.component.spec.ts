@@ -27,10 +27,6 @@ import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {By} from "@angular/platform-browser";
-
-
-
 
 
 class MockDialog {
@@ -60,25 +56,27 @@ class MockAppService {
     email: "sam@gmail.com",
     role: ""
   }
-  public addAssessments(assessmentDataPayload: AssessmentRequest ): Observable<any> {
-    if(assessmentDataPayload) {
+
+  public addAssessments(assessmentDataPayload: AssessmentRequest): Observable<any> {
+    if (assessmentDataPayload) {
       if (assessmentDataPayload.assessmentName === "xact") {
         return of(this.assessmentMock)
       } else {
         return throwError("Error!")
       }
-    }else{
+    } else {
       return of(assessmentDataPayload)
     }
   }
-  public updateAssessment(assessmentId:number,assessmentDataPayload: AssessmentRequest ): Observable<any> {
-    if(assessmentDataPayload.assessmentName === "xact"){
+
+  public updateAssessment(assessmentId: number, assessmentDataPayload: AssessmentRequest): Observable<any> {
+    if (assessmentDataPayload.assessmentName === "xact") {
       return of(this.assessmentMock)
-    }
-    else{
+    } else {
       return throwError("Error!")
     }
   }
+
   public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
     return of(this.mockedUser)
   }
@@ -108,8 +106,8 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,MatTooltipModule,
-        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatChipsModule,ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,
+        ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatChipsModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: AppServiceService, useClass: MockAppService},
@@ -131,10 +129,10 @@ describe('CreateAssessmentsComponent', () => {
     controller = TestBed.inject(HttpTestingController)
     fixture.detectChanges();
     matDialog = fixture.debugElement.injector.get(MatDialog)
-    component.assessment=blankAssessment;
+    component.assessment = blankAssessment;
   });
 
-  const blankAssessment : AssessmentStructure ={
+  const blankAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
@@ -149,7 +147,7 @@ describe('CreateAssessmentsComponent', () => {
     users: []
   }
 
-  const mockAssessment : AssessmentStructure ={
+  const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
     assessmentName: "Mock",
@@ -182,7 +180,7 @@ describe('CreateAssessmentsComponent', () => {
   it('should save assessment and make the window reload', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
-    const assessmentDataPayload:AssessmentRequest = {
+    const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
@@ -222,8 +220,8 @@ describe('CreateAssessmentsComponent', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
 
-    const assessmentDataPayload:AssessmentRequest  = {
-      assessmentName:"abc",organisationName:"abc",domain:"123", industry:"hello", teamSize:12, users:[]
+    const assessmentDataPayload: AssessmentRequest = {
+      assessmentName: "abc", organisationName: "abc", domain: "123", industry: "hello", teamSize: 12, users: []
     };
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -233,9 +231,9 @@ describe('CreateAssessmentsComponent', () => {
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.saveAssessment()
 
-    mockAppService.addAssessments(assessmentDataPayload).subscribe((data) =>{
+    mockAppService.addAssessments(assessmentDataPayload).subscribe((data) => {
       expect(data).toBeUndefined()
-    },(error) => {
+    }, (error) => {
       expect(component.loading).toBeFalsy()
       expect(error).toBe(new Error("Error!"))
     })
@@ -244,7 +242,7 @@ describe('CreateAssessmentsComponent', () => {
   it('should update assessment', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
-    const assessmentDataPayload:AssessmentRequest = {
+    const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
@@ -282,8 +280,8 @@ describe('CreateAssessmentsComponent', () => {
     component.saveAssessment()
     component.updateAssessment()
   });
-  it("should remove the emails from the list on cancel click",()=>{
-    const emailList = ["abc@thoughtworks.com","hello@thoughtworks.com"];
+  it("should remove the emails from the list on cancel click", () => {
+    const emailList = ["abc@thoughtworks.com", "hello@thoughtworks.com"];
     component.emails = emailList;
 
     component.remove('abc@thoughtworks.com');
@@ -291,10 +289,11 @@ describe('CreateAssessmentsComponent', () => {
     expect(emailList).toHaveLength(1);
   })
 
-  it("should add the emails from input",()=> {
+  it("should add the emails from input", () => {
     const userEmail = "abc@thoughtworks.com";
     component.add({
-      value: userEmail,} as MatChipInputEvent)
+      value: userEmail,
+    } as MatChipInputEvent)
 
     expect(component.emails).toHaveLength(1);
   });
