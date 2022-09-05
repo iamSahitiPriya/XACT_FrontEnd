@@ -7,46 +7,60 @@
                   "Data model"
                 ],
                 "ArchitecturalStyleAssignmentMaturityScoreDesc": [
-                  "Serverless Functions, Event-Driven Microservices and service-oriented microservices are used as applicable. Standardized integration templates exist and are actively used. These standardized templates are designed with specific care being taken to isolate third party logic and resilience expectations.",
-                  "Event-Driven Microservices and service-oriented microservices are used as applicable. Separation between core and third-party components exists. Logic and non-functional requirements are cleanly veiled off in third party components. However, each team uses its own set of implementations when integrating with third parties.",
-                  "Service Oriented Microservices. Separation between core and third-party components exists. Logic is cleanly veiled off in third party components. However, there is little clarity of non-functional resilience characteristics.",
-                  "Structured Monolith. Separation between core and third-party components exists. However, changes to third-party components usually results in major changes to service components directly interfacing with these third party components.",
-                  "Big ball of mud monolith. Dependencies are Ad-hoc, little to no separation between core and third-party application logic. Changes in third-party integration logic usually requires major changes in a majority of systems, including user interfaces."
+                  "Serverless Functions, Event-Driven Microservices and service-oriented microservices are used as applicable. Standardized integration templates exist and are actively used. These standardized templates are designed with specific care being taken to isolate third-party logic and resilience expectations.",
+                  "Event-Driven Microservices and service-oriented microservices are used as applicable. The separation between core and third-party components exists. Logic and non-functional requirements are cleanly veiled off in third-party components. However, each team uses its own set of implementations when integrating with third parties.",
+                  "Service Oriented Microservices. The separation between core and third-party components exists. Logic is cleanly veiled off in third-party components. However, there is little clarity on non-functional resilience characteristics.",
+                  "Structured Monolith. The separation between core and third-party components exists. However, changes to third-party components usually result in major changes to service components directly interfacing with these third-party components.",
+                  "Big ball of mud monolith. Dependencies are Ad-hoc, with little to no separation between core and third-party application logic. Changes in third-party integration logic usually require major changes in a majority of systems, including user interfaces."
                 ],
                 "ArchitecturalStyleQuestions": [
                   "How do components map to the domain at hand?",
-                  "How do components interact with each-other?",
+                  "How do components interact with each other?",
                   "To what extent modularity is ensured at low-level implementation ?",
                   "What are the internal and external system dependencies?",
-                  "Do components have their own data model, or how do they map to the underlying data model?",
-                  "Can you give an overview of the underlying data model?"]
+                  "Do components have their data model, or how do they map to the underlying data model?",
+                  "Can you give an overview of the underlying data model?"],
+                "notes": ["components map to the domain at hand",
+                  "components interact with each-other",
+                  "modularity is ensured at low-level implementation",
+                  "internal and external system dependencies",
+                  "components have their own data model, or they map to the underlying data model",
+                  "give an overview of the underlying data model"
+                ]
               },
 
               {
                 "APIStrategyParameters": ["Standards", "API basic hygiene", "API best practices"],
-                "ApiStrategyAssignmentMaturityScoreDesc": ["API Gateway is used as a single entry point for all consumers for value added services such as authentication, authorization and resilience patterns such as circuit breaker, rate limiting, throttling etc. Header-based API versioning is used when multiple versions of an API need to co-exist. Consumers not including an explicit version identifier are returned responses from the latest version. API documentation and examples are produced and kept in sync with implementation at all times. Documentation is generated from tests and published as an artifact of the build. All documentation is published on a central API management portal for easy discoverability and access.",
+                "ApiStrategyAssignmentMaturityScoreDesc": ["API Gateway is used as a single entry point for all consumers for value-added services such as authentication, authorization and resilience patterns such as circuit breaker, rate limiting, throttling etc. Header-based API versioning is used when multiple versions of an API need to co-exist. Consumers not including an explicit version identifier are returned responses from the latest version. API documentation and examples are produced and kept in sync with implementation at all times. Documentation is generated from tests and published as an artifact of the build. All documentation is published on a central API management portal for easy discoverability and access.",
                                                             "API Gateway is used as a single entry point for all consumers. It is used to expose different variations of the same API to different consumers and as a switch to enable zero downtime deployments. Header-based API versioning is used at all times. Consumers are expected to include a version identifier in the request at all times. API documentation is produced and kept in sync with implementation at all times. Documentation and implementation are produced from the same source repository.",
-                                                            "API Gateway is used as a single entry point for all consumers. It acts as a simple proxy for all downstream services and as a switch to enable zero downtime deployments. URL based API versioning is used at all times. Consumers are expected to include a version identifier in the request at all times. API documentation is produced and all efforts are made to keep it up-to-date with with implementation changes. However, documentation does experience drift from implementation because it is maintained separately from the implementation.",
-                                                            "The use of API gateway is explicitly discouraged to avoid it becoming a home of excessive business logic. API versioning is used very sparingly. In most cases, changes are made in a backwards compatible manner. When backwards incompatible changes are required to be made, new APIs are created. API documentation is produced at the start of a project, but is not maintained up-to-date. Hence is used sparingly by consuming teams.",
+                                                            "API Gateway is used as a single entry point for all consumers. It acts as a simple proxy for all downstream services and as a switch to enable zero downtime deployments. URL-based API versioning is used at all times. Consumers are expected to include a version identifier in the request at all times. API documentation is produced and all efforts are made to keep it up-to-date with implementation changes. However, the documentation does experience drift from implementation because it is maintained separately from the implementation.",
+                                                            "The use of API gateway is explicitly discouraged to avoid it becoming a home of excessive business logic. API versioning is used very sparingly. In most cases, changes are made in a backwards-compatible manner. When backwards incompatible changes are required to be made, new APIs are created. API documentation is produced at the start of a project but is not maintained up to date. Hence is used sparingly by consuming teams.",
                                                             "API gateway is not used as an explicit pattern. No explicit strategy is used for API versioning. API Consumers are notified if backwards incompatible changes are made and are expected. API documentation is largely missing or ignored. API clients are required to consult producers' source code to look for usage patterns. No explicit strategy is used for API versioning. API Consumers are notified if backwards incompatible changes are made and are expected. API documentation is largely missing or ignored. API clients are required to consult producers' source code to look for usage patterns."],
-                "ApiStrategyQuestions": ["Does API follow standards like RESTful?","Is there a style guide for APIs?","How is API versioning done?","Does API support file upload?","Does API validate the request params?",
-                                          "What are the data format supports?","Is API protected?","Is API response data restricted?","Does API validate file size, format etc?","How are APIs documented?","How are cross-cutting concerns such as authentication, rate limiting etc. implemented?",
+                "ApiStrategyQuestions": ["Does API follow standards like RESTful?",
+                                         "Is there a style guide for APIs?",
+                                         "How is API versioning done?",
+                                         "Does API support file upload?",
+                                         "Does API validate the request params?",
+                                          "What are the data format supports?",
+                                          "Is API protected?",
+                                          "Is API response data restricted?",
+                                          "Does API validate file size, format etc?","How are APIs documented?","How are cross-cutting concerns such as authentication, rate limiting etc. implemented?",
                                           "Are there any APM tools to monitor APIs?"]
               },
 
               {
                 "TechnologyStackParameters": "Technology Stack",
                 "TechnologyStackQuestions": [
-                                              "What is server side Tech?",
-                                             "What is client side Tech?",
+                                              "What is server-side Tech?",
+                                             "What is client-side Tech?",
                                              "What is cloud Tech?",
-                                             "What are supporting tools / libraries?",
-                                             "What is the database / data storage?"
+                                             "What are supporting tools/libraries?",
+                                             "What is the database/data storage?"
                                             ],
-                "AssignMaturityScoreTechnologyStack": ["Technology stack is state-of-the-art and architecture is open to extend. The problem domain nicely fits in with the tech stack being used.",
-                                                       "Technology stack is current, but not quite the best fit for the problem domain. For eg; data stores use data models that have been force-fitted to capture the domain model",
-                                                       "Technology stack is not proprietary but deprecated or around 5 years out-of-date with the current way of doing things. ",
-                                                       "The technology stack has less support, either needs the goodwill of the open source community or needs involves expensive licenses. It is possible to extend the architecture but at the expense of business priorities and downtime",
+                "AssignMaturityScoreTechnologyStack": ["The technology stack is state-of-the-art and the architecture is open to extension. The problem domain nicely fits in with the tech stack being used.",
+                                                       "The technology stack is current, but not quite the best fit for the problem domain. For eg; data stores use data models that have been force-fitted to capture the domain model",
+                                                       "The technology stack is not proprietary but deprecated or around 5 years out-of-date with the current way of doing things.",
+                                                       "The technology stack has less support, either needs the goodwill of the open source community or involves expensive licenses. It is possible to extend the architecture but at the expense of business priorities and downtime",
                                                        "Architecture predominantly uses a technology stack that is unsupported, extremely difficult to extend or out-of-date."]
 
               },
@@ -54,20 +68,20 @@
   {
     "PerformanceParameters": ["Resilience","Scalability","Availability"],
     "PerformanceQuestions" : ["Is Chaos Engineering practiced to test the resilience of the system?",
-                              "Is the component resilience approach as simple as it needs to be, but no simpler?",
-                              "Does the component separate downstream dependency health from it's own health",
+                              "Is the component resilience approach as simple as it needs to be, but not simpler?",
+                              "Does the component separate downstream dependency health from its own health?",
                               "Is the component tolerant of both upstream and downstream component failure?",
                               "Does the component/system support active/active cross-site for resilience and failover?",
                               "Is there any performance test suite?",
-                              "What is the scaling approach? Horizotal / vertical?",
-                              "How is cache-bursting handled in case of static assets?",
+                              "What is the scaling approach? Horizontal/vertical?",
+                              "How is cache-bursting handled in the case of static assets?",
                               "Is there any CDN being used?",
                               "Are SLOs published and agreed upon by business stakeholders?",
-                              "Are througputs and response times continuously measured?",
+                              "Are throughputs and response times continuously measured?",
                               "Are alerts configured in case of a departure from SLOs?"
     ],
     "AssignMaturityScorePerformance": ["Implementation of resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching are standardized and tested to meet SLAs. Performance and scale testing are practiced consistently and automated as part of the pipeline",
-                                       "There are standardized implementation across teams on Resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching. Performance and scale testing are practiced periodically, but not part of the pipeline",
+                                       "There is standardized implementation across teams on Resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching. Performance and scale testing are practiced periodically but are not part of the pipeline",
                                        "Resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching are documented, with varying implementation styles. Performance and scale testing are not practiced, but only before significant milestones (like a large cross-functional release)",
                                        "Resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching are used sporadically by individual teams. Performance and scale testing are not practiced, but only on an ad-hoc basis.",
                                        "Resilience patterns like circuit breakers, timeouts, service discovery, rate limiting, throttling and caching are not used. Performance and scale testing are not practiced."
@@ -77,7 +91,7 @@
     "GovernanceParameters": ["Architecture decisions","Conformance"],
     "GovernanceQuestions" : ["Do Architecture Decision Records exist?",
                               "How are architecture decisions made?",
-                              "Does the documented architecture diagram depict the reality?",
+                              "Does the documented architecture diagram depict reality?",
                               "How and when are architecture reviews done?",
                               "Are fitness functions used? To what degree are they automated?"
     ],

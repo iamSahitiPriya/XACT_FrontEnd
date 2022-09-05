@@ -1,5 +1,5 @@
-import loginPage from "../pageObjects/loginPage";
-import landingPage from "../pageObjects/landingPage";
+import loginPage from "../pageObjects/loginPage.cy";
+import landingPage from "../pageObjects/landingPage.cy";
 import commonFunction from "../support/commonFunctions";
 //import {waitForAngularReady} from "@angular/cdk/testing/selenium-webdriver";
 
