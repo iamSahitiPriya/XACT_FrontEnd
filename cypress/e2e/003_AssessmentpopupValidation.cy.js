@@ -1,6 +1,7 @@
-import loginPage from "../pageObjects/loginPage";
-import landingPage from "../pageObjects/landingPage";
-import commonFunction from "../pageObjects/commonFunction";
+import loginPage from "../pageObjects/loginPage.cy";
+import landingPage from "../pageObjects/landingPage.cy";
+import commonFunction from "../pageObjects/commonFunction.cy";
+import commonFunctionCy from "../pageObjects/commonFunction.cy";
 
 describe('validating creating Assessment assessment popup functionality', () => {
 
@@ -16,7 +17,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
-    landingPage.assessmentNameInGrid(1).should('have.text',' TestAssignment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' testassignment ')
   })
 
   it('tc002 validating the error messages by providing empty values in all fields',()=>{
@@ -162,7 +163,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentpopupFields('TestAssignment','testOrg','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
 
-    landingPage.assessmentNameInGrid(1).should('have.text',' TestAssignment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' testassignment ')
   })
 
   it('tc015 refresh the page when assessment popup is displayed',()=>{
@@ -227,7 +228,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   it('tc022 A chip should be formed when valid email id is entered',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentPopup().should('be.visible')
-    commonFunction.typeInElement(landingPage.email(),'jathin@thoughtworks.com')
+    commonFunctionCy.typeInElement(landingPage.email(),'jathin@thoughtworks.com')
     landingPage.email().type('{enter}')
     landingPage.emailChip().should('be.visible')
     landingPage.emailChip().contains(' jathin@thoughtworks.com ')
@@ -236,7 +237,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   it('tc023 Chip should not be formed when invalid email is provided',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentPopup().should('be.visible')
-    commonFunction.typeInElement(landingPage.email(),'@thoughtworks.com')
+    commonFunctionCy.typeInElement(landingPage.email(),'@thoughtworks.com')
     landingPage.emailChip().should('not.exist')
   })
 
@@ -264,7 +265,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   it('tc025 Chip should not be formed when invalid email domain is provided',()=>{
     landingPage.createAssessment().click()
     landingPage.AssessmentPopup().should('be.visible')
-    commonFunction.typeInElement(landingPage.email(),'jathin@gmail.com')
+    commonFunctionCy.typeInElement(landingPage.email(),'jathin@gmail.com')
     landingPage.emailChip().should('not.exist')
   })
 

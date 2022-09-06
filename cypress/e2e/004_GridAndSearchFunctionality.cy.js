@@ -1,9 +1,9 @@
-import loginPage from "../pageObjects/loginPage";
-import landingPage from "../pageObjects/landingPage";
-import commonFunction from '../pageObjects/commonFunction'
+import loginPage from "../pageObjects/loginPage.cy";
+import landingPage from "../pageObjects/landingPage.cy";
+import commonFunction from '../pageObjects/commonFunction.cy'
 
 
-describe('validating creating Assessment assessment popup functionality', () => {
+describe('validating creating Assessment grid and search functionality', () => {
   beforeEach('User should get navigated to Okta by launching the url', () => {
     cy.window().then(win => win.location.hash = "/foo/bar")
     cy.intercept('GET','https://dev-47045452.okta.com/oauth2/default/v1/userinfo').as('pageLoad')
@@ -15,7 +15,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
   //   loginPage.xActLogin()
   //   loginPage.xActHomepagetitleValidation()
   // })
-
 
   it('tc001 Validating contents of table and header',()=>{
     landingPage.AssessmentGrid().should('be.visible')
@@ -32,23 +31,24 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
   it('tc002 Latest Assessment should be on top of the table for all pagenation options available',()=>{
     //pagenation value 5
-    landingPage.assessmentNameInGrid(1).should('have.text',' latestAssessment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
     //pagenation value 10
     landingPage.header().click()
     landingPage.pagenationDropdown().click()
     landingPage.pagenation10().click()
     landingPage.assessmentGridRowCount('10')
-    landingPage.assessmentNameInGrid(1).should('have.text',' latestAssessment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
     landingPage.header().click()
     landingPage.pagenationDropdown().click()
     landingPage.pagenation25().click()
     landingPage.assessmentGridRowCount('25')
-    landingPage.assessmentNameInGrid(1).should('have.text',' latestAssessment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
     landingPage.header().click()
     landingPage.pagenationDropdown().click()
     landingPage.pagenation100().click()
     landingPage.assessmentGridRowCount('100')
-    landingPage.assessmentNameInGrid(1).should('have.text',' latestAssessment ')
+    landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
+
   })
 
   it('tc003 searching an existing assessment with assessment name in both upper and lower cases',()=>{
@@ -103,34 +103,34 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.assessmentNameInGrid(1).then(function(Assessment1) {
       const assessName1=Assessment1.text()
 
-    landingPage.assessmentNameInGrid(2).then(function(Assessment2) {
-      const assessName2=Assessment2.text()
+      landingPage.assessmentNameInGrid(2).then(function(Assessment2) {
+        const assessName2=Assessment2.text()
 
-    landingPage.assessmentNameInGrid(3).then(function(Assessment3) {
-      const assessName3=Assessment3.text()
+        landingPage.assessmentNameInGrid(3).then(function(Assessment3) {
+          const assessName3=Assessment3.text()
 
-    landingPage.assessmentNameInGrid(4).then(function(Assessment4) {
-      const assessName4=Assessment4.text()
+          landingPage.assessmentNameInGrid(4).then(function(Assessment4) {
+            const assessName4=Assessment4.text()
 
-    landingPage.assessmentNameInGrid(5).then(function(Assessment5) {
-      const assessName5=Assessment5.text()
+            landingPage.assessmentNameInGrid(5).then(function(Assessment5) {
+              const assessName5=Assessment5.text()
 
-    landingPage.searchAssessment('123456789')
-    landingPage.searchBox().clear()
-      landingPage.assessmentGridRowCount('5')
-      landingPage.assessmentNameInGrid(1).should('have.text',assessName1)
-       landingPage.assessmentNameInGrid(2).should('have.text',assessName2)
-      landingPage.assessmentNameInGrid(3).should('have.text',assessName3)
-      landingPage.assessmentNameInGrid(4).should('have.text',assessName4)
-      landingPage.assessmentNameInGrid(5).should('have.text',assessName5)
-      if(landingPage.assessmentGridRowCount('5') && landingPage.assessmentNameInGrid(1).should('have.text',assessName1) &&
-        landingPage.assessmentNameInGrid(2).should('have.text',assessName2) && landingPage.assessmentNameInGrid(3).should('have.text',assessName3)
-    && landingPage.assessmentNameInGrid(4).should('have.text',assessName4) && landingPage.assessmentNameInGrid(5).should('have.text',assessName5)){
-        assert.isOk('tc012','Complete data in assessment grid is displayed when search box is cleared')
-      }
+              landingPage.searchAssessment('123456789')
+              landingPage.searchBox().clear()
+              landingPage.assessmentGridRowCount('5')
+              landingPage.assessmentNameInGrid(1).should('have.text',assessName1)
+              landingPage.assessmentNameInGrid(2).should('have.text',assessName2)
+              landingPage.assessmentNameInGrid(3).should('have.text',assessName3)
+              landingPage.assessmentNameInGrid(4).should('have.text',assessName4)
+              landingPage.assessmentNameInGrid(5).should('have.text',assessName5)
+              if(landingPage.assessmentGridRowCount('5') && landingPage.assessmentNameInGrid(1).should('have.text',assessName1) &&
+                landingPage.assessmentNameInGrid(2).should('have.text',assessName2) && landingPage.assessmentNameInGrid(3).should('have.text',assessName3)
+                && landingPage.assessmentNameInGrid(4).should('have.text',assessName4) && landingPage.assessmentNameInGrid(5).should('have.text',assessName5)){
+                assert.isOk('tc012','Complete data in assessment grid is displayed when search box is cleared')
+              }
 
-              })
-           })
+            })
+          })
         })
       })
     })

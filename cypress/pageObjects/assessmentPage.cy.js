@@ -1,4 +1,6 @@
-import landingPage from "./landingPage";
+import landingPage from "./landingPage.cy";
+import {default as xlsx} from "node-xlsx";
+import fs from "fs";
 
 class assessmentPage {
 
@@ -22,7 +24,7 @@ class assessmentPage {
     return cy.get('.moduleHead')
   }
 
-  static moduleHeader(){
+  static backToLandingPage(){
     return cy.get('.mat-toolbar > .mat-focus-indicator')
   }
 
@@ -77,6 +79,10 @@ class assessmentPage {
   static parameterMaturityScore(parameterIndex,parameterRatingIndex){
       return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
     }
+
+    static parameterMaturityScoreHeader(index){
+    return cy.get(':nth-child('+index+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > .mat-card')
+    }
   static parameterRecommendation(index){
     return cy.get('#recommendationElement_param'+index)
   }
@@ -91,8 +97,12 @@ class assessmentPage {
   static productAndDesignModules(index){
     return cy.get('.sideBar>mat-expansion-panel:nth-of-type(2)>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
   }
-  static cloudPlatformModules(index){
+
+  static operationalEfficiencyModules(index){
     return cy.get('.sideBar>mat-expansion-panel:nth-of-type(3)>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
+  }
+  static cloudPlatformModules(index){
+    return cy.get('.sideBar>mat-expansion-panel:nth-of-type(4)>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
   }
   static dataPlatformModules(index){
     return cy.get('.sideBar>mat-expansion-panel:nth-of-type(3)>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
@@ -118,6 +128,63 @@ class assessmentPage {
 
   static assignmentMaturityScoreDescription(index){
     return cy.get(':nth-child('+index+') > .mat-toolbar > .reference')
+  }
+
+  static parameterMaturityScore(index,parameterIndex){
+    return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .rating')
+  }
+
+  static parameterMaturityScoreDesc(parameterIndex,index){
+
+    return cy.get(' :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+  // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
+
+  }
+static editBox(){
+    return cy.get('textarea')
+}
+  static activeRating(){
+    return cy.get('.rating-active')
+  }
+
+
+  static softwareEngModuleClick(index) {
+    if (assessmentPage.softwareEngineeringModules(index).should('be.visible')) {
+      assessmentPage.softwareEngineeringModules(index).click()
+    } else {
+      assessmentPage.softwareEngineeringTab().click()
+      assessmentPage.softwareEngineeringModules(index).click()
+    }
+  }
+
+  static selectRating(element){
+    element.click()
+    //if(assessmentPage.activeRating())
+
+  }
+
+
+  static excelDownload(filePath){
+    const xlsx = require("node-xlsx").default;
+    const fs = require("fs");
+    const path = require("path");
+
+    module.exports = (on, config) => {
+      // `on` is used to hook into various events Cypress emits
+      on("task", {
+        parseXlsx({ filePath }) {
+          return new Promise((resolve, reject) => {
+            try {
+              const jsonData = xlsx.parse(fs.readFileSync(filePath));
+              resolve(jsonData);
+            } catch (e) {
+              reject(e);
+            }
+          });
+        }
+      });
+    };
+
   }
 
 }

@@ -1,13 +1,11 @@
-import loginPage from "../pageObjects/loginPage";
-import landingPage from "../pageObjects/landingPage";
-import commonFunction from '../pageObjects/commonFunction'
-import assessmentPage from "../pageObjects/assessmentPage";
+import loginPage from "../pageObjects/loginPage.cy";
+import landingPage from "../pageObjects/landingPage.cy";
+import commonFunction from '../pageObjects/commonFunction.cy'
+import assessmentPage from "../pageObjects/assessmentPage.cy";
 
 
 describe('validating creating Assessment assessment popup functionality', () => {
   beforeEach('User should get navigated to Okta by launching the url', () => {
-    cy.window().then(win => win.location.hash = "/foo/bar")
-    cy.intercept('GET', 'https://dev-47045452.okta.com/oauth2/default/v1/userinfo').as('pageLoad')
     cy.visit('/')
     cy.wait(500)
   })
