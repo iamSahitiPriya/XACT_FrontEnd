@@ -1,5 +1,6 @@
 <mat-card class="recommendation" [ngStyle]="{'background-color': index%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
-  <div>
+  <div class="row">
+    <div class="col-md-12">
     <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
       <div *ngIf="recommendation"></div>
       <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
@@ -14,10 +15,11 @@
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
 
     </mat-form-field>
+    </div>
   </div>
   <mat-card-content>
-    <div class="parent">
-      <div class="impact">Impact
+    <div class="row parent">
+      <div class="col-md-3 impact">Impact
         <div *ngIf="recommendation.impact"></div>
         <div class="radio1">
           <mat-radio-group
@@ -31,7 +33,7 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="effect">Effort
+      <div class="col-md-3 effect">Effort
         <div *ngIf="recommendation.effort"></div>
         <div class="radio2">
           <mat-radio-group
@@ -45,8 +47,9 @@
           </mat-radio-group>
         </div>
       </div>
-      <div *ngIf="recommendation.deliveryHorizon"></div>
-      <div class="deliveryHorizon">Delivery Horizon
+
+      <div class="col-md-3 deliveryHorizon">Delivery Horizon
+        <div *ngIf="recommendation.deliveryHorizon"></div>
         <div class="input1">
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
@@ -59,9 +62,9 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="delete">
-        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'">
-          <mat-icon>delete</mat-icon>
+      <div class="col-md-3 delete-button">
+        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'" >
+           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">Delete</span>
         </button>
       </div>
