@@ -135,7 +135,10 @@ class assessmentPage {
   }
 
   static parameterMaturityScoreDesc(parameterIndex,index){
-    return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+
+    return cy.get(' :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+  // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
+
   }
 static editBox(){
     return cy.get('textarea')
