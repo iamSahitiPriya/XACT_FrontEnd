@@ -19,7 +19,7 @@
 </div>
 <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
 <button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)"
-        class="addRecommendation button1">
+        class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
     id="addRecommendation"> Add Recommendations </span>

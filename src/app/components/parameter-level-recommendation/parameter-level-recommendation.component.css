@@ -76,15 +76,13 @@ textArea.mat-input-element {
 }
 
 .effect {
-  padding-left: 8%;
+  padding-left: 2%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  padding-left: 8%;
+  padding-left: 2%;
   font-weight: bold;
-  border-radius: inherit;
-  margin-bottom: 2px;
 }
 
 .radio1, .radio2, .input1 {
