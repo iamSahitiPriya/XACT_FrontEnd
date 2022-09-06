@@ -30,7 +30,6 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
-    "@badeball/cypress-cucumber-preprocessor": "^10.0.2",
     "@ng-idle/core": "^11.1.0",
     "@ng-idle/keepalive": "^11.0.3",
     "@ngrx/effects": "^13.2.0",
@@ -79,7 +78,6 @@
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "cypress": "^10.6.0",
-    "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-grep": "^3.0.2",
     "cypress-mochawesome-reporter": "^3.0.0",
     "cypress-multi-reporters": "^1.5.0",
@@ -119,9 +117,7 @@
         "stringifyContentPathRegex": "\\.html$"
       }
     },
-    "cypress-cucumber-preprocessor": {
-      "nonGlobalStepDefinitions": true
-    },
+
     "coverageThreshold": {
       "global": {
         "branches": 90,
