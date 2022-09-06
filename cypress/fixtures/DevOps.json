@@ -53,12 +53,12 @@
   ]
 },
   {
-    "ProductionOperationsParameters": [
+    "EnvironmentsParameters": [
       "Provisioning and use",
-      "Business Continuity"
+      "Best practices"
     ],
-    "ProductionOperationsQuestions": [
-      "What are the different environments setup? In which environment does the QA perform story testing?",
+    "EnvironmentsQuestions": [
+      "What are the different environments set up? In which environment does the QA perform story testing?",
       "How are environments provisioned? What strategy is used to make sure they are provisioned consistently?",
       "Does the environment automatically scale to accommodate higher load",
       "How stable and predictable are environments? Are environments isolated from one another with respect to deployed components, databases, etc.?",
@@ -67,16 +67,16 @@
       "How is application functionality turned on/off dynamically?",
       "How are secrets managed?"
     ],
-    "ProductionOperationsAssignmentMaturityScoreDesc": [
+    "EnvironmentsMaturityScoreDesc": [
       "Programmatically provisioned, ephemeral, immutable containers or serverless functions.",
       "Programmatically provisioned, ephemeral, immutable virtual machine servers.",
-      "Programmatically provisioned, long running, mutable virtual machine servers.",
+      "Programmatically provisioned, long-running, mutable virtual machine servers.",
       "Manually provisioned, long-running virtual machine servers.",
       "Manually provisioned, long-running bare metal servers.",
       "Application configuration is externalized from the deployable application artifact. All teams use a consistent method to make changes to application configuration. All changes are traceable to a source code check-in. Feature toggles are externalized from application deployment artifacts. Toggles are defined at a business feature level. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a secrets management server.",
       "Application configuration is externalized from the deployable application artifact. Teams making use of externalized configuration use custom (including homegrown) methods to do so. Feature toggles are externalized from application deployment artifacts. Teams use a consistent approach to toggles, but toggling off functionality still requires knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a configuration management system.",
       "Application configuration is externalizable from application artifacts. But there is no operationalized mechanism to do so. Teams continue to require rebuilds when a change to application configuration is required. Feature toggles are externalized from application deployment artifacts. Individual teams use custom methods to implement toggle functionality. Turning off functionality reliably requires intimate knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in source control.",
-      "Application configuration is embedded within application artifacts. Environment specific configuration parameters can be overridden without requiring an application rebuild. However, overrides are not audited. Changes to configuration require an application redeployment. Feature toggles are embedded within application deployment artifacts. Changes to toggles require an application rebuild. Secrets are externalized from application deployment artifacts, but are managed manually.",
+      "Application configuration is embedded within application artifacts. Environment-specific configuration parameters can be overridden without requiring an application rebuild. However, overrides are not audited. Configuration changes require application redeployment. Feature toggles are embedded within application deployment artifacts. Changes to toggles require an application rebuild. Secrets are externalized from application deployment artifacts, but are managed manually.",
       "Application configuration is embedded within application deployment artifacts for a fixed set of environments. New environment(s) or changes to application configuration require an application rebuild. Feature toggles are not used to turn on/off application functionality dynamically. Secrets are embedded within application deployment artifacts and are managed manually."
     ]
   }
