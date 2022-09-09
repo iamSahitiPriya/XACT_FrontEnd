@@ -1,0 +1,32 @@
+<div class="row menu-bar">
+  <div class="col-md-3">
+      <button matTooltip="Go back to dashboard" mat-icon-button [routerLink]="['']">
+        <mat-icon class="backIcon">keyboard_backspace</mat-icon>
+      </button>
+  </div>
+</div>
+<!--<div class ="heading">-->
+<!--   Summary-->
+<!--</div>-->
+
+
+
+  <div class="colorTheme">
+    <form>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Color Theme</mat-label>
+        <mat-select [(ngModel)]="selectedValue">
+          <mat-option *ngFor="let color of colorList" [value]="color.value" (click)="onClick(color.value)" >
+            {{color.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+<div class ="dashboard">
+<div class ="sunBurst">
+<div id="chart"> </div>
+<div id = "sequence"></div>
+</div>
+</div>
+<div class="rating"></div>
