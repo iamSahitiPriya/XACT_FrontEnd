@@ -6,7 +6,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CreateAssessmentsComponent} from './create-assessments.component';
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {OKTA_AUTH} from "@okta/okta-angular";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -27,10 +26,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {By} from "@angular/platform-browser";
-
-
-
+import {OKTA_AUTH} from "@okta/okta-angular";
 
 
 class MockDialog {

@@ -8,12 +8,6 @@ import {reducers} from "../../reducers/reducers";
 import * as d3 from 'd3';
 
 
-interface MockSvgTextElement {
-  prototype: {
-    getBBox: () => { height: number; width: number };
-  };
-}
-
 describe('AssessmentSunburstChartComponent', () => {
   let component: AssessmentSunburstChartComponent;
   let fixture: ComponentFixture<AssessmentSunburstChartComponent>;
@@ -58,6 +52,7 @@ describe('AssessmentSunburstChartComponent', () => {
     component.getSunBurstChart(component.data);
     console.log(fixture.nativeElement.querySelector("svg").getAttribute("width"));
   })
+
   it('should change theme of chart onClick', () =>{
     jest.spyOn(component, 'onClick');
 
@@ -73,8 +68,8 @@ describe('AssessmentSunburstChartComponent', () => {
     component.selectedValue = d3.interpolatePurples;
     component.onClick(d3.interpolateSpectral)
     expect(component.selectedValue).toBe(d3.interpolateSpectral)
-
   })
+
   it('should change theme to threat display' ,() => {
     jest.spyOn(component, 'onClick');
 
@@ -90,13 +85,12 @@ describe('AssessmentSunburstChartComponent', () => {
     component.selectedValue = d3.interpolatePurples;
     component.onClick(null)
     expect(component.selectedValue).toBe(null);
-
   })
+
   it('should initialize breadCrumb', () => {
     let graphContainer = document.createElement("div");
     graphContainer.id = "sequence";
     document.body.appendChild(graphContainer);
-    // d3.select(graphContainer.id).selectAll("svg").remove();
     jest.spyOn(component,'initializeBreadcrumbTrail');
     component.initializeBreadcrumbTrail(graphContainer.id)
     console.log(d3.select("#sequence").select("svg").attr("width"))

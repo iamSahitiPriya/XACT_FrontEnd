@@ -10,7 +10,6 @@ import {SearchComponent} from "../search-component/search.component";
 import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
-import oktaAuth from "@okta/okta-auth-js";
 
 
 describe('HeaderComponent', () => {

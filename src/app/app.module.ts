@@ -61,6 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
+import { AssessmentSunburstChartComponent } from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -86,6 +87,12 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
+  {
+    path: 'assessment/:assessmentId/charts',
+    component: AssessmentSunburstChartComponent,
+    pathMatch: 'full',
+    canActivate: [OktaAuthGuard]
+  },
 
 ];
 
@@ -106,50 +113,51 @@ export const appRoutes: Routes = [
     TopicLevelRatingAndRecommendationComponent,
     ErrorComponentComponent,
     ProgressComponentComponent,
-    AssessmentAverageRatingComponent
+    AssessmentAverageRatingComponent,
+    AssessmentSunburstChartComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        MDBBootstrapModule.forRoot(),
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
-        OktaAuthModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatMenuModule,
-        MatInputModule,
-        MatIconModule,
-        MatDialogModule,
-        FormsModule,
-        MatButtonModule,
-        ReactiveFormsModule,
-        MatToolbarModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatExpansionModule,
-        MatCardModule,
-        MatSnackBarModule,
-        MatSidenavModule,
-        MatListModule,
-        MatTabsModule,
-        MatTooltipModule,
-        MatSelectModule,
-        MatSortModule,
-        NgHttpLoaderModule.forRoot(),
-        StoreModule.forRoot(reducers, {
-            runtimeChecks: {
-                strictStateSerializability: true,
-                strictActionSerializability: true,
-                strictActionWithinNgZone: true,
-                strictStateImmutability: false,
-                strictActionImmutability: false
-            }
-        }),
-        EffectsModule.forRoot([AssessmentDataEffects]),
-        MatChipsModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    MDBBootstrapModule.forRoot(),
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    OktaAuthModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTabsModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatSortModule,
+    NgHttpLoaderModule.forRoot(),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictStateImmutability: false,
+        strictActionImmutability: false
+      }
+    }),
+    EffectsModule.forRoot([AssessmentDataEffects]),
+    MatChipsModule,
+  ],
   exports: [
     MatButtonModule,
     MatTableModule,

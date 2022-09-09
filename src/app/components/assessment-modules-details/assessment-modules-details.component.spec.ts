@@ -27,7 +27,7 @@ import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.compon
 import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
 import {CommonModule} from "@angular/common";
 import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
+// import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
 import {reducers} from "../../reducers/reducers";
@@ -130,7 +130,7 @@ describe('AssessmentModulesDetailsComponent', () => {
         ]),  StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: OKTA_AUTH, useValue: oktaAuth},
+        // {provide: OKTA_AUTH, useValue: oktaAuth},
 
       ],
     })

@@ -100,7 +100,6 @@ describe('AssessmentMenuComponent', () => {
   });
 
   beforeEach(() => {
-    jest.mock('@okta/okta-auth-js');
     fixture = TestBed.createComponent(AssessmentMenuComponent);
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
