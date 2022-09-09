@@ -15,6 +15,7 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {ReportDataStructure} from "../../types/ReportDataStructure";
 
 
 @Injectable({
@@ -87,6 +88,10 @@ export class AppServiceService {
 
   updateAssessment(assessmentId: number, assessmentdata: AssessmentRequest): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentdata,);
+  }
+
+  getReportData(assessmentId:number):Observable<ReportDataStructure>{
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/"+assessmentId);
   }
 
 }
