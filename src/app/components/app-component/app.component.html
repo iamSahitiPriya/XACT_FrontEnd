@@ -6,10 +6,8 @@
 
 
 <div *ngIf="(authService.authState$ | async)?.isAuthenticated">
-
   <app-header [userRole]="userRole"></app-header>
   <br/>
-
 </div>
 <ng-http-loader [entryComponent]="progressComponent" [filteredMethods]="['PATCH']"></ng-http-loader>
 <div class="container-xxl">

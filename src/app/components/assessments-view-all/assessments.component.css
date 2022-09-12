@@ -82,7 +82,7 @@ tr.mat-row {
   height: 58px;
 }
 
-.mat-header-row {
+.headerRow {
   display: flex;
   justify-content: space-between;
   background-color: #043D4E;
