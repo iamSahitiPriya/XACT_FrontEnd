@@ -61,7 +61,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     let partition = (data: any) => {
       const root = d3.hierarchy(data)
         .sum(d => d.value)
-       .sort((a: any, b: any) => b.value - a.value);
+        .sort((a: any, b: any) => b.value - a.value);
       return d3.partition()
         .size([2 * Math.PI, root.height + 1])
         (root);
@@ -71,7 +71,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
 
     let width = 800;
     let breadCrumbId = document.getElementById("sequence")
-    this.initializeBreadcrumbTrail(breadCrumbId,color)
+    this.initializeBreadcrumbTrail(breadCrumbId, color)
 
     let radius = width / 10.5
 
@@ -138,13 +138,13 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .data(root.descendants().slice(1))
       .enter().append("text")
       .attr("x", 0)
-      .attr("dy", "-0.2px")
+      .attr("dy", "0.09px")
       .attr("fill-opacity", (d: any) => +labelVisible(d.current))
       .attr("transform", (d: any) => labelTransform(d.current))
       .style("overflow-y", "auto")
       .text((d: any) => d.data.name)
       .style("font", "7.1px Inter")
-      .call(this.wrap, 72);
+      .call(this.wrap, 75,0.08);
     ;
 
 
@@ -220,7 +220,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     return path;
   }
 
-  initializeBreadcrumbTrail(id: any,color:any) {
+  initializeBreadcrumbTrail(id: any, color: any) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
@@ -270,14 +270,14 @@ export class AssessmentSunburstChartComponent implements OnInit {
 
     entering.append("svg:text")
       .attr("x", (breadCrumbPoints.w + breadCrumbPoints.t) / 2)
-      .attr("y", breadCrumbPoints.h / 1.8)
-      .attr("dy", "1.5em")
+      .attr("y", breadCrumbPoints.h / 1.7)
+      .attr("dy", "0.88em")
       .attr("text-anchor", "middle")
       .attr("fill", "black")
       .attr("fill-opacity", 1)
       .text(this.getDataName)
       .style("font", "14px Inter")
-      .call(this.wrap, 300);
+      .call(this.wrap, 300,1.4);
 
     g.exit().remove();
 
@@ -286,12 +286,12 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .attr("r", 30)
       .attr("fill", this.fillRatingCircle(percentageString))
       .attr("cx", (breadCrumbPoints.w / 2) + 5)
-      .attr("fill-opacity",1)
+      .attr("fill-opacity", 1)
       .attr("cy", (nodeArray.length + 0.4) * (breadCrumbPoints.h + breadCrumbPoints.s))
 
 
     d3.select("#trail").select("#ratingText")
-      .attr("x", (breadCrumbPoints.w / 2) )
+      .attr("x", (breadCrumbPoints.w / 2))
       .attr("y", (nodeArray.length + 0.45) * (breadCrumbPoints.h + breadCrumbPoints.s))
       .attr("fill", "white")
       .attr("fill-opacity", 1)
@@ -314,7 +314,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     return "translate(" + 0 + "," + d.depth * (breadCrumbPoints.d) + ")";
   }
 
-  wrap(text: any, width: any) {
+  wrap(text: any, width: any,lineHeight:any) {
 
     text.each(function (this: any) {
       var text = d3.select(<any>this),
@@ -322,25 +322,26 @@ export class AssessmentSunburstChartComponent implements OnInit {
         word,
         line: any = [],
         lineNumber = 0,
-        lineHeight = 0.09, // ems
         y = text.attr("y"),
         x = text.attr("x"),
         dy = parseFloat(text.attr("dy"));
-       let  tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id",lineNumber);
+      if(words.length > 6){
+        dy = dy - 0.55;
+      }
+      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
 
       while (word = words.pop()) {
         line.push(word);
-
         tspan.text(line.join(" "));
         var len = tspan.node()?.getComputedTextLength();
         if (<any>len > width) {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 1.1 + "em").text(word);
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 1.25 + "em").text(word);
         }
       }
-      tspan.selectAll("tspan").select("0").attr("dy",dy * lineNumber)
+      // tspan.select("0").selectAll("tspan").attr("dy", 10 * lineNumber + "em")
 
     });
   }
@@ -405,6 +406,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
       })
       .style("opacity", 1);
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
