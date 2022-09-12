@@ -6,7 +6,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
-import {color} from "d3";
+import {data_local} from "../../../assets/messages";
 
 
 interface colorScheme {
@@ -21,9 +21,10 @@ interface colorScheme {
 })
 
 export class AssessmentSunburstChartComponent implements OnInit {
+  pageTitle = data_local.SUMMARY_REPORT.TITLE;
   assessmentId: number;
   data: ReportDataStructure;
-  selectedValue: (t: number) => string | null = d3.interpolateRainbow;
+  selectedValue: (t: number) => string | null = d3.interpolateSpectral;
 
 
   colorList: colorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
@@ -92,14 +93,14 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
-      .attr('viewBox', '0 0 ' + 580 + ' ' + 1000)
+      .attr('viewBox', '0 0 ' + 580 + ' ' + 920)
       .style("font", "10px sans-serif")
       .classed("svg-content-responsive", true);
 
 
     const vis = svg.append("svg:g")
       .attr("id", "container")
-      .attr("transform", `translate(290,460)`);
+      .attr("transform", `translate(290,400)`);
 
     d3.select("#container").on("mouseleave", this.onMouseleave);
 
@@ -284,12 +285,12 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .attr("fill", this.fillRatingCircle(percentageString))
       .attr("cx", (breadCrumbPoints.w / 2) + 5)
       .attr("fill-opacity",1)
-      .attr("cy", (nodeArray.length + 0.3) * (breadCrumbPoints.h + breadCrumbPoints.s))
+      .attr("cy", (nodeArray.length + 0.4) * (breadCrumbPoints.h + breadCrumbPoints.s))
 
 
     d3.select("#trail").select("#ratingText")
       .attr("x", (breadCrumbPoints.w / 2) )
-      .attr("y", (nodeArray.length + 0.35) * (breadCrumbPoints.h + breadCrumbPoints.s))
+      .attr("y", (nodeArray.length + 0.45) * (breadCrumbPoints.h + breadCrumbPoints.s))
       .attr("fill", "white")
       .attr("fill-opacity", 1)
       .style("font", "20px Inter")

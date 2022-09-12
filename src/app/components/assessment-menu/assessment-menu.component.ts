@@ -46,6 +46,9 @@ export class AssessmentMenuComponent implements OnInit {
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
+  summaryTitle = data_local.SUMMARY_REPORT.TITLE;
+  summaryTitleToolTip = data_local.SUMMARY_REPORT.TOOLTIP;
+
 
   constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
