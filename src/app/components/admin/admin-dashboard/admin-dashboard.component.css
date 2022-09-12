@@ -1,0 +1,111 @@
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 2px 10px -3px #0003, 0 1px 5px #00000024, 0 0px 3px #0000001f;
+}
+.mat-card {
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  position: relative;
+  border-radius: 15px;
+  padding: 19px 19px 0px;
+  margin-bottom:4%;
+  width: 22%;
+}
+.header{
+  display:flex;
+}
+.dropdown{
+  margin-left:66em;
+  margin-top: 6px;
+  width:17%;
+}
+.dashBoardText{
+  margin-top: 40px;
+  margin-left: 28px;
+  font-size: 20px;
+  font-weight: bold;
+  color:#043D4E;
+}
+.calender{
+  margin-left: 54px;
+}
+.assessmentStatus{
+  display: flex;
+  margin-left:1%;
+}
+.Active, .Completed{
+  margin-left:62px
+}
+
+.downloadButton
+{
+  margin-left: 48px;
+  margin-top: 5%;
+  margin-bottom: 75px;
+  background-color:#6B9F78;
+  position: relative;
+  color: #FFFFFF;
+  width:20%;
+  border-radius: 5px;
+  padding: 9px 18px;
+  border: none;
+  display:flex;
+}
+.parent{
+  margin-top:2px;
+  font-size:x-small;
+}
+.button{
+  background: none;
+  border:none;
+  display:flex;
+}
+.total{
+  font-weight: bolder;
+  color:#4BA1AC;
+  font-size:xx-large;
+  padding-top:7px;
+}
+.mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {
+  margin-bottom: 0px;
+}
+.active{
+  font-weight: bolder;
+  color:#C7852A;
+  font-size:xx-large;
+  padding-top:7px;
+}
+
+.complete{
+  font-weight: bolder;
+  color:#6B9F78;
+  font-size:xx-large;
+  padding-top:7px;
+}
+
+.mat-card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color:#333333;
+}
+.text{
+  color: #fff;
+  font-size:18px;
+  padding-left: 12px;
+  padding-top: 6px;
+}
+
+.custom{
+  background: none;
+  border: none;
+  justify-content: left;
+  display:flex;
+}
+.example-sidenav {
+  right: 0;
+  width: 238px;
+  transform: translate3d(100%, 0, 0);
+}
+.dropdown .mat-form-field{
+  width : 70%;
+}
+

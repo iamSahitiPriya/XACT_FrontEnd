@@ -18,7 +18,7 @@ describe('SearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SearchComponent],
-      imports: [MatFormFieldModule, MatIconModule, MatInputModule, BrowserAnimationsModule]
+      imports: [MatFormFieldModule, MatIconModule, MatInputModule, BrowserAnimationsModule, MatInputModule]
     })
       .compileComponents();
   });
@@ -47,6 +47,7 @@ describe('SearchComponent', () => {
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
+    component.columns = ['2','assessmentName','organisationName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "abc")).toBeTruthy()
     expect(component.dataSource.filterPredicate(mockData, "org")).toBeTruthy()
@@ -64,6 +65,7 @@ describe('SearchComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
     }
+    component.columns = ['1','assessmentName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "xyz")).toBeFalsy()
   });

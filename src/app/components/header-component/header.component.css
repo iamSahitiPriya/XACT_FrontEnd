@@ -36,14 +36,14 @@
 }
 
 .menuItem {
-  letter-spacing: 0.30px;
-  text-align: right;
   font-size: medium;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
-  color: #000000;
   opacity: 1;
   padding-right: 30px;
+  text-align: left;
+  letter-spacing: 0.25px;
+  color: #043D4E;
 }
 
 .menu {

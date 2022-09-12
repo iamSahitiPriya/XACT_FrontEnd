@@ -5,8 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .searchBar {
-  width: 53em;
   top: 2px;
+  width: 53em;
   background-color: #F4FAFC !important;
   border-bottom: None;
   height: 51px;
