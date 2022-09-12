@@ -1,4 +1,4 @@
-export interface ParameterRatingResponse{
-  "parameterId":number,
-  "rating"?:number,
+export interface ParameterRatingResponse {
+  "parameterId": number,
+  "rating"?: number,
 }

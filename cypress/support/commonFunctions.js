@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import landingPage from "../pageObjects/landingPage";
+import landingPage from "../pageObjects/landingPage.cy";
 
 class commonFunction{
 

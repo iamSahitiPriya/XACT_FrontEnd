@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+
+<div class="parameterScoring">
+  <mat-card class="scoreHeading">{{maturityScoreTitle}} {{parameterName}}</mat-card>
+  <div *ngIf="parameterScore"></div>
+  <div *ngFor="let pScore of parameterScore">
+    <mat-toolbar class="scoreReference">
+      <p class="reference">{{pScore.reference}}</p>
+      <span class="spacer"></span>
+      <span class="rating" (click)="setRating(pScore.rating)"
+            [ngClass]="{'rating-active':parameterRatingAndRecommendation.rating === pScore.rating}">
+       <div class="image"></div>
+        {{pScore.rating}}</span>
+    </mat-toolbar>
+  </div>
+</div>
+<mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+<button (click)="addTemplate(parameterRatingAndRecommendation.parameterLevelRecommendation)"
+        class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+  <div>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+    id="addRecommendation"> Add Recommendations </span>
+  </div>
+</button>
+
+<div *ngFor="let recommendation of parameterRatingAndRecommendation.parameterLevelRecommendation ; let i=index">
+  <app-parameter-level-recommendation
+    [parameterIndex]="i"
+    [parameterLevelRecommendation]="recommendation"
+    [assessmentId]="assessmentId"
+    [topicId]="topicId"
+    [parameterId]="parameterId"
+    [parameterRecommendationArray]="parameterRatingAndRecommendation.parameterLevelRecommendation"
+  ></app-parameter-level-recommendation>
+</div>

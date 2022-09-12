@@ -10,24 +10,26 @@ import {ErrorComponentComponent} from "../components/error-component/error-compo
 
 @Injectable()
 export class AssessmentDataEffects {
-  constructor(private actions: Actions, private appService: AppServiceService,private dialog: MatDialog) {
+  constructor(private actions: Actions, private appService: AppServiceService, private dialog: MatDialog) {
   }
+
   getAssessments = createEffect(() => this.actions.pipe(
     ofType(getAssessmentId),
-    switchMap((assessmentId) =>{
-      return assessmentId.id ? this.appService.getAssessment(assessmentId.id).pipe(
-        map(res => getAssessmentData({payload: res})),
-        catchError(_error => {
-          this.errorHandler()
-          return of()
-        })
-      ) : of()
+    switchMap((assessmentId) => {
+        return assessmentId.id ? this.appService.getAssessment(assessmentId.id).pipe(
+          map(res => getAssessmentData({payload: res})),
+          catchError(_error => {
+            this.errorHandler()
+            return of()
+          })
+        ) : of()
       }
     ))
-    )
-   public errorHandler = () =>{
+  )
+  public errorHandler = () => {
     const openConfirm = this.dialog.open(ErrorComponentComponent, {backdropClass: 'backdrop-bg-opaque'});
-      openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
-    }
+    openConfirm.componentInstance.headerText = "Error";
+    openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
+  }
 
 }

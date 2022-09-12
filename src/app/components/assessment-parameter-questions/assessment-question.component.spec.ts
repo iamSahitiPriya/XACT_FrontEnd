@@ -15,7 +15,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {of, throwError} from "rxjs";
+import {of} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 
@@ -23,18 +23,19 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 describe('AssessmentQuestionComponent', () => {
   let component: AssessmentQuestionComponent;
   let fixture: ComponentFixture<AssessmentQuestionComponent>;
-  let mockAppService:MockAppService
+  let mockAppService: MockAppService
 
-  let debouncer:DebounceProvider
-  class DebounceProvider{
-    public debounce(){
+  let debouncer: DebounceProvider
+
+  class DebounceProvider {
+    public debounce() {
       return "hello"
     }
   }
 
   class MockAppService {
-    public saveNotes(assessmentNotes:AssessmentNotes){
-        return of(assessmentNotes)
+    public saveNotes(assessmentNotes: AssessmentNotes) {
+      return of(assessmentNotes)
     }
   }
 
@@ -44,8 +45,8 @@ describe('AssessmentQuestionComponent', () => {
 
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers),
-      BrowserModule, CommonModule,MatSnackBarModule,HttpClientTestingModule,FormsModule,ReactiveFormsModule],
-      providers:[{provide:AppServiceService,useClass:MockAppService}]
+        BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
       .compileComponents();
   });
@@ -84,7 +85,17 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 1, answer: "hello"}
@@ -99,7 +110,7 @@ describe('AssessmentQuestionComponent', () => {
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(assessmentNotes).subscribe(data =>{
+    mockAppService.saveNotes(assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
     expect(component.assessmentNotes.notes).toBe("hello")
@@ -122,7 +133,17 @@ describe('AssessmentQuestionComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
@@ -155,7 +176,18 @@ describe('AssessmentQuestionComponent', () => {
       teamSize: 0,
       users: [],
       answerResponseList: [],
-      topicRatingAndRecommendation: [{topicId: 1, rating: 1, recommendation: ""}],
+
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.answerInput = {questionId: 2, answer: "hello"}

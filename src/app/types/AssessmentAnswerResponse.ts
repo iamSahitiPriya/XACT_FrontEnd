@@ -1,4 +1,4 @@
-export interface AssessmentAnswerResponse{
- "questionId"?:number,
- "answer"?:string,
+export interface AssessmentAnswerResponse {
+  "questionId"?: number,
+  "answer"?: string,
 }

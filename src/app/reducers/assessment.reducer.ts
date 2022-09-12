@@ -25,7 +25,7 @@ export const initialState: AssessmentState = {
   }
 }
 export const initialComputedScore: ComputedScore = {
-  scoreDetails : {
+  scoreDetails: {
     rating: 0,
     topicId: 0
   }
@@ -69,14 +69,16 @@ export function assessmentReducer(state: any, action: Action) {
 
 export const getAssessmentState = createFeatureSelector<AssessmentState>('assessmentState')
 
-export const  getAssessments = createSelector(
+export const getAssessments = createSelector(
   getAssessmentState, (state: AssessmentState) => {
     return state && state.assessments
   },
 )
-export function scoreReducer(state: any, action:Action){
-  return _scoreReducer(state,action)
+
+export function scoreReducer(state: any, action: Action) {
+  return _scoreReducer(state, action)
 }
+
 export const getAverageRating = createFeatureSelector<ComputedScore>('computedScore')
 
 

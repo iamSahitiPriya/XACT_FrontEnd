@@ -12,6 +12,8 @@ export class ErrorComponentComponent {
   homePageText = data_local.ERROR_MESSAGE_LINK_TEXT.HOMEPAGE_LINK_TEXT;
   retryText = data_local.ERROR_MESSAGE_LINK_TEXT.RETRY_TEXT;
   bodyText: string;
+  headerText: string;
+  displayHome: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<ErrorComponentComponent>) {
     dialogRef.disableClose = true;

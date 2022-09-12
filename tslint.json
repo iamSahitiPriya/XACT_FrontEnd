@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "@angular-extensions/lint-rules"
+  ]
+}

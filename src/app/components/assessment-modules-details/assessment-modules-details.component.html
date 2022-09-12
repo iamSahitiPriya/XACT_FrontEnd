@@ -26,9 +26,10 @@
                (selectedTabChange)="tabChanged($event)">
 
   <mat-tab *ngFor="let topic of topics; let i=index" label={{topic.topicName}}>
-    <div>
-      <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic" [selectedIndex]="selectedIndex"></app-topic-level-assessment>
-    </div>
+    <ng-template matTabContent>
+      <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic"
+                                  [selectedIndex]="selectedIndex"></app-topic-level-assessment>
+    </ng-template>
   </mat-tab>
 
 

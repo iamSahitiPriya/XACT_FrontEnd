@@ -45,6 +45,7 @@ class MockDialog {
   addUser() {
   }
 }
+
 describe('AssessmentMenuComponent', () => {
   let dialog: any;
   let matDialog: any
@@ -67,7 +68,7 @@ describe('AssessmentMenuComponent', () => {
 
   }
 
-  const mockAssessment : AssessmentStructure ={
+  const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
     assessmentName: "Mock",
@@ -86,10 +87,10 @@ describe('AssessmentMenuComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentMenuComponent,PopupConfirmationComponent],
+      declarations: [AssessmentMenuComponent, PopupConfirmationComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule,RouterModule,
-        ReactiveFormsModule, MatSnackBarModule,FormsModule,MatButtonModule,MatRippleModule,MatMenuModule,MatTooltipModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
+        ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
         StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
@@ -113,7 +114,20 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report on click', fakeAsync(() => {
-    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
+    component.answerResponse1 = of({
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Completed",
+      updatedAt: 0,
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    })
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -129,12 +143,25 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call finish assessment if active', fakeAsync(() => {
-    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Active",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
+    component.answerResponse1 = of({
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Active",
+      updatedAt: 0,
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Active";
     jest.spyOn(component, 'confirmFinishAssessmentAction');
-    jest.spyOn(matDialog,'open')
-    jest.spyOn(component,'finishAssessment')
+    jest.spyOn(matDialog, 'open')
+    jest.spyOn(component, 'finishAssessment')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
@@ -150,7 +177,20 @@ describe('AssessmentMenuComponent', () => {
 
   it('should call reopen assessment if completed', fakeAsync(() => {
     discardPeriodicTasks()
-    component.answerResponse1 = of({assessmentId:1,assessmentName:"abc",organisationName:"xyz",assessmentStatus:"Completed",updatedAt:0,domain:"TW",industry:"IT",teamSize:2,users:[],answerResponseList:[],parameterRatingAndRecommendation:[],topicRatingAndRecommendation:[]})
+    component.answerResponse1 = of({
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Completed",
+      updatedAt: 0,
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
@@ -184,7 +224,18 @@ describe('AssessmentMenuComponent', () => {
           questionId: 1,
           answer: "answer1"
         }],
-      topicRatingAndRecommendation: [{topicId: 0, rating: 1, recommendation: ""}],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
+
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
     component.ngOnInit()

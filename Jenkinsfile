@@ -20,8 +20,8 @@ pipeline {
                                 try{
                                     sh "set +e"
                                     sh 'docker rm $(docker ps -a -q)'
-                                    sh "docker run --rm -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common filesystem --directory ${env.WORKSPACE} --debug"
-                                    ERROR_COUNT = sh(returnStdout: true, script: "docker run -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common filesystem --directory ${env.WORKSPACE} --json | grep -c Filesystem")
+                                    sh "docker run --rm -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common git file://${env.WORKSPACE} --debug"
+                                    ERROR_COUNT = sh(returnStdout: true, script: "docker run -v ${env.WORKSPACE}:${env.WORKSPACE} 730911736748.dkr.ecr.ap-south-1.amazonaws.com/xact-common git file://${env.WORKSPACE} --json | grep -c commit")
                                     if(ERROR_COUNT != 0){
                                         throw new Exception("Build failed due to security issues. Please check the above logs.")
                                     }
@@ -72,7 +72,7 @@ pipeline {
                 script{
                    zip zipFile: "dev-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                 }
-                archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
+                //archiveArtifacts artifacts: "dev-${env.ARTIFACT_FILE}", fingerprint: true
             }
         }
         stage('Deploy to Dev') {
@@ -90,7 +90,7 @@ pipeline {
                           script{
                              zip zipFile: "qa-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                           }
-                          archiveArtifacts artifacts: "qa-${env.ARTIFACT_FILE}", fingerprint: true
+                          //archiveArtifacts artifacts: "qa-${env.ARTIFACT_FILE}", fingerprint: true
                           sh "aws s3 rm s3://xact-frontend-artifacts/qa-xact-frontend-${env.GIT_COMMIT}.zip"
                           sh "aws s3 mv qa-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 
@@ -103,7 +103,7 @@ pipeline {
                   script{
                      zip zipFile: "prod-${env.ARTIFACT_FILE}", archive: false, dir: 'dist/xact-frontend-app'
                   }
-                  archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
+                  //archiveArtifacts artifacts: "prod-${env.ARTIFACT_FILE}", fingerprint: true
                   sh "aws s3 rm s3://xact-frontend-artifacts/prod-xact-frontend-${env.GIT_COMMIT}.zip"
                   sh "aws s3 mv prod-xact-frontend-${env.GIT_COMMIT}.zip s3://xact-frontend-artifacts/"
 

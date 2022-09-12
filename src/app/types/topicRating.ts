@@ -1,5 +1,5 @@
 export interface TopicRating {
   "assessmentId": number,
-  "topicId":number,
+  "topicId": number,
   "rating"?: number
 }

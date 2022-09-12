@@ -35,10 +35,10 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
-      "domain":"TW",
-      "industry":"IT",
-      "teamSize":2,
-      "users":[],
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
       "topicRatingAndRecommendation": [],
@@ -51,10 +51,10 @@ class MockAppService {
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
       "updatedAt": 1649836702001,
-      "domain":"TW",
-      "industry":"IT",
-      "teamSize":2,
-      "users":[],
+      "domain": "TW",
+      "industry": "IT",
+      "teamSize": 2,
+      "users": [],
       "answerResponseList": [],
       "parameterRatingAndRecommendation": [],
       "topicRatingAndRecommendation": [],
@@ -65,6 +65,7 @@ class MockAppService {
     return of(this.ASSESSMENT_DATA)
   }
 }
+
 class MockDialog {
   open() {
     return {
@@ -75,6 +76,7 @@ class MockDialog {
   close() {
   }
 }
+
 describe('AssessmentsComponent', () => {
   let component: AssessmentsComponent;
   let mockAppService: MockAppService
@@ -89,7 +91,7 @@ describe('AssessmentsComponent', () => {
         BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
-        }]),MatTooltipModule],
+        }]), MatTooltipModule],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
           provide: AppServiceService,
@@ -123,23 +125,24 @@ describe('AssessmentsComponent', () => {
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
-        "domain":"TW",
-        "industry":"IT",
-        "teamSize":2,
-        "users":[],
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
       },
-      {"assessmentId": 1,
+      {
+        "assessmentId": 1,
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
-        "domain":"TW",
-        "industry":"IT",
-        "teamSize":2,
-        "users":[],
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
@@ -148,13 +151,15 @@ describe('AssessmentsComponent', () => {
     ]
 
     expect(component).toBeTruthy();
+    component.ngOnInit()
+
     fixture.detectChanges()
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData)
     })
   });
   it("should open assessment", () => {
-    jest.spyOn(matDialog,"open")
+    jest.spyOn(matDialog, "open")
     component.openAssessment("")
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
