@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {CategoryData} from "../../../types/category";
 import {MatPaginator} from "@angular/material/paginator";
@@ -8,7 +8,6 @@ import {AssessmentStructure} from "../../../types/assessmentStructure";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Subject, takeUntil} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
-
 
 
 @Component({

@@ -1,20 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminCategoryComponent } from './admin-category.component';
+import {AdminCategoryComponent} from './admin-category.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormBuilder, FormsModule} from "@angular/forms";
-import {AssessmentStructure} from "../../../types/assessmentStructure";
+import {FormsModule} from "@angular/forms";
 import {CategoryData} from "../../../types/category";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
-import mock = jest.mock;
-import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
-import {executeExtractI18nBuilder} from "@angular-devkit/build-angular";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchComponent} from "../../search-component/search.component";
 import {MatInputModule} from "@angular/material/input";
