@@ -14,6 +14,7 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
+import {ReportDataStructure} from "../../types/ReportDataStructure";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -125,6 +126,9 @@ describe('AppServiceService', () => {
   it("should update particular parameter Rating", () => {
     let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
+  });
+  it("should get report data for chart summary", () => {
+    expect(service.getReportData(1)).toBeTruthy()
   });
 
 });

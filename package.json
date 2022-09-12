@@ -40,11 +40,14 @@
     "@okta/okta-auth-js": "^6.3.0",
     "@types/file-saver": "^2.0.5",
     "angular-bootstrap-md": "^13.0.0",
+    "d3": "^7.4.4",
+    "d3-textwrap": "^3.0.0",
     "date-fns": "^2.28.0",
     "dependency": "^0.0.1",
     "dotenv": "^16.0.0",
     "file-saver": "^2.0.5",
     "jest-createspyobj": "^2.0.0",
+    "jspdf": "^2.5.1",
     "launch": "^0.0.1",
     "lodash-es": "^4.17.21",
     "mdb-ui-kit": "^4.0.0",
@@ -55,6 +58,7 @@
     "ngrx-store-localstorage": "^13.0.1",
     "request": "^2.79.0",
     "rxjs": "~7.5.0",
+    "save-svg-as-png": "^1.4.17",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
@@ -69,6 +73,7 @@
     "@angular/cli": "~13.2.6",
     "@angular/compiler-cli": "~13.2.0",
     "@angular/localize": "^13.2.6",
+    "@types/d3": "^7.4.0",
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.21",
@@ -80,8 +85,8 @@
     "cypress-multi-reporters": "^1.5.0",
     "eslint": "^8.12.0",
     "husky": "^7.0.4",
-    "jest": "^27.5.1",
-    "jest-preset-angular": "^11.1.1",
+    "jest": "^28.0.0",
+    "jest-preset-angular": "^12.2.2",
     "karma-coverage": "~2.1.0",
     "mocha": "^9.2.2",
     "mochawesome": "^7.1.2",
@@ -99,6 +104,12 @@
       "<rootDir>",
       "src/app"
     ],
+    "moduleNameMapper": {
+      "@okta/okta-auth-js": "<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!d3)/"
+    ],
     "preset": "jest-preset-angular",
     "setupFilesAfterEnv": [
       "<rootDir>/setupJest.ts"
@@ -111,6 +122,7 @@
       "ts-jest": {
         "tsconfig": "<rootDir>/tsconfig.spec.json",
         "stringifyContentPathRegex": "\\.html$"
+
       }
     },
     "cypress-cucumber-preprocessor": {

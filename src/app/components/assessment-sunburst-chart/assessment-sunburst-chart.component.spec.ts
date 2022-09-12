@@ -6,16 +6,35 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import * as d3 from 'd3';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIconModule} from "@angular/material/icon";
+import {of} from "rxjs";
 
 
 describe('AssessmentSunburstChartComponent', () => {
   let component: AssessmentSunburstChartComponent;
   let fixture: ComponentFixture<AssessmentSunburstChartComponent>;
+  let mockAppService:MockAppService
+  let actualData = { name:"project",children:[{
+      name:"ass1",rating:3,children:[{
+        name:"ass2",rating:2,children:[{
+          name:"ass3",rating:3,children:[{
+            name:"ass3",value:1
+          }]
+        }]
+      }]
+    }]}
+  class MockAppService {
+    public getReportData(assessmentId:Number){
+      return of(actualData)
+    }
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AssessmentSunburstChartComponent ],
-      imports: [ HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
+      imports: [ MatFormFieldModule, MatSelectModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
     })
     .compileComponents();
   });
@@ -23,6 +42,8 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentSunburstChartComponent);
     component = fixture.componentInstance;
+    mockAppService = new MockAppService()
+
 
 
   });
@@ -31,10 +52,11 @@ describe('AssessmentSunburstChartComponent', () => {
   });
 
   it('should create', () => {
+    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
-  it('should call the function', function() {
+  it('should call sunburstChart Function and Hover on it', function() {
     component.data =  { name:"project",children:[{
             name:"ass1",rating:3,children:[{
               name:"ass2",rating:2,children:[{
@@ -44,13 +66,24 @@ describe('AssessmentSunburstChartComponent', () => {
                 }]
               }]
             }]}
-    jest.spyOn(component, 'getSunBurstChart');
+    jest.spyOn(component, 'drawSunBurstChart');
     Object.defineProperty(global.SVGElement.prototype, 'getComputedTextLength', {
       writable: true,
       value: jest.fn().mockReturnValue(100),
     });
-    component.getSunBurstChart(component.data);
-    console.log(fixture.nativeElement.querySelector("svg").getAttribute("width"));
+    component.drawSunBurstChart(component.data);
+    expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("100%");
+
+    let node = {
+      data: {
+        name:"ass3",rating:3,children:[{
+          name:"ass3",value:1
+        }]
+      }
+    }
+
+    component.OnMouseOver(onmouseover,node);
+    expect(d3.select("#sequence").text()).not.toBeNull();
   })
 
   it('should change theme of chart onClick', () =>{
@@ -92,9 +125,9 @@ describe('AssessmentSunburstChartComponent', () => {
     graphContainer.id = "sequence";
     document.body.appendChild(graphContainer);
     jest.spyOn(component,'initializeBreadcrumbTrail');
-    component.initializeBreadcrumbTrail(graphContainer.id)
-    console.log(d3.select("#sequence").select("svg").attr("width"))
-
+    let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow,  10).reverse());
+    component.initializeBreadcrumbTrail(graphContainer.id,color)
+    expect(d3.select("#sequence").select("svg").attr("width")).toBe("100%")
   })
 
   it('should get Ancestors of data selected', () => {
@@ -174,6 +207,7 @@ describe('AssessmentSunburstChartComponent', () => {
     expect(component.fillThreatColorsInChart(node)).toBe("orange");
   })
 
+
   it("should fill rating color as green if rating is more than 3", () => {
     jest.spyOn(component, 'fillRatingCircle');
 
@@ -218,6 +252,36 @@ describe('AssessmentSunburstChartComponent', () => {
       name:"category", depth:3
     }
     expect(component.getBreadCrumbTranslation(dummyData2)).toBe("translate(0,315)")
+
   })
+
+  it("should test mouseover event for parameter level rating", () => {
+    jest.spyOn(component,'OnMouseOver');
+    let node = {
+      data: {
+        name: "ass3", value: 1
+      }
+    }
+
+    component.OnMouseOver(onmouseover,node);
+    expect(d3.select("#sequence").text()).not.toBeNull();
+
+  })
+
+  it("should fetch the answers from the ngrx store", () => {
+    let expectedData = { name:"project",children:[{
+        name:"ass1",rating:3,children:[{
+          name:"ass2",rating:2,children:[{
+            name:"ass3",rating:3,children:[{
+              name:"ass3",value:1
+            }]
+          }]
+        }]
+      }]}
+    mockAppService.getReportData(1).subscribe(data =>{
+      expect(data).toBe(expectedData)
+    })
+  })
+
 
 });

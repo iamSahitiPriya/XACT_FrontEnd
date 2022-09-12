@@ -32,7 +32,7 @@
         <span>{{addModuleTitle}}</span>
       </button>
 
-      <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']">
+      <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [state]="{assessment}">
         <mat-icon>exposure</mat-icon>
         <span>SunBurst Chart Report</span>
         <!--        //add to external-->
