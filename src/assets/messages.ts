@@ -109,10 +109,10 @@ export const data_local =
       RETRY_TEXT: "Retry"
     },
     HEADER_LINK_TEXT: {
-      MICRO_SITE: "Microsite",
-      SUPPORT: "Support",
+      MICRO_SITE: "XACT-Microsite",
+      SUPPORT: "Contact XAct support",
       FEEDBACK: "Feedback",
-      LOGOUT: "Logout"
+      LOGOUT: "Log Out"
     },
     ASSESSMENT_PARAMETER: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",
@@ -131,4 +131,19 @@ export const data_local =
       RIGHTS_RESERVED_TEXT:"All rights reserved. v"
     },
     LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
+    ADMIN_DASHBOARD_LABEL:{
+      TOTAL_ASSESSMENT:"Total Assessments",
+      TOTAL_ACTIVE:"Assessments in Progress",
+      TOTAL_COMPLETE:"Completed Assessments",
+      DOWNLOAD_REPORT:"Download Report",
+      DASHBOARD_TITLE:"DashBoard",
+      DOWNLOAD_REPORT_LABEL:"Click to download report",
+      DROPDOWN_LABEL : "Click to select the days range"
+    },
+    DROPDOWN_OPTION_TEXT:{
+      LAST_WEEK :"Last 7 Days",
+      LAST_MONTH:"Last 30 Days",
+      LAST_YEAR:"Last 90 Days",
+      LAST_QUARTER:"Last 365 Days"
+    }
   };

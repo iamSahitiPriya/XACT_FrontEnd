@@ -1,12 +1,7 @@
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
-import appPackage  from '../../package.json';
+import appPackage from '../../package.json';
 
 export const environment = {
   production: false,
@@ -29,8 +24,13 @@ export const environment = {
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
   VERSION: appPackage && appPackage.version,
   ROLE_URI:"/v1/users/roles",
+  GET_ADMIN_ASSESSMENTS: "/v1/assessments/admin",
+  ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
+  ALL_CATEGORY_URI: "/v1/admin/categories",
+  SAVE_CATEGORY_URI: "/v1/admin/categories",
+  UPDATE_CATEGORY_URI : "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
   TIMEOUT: 12000, // 2 min
 };
