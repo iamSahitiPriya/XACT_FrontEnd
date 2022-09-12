@@ -1,0 +1,69 @@
+<div class="header">
+  <span class="dashBoardText">DashBoard</span>
+  <span class="dropdown">
+    <mat-form-field appearance="outline">
+<!--      <mat-drawer-container>-->
+        <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
+            <mat-option [value]="1">{{last_week}}</mat-option>
+          <mat-option [value]="2">{{last_month}}</mat-option>
+          <mat-option [value]="0">{{last_quarter}}</mat-option>
+          <mat-option [value]="3">{{last_year}}</mat-option>
+<!--          <mat-option (click)="drawer.toggle();selector.open()" [value]="4">Custom{{this.startDate}}</mat-option>-->
+<!--          <mat-drawer #drawer class="example-sidenav" mode="side" position="start">-->
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-date-range-input [rangePicker]="rangePicker">-->
+<!--                  <input matStartDate placeholder="Start date" (dateChange)="getStartDate('change', $event)">-->
+<!--                  <input matEndDate placeholder="End date" (dateChange)="getEndDate('change', $event)">-->
+<!--                </mat-date-range-input>-->
+<!--                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>-->
+<!--                <mat-date-range-picker #rangePicker>-->
+<!--                  <mat-date-range-picker-actions>-->
+<!--                    <button mat-raised-button color="primary" matDateRangePickerApply (click)="dateRange() ; drawer.toggle();selector.close()">Apply</button>-->
+<!--                  </mat-date-range-picker-actions>-->
+<!--                </mat-date-range-picker>-->
+<!--              </mat-form-field>-->
+<!--           </mat-drawer>-->
+        </mat-select>
+<!--      </mat-drawer-container>-->
+    </mat-form-field>
+  </span>
+</div>
+<div class="assessmentStatus">
+<mat-card class="Total">
+  <mat-card-title>{{Total_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      Total:
+      <div class="total">{{this.adminAssessmentResponse.totalAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="Active">
+  <mat-card-title>{{Active_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      Total:
+      <div class="active">{{this.adminAssessmentResponse.totalActiveAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="Completed">
+  <mat-card-title>{{Complete_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      Total:
+      <div class="complete">{{this.adminAssessmentResponse.totalCompleteAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+  <div class="downloadButton" >
+    <button class="button" (click)="downloadReport()" id="generate-report" [matTooltip]=download>
+      <img data-id="manage" src="../../assets/download-icon/download.svg" alt="download icon" class="downloadIcon"/>
+      <span class="text">{{download_label}}</span></button>
+  </div>
+  <div></div>
+</div>
+

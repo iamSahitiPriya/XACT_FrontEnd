@@ -55,16 +55,23 @@ import {TopicLevelRatingComponent} from './components/topic-level-rating/topic-l
 import {AssessmentDataEffects} from "./effects/assessment-data.effects";
 import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
-import {ProgressComponentComponent} from './components/progress-component/progress-component.component';
+import { ProgressComponentComponent } from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {AssessmentAverageRatingComponent} from './components/assessment-average-rating/assessment-average-rating.component';
+import { AssessmentAverageRatingComponent } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
 import {MatRadioModule} from "@angular/material/radio";
-import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
-import {ParameterLevelRecommendationComponent} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+import { TopicLevelRecommendationComponent } from './components/topic-level-recommendation/topic-level-recommendation.component';
+import { ParameterLevelRecommendationComponent } from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+import { AdminConsoleComponent } from './components/admin/admin-console/admin-console.component';
+import { AdminCategoryComponent } from './components/admin/admin-category/admin-category.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
-import {AdminConsoleComponent} from './components/admin/admin-console/admin-console.component';
+import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-dashboard.component";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -91,11 +98,22 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path: 'admin',
-    component: AdminConsoleComponent,
-    pathMatch: 'full',
-    canActivate: [OktaAuthGuard]
-  }
+    path:'admin',
+    component:AdminConsoleComponent,
+    children:[{
+      path:"category",
+      component:AdminCategoryComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
+    },{
+      path:"dashboard",
+      component:AdminDashboardComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
+    }],
+    canActivate:[OktaAuthGuard]
+  },
+
 
 ];
 
@@ -117,10 +135,13 @@ export const appRoutes: Routes = [
     ErrorComponentComponent,
     ProgressComponentComponent,
     AssessmentAverageRatingComponent,
+    AdminConsoleComponent,
+    AdminDashboardComponent,
     TopicLevelRecommendationComponent,
     ParameterLevelRecommendationComponent,
-    AdminConsoleComponent
+    AdminCategoryComponent,
   ],
+
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -149,6 +170,7 @@ export const appRoutes: Routes = [
     MatTabsModule,
     MatTooltipModule,
     MatSelectModule,
+    MatSortModule,
     NgHttpLoaderModule.forRoot(),
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
@@ -161,10 +183,55 @@ export const appRoutes: Routes = [
     }),
     EffectsModule.forRoot([AssessmentDataEffects]),
     MatChipsModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatChipsModule,
     MatRadioModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    MDBBootstrapModule.forRoot(),
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    OktaAuthModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTabsModule,
+    MatTooltipModule,
+    MatSelectModule,
     MatSortModule,
+    NgHttpLoaderModule.forRoot(),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictStateImmutability: false,
+        strictActionImmutability: false
+      }
+    }),
+    EffectsModule.forRoot([AssessmentDataEffects]),
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatSlideToggleModule,
+    MatNativeDateModule
   ],
-
 
   exports: [
     MatButtonModule,
@@ -183,6 +250,7 @@ export const appRoutes: Routes = [
     {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
     {provide: OKTA_CONFIG, useValue: {oktaAuth}},
     HttpClientTestingModule,
+
   ],
   bootstrap: [AppComponent]
 })

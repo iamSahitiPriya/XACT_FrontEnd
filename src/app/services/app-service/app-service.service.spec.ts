@@ -192,5 +192,24 @@ describe('AppServiceService', () => {
     }
     expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
+  it("should get all categories", () => {
+    expect(service.getAllCategories()).toBeTruthy()
+  });
+  it("should save categories", () => {
+    let categoryRequest = {
+      "categoryName": "hello",
+      "active": true,
+      "comments": ""
+    }
+    expect(service.saveCategory(categoryRequest)).toBeTruthy()
+  });
+  it("should update categories", () => {
+    let categoryRequest = {
+      "categoryName": "hello",
+      "active": true,
+      "comments": ""
+    }
+    expect(service.updateCategory(categoryRequest)).toBeTruthy()
+  });
 
 });

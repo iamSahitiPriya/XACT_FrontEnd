@@ -102,6 +102,11 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  type(blankAssessment: AssessmentStructure) {
+    console.log(typeof blankAssessment)
+    return (typeof blankAssessment)
+
+  }
 }
 
 

@@ -13,8 +13,14 @@ import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
+import {CategoryData} from "../../types/category";
+import {CategoryResponse} from "../../types/categoryResponse";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
+import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
+
 
 
 @Injectable({
@@ -110,6 +116,24 @@ export class AppServiceService {
     return this.http.get(environment.BaseURI + environment.ROLE_URI);
   }
 
+
+  getAdminAssessment(adminAssessmentRequest:AdminAssessmentRequest):Observable<AdminAssessmentResponse>{
+  const headers = {'content-type': 'application/json'}
+  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
+}
+  getAllCategories():Observable<CategoryResponse[]>{
+    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
+  }
+  saveCategory(categoryRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+  }
+  updateCategory(categoryRequest:any){
+    return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
+  }
+
+  generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
+    return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
+  }
 }
 
 
