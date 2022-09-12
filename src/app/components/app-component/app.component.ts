@@ -10,7 +10,6 @@ import {data_local} from "../../../assets/messages";
 import {environment} from "../../../environments/environment";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable} from "rxjs";
-import {NavigationEnd, Router} from "@angular/router";
 
 
 @Component({

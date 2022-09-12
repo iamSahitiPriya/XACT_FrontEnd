@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-import appPackage  from '../../package.json';
+import appPackage from '../../package.json';
 
 export const environment = {
   production: true,

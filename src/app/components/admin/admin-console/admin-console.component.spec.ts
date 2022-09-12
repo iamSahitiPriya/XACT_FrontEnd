@@ -12,7 +12,6 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {RouterModule} from "@angular/router";
 import {RouterTestingModule} from "@angular/router/testing";
 
 

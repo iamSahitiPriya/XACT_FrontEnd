@@ -14,13 +14,10 @@ import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
-import {CategoryData} from "../../types/category";
 import {CategoryResponse} from "../../types/categoryResponse";
-import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
-
 
 
 @Injectable({
