@@ -26,7 +26,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
-
+import {OKTA_AUTH} from "@okta/okta-angular";
 
 class MockDialog {
   open() {

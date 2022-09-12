@@ -10,6 +10,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -34,7 +36,7 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AssessmentSunburstChartComponent ],
-      imports: [ MatFormFieldModule, MatSelectModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
+      imports: [ MatFormFieldModule,MatDividerModule,MatToolbarModule ,MatSelectModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
     })
     .compileComponents();
   });
@@ -269,7 +271,8 @@ describe('AssessmentSunburstChartComponent', () => {
   })
 
   it("should fetch the answers from the ngrx store", () => {
-    let expectedData = { name:"project",children:[{
+    jest.spyOn(component,'getDataAndSunBurstChart');
+    component.data = { name:"project",children:[{
         name:"ass1",rating:3,children:[{
           name:"ass2",rating:2,children:[{
             name:"ass3",rating:3,children:[{
@@ -278,8 +281,10 @@ describe('AssessmentSunburstChartComponent', () => {
           }]
         }]
       }]}
+    component.ngOnInit();
+    expect(component.getDataAndSunBurstChart).toBeCalled();
     mockAppService.getReportData(1).subscribe(data =>{
-      expect(data).toBe(expectedData)
+      expect(data).toBe(component.data)
     })
   })
 

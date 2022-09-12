@@ -7,6 +7,7 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../../assets/messages";
+import {Subject, takeUntil} from "rxjs";
 
 
 interface colorScheme {
@@ -25,6 +26,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
   assessmentId: number;
   data: ReportDataStructure;
   selectedValue: (t: number) => string | null = d3.interpolateSpectral;
+  private destroy$: Subject<void> = new Subject<void>();
 
 
   colorList: colorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
@@ -49,7 +51,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
   }
 
   getDataAndSunBurstChart() {
-    this.appService.getReportData(this.assessmentId).subscribe(data => {
+    this.appService.getReportData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.data = data;
       this.drawSunBurstChart(this.data);
     })
@@ -328,7 +330,6 @@ export class AssessmentSunburstChartComponent implements OnInit {
 
       while (word = words.pop()) {
         line.push(word);
-        console.log("pop",line)
 
         tspan.text(line.join(" "));
         var len = tspan.node()?.getComputedTextLength();
@@ -369,7 +370,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
   fillThreatColorsInChart(d: any) {
     if ((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) {
       return "red"
-    } else if (d.data.rating == 3 || d.data.value == 3) {
+    } else if (parseInt(d.data.rating) == 3 || parseInt(d.data.value) == 3) {
       return "orange"
     } else {
       return "green"
@@ -377,9 +378,9 @@ export class AssessmentSunburstChartComponent implements OnInit {
   }
 
   fillRatingCircle(percentageString: any) {
-    if (percentageString > 3) {
+    if (parseInt(percentageString) > 3) {
       return "green"
-    } else if (percentageString == 3) {
+    } else if (parseInt(percentageString) == 3) {
       return "orange"
     } else {
       return "red"
@@ -403,6 +404,10 @@ export class AssessmentSunburstChartComponent implements OnInit {
         return (sequenceArray.indexOf(node) >= 0);
       })
       .style("opacity", 1);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
