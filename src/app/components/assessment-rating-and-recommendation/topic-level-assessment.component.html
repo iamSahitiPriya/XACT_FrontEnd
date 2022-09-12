@@ -23,26 +23,26 @@
         </div>
       </div>
       <div *ngIf="parameter.references">
-        <app-parameter-level-rating-and-recommendation *ngIf="topicRequest.parameterLevel[i]"
-                                                       [parameterRecommendation]="parameter.parameterId"
-                                                       [topicId]="topicInput.topicId"
-                                                       [parameterScore]="parameter.references"
-                                                       [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
-                                                       [assessmentId]="assessmentId"
-                                                       [parameterName]="parameter.parameterName"
-                                                       [parameterList] = "topicRequest.parameterLevel"
-        ></app-parameter-level-rating-and-recommendation>
+        <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
+                                    [parameterId]="parameter.parameterId"
+                                    [topicId]="topicInput.topicId"
+                                    [parameterScore]="parameter.references"
+                                    [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
+                                    [assessmentId]="assessmentId"
+                                    [parameterName]="parameter.parameterName"
+                                    [parameterList]="topicRequest.parameterLevel"
+        ></app-parameter-level-rating>
       </div>
 
     </div>
     <div *ngIf="topicInput.references">
-      <app-topic-level-rating-and-recommendation *ngIf="topicRequest.topicRatingAndRecommendation"
-                                                 [topicRecommendation]="topicInput.topicId"
-                                                 [topicScore]="topicInput.references"
-                                                 [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
-                                                 [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
-                                                 [topicName]="topicInput.topicName"
-      ></app-topic-level-rating-and-recommendation>
+      <app-topic-level-rating *ngIf="topicRequest.topicRatingAndRecommendation"
+                              [topicRecommendation]="topicInput.topicId"
+                              [topicScore]="topicInput.references"
+                              [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
+                              [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
+                              [topicName]="topicInput.topicName"
+      ></app-topic-level-rating>
     </div>
     <div>
       <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"

@@ -204,6 +204,7 @@
   },
   "defaultProject": "XAct_Frontend_App",
   "cli": {
+    "analytics": false,
     "defaultCollection": "@angular-eslint/schematics"
   }
 }

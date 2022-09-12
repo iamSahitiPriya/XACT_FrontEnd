@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -7,7 +7,7 @@ import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {FormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
@@ -18,7 +18,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import { data_local } from 'src/assets/messages';
+import {data_local} from 'src/assets/messages';
 
 export const assessmentData = [{}]
 export let loading = false
@@ -33,7 +33,7 @@ let DEBOUNCE_TIME = 1200;
 })
 
 
-export class AssessmentQuestionComponent implements OnInit {
+export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   @Input()
   questionDetails: QuestionStructure;
 
@@ -51,7 +51,7 @@ export class AssessmentQuestionComponent implements OnInit {
 
 
   private cloneAnswerResponse: AssessmentStructure;
-  private savedAnswer: UpdatedStatus = {assessmentId:0, status:""};
+  private savedAnswer: UpdatedStatus = {assessmentId: 0, status: ""};
   private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
@@ -62,22 +62,24 @@ export class AssessmentQuestionComponent implements OnInit {
 
 
   assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: undefined, notes: undefined,updatedAt:undefined
+    assessmentId: 0, questionId: undefined, notes: undefined, updatedAt: undefined
   };
   answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
+  private destroy$: Subject<void> = new Subject<void>();
 
 
   ngOnInit() {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = data
         this.assessmentStatus = data.assessmentStatus
       }
     })
   }
+
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
@@ -85,6 +87,7 @@ export class AssessmentQuestionComponent implements OnInit {
       duration: 2000
     })
   }
+
   saveParticularAnswer(_$event: KeyboardEvent) {
     AssessmentMenuComponent.answerSaved = "Saving..."
     this.assessmentNotes.assessmentId = this.assessmentId
@@ -94,16 +97,17 @@ export class AssessmentQuestionComponent implements OnInit {
     this.assessmentNotes.updatedAt = Number(new Date(Date.now()))
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
-    this.appService.saveNotes(this.assessmentNotes).subscribe({
-      next:(_data) => {
+    this.appService.saveNotes(this.assessmentNotes).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
         assessmentData.push(this.assessmentNotes);
         this.sendAnswer(this.answerNote)
         this.updateDataSavedStatus()
-    },
-    error:_err => {
-      AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
-      this.showError("Data cannot be saved","Close");
-    }});
+      },
+      error: _err => {
+        AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
+        this.showError("Data cannot be saved", "Close");
+      }
+    });
 
   }
 
@@ -126,8 +130,13 @@ export class AssessmentQuestionComponent implements OnInit {
   }
 
   private updateDataSavedStatus() {
-    this.cloneAnswerResponse1 = Object.assign({},this.answerResponse)
+    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData:this.cloneAnswerResponse1}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

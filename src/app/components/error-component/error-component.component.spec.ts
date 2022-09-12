@@ -16,6 +16,7 @@ class MockDialog {
   close() {
   }
 }
+
 describe('ErrorComponentComponent', () => {
   let component: ErrorComponentComponent;
   let fixture: ComponentFixture<ErrorComponentComponent>;
@@ -32,7 +33,7 @@ describe('ErrorComponentComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ErrorComponentComponent],
       imports: [MatDialogModule, MatIconModule, RouterTestingModule],
-      providers: [RouterTestingModule, {provide: MatDialogRef, useValue: {}},{provide: MatDialog, useClass: MockDialog}
+      providers: [RouterTestingModule, {provide: MatDialogRef, useValue: {}}, {provide: MatDialog, useClass: MockDialog}
       ]
     })
       .compileComponents();

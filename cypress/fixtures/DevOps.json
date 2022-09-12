@@ -1,38 +1,44 @@
-{
-  "ContinuousIntegrationandDeployment":
+[
+
   {
     "CIDParameters":["Build","Deployment"],
-    "CIDQuestions": ["How are checkins done and what branching strategy is used?",
-                     "How much of testing is included in the build process - unit, integration, functional, acceptance, contract?",
-                     "How are failed builds handled and how long do they typically remain red?",
-                     "How are artifacts packaged?",
-                     "How are deployments done - manual/semi-automated/automated? How much of downtime is incurred?",
+    "CIDQuestions": ["How are check-ins done and what branching strategy is used?",
+                      "How much testing is included in the build process - unit, integration, functional, acceptance, contract?",
+                      "How are failed builds handled and how long do they typically remain red?",
+                      "How are artifacts packaged?",
+                     "How are deployments done - manual/semi-automated/automated? How much downtime is incurred?",
                      "How frequently are deployments done?",
                      "Are there deployment windows and moratoriums like deployment freezes?"
     ],
+    "notes": ["check-ins done and what branching strategy is used",
+      "testing is included in the build process - unit, integration, functional, acceptance, contract",
+      "failed builds handled and how long do they typically remain red",
+      "artifacts packaged",
+      "deployments done - manual/semi-automated/automated? How much of downtime is incurred",
+      "frequently deployments done",
+      "deployment windows and moratoriums like deployment freezes"],
     "CIDAssignmentMaturityScoreDesc": ["Check-ins and CI happen on the mainline. A branch-by-abstraction style is used to turn off incomplete work. Integration is truly continuous. The build process includes a good mix of unit, integration, contract, functional and acceptance tests, and these tests are mostly green. Manual testing only used for exploratory testing. Failed builds are not that common. When they do occur, team members are empowered to rollback the cause of the build failure if they are not fixed by the owner.",
                                        "Check-ins and CI happen on a short-lived private branch to satisfy a pull-request workflow. A branch-by-abstraction style is used to turn off incomplete work. Integration is truly continuous. The build process includes a good mix of unit, integration, functional and acceptance tests, and these tests are mostly green. Additional manual testing is required for scenarios not covered through automated testing. Failed builds are not that common. But when failures do happen, other team members wait for the build to be fixed. Team members avoid checking in on top of a red build.",
-                                       "Check-ins and builds happen on a private branch. Features are usually fine grained to finish within a few days. Integration happens every few days. The build process includes a good mix of unit, integration, functional and acceptance tests, and these tests are mostly green. However,  a significant amount of manual testing is still needed to certify quality - primarily because of poor visibility into the quality of the tests that run as part of the build. Failed builds for prolonged periods of time are inevitable. Developers are unable to run stages in the pipeline locally and there isn't enough debugging information readily available.",
-                                       "Check-ins initially happen on a private branch and remain there for the duration of a development sprint/iteration. Integration to the mainline happens every 2 to 4 weeks. The build process does include various types of automated testing. But these tests are time-consuming and flaky. Hence they require a significant amount of manual testing to certify quality. Failed builds remain red for prolonged periods of time. Usually someone takes ownership, but fixing red builds takes a long time.",
+                                       "Check-ins and builds happen on a private branch. Features are usually fine-grained to finish within a few days. Integration happens every few days. The build process includes a good mix of unit, integration, functional and acceptance tests, and these tests are mostly green. However, a significant amount of manual testing is still needed to certify quality - primarily because of poor visibility into the quality of the tests that run as part of the build. Failed builds for prolonged periods are inevitable. Developers are unable to run stages in the pipeline locally and there isn\"'t enough debugging information readily available.",
+                                       "Check-ins initially happen on a private branch and remain there for the duration of a development sprint/iteration. Integration to the mainline happens every 2 to 4 weeks. The build process does include various types of automated testing. But these tests are time-consuming and flaky. Hence they require a significant amount of manual testing to certify quality. Failed builds remain red for prolonged periods. Usually, someone takes ownership, but fixing red builds takes a long time.",
                                        "Check-ins happen on a long running private branch and remain there until story/feature completion. Integration to the mainline usually takes several weeks or months. The build process does not include adequate testing. Builds are stable, but usually require a significant amount of manual testing to certify quality. Failed builds remain red for prolonged periods of time. Check-ins on top of failed builds are fairly common. There is no clear ownership assignment for failed builds.",
                                        "Versioned compound container image groups e.g. helm, docker-compose etc. Automated with zero downtime - combination of blue-green and rolling. Frequency - On-demand, several times a day. Any time functionality is ready and the business wants to release it. Deployments can and happen anytime during the day. The business/product stakeholder is in complete  control of when deployments should happen. Teams are free to deploy whenever they wish as long as the product/business team members are comfortable. Deployment is not a function of IT constraints, simply a business decision.",
                                        "Immutable, versioned container image e.g. docker, rocket etc. Automated with zero downtime - rolling or canary. Frequency - Daily. Deployments can happen anytime during the day, but continue to happen only during specific times of the day due to a lack of approvers, deployment operations personnel etc. There are no deployment freezes at any time of the year. However, deployment frequency slows during peak periods due to a lack of availability of key personnel (business and operations).",
-                                       "Immutable, versioned virtual machine(VM) image e.g. VMDK, AMI etc. Automated with zero downtime - blue green. Frequency - Almost Daily. Deployments can happen anytime during the day, but continue to happen only during low traffic \"windows\" due to inertia. There are short deployment freeze during peak periods, but these are merely a formality. Deployments usually are done as and when necessary.",
+                                       "Immutable, versioned virtual machine(VM) image e.g. VMDK, AMI etc. Automated with zero downtime, blue-green. Frequency - Almost Daily. Deployments can happen anytime during the day, but continue to happen only during low traffic \"windows\" due to inertia. There is a short deployment freeze during peak periods, but these are merely a formality. Deployments usually are done as and when necessary.",
                                        "Mutable deployment target with configuration management software e.g. puppet, chef, etc. Automated with downtime with outage window Frequency - Weekly or more. Deployments can only happen during low traffic \"windows\", because of a poor track record with failed (customer impacting) deployments. There is always an extended, pre-emptive deployment freeze during peak periods, but deployments are possible with proper justifications.",
-                                       "EAR, WAR style into a shared application container with multiple applications/services running in the same process space. Manual with downtime and outage window. Monthly or even less frequently. Deployments can only happen during low traffic \"windows\", because there is downtime when switching to the new version. There is always an extended, pre-emptive deployment freeze during peak periods (e.g. Thanksgiving, Christmas etc.) - no negotiations - except in case of critical bug fixes or"
+                                       "EAR, WAR style into a shared application container with multiple applications/services running in the same process space. Manual with downtime and outage window. Monthly or even less frequently. Deployments can only happen during low traffic \"windows\" because there is downtime when switching to the new version. There is always an extended, pre-emptive deployment freeze during peak periods (e.g. Thanksgiving, Christmas etc.) - no negotiations - except in case of critical bug fixes or"
     ]
   },
-"ProductionOperations":
 {
   "ProductionOperationsParameters":["Observability","Business Continuity"],
   "ProductionOperationsQuestions": ["Is CPU and Memory usage monitored?",
                     "Are critical errors monitored?",
-                    "Any notification or alerts for monitoring?",
+                    "Any notifications or alerts for monitoring?",
                     "Infra-health monitoring?",
                     "Service-health monitoring?",
                     "How is incident management done?",
                     "What strategy is followed for DB recovery?",
-                    "What is max and min time taken for disaster recovery on production so far?"
+                    "What is the max and min time taken for disaster recovery on production so far?"
   ],
   "ProductionOperationsAssignmentMaturityScoreDesc": ["Observability patterns such as log aggregation, distributed tracing, health checks, alerting, APM, etc. are tested to meet SLAs",
                                     "Implementation of Observability patterns such as log aggregation, distributed tracing, health checks, alerting, APM, etc. are standardized.",
@@ -46,28 +52,32 @@
                                     "Active passive with MTTR of 24 hours or more"
   ]
 },
-  "Environments": {
-    "ProductionOperationsParameters":["Provisioning and use","Business Continuity"],
-    "ProductionOperationsQuestions": ["What are the different environments setup? In which environment does the QA perform story testing?",
-                                      "How are environments provisioned? What strategy is used to make sure they are provisioned consistently?",
-                                      "Does the environment automatically scale to accommodate higher load",
-                                      "How stable and predictable are environments? Are environments isolated from one another with respect to deployed components, databases, etc.?",
-                                      "How is application configuration managed?",
-                                      "Is there any strategy in place to reduce the cost? (Eg: during times of less user activity)",
-                                      "How is application functionality turned on/off dynamically?",
-                                      "How are secrets managed?"
+  {
+    "EnvironmentsParameters": [
+      "Provisioning and use",
+      "Best practices"
     ],
-    "ProductionOperationsAssignmentMaturityScoreDesc": ["Programmatically provisioned, ephemeral, immutable containers or serverless functions.",
-                                                      "Programmatically provisioned, ephemeral, immutable virtual machine servers.",
-                                                      "Programmatically provisioned, long running, mutable virtual machine servers.",
-                                                      "Manually provisioned, long-running virtual machine servers.",
-                                                      "Manually provisioned, long-running bare metal servers.",
-                                                      "Application configuration is externalized from the deployable application artifact. All teams use a consistent method to make changes to application configuration. All changes are traceable to a source code check-in. Feature toggles are externalized from application deployment artifacts. Toggles are defined at a business feature level. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a secrets management server.",
-                                                      "Application configuration is externalized from the deployable application artifact. Teams making use of externalized configuration use custom (including homegrown) methods to do so. Feature toggles are externalized from application deployment artifacts. Teams use a consistent approach to toggles, but toggling off functionality still requires knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a configuration management system.",
-                                                      "Application configuration is externalizable from application artifacts. But there is no operationalized mechanism to do so. Teams continue to require rebuilds when a change to application configuration is required. Feature toggles are externalized from application deployment artifacts. Individual teams use custom methods to implement toggle functionality. Turning off functionality reliably requires intimate knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in source control.",
-                                                      "Application configuration is embedded within application artifacts. Environment specific configuration parameters can be overridden without requiring an application rebuild. However, overrides are not audited. Changes to configuration require an application redeployment. Feature toggles are embedded within application deployment artifacts. Changes to toggles require an application rebuild. Secrets are externalized from application deployment artifacts, but are managed manually.",
-                                                      "Application configuration is embedded within application deployment artifacts for a fixed set of environments. New environment(s) or changes to application configuration require an application rebuild. Feature toggles are not used to turn on/off application functionality dynamically. Secrets are embedded within application deployment artifacts and are managed manually."
+    "EnvironmentsQuestions": [
+      "What are the different environments set up? In which environment does the QA perform story testing?",
+      "How are environments provisioned? What strategy is used to make sure they are provisioned consistently?",
+      "Does the environment automatically scale to accommodate higher load",
+      "How stable and predictable are environments? Are environments isolated from one another with respect to deployed components, databases, etc.?",
+      "How is application configuration managed?",
+      "Is there any strategy in place to reduce the cost? (Eg: during times of less user activity)",
+      "How is application functionality turned on/off dynamically?",
+      "How are secrets managed?"
+    ],
+    "EnvironmentsMaturityScoreDesc": [
+      "Programmatically provisioned, ephemeral, immutable containers or serverless functions.",
+      "Programmatically provisioned, ephemeral, immutable virtual machine servers.",
+      "Programmatically provisioned, long-running, mutable virtual machine servers.",
+      "Manually provisioned, long-running virtual machine servers.",
+      "Manually provisioned, long-running bare metal servers.",
+      "Application configuration is externalized from the deployable application artifact. All teams use a consistent method to make changes to application configuration. All changes are traceable to a source code check-in. Feature toggles are externalized from application deployment artifacts. Toggles are defined at a business feature level. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a secrets management server.",
+      "Application configuration is externalized from the deployable application artifact. Teams making use of externalized configuration use custom (including homegrown) methods to do so. Feature toggles are externalized from application deployment artifacts. Teams use a consistent approach to toggles, but toggling off functionality still requires knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in a configuration management system.",
+      "Application configuration is externalizable from application artifacts. But there is no operationalized mechanism to do so. Teams continue to require rebuilds when a change to application configuration is required. Feature toggles are externalized from application deployment artifacts. Individual teams use custom methods to implement toggle functionality. Turning off functionality reliably requires intimate knowledge of application internals. Secrets are externalized from application deployment artifacts, with encrypted secrets being stored in source control.",
+      "Application configuration is embedded within application artifacts. Environment-specific configuration parameters can be overridden without requiring an application rebuild. However, overrides are not audited. Configuration changes require application redeployment. Feature toggles are embedded within application deployment artifacts. Changes to toggles require an application rebuild. Secrets are externalized from application deployment artifacts, but are managed manually.",
+      "Application configuration is embedded within application deployment artifacts for a fixed set of environments. New environment(s) or changes to application configuration require an application rebuild. Feature toggles are not used to turn on/off application functionality dynamically. Secrets are embedded within application deployment artifacts and are managed manually."
     ]
   }
-}
-
+]

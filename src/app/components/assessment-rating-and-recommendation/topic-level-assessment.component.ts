@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit, Optional} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerRequest";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,15 +19,13 @@ import {Store} from '@ngrx/store';
 import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
 import {AssessmentState} from "../../reducers/app.states";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../../assets/messages";
 
-
 export const saveAssessmentData = [{}]
 
-let topicId: number;
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
 export class parameterRequest {
@@ -37,10 +35,9 @@ export class parameterRequest {
 
   constructor(answerRequest: Notes[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
     this.answerRequest1 = answerRequest;
-    this.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    this.parameterRatingAndRecommendation = parameterRatingAndRecommendation
   }
 }
-
 
 let parameterRequests: parameterRequest[];
 
@@ -51,7 +48,7 @@ let parameterRequests: parameterRequest[];
 })
 
 
-export class TopicLevelAssessmentComponent implements OnInit {
+export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
   disableRating: number = 0
   form: FormGroup
@@ -65,8 +62,10 @@ export class TopicLevelAssessmentComponent implements OnInit {
     parameterLevel: parameterRequests = [],
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
+
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: FormBuilder, @Optional() private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
@@ -81,13 +80,9 @@ export class TopicLevelAssessmentComponent implements OnInit {
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
 
-  topicRatingAndRecommendation: TopicRatingAndRecommendation = {
-    recommendation: "",
-    topicId: topicId
-  }
 
   ngOnInit(): void {
-    this.answerResponse1.subscribe(data => {
+    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.answerResponse = {...data}
         this.assessmentId = this.answerResponse.assessmentId
@@ -96,7 +91,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
     })
     this.getAssessment()
     this.updateAverageRating()
-
   }
 
   save() {
@@ -106,7 +100,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
-    this.appService.saveAssessment(saveRequest).subscribe((_data) => {
+    this.appService.saveAssessment(saveRequest).pipe(takeUntil(this.destroy$)).subscribe(() => {
         if (saveRequest.topicRequest.topicRatingAndRecommendation !== undefined) {
           topicRatingAndRecomm.push(saveRequest.topicRequest.topicRatingAndRecommendation)
         }
@@ -121,6 +115,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
         }
         this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
+        window.location.reload();
       }
     )
     this.updateDataSavedStatus()
@@ -130,7 +125,6 @@ export class TopicLevelAssessmentComponent implements OnInit {
   private getAssessment() {
     this.topicParameterValidation()
   }
-
 
   private topicParameterValidation() {
     if (this.topicInput.references != null) {
@@ -182,23 +176,40 @@ export class TopicLevelAssessmentComponent implements OnInit {
   public getParameterWithRatingAndRecommendationRequest(parameter: ParameterStructure) {
     let indexByParameterId = 0
     let isRatingAndRecommendationPresent = false
-    let newParameterRequest: ParameterRequest = {
-      answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
-        parameterId: parameter.parameterId, rating: 0, recommendation: ""
-      }
-    }
+    let newParameterRequest: ParameterRequest;
+
 
     if (this.answerResponse.parameterRatingAndRecommendation !== undefined) {
       indexByParameterId = this.answerResponse.parameterRatingAndRecommendation.findIndex(obj => obj.parameterId == parameter.parameterId)
-      isRatingAndRecommendationPresent = this.answerResponse.parameterRatingAndRecommendation.some(el => el.rating || el.recommendation)
+      isRatingAndRecommendationPresent = this.answerResponse.parameterRatingAndRecommendation.some(el => el.parameterId == parameter.parameterId)
     }
-
     if (indexByParameterId !== -1 && isRatingAndRecommendationPresent) {
       newParameterRequest = {
         answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
           parameterId: parameter.parameterId,
           rating: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].rating,
-          recommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].recommendation
+          parameterLevelRecommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation ? this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation : [{
+            recommendationId: undefined,
+            recommendation: "",
+            impact: "",
+            effort: "",
+            deliveryHorizon: ""
+          }]
+        }
+      }
+    } else {
+      newParameterRequest = {
+        answerRequest: this.getAnswersList(parameter),
+        parameterRatingAndRecommendation: {
+          rating: 0,
+          parameterLevelRecommendation: [{
+            recommendationId: undefined,
+            recommendation: "",
+            impact: "",
+            effort: "",
+            deliveryHorizon: ""
+          }],
+          parameterId: parameter.parameterId
         }
       }
     }
@@ -214,21 +225,33 @@ export class TopicLevelAssessmentComponent implements OnInit {
       isRatingAndTopicPresent = this.answerResponse.topicRatingAndRecommendation.some(el => el.topicId == this.topicInput.topicId)
       indexByTopicId = this.answerResponse.topicRatingAndRecommendation.findIndex(obj => obj.topicId == this.topicInput.topicId)
     }
-
     if (isRatingAndTopicPresent) {
       this.topicRequest.topicRatingAndRecommendation = {
-        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating:0,
-        recommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].recommendation?this.answerResponse.topicRatingAndRecommendation[indexByTopicId].recommendation:"",
+        rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating : 0,
+        topicLevelRecommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation : [{
+          recommendationId: undefined,
+          recommendation: "",
+          impact: "",
+          effort: "",
+          deliveryHorizon: ""
+        }],
         topicId: this.topicInput.topicId
       }
     } else {
       this.topicRequest.topicRatingAndRecommendation = {
         rating: 0,
-        recommendation: "",
+        topicLevelRecommendation: [{
+          recommendationId: undefined,
+          recommendation: "",
+          impact: "",
+          effort: "",
+          deliveryHorizon: ""
+        }],
         topicId: this.topicInput.topicId
       }
     }
   }
+
 
   private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
@@ -257,7 +280,7 @@ export class TopicLevelAssessmentComponent implements OnInit {
     let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.topicRatingAndRecommendation) {
-      this.averageRating.rating =  this.topicRequest.topicRatingAndRecommendation.rating
+      this.averageRating.rating = this.topicRequest.topicRatingAndRecommendation.rating
       this.averageRating.topicId = this.topicInput.topicId
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
@@ -285,6 +308,9 @@ export class TopicLevelAssessmentComponent implements OnInit {
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
-
-

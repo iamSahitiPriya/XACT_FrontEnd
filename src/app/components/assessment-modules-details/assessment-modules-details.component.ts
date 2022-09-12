@@ -2,9 +2,9 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryStructure} from "../../types/categoryStructure";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
@@ -27,7 +27,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
   templateUrl: './assessment-modules-details.component.html',
   styleUrls: ['./assessment-modules-details.component.css']
 })
-export class AssessmentModulesDetailsComponent implements OnInit {
+export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   moduleName: string
   assessment: AssessmentStructure
   category: CategoryStructure[] = []
@@ -42,6 +42,8 @@ export class AssessmentModulesDetailsComponent implements OnInit {
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   answer: Observable<AssessmentStructure>
+  private destroy$: Subject<void> = new Subject<void>();
+
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>, private dialog: MatDialog) {
     this.answer = this.store.select(fromReducer.getAssessments)
@@ -57,8 +59,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
     if (direction < 0 && this.topics.length - this.selectedIndex > 1) {
       const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex + 1));
       element && element.scrollIntoView();
-    }
-    else if (direction > 0 && this.selectedIndex > 0) {
+    } else if (direction > 0 && this.selectedIndex > 0) {
       const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex - 1));
       element && element.scrollIntoView();
     }
@@ -80,7 +81,7 @@ export class AssessmentModulesDetailsComponent implements OnInit {
 
 
   private getAssessment() {
-    this.answer.subscribe((data) => {
+    this.answer.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       if (data !== undefined) {
         this.assessment = data
       }
@@ -88,15 +89,20 @@ export class AssessmentModulesDetailsComponent implements OnInit {
   }
 
   private getCategories() {
-    this.appService.getCategories().subscribe(data => {
+    this.appService.getCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
       categories = data
       valueEmitter.next(categories)
     })
-    valueEmitter.subscribe(data => {
+    valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
       if (this.category.length > 0)
         this.navigate(this.category[0].modules[0])
 
     })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

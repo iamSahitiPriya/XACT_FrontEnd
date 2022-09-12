@@ -4,7 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.header-container{
+.header-container {
   padding-left: 5%;
   padding-right: 4%;
 }
@@ -18,46 +18,48 @@ table {
   padding-right: 4%;
 
 }
+
 ::ng-deep .mat-sort-header-container {
   outline: none !important;
-  border-bottom: 0  !important;
+  border-bottom: 0 !important;
   text-decoration: none !important;
 }
 
-td.mat-cell{
+td.mat-cell {
   font-family: 'Inter', sans-serif;
   text-transform: capitalize;
   font-size: 16px;
   padding-top: 17px;
 }
 
-.mat-column-assessmentName{
+.mat-column-assessmentName {
   width: 30%;
   text-align: left;
   text-transform: capitalize;
   flex-basis: 34%;
 }
-.mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky
-{
+
+.mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky {
   overflow-wrap: break-word;
 }
-.mat-column-organisationName{
+
+.mat-column-organisationName {
   width: 20%;
   text-align: left;
   flex-basis: 27%;
 }
 
-.mat-column-assessmentStatus{
-  width:20%;
+.mat-column-assessmentStatus {
+  width: 20%;
   text-align: left;
 }
 
-.mat-column-updateAt{
+.mat-column-updateAt {
   width: 10%;
   flex-basis: 7%;
 }
 
-.heading{
+.heading {
   padding-left: 3%;
   text-align: left;
   letter-spacing: 0.44px;
@@ -75,7 +77,7 @@ tr.mat-row {
   justify-content: space-between;
   margin-top: 20px;
   background-color: #ffffff;
-  box-shadow: 0 4px 3px 2px #C3C3C324, 0 1px 1px 0  #C3C3C324, 0 1px 3px  2px #C3C3C324, 0 4px 3px 0 #C3C3C324;
+  box-shadow: 0 4px 3px 2px #C3C3C324, 0 1px 1px 0 #C3C3C324, 0 1px 3px 2px #C3C3C324, 0 4px 3px 0 #C3C3C324;
   overflow: hidden;
   height: 58px;
 }
@@ -87,7 +89,7 @@ tr.mat-row {
   padding-top: 16px;
 }
 
-th{
+th {
   font-size: 17px;
   color: white;
   font-family: 'Inter', sans-serif;
@@ -95,7 +97,7 @@ th{
   padding-top: 19px;
 }
 
-tr:nth-child(even){
+tr:nth-child(even) {
   background-color: #F4FAFC
 }
 

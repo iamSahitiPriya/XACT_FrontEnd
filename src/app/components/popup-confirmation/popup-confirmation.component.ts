@@ -7,12 +7,13 @@ import {data_local} from "../../../assets/messages";
   templateUrl: './popup-confirmation.component.html',
   styleUrls: ['./popup-confirmation.component.css']
 })
-export class PopupConfirmationComponent{
+export class PopupConfirmationComponent {
   text: string;
 
   buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
 
-  constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) { }
+  constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) {
+  }
 
   cancelChanges() {
     this.dialogRef.close(1)

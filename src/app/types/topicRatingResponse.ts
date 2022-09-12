@@ -1,4 +1,4 @@
-export interface TopicRatingResponse{
-  "topicId":number,
-  "rating"?:number
+export interface TopicRatingResponse {
+  "topicId": number,
+  "rating"?: number
 }

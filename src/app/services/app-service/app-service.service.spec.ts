@@ -10,11 +10,11 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
+import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
+import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -66,7 +66,14 @@ describe('AppServiceService', () => {
           topicRatingAndRecommendation: {
             topicId: 1,
             rating: 1,
-            recommendation: "some text"
+            topicLevelRecommendation: [
+              {
+                recommendation: "some text",
+                impact: "HIGH",
+                effort: "LOW",
+                deliveryHorizon: "some text"
+              }
+            ],
           }
         },
 
@@ -104,13 +111,45 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular answer", () => {
-    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes:"" }
+    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes: ""}
     expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
   });
 
   it("should update particular topic Recommendation", () => {
-    let dummyTopicRecommendation: TopicRecommendation = {assessmentId: 1, topicId: 1, recommendation: "abc"}
-    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
+    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
+      assessmentId: 1, topicId: 1,
+      topicLevelRecommendation:
+        {
+          recommendationId: 1,
+          recommendation: "some text"
+
+        }
+    }
+    expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
+  });
+
+  it("should update particular topic Recommendation fields", () => {
+    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
+      assessmentId: 1, topicId: 1,
+      topicLevelRecommendation:
+        {
+          recommendationId: 1,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+    }
+    expect(service.saveTopicRecommendationFields(dummyTopicRecommendation)).toBeTruthy()
+  });
+
+
+  it("should delete topic recommendation", () => {
+    let assessmentId = 1;
+    let topicId = 1;
+    let recommendationId = 1
+
+    expect(service.deleteTopicRecommendation(assessmentId, topicId, recommendationId)).toBeTruthy()
   });
 
   it("should update particular topic Rating", () => {
@@ -119,7 +158,11 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Recommendation", () => {
-    let dummyParameterRecommendation: ParameterRecommendation = {assessmentId: 1, parameterId: 1, recommendation: "abc"}
+    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 1,
+      parameterId: 1,
+      parameterLevelRecommendation: {recommendationId: 1, recommendation: ""}
+    }
     expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
 
@@ -129,6 +172,29 @@ describe('AppServiceService', () => {
   });
   it("should get report data for chart summary", () => {
     expect(service.getReportData(1)).toBeTruthy()
+  });
+
+  it("should delete parameter recommendation", () => {
+    let assessmentId = 1;
+    let parameterId = 1;
+    let recommendationId = 1
+
+    expect(service.deleteParameterRecommendation(assessmentId, parameterId, recommendationId)).toBeTruthy()
+  });
+
+  it("should update particular parameter Recommendation fields", () => {
+    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
+      assessmentId: 1, parameterId: 1,
+      parameterLevelRecommendation:
+        {
+          recommendationId: 1,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+    }
+    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
 
 });

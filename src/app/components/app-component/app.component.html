@@ -7,7 +7,7 @@
 
 <div *ngIf="(authService.authState$ | async)?.isAuthenticated">
 
-  <app-header></app-header>
+  <app-header [userRole]="userRole"></app-header>
   <br/>
 
 </div>

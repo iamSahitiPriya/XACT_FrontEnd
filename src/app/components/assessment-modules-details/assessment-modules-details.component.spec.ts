@@ -24,12 +24,12 @@ import {AssessmentQuestionComponent} from "../assessment-parameter-questions/ass
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import {ParameterLevelRatingAndRecommendationComponent} from "../parameter-level-rating-and-recommendation/parameter-level-rating-and-recommendation.component";
+import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
 import {OKTA_AUTH} from "@okta/okta-angular";
 // import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {TopicLevelRatingAndRecommendationComponent} from "../topic-level-rating-and-recommendation/topic-level-rating-and-recommendation.component";
+import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-rating.component";
 import {reducers} from "../../reducers/reducers";
 
 class MockAppService {
@@ -122,12 +122,12 @@ describe('AssessmentModulesDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingAndRecommendationComponent,TopicLevelRatingAndRecommendationComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
-        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule,MatSnackBarModule,
+        MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
-        ]),  StoreModule.forRoot(reducers)],
+        ]), StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         // {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -227,19 +227,33 @@ describe('AssessmentModulesDetailsComponent', () => {
 
   it('Tab change should move forward', () => {
     // @ts-ignore
-    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:1};
-    component.selectedIndex=0;
-    component.topics = [{topicId:1,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},{topicId:2,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},
-      {topicId:3,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]}]
+    const tabChangeEvent: MatTabChangeEvent = {tab: undefined, index: 1};
+    component.selectedIndex = 0;
+    component.topics = [{
+      topicId: 1,
+      topicName: "hello",
+      assessmentLevel: "topic",
+      parameters: [],
+      module: 1,
+      references: []
+    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
   it('Tab change should move backward', () => {
     // @ts-ignore
-    const tabChangeEvent:MatTabChangeEvent = {tab: undefined, index:1};
-    component.selectedIndex=2;
-    component.topics = [{topicId:1,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},{topicId:2,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]},
-      {topicId:3,topicName:"hello",assessmentLevel:"topic",parameters:[],module:1,references:[]}]
+    const tabChangeEvent: MatTabChangeEvent = {tab: undefined, index: 1};
+    component.selectedIndex = 2;
+    component.topics = [{
+      topicId: 1,
+      topicName: "hello",
+      assessmentLevel: "topic",
+      parameters: [],
+      module: 1,
+      references: []
+    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
