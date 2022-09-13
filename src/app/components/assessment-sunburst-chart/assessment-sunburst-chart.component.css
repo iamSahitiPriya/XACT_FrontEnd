@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+
 .heading{
   display: flex;
   justify-content: center;
-  font-size: 30px;
-  font-family: Inter;
+  font-size: 25px;
+  font-family: Inter,'sans-serif';
   color: #043D4E;
 
 }
@@ -16,7 +19,7 @@
   align-items: center;
   flex-direction: column;
   padding-right: 200px;
-  padding-top: 15px;
+  padding-top: 30px;
 }
 ::ng-deep .colorTheme .mat-form-field-appearance-fill .mat-form-field-flex {
   background-color: transparent !important;
@@ -31,7 +34,7 @@
   letter-spacing: normal;
   color: #043D4E;
   margin-left: 1em;
-  font-size: 25px;
+  font-size: 22px;
 
 }
 
