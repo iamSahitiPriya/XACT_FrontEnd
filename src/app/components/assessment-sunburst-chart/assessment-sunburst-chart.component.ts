@@ -318,9 +318,9 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     return "translate(" + 0 + "," + d.depth * (breadCrumbPoints.d) + ")";
   }
 
-  wrap(text: any, width: any,lineHeight:any, adjustPadding:any) {
+  wrap(content: any, width: any,lineHeight:any, adjustPadding:any) {
 
-    text.each(function (this: any) {
+    content.each(function (this: any) {
       var text = d3.select(<any>this),
         words = text.text().split(/\s+/).reverse(),
         word,
