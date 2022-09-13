@@ -12,7 +12,6 @@ import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
-import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 
@@ -216,4 +215,20 @@ describe('AppServiceService', () => {
     expect(service.updateCategory(categoryRequest)).toBeTruthy()
   });
 
+  it("should get the assessment data for admin", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.getAdminAssessment(adminAssessmentRequest)).toBeTruthy()
+  });
+  it("should get the report for assessment data", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.generateAdminReport(adminAssessmentRequest)).toBeTruthy()
+  });
 });

@@ -38,17 +38,13 @@ import {AssessmentModulesComponent} from './components/assessment-modules/assess
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  AssessmentModulesDetailsComponent
-} from './components/assessment-modules-details/assessment-modules-details.component';
+import {AssessmentModulesDetailsComponent} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-parameter-questions/assessment-question.component';
-import {
-  TopicLevelAssessmentComponent
-} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
+import {TopicLevelAssessmentComponent} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
@@ -61,19 +57,13 @@ import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
 import {ProgressComponentComponent} from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {
-  AssessmentAverageRatingComponent
-} from './components/assessment-average-rating/assessment-average-rating.component';
+import {AssessmentAverageRatingComponent} from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
-import { AssessmentSunburstChartComponent } from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
+import {AssessmentSunburstChartComponent} from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
 import {MatRadioModule} from "@angular/material/radio";
-import {
-  TopicLevelRecommendationComponent
-} from './components/topic-level-recommendation/topic-level-recommendation.component';
-import {
-  ParameterLevelRecommendationComponent
-} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
+import {ParameterLevelRecommendationComponent} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 import {AdminConsoleComponent} from './components/admin/admin-console/admin-console.component';
 import {AdminCategoryComponent} from './components/admin/admin-category/admin-category.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";

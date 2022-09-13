@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
 <mat-card class="parameterRecommendation"
           [ngStyle]="{'background-color': parameterIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="row">
@@ -48,8 +52,8 @@
           </mat-radio-group>
         </div>
       </div>
-      <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
       <div class="col-md-3 deliveryHorizon">Delivery Horizon
+        <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
         <div class="input1">
           <mat-radio-group
             id="recommendationElement_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"

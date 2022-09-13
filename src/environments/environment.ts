@@ -22,7 +22,6 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI:"/v1/assessments/parameterRecommendation",
   SAVE_TOPIC_RATING_URI:"/v1/assessments/topicRating",
   SAVE_PARAMETER_RATING_URI:"/v1/assessments/parameterRating",
-  REPORT_DATA_URI:"/v1/reports/sunburst",
   VERSION: appPackage && appPackage.version,
   ROLE_URI:"/v1/users/roles",
   GET_ADMIN_ASSESSMENTS: "/v1/assessments/admin",
@@ -34,4 +33,5 @@ export const environment = {
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
   TIMEOUT: 12000, // 2 min
+  REPORT_DATA_URI:"/v1/reports/sunburst",
 };

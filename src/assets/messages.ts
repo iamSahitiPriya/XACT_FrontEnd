@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 export const data_local =
   {
     HOME: {
@@ -142,12 +146,13 @@ export const data_local =
       DOWNLOAD_REPORT:"Download Report",
       DASHBOARD_TITLE:"DashBoard",
       DOWNLOAD_REPORT_LABEL:"Click to download report",
-      DROPDOWN_LABEL : "Click to select the days range"
+      DROPDOWN_LABEL : "Click to select the days range",
+      ERROR_MESSAGE: "Server error to access data"
     },
     DROPDOWN_OPTION_TEXT:{
       LAST_WEEK :"Last 7 Days",
       LAST_MONTH:"Last 30 Days",
-      LAST_YEAR:"Last 90 Days",
-      LAST_QUARTER:"Last 365 Days"
+      LAST_QUARTER:"Last 90 Days",
+      LAST_YEAR:"Last 365 Days"
     }
   };

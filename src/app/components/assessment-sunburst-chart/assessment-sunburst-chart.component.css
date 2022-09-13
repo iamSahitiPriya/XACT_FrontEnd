@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+ @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .heading{
   display: flex;

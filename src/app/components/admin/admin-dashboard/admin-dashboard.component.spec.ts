@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {
   ComponentFixture,
   discardPeriodicTasks,
@@ -23,6 +27,7 @@ import {AdminAssessmentRequest} from "../../../types/Admin/adminAssessmentReques
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentResponse";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockAppService {
  adminAssessmentResponse : AdminAssessmentResponse={
@@ -50,7 +55,7 @@ describe('AdminDashboardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminDashboardComponent ],
-      imports:[MatIconModule, MatCardModule,HttpClientModule,MatSnackBarModule,MatFormFieldModule,MatSelectModule,MatOptionModule,BrowserAnimationsModule,NoopAnimationsModule,FormsModule,MatDatepickerModule,MatNativeDateModule],
+      imports:[MatIconModule, MatCardModule,HttpClientModule,MatSnackBarModule,MatFormFieldModule,MatTooltipModule,MatSelectModule,MatOptionModule,BrowserAnimationsModule,NoopAnimationsModule,FormsModule,MatDatepickerModule,MatNativeDateModule],
       providers:[{provide : AppServiceService, useClass :MockAppService}],
     })
 

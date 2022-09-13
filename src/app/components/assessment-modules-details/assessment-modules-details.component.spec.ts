@@ -26,7 +26,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
 import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
-import {OKTA_AUTH} from "@okta/okta-angular";
 // import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-rating.component";

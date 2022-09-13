@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {data_local} from "../../../assets/messages";

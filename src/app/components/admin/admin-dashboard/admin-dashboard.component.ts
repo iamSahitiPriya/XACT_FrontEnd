@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -166,7 +170,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.adminAssessmentResponse.totalActiveAssessments = _data.totalActiveAssessments;
         this.adminAssessmentResponse.totalCompleteAssessments = _data.totalCompleteAssessments;
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError(data_local.ADMIN_DASHBOARD_LABEL.ERROR_MESSAGE, "Close");
       }
     })
   }

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssessmentSunburstChartComponent} from './assessment-sunburst-chart.component';
@@ -118,8 +122,8 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]}
     component.selectedValue = d3.interpolatePurples;
-    component.onClick(null)
-    expect(component.selectedValue).toBe(null);
+    component.onClick("ThreatTheme")
+    expect(component.selectedValue).toBe("ThreatTheme");
   })
 
   it('should initialize breadCrumb', () => {
