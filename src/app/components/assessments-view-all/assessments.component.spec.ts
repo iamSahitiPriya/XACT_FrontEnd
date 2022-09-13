@@ -15,8 +15,6 @@ import {MatTableModule} from "@angular/material/table";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable, of} from "rxjs";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {FormBuilder, FormsModule} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -97,7 +95,7 @@ describe('AssessmentsComponent', () => {
           provide: AppServiceService,
           useClass: MockAppService
         },
-        {provide: OKTA_AUTH, useValue: oktaAuth},
+        // {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: MatDialog, useClass: MockDialog}
       ]
     })

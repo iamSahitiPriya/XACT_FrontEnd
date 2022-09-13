@@ -102,7 +102,7 @@ html, body {
 }
 
 .topicTab {
-  padding-left: 350px;
+  padding-left: 320px;
   overflow: scroll;
   position: absolute;
   margin-top: -60px;
@@ -229,8 +229,47 @@ html, body {
 
 .sideBar {
   height: 640px;
+  width: 288px;
   overflow: auto;
   margin-left: -12px;
+}
+@media screen and (max-width: 1000px){
+  .sideBar{
+    width: 235px;
+  }
+  .topicTab {
+    padding-left: 238px;
+    overflow: scroll;
+    position: absolute;
+    margin-top: -60px;
+  }
+  .mat-raised-button {
+    font-size: 16px;
+  }
+  .mat-expansion-panel-header {
+    font-size: 17px;
+    padding: 0px 73px 0px 36px;
+  }
+  .moduleCard {
+    font-size: 15px;
+    padding-left: 40px;
+  }
+  ::ng-deep .mat-tab-label {
+    font-size: 15px;
+  }
+  .mat-expansion-panel-header-title {
+    font-size: 15px;
+  }
+  .moduleHead{
+    width: 246px;
+  }
+  .mat-tab-label{
+    min-width: 115px;
+    font-size: 13px;
+    padding: -1px;
+  }
+
+
 }
 
 .menu-bar {

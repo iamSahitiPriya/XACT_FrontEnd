@@ -46,6 +46,9 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
+  summaryTitle = data_local.SUMMARY_REPORT.TITLE;
+  summaryTitleToolTip = data_local.SUMMARY_REPORT.TOOLTIP;
+
   private destroy$: Subject<void> = new Subject<void>();
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
 

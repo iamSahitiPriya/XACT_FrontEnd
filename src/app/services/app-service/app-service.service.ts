@@ -13,6 +13,7 @@ import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
 import {CategoryResponse} from "../../types/categoryResponse";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
@@ -111,6 +112,10 @@ export class AppServiceService {
 
   getUserRole() {
     return this.http.get(environment.BaseURI + environment.ROLE_URI);
+  }
+
+  getReportData(assessmentId:number):Observable<ReportDataStructure>{
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/"+assessmentId);
   }
 
 

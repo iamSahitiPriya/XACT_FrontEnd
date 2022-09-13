@@ -12,6 +12,7 @@ import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 
@@ -168,6 +169,9 @@ describe('AppServiceService', () => {
   it("should update particular parameter Rating", () => {
     let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
+  });
+  it("should get report data for chart summary", () => {
+    expect(service.getReportData(1)).toBeTruthy()
   });
 
   it("should delete parameter recommendation", () => {

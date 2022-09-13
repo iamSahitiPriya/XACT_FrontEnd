@@ -66,6 +66,7 @@ import {
 } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
+import { AssessmentSunburstChartComponent } from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {
   TopicLevelRecommendationComponent
@@ -102,6 +103,12 @@ export const appRoutes: Routes = [
   {
     path: 'assessment/:assessmentId',
     component: AssessmentModulesDetailsComponent,
+    pathMatch: 'full',
+    canActivate: [OktaAuthGuard]
+  },
+  {
+    path: 'assessment/:assessmentId/charts',
+    component: AssessmentSunburstChartComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
@@ -147,6 +154,8 @@ export const appRoutes: Routes = [
     AdminDashboardComponent,
     TopicLevelRecommendationComponent,
     ParameterLevelRecommendationComponent,
+    AdminConsoleComponent,
+    AssessmentSunburstChartComponent,
     AdminCategoryComponent,
   ],
 

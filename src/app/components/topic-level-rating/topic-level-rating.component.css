@@ -82,7 +82,7 @@ p {
 .scoreReference {
   min-height: 100px;
   height: auto;
-  max-height: 250px;
+  max-height:1000px;
   font: normal normal normal 16px/24px 'Inter', sans-serif;
   font-family: 'Inter', sans-serif;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -222,5 +222,13 @@ p {
 
 #addRecommendation {
   color: #4ba1ac;
+}
+@media screen and (max-width: 1000px) {
+  .scoreReference{
+    font-size: 14px;
+  }
+  .scoreHeading{
+    font-size: 17px;
+  }
 }
 
