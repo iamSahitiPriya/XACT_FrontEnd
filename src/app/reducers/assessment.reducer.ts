@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import {
   getAssessmentData,

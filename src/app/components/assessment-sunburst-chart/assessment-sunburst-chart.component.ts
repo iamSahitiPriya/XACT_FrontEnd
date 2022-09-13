@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import {AppServiceService} from "../../services/app-service/app-service.service";

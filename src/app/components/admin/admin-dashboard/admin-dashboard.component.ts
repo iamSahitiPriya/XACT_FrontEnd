@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";

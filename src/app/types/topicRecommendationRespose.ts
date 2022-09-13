@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 export interface TopicRecommendationResponse {
   "assessmentId": number;
   "topicId": number;

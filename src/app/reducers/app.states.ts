@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {AssessmentStructure} from "../types/assessmentStructure";
 import {TopicRatingResponse} from "../types/topicRatingResponse";
 
