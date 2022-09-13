@@ -166,7 +166,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.adminAssessmentResponse.totalActiveAssessments = _data.totalActiveAssessments;
         this.adminAssessmentResponse.totalCompleteAssessments = _data.totalCompleteAssessments;
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError(data_local.ADMIN_DASHBOARD_LABEL.ERROR_MESSAGE, "Close");
       }
     })
   }
