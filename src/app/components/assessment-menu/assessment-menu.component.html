@@ -40,8 +40,8 @@
       </button>
 
       <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
-        <mat-icon>exposure</mat-icon>
-        <span>{{summaryTitle}}</span>
+        <img src="../../assets/summary-icon/Icon material-multiline-chart.svg" alt="summary icon" class="summary"/>
+        &nbsp; &nbsp;<span id="chartSummary">{{summaryTitle}}</span>
       </button>
 
     </mat-menu>
