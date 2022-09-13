@@ -67,7 +67,7 @@ describe('AssessmentSunburstChartComponent', () => {
             name:"ass1",rating:3,children:[{
               name:"ass2",rating:2,children:[{
                 name:"ass3",rating:3,children:[{
-                  name:"ass3",value:1
+                  name:"This is at parameter level Assessment",value:1
                   }]
                 }]
               }]

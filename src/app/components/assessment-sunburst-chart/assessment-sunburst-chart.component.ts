@@ -148,17 +148,17 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .text((d: any) => d.data.name)
       .style("font", "7px Inter")
   .call(this.wrap, 75,0.0004, 0.23);
-    ;
 
 
-    const parent = vis.append("circle")
+
+   vis.append("circle")
       .datum(root)
       .attr("r", radius)
       .attr("fill", "none")
       .attr("pointer-events", "all")
       .on("click", clicked)
 
-    function clicked(event: any, p: any) {
+    function clicked(_event: any, p: any) {
       d3.select("#chart").select("#container").select("circle").datum(p.parent || root);
 
       root.each((d: any) => d.target = {
@@ -205,7 +205,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
 
   }
 
-  onMouseleave(d: any) {
+  onMouseleave(_d: any) {
     d3.select("#trail")
       .style("visibility", "hidden");
     d3.selectAll("path")
@@ -223,7 +223,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     return path;
   }
 
-  initializeBreadcrumbTrail(id: any, color: any) {
+  initializeBreadcrumbTrail(_id: any, color: any) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
@@ -238,7 +238,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .attr("id", "ratingText")
   }
 
-  breadcrumbFigure(d: any, i: any) {
+  breadcrumbFigure(_d: any, i: any) {
     let breadCrumbPoints = {
       s: 20, t: 10, d: 105, w: 310, h: 80
     };
@@ -395,7 +395,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     }
   }
 
-  OnMouseOver = (event: any, d: any) => {
+  OnMouseOver = (_event: any, d: any) => {
     let percentageText = 0;
     if (!d.data.rating || d.data.value == 0) {
       percentageText = d.data.value;
