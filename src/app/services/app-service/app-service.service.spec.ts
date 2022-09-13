@@ -216,4 +216,20 @@ describe('AppServiceService', () => {
     expect(service.updateCategory(categoryRequest)).toBeTruthy()
   });
 
+  it("should get the assessment data for admin", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.getAdminAssessment(adminAssessmentRequest)).toBeTruthy()
+  });
+  it("should get the report for assessment data", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.generateAdminReport(adminAssessmentRequest)).toBeTruthy()
+  });
 });
