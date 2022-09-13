@@ -33,4 +33,5 @@ export const environment = {
   GET_ADMIN_ASSESSMENTS: "/v1/assessments/admin",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
+  REPORT_DATA_URI:"/v1/reports/sunburst",
 };
