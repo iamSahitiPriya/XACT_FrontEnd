@@ -154,5 +154,17 @@ export const data_local =
       LAST_MONTH:"Last 30 Days",
       LAST_QUARTER:"Last 90 Days",
       LAST_YEAR:"Last 365 Days"
+    },
+    RECOMMENDATION_TEXT:{
+      IMPACT_LABEL:"Impact",
+      EFFORT:"Effort",
+      DELIVERY_HORIZON:"Delivery Horizon",
+      DELETE:"Delete",
+      IMPACT_1:"High",
+      IMPACT_2:"Medium",
+      IMPACT_3:"Low",
+      DH_1:"Now",
+      DH_2:"Next",
+      DH_3:"Later"
     }
   };

@@ -4,7 +4,7 @@
 
 <div class="header">
   <span class="dashBoardText">DashBoard</span>
-  <span class="dropdown">
+  <div class="dropdown">
     <mat-form-field appearance="outline">
 <!--      <mat-drawer-container>-->
         <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
@@ -14,10 +14,10 @@
           <mat-option [value]="3">{{last_year}}</mat-option>
         </mat-select>
     </mat-form-field>
-  </span>
+  </div>
 </div>
-<div class="assessmentStatus">
-<mat-card class="Total">
+<div class="row assessmentStatus">
+<mat-card class="col-md-3 Total">
   <mat-card-title>{{Total_Assessment}}</mat-card-title>
   <hr>
   <mat-card-content>
@@ -27,7 +27,7 @@
     </div>
   </mat-card-content>
 </mat-card>
-<mat-card class="Active">
+<mat-card class="col-md-3 Active">
   <mat-card-title>{{Active_Assessment}}</mat-card-title>
   <hr>
   <mat-card-content>
@@ -37,7 +37,7 @@
     </div>
   </mat-card-content>
 </mat-card>
-<mat-card class="Completed">
+<mat-card class="col-md-3 Completed">
   <mat-card-title>{{Complete_Assessment}}</mat-card-title>
   <hr>
   <mat-card-content>
@@ -47,7 +47,7 @@
     </div>
   </mat-card-content>
 </mat-card>
-  <div class="downloadButton" >
+  <div class="col-md-3 downloadButton" >
     <button class="button" (click)="downloadReport()" id="generate-report" [matTooltip]=download>
       <mat-icon class="downloadIcon">save_alt_icon</mat-icon>
       <span class="text">{{download_label}}</span></button>
