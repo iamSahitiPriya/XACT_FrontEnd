@@ -23,7 +23,7 @@
   </div>
   <mat-card-content>
     <div class="row parent">
-      <div class="col-md-3 impact">Impact
+      <div class="col-md-3 impact">{{Impact}}
         <div *ngIf="recommendation.impact"></div>
         <div class="radio1">
           <mat-radio-group
@@ -31,13 +31,13 @@
             name="recommendationText_topic{{recommendation.recommendationId}}_impact"
             [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="inputChange()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
-            <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>
-            &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
-            &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
+            <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW">{{Low}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
-      <div class="col-md-3 effect">Effort
+      <div class="col-md-3 effect">{{Effort}}
         <div *ngIf="recommendation.effort"></div>
         <div class="radio2">
           <mat-radio-group
@@ -45,14 +45,14 @@
             name="recommendationText_topic{{recommendation.recommendationId}}_effort"
             [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="inputChange()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
-            <mat-radio-button value="HIGH">&nbsp;High</mat-radio-button>&nbsp;
-            &nbsp;<mat-radio-button value="MEDIUM">Medium</mat-radio-button>
-            &nbsp;<mat-radio-button value="LOW">Low</mat-radio-button>
+            <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>&nbsp;
+            &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW">{{Low}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
 
-      <div class="col-md-3 deliveryHorizon">Delivery Horizon
+      <div class="col-md-3 deliveryHorizon">{{Delivery_Horizon}}
         <div *ngIf="recommendation.deliveryHorizon"></div>
         <div class="input1">
           <mat-radio-group
@@ -60,16 +60,16 @@
             name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
             [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option" (change)="inputChange()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
-            <mat-radio-button value="NOW">&nbsp;Now</mat-radio-button>&nbsp;
-            &nbsp;<mat-radio-button value="NEXT">Next</mat-radio-button>
-            &nbsp;<mat-radio-button value="LATER">Later</mat-radio-button>
+            <mat-radio-button value="NOW">&nbsp;{{Now}}</mat-radio-button>&nbsp;
+            &nbsp;<mat-radio-button value="NEXT">{{Next}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LATER">{{Later}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
       <div class="col-md-3 delete-button">
         <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'" >
            <mat-icon>delete</mat-icon>
-          <span style="padding-top:2px;padding-left: 3px">Delete</span>
+          <span style="padding-top:2px;padding-left: 3px">{{Delete}}</span>
         </button>
       </div>
     </div>

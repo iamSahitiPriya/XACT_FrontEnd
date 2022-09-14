@@ -50,6 +50,16 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
+  Impact = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
+  Effort=data_local.RECOMMENDATION_TEXT.EFFORT;
+  Delivery_Horizon =data_local.RECOMMENDATION_TEXT.DELIVERY_HORIZON;
+  High = data_local.RECOMMENDATION_TEXT.IMPACT_1;
+  Medium=data_local.RECOMMENDATION_TEXT.IMPACT_2;
+  Low=data_local.RECOMMENDATION_TEXT.IMPACT_3;
+  Now=data_local.RECOMMENDATION_TEXT.DH_1;
+  Next=data_local.RECOMMENDATION_TEXT.DH_2;
+  Later =data_local.RECOMMENDATION_TEXT.DH_3;
+  Delete =data_local.RECOMMENDATION_TEXT.DELETE;
 
   assessmentStatus: string;
   parameterRecommendationResponse1: Observable<AssessmentStructure>;
