@@ -32,7 +32,7 @@
       <button (click)="openAssessment(content)" [matTooltip]=manageAssessmentToolTip mat-menu-item
               [disabled]="assessment.assessmentStatus ==='Completed'">
         <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
-        &nbsp; &nbsp;<span id="createAssessment">{{manageAssessmentTitle}}</span>
+        &nbsp; &nbsp; &nbsp; &nbsp;<span id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
@@ -40,8 +40,8 @@
       </button>
 
       <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
-        <img src="../../assets/summary-icon/Icon material-multiline-chart.svg" alt="summary icon" class="summary"/>
-        &nbsp; &nbsp;<span id="chartSummary">{{summaryTitle}}</span>
+        <mat-icon class="chartIcon"> multiline_chart</mat-icon>
+         <span id="chartSummary">{{summaryTitle}}</span>
       </button>
 
     </mat-menu>
