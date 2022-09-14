@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ActivatedRoute} from "@angular/router";
@@ -15,7 +15,7 @@ import {Subject, takeUntil} from "rxjs";
 
 
 interface colorScheme {
-  value?: (t: number) => string,
+  value?: any,
   viewValue: string
 }
 
@@ -25,11 +25,11 @@ interface colorScheme {
   styleUrls: ['./assessment-sunburst-chart.component.css']
 })
 
-export class AssessmentSunburstChartComponent implements OnInit {
+export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   pageTitle = data_local.SUMMARY_REPORT.TITLE;
   assessmentId: number;
   data: ReportDataStructure;
-  selectedValue: (t: number) => string | null = d3.interpolateSpectral;
+  selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
 
 
@@ -40,7 +40,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     {value: d3.interpolateWarm, viewValue: 'Warm Theme'},
     {value: d3.interpolateBlues, viewValue: 'All Blue'},
     {value: d3.interpolateSpectral, viewValue: 'Spectral Colors'},
-    {viewValue: 'Show Threats'}
+    {value:"ThreatTheme",viewValue: 'Show Threats'}
   ];
 
   ngOnInit() {
@@ -99,14 +99,14 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
-      .attr('viewBox', '0 0 ' + 580 + ' ' + 920)
+      .attr('viewBox', '0 0 ' + 580 + ' ' + 850)
       .style("font", "10px sans-serif")
       .classed("svg-content-responsive", true);
 
 
     const vis = svg.append("svg:g")
       .attr("id", "container")
-      .attr("transform", `translate(290,400)`);
+      .attr("transform", `translate(290,425)`);
 
     d3.select("#container").on("mouseleave", this.onMouseleave);
 
@@ -117,7 +117,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .enter().append("path")
       .attr("fill", (d: any) => {
         while (d.depth > 1) d = d.parent;
-        return color(d.data.name);
+        return <string>color(d.data.name);
       })
       .attr("fill-opacity", (d: any) => arcVisible(d.current) ? (((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7) : 0)
       .attr("d", (d: any) => {
@@ -142,24 +142,23 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .data(root.descendants().slice(1))
       .enter().append("text")
       .attr("x", 0)
-      .attr("dy", "0.09px")
+      .attr("dy", "0.03px")
       .attr("fill-opacity", (d: any) => +labelVisible(d.current))
       .attr("transform", (d: any) => labelTransform(d.current))
-      .style("overflow-y", "auto")
       .text((d: any) => d.data.name)
-      .style("font", "7.1px Inter")
-      .call(this.wrap, 75,0.08);
-    ;
+      .style("font", "7px Inter")
+  .call(this.wrap, 75,0.0004, 0.23);
 
 
-    const parent = vis.append("circle")
+
+   vis.append("circle")
       .datum(root)
       .attr("r", radius)
       .attr("fill", "none")
       .attr("pointer-events", "all")
       .on("click", clicked)
 
-    function clicked(event: any, p: any) {
+    function clicked(_event: any, p: any) {
       d3.select("#chart").select("#container").select("circle").datum(p.parent || root);
 
       root.each((d: any) => d.target = {
@@ -193,7 +192,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     }
 
     function labelVisible(d: any) {
-      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.07;
     }
 
     function labelTransform(d: any) {
@@ -206,7 +205,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
 
   }
 
-  onMouseleave(d: any) {
+  onMouseleave(_d: any) {
     d3.select("#trail")
       .style("visibility", "hidden");
     d3.selectAll("path")
@@ -224,7 +223,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     return path;
   }
 
-  initializeBreadcrumbTrail(id: any, color: any) {
+  initializeBreadcrumbTrail(_id: any, color: any) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
@@ -239,7 +238,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
       .attr("id", "ratingText")
   }
 
-  breadcrumbFigure(d: any, i: any) {
+  breadcrumbFigure(_d: any, i: any) {
     let breadCrumbPoints = {
       s: 20, t: 10, d: 105, w: 310, h: 80
     };
@@ -272,16 +271,17 @@ export class AssessmentSunburstChartComponent implements OnInit {
     entering.append("polygon")
       .attr("points", this.breadcrumbFigure)
 
-    entering.append("svg:text")
+    entering.
+    append("svg:text")
       .attr("x", (breadCrumbPoints.w + breadCrumbPoints.t) / 2)
       .attr("y", breadCrumbPoints.h / 1.7)
-      .attr("dy", "0.88em")
+      .attr("dy", "0.98em")
       .attr("text-anchor", "middle")
       .attr("fill", "black")
       .attr("fill-opacity", 1)
       .text(this.getDataName)
-      .style("font", "14px Inter")
-      .call(this.wrap, 300,1.4);
+      .style("font", "15px Inter")
+      .call(this.wrap, 300,0.8,0);
 
     g.exit().remove();
 
@@ -318,9 +318,9 @@ export class AssessmentSunburstChartComponent implements OnInit {
     return "translate(" + 0 + "," + d.depth * (breadCrumbPoints.d) + ")";
   }
 
-  wrap(text: any, width: any,lineHeight:any) {
+  wrap(content: any, width: any,lineHeight:any, adjustPadding:any) {
 
-    text.each(function (this: any) {
+    content.each(function (this: any) {
       var text = d3.select(<any>this),
         words = text.text().split(/\s+/).reverse(),
         word,
@@ -328,24 +328,27 @@ export class AssessmentSunburstChartComponent implements OnInit {
         lineNumber = 0,
         y = text.attr("y"),
         x = text.attr("x"),
-        dy = parseFloat(text.attr("dy"));
-      if(words.length > 6){
-        dy = dy - 0.55;
+        dy = parseFloat(text.attr("dy")),
+        dyAdjust = 0;
+        if(words.length>3) {
+        dyAdjust = words.length / 1.95;
       }
-      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
+      dy = dy - (adjustPadding * dyAdjust)
+      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id",lineNumber);
 
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
+        dy = parseFloat(text.attr("dy"));
         var len = tspan.node()?.getComputedTextLength();
         if (<any>len > width) {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 1.25 + "em").text(word);
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 0.85 + "em").text(word);
         }
       }
-      // tspan.select("0").selectAll("tspan").attr("dy", 10 * lineNumber + "em")
+
 
     });
   }
@@ -353,7 +356,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
 
   onClick(val: any) {
     this.selectedValue = val
-    if (this.selectedValue == null) {
+    if (this.selectedValue == "ThreatTheme") {
       d3.select("#trail")
         .attr("fill", "orange")
 
@@ -392,7 +395,7 @@ export class AssessmentSunburstChartComponent implements OnInit {
     }
   }
 
-  OnMouseOver = (event: any, d: any) => {
+  OnMouseOver = (_event: any, d: any) => {
     let percentageText = 0;
     if (!d.data.rating || d.data.value == 0) {
       percentageText = d.data.value;
