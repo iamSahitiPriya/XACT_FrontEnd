@@ -34,7 +34,12 @@ class MockAppService {
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    return of(topicRating)
+    if(topicRating.topicId === 0) {
+      return of(topicRating)
+    } else {
+      return throwError("Error!")
+    }
+    
   }
 }
 
@@ -282,6 +287,52 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "showError")
     component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
+  });
+  it('should call the error whenever the problem occurs during api call', () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+    }
+    const topicRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      topicId: 1
+    }
+    component.topicLevelRating = {
+      assessmentId: 0, topicId: 0, rating: 1
+    };
+    jest.spyOn(component, "setRating");
+    component.topicRatingAndRecommendation = topicRatingAndRecommendation;
+    component.topicId = 1
+    component.assessmentStatus = "Active"
+    jest.spyOn(component,"showError")
+    component.setRating(3)
+    expect(component.showError).toHaveBeenCalled();
+    
   });
 
 });

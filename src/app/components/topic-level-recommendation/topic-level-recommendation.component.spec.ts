@@ -71,7 +71,6 @@ describe('RecommendationComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(TopicLevelRecommendationComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -437,81 +436,5 @@ describe('RecommendationComponent', () => {
     if (component.topicRecommendationSample) {
       expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
     }
-
   });
-
-  it("should set the topic recommendation", () => {
-    component.topicRecommendationResponse = {
-      assessmentId: 1,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: []
-    }
-    component.recommendations = {
-      recommendationId: undefined,
-      recommendation: "",
-      impact: "",
-      effort: "",
-      deliveryHorizon: ""
-    }
-
-    component.topicLevelRecommendationText = {
-      assessmentId: 0,
-      topicId: 0,
-      topicLevelRecommendation: component.recommendations
-    }
-
-    component.topicLevelRecommendationResponse = {
-      assessmentId: 0,
-      topicId: 0,
-      recommendationId: undefined,
-      recommendation: "",
-      impact: "",
-      effort: "",
-      deliveryHorizon: ""
-    };
-
-    const topicRecommendation = {
-      recommendationId: 1,
-      recommendation: "some text",
-      impact: "LOW",
-      effort: "HIGH",
-      deliveryHorizon: "text"
-    }
-
-    const keyEventData = {isTrusted: true, code: 'Key'};
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-
-    jest.spyOn(component, "saveParticularTopicRecommendationText");
-    component.recommendation = topicRecommendation;
-    component.assessmentStatus = "Active"
-    component.assessmentId = 1
-    component.topicId = 0
-    component.saveParticularTopicRecommendationText(keyEvent);
-    expect(component.recommendation.recommendation).toEqual("some text");
-    expect(component.topicRecommendationResponse.topicRatingAndRecommendation).toBeDefined();
-  });
-
 });

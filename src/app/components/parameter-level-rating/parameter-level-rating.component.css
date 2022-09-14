@@ -206,10 +206,6 @@ textArea.mat-input-element {
   width: auto;
 }
 
-.mat-card:not([class*=mat-elevation-z]) {
-  box-shadow: 0 0px 0px 0px #0003, 0 0px 0px #00000024, 0 0px 0px #0000001f;
-}
-
 .mat-card {
   border-radius: 0px;
 }

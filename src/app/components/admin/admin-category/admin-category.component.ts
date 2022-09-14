@@ -98,8 +98,9 @@ export class AdminCategoryComponent implements OnInit, OnDestroy{
   }
 
   deleteRow() {
-    this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-    this.dataSource.data = this.dataSource.data
+    let data = this.dataSource.data
+    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
+    this.dataSource.data = data
     this.table.renderRows()
   }
   showError(message: string, action: string) {
@@ -117,20 +118,30 @@ export class AdminCategoryComponent implements OnInit, OnDestroy{
       "comments": value.comments
     }
 
-
-    this.appService.saveCategory(categoryRequest).subscribe({
-      next: (_data) => {
-        value.isEdit = false
-        this.isEditable = false;
-        this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-        this.dataSource.data = this.dataSource.data
-        this.table.renderRows()
-        this.categoryData = []
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError("Some error occurred", "Close");
+    let flag = false;
+    this.dataSource.data.slice(1).forEach(eachCategory => {
+        if(eachCategory.categoryName.trim().toLowerCase() === value.categoryName.trim().toLowerCase()) {
+          flag = true;
+          this.showError("No duplicate categories are allowed", "Close");
+        }
       }
-    })
+    )
+    if(flag === false) {
+      this.appService.saveCategory(categoryRequest).subscribe({
+        next: (_data) => {
+          let data = this.dataSource.data
+          value.isEdit = false
+          this.isEditable = false;
+          data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
+          this.dataSource.data = data
+          this.table.renderRows()
+          this.categoryData = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError("Some error occurred", "Close");
+        }
+      })
+    }
   }
 
   editCategory(row: any) {

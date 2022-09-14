@@ -5,7 +5,7 @@
 import {ReportModule} from "./ReportModule";
 
 export interface ReportCategory {
-  "name": String,
+  "name": string,
   "rating"?: number,
   "children"?:ReportModule[]
 }

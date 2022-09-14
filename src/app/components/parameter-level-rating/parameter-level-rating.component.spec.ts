@@ -16,7 +16,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
@@ -29,7 +29,13 @@ class MockAppService {
   }
 
   saveParameterRating(parameterRating: ParameterRating) {
-    return of(parameterRating)
+    if(parameterRating.parameterId === 1) {
+      return of(parameterRating)
+    }
+    else {
+      return throwError("Error!")
+    }
+  
   }
 }
 
@@ -196,6 +202,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
+    
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -299,4 +307,76 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
   });
+
+  it('should able to set parameter rating to undefined when clicked again', () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+    })
+
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    const parameterRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      parameterId: 1
+    }
+    component.parameterId = 1
+    jest.spyOn(component, "setRating");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.ngOnInit()
+    component.setRating(2)
+    expect(parameterRatingAndRecommendation.rating).toBeUndefined();
+  });
+
+  it('should throw error when an error happened in api call', () => {
+    component.answerResponse1 = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+    })
+
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    const parameterRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      parameterId: 2
+    }
+    component.parameterId = 2
+    jest.spyOn(component, "setRating");
+    jest.spyOn(component,"showError");
+    component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
+    component.assessmentStatus = "Active"
+    component.ngOnInit()
+    component.setRating(2)
+    expect(component.showError).toHaveBeenCalled();
+  });
+
 });

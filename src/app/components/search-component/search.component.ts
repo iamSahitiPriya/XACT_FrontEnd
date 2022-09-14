@@ -29,7 +29,7 @@ export class SearchComponent {
 
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
-    this.dataSource.filteredData.map((element) => {
+    this.dataSource.filteredData.forEach((element) => {
       this.columnName = Object.keys(element)
     })
     let firstColumnFilter = ""

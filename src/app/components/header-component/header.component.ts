@@ -43,14 +43,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-
   async signOut() {
-
     await this.oktaAuth.signOut();
-    //window.location.href = "https://thoughtworks.okta.com";
   }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

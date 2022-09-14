@@ -5,6 +5,6 @@
 import {ReportCategory} from "./ReportCategory";
 
 export interface ReportDataStructure {
-  "name": String,
+  "name": string,
   "children":ReportCategory[];
 }

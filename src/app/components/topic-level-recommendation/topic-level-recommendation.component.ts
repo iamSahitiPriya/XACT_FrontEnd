@@ -66,6 +66,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   private cloneTopicLevelRecommendationResponse: AssessmentStructure;
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
+  component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)

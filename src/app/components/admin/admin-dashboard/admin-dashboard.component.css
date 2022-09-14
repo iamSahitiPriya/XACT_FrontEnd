@@ -11,20 +11,17 @@
   position: relative;
   border-radius: 15px;
   padding: 19px 19px 0px;
-  margin-bottom:3%;
+  margin-bottom:4%;
   width: 22%;
 }
 .header{
   display:flex;
 }
 .dropdown{
-  margin-top: 11px;
-  position: relative;
-  display: inline-flex;
-  margin-left: 75%;
-  width: 17%;
+  margin-left:66em;
+  margin-top: 6px;
+  width:17%;
 }
-
 .dashBoardText{
   margin-top: 40px;
   margin-left: 28px;
@@ -36,6 +33,7 @@
   margin-left: 54px;
 }
 .assessmentStatus{
+  display: flex;
   margin-left:1%;
 }
 .Active, .Completed{
@@ -44,13 +42,13 @@
 
 .downloadButton
 {
-  margin-left: 45px;
+  margin-left: 48px;
   margin-top: 5%;
   margin-bottom: 75px;
   background-color:#6B9F78;
   position: relative;
   color: #FFFFFF;
-  width:19%;
+  width:20%;
   border-radius: 5px;
   padding: 9px 18px;
   border: none;
@@ -117,13 +115,4 @@
 .downloadIcon{
   color: white;
   padding-top: 2px;
-}
-@media screen and (max-width: 1000px){
-  .dropdown{
-    margin-left:57%;
-    width: 25%;
-  }
-  .text{
-    font-size: 15px;
-  }
 }

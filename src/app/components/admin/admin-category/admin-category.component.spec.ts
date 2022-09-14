@@ -9,7 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CategoryData} from "../../../types/category";
 import {CategoryResponse} from "../../../types/categoryResponse";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -23,9 +23,16 @@ class MockAppService {
   category: CategoryResponse[] =
     [{
       "modules": [],
-      "categoryName" : "category",
+      "categoryName" : "category1",
       "comments" : "comments",
       "categoryId" : -1,
+      "updatedAt" : 1022022,
+      "active": true
+    },{
+      "modules": [],
+      "categoryName" : "category2",
+      "comments" : "comments",
+      "categoryId" : -2,
       "updatedAt" : 1022022,
       "active": true
     }]
@@ -79,13 +86,13 @@ describe('AdminCategoryComponent', () => {
 
   it('should get all categories', () => {
     let category: CategoryData[] =
-      [{"active": true, "categoryId": -1, "categoryName": "category", "comments": "comments", "updatedAt": 1022022}]
+      [{"active": true, "categoryId": -1, "categoryName": "category1", "comments": "comments", "updatedAt": 1022022}]
 
     expect(component).toBeTruthy();
     mockAppService.getAllCategories().subscribe((data) => {
       expect(data).toBe(category)
     })
-    expect(component.categoryData).toStrictEqual( category);
+    expect(component.categoryData[0].categoryName).toBe("category1");
   });
   it("should add a row to the table", () => {
     component.categoryData = [{
@@ -101,13 +108,13 @@ describe('AdminCategoryComponent', () => {
   });
   it("should delete row from the table on clicking the bin button", () => {
     component.deleteRow()
-    expect(component.dataSource.data.length).toBe(0)
+    expect(component.dataSource.data.length).toBe(1)
   });
 
   it("should save categories", () => {
     component.isEditable = true
     let categoryRequest =of( {
-      "categoryName": "value.categoryName",
+      "categoryName": "value1",
       "active": false,
       "comments": "value.comments"
     })
@@ -144,5 +151,23 @@ describe('AdminCategoryComponent', () => {
     jest.spyOn(component, "showError")
     component.showError(message,"Close")
     expect(component.showError).toHaveBeenCalled()
+  });
+  it("should throw error if the category is already present", () => {
+    component.isEditable = true
+    let categoryRequest =of( {
+      categoryName: "value1",
+      active: false,
+      comments: "value.comments"
+    })
+    let dummyCategoryReq = {
+      "categoryName" : "category2",
+      "comments" : "comments",
+      "categoryId" : -1,
+      "active": true
+    }
+    jest.spyOn(component, "showError")
+    component.saveCategory(dummyCategoryReq)
+    jest.spyOn(component, "showError")
+    expect(component.showError).toHaveBeenCalled();
   });
 });

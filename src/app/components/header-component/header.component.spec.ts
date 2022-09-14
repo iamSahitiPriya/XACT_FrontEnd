@@ -10,6 +10,8 @@ import {SearchComponent} from "../search-component/search.component";
 import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
+import { MatIconModule } from '@angular/material/icon';
+import { of } from 'rxjs';
 
 
 describe('HeaderComponent', () => {
@@ -23,7 +25,7 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent, SearchComponent, CreateAssessmentsComponent],
 
-      imports: [MatMenuModule, RouterTestingModule, RouterModule],
+      imports: [MatMenuModule, RouterTestingModule, RouterModule,MatIconModule],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
 
@@ -49,6 +51,11 @@ describe('HeaderComponent', () => {
 
   it('should pass user name to html', () => {
     expect(component.username).toBe('dummyUserWithMoreThen10');
+  });
+  it('should enable admin-console when the user is Admin', () => {
+    component.userRole = of("Admin");
+    expect(component.isRoleAdmin).toBeFalsy();
+    component.ngOnInit()
   });
 });
 

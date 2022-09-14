@@ -177,8 +177,23 @@ describe('CreateAssessmentsComponent', () => {
 
 
   it('should save assessment and make the window reload', () => {
-    component.assessment = mockAssessment;
-    component.assessmentCopy = mockAssessment;
+    let mockAssessment1 =  {
+      answerResponseList: [],
+      assessmentId:1,
+      assessmentStatus:"Active",
+      assessmentName: 'xact',
+      organisationName: 'abc',
+      domain: 'abc',
+      industry: 'abc',
+      teamSize: 12,
+      users: [ ],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: [],
+      updatedAt: 0,
+    }
+    component.assessment = mockAssessment1
+
+    component.assessmentCopy = mockAssessment1;
     const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
@@ -202,11 +217,11 @@ describe('CreateAssessmentsComponent', () => {
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.saveAssessment()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
+      expect(component.loading).toBe(false)
       expect(data).toBe(assessmentData)
+      reloadFn()
+      expect(window.location.reload).toHaveBeenCalled()
     })
-    expect(component.loading).toBe(false)
-    reloadFn()
-    expect(window.location.reload).toHaveBeenCalled()
   });
 
   it("should call the form", () => {

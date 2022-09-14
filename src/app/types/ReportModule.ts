@@ -5,7 +5,7 @@
 import {ReportTopic} from "./ReportTopic";
 
 export interface ReportModule {
-  "name": String,
+  "name": string,
   "rating": number,
   "children":ReportTopic[]
 }

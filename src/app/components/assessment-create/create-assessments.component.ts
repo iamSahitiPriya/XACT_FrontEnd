@@ -109,7 +109,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         teamSize: this.assessment.teamSize,
         users: users
       };
-
       this.appService.addAssessments(assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false

@@ -4,6 +4,6 @@
  */
 
 export interface ReportParameter {
-  "name": String,
+  "name": string,
   "value":number
 }

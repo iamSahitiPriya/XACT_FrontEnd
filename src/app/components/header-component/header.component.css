@@ -48,15 +48,33 @@
 
 .menu {
   margin-top: 0.8em !important;
+  text-align: left;
+  font: normal normal normal 14px/20px Inter;
+  letter-spacing: 0.25px;
+  color: #043D4E;
+  opacity: 1;
 }
 
 .item {
   background: var(--unnamed-color-f4fafc) 0% 0% no-repeat padding-box;
   font-size: medium;
   background: #F4FAFC 0% 0% no-repeat padding-box;
+  text-align: center; display: flex;
   opacity: 1;
 }
-
+.textItem{
+  display: block;
+  padding-left: 34px
+}
+.icon{
+  height:5px;
+  display: block;
+}
+.svgIcon{
+  height:24px;
+  display: block;
+  float: left
+}
 .arrow {
   width: 1px;
   top: 9px;
@@ -96,8 +114,3 @@ div.user {
   border-radius: 0;
   opacity: 1;
 }
-
-
-
-
-

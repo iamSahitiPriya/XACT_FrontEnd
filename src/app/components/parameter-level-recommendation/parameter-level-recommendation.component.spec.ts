@@ -581,5 +581,30 @@ describe('ParameterRecommendationComponent', () => {
     expect(component.parameterLevelRecommendation.recommendation).toEqual("some text");
     expect(component.parameterRecommendationResponse.parameterRatingAndRecommendation).toBeDefined();
   });
+  it('should update topic level recommendation according to recommendation response', function () {
+    component.parameterLevelRecommendationResponse = {
+      assessmentId: 0,
+      parameterId: 0,
+      recommendationId: 1,
+      recommendation: "text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
+    }
+
+    component.parameterRecommendationSample = [{
+      recommendationId: 2,
+      recommendation: "sample text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "sample text"
+    }];
+
+    component.parameterRecommendationIndex = -1
+
+    component.getRecommendation(component.parameterRecommendationSample, component.parameterLevelRecommendationResponse)
+    
+    expect(component.parameterRecommendationSample[1].recommendation).toBe("text");
+  });
 
 });

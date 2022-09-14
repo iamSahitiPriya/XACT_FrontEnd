@@ -162,26 +162,4 @@ describe('AssessmentsComponent', () => {
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
-
-  it("should return the type os assessment", () => {
-    let assData: AssessmentStructure =
-      {
-        "assessmentId": 1,
-        "assessmentName": "xact",
-        "organisationName": "abc",
-        "assessmentStatus": "ACTIVE",
-        "updatedAt": 1649836702001,
-        "domain": "TW",
-        "industry": "IT",
-        "teamSize": 2,
-        "users": [],
-        "answerResponseList": [],
-        "parameterRatingAndRecommendation": [],
-        "topicRatingAndRecommendation": [],
-      }
-    jest.spyOn(component, "type");
-    fixture.detectChanges();
-    expect(component.type(assData)).toBe("object");
-
-  });
 });
