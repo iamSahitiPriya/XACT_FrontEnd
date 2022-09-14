@@ -4,7 +4,7 @@
 
 <div class="header">
   <span class="dashBoardText">DashBoard</span>
-  <span class="dropdown">
+  <div class="dropdown">
     <mat-form-field appearance="outline">
 <!--      <mat-drawer-container>-->
         <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
@@ -14,7 +14,7 @@
           <mat-option [value]="3">{{last_year}}</mat-option>
         </mat-select>
     </mat-form-field>
-  </span>
+  </div>
 </div>
 <div class="row assessmentStatus">
 <mat-card class="col-md-3 Total">

@@ -18,10 +18,13 @@
   display:flex;
 }
 .dropdown{
-  margin-left:66em;
-  margin-top: 6px;
-  width:17%;
+  margin-top: 11px;
+  position: relative;
+  display: inline-flex;
+  margin-left: 75%;
+  width: 17%;
 }
+
 .dashBoardText{
   margin-top: 40px;
   margin-left: 28px;
@@ -114,4 +117,13 @@
 .downloadIcon{
   color: white;
   padding-top: 2px;
+}
+@media screen and (max-width: 1000px){
+  .dropdown{
+    margin-left:57%;
+    width: 25%;
+  }
+  .text{
+    font-size: 15px;
+  }
 }
