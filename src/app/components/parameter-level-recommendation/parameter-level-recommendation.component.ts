@@ -4,7 +4,7 @@
 
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
-import {data_local} from "../../messages";
+
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
@@ -18,6 +18,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
+import { data_local } from 'src/app/messages';
 
 let DEBOUNCE_TIME = 1200;
 
