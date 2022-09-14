@@ -49,7 +49,7 @@
 .menu {
   margin-top: 0.8em !important;
   text-align: left;
-  font: normal normal normal 14px/20px Inter;
+  font: normal normal normal 14px/20px "Inter", sans-serif;
   letter-spacing: 0.25px;
   color: #043D4E;
   opacity: 1;
