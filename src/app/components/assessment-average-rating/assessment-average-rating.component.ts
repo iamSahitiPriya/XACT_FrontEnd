@@ -8,7 +8,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {ComputedScore} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 
 @Component({

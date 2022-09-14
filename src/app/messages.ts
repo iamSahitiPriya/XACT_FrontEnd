@@ -85,11 +85,11 @@ export const data_local =
         TOOLTIP: "Click to open menu"
       },
       MANAGE_ASSESSMENT: {
-        TITLE: "Manage",
+        TITLE: "Manage assessment",
         TOOLTIP: "Click to manage assessment and users"
       },
       ADD_ASSESSMENT_MODULE: {
-        TITLE: "Add module to assessment"
+        TITLE: "Manage modules"
       },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
       LAST_SAVE_STATUS_TEXT: "Last saved at "

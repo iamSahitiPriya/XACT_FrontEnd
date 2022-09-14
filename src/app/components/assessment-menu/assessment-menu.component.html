@@ -31,17 +31,18 @@
     <mat-menu #menu="matMenu">
       <button (click)="openAssessment(content)" [matTooltip]=manageAssessmentToolTip mat-menu-item
               [disabled]="assessment.assessmentStatus ==='Completed'">
-        <img data-id="manage" src="../../assets/manage-icon/manage.svg" alt="manage icon" class="manage"/>
-        &nbsp; &nbsp; &nbsp; &nbsp;<span id="createAssessment">{{manageAssessmentTitle}}</span>
+           <mat-icon class="iconColor">edit</mat-icon>
+        <span id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
+
       <button mat-menu-item disabled>
         <mat-icon>exposure</mat-icon>
         <span>{{addModuleTitle}}</span>
       </button>
 
       <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
-        <mat-icon class="chartIcon"> multiline_chart</mat-icon>
-         <span id="chartSummary">{{summaryTitle}}</span>
+        <mat-icon class="iconColor"> multiline_chart</mat-icon>
+        <span>{{summaryTitle}}</span>
       </button>
 
     </mat-menu>

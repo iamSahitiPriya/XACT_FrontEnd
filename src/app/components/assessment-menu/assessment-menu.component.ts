@@ -18,7 +18,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import {Observable, Subject, takeUntil} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 export const assessmentData = [{}]
 
