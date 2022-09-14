@@ -16,7 +16,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({

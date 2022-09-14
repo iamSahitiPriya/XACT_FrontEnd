@@ -10,7 +10,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 
 

@@ -22,7 +22,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 export const saveAssessmentData = [{}]
 

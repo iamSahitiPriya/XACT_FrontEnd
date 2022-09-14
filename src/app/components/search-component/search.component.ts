@@ -4,7 +4,7 @@
 
 import {Component, Input} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 
 @Component({
