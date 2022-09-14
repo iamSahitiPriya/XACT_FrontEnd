@@ -19,7 +19,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 

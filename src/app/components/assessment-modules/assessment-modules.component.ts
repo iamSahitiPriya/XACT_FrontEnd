@@ -8,7 +8,7 @@ import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 
 let categories: CategoryStructure[] = []

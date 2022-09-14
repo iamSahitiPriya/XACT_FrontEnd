@@ -10,7 +10,7 @@ import {AdminAssessmentRequest} from "../../../types/Admin/adminAssessmentReques
 import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentResponse";
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
-import {data_local} from "../../../../assets/messages";
+import {data_local} from "../../../messages";
 
 
 @Component({

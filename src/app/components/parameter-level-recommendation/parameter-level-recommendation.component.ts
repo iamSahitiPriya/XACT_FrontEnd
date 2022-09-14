@@ -4,7 +4,7 @@
 
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";

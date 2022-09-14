@@ -10,7 +10,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {MatSort} from '@angular/material/sort';
 
 /**

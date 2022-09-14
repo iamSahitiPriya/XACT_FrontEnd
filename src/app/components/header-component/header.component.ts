@@ -6,7 +6,7 @@ import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 
 @Component({
