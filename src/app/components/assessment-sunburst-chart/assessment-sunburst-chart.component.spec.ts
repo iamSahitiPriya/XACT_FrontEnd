@@ -18,6 +18,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatToolbarModule} from "@angular/material/toolbar";
 
 
+
 describe('AssessmentSunburstChartComponent', () => {
   let component: AssessmentSunburstChartComponent;
   let fixture: ComponentFixture<AssessmentSunburstChartComponent>;
@@ -62,7 +63,7 @@ describe('AssessmentSunburstChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call sunburstChart Function and Hover on it', function() {
+  it('should call sunburstChart Function , click and Hover on it', function() {
     component.data =  { name:"project",children:[{
             name:"ass1",rating:3,children:[{
               name:"ass2",rating:2,children:[{
@@ -79,6 +80,9 @@ describe('AssessmentSunburstChartComponent', () => {
     });
     component.drawSunBurstChart(component.data);
     expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("100%");
+
+    expect(fixture.nativeElement.querySelector("circle").dispatchEvent(new Event('click'))).toBe(true);
+
 
     let node = {
       data: {
