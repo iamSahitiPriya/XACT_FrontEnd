@@ -103,7 +103,6 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   type(blankAssessment: AssessmentStructure) {
-    console.log(typeof blankAssessment)
     return (typeof blankAssessment)
 
   }

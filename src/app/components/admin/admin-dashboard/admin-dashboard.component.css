@@ -112,4 +112,7 @@
 .dropdown .mat-form-field{
   width : 70%;
 }
-
+.downloadIcon{
+  color: white;
+  padding-top: 2px;
+}

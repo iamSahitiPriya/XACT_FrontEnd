@@ -140,28 +140,6 @@ describe('AdminDashboardComponent', () => {
     expect(component.showError).toHaveBeenCalled()
 
   });
-  it("should throw error when problem occurs if undefined is sent",  () => {
-    let adminAssessmentRequest = {
-      assessmentId: 1, endDate: "", startDate: ""
-    };
-
-    component.selectedOption=0;
-    component.adminAssessmentRequest.assessmentId=1;
-    component.adminAssessmentRequest.startDate="2022-09-01";
-    component.adminAssessmentRequest.endDate="";
-    jest.spyOn(component,'inputChange');
-    jest.spyOn(component,'getAssessmentDataForQuarter');
-    jest.spyOn(component,'setAssessmentData')
-
-    component.getAssessmentDataForQuarter();
-    component.setAssessmentData(component.adminAssessmentRequest);
-
-    mockAppService.getAdminAssessment(adminAssessmentRequest).subscribe((data) => {
-      expect(data).toBeUndefined()
-    }, error => {
-      expect(error).toBe(new Error("Error!"))
-    })
-  });
 
   // it("should able to get the calender start date", () => {
   //
@@ -261,5 +239,28 @@ describe('AdminDashboardComponent', () => {
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     expect(component.getReportForYear).toHaveBeenCalled();
+  });
+
+  it("should throw error when problem occurs if undefined is sent",  () => {
+    let adminAssessmentRequest = {
+      assessmentId: 0, endDate: "", startDate: ""
+    };
+
+    component.selectedOption=0;
+    component.adminAssessmentRequest.assessmentId=0;
+    component.adminAssessmentRequest.startDate="";
+    component.adminAssessmentRequest.endDate="";
+    jest.spyOn(component,'inputChange');
+    jest.spyOn(component,'getAssessmentDataForQuarter');
+    jest.spyOn(component,'setAssessmentData')
+
+    component.setAssessmentData(component.adminAssessmentRequest);
+
+    mockAppService.getAdminAssessment(adminAssessmentRequest).subscribe((data) => {
+      expect(data).toBeUndefined()
+    }, error => {
+      expect(component.showError).toHaveBeenCalled()
+      expect(error).toBe(new Error("Error!"))
+    })
   });
 });
