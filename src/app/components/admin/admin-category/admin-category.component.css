@@ -37,6 +37,7 @@ td.category {
 .delete {
   min-width: 0px;
   padding: 0;
+  width: 816px;
 }
 
 .editButton {

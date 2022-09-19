@@ -71,20 +71,22 @@ textArea.mat-input-element {
 }
 
 .impact {
-  padding-left: 2%;
+  padding-left: 3%;
   font-weight: bold;
 }
 
 .effect {
-  padding-left:3%;
+  padding-left:4%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  padding-left:3%;
+  padding-left:4%;
   font-weight: bold;
 }
-
+.delete-button{
+  width: 24%;
+}
 
 .radio1, .radio2, .input1 {
   padding-top: 11px;

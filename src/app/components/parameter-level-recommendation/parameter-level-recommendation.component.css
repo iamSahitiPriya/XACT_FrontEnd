@@ -88,7 +88,11 @@ textArea.mat-input-element {
 .radio1, .radio2, .input1 {
   padding-top: 11px;
 }
-
+.delete{
+  width: 24%;
+  margin-top:-5px;
+  padding-left:45px;
+}
 
 .mat-card > :last-child:not(.mat-card-footer), .mat-card-content > :last-child:not(.mat-card-footer) {
   margin-bottom: -3px;
