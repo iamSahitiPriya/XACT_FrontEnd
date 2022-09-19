@@ -116,7 +116,8 @@ export const data_local =
       MICRO_SITE: "Micro-site",
       SUPPORT: "Support",
       FEEDBACK: "Feedback",
-      LOGOUT: "Log Out"
+      LOGOUT: "Log Out",
+      ADMIN_CONSOLE: "Admin-Console"
     },
     ASSESSMENT_PARAMETER: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",
