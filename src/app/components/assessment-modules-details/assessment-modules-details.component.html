@@ -36,7 +36,7 @@
 </mat-tab-group>
 
 <div class="sideBar">
-  <mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
+  <mat-expansion-panel *ngFor="let category of category.userAssessmentCategories; first as isFirst" [expanded]="isFirst">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{category.categoryName}}

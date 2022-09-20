@@ -1802,9 +1802,6 @@
   dependencies:
     "source-map-support" "^0.5.21"
 
-"@swc/core-darwin-x64@1.2.160":
-  "version" "1.2.160"
-
 "@swc/core@^1.2.119", "@swc/core@^1.2.146", "@swc/core@>=1.2.50":
   "version" "1.2.160"
   optionalDependencies:
@@ -4699,16 +4696,6 @@
   "integrity" "sha512-1HQ2M2sPtxwnvOvT1ZClHyQDiggdNjURWpY2we6aMKCQiUVxTmVs2UYPLIrD84sS+kMdUwfBSylbJPwNnBrnHQ=="
   "resolved" "https://registry.npmjs.org/es-module-lexer/-/es-module-lexer-0.9.3.tgz"
   "version" "0.9.3"
-
-"esbuild-darwin-64@0.14.22":
-  "integrity" "sha512-d8Ceuo6Vw6HM3fW218FB6jTY6O3r2WNcTAU0SGsBkXZ3k8SDoRLd3Nrc//EqzdgYnzDNMNtrWegK2Qsss4THhw=="
-  "resolved" "https://registry.npmjs.org/esbuild-darwin-64/-/esbuild-darwin-64-0.14.22.tgz"
-  "version" "0.14.22"
-
-"esbuild-darwin-64@0.14.39":
-  "integrity" "sha512-ImT6eUw3kcGcHoUxEcdBpi6LfTRWaV6+qf32iYYAfwOeV+XaQ/Xp5XQIBiijLeo+LpGci9M0FVec09nUw41a5g=="
-  "resolved" "https://registry.npmjs.org/esbuild-darwin-64/-/esbuild-darwin-64-0.14.39.tgz"
-  "version" "0.14.39"
 
 "esbuild-wasm@>=0.13.8", "esbuild-wasm@0.14.22":
   "integrity" "sha512-FOSAM29GN1fWusw0oLMv6JYhoheDIh5+atC72TkJKfIUMID6yISlicoQSd9gsNSFsNBvABvtE2jR4JB1j4FkFw=="
