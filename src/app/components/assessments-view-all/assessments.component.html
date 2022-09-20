@@ -56,7 +56,7 @@
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay" class="headerRow"></tr>
       <tr [matTooltip]=toolTipAssessmentCol+element.assessmentName
-          [routerLink]="['/assessment',element.assessmentId]"
+          [routerLink]="['/assessmentModule',element.assessmentId]"
           role="button" mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">{{assessmentNotAvailable}}</td>

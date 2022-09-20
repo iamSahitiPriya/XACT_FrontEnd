@@ -19,6 +19,8 @@ import {CategoryResponse} from "../../types/categoryResponse";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 
 
 @Injectable({
@@ -38,8 +40,8 @@ export class AppServiceService {
     return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData, {'headers': headers})
   }
 
-  public getCategories(): Observable<CategoryStructure[]> {
-    return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
+  public getCategories(assessmentId:number): Observable<UserCategoryResponse> {
+    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId)
   }
 
 
@@ -135,6 +137,9 @@ export class AppServiceService {
 
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
+  }
+  saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.post(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
   }
 }
 

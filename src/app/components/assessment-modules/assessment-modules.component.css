@@ -131,5 +131,8 @@ h2 {
   flex-direction: row-reverse;
   padding-top: 320px;
 }
-
+.computerIcon{
+  float: right;
+  margin-left: 89%;
+}
 

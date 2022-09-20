@@ -18,33 +18,24 @@
   <div class="row" style="height: 45px">
     <div class="col-md-12" style="background-color: #043D4E">
       <div class="col-md-2">
-        <h2 class="moduleHeading">{{assessmentModuleTitle}}</h2>
+        <h2 class="moduleHeading">Category</h2>
       </div>
     </div>
   </div>
   <br> <br>
   <div class="row">
-    <div class="col-md-12">
-      <mat-expansion-panel *ngFor="let category of category">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{category.categoryName}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="assessmentCards" *ngIf="category">
-          <mat-card class="moduleCard" *ngFor="let module of category.modules">
-                       <span [routerLink]="['/assessmentModulesDetails']" role="button">
-
-            <mat-icon svgIcon="{{getIcon(category.categoryId)}}"></mat-icon>
-            <mat-card-title-group>
-              <mat-card-title>{{module.moduleName}}</mat-card-title>
-              <mat-card-subtitle>{{category.categoryName}}</mat-card-subtitle>
-            </mat-card-title-group>
-                                    </span>
-          </mat-card>
+    <div class="assessmentCards col-md-{{12/category.assessmentCategories.length | number:'1.0-0'}}"
+         *ngFor="let category1 of category.assessmentCategories">
+      <mat-card class="moduleCard">
+        <div class="row">
+            <mat-checkbox class="col-md-10" (change)="getCategory(category1.categoryId)" [checked]="checkedStatus(category1.categoryId)"></mat-checkbox>
+            <mat-icon>computer</mat-icon>
         </div>
-      </mat-expansion-panel>
+        <mat-card-title-group>
+          <mat-card-title>{{category1.categoryName}}</mat-card-title>
+        </mat-card-title-group>
+      </mat-card>
     </div>
   </div>
+  <button (click)="saveUserModule()">SAVE MEEEEE</button>
 </div>
-

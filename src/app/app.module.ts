@@ -70,6 +70,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-dashboard.component";
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -85,7 +86,7 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path: 'assessmentModule',
+    path: 'assessmentModule/:assessmentId',
     component: AssessmentModulesComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
@@ -237,7 +238,8 @@ export const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule,
     MatSlideToggleModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
 
   exports: [

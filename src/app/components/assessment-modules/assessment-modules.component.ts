@@ -9,10 +9,17 @@ import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {data_local} from "../../messages";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+import {forEach} from "lodash";
 
 
-let categories: CategoryStructure[] = []
-let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
+let categories: UserCategoryResponse = {
+  assessmentCategories:[]
+  ,userAssessmentCategories:[]
+}
+let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
 
 
 @Component({
@@ -22,37 +29,69 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 })
 export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentName: string
-  category: CategoryStructure[] = []
+  category: UserCategoryResponse
   categoryIconMapping: Map<number, string> = new Map<number, string>()
   private destroy$: Subject<void> = new Subject<void>();
+  assessmentId: number;
+  catRequest:CategoryStructure | undefined
+  moduleRequest:UserAssessmentModuleRequest[] = []
+  isChecked:boolean = false
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
 
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,) {
-    matIconRegistry
-      .addSvgIcon('default', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2577.svg'))
-      .addSvgIcon('category1', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2577.svg'))
-      .addSvgIcon('category2', this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/category-icons/Group 2425.svg'))
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,private route: ActivatedRoute,private router:Router) {
   }
 
   ngOnInit(): void {
-    this.categoryIconMapping.set(1, "category1")
-    this.categoryIconMapping.set(2, "category2")
-    this.appService.getCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      categories = data
-      valueEmitter.next(categories)
+    const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
+
+    this.assessmentId = +assessmentIdParam;
+    this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if(data.userAssessmentCategories !== undefined){
+        this.router.navigateByUrl("assessment/"+this.assessmentId)
+      }else{
+        this.category.userAssessmentCategories = []
+        categories.assessmentCategories = data.assessmentCategories
+        valueEmitter.next(categories)
+
+
+      }
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
     })
   }
 
-  getIcon(categoryId: number): string {
-    return this.categoryIconMapping.get(categoryId) || "default";
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  checkedStatus(categoryId:number):boolean{
+    let index = this.category.userAssessmentCategories.findIndex(category => {
+        return category.categoryId === categoryId
+    })
+    return index !== -1
+  }
+
+  getCategory(categoryId: number) {
+    this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
+    if(this.catRequest !==undefined){
+    this.catRequest.modules.forEach(modules =>{
+      let moduleReq = {
+        moduleId:modules.moduleId
+      }
+      this.moduleRequest.push(moduleReq)
+    })
+  }
+  }
+
+  saveUserModule() {
+    const key = 'moduleId';
+
+    const arrayUniqueByKey = [...new Map(this.moduleRequest.map(item =>
+      [item[key], item])).values()];
+    this.appService.saveUserModules(arrayUniqueByKey,this.assessmentId).subscribe(_data =>{
+      console.log(_data)
+    })
   }
 }
