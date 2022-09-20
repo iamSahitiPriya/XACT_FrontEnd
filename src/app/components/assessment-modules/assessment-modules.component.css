@@ -66,7 +66,7 @@ h2 {
   height: 250px;
 }
 
-.moduleCard {
+.categoryCard {
   margin-top: 20px;
   width: 245px;
   height: 100px;
@@ -81,7 +81,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-.moduleCard:hover {
+.categoryCard:hover {
   outline: 0px solid transparent;
   border: 1px solid #5D9EAA;
 }
@@ -136,3 +136,15 @@ h2 {
   margin-left: 89%;
 }
 
+.moduleCards{
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 23px;
+  text-align: left;
+  background: #F4FAFCC7 0% 0% no-repeat padding-box;
+  font: normal normal normal 14px/25px Inter;
+  letter-spacing: 0.28px;
+  opacity: 1;
+  width:60%;
+  margin-left:5%;
+}

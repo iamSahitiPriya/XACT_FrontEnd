@@ -48,13 +48,15 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.assessmentId = +assessmentIdParam;
     this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       if(data.userAssessmentCategories !== undefined){
-        this.router.navigateByUrl("assessment/"+this.assessmentId)
-      }else{
-        this.category.userAssessmentCategories = []
+        categories.userAssessmentCategories=data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories
         valueEmitter.next(categories)
-
-
+        this.router.navigateByUrl("assessment/"+this.assessmentId)
+      }
+      else{
+        this.category.userAssessmentCategories=[]
+        categories.assessmentCategories = data.assessmentCategories
+        valueEmitter.next(categories)
       }
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
@@ -91,7 +93,24 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     const arrayUniqueByKey = [...new Map(this.moduleRequest.map(item =>
       [item[key], item])).values()];
     this.appService.saveUserModules(arrayUniqueByKey,this.assessmentId).subscribe(_data =>{
+      this.router.navigateByUrl("assessment/"+this.assessmentId)
       console.log(_data)
     })
+  }
+
+  getModule(moduleId: number) {
+    let moduleReq = {
+      moduleId:moduleId
+    }
+    this.moduleRequest.push(moduleReq);
+  }
+
+  checkedModuleStatus(moduleId: number,categoryId : number) : boolean {
+    let categoryIndex= this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
+    let moduleIndex= -1;
+    if(categoryIndex !== -1){
+     moduleIndex=this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule=>eachModule.moduleId === moduleId);
+    }
+    return moduleIndex !== -1;
   }
 }

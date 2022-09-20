@@ -26,7 +26,7 @@
   <div class="row">
     <div class="assessmentCards col-md-{{12/category.assessmentCategories.length | number:'1.0-0'}}"
          *ngFor="let category1 of category.assessmentCategories">
-      <mat-card class="moduleCard">
+      <mat-card class="categoryCard">
         <div class="row">
             <mat-checkbox class="col-md-10" (change)="getCategory(category1.categoryId)" [checked]="checkedStatus(category1.categoryId)"></mat-checkbox>
             <mat-icon>computer</mat-icon>
@@ -34,6 +34,12 @@
         <mat-card-title-group>
           <mat-card-title>{{category1.categoryName}}</mat-card-title>
         </mat-card-title-group>
+      </mat-card>
+      <mat-card class="moduleCards">
+      <div *ngFor="let module of category1.modules" style="color:black">
+        <mat-checkbox class="col-md-10" (change)="getModule(module.moduleId)" [checked]="checkedModuleStatus(module.moduleId,category1.categoryId)"></mat-checkbox>
+        {{module.moduleName}}
+      </div>
       </mat-card>
     </div>
   </div>
