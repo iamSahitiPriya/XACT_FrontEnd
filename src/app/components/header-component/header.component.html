@@ -11,20 +11,29 @@
           {{username}}
         </div>
         <ul class="dropdown-menu menu">
-          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin']" *ngIf="isRoleAdmin" mat-list-item>
+          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin']" *ngIf="isRoleAdmin">
             <mat-icon class="icon">supervisor_account</mat-icon>
-            <span class="textItem">Admin-Console</span></a></li>
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" mat-list-item
+            <span class="li-text">Admin Console</span></a></li>
+
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
                  href="https://sites.google.com/thoughtworks.com/x-act">
-            <mat-icon class="icon">open_in_new</mat-icon>
-            <span class="textItem">{{microSite}}</span></a></li>
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer" mat-list-item
+            <mat-icon>launch</mat-icon>
+            <span class="li-text">{{microSite}}</span></a></li>
+
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
                  href="https://sites.google.com/thoughtworks.com/x-act">
-            <img data-id="manage" src="../../assets/admin-dashboard/Contact_xact_support_icon.svg" alt="download icon" class="svgIcon"/>
-            <span class="textItem">{{support}}</span></a></li>
+            <mat-icon> contact_mail</mat-icon>
+            <span class="li-text">{{support}}</span></a></li>
+
+          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
+                 href="https://forms.gle/eqERV28RBVyMRvp69">
+            <mat-icon>feedback</mat-icon><span class="li-text">{{feedback}}</span></a></li>
+
+
           <li><a class="dropdown-item  item" (click)="signOut()">
-            <img data-id="manage" src="../../assets/admin-dashboard/logout.svg" alt="download icon" class="svgIcon"/>
-            <span style="display: block;padding-left: 16px">{{logout}}</span></a></li>
+            <mat-icon>exit_to_app</mat-icon>
+            <span class="li-text">{{logout}}</span></a></li>
+
         </ul>
       </div>
     </div>

@@ -40,7 +40,7 @@
         <span>{{addModuleTitle}}</span>
       </button>
 
-      <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
+      <button disabled mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
         <mat-icon class="iconColor"> multiline_chart</mat-icon>
         <span>{{summaryTitle}}</span>
       </button>

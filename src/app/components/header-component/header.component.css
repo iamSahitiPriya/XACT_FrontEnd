@@ -59,22 +59,22 @@
   background: var(--unnamed-color-f4fafc) 0% 0% no-repeat padding-box;
   font-size: medium;
   background: #F4FAFC 0% 0% no-repeat padding-box;
-  text-align: center; display: flex;
+  text-align: center;
+  display: flex;
   opacity: 1;
 }
-.textItem{
-  display: block;
-  padding-left: 34px
-}
-.icon{
-  height:5px;
+
+.icon {
+  height: 5px;
   display: block;
 }
-.svgIcon{
-  height:24px;
+
+.svgIcon {
+  height: 24px;
   display: block;
   float: left
 }
+
 .arrow {
   width: 1px;
   top: 9px;
@@ -113,4 +113,9 @@ div.user {
   background: #F4FAFC 0% 0% no-repeat padding-box;
   border-radius: 0;
   opacity: 1;
+}
+
+.li-text {
+  display: block;
+  padding-left: 16px;
 }

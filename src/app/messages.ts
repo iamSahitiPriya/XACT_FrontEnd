@@ -113,8 +113,8 @@ export const data_local =
       RETRY_TEXT: "Retry"
     },
     HEADER_LINK_TEXT: {
-      MICRO_SITE: "XACT-Microsite",
-      SUPPORT: "Contact XAct support",
+      MICRO_SITE: "Micro-site",
+      SUPPORT: "Support",
       FEEDBACK: "Feedback",
       LOGOUT: "Log Out"
     },

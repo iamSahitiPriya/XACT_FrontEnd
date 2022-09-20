@@ -1,6 +1,6 @@
 {
   "name": "xact-frontend-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "ng": "ng",
     "start-local": "ng serve --configuration=developer",
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "13.1.0",
-    "@angular-devkit/build-angular": "~13.2.6",
+    "@angular-devkit/build-angular": "^13.3.9",
     "@angular-eslint/builder": "13.1.0",
     "@angular-eslint/eslint-plugin": "13.1.0",
     "@angular-eslint/eslint-plugin-template": "13.1.0",
@@ -83,7 +83,7 @@
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "cypress": "^10.6.0",
-    "cypress-grep": "^3.0.2",
+    "cypress-grep": "^2.6.1",
     "cypress-mochawesome-reporter": "^3.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "eslint": "^8.12.0",
@@ -126,10 +126,8 @@
       "ts-jest": {
         "tsconfig": "<rootDir>/tsconfig.spec.json",
         "stringifyContentPathRegex": "\\.html$"
-
       }
     },
-
     "coverageThreshold": {
       "global": {
         "branches": 90,
