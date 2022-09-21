@@ -16,8 +16,8 @@ import {forEach} from "lodash";
 
 
 let categories: UserCategoryResponse = {
-  assessmentCategories:[]
-  ,userAssessmentCategories:[]
+  assessmentCategories: []
+  , userAssessmentCategories: []
 }
 let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
 
@@ -33,13 +33,13 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   categoryIconMapping: Map<number, string> = new Map<number, string>()
   private destroy$: Subject<void> = new Subject<void>();
   assessmentId: number;
-  catRequest:CategoryStructure | undefined
-  moduleRequest:UserAssessmentModuleRequest[] = []
-  isChecked:boolean = false
+  catRequest: CategoryStructure | undefined
+  moduleRequest: UserAssessmentModuleRequest[] = []
+  isChecked: boolean = false
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
 
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,private route: ActivatedRoute,private router:Router) {
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,13 +47,12 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
     this.assessmentId = +assessmentIdParam;
     this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if(data.userAssessmentCategories !== undefined){
-        categories.userAssessmentCategories=data.userAssessmentCategories;
+      if (data.userAssessmentCategories !== undefined) {
+        categories.userAssessmentCategories = data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories
         valueEmitter.next(categories)
-      }
-      else{
-        this.category.userAssessmentCategories=[]
+      } else {
+        this.category.userAssessmentCategories = []
         categories.assessmentCategories = data.assessmentCategories
         valueEmitter.next(categories)
       }
@@ -67,26 +66,20 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  checkedStatus(categoryId:number):boolean{
+
+  checkedStatus(categoryId: number): boolean {
     let index = this.category.userAssessmentCategories.findIndex(category => {
-        return category.categoryId === categoryId
+      return category.categoryId === categoryId
     })
     return index !== -1
   }
 
-  getCategory(categoryId: number,selectedCategory :boolean) {
+  getCategory(categoryId: number, selectedCategory: boolean) {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     if (this.catRequest !== undefined) {
       this.catRequest.modules.forEach(modules => {
-        let moduleReq = {
-          moduleId: modules.moduleId
-        }
-        if(selectedCategory) {
-          this.moduleRequest.push(moduleReq)
-        }
-        else{
-          this.moduleRequest=this.moduleRequest.filter(module=>module.moduleId !== moduleReq.moduleId)
-        }
+        this.getModule(modules.moduleId, selectedCategory)
+
       })
     }
 
@@ -97,28 +90,31 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
     const arrayUniqueByKey = [...new Map(this.moduleRequest.map(item =>
       [item[key], item])).values()];
-    this.appService.saveUserModules(arrayUniqueByKey,this.assessmentId).subscribe(_data =>{
-      this.router.navigateByUrl("assessment/"+this.assessmentId)
-      console.log(_data)
+    this.appService.saveUserModules(arrayUniqueByKey, this.assessmentId).subscribe(_data => {
+      this.router.navigateByUrl("assessment/" + this.assessmentId)
     })
   }
 
-  getModule(moduleId: number,selectedModule : boolean) {
+  getModule(moduleId: number, selectedModule: boolean) {
     let moduleReq = {
-      moduleId:moduleId
+      moduleId: moduleId
     }
-    if(selectedModule) {
+    if (selectedModule) {
       this.moduleRequest.push(moduleReq);
-    }else{
-      this.moduleRequest=this.moduleRequest.filter(module=>module.moduleId !== moduleReq.moduleId);
+    } else {
+      this.moduleRequest = this.moduleRequest.filter(module => module.moduleId !== moduleReq.moduleId);
     }
   }
 
-  checkedModuleStatus(moduleId: number,categoryId : number) : boolean {
-    let categoryIndex= this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
-    let moduleIndex= -1;
-    if(categoryIndex !== -1){
-     moduleIndex=this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule=>eachModule.moduleId === moduleId);
+  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean): boolean {
+    let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
+    let moduleIndex = -1;
+    if (selectedCategory) {
+      console.log(categoryIndex)
+      moduleIndex = 1
+    }
+    if (categoryIndex !== -1) {
+      moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === moduleId);
     }
     return moduleIndex !== -1;
   }
