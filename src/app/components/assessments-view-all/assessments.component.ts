@@ -37,6 +37,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     assessmentName: "",
     assessmentStatus: "",
     domain: "",
+    drafted:false,
     industry: "",
     organisationName: "",
     parameterRatingAndRecommendation: [],
@@ -101,7 +102,11 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
+  navigation(drafted: boolean,assessmentId : number) {
+    console.log(drafted);
+     drafted ? this.router.navigateByUrl("assessment/"+assessmentId):this.router.navigateByUrl("assessmentModule/"+assessmentId);
+  }
 }
 
 

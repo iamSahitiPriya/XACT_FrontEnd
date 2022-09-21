@@ -13,6 +13,7 @@ export interface AssessmentStructure {
   "assessmentStatus": string,
   "domain": string,
   "industry": string,
+  "drafted":boolean,
   "teamSize"?: number,
   "users": string[];
   "updatedAt": number,
