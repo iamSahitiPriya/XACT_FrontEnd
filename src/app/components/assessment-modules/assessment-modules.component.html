@@ -28,7 +28,7 @@
          *ngFor="let category1 of category.assessmentCategories">
       <mat-card class="categoryCard">
         <div class="row">
-            <mat-checkbox class="col-md-10" (change)="getCategory(category1.categoryId)" [checked]="checkedStatus(category1.categoryId)"></mat-checkbox>
+            <mat-checkbox class="col-md-10" (change)="getCategory(category1.categoryId,selectedCategory.checked)" [checked]="checkedStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
             <mat-icon>computer</mat-icon>
         </div>
         <mat-card-title-group>
@@ -37,7 +37,7 @@
       </mat-card>
       <mat-card class="moduleCards">
       <div *ngFor="let module of category1.modules" style="color:black">
-        <mat-checkbox class="col-md-10" (change)="getModule(module.moduleId)" [checked]="checkedModuleStatus(module.moduleId,category1.categoryId)"></mat-checkbox>
+        <mat-checkbox class="col-md-10" (change)="getModule(module.moduleId,selectedModule.checked)" [checked]="checkedModuleStatus(module.moduleId,category1.categoryId)" #selectedModule></mat-checkbox>
         {{module.moduleName}}
       </div>
       </mat-card>

@@ -51,7 +51,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
         categories.userAssessmentCategories=data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories
         valueEmitter.next(categories)
-        this.router.navigateByUrl("assessment/"+this.assessmentId)
       }
       else{
         this.category.userAssessmentCategories=[]
@@ -75,16 +74,22 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     return index !== -1
   }
 
-  getCategory(categoryId: number) {
+  getCategory(categoryId: number,selectedCategory :boolean) {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
-    if(this.catRequest !==undefined){
-    this.catRequest.modules.forEach(modules =>{
-      let moduleReq = {
-        moduleId:modules.moduleId
-      }
-      this.moduleRequest.push(moduleReq)
-    })
-  }
+    if (this.catRequest !== undefined) {
+      this.catRequest.modules.forEach(modules => {
+        let moduleReq = {
+          moduleId: modules.moduleId
+        }
+        if(selectedCategory) {
+          this.moduleRequest.push(moduleReq)
+        }
+        else{
+          this.moduleRequest=this.moduleRequest.filter(module=>module.moduleId !== moduleReq.moduleId)
+        }
+      })
+    }
+
   }
 
   saveUserModule() {
@@ -98,11 +103,15 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     })
   }
 
-  getModule(moduleId: number) {
+  getModule(moduleId: number,selectedModule : boolean) {
     let moduleReq = {
       moduleId:moduleId
     }
-    this.moduleRequest.push(moduleReq);
+    if(selectedModule) {
+      this.moduleRequest.push(moduleReq);
+    }else{
+      this.moduleRequest=this.moduleRequest.filter(module=>module.moduleId !== moduleReq.moduleId);
+    }
   }
 
   checkedModuleStatus(moduleId: number,categoryId : number) : boolean {
