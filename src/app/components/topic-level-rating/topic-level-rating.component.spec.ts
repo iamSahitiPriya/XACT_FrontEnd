@@ -39,7 +39,7 @@ class MockAppService {
     } else {
       return throwError("Error!")
     }
-    
+
   }
 }
 
@@ -79,6 +79,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -127,6 +128,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -169,6 +171,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -201,6 +204,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      "drafted":false,
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -294,6 +298,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      "drafted":false,
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -332,7 +337,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component,"showError")
     component.setRating(3)
     expect(component.showError).toHaveBeenCalled();
-    
+
   });
 
 });

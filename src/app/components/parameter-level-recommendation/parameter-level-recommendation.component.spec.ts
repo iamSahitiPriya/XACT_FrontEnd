@@ -76,6 +76,7 @@ describe('ParameterRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -146,6 +147,7 @@ describe('ParameterRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -213,6 +215,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      "drafted":false,
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -286,6 +289,7 @@ describe('ParameterRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -403,6 +407,7 @@ describe('ParameterRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -505,6 +510,7 @@ describe('ParameterRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      "drafted":false,
       domain: "",
       industry: "",
       teamSize: 0,
@@ -603,7 +609,7 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterRecommendationIndex = -1
 
     component.getRecommendation(component.parameterRecommendationSample, component.parameterLevelRecommendationResponse)
-    
+
     expect(component.parameterRecommendationSample[1].recommendation).toBe("text");
   });
 
