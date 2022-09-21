@@ -34,4 +34,5 @@ export const environment = {
   IDLE_TIMEOUT: 10,  //in sec
   TIMEOUT: 12000, // 2 min
   REPORT_DATA_URI:"/v1/reports/sunburst",
+  REPORT_TEMPLATE_URI: "/v1/reports/template",
 };

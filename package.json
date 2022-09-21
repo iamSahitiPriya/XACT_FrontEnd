@@ -83,7 +83,7 @@
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "cypress": "^10.6.0",
-    "cypress-grep": "^2.6.1",
+    "cypress-grep": "^3.0.2",
     "cypress-mochawesome-reporter": "^3.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "eslint": "^8.12.0",

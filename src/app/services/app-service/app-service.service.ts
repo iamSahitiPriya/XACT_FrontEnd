@@ -136,6 +136,10 @@ export class AppServiceService {
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
   }
+
+  getTemplate() {
+    return this.http.get(environment.BaseURI + environment.REPORT_TEMPLATE_URI, {responseType: 'blob'})
+  }
 }
 
 

@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   copyright = data_local.COPYRIGHT_MESSAGE.COPYRIGHT_TEXT;
   thoughtworks = data_local.COPYRIGHT_MESSAGE.THOUGHTWORKS_TAG;
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;
+
   route: boolean = false;
 
   constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService) {

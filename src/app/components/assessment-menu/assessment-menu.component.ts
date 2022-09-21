@@ -19,6 +19,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import * as fromActions from "../../actions/assessment-data.actions";
 import * as moment from 'moment';
 import {data_local} from "../../messages";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 export const assessmentData = [{}]
 
@@ -55,18 +56,37 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
+  private completedReportDownloadStatus = data_local.ASSESSMENT_MENU.COMPLETE_REPORT_DOWNLOADING_MESSAGE;
+  private inProgressReportDownloadStatus = data_local.ASSESSMENT_MENU.IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE;
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private errorDisplay: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
   generateReport() {
+    this.displayNotifications();
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
     const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(blob => {
       saveAs(blob, reportName);
     });
+  }
+
+  private displayNotifications() {
+    if (this.assessment.assessmentStatus === 'Completed') {
+      this.showNotification(this.completedReportDownloadStatus, 20000);
+    } else {
+      this.showNotification(this.inProgressReportDownloadStatus, 10000);
+    }
+  }
+
+  getTemplate() {
+    if (this.assessment.assessmentStatus === 'Completed') {
+      this.appService.getTemplate().pipe(takeUntil(this.destroy$)).subscribe(blob => {
+        saveAs(blob, data_local.ASSESSMENT_MENU.REPORT_TEMPLATE_NAME);
+      });
+    }
   }
 
   private formattedName(name: string) {
@@ -130,6 +150,15 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
         this.assessment = data;
       }
     })
+  }
+
+  private showNotification(reportData: string, duration: number) {
+    this.snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: reportData,
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
   ngOnDestroy(): void {
