@@ -104,7 +104,6 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   navigation(drafted: boolean,assessmentId : number) {
-    console.log(drafted);
      drafted ? this.router.navigateByUrl("assessment/"+assessmentId):this.router.navigateByUrl("assessmentModule/"+assessmentId);
   }
 }

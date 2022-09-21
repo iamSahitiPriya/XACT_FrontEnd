@@ -49,7 +49,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data.userAssessmentCategories !== undefined) {
         categories.userAssessmentCategories = data.userAssessmentCategories;
-        categories.assessmentCategories = data.assessmentCategories
+        categories.assessmentCategories = data.assessmentCategories;
         valueEmitter.next(categories)
       } else {
         this.category.userAssessmentCategories = []
@@ -75,6 +75,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   getCategory(categoryId: number, selectedCategory: boolean) {
+    console.log(selectedCategory);
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     if (this.catRequest !== undefined) {
       this.catRequest.modules.forEach(modules => {
@@ -106,15 +107,14 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean): boolean {
+  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean,selectedModule :boolean): boolean {
     let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
     let moduleIndex = -1;
-    if (selectedCategory) {
-      console.log(categoryIndex)
-      moduleIndex = 1
-    }
-    if (categoryIndex !== -1) {
+    selectedModule = selectedCategory;
+    if (categoryIndex !==-1 && selectedModule) {
       moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === moduleId);
+    }else if(selectedCategory){
+      moduleIndex =1;
     }
     return moduleIndex !== -1;
   }
