@@ -6,7 +6,7 @@
 
 
 .col-md-1 {
-  margin-left: 0px;
+  margin-left: 0;
   width: 5%;
 }
 
@@ -17,7 +17,7 @@ h2 {
 
 .container-xxl {
   max-width: 2500px;
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .backIcon {
@@ -72,7 +72,7 @@ h2 {
   height: 100px;
   font-family: 'Inter', sans-serif;
   border-radius: 0;
-  box-shadow: 3px 0px 5px 0px #c3c3c324, 0 3px 5px 0 #c3c3c324, -3px 0px 5px 0px #c3c3c324, 0 -3px 1px #c3c3c324;
+  box-shadow: 3px 0 5px 0 #c3c3c324, 0 3px 5px 0 #c3c3c324, -3px 0 5px 0 #c3c3c324, 0 -3px 1px #c3c3c324;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -82,7 +82,7 @@ h2 {
 }
 
 .categoryCard:hover {
-  outline: 0px solid transparent;
+  outline: 0 solid transparent;
   border: 1px solid #5D9EAA;
 }
 .assessmentCards{
@@ -144,7 +144,7 @@ h2 {
   box-shadow: none;
   margin-bottom: 10%;
   text-align: left;
-  background: #F4FAFCC7 0% 0% no-repeat padding-box;
+  background: #F4FAFCC7 0 0 no-repeat padding-box;
   font-family: "Inter", sans-serif;
   font-size: 13px;
   font-weight: normal;
@@ -155,9 +155,6 @@ h2 {
 }
 .moduleText{
   padding-left: 10%;
-}
-.selectCheckBox{
-  border-radius: 10%;
 }
 .spinner:before {
   content: '';
@@ -173,4 +170,24 @@ h2 {
   border: 1px solid #ffffff;
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
+}
+.saveModuleButton{
+  width: 95px;
+  height: 50px;
+  background: #4BA1AC 0 0 no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 1.42px;
+  color: #FFFFFF;
+  text-transform: capitalize;
+  float: right;
+}
+.saveButtonRow{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1%;
 }
