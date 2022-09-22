@@ -71,6 +71,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-dashboard.component";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -148,6 +149,7 @@ export const appRoutes: Routes = [
     AdminConsoleComponent,
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
+    NotificationSnackbarComponent,
   ],
 
   imports: [

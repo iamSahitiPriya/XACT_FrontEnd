@@ -70,6 +70,10 @@ describe('AssessmentMenuComponent', () => {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Active"});
     }
 
+    getTemplate(){
+      return of(new Blob());
+    }
+
   }
 
   const mockAssessment: AssessmentStructure = {
@@ -117,7 +121,7 @@ describe('AssessmentMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call generate report on click', fakeAsync(() => {
+  it('should call generate report & template on click', fakeAsync(() => {
     component.answerResponse1 = of({
       assessmentId: 1,
       assessmentName: "abc",
@@ -133,6 +137,7 @@ describe('AssessmentMenuComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
     })
+    jest.spyOn(component, 'getTemplate');
     jest.spyOn(component, 'generateReport');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
@@ -141,6 +146,8 @@ describe('AssessmentMenuComponent', () => {
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     tick();
+    expect(component.getTemplate).toHaveBeenCalled();
+    tick(100);
     expect(component.generateReport).toHaveBeenCalled();
     flush()
     flushMicrotasks();
@@ -262,6 +269,7 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges()
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
+
 });
 
 

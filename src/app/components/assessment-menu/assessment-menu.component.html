@@ -8,7 +8,7 @@
       {{ assessmentUpdateStatus + (this.assessment.updatedAt | date:'medium')}}
     </div>
     <button [matTooltip]=generateReportToolTip id="generate-report" type="button" mat-stroked-button
-            (click)="generateReport()" class="btn-report">
+            (click)="generateReport(); getTemplate();" class="btn-report">
       {{generateReportTitle}}
     </button>
     <button [matTooltip]=finishAssessmentToolTip *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment"
@@ -31,7 +31,7 @@
     <mat-menu #menu="matMenu">
       <button (click)="openAssessment(content)" [matTooltip]=manageAssessmentToolTip mat-menu-item
               [disabled]="assessment.assessmentStatus ==='Completed'">
-           <mat-icon class="iconColor">edit</mat-icon>
+        <mat-icon class="iconColor">edit</mat-icon>
         <span id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
 
@@ -40,9 +40,10 @@
         <span>{{addModuleTitle}}</span>
       </button>
 
-      <button disabled mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']" [matTooltip]=summaryTitleToolTip>
+      <button mat-menu-item [routerLink]="['/assessment',assessmentId,'charts']"
+              [matTooltip]=summaryTitleToolTip>
         <mat-icon class="iconColor"> multiline_chart</mat-icon>
-        <span>{{summaryTitle}}</span>
+        <span>{{summaryTitle}} <sup class="text-danger">Beta</sup></span>
       </button>
 
     </mat-menu>

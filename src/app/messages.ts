@@ -92,8 +92,10 @@ export const data_local =
         TITLE: "Manage modules"
       },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
-      LAST_SAVE_STATUS_TEXT: "Last saved at "
-
+      LAST_SAVE_STATUS_TEXT: "Last saved at ",
+      IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE:"Assessment report is getting downloaded.",
+      COMPLETE_REPORT_DOWNLOADING_MESSAGE:"Assessment report & report template are getting downloaded, Please allow multiple download option.",
+      REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx"
     },
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"

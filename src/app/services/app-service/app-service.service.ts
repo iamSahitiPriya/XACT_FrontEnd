@@ -138,6 +138,10 @@ export class AppServiceService {
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
   }
+
+  getTemplate() {
+    return this.http.get(environment.BaseURI + environment.REPORT_TEMPLATE_URI, {responseType: 'blob'})
+  }
   saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
     return this.http.post(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
   }
