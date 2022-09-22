@@ -35,7 +35,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentId: number;
   catRequest: CategoryStructure | undefined
   moduleRequest: UserAssessmentModuleRequest[] = []
-  isChecked: boolean = false
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   loading: boolean;
