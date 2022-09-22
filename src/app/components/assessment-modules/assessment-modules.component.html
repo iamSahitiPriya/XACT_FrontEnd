@@ -24,7 +24,7 @@
   </div>
   <br> <br>
   <div class="row">
-    <div class="assessmentCards col-md-{{12/category.assessmentCategories.length | number:'1.0-0'}}"
+    <div class="assessmentCards col-md-2"
          *ngFor="let category1 of category.assessmentCategories">
       <div class="row">
         <mat-card class="categoryCard">
@@ -51,5 +51,5 @@
       </div>
     </div>
   </div>
-  <button (click)="saveUserModule()">SAVE MEEEEE</button>
+  <button (click)="saveUserModule()"  [class.spinner]="loading" [disabled]="loading">SAVE</button>
 </div>

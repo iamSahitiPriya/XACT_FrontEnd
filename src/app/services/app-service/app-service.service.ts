@@ -145,6 +145,9 @@ export class AppServiceService {
   saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
     return this.http.post(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
   }
+  updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.put(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
+  }
 }
 
 

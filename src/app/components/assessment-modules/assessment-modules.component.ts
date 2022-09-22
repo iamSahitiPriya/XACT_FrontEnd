@@ -38,6 +38,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   isChecked: boolean = false
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
+  loading: boolean;
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router) {
   }
@@ -50,6 +51,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       if (data.userAssessmentCategories !== undefined) {
         categories.userAssessmentCategories = data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories;
+        this.setModules(this.category.userAssessmentCategories);
         valueEmitter.next(categories)
       } else {
         this.category.userAssessmentCategories = []
@@ -75,7 +77,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   getCategory(categoryId: number, selectedCategory: boolean) {
-    console.log(selectedCategory);
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     if (this.catRequest !== undefined) {
       this.catRequest.modules.forEach(modules => {
@@ -88,13 +89,25 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   saveUserModule() {
     const key = 'moduleId';
-
+    this.loading=true;
     const arrayUniqueByKey = [...new Map(this.moduleRequest.map(item =>
       [item[key], item])).values()];
-    this.appService.saveUserModules(arrayUniqueByKey, this.assessmentId).subscribe(_data => {
-      this.router.navigateByUrl("assessment/" + this.assessmentId)
-    })
+    if (this.category.userAssessmentCategories === undefined) {
+      this.appService.saveUserModules(arrayUniqueByKey, this.assessmentId).subscribe(_data => {
+       this.navigate();
+      })
+    } else {
+      this.appService.updateUserModules(this.moduleRequest, this.assessmentId).subscribe(_data => {
+        this.navigate();
+        }
+      )
+    }
   }
+
+  navigate() {
+       this.loading=false;
+       this.router.navigateByUrl("assessment/"+this.assessmentId);
+    }
 
   getModule(moduleId: number, selectedModule: boolean) {
     let moduleReq = {
@@ -107,15 +120,23 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean,selectedModule :boolean): boolean {
+  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean): boolean {
     let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
     let moduleIndex = -1;
     selectedModule = selectedCategory;
-    if (categoryIndex !==-1 && selectedModule) {
+    if (categoryIndex !== -1 && selectedModule) {
       moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === moduleId);
-    }else if(selectedCategory){
-      moduleIndex =1;
+    } else if (selectedCategory) {
+      moduleIndex = 1;
     }
     return moduleIndex !== -1;
+  }
+
+  setModules(userAssessmentCategories: CategoryStructure[]) {
+    for (const userAssessmentCategory of userAssessmentCategories) {
+      for (const module of userAssessmentCategory.modules) {
+        this.getModule(module.moduleId,true);
+      }
+    }
   }
 }
