@@ -12,6 +12,7 @@ import {AssessmentStructure} from "../../../types/assessmentStructure";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Subject, takeUntil} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {data_local} from "../../../messages";
 
 
 @Component({
@@ -30,7 +31,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class AdminCategoryComponent implements OnInit, OnDestroy{
   categoryData:CategoryData[]
   displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit'];
-
+  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<CategoryData>;
 
@@ -119,7 +120,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy{
     }
 
     let flag = false;
-    this.dataSource.data.slice(1).forEach(eachCategory => {
+    this.dataSource.data.slice((this.paginator.pageIndex * this.paginator.pageSize) + 1).forEach(eachCategory => {
         if(eachCategory.categoryName.trim().toLowerCase() === value.categoryName.trim().toLowerCase()) {
           flag = true;
           this.showError("No duplicate categories are allowed", "Close");
