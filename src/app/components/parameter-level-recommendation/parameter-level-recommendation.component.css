@@ -10,7 +10,11 @@
   margin-left: 3px;
   font-size: 15px;
 }
-
+.delete{
+  width: 24%;
+  margin-top:-5px;
+  padding-left:45px;
+}
 textArea.mat-input-element {
   padding-bottom: 30px;
 }

@@ -26,7 +26,7 @@
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" aria-describedby="assessment" matSort>
       <ng-container matColumnDef="assessmentName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="assessmentName"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="assessmentName" class="tableHeader"
             sortActionDescription="Sort by assessment name"
             [matTooltip]=toolTipSortingCol+assessmentNameHeading> {{assessmentNameHeading}}</th>
         <td mat-cell *matCellDef="let element">
@@ -35,21 +35,21 @@
       </ng-container>
 
       <ng-container matColumnDef="organisationName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="organisationName"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="organisationName" class="tableHeader"
             sortActionDescription="Sort by org name"
             [matTooltip]=toolTipSortingCol+organisationNameHeading> {{organisationNameHeading}} </th>
         <td mat-cell *matCellDef="let element"> {{element.organisationName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="assessmentStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="assessmentStatus"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="assessmentStatus" class="tableHeader"
             sortActionDescription="Sort by assessment status"
             [matTooltip]=toolTipSortingCol+statusHeading> {{statusHeading}}</th>
         <td mat-cell *matCellDef="let element"> {{element.assessmentStatus}} </td>
       </ng-container>
 
       <ng-container matColumnDef="updatedAt">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt" sortActionDescription="Sort by last update"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt" sortActionDescription="Sort by last update" class="tableHeader"
             [matTooltip]=toolTipSortingCol+lastUpdatedHeading> {{lastUpdatedHeading}}</th>
         <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:"dd-MMM-yyyy"}} </td>
       </ng-container>
