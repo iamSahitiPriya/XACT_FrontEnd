@@ -16,6 +16,7 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 
 class MockAppService {
   moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
@@ -66,7 +67,7 @@ describe('AssessmentModulesComponent', () => {
       declarations: [AssessmentModulesComponent],
       imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, NoopAnimationsModule, MatCheckboxModule,
         RouterTestingModule.withRoutes([
-          {path: 'assessmentModule', component: AssessmentModulesComponent}
+          {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
         {provide: AppServiceService, useClass: MockAppService}
