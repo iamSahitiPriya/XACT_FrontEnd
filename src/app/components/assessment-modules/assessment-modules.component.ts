@@ -38,6 +38,8 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   loading: boolean;
+  searchText: any;
+  searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router) {
   }

@@ -12,7 +12,23 @@
     <div class="col-md-1">
       <h2>{{assessmentName}}</h2>
     </div>
+    <div>
+    <mat-form-field class="searchModule" appearance="fill">
+      <mat-label>
+        <div class="searchModule-icon">
+          <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search"/>
+        </div>
+        <div class="searchModule-icon">
+          <p class="searchText">{{searchBarText}}</p>
+          <!--      Search...-->
+        </div>
 
+      </mat-label>
+
+      <input matTooltip="Type to search" matInput id="searchModule"  type="text"
+             name="AssessmentName" [(ngModel)]="searchText" #searchModule>
+    </mat-form-field>
+    </div>
   </div>
   <br>
   <div class="row" style="height: 45px">
@@ -25,7 +41,7 @@
   <br> <br>
   <div class="row">
     <div class="assessmentCards col-md-2"
-         *ngFor="let category1 of category.assessmentCategories">
+         *ngFor="let category1 of category.assessmentCategories | filter:searchText">
       <div class="row">
         <mat-card class="categoryCard">
           <div class="row">
@@ -40,7 +56,7 @@
         </mat-card>
         <mat-card class="moduleCards">
           <div class="row">
-            <div *ngFor="let module of category1.modules" style="color:black;margin-bottom: 10%">
+            <div *ngFor="let module of category1.modules | filter:searchText" style="color:black;margin-bottom: 10%">
               <mat-checkbox class="col-xs-2 selectCheckBox" (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId)"
                             [checked]="checkedModuleStatus(module.moduleId,category1.categoryId,selectedCategory.checked,selectedModule.checked)"
                             #selectedModule></mat-checkbox>

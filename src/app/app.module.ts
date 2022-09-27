@@ -72,7 +72,7 @@ import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -149,7 +149,7 @@ export const appRoutes: Routes = [
     AdminConsoleComponent,
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
-    NotificationSnackbarComponent,
+    NotificationSnackbarComponent
   ],
 
   imports: [
@@ -241,7 +241,8 @@ export const appRoutes: Routes = [
     MatSlideToggleModule,
     MatSlideToggleModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    Ng2SearchPipeModule
   ],
 
   exports: [

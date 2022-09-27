@@ -191,3 +191,47 @@ h2 {
   justify-content: flex-end;
   margin-right: 1%;
 }
+
+
+.searchModule {
+  top: 2px;
+  width: 53em;
+  background-color: #F4FAFC !important;
+  border-bottom: None;
+  height: 51px;
+}
+
+.mat-icon {
+  padding-right: 0.4cm;
+  padding-top: 2px;
+  height: 50px;
+  width: 50px;
+
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+::ng-deep .mat-form-field-label, .mat-hint {
+  color: #77969F;
+}
+
+.searchText {
+  padding-left: 36px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  color: #77969F;
+}
+
+.searchModule-icon {
+  float: left;
+}
+
+.search{
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 15px;
+  cursor: pointer;
+}
