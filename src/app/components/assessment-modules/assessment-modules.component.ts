@@ -5,7 +5,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {CategoryStructure} from "../../types/categoryStructure";
-import {BehaviorSubject, Subject, takeUntil} from "rxjs";
+import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {data_local} from "../../messages";
@@ -13,6 +13,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {forEach} from "lodash";
+import {Store} from "@ngrx/store";
+import {AssessmentState} from "../../reducers/app.states";
+import {AssessmentStructure} from "../../types/assessmentStructure";
+import * as fromReducer from "../../reducers/assessment.reducer";
+import * as fromActions from "../../actions/assessment-data.actions";
 
 
 let categories: UserCategoryResponse = {
@@ -40,14 +45,25 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   loading: boolean;
   searchText: any;
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
+  assessmentResponse:Observable<AssessmentStructure>
+  drafted:boolean;
 
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router) {
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>) {
+    this.assessmentResponse = this.store.select(fromReducer.getAssessments)
   }
 
   ngOnInit(): void {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
 
     this.assessmentId = +assessmentIdParam;
+    this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
+    this.assessmentResponse.subscribe(data =>{
+      if(data != undefined) {
+        this.assessmentName = data.assessmentName
+        this.drafted = data.drafted
+      }
+
+    })
     this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data.userAssessmentCategories !== undefined) {
         categories.userAssessmentCategories = data.userAssessmentCategories;
@@ -81,7 +97,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     if (this.catRequest !== undefined) {
       this.catRequest.modules.forEach(modules => {
-        this.getModule(modules.moduleId, selectedCategory,selectedCategory,categoryId)
+        this.getModule(modules.moduleId, selectedCategory, selectedCategory, categoryId)
 
       })
     }
@@ -110,9 +126,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
        this.router.navigateByUrl("assessment/"+this.assessmentId);
     }
 
-  getModule(moduleId: number, selectedModule: boolean,selectedCategory : boolean,categoryId :number) {
+  getModule(moduleId: number, selectedModule: boolean, selectedCategory: boolean, categoryId: number) {
     let moduleReq = {
-      moduleId: moduleId
+      moduleId: Number(moduleId)
     }
     if (selectedModule) {
       this.moduleRequest.push(moduleReq);
@@ -130,7 +146,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     let moduleIndex = -1;
     selectedModule = selectedCategory;
     if (categoryIndex !== -1 && selectedModule) {
-      moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === moduleId);
+      moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === Number(moduleId));
     } else if (selectedCategory) {
       moduleIndex = 1;
     }
@@ -140,7 +156,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   setModules(userAssessmentCategories: CategoryStructure[]) {
     for (const userAssessmentCategory of userAssessmentCategories) {
       for (const module of userAssessmentCategory.modules) {
-        this.getModule(module.moduleId,true,true,userAssessmentCategory.categoryId);
+        this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId);
       }
     }
   }

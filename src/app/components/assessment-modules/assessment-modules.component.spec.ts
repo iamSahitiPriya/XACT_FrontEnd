@@ -22,6 +22,8 @@ import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {InputsModule} from "angular-bootstrap-md";
 import {MatInputModule} from "@angular/material/input";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 
 class MockAppService {
@@ -71,7 +73,9 @@ describe('AssessmentModulesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent,Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,
+        StoreModule.forRoot(reducers),
+        NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
         RouterTestingModule.withRoutes([
           {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
         ])],
@@ -235,5 +239,39 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component,"getModule")
     component.setModules(response.userAssessmentCategories)
     expect(component.getModule).toHaveBeenCalled()
+  });
+  it("fetch assessment name and id from the store", () => {
+    component.assessmentResponse = of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      "drafted":false,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+    })
+    component.ngOnInit()
+    expect(component.assessmentName).toBe("abc1")
+    expect(component.assessmentId).toBe(0)
   });
 });
