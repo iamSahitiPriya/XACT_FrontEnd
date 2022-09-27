@@ -4,30 +4,30 @@
 
 <div class="container-xxl">
   <div class="row">
-    <div class="col-md-1">
-      <button mat-icon-button [routerLink]="['']">
+    <div class="col-md-1 assessment_Name">
+      <button mat-icon-button [routerLink]="drafted?['/assessment',assessmentId]:['']">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-5">
       <h2>{{assessmentName}}</h2>
     </div>
-    <div>
-    <mat-form-field class="searchModule" appearance="fill">
-      <mat-label>
-        <div class="searchModule-icon">
-          <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search"/>
-        </div>
-        <div class="searchModule-icon">
-          <p class="searchText">{{searchBarText}}</p>
-          <!--      Search...-->
-        </div>
+    <div class="col-md-6">
+      <mat-form-field class="searchModule" appearance="fill">
+        <mat-label>
+          <div class="searchModule-icon">
+            <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search"/>
+          </div>
+          <div class="searchModule-icon">
+            <p class="searchText">{{searchBarText}}</p>
+            <!--      Search...-->
+          </div>
 
-      </mat-label>
+        </mat-label>
 
-      <input matTooltip="Type to search" matInput id="searchModule"  type="text"
-             name="AssessmentName" [(ngModel)]="searchText" #searchModule>
-    </mat-form-field>
+        <input matTooltip="Type to search" matInput id="searchModule"  type="text"
+               name="AssessmentName" [(ngModel)]="searchText" #searchModule>
+      </mat-form-field>
     </div>
   </div>
   <br>

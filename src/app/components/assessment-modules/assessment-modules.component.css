@@ -200,15 +200,9 @@ h2 {
   border-bottom: None;
   height: 51px;
 }
-
-.mat-icon {
-  padding-right: 0.4cm;
-  padding-top: 2px;
-  height: 50px;
-  width: 50px;
-
+.assessment_Name{
+  margin-right:-2%;
 }
-
 ::ng-deep .mat-form-field-underline {
   display: none;
 }
