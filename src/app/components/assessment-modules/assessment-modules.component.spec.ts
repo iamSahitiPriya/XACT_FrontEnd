@@ -17,6 +17,12 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
+import {Ng2SearchPipe, Ng2SearchPipeModule} from "ng2-search-filter";
+import {FormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {InputsModule} from "angular-bootstrap-md";
+import {MatInputModule} from "@angular/material/input";
+
 
 class MockAppService {
   moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
@@ -64,14 +70,15 @@ describe('AssessmentModulesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesComponent],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, NoopAnimationsModule, MatCheckboxModule,
+      declarations: [AssessmentModulesComponent,Ng2SearchPipe],
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
         RouterTestingModule.withRoutes([
           {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
         {provide: AppServiceService, useClass: MockAppService}
-      ]
+      ],
+
     })
       .compileComponents();
   });

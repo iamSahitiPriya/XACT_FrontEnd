@@ -149,7 +149,7 @@ export const appRoutes: Routes = [
     AdminConsoleComponent,
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
-    NotificationSnackbarComponent
+    NotificationSnackbarComponent,
   ],
 
   imports: [
@@ -242,7 +242,7 @@ export const appRoutes: Routes = [
     MatSlideToggleModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
   ],
 
   exports: [
@@ -256,6 +256,7 @@ export const appRoutes: Routes = [
     MatRippleModule,
     FormsModule,
     RouterModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     AppServiceService,
