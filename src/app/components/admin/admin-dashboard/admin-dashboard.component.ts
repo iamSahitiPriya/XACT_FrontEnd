@@ -11,6 +11,7 @@ import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentRespo
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -46,6 +47,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
 
   displayText: string = this.last_quarter;
+  selected: Date | null;
 
 
   ngOnInit(): void {
@@ -61,10 +63,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar) {
   }
 
-  // dateRange() {
-  //   this.selectedOption = 2;
-  //   this.getAssessmentDataForDateRange();
-  // }
+  dateRange() {
+    this.displayText = "Custom:"  + this.datePipe.transform(this.startDate,'MMM dd') + "-" + this.datePipe.transform(this.endDate,'MMM dd');
+    this.selectedOption = 2;
+    this.getAssessmentDataForDateRange();
+  }
 
 
   inputChange() {
@@ -180,22 +183,22 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  // getStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
-  //   this.startDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
-  // }
-  //
-  // getEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
-  //   this.endDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
-  // }
-  //
-  // getAssessmentDataForDateRange() {
-  //   if (this.startDate != null && this.endDate != null) {
-  //     this.adminAssessmentRequest.startDate = this.endDate;
-  //     this.adminAssessmentRequest.endDate = this.startDate;
-  //     this.adminAssessmentRequest.assessmentId = 1;
-  //   }
-  //   this.setAssessmentData(this.adminAssessmentRequest);
-  // }
+  getStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.startDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
+  }
+
+  getEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.endDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
+  }
+
+  getAssessmentDataForDateRange() {
+    if (this.startDate != null && this.endDate != null) {
+      this.adminAssessmentRequest.startDate = this.endDate;
+      this.adminAssessmentRequest.endDate = this.startDate;
+      this.adminAssessmentRequest.assessmentId = 1;
+    }
+    this.setAssessmentData(this.adminAssessmentRequest);
+  }
 
   downloadReport() {
     switch (this.selectedOption) {

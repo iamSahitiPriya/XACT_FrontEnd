@@ -31,7 +31,18 @@
   </div>
   <div class="line"></div>
   <div class="calender">
-
+    <mat-form-field appearance="fill">
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" (dateChange)="getStartDate('change', $event)">
+        <input matEndDate placeholder="End date" (dateChange)="getEndDate('change', $event)">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker>
+        <mat-date-range-picker-actions>
+          <button mat-raised-button color="primary" matDateRangePickerApply (click)="dateRange()">Apply</button>
+                            </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+    </mat-form-field>
   </div>
 </div>
 <div class="status-bar">

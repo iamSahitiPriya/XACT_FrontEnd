@@ -141,9 +141,9 @@
   text-align: left;
   letter-spacing: 0.25px;
   color: #043D4E;
-  width: 9rem;
+  width: 16rem;
   height: 3rem;
-  padding: 11% 12%;
+  padding: 7% 11%;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
@@ -163,7 +163,7 @@
 .nav-calender {
   position: relative;
   height : 15rem;
-  width : 45rem;
+  width : 27rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
@@ -194,7 +194,7 @@
 }
 
 .nav-dropdown {
-  width: 17%;
+  width: 36%;
 }
 
 .item:hover {
@@ -227,23 +227,5 @@
   height: 15rem;
 }
 
-
-.custom-day {
-  text-align: center;
-  padding: 0.185rem 0.25rem;
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-}
-.custom-day.focused {
-  background-color: #e6e6e6;
-}
-.custom-day.range, .custom-day:hover {
-  background-color: rgb(2, 117, 216);
-  color: white;
-}
-.custom-day.faded {
-  background-color: rgba(2, 117, 216, 0.5);
-}
 
 
