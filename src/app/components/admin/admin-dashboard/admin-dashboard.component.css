@@ -10,9 +10,10 @@
   display: block;
   position: relative;
   border-radius: 15px;
-  padding: 19px 19px 0px;
+  padding:1% 1% 0px;
   margin-bottom:4%;
-  width: 22%;
+  width: 16%;
+  min-width: 10.375rem;
 }
 .header{
   display:flex;
@@ -23,36 +24,40 @@
   width:17%;
 }
 .dashBoardText{
-  margin-top: 40px;
-  margin-left: 28px;
+  margin-top: 2%;
+  margin-left: 2%;
   font-size: 20px;
   font-weight: bold;
   color:#043D4E;
 }
-.calender{
-  margin-left: 54px;
-}
+
 .assessmentStatus{
+  position: absolute;
+  width : 100%;
   display: flex;
   margin-left:1%;
+  margin-top: 2%;
 }
 .Active, .Completed{
-  margin-left:62px
+  z-index: 0;
+  margin-left: 10%;
 }
 
 .downloadButton
 {
-  margin-left: 48px;
+  margin-left: 8%;
   margin-top: 5%;
-  margin-bottom: 75px;
-  background-color:#6B9F78;
+  margin-bottom: 4%;
+  background-color: #6b9f78;
   position: relative;
-  color: #FFFFFF;
-  width:20%;
+  color: #fff;
+  width: 14%;
   border-radius: 5px;
-  padding: 9px 18px;
+  padding: 1% 1%;
   border: none;
-  display:flex;
+  display: flex;
+  min-width: 9.1rem;
+
 }
 .parent{
   margin-top:2px;
@@ -116,3 +121,129 @@
   color: white;
   padding-top: 2px;
 }
+
+.options {
+  float: right;
+  width: 100%;
+  height: 80%;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.dropdownItem {
+  margin-top: 8%;
+  font-size: medium;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  opacity: 1;
+  text-align: left;
+  letter-spacing: 0.25px;
+  color: #043D4E;
+  width: 9rem;
+  height: 3rem;
+  padding: 11% 12%;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 25px #52575D1A;
+  border-radius: 4px;
+}
+
+.items {
+  /*margin-top: 0.8em !important;*/
+  text-align: left;
+  font: normal normal normal 14px/20px "Inter", sans-serif;
+  letter-spacing: 0.25px;
+  color: #043D4E;
+  opacity: 1;
+  height: 12rem;
+  width: 9rem;
+}
+
+.nav-calender {
+  position: relative;
+  height : 15rem;
+  width : 45rem;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 25px #52575D1A;
+  border-radius: 4px;
+  margin-top: 1%;
+  margin-right: 5%;
+  z-index: 1;
+  float: right;
+  display : flex;
+}
+
+.status-bar {
+  display: flex;
+  position: absolute;
+  width : 72%;
+  height : 40%;
+}
+
+.nav-item {
+  text-align: left;
+  font: normal normal normal 14px/20px "Inter", sans-serif;
+  letter-spacing: 0.25px;
+  color: #043D4E;
+  opacity: 1;
+  padding-left: 0;
+}
+.item {
+  padding : 7% 4% 4% 9%;
+}
+
+.nav-dropdown {
+  width: 17%;
+}
+
+.item:hover {
+  background: #00000014 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+.navitem {
+  padding : 7% 0 9.5% 10%;
+  list-style: none;
+  font: normal normal normal 16px/20px Inter;
+  letter-spacing: 0px;
+  color: #4F6F79;
+  opacity: 1;
+}
+
+.navitem .custom {
+  padding-bottom: 0;
+}
+
+.navitem:hover {
+  background: #F5FAFC 0% 0% no-repeat padding-box;
+  opacity: 1;
+  color: #45A0AC;
+  border-right: solid 8px #45A0AC ;
+}
+
+.line {
+  border-left: 1px solid #00000014;
+  height: 15rem;
+}
+
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+
+
