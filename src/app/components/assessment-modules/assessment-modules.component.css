@@ -13,6 +13,7 @@
 h2 {
   padding-top: 5px;
   color: #043D4E;
+  text-transform: capitalize;
 }
 
 .container-xxl {
@@ -229,3 +230,4 @@ h2 {
   width: 15px;
   cursor: pointer;
 }
+

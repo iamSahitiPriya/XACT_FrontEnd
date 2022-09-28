@@ -9,7 +9,7 @@
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-5 heading">
       <h2>{{assessmentName}}</h2>
     </div>
     <div class="col-md-6">
@@ -68,6 +68,6 @@
     </div>
   </div>
   <div class="row saveButtonRow">
-  <button class="saveModuleButton" (click)="saveUserModule()"  [class.spinner]="loading" [disabled]="(loading || moduleRequest.length===0)" mat-raised-button >Save</button>
+  <button class="saveModuleButton" (click)="saveUserModule()"  [class.spinner]="loading" [disabled]="(loading || moduleRequest.length===0)" mat-raised-button [matTooltip]="saveText">Save</button>
   </div>
 </div>

@@ -47,6 +47,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
   assessmentResponse:Observable<AssessmentStructure>
   drafted:boolean;
+  saveText = data_local.ASSESSMENT_MODULE.SAVE;
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>) {
     this.assessmentResponse = this.store.select(fromReducer.getAssessments)

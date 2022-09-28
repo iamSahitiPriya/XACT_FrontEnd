@@ -101,7 +101,8 @@ export const data_local =
       TITLE: "Computed Maturity Score"
     },
     ASSESSMENT_MODULE: {
-      TITLE: "Modules"
+      TITLE: "Modules",
+      SAVE: "Click to save modules",
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"
