@@ -12,7 +12,6 @@ import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
 
-
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -40,11 +39,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   Complete_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_COMPLETE;
   last_month = data_local.DROPDOWN_OPTION_TEXT.LAST_MONTH;
   last_week = data_local.DROPDOWN_OPTION_TEXT.LAST_WEEK;
-  last_quarter=data_local.DROPDOWN_OPTION_TEXT.LAST_QUARTER;
-  last_year= data_local.DROPDOWN_OPTION_TEXT.LAST_YEAR;
-  download_label =data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
-  download =data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
-  dropdown_label =data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
+  last_quarter = data_local.DROPDOWN_OPTION_TEXT.LAST_QUARTER;
+  last_year = data_local.DROPDOWN_OPTION_TEXT.LAST_YEAR;
+  download_label = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
+  download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
+  dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
+
+  displayText: string = this.last_quarter;
 
 
   ngOnInit(): void {
@@ -109,6 +110,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForQuarter() {
+    this.displayText = this.last_quarter;
     this.setAssessmentData(this.setQuarterRequest());
   }
 
@@ -126,6 +128,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForWeek() {
+    this.displayText = this.last_week;
     this.setAssessmentData(this.setWeekRequest());
   }
 
@@ -143,6 +146,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForMonth() {
+    this.displayText = this.last_month;
     this.setAssessmentData(this.setMonthRequest());
   }
 
@@ -160,6 +164,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForYear() {
+    this.displayText = this.last_year;
     this.setAssessmentData(this.setYearRequest());
   }
 
@@ -241,4 +246,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   // selectedOptions() {
   //   this.selectedOption = 4;
   // }
+
+  setCustomOption() {
+    this.displayText = "Custom";
+  }
+
 }
+
