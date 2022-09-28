@@ -24,6 +24,7 @@ import {InputsModule} from "angular-bootstrap-md";
 import {MatInputModule} from "@angular/material/input";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 class MockAppService {
@@ -73,7 +74,7 @@ describe('AssessmentModulesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent,Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,MatTooltipModule,
         StoreModule.forRoot(reducers),
         NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
         RouterTestingModule.withRoutes([
