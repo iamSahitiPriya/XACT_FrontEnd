@@ -12,14 +12,14 @@
     </button>
 
     <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="assessmentName">
+      <mat-form-field appearance="outline" class="assessmentName" >
         <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
-        <mat-select matNativeControl required (selectionChange)="assessment.assessmentPurpose">
-          <mat-option value="internalRequest">Internal Request</mat-option>
-          <mat-option value="clientRequest">Client Request</mat-option>
+        <mat-select  (selectionChange)="purposeChange($event.value)"  required [(value)]="assessment.assessmentPurpose">
+          <mat-option value="Internal Request">Internal Request</mat-option>
+          <mat-option value="Client Request">Client Request</mat-option>
         </mat-select>
-        <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
+        <mat-error *ngIf="!assessment.assessmentPurpose.length">
+         {{mandatoryFieldText}}
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="assessmentName">

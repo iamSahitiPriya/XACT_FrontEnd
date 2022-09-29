@@ -8,7 +8,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -33,6 +33,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
+  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -81,6 +82,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
+        selected : ['',Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
@@ -250,5 +252,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  purposeChange(option : string) {
+    this.assessment.assessmentPurpose=option;
   }
 }
