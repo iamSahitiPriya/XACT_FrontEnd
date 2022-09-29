@@ -35,11 +35,9 @@ td.category {
   width: 28%;
   word-break: break-word;
 }
-
 .delete {
   min-width: 0px;
   padding: 0;
-  width: 816px;
 }
 
 .editButton {
