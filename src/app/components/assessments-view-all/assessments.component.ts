@@ -35,6 +35,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
+    assessmentPurpose:"",
     assessmentStatus: "",
     domain: "",
     industry: "",
@@ -101,7 +102,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
 }
 
 

@@ -41,6 +41,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentTitle = data_local.ASSESSMENT.MANAGE.TITLE;
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
+  purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -98,12 +99,14 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
+      console.log(this.assessment.assessmentPurpose)
       const users = this.getValidUsers();
       this.assessment.users = this.getUsersStructure(users);
       this.loading = true
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
+        assessmentPurpose:this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,
@@ -171,6 +174,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
+        assessmentPurpose:this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,

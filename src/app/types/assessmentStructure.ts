@@ -9,6 +9,7 @@ import {TopicRatingAndRecommendation} from "./topicRatingAndRecommendation";
 export interface AssessmentStructure {
   "assessmentId": number,
   "assessmentName": string,
+  "assessmentPurpose":string,
   "organisationName": string,
   "assessmentStatus": string,
   "domain": string,

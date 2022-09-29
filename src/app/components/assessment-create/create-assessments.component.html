@@ -13,6 +13,16 @@
 
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName">
+        <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
+        <mat-select matNativeControl required (selectionChange)="assessment.assessmentPurpose">
+          <mat-option value="internalRequest">Internal Request</mat-option>
+          <mat-option value="clientRequest">Client Request</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
+          {{mandatoryFieldText}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{assessmentNameTitle}} *</mat-label>
         <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
                [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$"
