@@ -30,7 +30,7 @@ export const data_local =
         BUTTON_TEXT: "Save"
       },
       MANAGE: {
-        TITLE: "Manage Assessment",
+        TITLE: "Configure",
         TOOLTIP: "Click to update this assessment",
         BUTTON_TEXT: "Update"
       },
@@ -85,7 +85,7 @@ export const data_local =
         TOOLTIP: "Click to open menu"
       },
       MANAGE_ASSESSMENT: {
-        TITLE: "Manage assessment",
+        TITLE: "Configure",
         TOOLTIP: "Click to manage assessment and users"
       },
       ADD_ASSESSMENT_MODULE: {
