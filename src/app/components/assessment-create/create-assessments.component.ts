@@ -64,7 +64,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
-
+  purposeOfAssessment = [{
+    value:'Client Request'
+  },{value:'Internal Request'}]
 
   @Input()
   assessment: AssessmentStructure;
@@ -91,6 +93,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         emailValidator: ['', Validators.pattern(this.re)]
       }
     )
+    this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;

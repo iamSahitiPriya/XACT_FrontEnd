@@ -14,11 +14,10 @@
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName" >
         <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
-        <mat-select  (selectionChange)="purposeChange($event.value)"  required [(value)]="assessment.assessmentPurpose">
-          <mat-option value="Internal Request">Internal Request</mat-option>
-          <mat-option value="Client Request">Client Request</mat-option>
+        <mat-select  (selectionChange)="purposeChange($event.value)"  required formControlName="selected">
+          <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="!assessment.assessmentPurpose.length">
+        <mat-error *ngIf="form['selected'].hasError('required')">
          {{mandatoryFieldText}}
         </mat-error>
       </mat-form-field>
