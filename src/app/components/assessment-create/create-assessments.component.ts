@@ -82,7 +82,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
-        selected : ['',Validators.required],
+        selected:['',Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
@@ -101,7 +101,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
-      console.log(this.assessment.assessmentPurpose)
       const users = this.getValidUsers();
       this.assessment.users = this.getUsersStructure(users);
       this.loading = true

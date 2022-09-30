@@ -134,7 +134,7 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
     assessmentData.splice(0, assessmentData.length)
 
     const dialogRef = this.dialog.open(content, {
-      width: '630px', height: '650px',
+      width: '630px'
     })
     dialogRef.disableClose = true;
   }
