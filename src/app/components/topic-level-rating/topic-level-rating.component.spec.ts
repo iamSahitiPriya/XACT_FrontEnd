@@ -39,7 +39,7 @@ class MockAppService {
     } else {
       return throwError("Error!")
     }
-    
+
   }
 }
 
@@ -78,6 +78,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -125,6 +126,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -167,6 +169,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -200,6 +203,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -294,6 +298,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -332,7 +337,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component,"showError")
     component.setRating(3)
     expect(component.showError).toHaveBeenCalled();
-    
+
   });
 
 });

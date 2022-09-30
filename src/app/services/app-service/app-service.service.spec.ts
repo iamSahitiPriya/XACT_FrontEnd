@@ -43,6 +43,7 @@ describe('AppServiceService', () => {
       {
         assessmentName: "abcdef",
         organisationName: "Rel23",
+        assessmentPurpose:"Client Request",
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
@@ -102,6 +103,7 @@ describe('AppServiceService', () => {
       assessmentName: "",
       domain: "",
       organisationName: "",
+      assessmentPurpose:"",
       industry: "",
       teamSize: 0,
       users: []

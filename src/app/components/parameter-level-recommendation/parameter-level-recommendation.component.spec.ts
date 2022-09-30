@@ -75,6 +75,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -145,6 +146,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -213,6 +215,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -285,6 +288,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -402,6 +406,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -503,6 +508,7 @@ describe('ParameterRecommendationComponent', () => {
       assessmentId: 1,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -603,7 +609,7 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterRecommendationIndex = -1
 
     component.getRecommendation(component.parameterRecommendationSample, component.parameterLevelRecommendationResponse)
-    
+
     expect(component.parameterRecommendationSample[1].recommendation).toBe("text");
   });
 
