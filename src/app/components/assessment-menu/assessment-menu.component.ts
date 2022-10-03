@@ -30,23 +30,11 @@ export const assessmentData = [{}]
 })
 
 
-export class AssessmentMenuComponent implements OnInit, OnDestroy {
-  savedAnswer: string
-  createAssessmentForm: FormGroup;
-  columnName = ["name", "delete"];
-  assessment: AssessmentStructure;
-  data: AssessmentStructure;
+export class AssessmentMenuComponent {
   @Input()
-  assessmentId: number
-  answerResponse1: Observable<AssessmentStructure>;
-  private cloneAssessment: AssessmentStructure;
+  assessment: AssessmentStructure;
+
   public static answerSaved: string;
-  generateReportToolTip = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TOOLTIP;
-  generateReportTitle = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TITLE;
-  finishAssessmentToolTip = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TOOLTIP;
-  finishAssessmentTitle = data_local.ASSESSMENT_MENU.FINISH_ASSESSMENT.TITLE;
-  reopenAssessmentToolTip = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TOOLTIP;
-  reopenAssessmentTitle = data_local.ASSESSMENT_MENU.REOPEN_ASSESSMENT.TITLE;
   menuButtonToolTip = data_local.ASSESSMENT_MENU.MENU_BUTTON.TOOLTIP;
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
@@ -54,81 +42,9 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
   summaryTitle = data_local.SUMMARY_REPORT.TITLE;
   summaryTitleToolTip = data_local.SUMMARY_REPORT.TOOLTIP;
 
-  private destroy$: Subject<void> = new Subject<void>();
-  assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
-  private completedReportDownloadStatus = data_local.ASSESSMENT_MENU.COMPLETE_REPORT_DOWNLOADING_MESSAGE;
-  private inProgressReportDownloadStatus = data_local.ASSESSMENT_MENU.IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE;
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private dialog: MatDialog) {
   }
-
-  generateReport() {
-    this.displayNotifications();
-    let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
-    const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + this.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
-    this.appService.generateReport(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(blob => {
-      saveAs(blob, reportName);
-    });
-  }
-
-  private displayNotifications() {
-    if (this.assessment.assessmentStatus === 'Completed') {
-      this.showNotification(this.completedReportDownloadStatus, 20000);
-    } else {
-      this.showNotification(this.inProgressReportDownloadStatus, 10000);
-    }
-  }
-
-  getTemplate() {
-    if (this.assessment.assessmentStatus === 'Completed') {
-      this.appService.getTemplate().pipe(takeUntil(this.destroy$)).subscribe(blob => {
-        saveAs(blob, data_local.ASSESSMENT_MENU.REPORT_TEMPLATE_NAME);
-      });
-    }
-  }
-
-  private formattedName(name: string) {
-    return name.toLowerCase().replace(/ /g, "-");
-  }
-
-
-  finishAssessment() {
-    this.appService.finishAssessment(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((_data) => {
-        this.cloneAssessment = Object.assign({}, this.assessment)
-        this.cloneAssessment.assessmentStatus = _data.assessmentStatus
-        this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
-      }
-    )
-  }
-
-  confirmFinishAssessmentAction() {
-    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-      width: '448px',
-      height: '203px'
-    });
-    openConfirm.componentInstance.text = data_local.ASSESSMENT_MENU.CONFIRMATION_POPUP_TEXT;
-    openConfirm.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
-      if (result === 1) {
-        this.finishAssessment();
-      }
-    })
-  }
-
-  reopenAssessment() {
-    this.appService.reopenAssessment(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((_data) => {
-        this.sendAssessmentStatus(_data.assessmentStatus)
-      }
-    )
-  }
-
-  sendAssessmentStatus(assessmentStatus: string) {
-    this.cloneAssessment = Object.assign({}, this.assessment)
-    this.cloneAssessment.assessmentStatus = assessmentStatus
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
-  }
-
 
   async openAssessment(content: any) {
     assessmentData.splice(0, assessmentData.length)
@@ -144,27 +60,7 @@ export class AssessmentMenuComponent implements OnInit, OnDestroy {
     this.dialog.closeAll()
   }
 
-  ngOnInit(): void {
-    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (data !== undefined) {
-        this.assessment = data;
-      }
-    })
-  }
 
-  private showNotification(reportData: string, duration: number) {
-    this.snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: reportData,
-      duration: duration,
-      verticalPosition: "top",
-      horizontalPosition: "center"
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
 }
 
