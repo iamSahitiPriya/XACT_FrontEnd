@@ -231,3 +231,9 @@ h2 {
   cursor: pointer;
 }
 
+.active{
+  pointer-events: none;
+  opacity:65%;
+  background-color: #F7F7F7;
+  color:#6F7071;
+}
