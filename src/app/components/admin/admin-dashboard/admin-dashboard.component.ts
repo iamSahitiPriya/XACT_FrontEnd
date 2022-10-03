@@ -11,7 +11,8 @@ import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentRespo
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,13 +20,11 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  selectedOption = 0;
+  selectedOption :number;
 
   datePipe: DatePipe = new DatePipe('en-US');
   todayDate: string | null;
   myDate = new Date();
-  startDate: string | null;
-  endDate: string | null;
   adminAssessmentRequest: AdminAssessmentRequest = {assessmentId: 0, endDate: "", startDate: ""};
   adminAssessmentResponse: AdminAssessmentResponse = {
     totalActiveAssessments: 0,
@@ -60,13 +59,37 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar) {
+  hoveredDate: NgbDate | null = null;
+
+  fromDate: NgbDate | null =null;
+  toDate: NgbDate | null = null;
+
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar) {
+    this.fromDate = calendar.getToday();
+     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
   }
 
-  dateRange() {
-    this.displayText = "Custom:"  + this.datePipe.transform(this.startDate,'MMM dd') + "-" + this.datePipe.transform(this.endDate,'MMM dd');
-    this.selectedOption = 2;
-    this.getAssessmentDataForDateRange();
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
 
@@ -113,6 +136,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForQuarter() {
+    this.selectedOption = 0;
     this.displayText = this.last_quarter;
     this.setAssessmentData(this.setQuarterRequest());
   }
@@ -131,6 +155,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForWeek() {
+    this.selectedOption = 1;
     this.displayText = this.last_week;
     this.setAssessmentData(this.setWeekRequest());
   }
@@ -149,6 +174,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForMonth() {
+    this.selectedOption = 2;
     this.displayText = this.last_month;
     this.setAssessmentData(this.setMonthRequest());
   }
@@ -167,6 +193,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForYear() {
+    this.selectedOption = 3;
     this.displayText = this.last_year;
     this.setAssessmentData(this.setYearRequest());
   }
@@ -183,21 +210,17 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  getStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.startDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
+  getAssessmentDataForCustomDateRange() {
+    this.setAssessmentData(this.setCustomDateRequest());
   }
 
-  getEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.endDate = this.datePipe.transform(event.value, 'YYYY-MM-dd');
-  }
-
-  getAssessmentDataForDateRange() {
-    if (this.startDate != null && this.endDate != null) {
-      this.adminAssessmentRequest.startDate = this.endDate;
-      this.adminAssessmentRequest.endDate = this.startDate;
+  private setCustomDateRequest() {
+    if (this.fromDate != null && this.toDate != null) {
+      this.adminAssessmentRequest.startDate = String(this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day);
+      this.adminAssessmentRequest.endDate = String(this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day);
       this.adminAssessmentRequest.assessmentId = 1;
     }
-    this.setAssessmentData(this.adminAssessmentRequest);
+    return this.adminAssessmentRequest;
   }
 
   downloadReport() {
@@ -216,6 +239,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       }
       case 3: {
         this.getReportForYear()
+        break;
+      }
+      case 4: {
+        this.getReportForCustomDateRange()
         break;
       }
     }
@@ -245,14 +272,33 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.getReport(this.setYearRequest());
   }
 
+   getReportForCustomDateRange() {
+    this.getReport(this.setCustomDateRequest());
+  }
 
-  // selectedOptions() {
-  //   this.selectedOption = 4;
-  // }
 
   setCustomOption() {
+    this.selectedOption = 4;
     this.displayText = "Custom";
   }
+
+  getMonthName(monthNumber: number | undefined) {
+    const date = new Date();
+    if(monthNumber !== undefined)
+    date.setMonth(monthNumber - 1);
+
+    return date.toLocaleString('en-US', { month: 'short' });
+  }
+
+
+  selectCustomDateRange(){
+    if(this.toDate === null) {
+      this.toDate = this.fromDate;
+    }
+    this.displayText = "Custom : " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+    this.getAssessmentDataForCustomDateRange();
+  }
+
 
 }
 

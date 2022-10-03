@@ -28,6 +28,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentResponse";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
 
 class MockAppService {
  adminAssessmentResponse : AdminAssessmentResponse={
@@ -89,13 +90,14 @@ describe('AdminDashboardComponent', () => {
   });
 
   it("should able to get week end date when getAssessmentDataForWeek is called", () => {
-    component.selectedOption=1
+
 
     let date = new Date();
     date.setDate(date.getDate() - 7);
     let weekDate=component.datePipe.transform(date,'YYYY-MM-dd');
 
     component.ngOnInit()
+    component.selectedOption=1
     jest.spyOn(component,'inputChange');
     component.inputChange();
     jest.spyOn(component,'getAssessmentDataForWeek');
@@ -104,13 +106,14 @@ describe('AdminDashboardComponent', () => {
   });
 
   it("should able to get Month end date when getAssessmentDataForMonth is called", () => {
-    component.selectedOption=2
+
 
     let date = new Date();
     date.setDate(date.getDate() - 30);
     let monthDate=component.datePipe.transform(date,'YYYY-MM-dd');
 
     component.ngOnInit()
+    component.selectedOption=2
     jest.spyOn(component,'inputChange');
     component.inputChange();
     jest.spyOn(component,'getAssessmentDataForMonth');
@@ -119,7 +122,7 @@ describe('AdminDashboardComponent', () => {
   });
 
   it("should able to get Year end date when getAssessmentDataForYear is called", () => {
-    component.selectedOption=3
+
 
     let date = new Date();
     date.setDate(date.getDate() - 365);
@@ -127,6 +130,7 @@ describe('AdminDashboardComponent', () => {
 
 
     component.ngOnInit()
+    component.selectedOption=3
     jest.spyOn(component,'inputChange');
     component.inputChange();
     jest.spyOn(component,'getAssessmentDataForYear');
@@ -141,49 +145,92 @@ describe('AdminDashboardComponent', () => {
 
   });
 
-  // it("should able to get the calender start date", () => {
-  //
-  //   let startDate="2022-08-12";
-  //  let  endDate="2022-09-12";
-  //    let firstParameter : MatDatepickerInputBase<any,any>;
-  //    let secondParameter:HTMLElement;
-  //
-  //   let MatDate: MatDatepickerInputEvent<Date, unknown>;
-  //   // @ts-ignore
-  //   MatDate = new MatDatepickerInputEvent(firstParameter.value=startDate, secondParameter);
-  //   jest.spyOn(component,'getStartDate');
-  //   component.getStartDate(startDate,MatDate);
-  //   jest.spyOn(component,'getEndDate');
-  //   component.getEndDate(endDate,MatDate);
-  //
-  //   expect(component.startDate).toEqual("2022-08-12");
-  // });
+  it("should able to set the display text as custom when setCustomOption", () => {
+    component.selectedOption = 0;
+    component.displayText = "";
+    component.ngOnInit()
+    jest.spyOn(component,"setCustomOption");
+    component.setCustomOption();
+    expect(component.selectedOption).toBe(4);
+    expect(component.displayText).toBe("Custom");
+  });
 
-  // it("should able to get assessment data between date range",()=>{
-  //   let adminAssessmentRequest = {
-  //     assessmentId: 0, endDate: "", startDate: ""
-  //   };
-  //
-  //   let adminAssessmentResponse = {
-  //     totalAssessments: 2,
-  //     totalActiveAssessments: 0,
-  //     totalCompleteAssessments: 0
-  //   };
-  //
-  //   component.startDate="2022-07-13";
-  //   component.endDate="2022-09-24";
-  //   component.adminAssessmentRequest.assessmentId=1;
-  //   jest.spyOn(component,'getAssessmentDataForDateRange');
-  //   component.getAssessmentDataForDateRange();
-  //   component.adminAssessmentResponse.totalAssessments = adminAssessmentResponse.totalAssessments;
-  //   mockAppService.getAdminAssessment(component.adminAssessmentRequest).subscribe((data) => {
-  //     expect(data).toBe(adminAssessmentResponse)
-  //     data = adminAssessmentResponse;
-  //
-  //   })
-  //
-  //   expect(component.adminAssessmentResponse.totalAssessments).toEqual(2);
-  // })
+  it("should be able to set the display text as selected date range", () => {
+    component.fromDate = new NgbDate(2022,10,1);
+    component.toDate = new NgbDate(2022,10,30);
+
+    component.ngOnInit()
+    jest.spyOn(component,"selectCustomDateRange");
+    component.selectCustomDateRange();
+
+    expect(component.displayText).toBe("Custom : Oct 1 - Oct 30");
+
+    expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
+  })
+
+  it("should be able to set the display text as single selected date and later select new toDate ", () => {
+    component.fromDate = new NgbDate(2022,10,1);
+    component.toDate = null;
+    let date = new NgbDate(2022,10,10);
+
+    component.ngOnInit()
+    jest.spyOn(component,"selectCustomDateRange");
+    component.selectCustomDateRange();
+
+    expect(component.displayText).toBe("Custom : Oct 1 - Oct 1");
+
+    expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
+
+    component.toDate = null;
+    jest.spyOn(component,"onDateSelection")
+    component.onDateSelection(date);
+
+    expect(component.toDate).toEqual({"day": 10, "month": 10, "year": 2022});
+  })
+
+  it("should set the from date as selected date when from and to dates are null",() => {
+    component.fromDate = null;
+    component.toDate = null;
+    let date = new NgbDate(2022,10,10);
+
+    component.ngOnInit();
+    component.onDateSelection(date);
+
+    expect(component.fromDate).toEqual({"day": 10, "month": 10, "year": 2022});
+  })
+
+  it("should be able to visualize the date range",() => {
+    component.fromDate = new NgbDate(2022,3,23);
+    component.toDate = null;
+    component.hoveredDate = new NgbDate(2022,3,25);
+
+    let date = new NgbDate(2022,3,24);
+
+    component.ngOnInit();
+    jest.spyOn(component,"isHovered");
+
+    expect(component.isHovered(date)).toBe(true);
+  })
+
+  it("should be able to visualize the dates inside the range and select new dates",() => {
+    component.fromDate = new NgbDate(2022,3,23);
+    component.toDate = new NgbDate(2022,3,29);
+    let date = new NgbDate(2022,3,24);
+
+    component.ngOnInit();
+    jest.spyOn(component,"isRange");
+    jest.spyOn(component,"isHovered");
+    jest.spyOn(component,"isInside")
+
+
+    expect(component.isRange(date)).toBe(true);
+    expect(component.isInside).toHaveBeenCalled();
+
+    jest.spyOn(component,"onDateSelection");
+    component.onDateSelection(date);
+    expect(component.fromDate).toEqual({"day": 24, "month": 3, "year": 2022})
+  })
+
 
   it('should  generate report for quarter', fakeAsync(() => {
     component.selectedOption=0
@@ -203,13 +250,14 @@ describe('AdminDashboardComponent', () => {
   }));
 
   it('should  generate report for week', fakeAsync(() => {
-    component.selectedOption=1
+
 
     jest.spyOn(component, 'getReportForWeek');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
     fixture.detectChanges();
+    component.selectedOption=1
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     tick();
@@ -219,26 +267,38 @@ describe('AdminDashboardComponent', () => {
     discardPeriodicTasks();
   }));
   it('should  generate report for Month', () => {
-    component.selectedOption=2
+
 
     jest.spyOn(component, 'getReportForMonth');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
     fixture.detectChanges();
+    component.selectedOption=2
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     expect(component.getReportForMonth).toHaveBeenCalled();
   });
   it('should  generate report for Year', () => {
-    component.selectedOption=3
+
 
     jest.spyOn(component, 'getReportForYear');
     component.ngOnInit()
     fixture.detectChanges();
+    component.selectedOption=3
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     expect(component.getReportForYear).toHaveBeenCalled();
+  });
+
+  it('should  generate report for Custom date range', () => {
+    jest.spyOn(component, 'getReportForCustomDateRange');
+    component.ngOnInit()
+    fixture.detectChanges();
+    component.selectedOption=4
+    let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
+    generateReport.click();
+    expect(component.getReportForCustomDateRange).toHaveBeenCalled();
   });
 
   it("should throw error when problem occurs if undefined is sent",  () => {

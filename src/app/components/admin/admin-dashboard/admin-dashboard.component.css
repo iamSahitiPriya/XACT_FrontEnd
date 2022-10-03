@@ -2,6 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: 0 2px 10px -3px #0003, 0 1px 5px #00000024, 0 0px 3px #0000001f;
 }
@@ -134,16 +136,16 @@
 
 .dropdownItem {
   margin-top: 8%;
-  font-size: medium;
+  font-size : 16px;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   opacity: 1;
   text-align: left;
   letter-spacing: 0.25px;
   color: #043D4E;
-  width: 16rem;
-  height: 3rem;
-  padding: 7% 11%;
+  width: fit-content;
+  height: fit-content;
+  padding: 13%;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
@@ -162,8 +164,8 @@
 
 .nav-calender {
   position: relative;
-  height : 15rem;
-  width : 27rem;
+  height : 21rem;
+  width : 45rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
@@ -194,7 +196,7 @@
 }
 
 .nav-dropdown {
-  width: 36%;
+  width: 24%;
 }
 
 .item:hover {
@@ -224,7 +226,93 @@
 
 .line {
   border-left: 1px solid #00000014;
-  height: 15rem;
+  height: 21rem;
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+  background-color: #45A0AC;
+  color: white;
+}
+.custom-day.faded {
+  background-color: #45A0AC;
+  opacity: 0.4;
+}
+
+::ng-deep .ngb-dp-arrow-btn {
+  color: #707070 !important;
+  background: #F7F7F7 0% 0% no-repeat padding-box !important;
+  opacity: 1 !important;
+}
+
+::ng-deep .ngb-dp-month-name {
+  color: #4F6F79 !important;
+  font-family: Inter, serif;
+  font-weight: normal !important;
+  font-size: 16px !important;
+}
+
+::ng-deep .ngb-dp-weekdays {
+  display: none !important;
+}
+
+::ng-deep ngb-datepicker-navigation-select>.form-select {
+  display: none !important;
+}
+
+::ng-deep ngb-datepicker {
+  border: none !important;
+}
+
+::ng-deep .ngb-dp-month-name {
+  margin-bottom: 6% !important;
+  margin-top: -4% !important;
+  padding-bottom: 18% !important;
+}
+
+::ng-deep ngb-datepicker-navigation {
+  margin-top : 2% !important;
+  margin-right : -11% !important;
+  margin-left: 5% !important;
+}
+
+::ng-deep .ngb-dp-months {
+  margin-top: -5% !important;
+}
+
+::ng-deep .ngb-dp-month {
+  margin-left: 5% !important;
+}
+
+  /*.custom-day.focused {*/
+/*  border-radius: 22px;*/
+/*}*/
+
+.apply-button {
+  text-transform: capitalize;
+  text-align: left;
+  font-family: Inter, serif;
+  font-weight: normal ;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #FFFFFF;
+  opacity: 1;
+  background: #45A0AC 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+}
+
+.applyButton {
+  margin-left: 89%;
 }
 
 

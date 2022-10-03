@@ -71,6 +71,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-dashboard.component";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -239,7 +240,8 @@ export const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule,
     MatSlideToggleModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgbModule
   ],
 
   exports: [
