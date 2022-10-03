@@ -94,7 +94,6 @@ th.tableHeader {
   color: white;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  padding-top: 19px;
 }
 
 tr:nth-child(even) {
