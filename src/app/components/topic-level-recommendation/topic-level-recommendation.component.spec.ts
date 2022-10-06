@@ -86,7 +86,7 @@ describe('RecommendationComponent', () => {
       domain: "",
       industry: "",
       teamSize: 0,
-      "drafted":false,
+      assessmentState:"inProgress",
       users: [],
       answerResponseList: [
         {
@@ -146,7 +146,7 @@ describe('RecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      "drafted":false,
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -202,7 +202,7 @@ describe('RecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      "drafted":false,
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -259,7 +259,7 @@ describe('RecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      "drafted":false,
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -365,7 +365,7 @@ describe('RecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      "drafted":false,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,

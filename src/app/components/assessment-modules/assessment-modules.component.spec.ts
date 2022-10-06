@@ -261,7 +261,7 @@ describe('AssessmentModulesComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      "drafted":false,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
