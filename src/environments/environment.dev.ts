@@ -43,5 +43,5 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
-  USER_ASSESSMENT_MODULE_URI: "/v1/assessments/user/modules"
+  USER_ASSESSMENT_MODULE_URI: "/modules",
 };

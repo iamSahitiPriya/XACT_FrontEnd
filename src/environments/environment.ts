@@ -35,7 +35,7 @@ export const environment = {
   TIMEOUT: 12000, // 2 min
   REPORT_DATA_URI: "/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
-  USER_ASSESSMENT_MODULE_URI: "/v1/assessments/user/modules",
+  USER_ASSESSMENT_MODULE_URI: "/modules",
 
   okta: {
     cookies: {
