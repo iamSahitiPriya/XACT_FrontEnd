@@ -48,7 +48,7 @@ import {TopicLevelAssessmentComponent} from './components/assessment-rating-and-
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
-import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
+import {AssessmentMenuComponent} from './components/assessment-quick-action-menu/assessment-menu.component';
 import {ParameterLevelRatingComponent} from './components/parameter-level-rating/parameter-level-rating.component';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingComponent} from './components/topic-level-rating/topic-level-rating.component';

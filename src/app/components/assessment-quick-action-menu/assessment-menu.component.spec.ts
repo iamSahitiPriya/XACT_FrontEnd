@@ -52,10 +52,23 @@ class MockDialog {
 
 describe('AssessmentMenuComponent', () => {
   let dialog: any;
-  let matDialog: any
+  let matDialog: any;
+  let dom;
+  let button;
 
   let component: AssessmentMenuComponent;
   let fixture: ComponentFixture<AssessmentMenuComponent>;
+
+  class MockAppService {
+    generateReport() {
+      return of(new Blob());
+    }
+
+    getTemplate(){
+      return of(new Blob());
+    }
+
+  }
 
   beforeEach(async () => {
 
@@ -66,7 +79,9 @@ describe('AssessmentMenuComponent', () => {
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
         StoreModule.forRoot(reducers)],
       providers: [
-        {provide: MatDialog, useClass: MockDialog}
+        {provide: MatDialog, useClass: MockDialog},
+        {provide: AppServiceService, useClass: MockAppService},
+
       ],
     })
       .compileComponents();
@@ -77,12 +92,51 @@ describe('AssessmentMenuComponent', () => {
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
-    fixture.detectChanges();
+    fixture.autoDetectChanges();
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call generate report & template on click for Completed Assessment', fakeAsync(() => {
+    component.assessment = {
+          assessmentId: 1,
+          assessmentName: "abc",
+          organisationName: "xyz",
+          assessmentStatus: "Completed",
+          updatedAt: 0,
+          "drafted":false,
+          domain: "TW",
+          industry: "IT",
+          teamSize: 2,
+          users: [],
+          answerResponseList: [],
+          parameterRatingAndRecommendation: [],
+          topicRatingAndRecommendation: []
+        }
+    jest.spyOn(component, 'getTemplate');
+    jest.spyOn(component, 'generateReport');
+    jest.spyOn(component,'isAssessmentTable')
+    global.URL.createObjectURL = jest.fn();
+    global.URL.revokeObjectURL = jest.fn();
+    dom = fixture.debugElement.nativeElement;
+    component.type="assessmentTable";
+    fixture.detectChanges();
+    button = dom.querySelector("#menu-button");
+    button.click();
+    let t : any;
+    const menu = dom.parentNode.querySelector('#generate-menu');
+    menu.click();
+    tick();
+    expect(component.generateReport).toHaveBeenCalled();
+    tick(100);
+    expect(component.getTemplate).toHaveBeenCalled();
+    flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
+  }));
 
 
   it('should open dialog box', () => {
