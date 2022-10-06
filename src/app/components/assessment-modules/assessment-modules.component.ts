@@ -12,7 +12,6 @@ import {data_local} from "../../messages";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
-import {forEach} from "lodash";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import {AssessmentStructure} from "../../types/assessmentStructure";
@@ -47,7 +46,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   searchText: any;
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
   assessmentResponse: Observable<AssessmentStructure>
-  drafted: boolean;
+  assessmentState : string;
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
 
   constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar) {
@@ -62,7 +61,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.assessmentResponse.subscribe(data => {
       if (data != undefined) {
         this.assessmentName = data.assessmentName
-        this.drafted = data.drafted
+        this.assessmentState = data.assessmentState
       }
 
     })

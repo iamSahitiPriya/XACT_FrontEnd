@@ -5,7 +5,7 @@
 <div class="container-xxl">
   <div class="row">
     <div class="col-md-1 assessment_Name">
-      <button mat-icon-button [routerLink]="drafted?['/assessment',assessmentId]:['']">
+      <button mat-icon-button [routerLink]="assessmentState==='inProgress'?['/assessment',assessmentId]:['']">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
     </div>
