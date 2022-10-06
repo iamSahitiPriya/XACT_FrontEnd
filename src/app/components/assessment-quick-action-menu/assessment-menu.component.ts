@@ -59,7 +59,6 @@ export class AssessmentMenuComponent implements OnDestroy{
 
   generateReport() {
     this.displayNotifications();
-    console.log("called")
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
     const reportName = reportStatus + "-xact-report-" + AssessmentMenuComponent.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";

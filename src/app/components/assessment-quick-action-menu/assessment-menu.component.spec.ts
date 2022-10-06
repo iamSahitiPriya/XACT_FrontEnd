@@ -34,6 +34,7 @@ import {reducers} from "../../reducers/reducers";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 
 class MockDialog {
   open() {
@@ -73,7 +74,7 @@ describe('AssessmentMenuComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentMenuComponent, PopupConfirmationComponent],
+      declarations: [AssessmentMenuComponent, PopupConfirmationComponent,AssessmentHeaderComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
