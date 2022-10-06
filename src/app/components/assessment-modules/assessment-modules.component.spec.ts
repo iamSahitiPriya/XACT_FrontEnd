@@ -17,14 +17,14 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
-import {Ng2SearchPipe, Ng2SearchPipeModule} from "ng2-search-filter";
+import {Ng2SearchPipe} from "ng2-search-filter";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {InputsModule} from "angular-bootstrap-md";
 import {MatInputModule} from "@angular/material/input";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 class MockAppService {
@@ -32,15 +32,15 @@ class MockAppService {
   categoryData: UserCategoryResponse = {
     assessmentCategories: [{
       categoryId: 0,
-      categoryName: "hello",
+      categoryName: "hello",active:true,
       modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
     }],
-    userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", modules: []}]
+    userAssessmentCategories: [{categoryId: 0,active:true, categoryName: "Hello", modules: []}]
   }
   category: UserCategoryResponse = {
     assessmentCategories: [{
       categoryId: 0,
-      categoryName: "hello",
+      categoryName: "hello",active:true,
       modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
     }],
     userAssessmentCategories: []
@@ -74,7 +74,7 @@ describe('AssessmentModulesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent,Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,MatTooltipModule,
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,MatTooltipModule,MatSnackBarModule,
         StoreModule.forRoot(reducers),
         NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
         RouterTestingModule.withRoutes([
@@ -95,11 +95,11 @@ describe('AssessmentModulesComponent', () => {
     fixture.detectChanges();
     component.category = {
       assessmentCategories: [{
-        categoryId: 0,
+        categoryId: 0,active:true,
         categoryName: "hello",
         modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
       }],
-      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", modules: []}]
+      userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: []}]
     }
   });
 
@@ -167,6 +167,7 @@ describe('AssessmentModulesComponent', () => {
     // @ts-ignore
     component.category.userAssessmentCategories = undefined
     jest.spyOn(component, "navigate")
+    component.moduleRequest = moduleRequest
     component.saveUserModule()
     mockAppService.saveUserModules().subscribe(data => {
       expect(data).toBe(moduleRequest)
@@ -180,20 +181,32 @@ describe('AssessmentModulesComponent', () => {
       userAssessmentCategories: []
     }
     jest.spyOn(component, "navigate")
+    component.moduleRequest = moduleRequest
     component.saveUserModule()
     mockAppService.updateUserModules().subscribe(data => {
       expect(data).toBe(moduleRequest)
     })
     expect(component.navigate).toHaveBeenCalled()
   });
+  it("should throw error when the user selected no module", () => {
+    component.category = {
+      assessmentCategories: [],
+      userAssessmentCategories: []
+    }
+    // @ts-ignore
+    component.category.userAssessmentCategories = undefined
+    jest.spyOn(component, "showError")
+    component.saveUserModule()
+    expect(component.showError).toHaveBeenCalled()
+  });
   it("should fetch all the active categories", () => {
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,
-        categoryName: "hello",
+        categoryName: "hello",active:true,
         modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
       }],
-      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", modules: []}]
+      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", active:true,modules: []}]
     }
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
@@ -216,7 +229,7 @@ describe('AssessmentModulesComponent', () => {
   it("should fetch all the user selected categories", () => {
     let categoryResponse = {
       assessmentCategories: [{
-        categoryId: 0,
+        categoryId: 0,active:true,
         categoryName: "hello",
         modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
       }],
@@ -235,7 +248,7 @@ describe('AssessmentModulesComponent', () => {
     expect(response).toBeFalsy()
   });
   it("should set modules", () => {
-    let response = {userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", modules: [{moduleId:0,moduleName:"hello",topics:[],category:0}]}]}
+    let response = {userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: [{moduleId:0,moduleName:"hello",topics:[],category:0}]}]}
 
     jest.spyOn(component,"getModule")
     component.setModules(response.userAssessmentCategories)
