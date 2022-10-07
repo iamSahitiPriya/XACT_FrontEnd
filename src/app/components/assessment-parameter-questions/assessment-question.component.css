@@ -5,9 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .textArea {
-  padding-top: 10px;
+  padding-top: 14px;
   width: 99%;
   font-size: 15px;
+  padding-bottom: 18px;
 }
 
 /*::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {*/
