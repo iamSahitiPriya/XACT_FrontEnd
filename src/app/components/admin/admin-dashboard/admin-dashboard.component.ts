@@ -13,7 +13,6 @@ import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
 import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -45,7 +44,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
   dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
   custom: string = "Custom";
-
   displayText: string = this.last_quarter;
   selected: Date | null;
 

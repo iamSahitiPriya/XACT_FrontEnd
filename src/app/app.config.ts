@@ -14,10 +14,10 @@ export default {
       disableHttpsCheck: environment.OKTA_TESTING_DISABLEHTTPSCHECK
     },
     tokenManager: {
-      storage: 'sessionStorage'
+      storage: environment.okta.storage.sessionStorage
     },
     cookies: {
-      secure: true
+      secure: environment.okta.cookies.secured
     }
   },
 };

@@ -149,7 +149,7 @@ export const data_local =
       DASHBOARD_TITLE:"DashBoard",
       DOWNLOAD_REPORT_LABEL:"Click to download report",
       DROPDOWN_LABEL : "Click to select the days range",
-      ERROR_MESSAGE: "Server error to access data"
+      ERROR_MESSAGE: "Error in processing request."
     },
     DROPDOWN_OPTION_TEXT:{
       LAST_WEEK :"Last 7 Days",
