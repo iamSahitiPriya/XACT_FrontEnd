@@ -11,10 +11,7 @@ import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentRespo
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
-<<<<<<< HEAD
 import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
-=======
->>>>>>> develop
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -46,14 +43,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   download_label = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
   download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
   dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
-<<<<<<< HEAD
   custom: string = "Custom";
   displayText: string = this.last_quarter;
   selected: Date | null;
-=======
-
-  displayText: string = this.last_quarter;
->>>>>>> develop
 
 
   ngOnInit(): void {
@@ -148,10 +140,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForQuarter() {
-<<<<<<< HEAD
     this.selectedOption = 0;
-=======
->>>>>>> develop
     this.displayText = this.last_quarter;
     this.setAssessmentData(this.setQuarterRequest());
   }
@@ -170,10 +159,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForWeek() {
-<<<<<<< HEAD
     this.selectedOption = 1;
-=======
->>>>>>> develop
     this.displayText = this.last_week;
     this.setAssessmentData(this.setWeekRequest());
   }
@@ -192,10 +178,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForMonth() {
-<<<<<<< HEAD
     this.selectedOption = 2;
-=======
->>>>>>> develop
     this.displayText = this.last_month;
     this.setAssessmentData(this.setMonthRequest());
   }
@@ -214,10 +197,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getAssessmentDataForYear() {
-<<<<<<< HEAD
     this.selectedOption = 3;
-=======
->>>>>>> develop
     this.displayText = this.last_year;
     this.setAssessmentData(this.setYearRequest());
   }
@@ -325,16 +305,5 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.selectedOption =4;
   }
 
-<<<<<<< HEAD
-=======
-  // selectedOptions() {
-  //   this.selectedOption = 4;
-  // }
-
-  setCustomOption() {
-    this.displayText = "Custom";
-  }
-
->>>>>>> develop
 }
 

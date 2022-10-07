@@ -54,13 +54,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: #6B9F78;
 }
-<<<<<<< HEAD
 .ngb-dp-month-name {
   background-color: white !important;
 }
 .ngb-dp-header {
   background : none !important;
-=======
+}
 .mat-checkbox-frame,
 .mat-checkbox-background {
   border-radius: 50% !important;
@@ -71,5 +70,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .mat-checkbox-frame {
   border: 0.5px solid #4BA1AC;
->>>>>>> develop
 }
