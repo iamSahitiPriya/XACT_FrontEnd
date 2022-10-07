@@ -60,23 +60,23 @@ html, body {
   background-color: transparent;
 }
 
-.mat-expansion-panel:nth-of-type(5n + 1) {
+div.expansion_color:nth-of-type(5n + 1) {
   background-color: #619FAA;
 }
 
-.mat-expansion-panel:nth-of-type(5n+2) {
+.expansion_color:nth-of-type(5n+2) {
   background-color: #F15F79;
 }
 
-.mat-expansion-panel:nth-of-type(5n + 3) {
+.expansion_color:nth-of-type(5n + 3) {
   background-color: #6B9F78;
 }
 
-.mat-expansion-panel:nth-of-type(5n + 4) {
+.expansion_color:nth-of-type(5n + 4) {
   background-color: #5D9EAA;
 }
 
-.mat-expansion-panel:nth-of-type(5n + 5) {
+.expansion_color:nth-of-type(5n + 5) {
   background-color: #BE873E;
 }
 

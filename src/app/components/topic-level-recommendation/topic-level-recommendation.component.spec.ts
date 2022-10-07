@@ -87,6 +87,7 @@ describe('RecommendationComponent', () => {
       domain: "",
       industry: "",
       teamSize: 0,
+      assessmentState:"inProgress",
       users: [],
       answerResponseList: [
         {
@@ -147,6 +148,7 @@ describe('RecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -203,6 +205,7 @@ describe('RecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -260,6 +263,7 @@ describe('RecommendationComponent', () => {
       assessmentPurpose:"Client Request",
       domain: "",
       industry: "",
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -366,6 +370,7 @@ describe('RecommendationComponent', () => {
       assessmentStatus: "Active",
       assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,

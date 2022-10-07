@@ -54,7 +54,8 @@ describe('AppServiceService', () => {
   });
 
   it("should get categories", () => {
-    expect(service.getCategories()).toBeTruthy()
+    let assessmentId = 0
+    expect(service.getCategories(assessmentId)).toBeTruthy()
   });
 
   it("should save assessment", () => {
