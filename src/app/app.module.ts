@@ -48,7 +48,7 @@ import {TopicLevelAssessmentComponent} from './components/assessment-rating-and-
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
-import {AssessmentMenuComponent} from './components/assessment-menu/assessment-menu.component';
+import {AssessmentMenuComponent} from './components/assessment-quick-action-menu/assessment-menu.component';
 import {ParameterLevelRatingComponent} from './components/parameter-level-rating/parameter-level-rating.component';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {TopicLevelRatingComponent} from './components/topic-level-rating/topic-level-rating.component';
@@ -73,6 +73,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AssessmentHeaderComponent } from './components/assessment-header/assessment-header.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -150,6 +151,7 @@ export const appRoutes: Routes = [
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
     NotificationSnackbarComponent,
+    AssessmentHeaderComponent,
   ],
 
   imports: [
