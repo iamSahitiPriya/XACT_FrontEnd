@@ -21,7 +21,7 @@
         </span>
         <span *ngIf="row.isEdit || selectedCategory===row">
           <input matInput class="input"#categoryName placeholder="Enter category name" [(ngModel)]="row.categoryName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$')">
+          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
         </span>
@@ -64,7 +64,7 @@
         </span>
         <span *ngIf="selectedCategory===row">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateCategory(row)">Update</button>
+                (click)="updateCategory(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
                                                                        src="../../assets/closeIcon/closeIcon.svg"
                                                                        alt="close icon" class="closeIcon"/></button>
