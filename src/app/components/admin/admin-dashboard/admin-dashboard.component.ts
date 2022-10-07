@@ -44,6 +44,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   download_label = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
   download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
   dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
+  custom: string = "Custom";
 
   displayText: string = this.last_quarter;
   selected: Date | null;
@@ -63,6 +64,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   fromDate: NgbDate | null =null;
   toDate: NgbDate | null = null;
+
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar) {
     this.fromDate = calendar.getToday();
@@ -109,6 +111,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       }
       case 3: {
         this.getAssessmentDataForYear()
+        break;
+      }
+      case 4: {
+        this.setCustomOption()
         break;
       }
     }
@@ -199,6 +205,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   setAssessmentData(adminRequest: AdminAssessmentRequest) {
+    this.custom = 'Custom';
     this.appService.getAdminAssessment(adminRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.adminAssessmentResponse.totalAssessments = _data.totalAssessments;
@@ -295,10 +302,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     if(this.toDate === null) {
       this.toDate = this.fromDate;
     }
-    this.displayText = "Custom : " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
     this.getAssessmentDataForCustomDateRange();
+    this.displayText = this.custom = "Custom : " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+    this.selectedOption =4;
   }
-
 
 }
 

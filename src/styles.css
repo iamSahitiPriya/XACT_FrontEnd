@@ -54,3 +54,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: #6B9F78;
 }
+.ngb-dp-month-name {
+  background-color: white !important;
+}
+.ngb-dp-header {
+  background : none !important;
+}
