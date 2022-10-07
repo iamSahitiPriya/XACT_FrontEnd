@@ -70,7 +70,7 @@
 
       <tr [matTooltipDisabled]="hideTooltip === true"
         [matTooltip]=toolTipAssessmentCol+element.assessmentName role="button"
-      (click)="navigation(element.drafted,element.assessmentId)"
+      (click)="navigation(element.assessmentState,element.assessmentId)"
       mat-row *matRowDef="let element; columns: columnsToDisplay;">
       </tr>
 

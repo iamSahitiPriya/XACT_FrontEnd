@@ -123,7 +123,7 @@ export class AppServiceService {
 
   getAdminAssessment(adminAssessmentRequest:AdminAssessmentRequest):Observable<AdminAssessmentResponse>{
   const headers = {'content-type': 'application/json'}
-  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
+  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS +"/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
 }
   getAllCategories():Observable<CategoryResponse[]>{
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
@@ -143,10 +143,10 @@ export class AppServiceService {
     return this.http.get(environment.BaseURI + environment.REPORT_TEMPLATE_URI, {responseType: 'blob'})
   }
   saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
-    return this.http.post(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
   updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
-    return this.http.put(environment.BaseURI + environment.USER_ASSESSMENT_MODULE_URI + "/" + assessmentId, moduleRequest)
+    return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
 }
 

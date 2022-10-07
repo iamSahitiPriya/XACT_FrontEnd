@@ -35,7 +35,7 @@ describe('SearchComponent', () => {
   it('should call the search', () => {
     const mockData: AssessmentStructure = {
       domain: "", industry: "", teamSize: 0, users: [],
-      "drafted":false,
+      assessmentState:"inProgress",
       assessmentId: 2,
       assessmentName: "abc",
       organisationName: "org",
@@ -61,7 +61,7 @@ describe('SearchComponent', () => {
       assessmentName: "abc",
       organisationName: "org",
       assessmentStatus: "Active",
-      "drafted":false,
+      assessmentState:"inProgress",
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],

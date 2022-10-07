@@ -77,7 +77,7 @@ describe('AssessmentHeaderComponent', () => {
     assessmentName: "Mock",
     assessmentStatus: "Active",
     domain: "IT",
-    "drafted":false,
+    assessmentState:"inProgress",
     industry: "Telecom",
     organisationName: "Rel",
     parameterRatingAndRecommendation: [],
@@ -146,6 +146,38 @@ describe('AssessmentHeaderComponent', () => {
   //   discardPeriodicTasks();
   // }));
 
+  it('should call generate report & template on click', fakeAsync(() => {
+    component.answerResponse1 = of({
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Completed",
+      updatedAt: 0,
+      assessmentState:"inProgress",
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    })
+    jest.spyOn(component, 'getTemplate');
+    jest.spyOn(component, 'generateReport');
+    global.URL.createObjectURL = jest.fn();
+    global.URL.revokeObjectURL = jest.fn();
+    component.ngOnInit()
+    fixture.detectChanges();
+    let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
+    generateReport.click();
+    tick();
+    expect(component.getTemplate).toHaveBeenCalled();
+    tick(100);
+    expect(component.generateReport).toHaveBeenCalled();
+    flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
+  }));
 
   it('should call finish assessment if active', fakeAsync(() => {
     component.answerResponse1 = of({
@@ -153,7 +185,7 @@ describe('AssessmentHeaderComponent', () => {
       assessmentName: "abc",
       organisationName: "xyz",
       assessmentStatus: "Active",
-      "drafted":false,
+      assessmentState:"inProgress",
       updatedAt: 0,
       domain: "TW",
       industry: "IT",
@@ -190,7 +222,7 @@ describe('AssessmentHeaderComponent', () => {
       organisationName: "xyz",
       assessmentStatus: "Completed",
       updatedAt: 0,
-      "drafted":false,
+      assessmentState:"inProgress",
       domain: "TW",
       industry: "IT",
       teamSize: 2,
@@ -222,7 +254,7 @@ describe('AssessmentHeaderComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Completed",
-      "drafted":false,
+      assessmentState:"inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
