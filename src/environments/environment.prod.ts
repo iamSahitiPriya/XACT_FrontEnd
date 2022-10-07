@@ -30,11 +30,12 @@ export const environment = {
   TIMEOUT: 600, // 10 min
   ALL_CATEGORY_URI: "/v1/admin/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
-  GET_ADMIN_ASSESSMENTS: "/v1/assessments/admin",
+  GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments/",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
   REPORT_DATA_URI:"/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
+  USER_ASSESSMENT_MODULE_URI: "/modules",
   okta: {
     cookies: {
       secured: true

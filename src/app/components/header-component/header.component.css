@@ -64,8 +64,16 @@
   opacity: 1;
 }
 
-.icon {
-  height: 5px;
+.textItem{
+  display: block;
+  padding-left: 34px
+}
+.icon{
+  height:3px;
+  display: block;
+}
+.feedbackIcon{
+  height: 0px;
   display: block;
 }
 

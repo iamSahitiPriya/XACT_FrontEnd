@@ -74,6 +74,7 @@ describe('AssessmentQuestionComponent', () => {
       assessmentId: 0,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentState:"inProgress",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -120,6 +121,7 @@ describe('AssessmentQuestionComponent', () => {
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,
+      assessmentState:"inProgress",
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
@@ -171,6 +173,7 @@ describe('AssessmentQuestionComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,

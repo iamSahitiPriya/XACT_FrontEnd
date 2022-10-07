@@ -19,6 +19,8 @@ import {CategoryResponse} from "../../types/categoryResponse";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 
 
 @Injectable({
@@ -38,8 +40,8 @@ export class AppServiceService {
     return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData, {'headers': headers})
   }
 
-  public getCategories(): Observable<CategoryStructure[]> {
-    return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
+  public getCategories(assessmentId:number): Observable<UserCategoryResponse> {
+    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId)
   }
 
 
@@ -121,7 +123,7 @@ export class AppServiceService {
 
   getAdminAssessment(adminAssessmentRequest:AdminAssessmentRequest):Observable<AdminAssessmentResponse>{
   const headers = {'content-type': 'application/json'}
-  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
+  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS +"/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
 }
   getAllCategories():Observable<CategoryResponse[]>{
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
@@ -139,6 +141,12 @@ export class AppServiceService {
 
   getTemplate() {
     return this.http.get(environment.BaseURI + environment.REPORT_TEMPLATE_URI, {responseType: 'blob'})
+  }
+  saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
+  }
+  updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
 }
 

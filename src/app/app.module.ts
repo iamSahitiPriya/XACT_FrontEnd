@@ -70,8 +70,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-dashboard.component";
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -86,7 +87,7 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path: 'assessmentModule',
+    path: 'assessmentModule/:assessmentId',
     component: AssessmentModulesComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
@@ -239,7 +240,9 @@ export const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule,
     MatSlideToggleModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule,
+    Ng2SearchPipeModule,
   ],
 
   exports: [
@@ -253,6 +256,7 @@ export const appRoutes: Routes = [
     MatRippleModule,
     FormsModule,
     RouterModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     AppServiceService,
