@@ -108,7 +108,7 @@ describe('AssessmentMenuComponent', () => {
           organisationName: "xyz",
           assessmentStatus: "Completed",
           updatedAt: 0,
-          "drafted":false,
+          assessmentState:"inProgress",
           domain: "TW",
           industry: "IT",
           teamSize: 2,

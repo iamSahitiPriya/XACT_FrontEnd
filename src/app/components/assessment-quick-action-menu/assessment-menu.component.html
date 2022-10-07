@@ -17,7 +17,8 @@
         <span id="createAssessment">{{manageAssessmentTitle}}</span>
       </button>
 
-      <button  mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]">
+      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]"
+              [disabled]="assessment.assessmentStatus ==='Completed'">
         <mat-icon class="iconColor">exposure</mat-icon>
         <span>{{addModuleTitle}}</span>
       </button>
