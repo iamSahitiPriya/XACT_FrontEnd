@@ -283,8 +283,8 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
 
   setCustomOption() {
+    this.displayText = this.custom = "Custom";
     this.selectedOption = 4;
-    this.displayText = "Custom";
   }
 
   getMonthName(monthNumber: number | undefined) {

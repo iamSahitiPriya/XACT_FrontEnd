@@ -314,5 +314,13 @@
   margin-left: 89%;
 }
 
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color:#45A0AC;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #45A0AC;
+}
+
 
 
