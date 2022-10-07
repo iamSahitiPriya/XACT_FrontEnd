@@ -1,0 +1,45 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div *ngIf="assessment">
+
+    <div class="menuButton" >
+      <button id="menu-button" [matTooltip]=menuButtonToolTip mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+        <mat-icon class="iconColor">more_vert</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #menu="matMenu" id="menu-dropdown">
+      <button  id="open-assessment" (click)="openAssessment(content)" [matTooltip]=manageAssessmentToolTip mat-menu-item
+              [disabled]="assessment.assessmentStatus ==='Completed'">
+        <mat-icon class="iconColor">settings_outline</mat-icon>
+        <span id="createAssessment">{{manageAssessmentTitle}}</span>
+      </button>
+
+      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]"
+              [disabled]="assessment.assessmentStatus ==='Completed'">
+        <mat-icon class="iconColor">exposure</mat-icon>
+        <span>{{addModuleTitle}}</span>
+      </button>
+
+      <button *ngIf="isAssessmentHeader()" mat-menu-item [routerLink]="['/assessment',assessment.assessmentId,'charts']"
+              [matTooltip]=summaryTitleToolTip>
+        <mat-icon class="iconColor"> multiline_chart</mat-icon>
+        <span>{{summaryTitle}} <sup class="text-danger">Beta</sup></span>
+      </button>
+
+      <button *ngIf="isAssessmentTable()" id="generate-menu"  mat-menu-item  (click)="generateReport(); getTemplate()">
+        <mat-icon class="iconColor" >save_alt_icon</mat-icon>
+        <span>{{generateReportTitle}}</span>
+      </button>
+
+
+    </mat-menu>
+
+    <ng-template #content>
+      <app-create-assessments [assessment]="assessment"></app-create-assessments>
+    </ng-template>
+
+  </div>
+

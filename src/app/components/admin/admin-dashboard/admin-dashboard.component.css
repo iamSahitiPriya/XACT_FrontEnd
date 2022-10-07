@@ -136,16 +136,26 @@
 
 .dropdownItem {
   margin-top: 8%;
+<<<<<<< HEAD
   font-size : 16px;
+=======
+  font-size: medium;
+>>>>>>> develop
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   opacity: 1;
   text-align: left;
   letter-spacing: 0.25px;
   color: #043D4E;
+<<<<<<< HEAD
   width: fit-content;
   height: fit-content;
   padding: 13%;
+=======
+  width: 9rem;
+  height: 3rem;
+  padding: 11% 12%;
+>>>>>>> develop
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
@@ -164,7 +174,11 @@
 
 .nav-calender {
   position: relative;
+<<<<<<< HEAD
   height : 21rem;
+=======
+  height : 15rem;
+>>>>>>> develop
   width : 45rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
@@ -196,7 +210,11 @@
 }
 
 .nav-dropdown {
+<<<<<<< HEAD
   width: 24%;
+=======
+  width: 17%;
+>>>>>>> develop
 }
 
 .item:hover {
@@ -226,9 +244,16 @@
 
 .line {
   border-left: 1px solid #00000014;
+<<<<<<< HEAD
   height: 21rem;
 }
 
+=======
+  height: 15rem;
+}
+
+
+>>>>>>> develop
 .custom-day {
   text-align: center;
   padding: 0.185rem 0.25rem;
@@ -240,6 +265,7 @@
   background-color: #e6e6e6;
 }
 .custom-day.range, .custom-day:hover {
+<<<<<<< HEAD
   background-color: #45A0AC;
   color: white;
 }
@@ -324,3 +350,13 @@
 
 
 
+=======
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+
+
+>>>>>>> develop

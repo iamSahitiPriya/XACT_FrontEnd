@@ -59,6 +59,7 @@
     "moment": "^2.29.4",
     "ng-http-loader": "^11.0.1",
     "ng-simple-state": "^13.0.6",
+    "ng2-search-filter": "^0.5.1",
     "ngrx-store-freeze": "^0.2.4",
     "ngrx-store-localstorage": "^13.0.1",
     "request": "^2.79.0",

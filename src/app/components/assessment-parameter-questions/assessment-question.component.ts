@@ -21,7 +21,7 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
-import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {data_local} from 'src/app/messages';
 
 export const assessmentData = [{}]

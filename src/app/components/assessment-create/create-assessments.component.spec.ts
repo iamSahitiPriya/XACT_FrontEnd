@@ -134,6 +134,7 @@ describe('CreateAssessmentsComponent', () => {
   const blankAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: -1,
+    assessmentState:"inProgress",
     assessmentName: "",
     assessmentStatus: "",
     domain: "",
@@ -149,6 +150,7 @@ describe('CreateAssessmentsComponent', () => {
   const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
+    assessmentState:"inProgress",
     assessmentName: "Mock",
     assessmentStatus: "Active",
     domain: "IT",
@@ -185,6 +187,7 @@ describe('CreateAssessmentsComponent', () => {
       organisationName: 'abc',
       domain: 'abc',
       industry: 'abc',
+      assessmentState:"inProgress",
       teamSize: 12,
       users: [ ],
       parameterRatingAndRecommendation: [],
@@ -197,6 +200,7 @@ describe('CreateAssessmentsComponent', () => {
     const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
+
     };
     const assessmentData =
       {

@@ -35,7 +35,7 @@ class MockAppService {
     else {
       return throwError("Error!")
     }
-  
+
   }
 }
 
@@ -75,6 +75,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -126,6 +127,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -155,6 +157,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -192,6 +195,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
+      assessmentState:"inProgress",
       teamSize: 0,
       users: [],
       answerResponseList: [
@@ -202,7 +206,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     })
-    
+
     component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
     const parameterRatingAndRecommendation = {
       rating: 2,
@@ -225,6 +229,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -313,6 +318,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentState:"inProgress",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
@@ -349,6 +355,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",

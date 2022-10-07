@@ -13,7 +13,7 @@
     </mat-toolbar>
   </div>
   <div class="col-md-9 align-self-center">
-    <app-assessment-menu [assessmentId]="assessmentId"></app-assessment-menu>
+    <app-assessment-header [assessmentId]="assessmentId"></app-assessment-header>
   </div>
 </div>
 
@@ -36,7 +36,8 @@
 </mat-tab-group>
 
 <div class="sideBar">
-  <mat-expansion-panel *ngFor="let category of category; first as isFirst" [expanded]="isFirst">
+  <div class="expansion_color"  *ngFor="let category of category.userAssessmentCategories; first as isFirst">
+  <mat-expansion-panel [expanded]="isFirst" *ngIf="category.active">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{category.categoryName}}
@@ -49,8 +50,8 @@
         {{module.moduleName}}
       </mat-card>
     </div>
-
   </mat-expansion-panel>
+  </div>
 </div>
 
 

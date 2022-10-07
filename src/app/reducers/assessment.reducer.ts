@@ -19,6 +19,7 @@ export const initialState: AssessmentState = {
     organisationName: "",
     domain: "",
     industry: '',
+    assessmentState:'',
     teamSize: 0,
     updatedAt: 0,
     assessmentStatus: "",

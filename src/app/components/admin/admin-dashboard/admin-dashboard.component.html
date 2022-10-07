@@ -5,6 +5,7 @@
 <div class="header">
   <span class="dashBoardText">DashBoard</span>
     <div class="options">
+<<<<<<< HEAD
         <mat-form-field appearance="outline">
           <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
             <mat-option [value]="1">{{last_week}}</mat-option>
@@ -45,6 +46,37 @@
     </ng-template>
   </div>
 </div>
+=======
+      <div class="btn-group shadow-0">
+        <div class="dropdown-toggle dropdownItem" data-mdb-toggle="dropdown" aria-expanded="false">
+          {{displayText}}
+        </div>
+        <ul class="dropdown-menu items">
+          <li class="item" (click)="getAssessmentDataForWeek()">{{last_week}}</li>
+          <li class="item" (click)="getAssessmentDataForMonth()">{{last_month}}</li>
+          <li class="item" (click)="getAssessmentDataForQuarter()">{{last_quarter}}</li>
+          <li class="item" (click)="getAssessmentDataForYear()">{{last_year}}</li>
+          <li class="item" (click)="setCustomOption()">Custom</li>
+        </ul>
+      </div>
+  </div>
+</div>
+<div  *ngIf="displayText === 'Custom'" class="nav-calender">
+  <div class="nav-dropdown">
+  <ul class="nav-item">
+    <li class="navitem" (click)="getAssessmentDataForWeek()">{{last_week}}</li>
+    <li class="navitem" (click)="getAssessmentDataForMonth()">{{last_month}}</li>
+    <li class="navitem" (click)="getAssessmentDataForQuarter()">{{last_quarter}}</li>
+    <li class="navitem" (click)="getAssessmentDataForYear()">{{last_year}}</li>
+    <li class="navitem custom" (click)="setCustomOption()">Custom</li>
+  </ul>
+  </div>
+  <div class="line"></div>
+  <div class="calender">
+
+  </div>
+</div>
+>>>>>>> develop
 <div class="status-bar">
 <div class="assessmentStatus">
 <mat-card class="Total">

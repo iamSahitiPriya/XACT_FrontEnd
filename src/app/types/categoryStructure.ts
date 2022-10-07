@@ -7,6 +7,7 @@ import {ModuleStructure} from "./moduleStructure";
 export interface CategoryStructure {
   categoryId: number,
   categoryName: string,
+  active : boolean;
   modules: ModuleStructure[]
 
 }
