@@ -72,6 +72,7 @@ import {AdminDashboardComponent} from "./components/admin/admin-dashboard/admin-
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NotificationSnackbarComponent} from "./components/notification-component/notification-component.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AssessmentHeaderComponent } from './components/assessment-header/assessment-header.component';
 
@@ -243,6 +244,7 @@ export const appRoutes: Routes = [
     MatSlideToggleModule,
     MatSlideToggleModule,
     MatNativeDateModule,
+    NgbModule,
     MatCheckboxModule,
     Ng2SearchPipeModule,
   ],
