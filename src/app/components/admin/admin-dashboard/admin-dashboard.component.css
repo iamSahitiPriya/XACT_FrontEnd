@@ -14,7 +14,7 @@
   border-radius: 15px;
   padding:1% 1% 0px;
   margin-bottom:4%;
-  width: 16%;
+  width: 18%;
   min-width: 10.375rem;
 }
 .header{
@@ -28,7 +28,7 @@
 .dashBoardText{
   margin-top: 2%;
   margin-left: 2%;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color:#043D4E;
 }
@@ -47,19 +47,17 @@
 
 .downloadButton
 {
-  margin-left: 8%;
+  margin-left: 3%;
   margin-top: 5%;
   margin-bottom: 4%;
   background-color: #6b9f78;
   position: relative;
   color: #fff;
-  width: 14%;
+  width: 18%;
   border-radius: 5px;
   padding: 1% 1%;
   border: none;
   display: flex;
-  min-width: 9.1rem;
-
 }
 .parent{
   margin-top:2px;
@@ -264,17 +262,17 @@
   font-size: 16px !important;
 }
 
-::ng-deep .ngb-dp-weekdays {
-  display: none !important;
-}
+/*::ng-deep .ngb-dp-weekdays {*/
+/*  display: none !important;*/
+/*}*/
 
-::ng-deep ngb-datepicker-navigation-select>.form-select {
-  display: none !important;
-}
+/*::ng-deep ngb-datepicker-navigation-select>.form-select {*/
+/*  display: none !important;*/
+/*}*/
 
-::ng-deep ngb-datepicker {
-  border: none !important;
-}
+/*::ng-deep ngb-datepicker {*/
+/*  border: none !important;*/
+/*}*/
 
 ::ng-deep .ngb-dp-month-name {
   margin-bottom: 6% !important;
@@ -327,4 +325,7 @@
 
 ::ng-deep.mat-select-arrow {
   color: #4BA1AC;
+}
+.custom-day.disabled {
+  opacity: 0.3;
 }
