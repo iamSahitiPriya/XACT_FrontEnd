@@ -103,7 +103,8 @@ describe('AssessmentMenuComponent', () => {
 
   it('should call generate report & template on click for Completed Assessment', fakeAsync(() => {
     component.assessment = {
-          assessmentId: 1,
+      assessmentPurpose: "",
+      assessmentId: 1,
           assessmentName: "abc",
           organisationName: "xyz",
           assessmentStatus: "Completed",

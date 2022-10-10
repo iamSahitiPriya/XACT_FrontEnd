@@ -76,6 +76,7 @@ describe('AssessmentQuestionComponent', () => {
       organisationName: "Thoughtworks",
       assessmentState:"inProgress",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -116,6 +117,7 @@ describe('AssessmentQuestionComponent', () => {
     })
     expect(component.assessmentNotes.notes).toBe("hello")
   });
+
   it("should push answers if it is not present", async () => {
     component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
     component.assessmentId = 5
@@ -125,6 +127,7 @@ describe('AssessmentQuestionComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -171,6 +174,7 @@ describe('AssessmentQuestionComponent', () => {
       assessmentId: 0,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       assessmentState:"inProgress",

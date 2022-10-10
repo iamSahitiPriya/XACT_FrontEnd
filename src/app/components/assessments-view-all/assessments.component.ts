@@ -38,6 +38,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
+    assessmentPurpose:"",
     assessmentStatus: "",
     domain: "",
     assessmentState:"",
@@ -97,7 +98,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
   async openAssessment(content: any) {
     this.dialogRef = this.dialog.open(content, {
-      width: '630px', height: '650px',
+      width: '630px',
     })
     this.dialogRef.disableClose = true;
   }
