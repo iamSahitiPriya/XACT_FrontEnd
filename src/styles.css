@@ -71,3 +71,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-checkbox-frame {
   border: 0.5px solid #4BA1AC;
 }
+.ngb-dp-weekdays {
+  display: none !important;
+}
+
+ngb-datepicker-navigation-select>.form-select {
+  display: none !important;
+}
+
+ngb-datepicker {
+  border: none !important;
+}
+
