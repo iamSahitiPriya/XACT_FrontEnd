@@ -18,7 +18,6 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatToolbarModule} from "@angular/material/toolbar";
 
 
-
 describe('AssessmentSunburstChartComponent', () => {
   let component: AssessmentSunburstChartComponent;
   let fixture: ComponentFixture<AssessmentSunburstChartComponent>;

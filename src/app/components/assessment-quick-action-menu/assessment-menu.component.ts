@@ -2,26 +2,18 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {saveAs} from 'file-saver';
-import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
-import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
-import {Observable, Subject, takeUntil} from "rxjs";
-import * as fromActions from "../../actions/assessment-data.actions";
+import {Subject, takeUntil} from "rxjs";
 import * as moment from 'moment';
 import {data_local} from "../../messages";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
-import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
-import {MatMenuTrigger} from "@angular/material/menu";
 
 export const assessmentData = [{}]
 

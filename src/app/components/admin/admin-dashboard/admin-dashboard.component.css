@@ -186,7 +186,9 @@
 
 .nav-item {
   text-align: left;
-  font: normal normal normal 14px/20px "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: 0.25px;
   color: #043D4E;
   opacity: 1;
@@ -254,17 +256,9 @@
   background: #F7F7F7 0% 0% no-repeat padding-box !important;
   opacity: 1 !important;
 }
-
-::ng-deep .ngb-dp-month-name {
-  color: #4F6F79 !important;
-  font-family: Inter, serif;
-  font-weight: normal !important;
-  font-size: 16px !important;
+::ng-deep .ngb-dp-weekdays {
+  display: none !important;
 }
-
-/*::ng-deep .ngb-dp-weekdays {*/
-/*  display: none !important;*/
-/*}*/
 
 /*::ng-deep ngb-datepicker-navigation-select>.form-select {*/
 /*  display: none !important;*/
@@ -278,6 +272,10 @@
   margin-bottom: 6% !important;
   margin-top: -4% !important;
   padding-bottom: 18% !important;
+  color: #4F6F79 !important;
+  font-family: Inter, serif;
+  font-weight: normal !important;
+  font-size: 16px !important;
 }
 
 ::ng-deep ngb-datepicker-navigation {

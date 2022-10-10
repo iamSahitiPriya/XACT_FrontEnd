@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {MatSort} from '@angular/material/sort';
-import * as events from "events";
 
 /**
  * @title Table with expandable rows
