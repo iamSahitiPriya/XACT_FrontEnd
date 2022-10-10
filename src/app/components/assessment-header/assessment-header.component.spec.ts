@@ -8,7 +8,7 @@ import {
   tick
 } from '@angular/core/testing';
 
-import { AssessmentHeaderComponent } from './assessment-header.component';
+import {AssessmentHeaderComponent} from './assessment-header.component';
 import {of} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";

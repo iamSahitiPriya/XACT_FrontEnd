@@ -19,7 +19,7 @@ import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  selectedOption :number;
+  selectedOption: number;
 
   datePipe: DatePipe = new DatePipe('en-US');
   todayDate: string | null;
@@ -60,13 +60,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   hoveredDate: NgbDate | null = null;
 
-  fromDate: NgbDate | null =null;
+  fromDate: NgbDate | null = null;
   toDate: NgbDate | null = null;
 
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, calendar: NgbCalendar) {
     this.fromDate = calendar.getToday();
-     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
   }
 
   onDateSelection(date: NgbDate) {
@@ -277,7 +277,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.getReport(this.setYearRequest());
   }
 
-   getReportForCustomDateRange() {
+  getReportForCustomDateRange() {
     this.getReport(this.setCustomDateRequest());
   }
 
@@ -289,20 +289,21 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   getMonthName(monthNumber: number | undefined) {
     const date = new Date();
-    if(monthNumber !== undefined)
-    date.setMonth(monthNumber - 1);
+    if (monthNumber !== undefined) {
+      date.setMonth(monthNumber - 1);
+    }
 
-    return date.toLocaleString('en-US', { month: 'short' });
+    return date.toLocaleString('en-US', {month: 'short'});
   }
 
 
-  selectCustomDateRange(){
-    if(this.toDate === null) {
+  selectCustomDateRange() {
+    if (this.toDate === null) {
       this.toDate = this.fromDate;
     }
     this.getAssessmentDataForCustomDateRange();
-    this.displayText = this.custom = this.fromDate?.year + " "+ this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
-    this.selectedOption =4;
+    this.displayText = this.custom = this.fromDate?.year + " " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+    this.selectedOption = 4;
   }
 
 }

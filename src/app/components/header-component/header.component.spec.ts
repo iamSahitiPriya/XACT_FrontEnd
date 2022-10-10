@@ -10,8 +10,8 @@ import {SearchComponent} from "../search-component/search.component";
 import {CreateAssessmentsComponent} from "../assessment-create/create-assessments.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
-import { MatIconModule } from '@angular/material/icon';
-import { of } from 'rxjs';
+import {MatIconModule} from '@angular/material/icon';
+import {of} from 'rxjs';
 
 
 describe('HeaderComponent', () => {
