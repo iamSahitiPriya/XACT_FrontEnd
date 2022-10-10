@@ -29,6 +29,7 @@ import {CommonModule} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-rating.component";
 import {reducers} from "../../reducers/reducers";
+import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 
 class MockAppService {
   public getCategories() {
@@ -120,7 +121,7 @@ describe('AssessmentModulesDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent,AssessmentHeaderComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
