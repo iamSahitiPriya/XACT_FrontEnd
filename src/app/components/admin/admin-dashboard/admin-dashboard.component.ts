@@ -301,7 +301,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       this.toDate = this.fromDate;
     }
     this.getAssessmentDataForCustomDateRange();
-    this.displayText = this.custom = "Custom : " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+    this.displayText = this.custom = this.fromDate?.year + " "+ this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
     this.selectedOption =4;
   }
 
