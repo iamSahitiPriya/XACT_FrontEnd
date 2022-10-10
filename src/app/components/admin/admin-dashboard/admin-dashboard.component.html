@@ -6,7 +6,7 @@
   <span class="dashBoardText">DashBoard</span>
     <div class="options">
         <mat-form-field appearance="outline">
-          <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
+          <mat-select id="select-menu" *ngIf="displayText !== 'Custom'" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
             <mat-option [value]="1">{{last_week}}</mat-option>
             <mat-option [value]="2">{{last_month}}</mat-option>
             <mat-option [value]="0">{{last_quarter}}</mat-option>

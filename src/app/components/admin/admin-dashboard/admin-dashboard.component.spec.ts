@@ -163,7 +163,7 @@ describe('AdminDashboardComponent', () => {
     jest.spyOn(component,"selectCustomDateRange");
     component.selectCustomDateRange();
 
-    expect(component.displayText).toBe("Custom : Oct 1 - Oct 30");
+    expect(component.displayText).toBe("2022 Oct 1 - 2022 Oct 30");
 
     expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
   })
@@ -177,7 +177,7 @@ describe('AdminDashboardComponent', () => {
     jest.spyOn(component,"selectCustomDateRange");
     component.selectCustomDateRange();
 
-    expect(component.displayText).toBe("Custom : Oct 1 - Oct 1");
+    expect(component.displayText).toBe("2022 Oct 1 - 2022 Oct 1");
 
     expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
 
