@@ -151,10 +151,13 @@ export const data_local =
       TOTAL_ACTIVE:"Assessments in Progress",
       TOTAL_COMPLETE:"Completed Assessments",
       DOWNLOAD_REPORT:"Download Report",
-      DASHBOARD_TITLE:"DashBoard",
+      DASHBOARD_TITLE:"Dashboard",
       DOWNLOAD_REPORT_LABEL:"Click to download report",
       DROPDOWN_LABEL : "Click to select the days range",
-      ERROR_MESSAGE: "Error in processing request."
+      ERROR_MESSAGE: "Error in processing request.",
+      APPLY_BUTTON_TEXT : "Apply",
+      TOTAL_SUBTEXT : "Total:",
+      CUSTOM_DATE_ERROR_MESSAGE : "Select a date range within 2 years"
     },
     DROPDOWN_OPTION_TEXT:{
       LAST_WEEK :"Last 7 Days",

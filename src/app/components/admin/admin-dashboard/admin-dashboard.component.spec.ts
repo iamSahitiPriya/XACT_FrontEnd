@@ -247,6 +247,33 @@ describe('AdminDashboardComponent', () => {
     expect(component.fromDate).toEqual({"day": 24, "month": 3, "year": 2022})
   })
 
+  it('should show error when the selected date range is greater than maximum days limit',()=> {
+
+    component.adminAssessmentRequest = {
+      assessmentId : 0,
+      startDate : "",
+      endDate : ""
+    }
+    component.ngOnInit();
+    component.noOfDays = 777;
+    component.fromDate = new NgbDate(2020,1,1);
+    component.toDate = new NgbDate(2022,12,31);
+    let date = new Date();
+
+
+    jest.spyOn(component,'getAssessmentDataForCustomDateRange');
+    jest.spyOn(component,'setCustomDateRequest');
+    jest.spyOn(component,'setAssessmentData');
+    jest.spyOn(component,'showError')
+
+    component.getAssessmentDataForCustomDateRange();
+
+    expect(component.showError).toHaveBeenCalled();
+    expect(component.fromDate.day).toBe(date.getDate());
+    expect(component.toDate.year).toBe(date.getFullYear());
+
+  })
+
 
   it('should  generate report for quarter', fakeAsync(() => {
     component.selectedOption=0

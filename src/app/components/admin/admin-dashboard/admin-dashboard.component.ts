@@ -13,15 +13,19 @@ import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
 import {NgbCalendar, NgbDate, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 
+let MAXIMUM_NO_OF_DAYS: number = 700;
+let HOURS: number = 24;
+let MINUTES: number = 60;
+let SECONDS: number = 60;
+let MILLISECONDS: number = 1000;
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  selectedOption :number;
-  currentDate : NgbDate | null = null;
-
+  selectedOption: number;
   datePipe: DatePipe = new DatePipe('en-US');
   todayDate: string | null;
   myDate = new Date();
@@ -37,6 +41,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   Total_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_ASSESSMENT;
   Active_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_ACTIVE;
   Complete_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_COMPLETE;
+  dashboard_Title = data_local.ADMIN_DASHBOARD_LABEL.DASHBOARD_TITLE;
   last_month = data_local.DROPDOWN_OPTION_TEXT.LAST_MONTH;
   last_week = data_local.DROPDOWN_OPTION_TEXT.LAST_WEEK;
   last_quarter = data_local.DROPDOWN_OPTION_TEXT.LAST_QUARTER;
@@ -44,10 +49,14 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   download_label = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
   download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
   dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
+  apply_button_text = data_local.ADMIN_DASHBOARD_LABEL.APPLY_BUTTON_TEXT;
+  total = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_SUBTEXT;
+  custom_date_error_message = data_local.ADMIN_DASHBOARD_LABEL.CUSTOM_DATE_ERROR_MESSAGE
+
+
   custom: string = "Custom";
   displayText: string = this.last_quarter;
-  selected: Date | null;
-
+  noOfDays: number = 0;
 
   ngOnInit(): void {
     this.todayDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
@@ -60,16 +69,16 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   hoveredDate: NgbDate | null = null;
-
   fromDate: NgbDate | null = null;
   toDate: NgbDate | null = null;
+  currentDate: NgbDate | null = null;
 
-
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar,private config: NgbDatepickerConfig) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, calendar: NgbCalendar, private config: NgbDatepickerConfig) {
     this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 1);
     this.toDate = this.currentDate = calendar.getToday();
     const currentDate = new Date();
-    config.maxDate = {year: currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()};
+    config.maxDate = {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()};
+    config.minDate = {year: 2022, month: 1, day: 1};
   }
 
   onDateSelection(date: NgbDate) {
@@ -81,6 +90,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.noOfDays = this.getNoOfDays()
+  }
+
+  private getNoOfDays() {
+    return (this.formatDateToTime(this.toDate) - this.formatDateToTime(this.fromDate)) / (HOURS * MINUTES * SECONDS * MILLISECONDS);
+  }
+
+  private formatDateToTime(date: null | NgbDate) {
+    return new Date(date?.year + '-' + date?.month + '-' + date?.day).getTime();
   }
 
   isDisabled(date: NgbDate) {
@@ -211,26 +229,43 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   setAssessmentData(adminRequest: AdminAssessmentRequest) {
     this.custom = 'Custom';
-    this.appService.getAdminAssessment(adminRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.adminAssessmentResponse.totalAssessments = _data.totalAssessments;
-        this.adminAssessmentResponse.totalActiveAssessments = _data.totalActiveAssessments;
-        this.adminAssessmentResponse.totalCompleteAssessments = _data.totalCompleteAssessments;
-      }, error: _error => {
-        this.showError(data_local.ADMIN_DASHBOARD_LABEL.ERROR_MESSAGE, "Close");
-      }
-    })
+    if (adminRequest.assessmentId !== -1) {
+      this.appService.getAdminAssessment(adminRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.adminAssessmentResponse.totalAssessments = _data.totalAssessments;
+          this.adminAssessmentResponse.totalActiveAssessments = _data.totalActiveAssessments;
+          this.adminAssessmentResponse.totalCompleteAssessments = _data.totalCompleteAssessments;
+        }, error: _error => {
+          this.showError(data_local.ADMIN_DASHBOARD_LABEL.ERROR_MESSAGE, "Close");
+        }
+      })
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getAssessmentDataForCustomDateRange() {
-    this.setAssessmentData(this.setCustomDateRequest());
+    if (this.setAssessmentData(this.setCustomDateRequest())) {
+      this.displayText = this.custom = this.fromDate?.year + " " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+      this.selectedOption = 4;
+    } else {
+      this.displayText = this.custom = "Custom";
+      this.showError(this.custom_date_error_message, "Close");
+      let date = new Date();
+      this.fromDate = this.toDate = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+    }
   }
 
-  private setCustomDateRequest() {
-    if (this.fromDate != null && this.toDate != null) {
-      this.adminAssessmentRequest.startDate = String(this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day);
-      this.adminAssessmentRequest.endDate = String(this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day);
-      this.adminAssessmentRequest.assessmentId = 1;
+  setCustomDateRequest() {
+    if (this.noOfDays <= MAXIMUM_NO_OF_DAYS) {
+      if (this.fromDate != null && this.toDate != null) {
+        this.adminAssessmentRequest.startDate = String(this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day);
+        this.adminAssessmentRequest.endDate = String(this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day);
+        this.adminAssessmentRequest.assessmentId = 1;
+      }
+    } else {
+      this.adminAssessmentRequest.assessmentId = -1;
     }
     return this.adminAssessmentRequest;
   }
@@ -308,11 +343,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     if (this.toDate === null) {
       this.toDate = this.fromDate;
     }
-    this.getAssessmentDataForCustomDateRange();
-    this.displayText = this.custom = this.fromDate?.year + " " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
-    this.selectedOption = 4;
+    this.getAssessmentDataForCustomDateRange()
   }
-
-
 }
 
