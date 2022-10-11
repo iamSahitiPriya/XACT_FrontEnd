@@ -3,15 +3,15 @@
   -->
 
 <div class="header">
-  <span class="dashBoardText">DashBoard</span>
+  <span class="dashBoardText">{{dashboard_Title}}</span>
     <div class="options">
         <mat-form-field appearance="outline">
-          <mat-select id="select-menu" *ngIf="displayText !== 'Custom'" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
-            <mat-option [value]="1">{{last_week}}</mat-option>
+          <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
+            <div *ngIf="displayText !== 'Custom'"><mat-option [value]="1">{{last_week}}</mat-option>
             <mat-option [value]="2">{{last_month}}</mat-option>
             <mat-option [value]="0">{{last_quarter}}</mat-option>
             <mat-option [value]="3">{{last_year}}</mat-option>
-            <mat-option [value]="4" (click)="setCustomOption()">{{custom}}</mat-option>
+            <mat-option [value]="4" (click)="setCustomOption()">{{custom}}</mat-option></div>
           </mat-select>
         </mat-form-field>
       </div>
@@ -23,7 +23,7 @@
     <li class="navitem" (click)="getAssessmentDataForMonth()">{{last_month}}</li>
     <li class="navitem" (click)="getAssessmentDataForQuarter()">{{last_quarter}}</li>
     <li class="navitem" (click)="getAssessmentDataForYear()">{{last_year}}</li>
-    <li class="navitem custom" (click)="setCustomOption()">Custom</li>
+    <li class="navitem custom" (click)="setCustomOption()">{{custom}}</li>
   </ul>
   </div>
   <div class="line"></div>
@@ -31,7 +31,7 @@
     <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
     </ngb-datepicker>
     <div class="applyButton">
-    <button class="btn apply-button btn-sm m-2" (click)="selectCustomDateRange()">Apply</button>
+    <button class="btn apply-button btn-sm m-2" (click)="selectCustomDateRange()">{{apply_button_text}}</button>
     </div>
     <ng-template #t let-date let-focused="focused">
   <span class="custom-day"
@@ -39,7 +39,8 @@
         [class.range]="isRange(date)"
         [class.faded]="isHovered(date) || isInside(date)"
         (mouseenter)="hoveredDate = date"
-        (mouseleave)="hoveredDate = null" [class.disabled]="isDisabled(date)">
+        (mouseleave)="hoveredDate = null"
+        [class.disabled]="isDisabled(date)">
     {{ date.day }}
   </span>
     </ng-template>
@@ -52,7 +53,7 @@
   <hr>
   <mat-card-content>
     <div class="parent">
-      Total:
+      {{total}}
       <div class="total">{{this.adminAssessmentResponse.totalAssessments}}</div>
     </div>
   </mat-card-content>
@@ -62,7 +63,7 @@
   <hr>
   <mat-card-content>
     <div class="parent">
-      Total:
+      {{total}}
       <div class="active">{{this.adminAssessmentResponse.totalActiveAssessments}}</div>
     </div>
   </mat-card-content>
@@ -72,7 +73,7 @@
   <hr>
   <mat-card-content>
     <div class="parent">
-      Total:
+      {{total}}
       <div class="complete">{{this.adminAssessmentResponse.totalCompleteAssessments}}</div>
     </div>
   </mat-card-content>
