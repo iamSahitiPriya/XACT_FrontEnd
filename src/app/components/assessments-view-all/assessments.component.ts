@@ -108,7 +108,8 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   navigation(drafted: string,assessmentId : number) {
-     drafted==="inProgress" ? this.router.navigateByUrl("assessment/"+assessmentId):this.router.navigateByUrl("assessmentModule/"+assessmentId);
+     drafted==="inProgress" ? this.router.navigateByUrl("assessment/"+assessmentId,{state:{type:'table'}}):this.router.navigateByUrl("assessmentModule/"+assessmentId, {state:{type:'table'}});
+
   }
 
 }

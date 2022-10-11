@@ -18,6 +18,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Location} from '@angular/common';
 
 
 let categories: UserCategoryResponse = {
@@ -48,8 +49,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentResponse: Observable<AssessmentStructure>
   assessmentState : string;
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
-
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar) {
+  private state: any;
+  type:any;
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar,private _location:Location) {
     this.assessmentResponse = this.store.select(fromReducer.getAssessments)
   }
 
@@ -80,7 +82,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
     })
+
   }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -137,7 +141,12 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   navigate() {
     this.loading = false;
-    this.router.navigateByUrl("assessment/" + this.assessmentId);
+    if(history.state.type === 'table') {
+      this.router.navigateByUrl("assessment/" + this.assessmentId);
+    }
+    else{
+      this._location.back();
+    }
   }
 
   getModule(moduleId: number, selectedModule: boolean, selectedCategory: boolean, categoryId: number, categoryActive: boolean) {
@@ -173,5 +182,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
         this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId, userAssessmentCategory.active);
       }
     }
+  }
+
+  navigateBack() {
+    this._location.back();
   }
 }

@@ -11,13 +11,16 @@
     </div>
 
     <mat-menu #menu="matMenu" id="menu-dropdown">
-      <button  id="open-assessment" (click)="openAssessment(content)" [matTooltip]=manageAssessmentToolTip mat-menu-item
+      <div class="manageAssessment">
+      <button  id="open-assessment" (click)="openAssessment(content)"  mat-menu-item
               [disabled]="assessment.assessmentStatus ==='Completed'">
         <mat-icon class="iconColor">settings_outline</mat-icon>
-        <span id="createAssessment">{{manageAssessmentTitle}}</span>
+        <span id="createAssessment" [matTooltip]=manageAssessmentToolTip [matTooltipPosition]="'right'" >{{manageAssessmentTitle}}</span>
       </button>
+      </div>
 
-      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]"
+      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]" [state]="{type:'header'}"
+              [matTooltip]=manageCategoryModules [matTooltipPosition]="'right'"
               [disabled]="assessment.assessmentStatus ==='Completed'">
         <mat-icon class="iconColor">exposure</mat-icon>
         <span>{{addModuleTitle}}</span>

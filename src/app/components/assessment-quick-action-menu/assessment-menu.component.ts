@@ -36,6 +36,7 @@ export class AssessmentMenuComponent implements OnDestroy{
   menuButtonToolTip = data_local.ASSESSMENT_MENU.MENU_BUTTON.TOOLTIP;
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
+  manageCategoryModules = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TOOLTIP;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
   summaryTitle = data_local.SUMMARY_REPORT.TITLE;
   summaryTitleToolTip = data_local.SUMMARY_REPORT.TOOLTIP;
