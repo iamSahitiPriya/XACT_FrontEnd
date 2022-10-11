@@ -92,7 +92,8 @@ export const data_local =
         TOOLTIP: "Click to manage assessment and users"
       },
       ADD_ASSESSMENT_MODULE: {
-        TITLE: "Manage modules"
+        TITLE: "Manage modules",
+        TOOLTIP: "Click to select category/modules"
       },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
       LAST_SAVE_STATUS_TEXT: "Last saved at ",
@@ -146,6 +147,7 @@ export const data_local =
       TITLE: "Summary",
       TOOLTIP:"Click to View Chart Summary"
     },
+
     ADMIN_DASHBOARD_LABEL:{
       TOTAL_ASSESSMENT:"Total Assessments",
       TOTAL_ACTIVE:"Assessments in Progress",
