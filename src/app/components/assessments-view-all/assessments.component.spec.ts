@@ -24,6 +24,8 @@ import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -88,9 +90,9 @@ describe('AssessmentsComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
+      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent, AssessmentMenuComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,MatMenuModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }]), MatTooltipModule],

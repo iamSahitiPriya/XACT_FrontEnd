@@ -9,7 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CategoryData} from "../../../types/category";
 import {CategoryResponse} from "../../../types/categoryResponse";
-import {Observable, of, throwError} from "rxjs";
+import {Observable, of} from "rxjs";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";

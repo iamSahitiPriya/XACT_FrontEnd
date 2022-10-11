@@ -31,7 +31,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
-import {AssessmentStructure} from "../../types/assessmentStructure";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
