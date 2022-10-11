@@ -11,7 +11,7 @@ import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentRespo
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
-import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar, NgbDate, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,7 +19,8 @@ import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  selectedOption: number;
+  selectedOption :number;
+  currentDate : NgbDate | null = null;
 
   datePipe: DatePipe = new DatePipe('en-US');
   todayDate: string | null;
@@ -64,9 +65,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   toDate: NgbDate | null = null;
 
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, calendar: NgbCalendar) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar,private config: NgbDatepickerConfig) {
+    this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 1);
+    this.toDate = this.currentDate = calendar.getToday();
+    const currentDate = new Date();
+    config.maxDate = {year: currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()};
   }
 
   onDateSelection(date: NgbDate) {
@@ -78,6 +81,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       this.toDate = null;
       this.fromDate = date;
     }
+  }
+
+  isDisabled(date: NgbDate) {
+    return date.after(this.currentDate)
   }
 
   isHovered(date: NgbDate) {
@@ -305,6 +312,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.displayText = this.custom = this.fromDate?.year + " " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
     this.selectedOption = 4;
   }
+
 
 }
 
