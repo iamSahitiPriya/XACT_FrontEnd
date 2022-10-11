@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
@@ -182,5 +182,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
         this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId, userAssessmentCategory.active);
       }
     }
+  }
+
+  navigateBack() {
+    this._location.back();
   }
 }
