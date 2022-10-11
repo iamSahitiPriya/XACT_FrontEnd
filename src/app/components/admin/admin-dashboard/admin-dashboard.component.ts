@@ -11,7 +11,7 @@ import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentRespo
 import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
-import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar, NgbDate, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -20,6 +20,7 @@ import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
   selectedOption :number;
+  currentDate : NgbDate | null = null;
 
   datePipe: DatePipe = new DatePipe('en-US');
   todayDate: string | null;
@@ -60,13 +61,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   hoveredDate: NgbDate | null = null;
 
-  fromDate: NgbDate | null =null;
+  fromDate: NgbDate | null = null;
   toDate: NgbDate | null = null;
 
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar) {
-    this.fromDate = calendar.getToday();
-     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar,calendar: NgbCalendar,private config: NgbDatepickerConfig) {
+    this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 1);
+    this.toDate = this.currentDate = calendar.getToday();
+    const currentDate = new Date();
+    config.maxDate = {year: currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()};
   }
 
   onDateSelection(date: NgbDate) {
@@ -78,6 +81,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       this.toDate = null;
       this.fromDate = date;
     }
+  }
+
+  isDisabled(date: NgbDate) {
+    return date.after(this.currentDate)
   }
 
   isHovered(date: NgbDate) {
@@ -277,7 +284,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.getReport(this.setYearRequest());
   }
 
-   getReportForCustomDateRange() {
+  getReportForCustomDateRange() {
     this.getReport(this.setCustomDateRequest());
   }
 
@@ -289,21 +296,23 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   getMonthName(monthNumber: number | undefined) {
     const date = new Date();
-    if(monthNumber !== undefined)
-    date.setMonth(monthNumber - 1);
+    if (monthNumber !== undefined) {
+      date.setMonth(monthNumber - 1);
+    }
 
-    return date.toLocaleString('en-US', { month: 'short' });
+    return date.toLocaleString('en-US', {month: 'short'});
   }
 
 
-  selectCustomDateRange(){
-    if(this.toDate === null) {
+  selectCustomDateRange() {
+    if (this.toDate === null) {
       this.toDate = this.fromDate;
     }
     this.getAssessmentDataForCustomDateRange();
-    this.displayText = this.custom = "Custom : " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
-    this.selectedOption =4;
+    this.displayText = this.custom = this.fromDate?.year + " " + this.getMonthName(this.fromDate?.month) + " " + this.fromDate?.day + " - " + this.toDate?.year + " " + this.getMonthName(this.toDate?.month) + " " + (this.toDate?.day);
+    this.selectedOption = 4;
   }
+
 
 }
 

@@ -20,8 +20,8 @@ th {
 }
 
 th.category, td.category {
-  border-bottom-style: none;
-  text-align: center;
+ border-bottom-style: none;
+ text-align: center;
 }
 
 td.category {
@@ -99,10 +99,10 @@ div.buttonColumn {
   text-transform: capitalize;
 }
 
-.plusIcon {
-  background-color: unset;
-  border: none;
-}
+/*.plusIcon {*/
+/*  background-color: unset;*/
+/*  border: none;*/
+/*}*/
 
 #addCategory {
   color: #4ba1ac;

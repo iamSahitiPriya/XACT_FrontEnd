@@ -17,6 +17,7 @@ export const initialState: AssessmentState = {
     assessmentId: 0,
     assessmentName: "Hello",
     organisationName: "",
+    assessmentPurpose:"",
     domain: "",
     industry: '',
     assessmentState:'',

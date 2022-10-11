@@ -14,7 +14,6 @@
   border-radius: 15px;
   padding:1% 1% 0px;
   margin-bottom:4%;
-  width: 16%;
   min-width: 10.375rem;
 }
 .header{
@@ -28,7 +27,7 @@
 .dashBoardText{
   margin-top: 2%;
   margin-left: 2%;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color:#043D4E;
 }
@@ -47,19 +46,17 @@
 
 .downloadButton
 {
-  margin-left: 8%;
+  margin-left: 3%;
   margin-top: 5%;
   margin-bottom: 4%;
   background-color: #6b9f78;
   position: relative;
   color: #fff;
-  width: 14%;
+  width: 18%;
   border-radius: 5px;
   padding: 1% 1%;
   border: none;
   display: flex;
-  min-width: 9.1rem;
-
 }
 .parent{
   margin-top:2px;
@@ -75,15 +72,17 @@
   color:#4BA1AC;
   font-size:xx-large;
   padding-top:7px;
+  padding-bottom: 5px;
 }
-.mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {
+/* .mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {
   margin-bottom: 0px;
-}
+} */
 .active{
   font-weight: bolder;
   color:#C7852A;
   font-size:xx-large;
   padding-top:7px;
+  padding-bottom: 5px;
 }
 
 .complete{
@@ -91,6 +90,7 @@
   color:#6B9F78;
   font-size:xx-large;
   padding-top:7px;
+  padding-bottom: 5px;
 }
 
 .mat-card-title {
@@ -111,11 +111,11 @@
   justify-content: left;
   display:flex;
 }
-.example-sidenav {
+/* .example-sidenav {
   right: 0;
   width: 238px;
   transform: translate3d(100%, 0, 0);
-}
+} */
 .dropdown .mat-form-field{
   width : 70%;
 }
@@ -133,8 +133,11 @@
   justify-content: flex-end;
   margin-right: 5%;
 }
+.options .mat-form-field {
+  width: 20%;
+}
 
-.dropdownItem {
+/* .dropdownItem {
   margin-top: 8%;
   font-size : 16px;
   font-weight: 500;
@@ -149,7 +152,7 @@
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
-}
+} */
 
 .items {
   /*margin-top: 0.8em !important;*/
@@ -185,7 +188,9 @@
 
 .nav-item {
   text-align: left;
-  font: normal normal normal 14px/20px "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: 0.25px;
   color: #043D4E;
   opacity: 1;
@@ -253,30 +258,26 @@
   background: #F7F7F7 0% 0% no-repeat padding-box !important;
   opacity: 1 !important;
 }
-
-::ng-deep .ngb-dp-month-name {
-  color: #4F6F79 !important;
-  font-family: Inter, serif;
-  font-weight: normal !important;
-  font-size: 16px !important;
-}
-
 ::ng-deep .ngb-dp-weekdays {
   display: none !important;
 }
 
-::ng-deep ngb-datepicker-navigation-select>.form-select {
-  display: none !important;
-}
+/*::ng-deep ngb-datepicker-navigation-select>.form-select {*/
+/*  display: none !important;*/
+/*}*/
 
-::ng-deep ngb-datepicker {
-  border: none !important;
-}
+/*::ng-deep ngb-datepicker {*/
+/*  border: none !important;*/
+/*}*/
 
 ::ng-deep .ngb-dp-month-name {
   margin-bottom: 6% !important;
   margin-top: -4% !important;
   padding-bottom: 18% !important;
+  color: #4F6F79 !important;
+  font-family: Inter, serif;
+  font-weight: normal !important;
+  font-size: 16px !important;
 }
 
 ::ng-deep ngb-datepicker-navigation {
@@ -293,7 +294,7 @@
   margin-left: 5% !important;
 }
 
-  /*.custom-day.focused {*/
+/*.custom-day.focused {*/
 /*  border-radius: 22px;*/
 /*}*/
 
@@ -322,5 +323,9 @@
   color: #45A0AC;
 }
 
-
-
+::ng-deep.mat-select-arrow {
+  color: #4BA1AC;
+}
+.custom-day.disabled {
+  opacity: 0.3;
+}

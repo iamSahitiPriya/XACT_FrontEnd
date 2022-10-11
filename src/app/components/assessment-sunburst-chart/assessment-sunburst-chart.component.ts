@@ -14,7 +14,7 @@ import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 
 
-interface colorScheme {
+interface ColorScheme {
   value?: any,
   viewValue: string
 }
@@ -33,7 +33,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  colorList: colorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
+  colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
     {value: d3.interpolateReds, viewValue: 'All Red'},
     {value: d3.interpolateRdPu, viewValue: 'Purple Red'},
     {value: d3.interpolatePurples, viewValue: 'All Purple'},

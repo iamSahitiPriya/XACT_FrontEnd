@@ -259,6 +259,7 @@ describe('AssessmentModulesComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       assessmentState:"inProgress",

@@ -51,6 +51,7 @@
  */
 import 'zone.js'; // Included with Angular CLI.
 import '@angular/localize/init';
+
 (window as any).process = { env: { DEBUG: undefined } };
 
 /***************************************************************************************************

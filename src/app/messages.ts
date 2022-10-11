@@ -41,7 +41,10 @@ export const data_local =
       ERROR_MESSAGE_TEXT: "No Special Characters allowed except hyphen and underscore",
       ASSESSMENT_NAME: {
         TITLE: "Assessment Name",
-        PLACEHOLDER: "Enter Assessment Name"
+        PLACEHOLDER: "Enter Assessment Name",
+        PURPOSE:{
+          TITLE:"Purpose Of Assessment",
+        }
       },
       ASSESSMENT_DOMAIN: {
         TITLE: "Domain of Target",

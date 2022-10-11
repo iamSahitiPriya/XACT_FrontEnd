@@ -17,7 +17,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {User} from "../../types/user";
 import {RouterModule} from "@angular/router";
@@ -27,6 +26,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {OKTA_AUTH} from "@okta/okta-angular";
+import {MatSelectModule} from "@angular/material/select";
 
 class MockDialog {
   open() {
@@ -105,7 +105,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,MatSelectModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatChipsModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -137,6 +137,7 @@ describe('CreateAssessmentsComponent', () => {
     assessmentState:"inProgress",
     assessmentName: "",
     assessmentStatus: "",
+    assessmentPurpose:"",
     domain: "",
     industry: "",
     organisationName: "",
@@ -153,6 +154,7 @@ describe('CreateAssessmentsComponent', () => {
     assessmentState:"inProgress",
     assessmentName: "Mock",
     assessmentStatus: "Active",
+    assessmentPurpose:"Client Request",
     domain: "IT",
     industry: "Telecom",
     organisationName: "Rel",
@@ -183,6 +185,7 @@ describe('CreateAssessmentsComponent', () => {
       answerResponseList: [],
       assessmentId:1,
       assessmentStatus:"Active",
+      assessmentPurpose:"Client Request",
       assessmentName: 'xact',
       organisationName: 'abc',
       domain: 'abc',
@@ -198,7 +201,7 @@ describe('CreateAssessmentsComponent', () => {
 
     component.assessmentCopy = mockAssessment1;
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", organisationName: "abc",
+      assessmentName: "xact",assessmentPurpose:"Client Request", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
 
     };
@@ -211,8 +214,7 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
-
-
+      component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -239,8 +241,10 @@ describe('CreateAssessmentsComponent', () => {
     component.assessmentCopy = mockAssessment;
 
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "abc", organisationName: "abc", domain: "123", industry: "hello", teamSize: 12, users: []
+      assessmentName: "abc",assessmentPurpose:"Client Request", organisationName: "abc", domain: "123", industry: "hello", teamSize: 12, users: []
     };
+    component.createAssessmentForm.controls['selected'].setValue("client request")
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -261,18 +265,19 @@ describe('CreateAssessmentsComponent', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", organisationName: "abc",
+      assessmentName: "xact", organisationName: "abc",assessmentPurpose:"Client Request",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
     const assessmentData =
       {
         "assessmentId": 45,
         "assessmentName": "xact",
+        "assessmentPurpose":"Client Request",
         "organisationName": "abc",
         "assessmentStatus": "Active",
         "updatedAt": 1650886511968
       }
-
+    component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")

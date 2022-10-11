@@ -3,7 +3,6 @@
  */
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";

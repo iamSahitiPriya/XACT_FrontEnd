@@ -24,6 +24,8 @@ import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -32,6 +34,7 @@ class MockAppService {
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
+      "assessmentPurpose":"Client Request",
       "updatedAt": 1649836702001,
       assessmentState:"inProgress",
       "domain": "TW",
@@ -50,6 +53,7 @@ class MockAppService {
       "assessmentState":"inProgress",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
+      "assessmentPurpose":"Client Request",
       "updatedAt": 1649836702001,
       "domain": "TW",
       "industry": "IT",
@@ -86,9 +90,9 @@ describe('AssessmentsComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
+      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent, AssessmentMenuComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,MatMenuModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }]), MatTooltipModule],
@@ -124,6 +128,7 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
+        "assessmentPurpose":"Client Request",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
@@ -139,6 +144,7 @@ describe('AssessmentsComponent', () => {
         "assessmentState":"inProgress",
         "assessmentName": "xact",
         "organisationName": "abc",
+        "assessmentPurpose":"Client Request",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
         "domain": "TW",

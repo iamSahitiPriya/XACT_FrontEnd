@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {MatSort} from '@angular/material/sort';
-import * as events from "events";
 
 /**
  * @title Table with expandable rows
@@ -38,6 +37,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
+    assessmentPurpose:"",
     assessmentStatus: "",
     domain: "",
     assessmentState:"",
@@ -97,7 +97,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
   async openAssessment(content: any) {
     this.dialogRef = this.dialog.open(content, {
-      width: '630px', height: '650px',
+      width: '630px',
     })
     this.dialogRef.disableClose = true;
   }

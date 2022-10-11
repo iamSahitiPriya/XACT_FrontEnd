@@ -28,7 +28,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentResponse";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
+import {NgbCalendar, NgbDate, NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
 
 class MockAppService {
  adminAssessmentResponse : AdminAssessmentResponse={
@@ -105,6 +105,17 @@ describe('AdminDashboardComponent', () => {
     expect(component.adminAssessmentRequest.endDate).toEqual(weekDate);
   });
 
+  it("should able to get custom date data when selected", () => {
+    component.ngOnInit()
+    component.selectedOption=4
+    jest.spyOn(component,'inputChange');
+    jest.spyOn(component,'setCustomOption');
+    component.inputChange();
+
+    expect(component.setCustomOption).toHaveBeenCalled();
+  });
+
+
   it("should able to get Month end date when getAssessmentDataForMonth is called", () => {
 
 
@@ -127,8 +138,6 @@ describe('AdminDashboardComponent', () => {
     let date = new Date();
     date.setDate(date.getDate() - 365);
     let yearDate=component.datePipe.transform(date,'YYYY-MM-dd');
-
-
     component.ngOnInit()
     component.selectedOption=3
     jest.spyOn(component,'inputChange');
@@ -144,6 +153,13 @@ describe('AdminDashboardComponent', () => {
     expect(component.showError).toHaveBeenCalled()
 
   });
+
+  it("should disable future dates for custom selection", () =>{
+    component.currentDate = new NgbDate(2022,10,1);
+    jest.spyOn(component,'isDisabled');
+    const date = new NgbDate(2022,10,5);
+    expect(component.isDisabled(date)).toBe(true);
+  })
 
   it("should able to set the display text as custom when setCustomOption", () => {
     component.selectedOption = 0;
@@ -163,7 +179,7 @@ describe('AdminDashboardComponent', () => {
     jest.spyOn(component,"selectCustomDateRange");
     component.selectCustomDateRange();
 
-    expect(component.displayText).toBe("Custom : Oct 1 - Oct 30");
+    expect(component.displayText).toBe("2022 Oct 1 - 2022 Oct 30");
 
     expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
   })
@@ -177,7 +193,7 @@ describe('AdminDashboardComponent', () => {
     jest.spyOn(component,"selectCustomDateRange");
     component.selectCustomDateRange();
 
-    expect(component.displayText).toBe("Custom : Oct 1 - Oct 1");
+    expect(component.displayText).toBe("2022 Oct 1 - 2022 Oct 1");
 
     expect(component.adminAssessmentRequest.endDate).toBe("2022-10-1")
 
