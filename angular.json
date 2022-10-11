@@ -95,7 +95,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -112,7 +112,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -135,7 +135,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -147,6 +147,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/index.html",
+                  "with": "src/index.prod.html"
                 }
               ],
               "outputHashing": "all",
@@ -164,6 +168,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
+                },
+                {
+                  "replace": "src/index.html",
+                  "with": "src/index.non-prod.html"
                 }
               ]
             }

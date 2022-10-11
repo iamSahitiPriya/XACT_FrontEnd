@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ActivatedRoute} from "@angular/router";
@@ -12,6 +12,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
+import html2canvas from "html2canvas";
 
 
 interface ColorScheme {
@@ -25,8 +26,17 @@ interface ColorScheme {
   styleUrls: ['./assessment-sunburst-chart.component.css']
 })
 
+
+
 export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
+
+  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
+
   pageTitle = data_local.SUMMARY_REPORT.TITLE;
+  downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK_DASHBOARD;
   assessmentId: number;
   data: ReportDataStructure;
   selectedValue: any = d3.interpolateSpectral;
@@ -147,11 +157,11 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .attr("transform", (d: any) => labelTransform(d.current))
       .text((d: any) => d.data.name)
       .style("font", "7px Inter")
-  .call(this.wrap, 75,0.0004, 0.23);
+      .call(this.wrap, 75,0.0004, 0.23);
 
 
 
-   vis.append("circle")
+    vis.append("circle")
       .datum(root)
       .attr("r", radius)
       .attr("fill", "none")
@@ -330,7 +340,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
         x = text.attr("x"),
         dy = parseFloat(text.attr("dy")),
         dyAdjust = 0;
-        if(words.length>3) {
+      if(words.length>3) {
         dyAdjust = words.length / 1.95;
       }
       dy = dy - (adjustPadding * dyAdjust)
@@ -354,7 +364,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   }
 
 
-  onClick(val: any) {
+  onThemeChange(val: any) {
     this.selectedValue = val
     if (this.selectedValue == "ThreatTheme") {
       d3.select("#trail")
@@ -412,6 +422,15 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
         return (sequenceArray.indexOf(node) >= 0);
       })
       .style("opacity", 1);
+  }
+
+  downloadImage(){
+    html2canvas(this.screen.nativeElement).then(canvas => {
+      this.canvas.nativeElement.src = canvas.toDataURL();
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = this.data.name+'-sunburst-chart.png';
+      this.downloadLink.nativeElement.click();
+    });
   }
 
   ngOnDestroy(): void {

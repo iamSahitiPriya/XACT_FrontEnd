@@ -7,7 +7,7 @@ export const data_local =
     HOME: {
       TITLE: "My Assessments",
       BUTTON: "Create Assessment",
-      BUTTON_TOOLTIP:"Click to create new assessment",
+      BUTTON_TOOLTIP: "Click to create new assessment",
       ASSESSMENT_TOOLTIP: "Click to view details of ",
       SORTING_TOOLTIP: "Click to sort on ",
       TABLE_HEADING: {
@@ -42,8 +42,8 @@ export const data_local =
       ASSESSMENT_NAME: {
         TITLE: "Assessment Name",
         PLACEHOLDER: "Enter Assessment Name",
-        PURPOSE:{
-          TITLE:"Purpose Of Assessment",
+        PURPOSE: {
+          TITLE: "Purpose Of Assessment",
         }
       },
       ASSESSMENT_DOMAIN: {
@@ -97,9 +97,10 @@ export const data_local =
       },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
       LAST_SAVE_STATUS_TEXT: "Last saved at ",
-      IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE:"Assessment report is getting downloaded.",
-      COMPLETE_REPORT_DOWNLOADING_MESSAGE:"Assessment report & report template are getting downloaded, Please allow multiple download option.",
-      REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx"
+      IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
+      COMPLETE_REPORT_DOWNLOADING_MESSAGE: "Assessment report & report template are getting downloaded, Please allow multiple download option.",
+      REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx",
+      GO_BACK_DASHBOARD: "Go back to dashboard"
     },
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
@@ -138,14 +139,15 @@ export const data_local =
       RECOMMENDATION_LABEL: "Recommendations"
     },
     COPYRIGHT_MESSAGE: {
-      COPYRIGHT_TEXT:"Copyright (c) 2022 -",
+      COPYRIGHT_TEXT: "Copyright (c) 2022 -",
       THOUGHTWORKS_TAG: "Thoughtworks Inc.",
-      RIGHTS_RESERVED_TEXT:"All rights reserved. v"
+      RIGHTS_RESERVED_TEXT: "All rights reserved. v"
     },
     LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
-    SUMMARY_REPORT:{
-      TITLE: "Summary",
-      TOOLTIP:"Click to View Chart Summary"
+    SUMMARY_REPORT: {
+      TITLE: "Assessment Summary",
+      TOOLTIP: "Click to View Chart Summary",
+      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image"
     },
 
     ADMIN_DASHBOARD_LABEL:{
@@ -161,22 +163,22 @@ export const data_local =
       TOTAL_SUBTEXT : "Total:",
       CUSTOM_DATE_ERROR_MESSAGE : "Select a date range within 2 years"
     },
-    DROPDOWN_OPTION_TEXT:{
-      LAST_WEEK :"Last 7 Days",
-      LAST_MONTH:"Last 30 Days",
-      LAST_QUARTER:"Last 90 Days",
-      LAST_YEAR:"Last 365 Days"
+    DROPDOWN_OPTION_TEXT: {
+      LAST_WEEK: "Last 7 Days",
+      LAST_MONTH: "Last 30 Days",
+      LAST_QUARTER: "Last 90 Days",
+      LAST_YEAR: "Last 365 Days"
     },
-    RECOMMENDATION_TEXT:{
-      IMPACT_LABEL:"Impact",
-      EFFORT:"Effort",
-      DELIVERY_HORIZON:"Delivery Horizon",
-      DELETE:"Delete",
-      IMPACT_1:"High",
-      IMPACT_2:"Medium",
-      IMPACT_3:"Low",
-      DH_1:"Now",
-      DH_2:"Next",
-      DH_3:"Later"
+    RECOMMENDATION_TEXT: {
+      IMPACT_LABEL: "Impact",
+      EFFORT: "Effort",
+      DELIVERY_HORIZON: "Delivery Horizon",
+      DELETE: "Delete",
+      IMPACT_1: "High",
+      IMPACT_2: "Medium",
+      IMPACT_3: "Low",
+      DH_1: "Now",
+      DH_2: "Next",
+      DH_3: "Later"
     }
   };

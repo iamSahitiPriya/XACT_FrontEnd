@@ -5,39 +5,53 @@
 <div class="row menu-bar">
   <div class="col-md-3">
     <mat-toolbar>
-    <button matTooltip="Go back to dashboard" mat-icon-button [routerLink]="['/assessment',assessmentId]">
+      <button [matTooltip]=goBackToDashboard mat-icon-button [routerLink]="['/assessment',assessmentId]">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
-      <div  *ngIf="data"> <span class = "name">{{data.name}}</span> </div>
+      <div *ngIf="data"><span class="name">{{data.name}}</span></div>
       <span class="module-spacer"></span>
     </mat-toolbar>
   </div>
 
-<div class="col-md-6 align-self-center" >
-<div class ="heading">
-   {{pageTitle}}
-</div>
-</div>
+  <div class="col-md-6 align-self-center">
+    <div class="heading">
+      {{pageTitle}}
+    </div>
+  </div>
 </div>
 
 <mat-divider></mat-divider>
 
-  <div class="colorTheme">
-    <form>
+<mat-card>
+  <mat-card-content>
+    <div class="colorTheme">
+
       <mat-form-field appearance="fill">
         <mat-label>Select Color Theme</mat-label>
         <mat-select [(ngModel)]="selectedValue">
-          <mat-option *ngFor="let color of colorList" [value]="color.value" (click)="onClick(color.value)" >
+          <mat-option *ngFor="let color of colorList" [value]="color.value" (selectionChange)="onThemeChange(color.value)">
             {{color.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </form>
-  </div>
-<div class ="dashboard">
-<div class ="sunBurst">
-<div id="chart"> </div>
-<div id = "sequence"></div>
+      <button id="downloadButton" class="downloadButton" mat-icon-button color="primary" aria-label="Download chart"
+              [matTooltip]=downloadActionTooltip
+              (click)="downloadImage()">
+        <mat-icon>save_alt</mat-icon>
+      </button>
+    </div>
+    <div #screen>
+      <div class="dashboard">
+        <div class="sunBurst">
+          <div id="chart"></div>
+          <div id="sequence"></div>
+        </div>
+      </div>
+      <div class="rating"></div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div id="download">
+  <img #canvas>
+  <a #downloadLink></a>
 </div>
-</div>
-<div class="rating"></div>
