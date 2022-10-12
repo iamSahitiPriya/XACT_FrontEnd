@@ -194,6 +194,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
           this.showError();
         }
       })
+      window.location.reload();
     } else
       this.showFormError();
   }
