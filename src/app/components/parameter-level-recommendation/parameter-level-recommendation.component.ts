@@ -127,12 +127,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
       next: (_data) => {
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
+        this.sendRecommendation(this.parameterLevelRecommendationResponse)
+        this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
       }
     })
-    this.sendRecommendation(this.parameterLevelRecommendationResponse)
-    this.updateDataSavedStatus()
   }
 
   private setParameterLevelRecommendationResponseFields() {
