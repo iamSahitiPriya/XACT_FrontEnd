@@ -364,8 +364,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   }
 
 
-  onThemeChange(val: any) {
-    this.selectedValue = val
+  onThemeChange() {
     if (this.selectedValue == "ThreatTheme") {
       d3.select("#trail")
         .attr("fill", "orange")

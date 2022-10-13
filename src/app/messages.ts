@@ -147,7 +147,7 @@ export const data_local =
     SUMMARY_REPORT: {
       TITLE: "Assessment Summary",
       TOOLTIP: "Click to View Chart Summary",
-      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image"
+      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },
 
     ADMIN_DASHBOARD_LABEL:{

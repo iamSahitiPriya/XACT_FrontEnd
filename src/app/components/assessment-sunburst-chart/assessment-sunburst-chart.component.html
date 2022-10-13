@@ -28,13 +28,13 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Select Color Theme</mat-label>
-        <mat-select [(ngModel)]="selectedValue">
-          <mat-option *ngFor="let color of colorList" [value]="color.value" (selectionChange)="onThemeChange(color.value)">
+        <mat-select [(ngModel)]="selectedValue" (selectionChange)="onThemeChange()">
+          <mat-option *ngFor="let color of colorList" [value]="color.value" >
             {{color.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button id="downloadButton" class="downloadButton" mat-icon-button color="primary" aria-label="Download chart"
+      <button accesskey="c" id="downloadButton" class="downloadButton" mat-icon-button color="primary" aria-label="Download chart"
               [matTooltip]=downloadActionTooltip
               (click)="downloadImage()">
         <mat-icon>save_alt</mat-icon>
