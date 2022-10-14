@@ -17,7 +17,8 @@ import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
-import {Subject, takeUntil} from "rxjs";
+import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
+import {DummyResponse} from "../../types/DumyResponse";
 
 @Component({
   selector: 'app-create-assessments',
@@ -68,6 +69,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     value:'Client Request'
   },{value:'Internal Request'}]
 
+  myControl = new FormControl('');
+  // options =[{value:'Bunny'},{value:'AA'},{value:'123Bunny'},{value:'AABB'},{value:'AlluArjunAa'},{value:'HelloAABunny12'}]
+  options : DummyResponse[] | undefined;
+  filteredOptions: Observable<string[]>;
+   result : string[];
+
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
@@ -100,6 +107,27 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.assessmentCopy = cloneDeep(this.assessment);
     }
 
+    this.appService.getOrganizationName().pipe(takeUntil(this.destroy$)).subscribe({
+      next:(_data)=>{
+        this.options = _data.products
+      }
+    })
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    if (this.options != undefined) {
+      const languages = this.options.map((obj) => obj.title);
+      console.log("the map func",languages);
+      this.result =languages.filter(option => option.toLowerCase().includes(filterValue));
+    }
+    return this.result;
   }
 
   saveAssessment() {

@@ -20,6 +20,8 @@ import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLeve
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+import {DummyResponse} from "../../types/DumyResponse";
+import {Responses} from "../../types/Responses";
 
 
 @Injectable({
@@ -146,6 +148,10 @@ export class AppServiceService {
   }
   updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
     return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
+  }
+
+  getOrganizationName():Observable<Responses>{
+    return this.http.get<Responses>('https://dummyjson.com/products')
   }
 }
 
