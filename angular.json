@@ -95,7 +95,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -112,7 +112,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -135,7 +135,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "2.7mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -151,7 +151,12 @@
               ],
               "outputHashing": "all",
               "buildOptimizer": true,
-              "optimization": true
+              "optimization": true,
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              }
+
             },
             "development": {
               "outputHashing": "all",
@@ -165,7 +170,11 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
                 }
-              ]
+              ],
+              "index": {
+                "input": "src/index.non-prod.html",
+                "output": "index.html"
+              }
             }
           },
           "defaultConfiguration": "production"

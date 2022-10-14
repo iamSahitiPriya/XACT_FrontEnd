@@ -44,6 +44,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   assessmentId: number;
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK_DASHBOARD;
   answer: Observable<AssessmentStructure>
   private destroy$: Subject<void> = new Subject<void>();
 

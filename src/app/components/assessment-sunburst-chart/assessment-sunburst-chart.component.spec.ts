@@ -16,6 +16,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {of} from "rxjs";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {FormsModule} from "@angular/forms";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -40,7 +43,7 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AssessmentSunburstChartComponent ],
-      imports: [ MatFormFieldModule,MatDividerModule,MatToolbarModule ,MatSelectModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
+      imports: [ FormsModule,MatFormFieldModule,MatDividerModule,MatToolbarModule, MatButtonModule ,MatSelectModule, MatCardModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
     })
     .compileComponents();
   });
@@ -96,7 +99,7 @@ describe('AssessmentSunburstChartComponent', () => {
   })
 
   it('should change theme of chart onClick', () =>{
-    jest.spyOn(component, 'onClick');
+    jest.spyOn(component, 'onThemeChange');
 
     component.data =  { name:"project",children:[{
         name:"ass1",rating:3,children:[{
@@ -108,12 +111,12 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]}
     component.selectedValue = d3.interpolatePurples;
-    component.onClick(d3.interpolateSpectral)
+    component.onThemeChange(d3.interpolateSpectral)
     expect(component.selectedValue).toBe(d3.interpolateSpectral)
   })
 
   it('should change theme to threat display' ,() => {
-    jest.spyOn(component, 'onClick');
+    jest.spyOn(component, 'onThemeChange');
 
     component.data =  { name:"project",children:[{
         name:"ass1",rating:3,children:[{
@@ -125,7 +128,7 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]}
     component.selectedValue = d3.interpolatePurples;
-    component.onClick("ThreatTheme")
+    component.onThemeChange("ThreatTheme")
     expect(component.selectedValue).toBe("ThreatTheme");
   })
 
@@ -295,5 +298,12 @@ describe('AssessmentSunburstChartComponent', () => {
     })
   })
 
+
+  it("should call download image function", () => {
+    jest.spyOn(component,'downloadImage');
+    const button = fixture.nativeElement.querySelector("#downloadButton");
+    button.click();
+    expect(component.downloadImage).toBeCalled();
+  })
 
 });
