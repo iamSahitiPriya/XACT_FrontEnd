@@ -19,7 +19,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
 import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
-import { Responses } from 'src/app/types/Responses';
+import {Responses} from 'src/app/types/Responses';
 
 @Component({
   selector: 'app-create-assessments',
@@ -67,17 +67,18 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
   purposeOfAssessment = [{
-    value:'Client Request'
-  },{value:'Internal Request'}]
+    value: 'Client Request'
+  }, {value: 'Internal Request'}]
 
   myControl = new FormControl('');
-  options : Responses | undefined;
+  options: Responses | undefined;
   filteredOptions: Observable<string[]>;
-   result : string[];
+  result: string[];
 
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
+  nameCheck =false;
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
@@ -91,7 +92,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
-        selected:['',Validators.required],
+        selected: ['', Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
@@ -111,7 +112,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
 
-
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
       const users = this.getValidUsers();
@@ -120,7 +120,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
-        assessmentPurpose:this.assessment.assessmentPurpose,
+        assessmentPurpose: this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,
@@ -188,7 +188,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
-        assessmentPurpose:this.assessment.assessmentPurpose,
+        assessmentPurpose: this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,
@@ -266,34 +266,38 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  purposeChange(option : string) {
-    this.assessment.assessmentPurpose=option;
+  purposeChange(option: string) {
+    this.assessment.assessmentPurpose = option;
   }
 
   change() {
-    if(this.assessment.organisationName.length === 3) {
+    if (this.assessment.organisationName.length === 3) {
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
+          console.log("values",this.options)
         }
       })
+    } else if (this.assessment.organisationName.length === 0) {
+      this.options = {names: []}
     }
-    else if(this.assessment.organisationName.length === 0){
-      this.options ={ names : []}
-    }
-      this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value || '')),
-      );
 
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(this.assessment.organisationName || '')),
+    );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    console.log("value of word",filterValue);
-    if (this.options != undefined) {
-      this.result =this.options.names.filter(option => option.toLowerCase().includes(filterValue));
-      console.log("the filtered ones",this.result);
+    if (this.options?.names !== undefined) {
+      this.nameCheck=false;
+      console.log("value in if",this.nameCheck)
+      this.result = this.options.names.filter(option => option.toLowerCase().includes(filterValue));
+    }
+    else{
+      this.nameCheck=true;
+      console.log("value out if",this.nameCheck)
     }
     return this.result;
   }

@@ -77,7 +77,7 @@
                required
                formControlName="organizationNameValidator"
                [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete #auto="matAutocomplete" >
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option}}
           </mat-option>
@@ -85,9 +85,11 @@
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>
-<!--        <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">-->
-<!--          {{commonErrorFieldText}}-->
-<!--        </mat-error>-->
+        <mat-error *ngIf="nameCheck">
+         Choose Options From Dropdown
+        </mat-error>
+        <span *ngIf="nameCheck">Errorrrr</span>
+
       </mat-form-field>
       <br>
 
