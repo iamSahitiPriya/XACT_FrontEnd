@@ -7,8 +7,8 @@ import landingPage from "./landingPage.cy";
 class commonFunction{
 
   static clickOnElement(webElementLocation){
-    let element = cy.get(webElementLocation)
-    element.click()
+    //let element = cy.get(webElementLocation)
+    webElementLocation.click({ force: true })
   }
 
   static typeInElement(webElementLocation,value) {
@@ -58,6 +58,30 @@ class commonFunction{
       assert.isOk(element+' is visible for test')
     }else {
       assert.isNotOk(false, element+' is not visible')
+    }
+  }
+  static verifyText(element,text,message){
+    if(element.should('have.text',text)){
+      cy.log(message)
+      assert.isOk(element+' has '+text)
+    }else {
+      assert.fail(false, element+' does not have'+text)
+    }
+  }
+
+  static containsText(element,text,message){
+    // if(element.should('contain',text)){
+    //   cy.log(message)
+    //   assert.isOk(element+' contains '+text)
+    // }else {
+    //   assert.fail(false, element+' does not contain '+text)
+    // }
+
+    try{
+      element.should('contain',text)
+      cy.log(message)
+    }catch (e) {
+      assert.fail(false, element+' does not contain '+text)
     }
   }
 
