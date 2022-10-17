@@ -73,6 +73,7 @@
                matInput
                [(ngModel)]="assessment.organisationName"
                [formControl]="myControl"
+               (input)="change()"
                required
                formControlName="organizationNameValidator"
                [matAutocomplete]="auto">

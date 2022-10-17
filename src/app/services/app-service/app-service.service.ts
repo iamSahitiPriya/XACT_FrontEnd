@@ -150,8 +150,8 @@ export class AppServiceService {
     return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
 
-  getOrganizationName():Observable<Responses>{
-    return this.http.get<Responses>('https://dummyjson.com/products')
+  getOrganizationName(name : string):Observable<Responses>{
+    return this.http.get<Responses>('http://localhost:8000/v1/organisation/'+name)
   }
 }
 

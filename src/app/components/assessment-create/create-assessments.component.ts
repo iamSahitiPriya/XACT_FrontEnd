@@ -19,6 +19,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
 import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
+import { Responses } from 'src/app/types/Responses';
 
 @Component({
   selector: 'app-create-assessments',
@@ -70,8 +71,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   },{value:'Internal Request'}]
 
   myControl = new FormControl('');
-  // options =[{value:'Bunny'},{value:'AA'},{value:'123Bunny'},{value:'AABB'},{value:'AlluArjunAa'},{value:'HelloAABunny12'}]
-  options : DummyResponse[] | undefined;
+  options : Responses | undefined;
   filteredOptions: Observable<string[]>;
    result : string[];
 
@@ -107,28 +107,10 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.assessmentCopy = cloneDeep(this.assessment);
     }
 
-    this.appService.getOrganizationName().pipe(takeUntil(this.destroy$)).subscribe({
-      next:(_data)=>{
-        this.options = _data.products
-      }
-    })
-
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
 
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    if (this.options != undefined) {
-      const languages = this.options.map((obj) => obj.title);
-      console.log("the map func",languages);
-      this.result =languages.filter(option => option.toLowerCase().includes(filterValue));
-    }
-    return this.result;
-  }
+
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
@@ -286,5 +268,33 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   purposeChange(option : string) {
     this.assessment.assessmentPurpose=option;
+  }
+
+  change() {
+    if(this.assessment.organisationName.length === 3) {
+      this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.options = _data
+        }
+      })
+    }
+    else if(this.assessment.organisationName.length === 0){
+      this.options ={ names : []}
+    }
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value || '')),
+      );
+
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    console.log("value of word",filterValue);
+    if (this.options != undefined) {
+      this.result =this.options.names.filter(option => option.toLowerCase().includes(filterValue));
+      console.log("the filtered ones",this.result);
+    }
+    return this.result;
   }
 }
