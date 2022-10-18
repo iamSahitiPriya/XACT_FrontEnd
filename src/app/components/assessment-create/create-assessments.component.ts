@@ -29,7 +29,6 @@ import {Responses} from 'src/app/types/Responses';
   styleUrls: ['./create-assessments.component.css']
 })
 
-
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   createAssessmentForm: FormGroup;
@@ -71,8 +70,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
   purposeOfAssessment = [{
-    value: 'Client Request'
-  }, {value: 'Internal Request'}]
+    value:'Internal Assessment'
+  },{value:'Client Assessment'},{value:'Just Exploring'}]
 
 
   options : Responses | undefined = {names : []};
@@ -122,12 +121,10 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.assessmentCopy = cloneDeep(this.assessment);
     }
 
-
   }
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
-      console.log("valid form");
       const users = this.getValidUsers();
       this.assessment.users = this.getUsersStructure(users);
       this.loading = true
