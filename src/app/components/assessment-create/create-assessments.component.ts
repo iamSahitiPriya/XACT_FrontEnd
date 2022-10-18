@@ -298,13 +298,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
-          console.log("if contiions",this.options)
         }
       })
     } else if (this.assessment.organisationName.length < 3) {
       this.options = {names: []}
     } else if(this.options?.names === undefined && this.assessment.organisationName.length > 3){
-      console.log("else condddd");
       this.nameCheck=true;
       this.names=[];
       this.createAssessmentForm = this.formBuilder.group(
@@ -322,7 +320,24 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
       this.myControl =new FormControl(this.assessment.organisationName,
         { validators: [autocompleteStringValidator(this.names), Validators.required] });
-    }else if(this.options?.names !== undefined){
+    }else if(this.options?.names !== undefined && this.options.names.findIndex(eachOption => eachOption === this.assessment.organisationName) ===-1){
+      this.createAssessmentForm = this.formBuilder.group(
+        {
+          selected: [this.assessment.assessmentPurpose, Validators.required],
+          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
+          organizationNameValidator:[this.assessment.organisationName,Validators.required],
+          domainNameValidator: [this.assessment.domain, Validators.required],
+          industryValidator: [this.assessment.industry, Validators.required],
+          teamSizeValidator: [this.assessment.teamSize, Validators.required],
+          myControl :['',Validators.required],
+          emailValidator: ['', Validators.pattern(this.re)],
+        }
+      )
+      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
+      this.myControl =new FormControl(this.assessment.organisationName,
+        { validators: [autocompleteStringValidator(this.names), Validators.required] });
+    }
+    else{
       this.createAssessmentForm = this.formBuilder.group(
         {
           selected: [this.assessment.assessmentPurpose, Validators.required],
@@ -335,9 +350,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       )
       this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
+      console.log("condition 3333");
       this.myControl =new FormControl(this.assessment.organisationName,
         { validators: [autocompleteStringValidator(this.names), Validators.required] });
     }
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(this.assessment.organisationName || '')),
