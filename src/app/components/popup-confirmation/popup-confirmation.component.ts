@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 
 @Component({
   selector: 'app-popup-confirmation',

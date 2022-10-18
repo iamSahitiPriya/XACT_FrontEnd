@@ -23,14 +23,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from '@angular/material/menu';
-import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-rating.component";
 import {reducers} from "../../reducers/reducers";
+import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 
 class MockAppService {
   public getCategories() {
@@ -122,7 +121,7 @@ describe('AssessmentModulesDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent],
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent,AssessmentHeaderComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
@@ -130,7 +129,7 @@ describe('AssessmentModulesDetailsComponent', () => {
         ]), StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: OKTA_AUTH, useValue: oktaAuth},
+        // {provide: OKTA_AUTH, useValue: oktaAuth},
 
       ],
     })

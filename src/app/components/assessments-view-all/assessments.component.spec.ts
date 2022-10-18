@@ -15,8 +15,6 @@ import {MatTableModule} from "@angular/material/table";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable, of} from "rxjs";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import oktaAuth from "@okta/okta-auth-js";
 import {RouterTestingModule} from "@angular/router/testing";
 import {FormBuilder, FormsModule} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -26,6 +24,8 @@ import {RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 class MockAppService {
   ASSESSMENT_DATA: AssessmentStructure [] = [
@@ -34,7 +34,9 @@ class MockAppService {
       "assessmentName": "xact",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
+      "assessmentPurpose":"Client Request",
       "updatedAt": 1649836702001,
+      assessmentState:"inProgress",
       "domain": "TW",
       "industry": "IT",
       "teamSize": 2,
@@ -48,8 +50,10 @@ class MockAppService {
     {
       "assessmentId": 1,
       "assessmentName": "xact",
+      "assessmentState":"inProgress",
       "organisationName": "abc",
       "assessmentStatus": "ACTIVE",
+      "assessmentPurpose":"Client Request",
       "updatedAt": 1649836702001,
       "domain": "TW",
       "industry": "IT",
@@ -86,9 +90,9 @@ describe('AssessmentsComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent],
+      declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent, AssessmentMenuComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,
+        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,MatMenuModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }]), MatTooltipModule],
@@ -97,7 +101,7 @@ describe('AssessmentsComponent', () => {
           provide: AppServiceService,
           useClass: MockAppService
         },
-        {provide: OKTA_AUTH, useValue: oktaAuth},
+        // {provide: OKTA_AUTH, useValue: oktaAuth},
         {provide: MatDialog, useClass: MockDialog}
       ]
     })
@@ -124,19 +128,23 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
+        "assessmentPurpose":"Client Request",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
         "teamSize": 2,
         "users": [],
+        "assessmentState":"inProgress",
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
       },
       {
         "assessmentId": 1,
+        "assessmentState":"inProgress",
         "assessmentName": "xact",
         "organisationName": "abc",
+        "assessmentPurpose":"Client Request",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
         "domain": "TW",

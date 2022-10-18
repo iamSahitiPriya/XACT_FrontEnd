@@ -10,7 +10,17 @@
     <button [matTooltip]=closeToolTip type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
+
     <div mat-dialog-content>
+      <mat-form-field appearance="outline" class="assessmentName" >
+        <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
+        <mat-select  (selectionChange)="purposeChange($event.value)"  required formControlName="selected">
+          <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form['selected'].hasError('required')">
+         {{mandatoryFieldText}}
+        </mat-error>
+      </mat-form-field>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{assessmentNameTitle}} *</mat-label>
         <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
@@ -117,4 +127,5 @@
   </form>
   <div></div>
 </div>
+<div></div>
 

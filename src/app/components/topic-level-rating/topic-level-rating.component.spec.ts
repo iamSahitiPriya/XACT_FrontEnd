@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TopicLevelRatingComponent} from './topic-level-rating.component';
@@ -30,7 +34,12 @@ class MockAppService {
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    return of(topicRating)
+    if(topicRating.topicId === 0) {
+      return of(topicRating)
+    } else {
+      return throwError("Error!")
+    }
+
   }
 }
 
@@ -69,7 +78,9 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -116,8 +127,10 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -158,8 +171,10 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -191,7 +206,9 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -278,6 +295,54 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     jest.spyOn(component, "showError")
     component.showError("Error", "Close")
     expect(component.showError).toHaveBeenCalled()
+  });
+  it('should call the error whenever the problem occurs during api call', () => {
+    component.answerResponse = {
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      assessmentState:"inProgress",
+      assessmentPurpose:"Client Request",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effort: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+    }
+    const topicRatingAndRecommendation = {
+      rating: 2,
+      recommendation: "some text",
+      topicId: 1
+    }
+    component.topicLevelRating = {
+      assessmentId: 0, topicId: 0, rating: 1
+    };
+    jest.spyOn(component, "setRating");
+    component.topicRatingAndRecommendation = topicRatingAndRecommendation;
+    component.topicId = 1
+    component.assessmentStatus = "Active"
+    jest.spyOn(component,"showError")
+    component.setRating(3)
+    expect(component.showError).toHaveBeenCalled();
+
   });
 
 });

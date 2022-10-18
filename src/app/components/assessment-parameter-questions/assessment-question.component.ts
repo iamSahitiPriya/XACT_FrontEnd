@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
@@ -17,8 +21,8 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
-import {AssessmentMenuComponent} from "../assessment-menu/assessment-menu.component";
-import {data_local} from 'src/assets/messages';
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {data_local} from 'src/app/messages';
 
 export const assessmentData = [{}]
 export let loading = false

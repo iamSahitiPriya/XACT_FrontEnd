@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ParameterLevelRecommendationComponent} from './parameter-level-recommendation.component';
@@ -71,7 +75,9 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -141,7 +147,9 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -209,6 +217,8 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -281,7 +291,9 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -398,7 +410,9 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -499,8 +513,10 @@ describe('ParameterRecommendationComponent', () => {
       assessmentId: 1,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
+      assessmentState:"inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -576,6 +592,31 @@ describe('ParameterRecommendationComponent', () => {
     component.saveParticularParameterText(keyEvent);
     expect(component.parameterLevelRecommendation.recommendation).toEqual("some text");
     expect(component.parameterRecommendationResponse.parameterRatingAndRecommendation).toBeDefined();
+  });
+  it('should update topic level recommendation according to recommendation response', function () {
+    component.parameterLevelRecommendationResponse = {
+      assessmentId: 0,
+      parameterId: 0,
+      recommendationId: 1,
+      recommendation: "text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "text"
+    }
+
+    component.parameterRecommendationSample = [{
+      recommendationId: 2,
+      recommendation: "sample text",
+      impact: "LOW",
+      effort: "HIGH",
+      deliveryHorizon: "sample text"
+    }];
+
+    component.parameterRecommendationIndex = -1
+
+    component.getRecommendation(component.parameterRecommendationSample, component.parameterLevelRecommendationResponse)
+
+    expect(component.parameterRecommendationSample[1].recommendation).toBe("text");
   });
 
 });

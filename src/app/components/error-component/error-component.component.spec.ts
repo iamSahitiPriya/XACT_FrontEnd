@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {ErrorComponentComponent} from './error-component.component';

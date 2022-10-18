@@ -3,9 +3,9 @@
  */
 
 import {Component, Input} from '@angular/core';
-import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatTableDataSource} from "@angular/material/table";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
+
 
 @Component({
   selector: 'app-search',
@@ -13,23 +13,34 @@ import {data_local} from "../../../assets/messages";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
+
+  @Input() columns:string[];
   @Input()
-  dataSource!: MatTableDataSource<AssessmentStructure>
+  dataSource!: MatTableDataSource<any>
+
+  columnName : string [] = []
 
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
 
   constructor() {
-    this.dataSource = new MatTableDataSource<AssessmentStructure>()
+    this.dataSource = new MatTableDataSource<any>()
   }
 
 
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
-    this.dataSource.filterPredicate = (d: AssessmentStructure, filter) => {
-      const assessmentNameFilter = d["assessmentName"].trim().toLowerCase();
-      const organizationNameFilter = d["organisationName"].trim().toLowerCase();
-      const assessmentStatusFilter = d["assessmentStatus"].trim().toLowerCase();
-      return assessmentNameFilter.indexOf(filter) !== -1 || organizationNameFilter.indexOf(filter) !== -1 || assessmentStatusFilter.indexOf(filter) !== -1;
+    this.dataSource.filteredData.forEach((element) => {
+      this.columnName = Object.keys(element)
+    })
+    let firstColumnFilter = ""
+    let flag = false
+    this.dataSource.filterPredicate = (d: any, filter) => {
+      flag = false
+      for(let index = 1; index<=Number(this.columns[0]); index++){
+        firstColumnFilter = d[this.columns[index]].trim().toLowerCase();
+        flag = (firstColumnFilter.indexOf(filter) !== -1) || flag
+      }
+      return flag
     }
     this.dataSource.filter = filterValue.value.trim().toLowerCase();
   }

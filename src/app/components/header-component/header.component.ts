@@ -6,7 +6,7 @@ import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {OKTA_AUTH} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 
 @Component({
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
   feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
+  adminConsole = data_local.HEADER_LINK_TEXT.ADMIN_CONSOLE;
   private destroy$: Subject<void> = new Subject<void>();
 
 
@@ -43,14 +44,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-
   async signOut() {
-
     await this.oktaAuth.signOut();
-    //window.location.href = "https://thoughtworks.okta.com";
   }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

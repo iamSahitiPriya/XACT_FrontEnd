@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
@@ -15,7 +19,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 

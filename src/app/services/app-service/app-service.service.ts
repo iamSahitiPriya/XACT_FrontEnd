@@ -8,13 +8,18 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
-import {CategoryStructure} from "../../types/categoryStructure";
 import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
+import {ReportDataStructure} from "../../types/ReportDataStructure";
+import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
+import {CategoryResponse} from "../../types/categoryResponse";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
+import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 
 
 @Injectable({
@@ -34,8 +39,8 @@ export class AppServiceService {
     return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData, {'headers': headers})
   }
 
-  public getCategories(): Observable<CategoryStructure[]> {
-    return this.http.get<CategoryStructure[]>(environment.BaseURI + environment.CATEGORY_URI)
+  public getCategories(assessmentId:number): Observable<UserCategoryResponse> {
+    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId)
   }
 
 
@@ -110,6 +115,38 @@ export class AppServiceService {
     return this.http.get(environment.BaseURI + environment.ROLE_URI);
   }
 
+  getReportData(assessmentId:number):Observable<ReportDataStructure>{
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/"+assessmentId);
+  }
+
+
+  getAdminAssessment(adminAssessmentRequest:AdminAssessmentRequest):Observable<AdminAssessmentResponse>{
+  const headers = {'content-type': 'application/json'}
+  return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS +"/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate,{'headers':headers} );
+}
+  getAllCategories():Observable<CategoryResponse[]>{
+    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
+  }
+  saveCategory(categoryRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+  }
+  updateCategory(categoryRequest:any){
+    return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
+  }
+
+  generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
+    return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
+  }
+
+  getTemplate() {
+    return this.http.get(environment.BaseURI + environment.REPORT_TEMPLATE_URI, {responseType: 'blob'})
+  }
+  saveUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
+  }
+  updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
+    return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
+  }
 }
 
 

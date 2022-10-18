@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
@@ -14,7 +18,7 @@ import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
-import {data_local} from "src/assets/messages"
+import {data_local} from "src/app/messages"
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 

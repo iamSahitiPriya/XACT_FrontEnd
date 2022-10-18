@@ -43,6 +43,7 @@ describe('AppServiceService', () => {
       {
         assessmentName: "abcdef",
         organisationName: "Rel23",
+        assessmentPurpose:"Client Request",
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
@@ -53,7 +54,8 @@ describe('AppServiceService', () => {
   });
 
   it("should get categories", () => {
-    expect(service.getCategories()).toBeTruthy()
+    let assessmentId = 0
+    expect(service.getCategories(assessmentId)).toBeTruthy()
   });
 
   it("should save assessment", () => {
@@ -102,6 +104,7 @@ describe('AppServiceService', () => {
       assessmentName: "",
       domain: "",
       organisationName: "",
+      assessmentPurpose:"",
       industry: "",
       teamSize: 0,
       users: []
@@ -169,6 +172,9 @@ describe('AppServiceService', () => {
     let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
   });
+  it("should get report data for chart summary", () => {
+    expect(service.getReportData(1)).toBeTruthy()
+  });
 
   it("should delete parameter recommendation", () => {
     let assessmentId = 1;
@@ -192,5 +198,40 @@ describe('AppServiceService', () => {
     }
     expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
   });
+  it("should get all categories", () => {
+    expect(service.getAllCategories()).toBeTruthy()
+  });
+  it("should save categories", () => {
+    let categoryRequest = {
+      "categoryName": "hello",
+      "active": true,
+      "comments": ""
+    }
+    expect(service.saveCategory(categoryRequest)).toBeTruthy()
+  });
+  it("should update categories", () => {
+    let categoryRequest = {
+      "categoryName": "hello",
+      "active": true,
+      "comments": ""
+    }
+    expect(service.updateCategory(categoryRequest)).toBeTruthy()
+  });
 
+  it("should get the assessment data for admin", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.getAdminAssessment(adminAssessmentRequest)).toBeTruthy()
+  });
+  it("should get the report for assessment data", () => {
+    let adminAssessmentRequest ={
+      "assessmentId": 1,
+      "endDate": "2022-06-01",
+      "startDate": "2022-07-13"
+    }
+    expect(service.generateAdminReport(adminAssessmentRequest)).toBeTruthy()
+  });
 });

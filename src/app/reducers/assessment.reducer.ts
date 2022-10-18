@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import {
   getAssessmentData,
@@ -13,8 +17,10 @@ export const initialState: AssessmentState = {
     assessmentId: 0,
     assessmentName: "Hello",
     organisationName: "",
+    assessmentPurpose:"",
     domain: "",
     industry: '',
+    assessmentState:'',
     teamSize: 0,
     updatedAt: 0,
     assessmentStatus: "",

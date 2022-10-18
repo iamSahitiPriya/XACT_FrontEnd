@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {AssessmentStructure} from "../types/assessmentStructure";
 import {createAction, props} from '@ngrx/store';
 import {UpdatedStatus} from "../types/UpdatedStatus";

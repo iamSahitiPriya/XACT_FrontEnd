@@ -18,7 +18,7 @@ describe('SearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SearchComponent],
-      imports: [MatFormFieldModule, MatIconModule, MatInputModule, BrowserAnimationsModule]
+      imports: [MatFormFieldModule, MatIconModule, MatInputModule, BrowserAnimationsModule, MatInputModule]
     })
       .compileComponents();
   });
@@ -35,10 +35,12 @@ describe('SearchComponent', () => {
   it('should call the search', () => {
     const mockData: AssessmentStructure = {
       domain: "", industry: "", teamSize: 0, users: [],
+      assessmentState:"inProgress",
       assessmentId: 2,
       assessmentName: "abc",
       organisationName: "org",
       assessmentStatus: "Active",
+      assessmentPurpose:"Client Request",
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
@@ -47,6 +49,7 @@ describe('SearchComponent', () => {
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
+    component.columns = ['2','assessmentName','organisationName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "abc")).toBeTruthy()
     expect(component.dataSource.filterPredicate(mockData, "org")).toBeTruthy()
@@ -59,11 +62,14 @@ describe('SearchComponent', () => {
       assessmentName: "abc",
       organisationName: "org",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
+      assessmentPurpose:"Client Request",
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
     }
+    component.columns = ['1','assessmentName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "xyz")).toBeFalsy()
   });

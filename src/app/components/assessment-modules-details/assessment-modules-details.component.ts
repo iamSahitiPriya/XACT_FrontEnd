@@ -3,7 +3,6 @@
  */
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
@@ -17,10 +16,14 @@ import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 
-let categories: CategoryStructure[] = []
-let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
+let categories: UserCategoryResponse = {
+  assessmentCategories:[]
+  ,userAssessmentCategories:[]
+}
+let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
 
 @Component({
   selector: 'app-assessment-modules-details',
@@ -30,7 +33,7 @@ let valueEmitter = new BehaviorSubject<CategoryStructure[]>(categories)
 export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   moduleName: string
   assessment: AssessmentStructure
-  category: CategoryStructure[] = []
+  category: UserCategoryResponse
   topics: TopicStructure[];
   parameters: ParameterStructure[];
   moduleSelected: number;
@@ -41,6 +44,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   assessmentId: number;
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK_DASHBOARD;
   answer: Observable<AssessmentStructure>
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -89,14 +93,14 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getCategories() {
-    this.appService.getCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       categories = data
       valueEmitter.next(categories)
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.length > 0)
-        this.navigate(this.category[0].modules[0])
+      if (this.category.userAssessmentCategories.length > 0)
+        this.navigate(this.category.userAssessmentCategories[0].modules[0])
 
     })
   }

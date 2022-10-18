@@ -1,8 +1,7 @@
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-
-import appPackage  from '../../package.json';
+import appPackage from '../../package.json';
 
 export const environment = {
   production: true,
@@ -29,4 +28,20 @@ export const environment = {
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   IDLE_TIMEOUT: 60,  //in sec
   TIMEOUT: 600, // 10 min
+  ALL_CATEGORY_URI: "/v1/admin/categories",
+  SAVE_CATEGORY_URI: "/v1/admin/categories",
+  GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments/",
+  ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
+  UPDATE_CATEGORY_URI : "/v1/admin/categories",
+  REPORT_DATA_URI:"/v1/reports/sunburst",
+  REPORT_TEMPLATE_URI: "/v1/reports/template",
+  USER_ASSESSMENT_MODULE_URI: "/modules",
+  okta: {
+    cookies: {
+      secured: true
+    },
+    storage: {
+      sessionStorage: 'sessionStorage'
+    }
+  }
 };

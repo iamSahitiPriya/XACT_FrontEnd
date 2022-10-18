@@ -1,7 +1,7 @@
 <!--
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
-<script src="../assessment-menu/assessment-menu.component.ts"></script>
+<script src="../assessment-quick-action-menu/assessment-menu.component.ts"></script>
 <div class="topicScoring">
 
   <mat-card class="scoreHeading">{{maturityScoreTitle}} {{topicName}}</mat-card>
@@ -18,7 +18,7 @@
 </div>
 
 <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1">
+<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
     id="addRecommendation"> Add Recommendations</span>

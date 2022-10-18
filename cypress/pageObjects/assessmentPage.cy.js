@@ -49,11 +49,7 @@ class assessmentPage {
   }
 
   static threeDots(){
-    return cy.get('#menu-button')
-  }
-
-  static configureOption(){
-    return cy.get('#createAssessment')
+    return cy.get('.menuIcon')
   }
 
   static notesForQuestions(index){
@@ -81,12 +77,12 @@ class assessmentPage {
   }
 
   static parameterMaturityScore(parameterIndex,parameterRatingIndex){
-    return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
-  }
+      return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
+    }
 
-  static parameterMaturityScoreHeader(index){
+    static parameterMaturityScoreHeader(index){
     return cy.get(':nth-child('+index+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > .mat-card')
-  }
+    }
   static parameterRecommendation(index){
     return cy.get('#recommendationElement_param'+index)
   }
@@ -123,7 +119,7 @@ class assessmentPage {
   }
 
   static computedMaturityScoreHeader(){
-    return cy.get('.maturityScore')
+   return cy.get('.maturityScore')
   }
 
   static questions(index1,index2,index3){
@@ -141,12 +137,12 @@ class assessmentPage {
   static parameterMaturityScoreDesc(parameterIndex,index){
 
     return cy.get(' :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
-    // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
+  // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
 
   }
-  static editBox(){
+static editBox(){
     return cy.get('textarea')
-  }
+}
   static activeRating(){
     return cy.get('.rating-active')
   }

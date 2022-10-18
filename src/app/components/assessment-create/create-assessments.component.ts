@@ -8,7 +8,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -16,7 +16,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({
@@ -33,6 +33,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
+  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -41,6 +42,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentTitle = data_local.ASSESSMENT.MANAGE.TITLE;
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
+  purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -62,7 +64,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
-
+  purposeOfAssessment = [{
+    value:'Client Request'
+  },{value:'Internal Request'}]
 
   @Input()
   assessment: AssessmentStructure;
@@ -80,6 +84,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
+        selected:['',Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
@@ -88,6 +93,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         emailValidator: ['', Validators.pattern(this.re)]
       }
     )
+    this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
@@ -104,12 +110,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
+        assessmentPurpose:this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,
         users: users
       };
-
       this.appService.addAssessments(assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false
@@ -172,6 +178,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       const assessmentRequest: AssessmentRequest = {
         assessmentName: this.assessment.assessmentName,
         organisationName: this.assessment.organisationName,
+        assessmentPurpose:this.assessment.assessmentPurpose,
         domain: this.assessment.domain,
         industry: this.assessment.industry,
         teamSize: this.assessment.teamSize,
@@ -247,5 +254,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  purposeChange(option : string) {
+    this.assessment.assessmentPurpose=option;
   }
 }

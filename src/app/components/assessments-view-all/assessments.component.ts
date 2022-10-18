@@ -10,7 +10,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {data_local} from "../../../assets/messages";
+import {data_local} from "../../messages";
 import {MatSort} from '@angular/material/sort';
 
 /**
@@ -27,6 +27,8 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 
 export class AssessmentsComponent implements OnInit, OnDestroy {
 
+  hideTooltip:boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -35,8 +37,10 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
+    assessmentPurpose:"",
     assessmentStatus: "",
     domain: "",
+    assessmentState:"",
     industry: "",
     organisationName: "",
     parameterRatingAndRecommendation: [],
@@ -87,12 +91,13 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
-  columnsToDisplay = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt'];
+  columnsToDisplay:string[] = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt','link'];
+  assessmentTable: string = "assessmentTable";
 
 
   async openAssessment(content: any) {
     this.dialogRef = this.dialog.open(content, {
-      width: '630px', height: '650px',
+      width: '630px',
     })
     this.dialogRef.disableClose = true;
   }
@@ -100,6 +105,11 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  navigation(drafted: string,assessmentId : number) {
+     drafted==="inProgress" ? this.router.navigateByUrl("assessment/"+assessmentId,{state:{type:'table'}}):this.router.navigateByUrl("assessmentModule/"+assessmentId, {state:{type:'table'}});
+
   }
 
 }

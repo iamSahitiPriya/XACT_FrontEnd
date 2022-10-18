@@ -8,28 +8,30 @@ import {
   tick
 } from '@angular/core/testing';
 
-import {AssessmentMenuComponent} from './assessment-menu.component';
-import {MatMenuModule} from "@angular/material/menu";
-import {AppServiceService} from "../../services/app-service/app-service.service";
-import {MatIconModule} from "@angular/material/icon";
+import {AssessmentHeaderComponent} from './assessment-header.component';
 import {of} from "rxjs";
+import {AssessmentStructure} from "../../types/assessmentStructure";
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTooltipModule} from "@angular/material/tooltip";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
-import {AssessmentStructure} from "../../types/assessmentStructure";
-import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+
 
 class MockDialog {
   open() {
@@ -46,13 +48,11 @@ class MockDialog {
   }
 }
 
-describe('AssessmentMenuComponent', () => {
-  let dialog: any;
+describe('AssessmentHeaderComponent', () => {
   let matDialog: any
-
-  let component: AssessmentMenuComponent;
-  let fixture: ComponentFixture<AssessmentMenuComponent>;
-
+  let dialog:any
+  let component: AssessmentHeaderComponent;
+  let fixture: ComponentFixture<AssessmentHeaderComponent>;
   class MockAppService {
     generateReport() {
       return of(new Blob());
@@ -66,14 +66,19 @@ describe('AssessmentMenuComponent', () => {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Active"});
     }
 
-  }
+    getTemplate(){
+      return of(new Blob());
+    }
 
+  }
   const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
     assessmentName: "Mock",
     assessmentStatus: "Active",
+    assessmentPurpose:"",
     domain: "IT",
+    assessmentState:"inProgress",
     industry: "Telecom",
     organisationName: "Rel",
     parameterRatingAndRecommendation: [],
@@ -83,64 +88,32 @@ describe('AssessmentMenuComponent', () => {
     users: []
   }
 
-
   beforeEach(async () => {
-
     await TestBed.configureTestingModule({
-      declarations: [AssessmentMenuComponent, PopupConfirmationComponent],
+      declarations: [ AssessmentHeaderComponent,PopupConfirmationComponent,AssessmentMenuComponent ],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
         StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: MatDialog, useClass: MockDialog}
-      ],
+        {provide: MatDialog, useClass: MockDialog}],
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    jest.mock('@okta/okta-auth-js');
-    fixture = TestBed.createComponent(AssessmentMenuComponent);
+    fixture = TestBed.createComponent(AssessmentHeaderComponent);
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
   });
 
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call generate report on click', fakeAsync(() => {
-    component.answerResponse1 = of({
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Completed",
-      updatedAt: 0,
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
-    })
-    jest.spyOn(component, 'generateReport');
-    global.URL.createObjectURL = jest.fn();
-    global.URL.revokeObjectURL = jest.fn();
-    component.ngOnInit()
-    fixture.detectChanges();
-    let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
-    generateReport.click();
-    tick();
-    expect(component.generateReport).toHaveBeenCalled();
-    flush()
-    flushMicrotasks();
-    discardPeriodicTasks();
-  }));
 
   it('should call finish assessment if active', fakeAsync(() => {
     component.answerResponse1 = of({
@@ -148,6 +121,8 @@ describe('AssessmentMenuComponent', () => {
       assessmentName: "abc",
       organisationName: "xyz",
       assessmentStatus: "Active",
+      assessmentState:"inProgress",
+      assessmentPurpose:"Client Request",
       updatedAt: 0,
       domain: "TW",
       industry: "IT",
@@ -175,6 +150,7 @@ describe('AssessmentMenuComponent', () => {
     discardPeriodicTasks();
   }));
 
+
   it('should call reopen assessment if completed', fakeAsync(() => {
     discardPeriodicTasks()
     component.answerResponse1 = of({
@@ -182,7 +158,9 @@ describe('AssessmentMenuComponent', () => {
       assessmentName: "abc",
       organisationName: "xyz",
       assessmentStatus: "Completed",
+      assessmentPurpose:"Client Request",
       updatedAt: 0,
+      assessmentState:"inProgress",
       domain: "TW",
       industry: "IT",
       teamSize: 2,
@@ -213,7 +191,9 @@ describe('AssessmentMenuComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentPurpose:"Client Request",
       assessmentStatus: "Completed",
+      assessmentState:"inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
@@ -242,22 +222,6 @@ describe('AssessmentMenuComponent', () => {
     component.finishAssessment();
     expect(component.assessment.assessmentStatus).toBe("Completed");
   });
-  it('should open dialog box', () => {
-    jest.spyOn(matDialog, 'open')
-    component.openAssessment("")
-    fixture.detectChanges()
-    expect(matDialog.open).toHaveBeenCalled()
-  });
-  it('should close the popup', () => {
-    jest.spyOn(matDialog, 'closeAll')
-    component.closePopUp()
-    fixture.detectChanges()
-    expect(matDialog.closeAll).toHaveBeenCalled()
-  });
+
+
 });
-
-
-
-
-
-

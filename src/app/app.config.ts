@@ -12,6 +12,12 @@ export default {
     scopes: ['openid', 'profile', 'email'],
     testing: {
       disableHttpsCheck: environment.OKTA_TESTING_DISABLEHTTPSCHECK
+    },
+    tokenManager: {
+      storage: environment.okta.storage.sessionStorage
+    },
+    cookies: {
+      secure: environment.okta.cookies.secured
     }
   },
 };

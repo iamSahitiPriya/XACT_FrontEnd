@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
-import {data_local} from "../../../assets/messages";
+
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
@@ -14,6 +18,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
+import {data_local} from 'src/app/messages';
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -44,6 +49,16 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  Impact = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
+  Effort = data_local.RECOMMENDATION_TEXT.EFFORT;
+  Delivery_Horizon = data_local.RECOMMENDATION_TEXT.DELIVERY_HORIZON;
+  High = data_local.RECOMMENDATION_TEXT.IMPACT_1;
+  Medium = data_local.RECOMMENDATION_TEXT.IMPACT_2;
+  Low = data_local.RECOMMENDATION_TEXT.IMPACT_3;
+  Now = data_local.RECOMMENDATION_TEXT.DH_1;
+  Next = data_local.RECOMMENDATION_TEXT.DH_2;
+  Later = data_local.RECOMMENDATION_TEXT.DH_3;
+  Delete = data_local.RECOMMENDATION_TEXT.DELETE;
 
   assessmentStatus: string;
   topicRecommendationResponse1: Observable<AssessmentStructure>;
@@ -51,6 +66,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   private cloneTopicLevelRecommendationResponse: AssessmentStructure;
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
+  component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
@@ -233,8 +249,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-        }, error: _error => {
+        error: _error => {
           this.showError("Data cannot be deleted", "Close");
         }
       })

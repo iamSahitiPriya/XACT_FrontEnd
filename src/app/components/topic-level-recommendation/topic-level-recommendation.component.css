@@ -61,6 +61,7 @@ textArea.mat-input-element {
   border-radius: 4px;
   padding: 5px 18px;
   border: none;
+  float:right;
   display: flex;
 }
 
@@ -70,22 +71,23 @@ textArea.mat-input-element {
 }
 
 .impact {
-  padding-left: 2%;
+  padding-left: 3%;
   font-weight: bold;
 }
 
 .effect {
-  padding-left: 8%;
+  padding-left:4%;
   font-weight: bold;
 }
 
 .deliveryHorizon {
-  padding-left: 8%;
+  padding-left:4%;
   font-weight: bold;
-  border-radius: inherit;
-  margin-bottom: 2px;
 }
 
+.delete-button{
+  width: 24%;
+}
 
 .radio1, .radio2, .input1 {
   padding-top: 11px;

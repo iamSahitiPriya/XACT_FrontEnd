@@ -15,6 +15,7 @@
   width: 100%;
 }
 
+
 ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
@@ -125,7 +126,7 @@ h2 {
   display: block;
   margin: 0 -24px;
   padding: 0 24px;
-  max-height: 109vh;
+  max-height: 2009vh;
   overflow: unset;
   overflow-y: unset !important;
 }
@@ -179,4 +180,3 @@ h2 {
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
-

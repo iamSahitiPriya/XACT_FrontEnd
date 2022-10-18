@@ -5,11 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .textArea {
-  padding-top: 15px;
-  width: 95%;
-  height: 99px;
-  margin-top: 30px;
+  padding-top: 14px;
+  width: 99%;
   font-size: 15px;
+  padding-bottom: 18px;
 }
 
 /*::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {*/
@@ -48,4 +47,8 @@ textArea.mat-input-element {
 ::ng-deep .errorSnackbar {
   background-color: #F15F79 !important;
 }
-
+@media screen and (max-width: 1000px) {
+  .textArea {
+    font-size: 14px;
+  }
+  }

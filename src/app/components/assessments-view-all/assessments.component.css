@@ -33,10 +33,7 @@ td.mat-cell {
 }
 
 .mat-column-assessmentName {
-  width: 30%;
-  text-align: left;
-  text-transform: capitalize;
-  flex-basis: 34%;
+  flex-basis: 28%;
 }
 
 .mat-table thead, .mat-table tbody, .mat-table tfoot, mat-header-row, mat-row, mat-footer-row, [mat-header-row], [mat-row], [mat-footer-row], .mat-table-sticky {
@@ -44,19 +41,15 @@ td.mat-cell {
 }
 
 .mat-column-organisationName {
-  width: 20%;
-  text-align: left;
   flex-basis: 27%;
 }
 
 .mat-column-assessmentStatus {
-  width: 20%;
-  text-align: left;
+  flex-basis: 25%;
 }
 
-.mat-column-updateAt {
-  width: 10%;
-  flex-basis: 7%;
+td.mat-cell:last-child{
+  padding-left: 6%;
 }
 
 .heading {
@@ -74,7 +67,7 @@ td.mat-cell {
 
 tr.mat-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 20px;
   background-color: #ffffff;
   box-shadow: 0 4px 3px 2px #C3C3C324, 0 1px 1px 0 #C3C3C324, 0 1px 3px 2px #C3C3C324, 0 4px 3px 0 #C3C3C324;
@@ -82,19 +75,18 @@ tr.mat-row {
   height: 58px;
 }
 
-.mat-header-row {
+.headerRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   background-color: #043D4E;
   padding-top: 16px;
 }
 
-th {
+th.tableHeader {
   font-size: 17px;
   color: white;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  padding-top: 19px;
 }
 
 tr:nth-child(even) {
@@ -124,3 +116,6 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 
+.menuButton1 {
+  margin-top: -9px;
+}

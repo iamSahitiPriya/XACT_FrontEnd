@@ -1,0 +1,88 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div class="header">
+  <span class="dashBoardText">{{dashboard_Title}}</span>
+    <div class="options">
+        <mat-form-field appearance="outline">
+          <mat-select id="select-menu" [(ngModel)]="selectedOption" name="dropdown" (selectionChange)="inputChange()" #selector [matTooltip]=dropdown_label>
+            <div *ngIf="displayText !== 'Custom'"><mat-option [value]="1">{{last_week}}</mat-option>
+            <mat-option [value]="2">{{last_month}}</mat-option>
+            <mat-option [value]="0">{{last_quarter}}</mat-option>
+            <mat-option [value]="3">{{last_year}}</mat-option>
+            <mat-option [value]="4" (click)="setCustomOption()">{{custom}}</mat-option></div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  </div>
+<div  *ngIf="displayText === 'Custom'" class="nav-calender">
+  <div class="nav-dropdown">
+  <ul class="nav-item">
+    <li class="navitem" (click)="getAssessmentDataForWeek()">{{last_week}}</li>
+    <li class="navitem" (click)="getAssessmentDataForMonth()">{{last_month}}</li>
+    <li class="navitem" (click)="getAssessmentDataForQuarter()">{{last_quarter}}</li>
+    <li class="navitem" (click)="getAssessmentDataForYear()">{{last_year}}</li>
+    <li class="navitem custom" (click)="setCustomOption()">{{custom}}</li>
+  </ul>
+  </div>
+  <div class="line"></div>
+  <div class="calender">
+    <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+    </ngb-datepicker>
+    <div class="applyButton">
+    <button class="btn apply-button btn-sm m-2" (click)="selectCustomDateRange()">{{apply_button_text}}</button>
+    </div>
+    <ng-template #t let-date let-focused="focused">
+  <span class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null"
+        [class.disabled]="isDisabled(date)">
+    {{ date.day }}
+  </span>
+    </ng-template>
+  </div>
+</div>
+<div class="status-bar">
+<div class="assessmentStatus">
+<mat-card class="Total">
+  <mat-card-title>{{Total_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      {{total}}
+      <div class="total">{{this.adminAssessmentResponse.totalAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="Active">
+  <mat-card-title>{{Active_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      {{total}}
+      <div class="active">{{this.adminAssessmentResponse.totalActiveAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="Completed">
+  <mat-card-title>{{Complete_Assessment}}</mat-card-title>
+  <hr>
+  <mat-card-content>
+    <div class="parent">
+      {{total}}
+      <div class="complete">{{this.adminAssessmentResponse.totalCompleteAssessments}}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+  <div class="downloadButton" >
+    <button class="button" (click)="downloadReport()" id="generate-report" [matTooltip]=download>
+      <mat-icon class="downloadIcon">save_alt_icon</mat-icon>
+      <span class="text">{{download_label}}</span></button>
+  </div>
+</div>
+</div>
+

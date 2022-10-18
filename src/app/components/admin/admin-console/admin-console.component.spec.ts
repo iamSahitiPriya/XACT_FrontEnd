@@ -1,9 +1,23 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AdminConsoleComponent} from './admin-console.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
-import {HttpClientModule} from "@angular/common/http";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from "@angular/common";
+import {BrowserModule} from "@angular/platform-browser";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatRadioModule} from "@angular/material/radio";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
+
 
 describe('AdminConsoleComponent', () => {
   let component: AdminConsoleComponent;
@@ -11,10 +25,10 @@ describe('AdminConsoleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminConsoleComponent],
-      imports: [MatIconModule, MatCardModule, HttpClientModule]
+      declarations: [ AdminConsoleComponent ],
+      imports:[MatFormFieldModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule,CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,RouterTestingModule]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {

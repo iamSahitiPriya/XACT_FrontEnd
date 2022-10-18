@@ -4,47 +4,71 @@
 
 <div class="container-xxl">
   <div class="row">
-    <div class="col-md-1">
-      <button mat-icon-button [routerLink]="['']">
+    <div class="col-md-1 assessment_Name">
+      <button mat-icon-button (click)="navigateBack()">
         <mat-icon class="backIcon">keyboard_backspace</mat-icon>
       </button>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-5 heading">
       <h2>{{assessmentName}}</h2>
     </div>
+    <div class="col-md-6">
+      <mat-form-field class="searchModule" appearance="fill">
+        <mat-label>
+          <div class="searchModule-icon">
+            <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search"/>
+          </div>
+          <div class="searchModule-icon">
+            <p class="searchText">{{searchBarText}}</p>
+            <!--      Search...-->
+          </div>
 
+        </mat-label>
+
+        <input matTooltip="Type to search" matInput id="searchModule"  type="text"
+               name="AssessmentName" [(ngModel)]="searchText" #searchModule>
+      </mat-form-field>
+    </div>
   </div>
   <br>
   <div class="row" style="height: 45px">
-    <div class="col-md-12" style="background-color: #043D4E">
+    <div class="col-md-12" style="background: #4BA1AC 0 0 no-repeat padding-box;">
       <div class="col-md-2">
-        <h2 class="moduleHeading">{{assessmentModuleTitle}}</h2>
+        <h2 class="moduleHeading">Category</h2>
       </div>
     </div>
   </div>
   <br> <br>
   <div class="row">
-    <div class="col-md-12">
-      <mat-expansion-panel *ngFor="let category of category">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{category.categoryName}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="assessmentCards" *ngIf="category">
-          <mat-card class="moduleCard" *ngFor="let module of category.modules">
-                       <span [routerLink]="['/assessmentModulesDetails']" role="button">
-
-            <mat-icon svgIcon="{{getIcon(category.categoryId)}}"></mat-icon>
-            <mat-card-title-group>
-              <mat-card-title>{{module.moduleName}}</mat-card-title>
-              <mat-card-subtitle>{{category.categoryName}}</mat-card-subtitle>
-            </mat-card-title-group>
-                                    </span>
-          </mat-card>
-        </div>
-      </mat-expansion-panel>
+    <div class="assessmentCards col-md-2"
+         *ngFor="let category1 of category.assessmentCategories | filter:searchText">
+      <div class="row">
+        <mat-card class="categoryCard" [ngClass]="{'active':!(category1.active)}">
+          <div class="row">
+            <mat-checkbox class="col-md-10 selectCheckBox" [disabled]="!(category1.active)"
+                          (change)="getCategory(category1.categoryId,selectedCategory.checked)"
+                          [checked]="checkedStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
+            <mat-icon>computer</mat-icon>
+          </div>
+          <mat-card-title-group>
+            <mat-card-title>{{category1.categoryName}}</mat-card-title>
+          </mat-card-title-group>
+        </mat-card>
+        <mat-card class="moduleCards" [ngClass]="{'active':!(category1.active)}">
+          <div class="row">
+            <div *ngFor="let module of category1.modules | filter:searchText" style="color:black;margin-bottom: 10%">
+              <mat-checkbox class="col-xs-2 selectCheckBox" (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active)"
+                            [checked]="checkedModuleStatus(module.moduleId,category1.categoryId,selectedCategory.checked,selectedModule.checked)"
+                            [disabled]="!(category1.active)"
+                            #selectedModule></mat-checkbox>
+              <span class="moduleText">{{module.moduleName}}</span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
     </div>
   </div>
+  <div class="row saveButtonRow">
+  <button class="saveModuleButton" (click)="saveUserModule()"  [class.spinner]="loading" mat-raised-button [matTooltip]="saveText">Save</button>
+  </div>
 </div>
-
