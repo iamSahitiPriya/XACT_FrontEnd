@@ -8,7 +8,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -20,6 +20,15 @@ import {data_local} from "../../messages";
 import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
 import {Responses} from 'src/app/types/Responses';
+
+function autocompleteStringValidator(validOptions: string[]): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (validOptions.indexOf(control.value) !== -1) {
+      return null  /* valid option selected */
+    }
+    return { 'invalidAutocompleteString': { value: control.value } }
+  }
+}
 
 @Component({
   selector: 'app-create-assessments',
@@ -70,8 +79,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     value: 'Client Request'
   }, {value: 'Internal Request'}]
 
-  myControl = new FormControl('');
-  options: Responses | undefined;
+
+  options : Responses | undefined = {names : []};
+
+  names : string[] =[];
+
+  myControl =new FormControl('');
   filteredOptions: Observable<string[]>;
   result: string[];
 
@@ -89,16 +102,23 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     return this.createAssessmentForm.controls;
   }
 
+  public validation_msgs = {
+    'myControl': [
+      { type: 'invalidAutocompleteString', message: 'Phone label not recognized. Click one of the autocomplete options.' },
+      { type: 'required', message: 'Phone label is required.' }
+    ]
+  }
+
   async ngOnInit(): Promise<void> {
     this.createAssessmentForm = this.formBuilder.group(
       {
         selected: ['', Validators.required],
         assessmentNameValidator: ['', Validators.required],
-        organizationNameValidator: ['', Validators.required],
+        organizationNameValidator:['',Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
-        emailValidator: ['', Validators.pattern(this.re)]
+        emailValidator: ['', Validators.pattern(this.re)],
       }
     )
     this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
@@ -271,34 +291,49 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
+    this.names=this.options !== undefined?this.options.names : [];
     if (this.assessment.organisationName.length === 3) {
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
-          console.log("values",this.options)
+          console.log("if contiions",this.options)
         }
       })
     } else if (this.assessment.organisationName.length === 0) {
       this.options = {names: []}
+    } else if(this.options?.names === undefined && this.assessment.organisationName.length > 3){
+      console.log("else condddd");
+      this.nameCheck=true;
+      this.names=[];
+      this.createAssessmentForm = this.formBuilder.group(
+        {
+          selected: [this.assessment.assessmentPurpose, Validators.required],
+          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
+          organizationNameValidator:['',Validators.required],
+          domainNameValidator: [this.assessment.domain, Validators.required],
+          industryValidator: [this.assessment.industry, Validators.required],
+          teamSizeValidator: [this.assessment.teamSize, Validators.required],
+          myControl: ['', Validators.required],
+          emailValidator: ['', Validators.pattern(this.re)],
+        }
+      )
+      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
+      this.myControl =new FormControl(this.assessment.organisationName,
+        { validators: [autocompleteStringValidator(this.names), Validators.required] });
     }
-
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(this.assessment.organisationName || '')),
     );
   }
 
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     if (this.options?.names !== undefined) {
-      this.nameCheck=false;
-      console.log("value in if",this.nameCheck)
       this.result = this.options.names.filter(option => option.toLowerCase().includes(filterValue));
     }
-    else{
-      this.nameCheck=true;
-      console.log("value out if",this.nameCheck)
-    }
+
     return this.result;
   }
 }

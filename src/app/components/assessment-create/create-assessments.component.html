@@ -73,22 +73,29 @@
                matInput
                [(ngModel)]="assessment.organisationName"
                [formControl]="myControl"
-               (input)="change()"
-               required
                formControlName="organizationNameValidator"
+               (input)="change()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option}}
           </mat-option>
         </mat-autocomplete>
+
+        <div *ngIf="nameCheck">
+        <mat-error *ngFor="let validation of validation_msgs.myControl">
+          <div *ngIf="myControl.hasError(validation.type)">
+            {{validation.message}}
+          </div>
+        </mat-error>
+        </div>
         <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>
-        <mat-error *ngIf="nameCheck">
-         Choose Options From Dropdown
-        </mat-error>
-        <span *ngIf="nameCheck">Errorrrr</span>
+<!--        <mat-error *ngIf="form['myControl'].hasError('required')">-->
+<!--         Choose Options From Dropdown-->
+<!--        </mat-error>-->
+<!--        <span *ngIf="nameCheck">Errorrrr</span>-->
 
       </mat-form-field>
       <br>
