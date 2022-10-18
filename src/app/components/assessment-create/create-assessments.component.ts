@@ -24,8 +24,10 @@ import {Responses} from 'src/app/types/Responses';
 function autocompleteStringValidator(validOptions: string[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (validOptions.indexOf(control.value) !== -1) {
+      console.log("index of inside of")
       return null  /* valid option selected */
     }
+    console.log("last line");
     return { 'invalidAutocompleteString': { value: control.value } }
   }
 }
@@ -299,7 +301,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
           console.log("if contiions",this.options)
         }
       })
-    } else if (this.assessment.organisationName.length === 0) {
+    } else if (this.assessment.organisationName.length < 3) {
       this.options = {names: []}
     } else if(this.options?.names === undefined && this.assessment.organisationName.length > 3){
       console.log("else condddd");
@@ -309,11 +311,26 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         {
           selected: [this.assessment.assessmentPurpose, Validators.required],
           assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
-          organizationNameValidator:['',Validators.required],
+          organizationNameValidator:[this.assessment.organisationName,Validators.required],
           domainNameValidator: [this.assessment.domain, Validators.required],
           industryValidator: [this.assessment.industry, Validators.required],
           teamSizeValidator: [this.assessment.teamSize, Validators.required],
           myControl: ['', Validators.required],
+          emailValidator: ['', Validators.pattern(this.re)],
+        }
+      )
+      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
+      this.myControl =new FormControl(this.assessment.organisationName,
+        { validators: [autocompleteStringValidator(this.names), Validators.required] });
+    }else if(this.options?.names !== undefined){
+      this.createAssessmentForm = this.formBuilder.group(
+        {
+          selected: [this.assessment.assessmentPurpose, Validators.required],
+          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
+          organizationNameValidator:[this.assessment.organisationName,Validators.required],
+          domainNameValidator: [this.assessment.domain, Validators.required],
+          industryValidator: [this.assessment.industry, Validators.required],
+          teamSizeValidator: [this.assessment.teamSize, Validators.required],
           emailValidator: ['', Validators.pattern(this.re)],
         }
       )
