@@ -100,6 +100,7 @@ describe('AssessmentSunburstChartComponent', () => {
 
   it('should change theme of chart onClick', () =>{
     jest.spyOn(component, 'onThemeChange');
+    component.selectedValue = d3.interpolatePurples;
 
     component.data =  { name:"project",children:[{
         name:"ass1",rating:3,children:[{
@@ -110,13 +111,14 @@ describe('AssessmentSunburstChartComponent', () => {
           }]
         }]
       }]}
-    component.selectedValue = d3.interpolatePurples;
-    component.onThemeChange(d3.interpolateSpectral)
+    component.selectedValue = d3.interpolateSpectral;
+    component.onThemeChange()
     expect(component.selectedValue).toBe(d3.interpolateSpectral)
   })
 
   it('should change theme to threat display' ,() => {
     jest.spyOn(component, 'onThemeChange');
+    component.selectedValue = d3.interpolatePurples;
 
     component.data =  { name:"project",children:[{
         name:"ass1",rating:3,children:[{
@@ -127,8 +129,8 @@ describe('AssessmentSunburstChartComponent', () => {
           }]
         }]
       }]}
-    component.selectedValue = d3.interpolatePurples;
-    component.onThemeChange("ThreatTheme")
+    component.selectedValue = 'ThreatTheme';
+    component.onThemeChange()
     expect(component.selectedValue).toBe("ThreatTheme");
   })
 

@@ -143,6 +143,10 @@ class landingPage {
   static assessmentNameInGrid(index){
     return cy.get(':nth-child('+index+') > .cdk-column-assessmentName > span')
   }
+
+  static assessmentStatusInGrid(index){
+    return cy.get(':nth-child('+index+') > .cdk-column-assessmentStatus > span')
+  }
   static assessmentNameError(){
     return cy.get('.assessmentName > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
   }static organisationNameError(){

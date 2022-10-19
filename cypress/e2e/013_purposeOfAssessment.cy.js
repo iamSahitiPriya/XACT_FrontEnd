@@ -52,6 +52,15 @@ describe('validating functionality of login page of xAct application', () => {
     commonFunctions.containsText(landingPage.purposeOfAssessment2(),'Purpose Of Assessment','Purpose of assessment placeholder is verified')
   })
 
+  it('tc006 Assessment shouldnot be created when purpose of assessment is not selected',()=>{
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
+    landingPage.AssessmentpopupFields('donotsave the assessment','donotsave the assessment','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
+    landingPage.closeAssessmentPopup().click()
+    landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
+  })
+
+
 
 
 })

@@ -65,8 +65,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
   purposeOfAssessment = [{
-    value:'Client Request'
-  },{value:'Internal Request'}]
+    value:'Internal Assessment'
+  },{value:'Client Assessment'},{value:'Just Exploring'}]
 
   @Input()
   assessment: AssessmentStructure;
