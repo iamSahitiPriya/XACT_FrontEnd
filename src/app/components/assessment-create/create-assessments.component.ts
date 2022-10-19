@@ -21,14 +21,7 @@ import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
 import {Responses} from 'src/app/types/Responses';
 
-function autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    if (validOptions !== undefined && validOptions.findIndex(eachOption=>eachOption=== control.value) > 0) {
-      return null  /* valid option selected */
-    }
-    return { 'invalidAutocompleteString': { value: control.value } }
-  }
-}
+
 
 @Component({
   selector: 'app-create-assessments',
@@ -84,7 +77,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   options : Responses | undefined = {names : []};
 
 
-  filteredOptions: Observable<string[]>;
+  filteredOptions: string[];
   result: string[];
 
   @Input()
@@ -291,25 +284,32 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    if (this.assessment.organisationName.length === 3) {
-      this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          this.options = _data
-        }
-      })
+    console.log("change fun");
+    if (this.assessment.organisationName.length === 2) {
+      this.getOptions();
     }
     else if (this.assessment.organisationName.length < 3) {
       this.options = {names: []}
     }
       else if(this.assessment.organisationName.length > 3){
-      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(autocompleteStringValidator(this.options?.names))}
-
-      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(this.assessment.organisationName || '')),
-      );
+      console.log("options",this.options);
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))}
+      //
+      // this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+      //   startWith(''),
+      //   map(value => this._filter(this.assessment.organisationName || '')),
+      // );
+    this.filteredOptions=this._filter(this.assessment.organisationName || '');
     }
 
+
+  private getOptions() {
+    this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_data) => {
+        this.options = _data
+      }
+    })
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -318,5 +318,14 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     }
 
     return this.result;
+  }
+
+  private autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (validOptions !== undefined && validOptions.findIndex(eachOption=>eachOption=== control.value) >= 0) {
+        return null  /* valid option selected */
+      }
+      return { 'invalidAutocompleteString': { value: control.value } }
+    }
   }
 }

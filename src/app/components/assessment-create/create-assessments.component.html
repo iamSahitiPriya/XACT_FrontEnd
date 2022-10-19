@@ -70,10 +70,10 @@
                [(ngModel)]="assessment.organisationName"
                required
                formControlName="organizationNameValidator"
-               (input)="change()"
+               (keyup)="change()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <mat-option *ngFor="let option of filteredOptions" [value]="option">
             {{option}}
           </mat-option>
         </mat-autocomplete>
