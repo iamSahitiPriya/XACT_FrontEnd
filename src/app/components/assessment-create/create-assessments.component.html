@@ -68,7 +68,6 @@
                aria-label="Number"
                matInput
                [(ngModel)]="assessment.organisationName"
-               [formControl]="myControl"
                required
                formControlName="organizationNameValidator"
                (input)="change()"
@@ -79,13 +78,13 @@
           </mat-option>
         </mat-autocomplete>
         <mat-error *ngFor="let validation of validation_msgs.myControl">
-          <div *ngIf="myControl.hasError(validation.type)">
+          <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
             {{validation.message}}
           </div>
         </mat-error>
-        <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
+<!--        <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">-->
+<!--          {{mandatoryFieldText}}-->
+<!--        </mat-error>-->
       </mat-form-field>
       <br>
 

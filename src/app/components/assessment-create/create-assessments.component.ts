@@ -21,13 +21,11 @@ import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
 import {Responses} from 'src/app/types/Responses';
 
-function autocompleteStringValidator(validOptions: string[]): ValidatorFn {
+function autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
-    if (validOptions.indexOf(control.value) !== -1) {
-      console.log("index of inside of")
+    if (validOptions !== undefined && validOptions.findIndex(eachOption=>eachOption=== control.value) > 0) {
       return null  /* valid option selected */
     }
-    console.log("last line");
     return { 'invalidAutocompleteString': { value: control.value } }
   }
 }
@@ -37,6 +35,7 @@ function autocompleteStringValidator(validOptions: string[]): ValidatorFn {
   templateUrl: './create-assessments.component.html',
   styleUrls: ['./create-assessments.component.css']
 })
+
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
@@ -84,9 +83,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   options : Responses | undefined = {names : []};
 
-  names : string[] =[];
 
-  myControl =new FormControl('');
   filteredOptions: Observable<string[]>;
   result: string[];
 
@@ -94,6 +91,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
   nameCheck =false;
+
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
@@ -133,9 +131,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   }
 
-
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
+      console.log("valid form");
       const users = this.getValidUsers();
       this.assessment.users = this.getUsersStructure(users);
       this.loading = true
@@ -158,9 +156,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
           this.showError();
         }
       })
-    } else
+    } else {
       this.showFormError();
-
+    }
   }
 
   private showError() {
@@ -226,8 +224,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
           this.showError();
         }
       })
-    } else
-      this.showFormError();
+    } else{
+      this.showFormError();}
   }
 
   private closePopUp() {
@@ -293,73 +291,24 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    this.names=this.options !== undefined?this.options.names : [];
     if (this.assessment.organisationName.length === 3) {
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
         }
       })
-    } else if (this.assessment.organisationName.length < 3) {
+    }
+    else if (this.assessment.organisationName.length < 3) {
       this.options = {names: []}
-    } else if(this.options?.names === undefined && this.assessment.organisationName.length > 3){
-      this.nameCheck=true;
-      this.names=[];
-      this.createAssessmentForm = this.formBuilder.group(
-        {
-          selected: [this.assessment.assessmentPurpose, Validators.required],
-          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
-          organizationNameValidator:[this.assessment.organisationName,Validators.required],
-          domainNameValidator: [this.assessment.domain, Validators.required],
-          industryValidator: [this.assessment.industry, Validators.required],
-          teamSizeValidator: [this.assessment.teamSize, Validators.required],
-          myControl: ['', Validators.required],
-          emailValidator: ['', Validators.pattern(this.re)],
-        }
-      )
-      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
-      this.myControl =new FormControl(this.assessment.organisationName,
-        { validators: [autocompleteStringValidator(this.names), Validators.required] });
-    }else if(this.options?.names !== undefined && this.options.names.findIndex(eachOption => eachOption === this.assessment.organisationName) ===-1){
-      this.createAssessmentForm = this.formBuilder.group(
-        {
-          selected: [this.assessment.assessmentPurpose, Validators.required],
-          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
-          organizationNameValidator:[this.assessment.organisationName,Validators.required],
-          domainNameValidator: [this.assessment.domain, Validators.required],
-          industryValidator: [this.assessment.industry, Validators.required],
-          teamSizeValidator: [this.assessment.teamSize, Validators.required],
-          myControl :['',Validators.required],
-          emailValidator: ['', Validators.pattern(this.re)],
-        }
-      )
-      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
-      this.myControl =new FormControl(this.assessment.organisationName,
-        { validators: [autocompleteStringValidator(this.names), Validators.required] });
     }
-    else{
-      this.createAssessmentForm = this.formBuilder.group(
-        {
-          selected: [this.assessment.assessmentPurpose, Validators.required],
-          assessmentNameValidator: [this.assessment.assessmentName, Validators.required],
-          organizationNameValidator:[this.assessment.organisationName,Validators.required],
-          domainNameValidator: [this.assessment.domain, Validators.required],
-          industryValidator: [this.assessment.industry, Validators.required],
-          teamSizeValidator: [this.assessment.teamSize, Validators.required],
-          emailValidator: ['', Validators.pattern(this.re)],
-        }
-      )
-      this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
-      console.log("condition 3333");
-      this.myControl =new FormControl(this.assessment.organisationName,
-        { validators: [autocompleteStringValidator(this.names), Validators.required] });
-    }
+      else if(this.assessment.organisationName.length > 3){
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(autocompleteStringValidator(this.options?.names))}
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(this.assessment.organisationName || '')),
-    );
-  }
+      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(this.assessment.organisationName || '')),
+      );
+    }
 
 
   private _filter(value: string): string[] {
