@@ -34,6 +34,8 @@ let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
   styleUrls: ['./assessment-modules.component.css']
 })
 export class AssessmentModulesComponent implements OnInit, OnDestroy {
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
+
   assessmentName: string
   category: UserCategoryResponse
   categoryIconMapping: Map<number, string> = new Map<number, string>()

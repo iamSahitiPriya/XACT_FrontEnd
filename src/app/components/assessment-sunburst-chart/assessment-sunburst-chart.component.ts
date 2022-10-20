@@ -36,7 +36,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
 
   pageTitle = data_local.SUMMARY_REPORT.TITLE;
   downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
-  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK_DASHBOARD;
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   assessmentId: number;
   data: ReportDataStructure;
   selectedValue: any = d3.interpolateSpectral;

@@ -27,6 +27,9 @@ html, body {
 
 .backIcon {
   color: #043D4E;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 1px;
 }
 
 .mat-toolbar {

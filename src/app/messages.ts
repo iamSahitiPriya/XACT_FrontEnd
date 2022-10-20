@@ -100,7 +100,7 @@ export const data_local =
       IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
       COMPLETE_REPORT_DOWNLOADING_MESSAGE: "Assessment report & report template are getting downloaded, Please allow multiple download option.",
       REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx",
-      GO_BACK_DASHBOARD: "Go back to dashboard"
+      GO_BACK: "Go back"
     },
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
