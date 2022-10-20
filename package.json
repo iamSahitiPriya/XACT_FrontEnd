@@ -1,6 +1,6 @@
 {
   "name": "xact-frontend-app",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "ng": "ng",
     "start-local": "ng serve --configuration=developer",
