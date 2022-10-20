@@ -17,7 +17,7 @@ import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
-import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
+import {debounceTime, map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {DummyResponse} from "../../types/DumyResponse";
 import {Responses} from 'src/app/types/Responses';
 
@@ -35,6 +35,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
+  loader:boolean = false;
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
@@ -77,7 +78,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   options : Responses | undefined = {names : []};
 
 
-  filteredOptions: string[];
+  filteredOptions: Observable<string[]>;
   result: string[];
 
   @Input()
@@ -284,32 +285,37 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    console.log("change fun");
-    if (this.assessment.organisationName.length === 2) {
-      this.getOptions();
+    if (this.assessment.organisationName.length >= 3) {
+      this.loader=true;
+      this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.options = _data
+          this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+          this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(this.assessment.organisationName))
+          );
+          this.loader=false;
+        }
+      })
     }
-    else if (this.assessment.organisationName.length < 3) {
+    else if(this.assessment.organisationName.length<3){
       this.options = {names: []}
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(this.assessment.organisationName || ''))
+      );
     }
-      else if(this.assessment.organisationName.length > 3){
-      console.log("options",this.options);
-      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))}
-      //
-      // this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-      //   startWith(''),
-      //   map(value => this._filter(this.assessment.organisationName || '')),
-      // );
-    this.filteredOptions=this._filter(this.assessment.organisationName || '');
+    else{
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(this.assessment.organisationName || ''))
+      );
     }
-
-
-  private getOptions() {
-    this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.options = _data
-      }
-    })
   }
+
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -322,7 +328,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   private autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (validOptions !== undefined && validOptions.findIndex(eachOption=>eachOption=== control.value) >= 0) {
+      if (validOptions?.includes(control.value)) {
+        console.log("success ")
         return null  /* valid option selected */
       }
       return { 'invalidAutocompleteString': { value: control.value } }
