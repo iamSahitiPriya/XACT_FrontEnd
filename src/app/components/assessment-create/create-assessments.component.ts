@@ -98,8 +98,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   public validation_msgs = {
     'myControl': [
-      { type: 'invalidAutocompleteString', message: 'Phone label not recognized. Click one of the autocomplete options.' },
-      { type: 'required', message: 'Phone label is required.' }
+      { type: 'invalidAutocompleteString', message: 'Organisation not Found' },
+      { type: 'required', message: ' Required Field' }
     ]
   }
 
@@ -285,7 +285,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    if (this.assessment.organisationName.length >= 3) {
+    if (this.assessment.organisationName.length >= 3 && this.assessment.organisationName.length%2 !==0 ) {
       this.loader=true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
