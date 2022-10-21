@@ -285,37 +285,31 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    if (this.assessment.organisationName.length >= 3 && this.assessment.organisationName.length%2 !==0 ) {
-      this.loader=true;
+    if (this.assessment.organisationName.length >= 3) {
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
-          this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
-          this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-            startWith(''),
-            map(value => this._filter(this.assessment.organisationName))
-          );
-          this.loader=false;
+          this.filterOptions();
         }
       })
     }
     else if(this.assessment.organisationName.length<3){
       this.options = {names: []}
-      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
-      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(this.assessment.organisationName || ''))
-      );
+      this.filterOptions();
     }
     else{
-      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
-      this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(this.assessment.organisationName || ''))
-      );
+      this.filterOptions();
     }
   }
 
+
+  private filterOptions() {
+    this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+    this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(this.assessment.organisationName || ''))
+    );
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
