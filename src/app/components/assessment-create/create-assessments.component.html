@@ -70,6 +70,7 @@
                [(ngModel)]="assessment.organisationName"
                required
                formControlName="organizationNameValidator"
+               (focus)="change()"
                (input) ="change()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
@@ -127,7 +128,6 @@
       <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
         {{userEmailErrorMessage}}
       </mat-error>
-      <div *ngIf="loader">Loading data </div>
     </div>
     <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button
             class="saveButton" [class.spinner]="loading" [disabled]="loading">{{createAssessmentButtonText}}

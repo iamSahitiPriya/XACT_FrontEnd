@@ -286,24 +286,24 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   change() {
     if (this.assessment.organisationName.length >= 3) {
+      this.loader =true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options = _data
           this.filterOptions();
+          this.loader=false;
         }
       })
     }
-    else if(this.assessment.organisationName.length<3){
-      this.options = {names: []}
-      this.filterOptions();
-    }
     else{
-      this.filterOptions();
+      this.options={names :[]}
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
     }
   }
 
 
   private filterOptions() {
+    console.log(this.options);
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
     this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
@@ -314,7 +314,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     if (this.options?.names !== undefined) {
-      this.result = this.options.names.filter(option => option.toLowerCase().includes(filterValue));
+      this.result = this.options.names;
     }
 
     return this.result;
@@ -323,7 +323,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (validOptions?.includes(control.value)) {
-        console.log("success ")
         return null  /* valid option selected */
       }
       return { 'invalidAutocompleteString': { value: control.value } }
