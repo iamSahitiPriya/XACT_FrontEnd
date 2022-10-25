@@ -82,7 +82,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
-  nameCheck =false;
 
 
 
@@ -124,18 +123,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
-      const users = this.getValidUsers();
-      this.assessment.users = this.getUsersStructure(users);
-      this.loading = true
-      const assessmentRequest: AssessmentRequest = {
-        assessmentName: this.assessment.assessmentName,
-        organisationName: this.assessment.organisationName,
-        assessmentPurpose: this.assessment.assessmentPurpose,
-        domain: this.assessment.domain,
-        industry: this.assessment.industry,
-        teamSize: this.assessment.teamSize,
-        users: users
-      };
+      const assessmentRequest = this.getAssessmentRequest()
       this.appService.addAssessments(assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false
@@ -192,18 +180,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   updateAssessment() {
     if (this.createAssessmentForm.valid) {
-      const users = this.getValidUsers();
-      this.assessment.users = this.getUsersStructure(users);
-      this.loading = true
-      const assessmentRequest: AssessmentRequest = {
-        assessmentName: this.assessment.assessmentName,
-        organisationName: this.assessment.organisationName,
-        assessmentPurpose: this.assessment.assessmentPurpose,
-        domain: this.assessment.domain,
-        industry: this.assessment.industry,
-        teamSize: this.assessment.teamSize,
-        users: users
-      };
+      const assessmentRequest = this.getAssessmentRequest();
       this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.loading = false
@@ -215,7 +192,24 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     } else{
-      this.showFormError();}
+      this.showFormError();
+    }
+  }
+
+  private getAssessmentRequest() {
+    const users = this.getValidUsers();
+    this.assessment.users = this.getUsersStructure(users);
+    this.loading = true
+    const assessmentRequest: AssessmentRequest = {
+      assessmentName: this.assessment.assessmentName,
+      organisationName: this.assessment.organisationName,
+      assessmentPurpose: this.assessment.assessmentPurpose,
+      domain: this.assessment.domain,
+      industry: this.assessment.industry,
+      teamSize: this.assessment.teamSize,
+      users: users
+    };
+    return assessmentRequest;
   }
 
   private closePopUp() {
@@ -228,6 +222,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   resetAssessment() {
+    console.log(this.assessment)
+    console.log(this.assessmentCopy)
     if (this.assessment && this.assessmentCopy) {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
@@ -326,10 +322,18 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     return (control: AbstractControl): { [key: string]: any } | null => {
       validOptions.forEach(account => {
         if (account.name.includes(control.value)) {
-          this.assessment.industry = account.industry;
           flag = true
         }})
       return flag ? null : { 'invalidAutocompleteString': { value: control.value } }
     }
+  }
+
+  selectOption(organisationName: string) {
+    this.options.accounts.forEach(account =>{
+      if(account.name == organisationName){
+        this.assessment.industry = account.industry
+      }
+    })
+
   }
 }

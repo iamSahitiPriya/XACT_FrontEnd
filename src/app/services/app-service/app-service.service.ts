@@ -20,8 +20,6 @@ import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLeve
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
-import {DummyResponse} from "../../types/DumyResponse";
-import {Responses} from "../../types/Responses";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 
 
