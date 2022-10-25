@@ -17,10 +17,9 @@ import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
-import {debounceTime, map, Observable, startWith, Subject, takeUntil} from "rxjs";
-import {DummyResponse} from "../../types/DumyResponse";
+import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {Responses} from 'src/app/types/Responses';
-
+import {OrganisationResponse} from "../../types/OrganisationResponse";
 
 
 @Component({
@@ -74,11 +73,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   },{value:'Client Assessment'},{value:'Just Exploring'}]
 
 
-  options : Responses | undefined = {names : []};
+  options : Responses ={accounts:[{name:"", industry:""}]};
 
 
   filteredOptions: Observable<string[]>;
-  result: string[];
+  result: OrganisationResponse[];
 
   @Input()
   assessment: AssessmentStructure;
@@ -230,6 +229,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   resetAssessment() {
     if (this.assessment && this.assessmentCopy) {
+      this.assessment.industry = this.assessmentCopy.industry;
+      this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
       this.assessment.assessmentName = this.assessmentCopy.assessmentName;
       this.assessment.domain = this.assessmentCopy.domain;
       this.assessment.industry = this.assessmentCopy.industry;
@@ -286,43 +287,49 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.loader =true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
-          this.options = _data
+          this.options.accounts = _data;
           this.filterOptions();
           this.loader=false;
         }
       })
     }
     else{
-      this.options={names :[]}
-      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+      this.options.accounts =[];
+      this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
+
     }
   }
 
 
   private filterOptions() {
-    console.log(this.options);
-    this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options?.names))
+    this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
     this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(this.assessment.organisationName || ''))
+      map(value => this._filter(this.assessment.organisationName))
+
     );
   }
 
   private _filter(value: string): string[] {
+    let accounts: string[] = [];
     const filterValue = value.toLowerCase();
-    if (this.options?.names !== undefined) {
-      this.result = this.options.names;
+    if (this.options.accounts !== undefined) {
+      this.result = this.options.accounts;
+      this.result.forEach(account => {accounts.push(account.name)})
     }
 
-    return this.result;
+    return accounts;
   }
 
-  private autocompleteStringValidator(validOptions: string[] | undefined): ValidatorFn {
+  private autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
+      let flag : boolean = false;
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (validOptions?.includes(control.value)) {
-        return null  /* valid option selected */
-      }
-      return { 'invalidAutocompleteString': { value: control.value } }
+      validOptions.forEach(account => {
+        if (account.name.includes(control.value)) {
+          this.assessment.industry = account.industry;
+          flag = true
+        }})
+      return flag ? null : { 'invalidAutocompleteString': { value: control.value } }
     }
   }
 }

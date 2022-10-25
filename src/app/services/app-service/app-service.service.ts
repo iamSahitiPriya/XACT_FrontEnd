@@ -22,6 +22,7 @@ import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {DummyResponse} from "../../types/DumyResponse";
 import {Responses} from "../../types/Responses";
+import {OrganisationResponse} from "../../types/OrganisationResponse";
 
 
 @Injectable({
@@ -150,8 +151,8 @@ export class AppServiceService {
     return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
 
-  getOrganizationName(name : string):Observable<Responses>{
-    return this.http.get<Responses>('http://localhost:8000/v1/organisation/'+name)
+  getOrganizationName(name : string):Observable<OrganisationResponse[]>{
+    return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI+ "/" + name)
   }
 }
 

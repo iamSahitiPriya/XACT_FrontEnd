@@ -1,7 +1,7 @@
-import {DummyResponse} from "./DumyResponse";
+import {OrganisationResponse} from "./OrganisationResponse";
 
 export interface Responses{
 
-  names : string[];
+  accounts : OrganisationResponse[];
 
 }
