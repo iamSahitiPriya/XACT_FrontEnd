@@ -35,6 +35,7 @@ export const environment = {
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
   REPORT_DATA_URI:"/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
+  ACCOUNT_URI : "/v1/accounts",
   okta: {
     cookies: {
       secured: true
