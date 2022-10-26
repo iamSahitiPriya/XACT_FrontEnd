@@ -4,8 +4,8 @@
 
 <mat-card class="parameterRecommendation"
           [ngStyle]="{'background-color': parameterIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
-  <div class="row">
-    <div class="col-md-12">
+  <div class="parameter-parent">
+    <div class="parameter-recommendation">
     <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation">
       <div *ngIf="parameterLevelRecommendation"></div>
       <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
@@ -21,12 +21,11 @@
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
     </mat-form-field>
     </div>
-  </div>
-  <mat-card-content>
-    <div class="row parent">
-      <div class="col-md-3 impact">{{Impact}}
+    <div class="parameter-other">
+      <div class="impact">
+        <div class="impact-text"> {{Impact}} </div>
         <div *ngIf="parameterLevelRecommendation.impact"></div>
-        <div class="radio1">
+        <div>
           <mat-radio-group
             id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
             name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
@@ -38,9 +37,10 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="col-md-3 effect">{{Effort}}
+      <div class="effect">
+        <div class="effort-text">{{Effort}}</div>
         <div *ngIf="parameterLevelRecommendation.effort"></div>
-        <div class="radio2">
+        <div>
           <mat-radio-group
             id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
             name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
@@ -52,9 +52,10 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="col-md-3 deliveryHorizon">{{Delivery_Horizon}}
+      <div class="deliveryHorizon">
+        <div class="horizon-text">{{Delivery_Horizon}} </div>
         <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
-        <div class="input1">
+        <div>
           <mat-radio-group
             id="recommendationElement_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
             name="recommendationText_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
@@ -67,7 +68,7 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="col-md-3 delete">
+      <div class="delete">
         <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon"
                 [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'">
           <mat-icon>delete</mat-icon>
@@ -75,6 +76,6 @@
         </button>
       </div>
     </div>
-  </mat-card-content>
+  </div>
 </mat-card>
 
