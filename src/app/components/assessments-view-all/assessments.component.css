@@ -30,6 +30,7 @@ td.mat-cell {
   text-transform: capitalize;
   font-size: 16px;
   padding-top: 17px;
+  word-break: break-word;
 }
 
 .mat-column-assessmentName {
@@ -119,3 +120,4 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 .menuButton1 {
   margin-top: -9px;
 }
+
