@@ -114,6 +114,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     )
     this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
+    this.assessmentCopy = cloneDeep(this.assessment);
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
       this.assessmentCopy = cloneDeep(this.assessment);
@@ -222,9 +223,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   resetAssessment() {
-    console.log(this.assessment)
-    console.log(this.assessmentCopy)
-    if (this.assessment && this.assessmentCopy) {
       this.assessment.industry = this.assessmentCopy.industry;
       this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
       this.assessment.assessmentName = this.assessmentCopy.assessmentName;
@@ -233,7 +231,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.assessment.teamSize = this.assessmentCopy.teamSize;
       this.assessment.organisationName = this.assessmentCopy.organisationName;
       this.assessment.users = this.assessmentCopy.users;
-    }
+
 
   }
 
