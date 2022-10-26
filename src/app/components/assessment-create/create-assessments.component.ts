@@ -76,7 +76,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   options : Responses ={accounts:[{name:"", industry:""}]};
 
 
-  filteredOptions: Observable<string[]>;
+  filteredOptions: string[];
   result: OrganisationResponse[];
 
   @Input()
@@ -93,10 +93,10 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     return this.createAssessmentForm.controls;
   }
 
-  public validation_msgs = {
+  public OrganizationName_validation = {
     'myControl': [
       { type: 'invalidAutocompleteString', message: 'Organisation not Found' },
-      { type: 'required', message: ' Required Field' }
+      { type: 'required', message: ' Mandatory Field' }
     ]
   }
 
@@ -289,33 +289,27 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     }
     else{
       this.options.accounts =[];
+      console.log(this.options.accounts)
       this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
-
     }
   }
 
 
   private filterOptions() {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
-    this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(this.assessment.organisationName))
-
-    );
+    this.filteredOptions= this._filter();
   }
 
-  private _filter(value: string): string[] {
+  private _filter(): string[] {
     let accounts: string[] = [];
-    const filterValue = value.toLowerCase();
     if (this.options.accounts !== undefined) {
       this.result = this.options.accounts;
       this.result.forEach(account => {accounts.push(account.name)})
     }
-
     return accounts;
   }
 
-  private autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
+   autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
       let flag : boolean = false;
     return (control: AbstractControl): { [key: string]: any } | null => {
       validOptions.forEach(account => {

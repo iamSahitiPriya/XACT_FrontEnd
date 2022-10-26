@@ -74,11 +74,11 @@
                (input) ="change()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption(assessment.organisationName)" >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <mat-option *ngFor="let option of filteredOptions" [value]="option">
             {{option}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngFor="let validation of validation_msgs.myControl">
+        <mat-error *ngFor="let validation of OrganizationName_validation.myControl">
           <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
             {{validation.message}}
           </div>
