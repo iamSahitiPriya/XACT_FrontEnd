@@ -27,6 +27,7 @@ import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 class MockDialog {
   open() {
@@ -105,7 +106,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,MatSelectModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,MatSelectModule,MatAutocompleteModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatChipsModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
