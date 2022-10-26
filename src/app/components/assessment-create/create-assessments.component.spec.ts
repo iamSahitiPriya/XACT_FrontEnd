@@ -13,7 +13,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AbstractControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -28,6 +28,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {OrganisationResponse} from "../../types/OrganisationResponse";
 
 class MockDialog {
   open() {
@@ -57,6 +58,11 @@ class MockAppService {
     role: ""
   }
 
+  mockOrganisationResponse: OrganisationResponse[] = [{
+    name: "Equity",
+    industry: "new Industry"
+  }]
+
   public addAssessments(assessmentDataPayload: AssessmentRequest): Observable<any> {
     if (assessmentDataPayload) {
       if (assessmentDataPayload.assessmentName === "xact") {
@@ -79,6 +85,13 @@ class MockAppService {
 
   public getUserByEmail(email: "sam@gmail.com"): Observable<User> {
     return of(this.mockedUser)
+  }
+
+  public getOrganizationName(name: string): Observable<any> {
+    if (name === "abc") {
+      return of(this.mockOrganisationResponse)
+    }
+    return of([])
   }
 }
 
@@ -106,7 +119,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule,MatSelectModule,MatAutocompleteModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule, MatSelectModule, MatAutocompleteModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatChipsModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -135,10 +148,10 @@ describe('CreateAssessmentsComponent', () => {
   const blankAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: -1,
-    assessmentState:"inProgress",
+    assessmentState: "inProgress",
     assessmentName: "",
     assessmentStatus: "",
-    assessmentPurpose:"",
+    assessmentPurpose: "",
     domain: "",
     industry: "",
     organisationName: "",
@@ -152,10 +165,10 @@ describe('CreateAssessmentsComponent', () => {
   const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
-    assessmentState:"inProgress",
+    assessmentState: "inProgress",
     assessmentName: "Mock",
     assessmentStatus: "Active",
-    assessmentPurpose:"Client Request",
+    assessmentPurpose: "Client Request",
     domain: "IT",
     industry: "Telecom",
     organisationName: "Rel",
@@ -182,18 +195,18 @@ describe('CreateAssessmentsComponent', () => {
 
 
   it('should save assessment and make the window reload', () => {
-    let mockAssessment1 =  {
+    let mockAssessment1 = {
       answerResponseList: [],
-      assessmentId:1,
-      assessmentStatus:"Active",
-      assessmentPurpose:"Client Request",
+      assessmentId: 1,
+      assessmentStatus: "Active",
+      assessmentPurpose: "Client Request",
       assessmentName: 'xact',
       organisationName: 'abc',
       domain: 'abc',
       industry: 'abc',
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 12,
-      users: [ ],
+      users: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
       updatedAt: 0,
@@ -202,7 +215,7 @@ describe('CreateAssessmentsComponent', () => {
 
     component.assessmentCopy = mockAssessment1;
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact",assessmentPurpose:"Client Request", organisationName: "abc",
+      assessmentName: "xact", assessmentPurpose: "Client Request", organisationName: "abc",
       domain: "abc", industry: "abc", teamSize: 12, users: []
 
     };
@@ -215,7 +228,7 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
-      component.createAssessmentForm.controls['selected'].setValue("client request")
+    component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
@@ -242,7 +255,13 @@ describe('CreateAssessmentsComponent', () => {
     component.assessmentCopy = mockAssessment;
 
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "abc",assessmentPurpose:"Client Request", organisationName: "abc", domain: "123", industry: "hello", teamSize: 12, users: []
+      assessmentName: "abc",
+      assessmentPurpose: "Client Request",
+      organisationName: "abc",
+      domain: "123",
+      industry: "hello",
+      teamSize: 12,
+      users: []
     };
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
@@ -266,14 +285,14 @@ describe('CreateAssessmentsComponent', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", organisationName: "abc",assessmentPurpose:"Client Request",
+      assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
     const assessmentData =
       {
         "assessmentId": 45,
         "assessmentName": "xact",
-        "assessmentPurpose":"Client Request",
+        "assessmentPurpose": "Client Request",
         "organisationName": "abc",
         "assessmentStatus": "Active",
         "updatedAt": 1650886511968
@@ -331,5 +350,81 @@ describe('CreateAssessmentsComponent', () => {
       value: userEmail,
     } as MatChipInputEvent)
   });
+
+  it("should be able to change the purpose", () => {
+    const option = "Internal Request";
+    jest.spyOn(component, 'purposeChange');
+    component.purposeChange(option);
+
+    expect(component.assessment.assessmentPurpose).toBe(option);
+
+  });
+
+  it("should be able to get the organisation names", () => {
+    const expectedResponse = [
+      {
+        name: "Equity",
+        industry: "new Industry"
+      }
+    ];
+    component.assessment.organisationName = "abc"
+    jest.spyOn(component, 'change');
+    component.change();
+
+    mockAppService.getOrganizationName("abc").subscribe(data => {
+      component.options.accounts = data;
+      expect(data).toBe(expectedResponse);
+    })
+    expect(component.change).toHaveBeenCalled();
+    expect(component.options.accounts).toStrictEqual(expectedResponse);
+  })
+
+  it("should be able to get the industry name when organisation name get selected", () => {
+    const expectedResponse = [
+      {
+        name: "Equity",
+        industry: "new Industry"
+      }
+    ];
+
+    jest.spyOn(component, 'change');
+    component.change();
+
+    mockAppService.getOrganizationName("abc").subscribe(data => {
+      component.options.accounts = data;
+      expect(data).toBe(expectedResponse);
+    })
+    jest.spyOn(component, 'selectOption');
+    component.selectOption("Equity");
+
+    expect(component.selectOption).toHaveBeenCalled();
+  });
+
+  it("should be able to show validation error when organisation name is not found", () => {
+
+    jest.spyOn(component, 'change');
+    component.change();
+    component.assessment.organisationName = "Equity"
+
+    mockAppService.getOrganizationName("abc").subscribe(data => {
+      component.options.accounts = data;
+    })
+    jest.spyOn(component, 'autocompleteStringValidator')
+    component.autocompleteStringValidator(component.options.accounts);
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue(component.assessment.organisationName)
+    component.createAssessmentForm.controls['organizationNameValidator'].setValidators(component.autocompleteStringValidator(component.options.accounts))
+
+    expect(component.autocompleteStringValidator).toHaveBeenCalled()
+  })
+
+  it("should be able to make organisation names empty", () => {
+
+    component.assessment.organisationName = "Eq"
+    jest.spyOn(component, 'change');
+    component.change();
+
+    expect(component.options.accounts).toStrictEqual([])
+
+  })
 
 });
