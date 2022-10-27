@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-1 assessment_Name">
       <button class="backIcon" [matTooltip]=goBackToDashboard  mat-icon-button (click)="navigateBack()">
-        <mat-icon>keyboard_backspace</mat-icon>
+        <mat-icon class="mat-icon-custom" >keyboard_backspace</mat-icon>
       </button>
     </div>
     <div class="col-md-5 heading">
@@ -47,7 +47,7 @@
           <div class="row">
             <mat-checkbox class="col-md-10 selectCheckBox" [disabled]="!(category1.active)"
                           (change)="getCategory(category1.categoryId,selectedCategory.checked)"
-                          [checked]="checkedStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
+                          [checked]="checkAllStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
             <mat-icon>computer</mat-icon>
           </div>
           <mat-card-title-group>

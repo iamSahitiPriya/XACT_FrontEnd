@@ -149,8 +149,8 @@ describe('AssessmentModulesComponent', () => {
     })
   });
   it("should return status of category", () => {
-    jest.spyOn(component, "checkedStatus")
-    let response = component.checkedStatus(0)
+    jest.spyOn(component, "checkAllStatus")
+    let response = component.checkAllStatus(0)
     expect(response).toBe(true)
   });
   it("should get a category", () => {

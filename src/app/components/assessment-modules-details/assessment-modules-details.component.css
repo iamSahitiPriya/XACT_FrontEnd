@@ -278,3 +278,8 @@ div.expansion_color:nth-of-type(5n + 1) {
 .menu-bar {
   padding-bottom: 30px;
 }
+
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
+}

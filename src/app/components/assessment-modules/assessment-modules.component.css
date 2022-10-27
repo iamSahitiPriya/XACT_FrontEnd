@@ -240,3 +240,8 @@ h2 {
   background-color: #F7F7F7;
   color:#6F7071;
 }
+
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
+}
