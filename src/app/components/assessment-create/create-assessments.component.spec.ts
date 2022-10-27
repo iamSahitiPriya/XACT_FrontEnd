@@ -427,4 +427,15 @@ describe('CreateAssessmentsComponent', () => {
 
   })
 
+  it("should be able to filter among the options based on input", () => {
+    component.assessment.organisationName ="new Name"
+    jest.spyOn(component,'change')
+    component.change();
+
+    jest.spyOn(component,'filter')
+    component.filter(component.assessment.organisationName)
+
+    expect(component.filter).toHaveBeenCalled();
+  });
+
 });

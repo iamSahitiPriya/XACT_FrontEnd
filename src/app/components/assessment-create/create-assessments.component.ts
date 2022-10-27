@@ -76,8 +76,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   options : Responses ={accounts:[{name:"", industry:""}]};
 
 
-  filteredOptions: string[];
+  filteredOptions: Observable<string[]>;
   result: OrganisationResponse[];
+  previousOrgPattern = "$";
 
   @Input()
   assessment: AssessmentStructure;
@@ -277,7 +278,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    if (this.assessment.organisationName.length >= 3) {
+    if (this.assessment.organisationName.length >= 3 && !this.assessment.organisationName.includes(this.previousOrgPattern,0)) {
+      this.previousOrgPattern=this.assessment.organisationName;
       this.loader =true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -287,24 +289,32 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     }
-    else{
+    else if(this.assessment.organisationName.length <3){
+      this.previousOrgPattern="$"
       this.options.accounts =[];
-      console.log(this.options.accounts)
       this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
+    }
+    else{
+      this.filterOptions();
     }
   }
 
 
+
   private filterOptions() {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
-    this.filteredOptions= this._filter();
+    this.filteredOptions= this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+      startWith(''),
+      map(value => this.filter(this.assessment.organisationName || ''))
+    );
   }
 
-  private _filter(): string[] {
+   filter(value : string): string[] {
+    const filterValue = value.toLowerCase();
     let accounts: string[] = [];
     if (this.options.accounts !== undefined) {
-      this.result = this.options.accounts;
-      this.result.forEach(account => {accounts.push(account.name)})
+      this.options.accounts.forEach(account => {accounts.push(account.name)})
+      accounts=accounts.filter(option =>option.toLowerCase().includes(filterValue));
     }
     return accounts;
   }
