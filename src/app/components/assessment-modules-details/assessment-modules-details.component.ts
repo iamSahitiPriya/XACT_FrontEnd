@@ -93,7 +93,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getCategories() {
-    this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.appService.getOnlySelectedCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       categories = data
       valueEmitter.next(categories)
     })
