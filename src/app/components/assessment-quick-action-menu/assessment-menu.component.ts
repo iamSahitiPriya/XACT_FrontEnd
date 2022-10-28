@@ -99,7 +99,8 @@ export class AssessmentMenuComponent implements OnDestroy{
     assessmentData.splice(0, assessmentData.length)
 
     const dialogRef = this.dialog.open(content, {
-      width: '630px'
+      width: '630px',
+      maxHeight: '85vh'
     })
     dialogRef.disableClose = true;
   }
