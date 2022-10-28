@@ -46,14 +46,14 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   loading: boolean;
-  searchText: any;
+  searchText: string;
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
   assessmentResponse: Observable<AssessmentStructure>
-  assessmentState : string;
+  assessmentState: string;
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
-  private state: any;
-  type:any;
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar,private _location:Location) {
+  type: any;
+
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar, private _location: Location) {
     this.assessmentResponse = this.store.select(fromReducer.getAssessments)
   }
 
@@ -93,12 +93,27 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  checkedStatus(categoryId: number): boolean {
+  checkAllStatus(categoryId: number): boolean {
+    /*const selectedCategory = this.category.userAssessmentCategories.find(category => {
+      return category.categoryId === categoryId
+    })
+    const foundAll = selectedCategory && selectedCategory.modules.every(v => this.moduleRequest.includes(v)) || false;
+    console.log("Found all", selectedCategory, foundAll);
+    return foundAll;*/
+
     let index = this.category.userAssessmentCategories.findIndex(category => {
       return category.categoryId === categoryId
     })
     return index !== -1
   }
+
+  /*checkSomeSelected(categoryId: number): boolean {
+    const selectedCategory = this.category.userAssessmentCategories.find(category => {
+      return category.categoryId === categoryId
+    })
+    const foundSome = (!this.checkAllStatus(categoryId)) && (selectedCategory && selectedCategory.modules.some(module1 => this.moduleRequest.indexOf(module1) >= 0)) || false;
+    return foundSome;
+  }*/
 
   getCategory(categoryId: number, selectedCategory: boolean) {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
@@ -143,10 +158,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   navigate() {
     this.loading = false;
-    if(history.state.type === 'table') {
+    if (history.state.type === 'table') {
       this.router.navigateByUrl("assessment/" + this.assessmentId);
-    }
-    else{
+    } else {
       this._location.back();
     }
   }

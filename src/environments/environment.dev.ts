@@ -11,7 +11,7 @@ export const environment = {
   REDIRECT_URI: "https://dev.xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  CATEGORY_URI:"/v1/assessment-master-data/categories",
+  CATEGORY_URI: "/v1/assessment-master-data",
   SAVE_ASSESSMENT_URI: "/v1/assessments/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/assessments/",
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",

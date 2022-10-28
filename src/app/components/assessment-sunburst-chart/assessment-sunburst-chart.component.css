@@ -78,3 +78,7 @@
   border-radius: 50%;
   border-width: 1px;
 }
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
+}

@@ -6,7 +6,7 @@
   <div class="col-md-3">
     <mat-toolbar>
       <button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button [routerLink]="['/assessment',assessmentId]">
-        <mat-icon>keyboard_backspace</mat-icon>
+        <mat-icon class="mat-icon-custom">keyboard_backspace</mat-icon>
       </button>
       <div *ngIf="data"><span class="name">{{data.name}}</span></div>
       <span class="module-spacer"></span>
