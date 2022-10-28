@@ -128,12 +128,13 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
       next: (_data) => {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
+        this.sendRecommendation(this.topicLevelRecommendationResponse)
+        this.updateDataSavedStatus()
       }, error: _error => {
         this.showError("Data cannot be saved", "Close");
       }
     })
-    this.sendRecommendation(this.topicLevelRecommendationResponse)
-    this.updateDataSavedStatus()
+
   }
 
   private setRecommendationsFields() {
@@ -155,7 +156,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   }
 
   private sendRecommendation(topicLevelRecommendationResponse: TopicRecommendationResponse) {
-
     let index = 0;
     let updatedRecommendationList = [];
     this.cloneTopicRecommendationResponse = Object.assign({}, this.topicRecommendationResponse)
