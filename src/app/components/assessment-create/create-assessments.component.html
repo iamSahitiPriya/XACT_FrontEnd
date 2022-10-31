@@ -74,7 +74,7 @@
                (input) ="change()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption(assessment.organisationName)" >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]==='Name not found'">
             {{option}}
           </mat-option>
         </mat-autocomplete>

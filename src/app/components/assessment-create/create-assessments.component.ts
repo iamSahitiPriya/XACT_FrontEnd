@@ -79,10 +79,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   filteredOptions: Observable<string[]>;
   result: OrganisationResponse[];
   previousOrgPattern = "$";
+  accounts:string[];
 
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
+
 
 
 
@@ -278,7 +280,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   change() {
-    if (this.assessment.organisationName.length >= 3 && !this.assessment.organisationName.includes(this.previousOrgPattern,0)) {
+    if (this.assessment.organisationName.length >= 2 && !(this.assessment.organisationName.includes(this.previousOrgPattern)) ) {
       this.previousOrgPattern=this.assessment.organisationName;
       this.loader =true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
@@ -289,9 +291,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     }
-    else if(this.assessment.organisationName.length <3){
+    else if(this.assessment.organisationName.length <2){
       this.previousOrgPattern="$"
-      this.options.accounts =[];
+      this.accounts=[];
+      this.options.accounts=[];
+      this.filterOptions();
       this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
     }
     else{
@@ -301,7 +305,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
 
 
-  private filterOptions() {
+  filterOptions() {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
     this.filteredOptions= this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
@@ -311,19 +315,22 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
    filter(value : string): string[] {
     const filterValue = value.toLowerCase();
-    let accounts: string[] = [];
+     this.accounts = [];
     if (this.options.accounts !== undefined) {
-      this.options.accounts.forEach(account => {accounts.push(account.name)})
-      accounts=accounts.filter(option =>option.toLowerCase().includes(filterValue));
+      this.options.accounts.forEach(account => {this.accounts.push(account.name)})
+      this.accounts=this.accounts.filter(option =>option.toLowerCase().includes(filterValue));
+      if(this.accounts.length === 0 && this.assessment.organisationName.length>=2){
+        this.accounts=["Name not found"]
+      }
     }
-    return accounts;
+    return this.accounts;
   }
 
    autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
       let flag : boolean = false;
     return (control: AbstractControl): { [key: string]: any } | null => {
       validOptions.forEach(account => {
-        if (account.name.includes(control.value)) {
+        if (account.name == control.value) {
           flag = true
         }})
       return flag ? null : { 'invalidAutocompleteString': { value: control.value } }

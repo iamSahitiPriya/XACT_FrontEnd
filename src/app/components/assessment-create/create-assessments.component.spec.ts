@@ -419,7 +419,7 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should be able to make organisation names empty", () => {
 
-    component.assessment.organisationName = "Eq"
+    component.assessment.organisationName = "E"
     jest.spyOn(component, 'change');
     component.change();
 
@@ -436,6 +436,18 @@ describe('CreateAssessmentsComponent', () => {
     component.filter(component.assessment.organisationName)
 
     expect(component.filter).toHaveBeenCalled();
+  });
+
+  it("should able to filter when input doesn't match with any organization name", () => {
+    component.assessment.organisationName="Equity name"
+    jest.spyOn(component,'change')
+    component.change();
+
+    jest.spyOn(component,'filterOptions')
+    component.filterOptions();
+
+    expect(component.filterOptions).toHaveBeenCalled();
+
   });
 
 });
