@@ -285,13 +285,15 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
-          ratingSum = ratingSum + Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating);
-          if (Number(this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating) > 0) {
+          let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating||0);
+          ratingSum = ratingSum + currentRating;
+          if (currentRating > 0) {
             ratingNumber = ratingNumber + 1;
           }
         }
       }
       if (ratingSum !== 0 && ratingNumber !== 0) {
+        console.log("rating",ratingSum,ratingNumber);
         this.averageRating.rating = Math.round(ratingSum / ratingNumber);
         this.averageRating.topicId = this.topicInput.topicId
 
