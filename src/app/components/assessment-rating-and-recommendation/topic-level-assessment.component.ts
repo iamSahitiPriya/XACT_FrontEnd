@@ -293,7 +293,6 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         }
       }
       if (ratingSum !== 0 && ratingNumber !== 0) {
-        console.log("rating",ratingSum,ratingNumber);
         this.averageRating.rating = Math.round(ratingSum / ratingNumber);
         this.averageRating.topicId = this.topicInput.topicId
 
