@@ -20,9 +20,8 @@ import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {data_local} from "src/app/messages"
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
-
-export const topicRecommendationData = [{}]
 export const topicRatingData = [{}]
 
 let RECOMMENDATION_MAX_LIMIT = 20;
@@ -73,10 +72,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-
-  saveCount = 0;
-  recommendationCount: number = 0;
-
   recommendationSample: TopicLevelRecommendation = {
     recommendationId: undefined,
     recommendation: "",
@@ -113,11 +108,12 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
     this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse()
   }
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline"},
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -145,7 +141,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
             this.updateDataSavedStatus()
 
           }, error: _error => {
-            this.showError("Data cannot be saved", "Close");
+            this.showError("Data cannot be saved");
           }
         })
         if (this.topicRatingAndRecommendation.rating !== undefined) {
@@ -204,4 +200,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+
+
+
 }
