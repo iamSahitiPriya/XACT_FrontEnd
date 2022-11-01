@@ -371,10 +371,6 @@ describe('CreateAssessmentsComponent', () => {
     jest.spyOn(component, 'change');
     component.change();
 
-    mockAppService.getOrganizationName("abc").subscribe(data => {
-      component.options.accounts = data;
-      expect(data).toBe(expectedResponse);
-    })
     expect(component.change).toHaveBeenCalled();
     expect(component.options.accounts).toStrictEqual(expectedResponse);
   })
@@ -390,7 +386,9 @@ describe('CreateAssessmentsComponent', () => {
     jest.spyOn(component, 'change');
     component.change();
 
-    mockAppService.getOrganizationName("abc").subscribe(data => {
+    component.assessment.organisationName="abc"
+
+    mockAppService.getOrganizationName(component.assessment.organisationName).subscribe(data => {
       component.options.accounts = data;
       expect(data).toBe(expectedResponse);
     })
@@ -404,9 +402,9 @@ describe('CreateAssessmentsComponent', () => {
 
     jest.spyOn(component, 'change');
     component.change();
-    component.assessment.organisationName = "Equity"
+    component.assessment.organisationName = "abc"
 
-    mockAppService.getOrganizationName("abc").subscribe(data => {
+    mockAppService.getOrganizationName(component.assessment.organisationName).subscribe(data => {
       component.options.accounts = data;
     })
     jest.spyOn(component, 'autocompleteStringValidator')
