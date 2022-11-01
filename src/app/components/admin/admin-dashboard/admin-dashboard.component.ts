@@ -296,7 +296,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   getReport(adminAssessmentRequest: AdminAssessmentRequest) {
-    const reportName = "XAct-AdminReport-" + this.datePipe.transform(adminAssessmentRequest.endDate, 'dd-MM-YYYY') + "-to-" + this.datePipe.transform(adminAssessmentRequest.startDate, 'dd-MM-YYYY') + ".xlsx";
+    const reportName = "Thoughtworks-XAct-AdminReport-" + this.datePipe.transform(adminAssessmentRequest.endDate, 'dd-MM-YYYY') + "-to-" + this.datePipe.transform(adminAssessmentRequest.startDate, 'dd-MM-YYYY') + ".xlsx";
     this.appService.generateAdminReport(adminAssessmentRequest).subscribe(blob => {
       saveAs(blob, reportName);
     });

@@ -54,7 +54,7 @@ export class AssessmentMenuComponent implements OnDestroy{
     this.displayNotifications();
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + AssessmentMenuComponent.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
+    const reportName = reportStatus + "-thoughtworks-xact-report-" + AssessmentMenuComponent.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessment.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(blob => {
       saveAs(blob, reportName);
     });
@@ -99,7 +99,8 @@ export class AssessmentMenuComponent implements OnDestroy{
     assessmentData.splice(0, assessmentData.length)
 
     const dialogRef = this.dialog.open(content, {
-      width: '630px'
+      width: '630px',
+      maxHeight: '85vh'
     })
     dialogRef.disableClose = true;
   }
