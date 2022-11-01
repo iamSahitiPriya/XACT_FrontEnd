@@ -368,10 +368,10 @@ describe('CreateAssessmentsComponent', () => {
       }
     ];
     component.assessment.organisationName = "abc"
-    jest.spyOn(component, 'change');
-    component.change();
+    jest.spyOn(component, 'onOrganisationValueChange');
+    component.onOrganisationValueChange();
 
-    expect(component.change).toHaveBeenCalled();
+    expect(component.onOrganisationValueChange).toHaveBeenCalled();
     expect(component.options.accounts).toStrictEqual(expectedResponse);
   })
 
@@ -383,8 +383,8 @@ describe('CreateAssessmentsComponent', () => {
       }
     ];
 
-    jest.spyOn(component, 'change');
-    component.change();
+    jest.spyOn(component, 'onOrganisationValueChange');
+    component.onOrganisationValueChange();
 
     component.assessment.organisationName="abc"
 
@@ -400,8 +400,8 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should be able to show validation error when organisation name is not found", () => {
 
-    jest.spyOn(component, 'change');
-    component.change();
+    jest.spyOn(component, 'onOrganisationValueChange');
+    component.onOrganisationValueChange();
     component.assessment.organisationName = "abc"
 
     mockAppService.getOrganizationName(component.assessment.organisationName).subscribe(data => {
@@ -418,8 +418,8 @@ describe('CreateAssessmentsComponent', () => {
   it("should be able to make organisation names empty", () => {
 
     component.assessment.organisationName = "E"
-    jest.spyOn(component, 'change');
-    component.change();
+    jest.spyOn(component, 'onOrganisationValueChange');
+    component.onOrganisationValueChange();
 
     expect(component.options.accounts).toStrictEqual([])
 
@@ -427,8 +427,8 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should be able to filter among the options based on input", () => {
     component.assessment.organisationName ="new Name"
-    jest.spyOn(component,'change')
-    component.change();
+    jest.spyOn(component,'onOrganisationValueChange')
+    component.onOrganisationValueChange();
 
     jest.spyOn(component,'filter')
     component.filter(component.assessment.organisationName)
@@ -438,8 +438,8 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should able to filter when input doesn't match with any organization name", () => {
     component.assessment.organisationName="Equity name"
-    jest.spyOn(component,'change')
-    component.change();
+    jest.spyOn(component,'onOrganisationValueChange')
+    component.onOrganisationValueChange();
 
     jest.spyOn(component,'filterOptions')
     component.filterOptions();

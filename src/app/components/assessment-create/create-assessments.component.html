@@ -61,7 +61,7 @@
       </mat-form-field>
       <br>
 
-      <mat-form-field appearance="outline" class="organizationName" [class.spinner]= "loader">
+      <mat-form-field appearance="outline" class="organizationName" [class.spinner]= "orgListLoader">
         <mat-label>{{organisationNameTitle}} *</mat-label>
         <input type="text"
                [placeholder]=organisationNamePlaceholder
@@ -70,11 +70,11 @@
                [(ngModel)]="assessment.organisationName"
                required
                formControlName="organizationNameValidator"
-               (focus)="change()"
-               (input) ="change()"
+               (focus)="onOrganisationValueChange()"
+               (input) ="onOrganisationValueChange()"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption(assessment.organisationName)" >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]==='Name not found'">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]===organisationValidationText">
             {{option}}
           </mat-option>
         </mat-autocomplete>

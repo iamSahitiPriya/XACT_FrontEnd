@@ -33,7 +33,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentForm: FormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
-  loader:boolean = false;
+  orgListLoader:boolean = false;
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
@@ -49,6 +49,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  organisationValidationText = data_local.ASSESSMENT.ORGANISATION_VALIDATOR_MESSAGE;
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   assessmentDomainTitle = data_local.ASSESSMENT.ASSESSMENT_DOMAIN.TITLE;
   assessmentDomainPlaceholder = data_local.ASSESSMENT.ASSESSMENT_DOMAIN.PLACEHOLDER;
@@ -98,8 +99,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   public OrganizationName_validation = {
     'myControl': [
-      { type: 'invalidAutocompleteString', message: 'Organisation not Found' },
-      { type: 'required', message: ' Mandatory Field' }
+      { type: 'invalidAutocompleteString', message: this.organisationValidationText },
+      { type: 'required', message: this.mandatoryFieldText }
     ]
   }
 
@@ -279,15 +280,15 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.assessment.assessmentPurpose = option;
   }
 
-  change() {
+  onOrganisationValueChange() {
     if (this.assessment.organisationName.length >= 2 && !(this.assessment.organisationName.includes(this.previousOrgPattern)) ) {
       this.previousOrgPattern=this.assessment.organisationName;
-      this.loader =true;
+      this.orgListLoader =true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options.accounts = _data;
           this.filterOptions();
-          this.loader=false;
+          this.orgListLoader=false;
         }
       })
     }
@@ -320,7 +321,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       this.options.accounts.forEach(account => {this.accounts.push(account.name)})
       this.accounts=this.accounts.filter(option =>option.toLowerCase().includes(filterValue));
       if(this.accounts.length === 0 && this.assessment.organisationName.length>=2){
-        this.accounts=["Name not found"]
+        this.accounts=[this.organisationValidationText]
       }
     }
     return this.accounts;
