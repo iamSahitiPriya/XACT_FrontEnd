@@ -229,14 +229,13 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   deleteTemplate(recommendation: TopicLevelRecommendation) {
     let index = -1;
     if (this.topicRecommendationArray != undefined) {
+      index = this.topicRecommendationArray.indexOf(recommendation);
       recommendation.recommendation = "";
       recommendation.deliveryHorizon = "";
       recommendation.effort = "";
       recommendation.impact = "";
-      index = this.topicRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.topicRecommendationArray.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation);
+        this.deleteRecommendationTemplate(recommendation,index);
       }
     }
 
@@ -246,9 +245,12 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
+  private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation,index:number) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.topicRecommendationArray?.splice(index,1);
+        },
         error: _error => {
           this.showError("Data cannot be deleted", "Close");
         }
