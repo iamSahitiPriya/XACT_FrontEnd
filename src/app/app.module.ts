@@ -87,6 +87,7 @@ import {NotificationSnackbarComponent} from "./components/notification-component
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
+import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -131,6 +132,9 @@ export const appRoutes: Routes = [
       component:AdminDashboardComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
+    },{
+      path:"module",
+      component:AdminModuleComponent,
     }],
     canActivate:[OktaAuthGuard]
   },
@@ -163,6 +167,7 @@ export const appRoutes: Routes = [
     AdminConsoleComponent,
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
+    AdminModuleComponent,
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
   ],

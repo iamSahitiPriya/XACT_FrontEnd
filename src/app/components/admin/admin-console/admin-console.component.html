@@ -18,7 +18,7 @@
             <mat-icon>category</mat-icon>
                Category
           </button>
-          <button mat-button class="moduleButton" (click)="setEvent('module')" [ngClass]="{'button-active':type === 'module'}">
+          <button mat-button class="moduleButton" (click)="setEvent('module')" [ngClass]="{'button-active':type === 'module'}" [routerLink]="['/admin/module']">
             <mat-icon>view_module</mat-icon>
             Module
           </button>
