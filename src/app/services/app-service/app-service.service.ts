@@ -20,6 +20,7 @@ import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLeve
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+import {ModuleResponse} from "../../types/ModuleResponse";
 
 
 @Injectable({
@@ -130,6 +131,9 @@ export class AppServiceService {
 }
   getAllCategories():Observable<CategoryResponse[]>{
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
+  }
+  getAllModules() : Observable<ModuleResponse[]>{
+    return this.http.get<ModuleResponse[]>(environment.BaseURI + environment.ALL_MODULE_URI);
   }
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
