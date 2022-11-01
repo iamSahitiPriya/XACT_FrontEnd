@@ -373,8 +373,10 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterRecommendationArray?.push(recommendation);
 
     component.deleteTemplate(recommendation);
+    jest.spyOn(component,"deleteRecommendationTemplate")
+    component.deleteRecommendationTemplate(recommendation,0)
 
-    expect(component.parameterRecommendationArray?.length).toBe(0);
+    expect(component.deleteRecommendationTemplate).toHaveBeenCalled();
   })
 
   it('should be able to enable the fields when parameter level recommendationId is defined', () => {

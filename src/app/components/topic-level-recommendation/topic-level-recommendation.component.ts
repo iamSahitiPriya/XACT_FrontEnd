@@ -245,7 +245,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation,index:number) {
+  deleteRecommendationTemplate(recommendation: TopicLevelRecommendation,index:number) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {

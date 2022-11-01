@@ -331,8 +331,10 @@ describe('RecommendationComponent', () => {
     component.topicRecommendationArray?.push(recommendation);
 
     component.deleteTemplate(recommendation);
+    jest.spyOn(component,"deleteRecommendationTemplate")
+    component.deleteRecommendationTemplate(recommendation,0);
 
-    expect(component.topicRecommendationArray?.length).toBe(0);
+    expect(component.deleteRecommendationTemplate).toHaveBeenCalled();
   })
 
   it('should be able to enable the fields when recommendationId is defined', () => {
