@@ -111,6 +111,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     })
   }
 
+
   ngOnInit(): void {
     this.topicRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
