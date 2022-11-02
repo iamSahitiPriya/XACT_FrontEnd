@@ -149,7 +149,7 @@ describe('AdminCategoryComponent', () => {
   it("should show error", () => {
     const message = "This is an error message"
     jest.spyOn(component, "showError")
-    component.showError(message,"Close")
+    component.showError(message)
     expect(component.showError).toHaveBeenCalled()
   });
   it("should throw error if the category is already present", () => {
