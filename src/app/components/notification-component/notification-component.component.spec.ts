@@ -40,11 +40,11 @@ describe('NotificationComponentComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   const notificationData = " My notification ";
-  //   component.data.message = notificationData;
-  //   fixture.detectChanges();
-  //   expect(component).toBeTruthy();
-  //   expect(fixture.nativeElement.querySelector(".textMessage").innerHTML).toBe(notificationData);
-  // });
+  it('should create', () => {
+    const notificationData = " My notification ";
+    component.data.message = notificationData;
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+    expect(fixture.nativeElement.querySelector(".textMessage").innerHTML).toBe(notificationData);
+  });
 });
