@@ -22,6 +22,7 @@ import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
 import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 let RECOMMENDATION_MAX_LIMIT = 10;
 
@@ -111,11 +112,12 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
     this.parameterRatingAndRecommendation.parameterLevelRecommendation?.reverse();
   }
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline"},
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -137,7 +139,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
         next: () => {
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved", "Close");
+          this.showError("Data cannot be saved");
         }
       })
       this.updateAverageRating();
