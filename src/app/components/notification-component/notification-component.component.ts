@@ -9,6 +9,8 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from "@angular/material/snack-bar";
 export class NotificationSnackbarComponent {
   @Input()
   iconType :  string
+  @Input()
+  notificationType : string
   constructor(
     public sbRef: MatSnackBarRef<NotificationSnackbarComponent>,
     @Inject(MAT_SNACK_BAR_DATA) public data: any

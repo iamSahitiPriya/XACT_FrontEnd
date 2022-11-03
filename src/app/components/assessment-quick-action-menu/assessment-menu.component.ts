@@ -82,7 +82,7 @@ export class AssessmentMenuComponent implements OnDestroy{
 
   private showNotification(reportData: string, duration: number) {
     this.snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done_all"},
+      data: { message :reportData, iconType: "done" ,notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"

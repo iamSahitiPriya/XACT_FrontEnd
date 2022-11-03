@@ -1,6 +1,4 @@
 ::ng-deep .mat-snack-bar-container {
-  background-color: whitesmoke !important;
-  color: #1a1a1a;
   max-width: 95vw;
   display: inline;
   padding-top: 15px;
@@ -16,14 +14,12 @@
   float : left;
   padding-right: 60px;
   margin-top: -2px;
-  color : #F15F79;
 }
 
-.done_all {
+.done {
   float : left;
   padding-right: 60px;
   margin-top: -2px;
-  color : #6B9F78;
 }
 
 .textMessage {

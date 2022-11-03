@@ -110,8 +110,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline"},
-      duration : 2000,
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 200000,
       verticalPosition : "top",
       horizontalPosition : "center"
     })

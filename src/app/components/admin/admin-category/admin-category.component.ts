@@ -108,11 +108,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data: {message: message, iconType: "error_outline"},
-      duration: 2000,
-      verticalPosition: "top",
-      horizontalPosition: "center"
-    });
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
+    })
   }
 
   saveCategory(value: any) {
@@ -162,6 +162,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         row.isEdit = false;
         this.selectedCategory = null;
         this.table.renderRows()
+        this.showNotification("Your changes have been successfully updated.", 200000)
         this.categoryData = []
         this.ngOnInit()
       }, error: _error => {
@@ -169,6 +170,15 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
       }
     })
 
+  }
+
+  private showNotification(reportData: string, duration: number) {
+    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
   cancelChanges(row: any) {

@@ -114,7 +114,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline"},
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
       duration : 2000,
       verticalPosition : "top",
       horizontalPosition : "center"
