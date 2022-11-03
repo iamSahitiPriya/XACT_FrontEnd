@@ -44,6 +44,7 @@
   text-align: left;
   letter-spacing: 0.25px;
   color: #043D4E;
+  line-height: 1.5;
 }
 
 .menu {
@@ -126,4 +127,21 @@ div.user {
 .li-text {
   display: block;
   padding-left: 16px;
+}
+
+.support{
+  display: inline-flex;
+  padding-right: 2em;
+  font-size: medium;
+  color: #043d4e;
+}
+.support-text {
+  padding-left: 0.3em;
+  font-size: medium;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  opacity: 1;
+  letter-spacing: 0.25px;
+  color: #043D4E;
+  line-height: 1.5;
 }

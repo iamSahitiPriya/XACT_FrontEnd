@@ -23,6 +23,7 @@ import {debounce} from 'lodash';
 import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {data_local} from 'src/app/messages';
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -84,11 +85,12 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
     })
   }
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -109,7 +111,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
       },
       error: _err => {
         AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     });
 

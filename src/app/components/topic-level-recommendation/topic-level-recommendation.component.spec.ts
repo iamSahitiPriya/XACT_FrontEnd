@@ -357,7 +357,7 @@ describe('RecommendationComponent', () => {
 
   it("should call the error whenever a problem occurs", () => {
     jest.spyOn(component, "showError")
-    component.showError("Error", "Close")
+    component.showError("Error")
     expect(component.showError).toHaveBeenCalled()
 
   });
