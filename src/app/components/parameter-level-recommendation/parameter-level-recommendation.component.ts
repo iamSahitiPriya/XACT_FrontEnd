@@ -19,6 +19,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 let DEBOUNCE_TIME = 1200;
 
@@ -99,11 +100,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   deleteRecommendationText: string = "Delete Recommendation";
   private destroy$: Subject<void> = new Subject<void>();
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -130,7 +132,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
   }
@@ -232,7 +234,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
         error: _error => {
-          this.showError("Data cannot be deleted", "Close");
+          this.showError("Data cannot be deleted");
         }
       })
     }
@@ -249,7 +251,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
   }
