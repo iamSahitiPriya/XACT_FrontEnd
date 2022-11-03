@@ -43,8 +43,9 @@ describe('NotificationComponentComponent', () => {
   it('should create', () => {
     const notificationData = " My notification ";
     component.data.message = notificationData;
+    const actualResponse = "<strong> </strong>  My notification ";
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    expect(fixture.nativeElement.querySelector(".textMessage").innerHTML).toBe(notificationData);
+    expect(fixture.nativeElement.querySelector(".textMessage").innerHTML).toBe(actualResponse);
   });
 });
