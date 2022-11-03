@@ -154,7 +154,7 @@ export class AppServiceService {
   }
 
   getOrganizationName(name : string):Observable<OrganisationResponse[]>{
-    return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI+ "/" + name)
+    return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI+"/" + name)
   }
 }
 
