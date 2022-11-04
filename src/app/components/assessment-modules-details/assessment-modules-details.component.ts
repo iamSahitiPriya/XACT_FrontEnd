@@ -44,7 +44,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   assessmentId: number;
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
-  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK_DASHBOARD;
+  goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   answer: Observable<AssessmentStructure>
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -54,25 +54,12 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    const direction = this.selectedIndex - tabChangeEvent.index;
     this.selectedIndex = tabChangeEvent.index;
-    this.scrollNext(direction);
-  }
-
-  private scrollNext(direction: number) {
-    if (direction < 0 && this.topics.length - this.selectedIndex > 1) {
-      const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex + 1));
-      element && element.scrollIntoView();
-    } else if (direction > 0 && this.selectedIndex > 0) {
-      const element = document.getElementById("mat-tab-label-0-" + (this.selectedIndex - 1));
-      element && element.scrollIntoView();
-    }
   }
 
   navigate(module: ModuleStructure) {
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
-
   }
 
   ngOnInit() {
@@ -93,7 +80,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getCategories() {
-    this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.appService.getOnlySelectedCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       categories = data
       valueEmitter.next(categories)
     })

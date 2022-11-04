@@ -27,6 +27,9 @@ html, body {
 
 .backIcon {
   color: #043D4E;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 1px;
 }
 
 .mat-toolbar {
@@ -203,20 +206,14 @@ div.expansion_color:nth-of-type(5n + 1) {
   background-color: #043D4E;
 }
 
-::ng-deep .mat-tab-header-pagination {
-  display: none !important;
+::ng-deep.mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+  box-shadow: none;
 }
 
 ::ng-deep .mat-tab-header {
   overflow-x: scroll !important;
   border-bottom: 1.5px solid #4BA1AD !important;
 }
-
-
-::ng-deep .mat-tab-label-container {
-  overflow: visible !important;
-}
-
 
 ::ng-deep .mat-tab-header::-webkit-scrollbar {
   display: none;
@@ -233,37 +230,46 @@ div.expansion_color:nth-of-type(5n + 1) {
   overflow: auto;
   margin-left: -12px;
 }
-@media screen and (max-width: 1000px){
-  .sideBar{
+
+@media screen and (max-width: 1000px) {
+  .sideBar {
     width: 235px;
   }
+
   .topicTab {
     padding-left: 238px;
     overflow: scroll;
     position: absolute;
     margin-top: -60px;
   }
+
   .mat-raised-button {
     font-size: 16px;
   }
+
   .mat-expansion-panel-header {
     font-size: 17px;
     padding: 0px 73px 0px 36px;
   }
+
   .moduleCard {
     font-size: 15px;
     padding-left: 40px;
   }
+
   ::ng-deep .mat-tab-label {
     font-size: 15px;
   }
+
   .mat-expansion-panel-header-title {
     font-size: 15px;
   }
-  .moduleHead{
+
+  .moduleHead {
     width: 246px;
   }
-  .mat-tab-label{
+
+  .mat-tab-label {
     min-width: 115px;
     font-size: 13px;
     padding: -1px;
@@ -274,4 +280,9 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 .menu-bar {
   padding-bottom: 30px;
+}
+
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
 }

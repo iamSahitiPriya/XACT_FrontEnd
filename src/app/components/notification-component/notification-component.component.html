@@ -1,9 +1,11 @@
 <div class="snackbar-custom-style">
-  <div><span id="notification-data">{{data}}</span>
-    <span align="end">
-     <button (click)="sbRef.dismiss()" id="cancel-button" mat-icon-button color="accent" aria-label="Cancel icon button with a menu icon">
-        <mat-icon>cancel</mat-icon>
-      </button>
+  <div>
+    <span id="notification-data"><mat-icon class="{{data.iconType}}">{{data.iconType}}</mat-icon>
+      <span class="textMessage"><strong>{{data.notificationType}} </strong> {{data.message}}</span></span> <span>
+<!--     <button class="closeButton" (click)="sbRef.dismiss()" id="cancel-button" mat-icon-button color="basic"-->
+<!--             aria-label="Cancel icon button with a menu icon">-->
+<!--       <mat-icon>highlight_off</mat-icon>-->
+<!--      </button>-->
     </span>
   </div>
 </div>

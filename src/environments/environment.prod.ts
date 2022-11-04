@@ -11,7 +11,7 @@ export const environment = {
   REDIRECT_URI:"https://xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  CATEGORY_URI:"/v1/assessment-master-data/categories",
+  CATEGORY_URI: "/v1/assessment-master-data",
   SAVE_ASSESSMENT_URI: "/v1/assessments/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/assessments/",
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",
@@ -30,7 +30,7 @@ export const environment = {
   TIMEOUT: 600, // 10 min
   ALL_CATEGORY_URI: "/v1/admin/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
-  GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments/",
+  GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
   REPORT_DATA_URI:"/v1/reports/sunburst",

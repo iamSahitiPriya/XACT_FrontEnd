@@ -23,6 +23,9 @@ h2 {
 
 .backIcon {
   color: #043D4E;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 1px;
 }
 
 .moduleHeading {
@@ -236,4 +239,9 @@ h2 {
   opacity:65%;
   background-color: #F7F7F7;
   color:#6F7071;
+}
+
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
 }

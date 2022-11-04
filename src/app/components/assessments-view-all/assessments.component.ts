@@ -98,6 +98,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   async openAssessment(content: any) {
     this.dialogRef = this.dialog.open(content, {
       width: '630px',
+      maxHeight: '85vh'
     })
     this.dialogRef.disableClose = true;
   }

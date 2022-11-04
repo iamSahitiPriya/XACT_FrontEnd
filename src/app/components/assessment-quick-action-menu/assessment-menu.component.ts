@@ -54,7 +54,7 @@ export class AssessmentMenuComponent implements OnDestroy{
     this.displayNotifications();
     let reportStatus = this.assessment.assessmentStatus === 'Active' ? 'interim' : 'final';
     const date = moment().format('DD-MM-YYYY');
-    const reportName = reportStatus + "-xact-report-" + AssessmentMenuComponent.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
+    const reportName = reportStatus + "-thoughtworks-xact-report-" + AssessmentMenuComponent.formattedName(this.assessment.assessmentName) + "-" + date + ".xlsx";
     this.appService.generateReport(this.assessment.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(blob => {
       saveAs(blob, reportName);
     });
@@ -64,7 +64,7 @@ export class AssessmentMenuComponent implements OnDestroy{
     if (this.assessment.assessmentStatus === 'Completed') {
       this.showNotification(this.completedReportDownloadStatus, 20000);
     } else {
-      this.showNotification(this.inProgressReportDownloadStatus, 10000);
+      this.showNotification(this.inProgressReportDownloadStatus, 20000);
     }
   }
 
@@ -82,7 +82,7 @@ export class AssessmentMenuComponent implements OnDestroy{
 
   private showNotification(reportData: string, duration: number) {
     this.snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: reportData,
+      data: { message :reportData, iconType: "done" ,notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -99,7 +99,8 @@ export class AssessmentMenuComponent implements OnDestroy{
     assessmentData.splice(0, assessmentData.length)
 
     const dialogRef = this.dialog.open(content, {
-      width: '630px'
+      width: '630px',
+      maxHeight: '85vh'
     })
     dialogRef.disableClose = true;
   }

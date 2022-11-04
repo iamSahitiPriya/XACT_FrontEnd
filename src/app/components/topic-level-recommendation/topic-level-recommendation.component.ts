@@ -19,6 +19,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 1200;
@@ -99,13 +100,15 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"},panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
+
 
   ngOnInit(): void {
     this.topicRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
@@ -128,12 +131,13 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
       next: (_data) => {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
+        this.sendRecommendation(this.topicLevelRecommendationResponse)
+        this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
-    this.sendRecommendation(this.topicLevelRecommendationResponse)
-    this.updateDataSavedStatus()
+
   }
 
   private setRecommendationsFields() {
@@ -155,7 +159,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   }
 
   private sendRecommendation(topicLevelRecommendationResponse: TopicRecommendationResponse) {
-
     let index = 0;
     let updatedRecommendationList = [];
     this.cloneTopicRecommendationResponse = Object.assign({}, this.topicRecommendationResponse)
@@ -220,7 +223,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
   }
@@ -250,7 +253,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
         error: _error => {
-          this.showError("Data cannot be deleted", "Close");
+          this.showError("Data cannot be deleted");
         }
       })
     }

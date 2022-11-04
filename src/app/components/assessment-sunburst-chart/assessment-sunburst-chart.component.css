@@ -71,3 +71,14 @@
 #download {
   display: none;
 }
+
+.backIcon {
+  color: #043D4E;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 1px;
+}
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
+}

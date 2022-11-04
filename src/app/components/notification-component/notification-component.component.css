@@ -1,6 +1,29 @@
 ::ng-deep .mat-snack-bar-container {
-  background-color: whitesmoke !important;
-  color: #1a1a1a;
   max-width: 95vw;
   display: inline;
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+.closeButton  {
+  margin-top: -11px;
+  float : right;
+}
+
+.error_outline {
+  float : left;
+  padding-right: 60px;
+  margin-top: -2px;
+}
+
+.done {
+  float : left;
+  padding-right: 60px;
+  margin-top: -2px;
+}
+
+.textMessage {
+  text-align : start;
+  margin-left: -30px;
+  margin-right: 35px;
 }

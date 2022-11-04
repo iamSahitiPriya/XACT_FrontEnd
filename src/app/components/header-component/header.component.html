@@ -5,8 +5,13 @@
 <div class="container">
   <img data-id="logo" [routerLink]="['']" src="../../assets/logo.png" alt="XACT Logo" class="logo" id="logo"/>
   <div class="user">
+    <div><a class="support" target="_blank" rel="noopener noreferrer"
+            href="https://sites.google.com/thoughtworks.com/x-act">
+      <mat-icon>contact_mail</mat-icon>
+      <span class="support-text">{{support}}</span></a></div>
     <div>
       <div class="btn-group shadow-0">
+        <mat-icon>person</mat-icon>
         <div class="dropdown-toggle menuItem" data-mdb-toggle="dropdown" aria-expanded="false">
           {{username}}
         </div>
@@ -19,11 +24,6 @@
                  href="https://sites.google.com/thoughtworks.com/x-act">
             <mat-icon>launch</mat-icon>
             <span class="li-text">{{microSite}}</span></a></li>
-
-          <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
-                 href="https://sites.google.com/thoughtworks.com/x-act">
-            <mat-icon> contact_mail</mat-icon>
-            <span class="li-text">{{support}}</span></a></li>
 
           <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
                  href="https://forms.gle/eqERV28RBVyMRvp69">

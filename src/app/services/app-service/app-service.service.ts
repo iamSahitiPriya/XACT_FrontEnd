@@ -40,7 +40,11 @@ export class AppServiceService {
   }
 
   public getCategories(assessmentId:number): Observable<UserCategoryResponse> {
-    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId)
+    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId+"/categories/all")
+  }
+
+  public getOnlySelectedCategories(assessmentId:number): Observable<UserCategoryResponse> {
+    return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.CATEGORY_URI + "/" + assessmentId+"/categories")
   }
 
 

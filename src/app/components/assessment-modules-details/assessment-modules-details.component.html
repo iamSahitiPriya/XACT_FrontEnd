@@ -5,8 +5,8 @@
 <div class="row menu-bar">
   <div class="col-md-3">
     <mat-toolbar>
-      <button [matTooltip]=goBackToDashboard  mat-icon-button [routerLink]="['']">
-        <mat-icon class="backIcon">keyboard_backspace</mat-icon>
+      <button class="backIcon" [matTooltip]=goBackToDashboard  mat-icon-button [routerLink]="['']">
+        <mat-icon class="mat-icon-custom">keyboard_backspace</mat-icon>
       </button>
       <span class="name"> {{assessment && assessment.assessmentName}}</span>
       <span class="module-spacer"></span>
