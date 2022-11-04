@@ -293,7 +293,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
 
   it("should call the error whenever a problem occurs", () => {
     jest.spyOn(component, "showError")
-    component.showError("Error", "Close")
+    component.showError("Error")
     expect(component.showError).toHaveBeenCalled()
   });
   it('should call the error whenever the problem occurs during api call', () => {
