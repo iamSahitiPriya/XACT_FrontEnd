@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModuleData} from "../../../types/moduleData";
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {Subject, takeUntil} from "rxjs";
-import {CategoryData} from "../../../types/category";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
@@ -28,6 +27,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   dataSource : MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
+  categories =new Set<string>();
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -52,29 +52,39 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      data.forEach(eachCategory =>
-        eachCategory.modules.forEach(eachModule => {
-          let module: ModuleData = {
-            moduleId: -1,
-            moduleName: "",
-            categoryName: "",
-            active: true,
-            updatedAt: -1,
-            comments: ""
-          }
-          module.moduleId = eachModule.moduleId;
-          module.moduleName = eachModule.moduleName;
-          module.active = eachModule.active;
-          module.categoryName = eachCategory.categoryName;
-          module.updatedAt = eachModule.updatedAt;
-          module.comments = eachModule.comments;
-          this.moduleStructure.push(module);
-        })
+      data.forEach((eachCategory) => {
+          eachCategory.modules?.forEach(eachModule => {
+              let module: ModuleData = {
+                moduleId: -1,
+                moduleName: "",
+                categoryName: "",
+                active: true,
+                updatedAt: -1,
+                comments: ""
+              }
+              module.moduleId = eachModule.moduleId;
+              module.moduleName = eachModule.moduleName;
+              module.active = eachModule.active;
+              module.categoryName = eachCategory.categoryName;
+              module.updatedAt = eachModule.updatedAt;
+              module.comments = eachModule.comments;
+              this.moduleStructure.push(module);
+            }
+          )
+            this.categories.add(eachCategory.categoryName)
+        }
       )
       this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
+    })
+  }
+  showError(message: string, action: string) {
+    this._snackbar.open(message, action, {
+      verticalPosition: 'top',
+      panelClass: ['errorSnackbar'],
+      duration: 2000
     })
   }
 
@@ -105,6 +115,27 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   saveCategory(row :any) {
-
+    let moduleRequest={
+      "moduleName":row.moduleName,
+      "category": row.categoryName,
+      "active": row.active,
+      "comments": row.comments
+    }
+    console.log("hello")
+    this.appService.saveModule(moduleRequest).subscribe({
+        next: (_data) => {
+          let data = this.dataSource.data
+          row.isEdit = false
+          data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
+          this.dataSource.data = data
+          this.table.renderRows()
+          this.moduleStructure = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError("Some error occurred", "Close");
+        }
+      }
+    )
   }
+
 }

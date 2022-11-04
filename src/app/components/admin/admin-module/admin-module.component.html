@@ -16,7 +16,14 @@
             {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedModule===row">
-          <input matInput class="input"#categoryName placeholder="Enter category name" [(ngModel)]="row.categoryName">
+         <mat-form-field appearance="outline">
+           <mat-label>Select Category</mat-label>
+  <mat-select [(ngModel)]="row.categoryName">
+    <mat-option *ngFor="let category of categories" [value]="category" >
+      {{category}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
         </span>
          </td>
     </ng-container>
@@ -79,7 +86,7 @@
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveCategory(row)"
-                  [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
+                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
           <button mat-flat-button class="delete" (click)="deleteRow()">
             <mat-icon id="delete">delete</mat-icon>
           </button>
