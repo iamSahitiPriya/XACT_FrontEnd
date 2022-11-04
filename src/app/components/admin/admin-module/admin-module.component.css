@@ -138,6 +138,24 @@ div.buttonColumn {
   opacity: 1;
 }
 
+.delete {
+  min-width: 0px;
+  padding: 0;
+}
+.closeIcon {
+  width: 24px;
+  height: 24px;
+  opacity: 1;
+  margin-right: -77px;
+  margin-left: -36px;
+  display: inline-block;
+}
+
+button.closeButton {
+  background: none;
+  border: none;
+}
+
 .mat-icon#delete {
   height: 29px;
   width: 22px;
@@ -145,6 +163,29 @@ div.buttonColumn {
   margin-left: -36px;
   display: inline-block;
   margin-bottom: 3px;
+}
+.updateButton {
+  width: 77px;
+  height: 30px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  padding-bottom: 32px;
+  color: #658892;
+  margin-right: 3px;
+}
+
+.updateButton.mat-flat-button {
+  padding: 0px 9px;
+  padding-bottom: 34px;
+  margin-right: -8px;
+  display: inline-block;
 }
 tr.expandedRow {
   height: 6px;

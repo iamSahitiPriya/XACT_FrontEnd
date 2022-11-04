@@ -45,5 +45,5 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
-  SAVE_MODULE_URI: "/v1/admin/modules"
+  SAVE_MODULE_URI: "/v1/admin/modules",
 };

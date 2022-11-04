@@ -143,6 +143,9 @@ export class AppServiceService {
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
   }
 
+  updateModule(moduleRequest: any) {
+      return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
+  }
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
   }
@@ -156,6 +159,7 @@ export class AppServiceService {
   updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
     return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
   }
+
 }
 
 

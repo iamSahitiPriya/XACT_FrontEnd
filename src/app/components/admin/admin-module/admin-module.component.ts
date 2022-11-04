@@ -28,6 +28,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
   categories =new Set<string>();
+  isEditable: boolean;
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -99,7 +100,17 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   updateCategory(row :any) {
-
+    this.appService.updateModule(row).pipe(takeUntil(this.destroy$)).subscribe( {
+      next: (_data) => {
+        row.isEdit = false;
+        this.selectedModule= null;
+        this.table.renderRows()
+        this.moduleStructure = []
+        this.ngOnInit()
+      }, error: _error => {
+        this.showError("Some error occurred", "Close");
+      }
+    })
   }
 
   cancelChanges(row : any) {
@@ -107,6 +118,11 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   editCategory(row :any) {
+
+    this.selectedModule = this.selectedModule === row ? null : row
+    this.isEditable = true;
+    this.moduleStructure = Object.assign({}, row)
+    return this.selectedModule;
 
   }
 
@@ -121,7 +137,6 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
       "active": row.active,
       "comments": row.comments
     }
-    console.log("hello")
     this.appService.saveModule(moduleRequest).subscribe({
         next: (_data) => {
           let data = this.dataSource.data
