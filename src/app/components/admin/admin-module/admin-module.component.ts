@@ -100,7 +100,14 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   updateCategory(row :any) {
-    this.appService.updateModule(row).pipe(takeUntil(this.destroy$)).subscribe( {
+    let moduleRequest={
+      "moduleId":row.moduleId,
+      "moduleName":row.moduleName,
+      "category": row.categoryName,
+      "active": row.active,
+      "comments": row.comments
+    }
+    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe( {
       next: (_data) => {
         row.isEdit = false;
         this.selectedModule= null;
