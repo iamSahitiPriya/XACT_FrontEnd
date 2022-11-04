@@ -376,9 +376,6 @@ describe('ParameterRecommendationComponent', () => {
     jest.spyOn(component,"deleteRecommendationTemplate")
     component.deleteRecommendationTemplate(recommendation,0)
 
-    mockAppService.deleteParameterRecommendation(0,0,recommendation).subscribe()
-
-
     expect(component.parameterRecommendationArray.length).toBe(0);
   })
 
