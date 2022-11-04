@@ -7,6 +7,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {PopupConfirmationComponent} from './popup-confirmation.component';
 import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 describe('PopupConfirmationComponent', () => {
   let component: PopupConfirmationComponent;
@@ -15,7 +16,7 @@ describe('PopupConfirmationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PopupConfirmationComponent],
-      imports: [MatDialogModule, MatIconModule],
+      imports: [MatDialogModule, MatIconModule,MatTooltipModule],
       providers: [{
         provide: MatDialogRef, useValue: {
           close: () => {

@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
@@ -20,6 +20,7 @@ import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLeve
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+import {OrganisationResponse} from "../../types/OrganisationResponse";
 
 
 @Injectable({
@@ -150,6 +151,12 @@ export class AppServiceService {
   }
   updateUserModules(moduleRequest:UserAssessmentModuleRequest[],assessmentId:number){
     return this.http.put(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.USER_ASSESSMENT_MODULE_URI, moduleRequest)
+  }
+
+  getOrganizationName(name : string):Observable<OrganisationResponse[]>{
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("name",name);
+    return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
   }
 }
 

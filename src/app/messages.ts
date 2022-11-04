@@ -38,6 +38,7 @@ export const data_local =
         TOOLTIP_MESSAGE: "Click to close the dialog box"
       },
       MANDATORY_FIELD_TEXT: "Mandatory field",
+      ORGANISATION_VALIDATOR_MESSAGE: "Organisation not Found",
       ERROR_MESSAGE_TEXT: "No Special Characters allowed except hyphen and underscore",
       ASSESSMENT_NAME: {
         TITLE: "Assessment Name",
