@@ -73,12 +73,12 @@
                (focus)="onOrganisationValueChange()"
                (input) ="onOrganisationValueChange()"
                [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption(assessment.organisationName)" >
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOrganisationName(assessment.organisationName)" >
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]===organisationValidationText">
             {{option}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngFor="let validation of OrganizationName_validation.myControl">
+        <mat-error *ngFor="let validation of OrganizationNameValidation.myControl">
           <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
             {{validation.message}}
           </div>

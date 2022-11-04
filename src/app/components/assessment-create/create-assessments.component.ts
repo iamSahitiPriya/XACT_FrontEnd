@@ -97,7 +97,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     return this.createAssessmentForm.controls;
   }
 
-  public OrganizationName_validation = {
+  public OrganizationNameValidation = {
     'myControl': [
       { type: 'invalidAutocompleteString', message: this.organisationValidationText },
       { type: 'required', message: this.mandatoryFieldText }
@@ -310,11 +310,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
     this.filteredOptions= this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
-      map(value => this.filter(this.assessment.organisationName || ''))
+      map(value => this.filterOrganisationName(this.assessment.organisationName || ''))
     );
   }
 
-   filter(value : string): string[] {
+   filterOrganisationName(value : string): string[] {
     const filterValue = value.toLowerCase();
      this.accounts = [];
     if (this.options.accounts !== undefined) {
@@ -338,7 +338,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectOption(organisationName: string) {
+  selectOrganisationName(organisationName: string) {
     this.options.accounts.forEach(account =>{
       if(account.name == organisationName){
         this.assessment.industry = account.industry

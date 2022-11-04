@@ -392,10 +392,10 @@ describe('CreateAssessmentsComponent', () => {
       component.options.accounts = data;
       expect(data).toBe(expectedResponse);
     })
-    jest.spyOn(component, 'selectOption');
-    component.selectOption("Equity");
+    jest.spyOn(component, 'selectOrganisationName');
+    component.selectOrganisationName("Equity");
 
-    expect(component.selectOption).toHaveBeenCalled();
+    expect(component.selectOrganisationName).toHaveBeenCalled();
   });
 
   it("should be able to show validation error when organisation name is not found", () => {
@@ -430,10 +430,10 @@ describe('CreateAssessmentsComponent', () => {
     jest.spyOn(component,'onOrganisationValueChange')
     component.onOrganisationValueChange();
 
-    jest.spyOn(component,'filter')
-    component.filter(component.assessment.organisationName)
+    jest.spyOn(component,'filterOrganisationName')
+    component.filterOrganisationName(component.assessment.organisationName)
 
-    expect(component.filter).toHaveBeenCalled();
+    expect(component.filterOrganisationName).toHaveBeenCalled();
   });
 
   it("should able to filter when input doesn't match with any organization name", () => {
