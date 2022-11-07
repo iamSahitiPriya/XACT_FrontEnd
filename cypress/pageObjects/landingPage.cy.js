@@ -32,8 +32,21 @@ class landingPage {
   static AssessmentNamePlaceholder(){
     return cy.get('#mat-input-1')
   }
+
+  static  purposeOfAssessment(){
+    return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper')
+  }
+
+  static  purposeOfAssessment2(){
+    return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
+  }
+  static  purposeOfAssessmentOption(index){
+    return cy.get('mat-option:nth-child('+index+')')
+  }
+
   static AssessmentName() {
-   return cy.get('.assessmentName',{ timeout: 10000 })
+    //return cy.get('.assessmentName',{ timeout: 10000 })
+    return cy.get('[formcontrolname=assessmentNameValidator]')
   }
   static OrganisationName() {
     return cy.get('.organizationName')
@@ -118,8 +131,21 @@ class landingPage {
     return cy.get('.saveButton')
   }
 
+  static optionsButton(){
+    return cy.get(':nth-child(1) >td:nth-child(5) > div >app-assessment-menu> div > div>button>span>mat-icon')
+  }
+
+
+  static configureOption(){
+    return cy.get('#open-assessment > #createAssessment')
+  }
+
   static assessmentNameInGrid(index){
     return cy.get(':nth-child('+index+') > .cdk-column-assessmentName > span')
+  }
+
+  static assessmentStatusInGrid(index){
+    return cy.get(':nth-child('+index+') > .cdk-column-assessmentStatus > span')
   }
   static assessmentNameError(){
     return cy.get('.assessmentName > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
@@ -209,7 +235,7 @@ class landingPage {
         //row.length will give you the row count
         const count=row.length.toString()
         cy.log(count)
-      expect(count).to.equal(rowCount)
+        expect(count).to.equal(rowCount)
       });
   }
 
@@ -265,4 +291,3 @@ class landingPage {
 }
 
 export default landingPage
-

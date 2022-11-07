@@ -8,6 +8,14 @@ class assessmentPage {
     return cy.get('#finishAssessment')
   }
 
+  static reOpenhAssessmentButton() {
+      return cy.get('#reopenAssessment')
+    }
+
+    static yesButtonInPopup() {
+          return cy.get('.mat-dialog-actions > .mat-focus-indicator')
+        }
+
   static generateReportButton(){
     return cy.get('#generate-report')
   }
