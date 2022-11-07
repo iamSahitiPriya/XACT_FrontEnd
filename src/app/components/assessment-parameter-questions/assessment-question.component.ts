@@ -51,6 +51,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   assessmentId: number
   textarea: number = 0;
 
+  questionId : number;
+  autoSave : string;
+
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
@@ -99,13 +102,16 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
     this.assessmentNotes.assessmentId = this.assessmentId
     this.assessmentNotes.questionId = this.questionDetails.questionId
     this.assessmentNotes.notes = this.answerInput.answer
-    this.assessmentNotes.notes = this.answerInput.answer
     this.assessmentNotes.updatedAt = Number(new Date(Date.now()))
     this.answerNote.questionId = this.questionDetails.questionId
     this.answerNote.answer = this.answerInput.answer
+    this.questionId = this.assessmentNotes.questionId
+    this.autoSave = "Auto Saved"
     this.appService.saveNotes(this.assessmentNotes).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(this.assessmentNotes);
+        this.questionId = -1
+        this.autoSave = ""
         this.sendAnswer(this.answerNote)
         this.updateDataSavedStatus()
       },
@@ -114,7 +120,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
         this.showError("Data cannot be saved");
       }
     });
-
   }
 
   private sendAnswer(answerNote: AssessmentAnswerResponse) {

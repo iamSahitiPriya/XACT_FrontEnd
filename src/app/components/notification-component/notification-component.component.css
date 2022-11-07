@@ -10,13 +10,7 @@
   float : right;
 }
 
-.error_outline {
-  float : left;
-  padding-right: 60px;
-  margin-top: -2px;
-}
-
-.done {
+.notificationIcon{
   float : left;
   padding-right: 60px;
   margin-top: -2px;
