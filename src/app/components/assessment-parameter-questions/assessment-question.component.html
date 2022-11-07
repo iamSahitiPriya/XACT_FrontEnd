@@ -16,12 +16,14 @@
                 maxlength="10000"
                 (keyup)="saveParticularAnswer($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
+      <div class = spinParent>
       <span class="autoSaveMessage">
-        <div class="spinClass">
+        <span class="spinClass">
           <span class="loader" *ngIf="questionId === questionDetails.questionId"></span>
-        </div>
+        </span>
         <span>{{autoSave}}</span>
       </span>
+      </div>
     </mat-form-field>
   </form>
 </div>
