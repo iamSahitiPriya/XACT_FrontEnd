@@ -219,3 +219,10 @@ tr.eachRow {
 .mat-slide-toggle.mat-disabled {
   opacity: 1!important;
 }
+app-search >>> mat-form-field.searchBar {
+  width: 80%;
+  margin-left: 27%;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 10px #0000001a;
+  opacity: 1;
+}
