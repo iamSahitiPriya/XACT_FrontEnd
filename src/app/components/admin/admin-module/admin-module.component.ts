@@ -28,6 +28,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
   categories =new Set<string>();
+  module : ModuleData;
   isEditable: boolean;
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -99,7 +100,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.isModuleAdded = true
   }
 
-  updateCategory(row :any) {
+  updateModule(row :any) {
     let moduleRequest={
       "moduleId":row.moduleId,
       "moduleName":row.moduleName,
@@ -121,20 +122,29 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   cancelChanges(row : any) {
-
+    row.categoryName = this.module.categoryName
+    row.moduleName=this.module.moduleName
+    row.active = this.module.active
+    row.updatedAt = this.module.updatedAt
+    row.comments = this.module.comments
+    this.selectedModule = this.selectedModule === row ? null : row
+    return row;
   }
 
-  editCategory(row :any) {
+  editRow(row :any) {
 
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
-    this.moduleStructure = Object.assign({}, row)
+    this.module = Object.assign({}, row)
     return this.selectedModule;
 
   }
 
   deleteRow() {
-
+    let data = this.dataSource.data
+    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
+    this.dataSource.data = data
+    this.table.renderRows()
   }
 
   saveCategory(row :any) {

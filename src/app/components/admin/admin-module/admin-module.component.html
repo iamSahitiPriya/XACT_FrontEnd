@@ -67,19 +67,20 @@
     <ng-container matColumnDef="active">
       <th class="category" mat-header-cell *matHeaderCellDef> Active</th>
       <td class="category moduleActive" mat-cell *matCellDef="let row">
-        <mat-slide-toggle [(ngModel)]=row.active></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]=row.active
+                          [disabled]="!(selectedModule === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
       <th class="category" mat-header-cell *matHeaderCellDef>Action</th>
-      <td class="category" mat-cell *matCellDef="let row; let index = index;">
+      <td class="category moduleEdit" mat-cell *matCellDef="let row; let index = index;" style="padding-right: 3em">
         <span *ngIf="!(row.isEdit || selectedModule === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editCategory(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editRow(row)">Edit</button>
         </span>
         <span *ngIf="selectedModule===row">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateCategory(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
+                (click)="updateModule(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
                                                                        src="../../assets/closeIcon/closeIcon.svg"
                                                                        alt="close icon" class="closeIcon"/></button>
