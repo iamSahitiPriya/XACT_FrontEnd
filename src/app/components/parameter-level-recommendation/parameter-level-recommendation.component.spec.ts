@@ -35,12 +35,11 @@ class MockAppService {
     }
   }
 
-  deleteParameterRecommendation(parameterId: number) {
-    if (parameterId === 0) {
+  deleteParameterRecommendation(assessmentId : number, parameterId : number, recommendation : ParameterLevelRecommendation) {
+    if(recommendation !== undefined) {
       return of(true)
-    } else {
-      return throwError("Error!")
     }
+      return throwError("Error")
   }
 }
 
@@ -367,14 +366,17 @@ describe('ParameterRecommendationComponent', () => {
       effort: "LOW",
       deliveryHorizon: "some dummy text"
     }
-    let topicArray: ParameterLevelRecommendation[];
-    topicArray = [];
-    component.parameterRecommendationArray = topicArray;
+    let parameterArray: ParameterLevelRecommendation[];
+    parameterArray = [];
+    component.parameterRecommendationArray =  parameterArray;
     component.parameterRecommendationArray?.push(recommendation);
 
+    component.ngOnInit()
     component.deleteTemplate(recommendation);
+    jest.spyOn(component,"deleteRecommendationTemplate")
+    component.deleteRecommendationTemplate(recommendation,0)
 
-    expect(component.parameterRecommendationArray?.length).toBe(0);
+    expect(component.parameterRecommendationArray.length).toBe(0);
   })
 
   it('should be able to enable the fields when parameter level recommendationId is defined', () => {

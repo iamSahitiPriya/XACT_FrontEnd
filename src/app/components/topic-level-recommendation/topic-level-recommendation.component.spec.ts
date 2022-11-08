@@ -43,12 +43,11 @@ class MockAppService {
     }
   }
 
-  deleteTopicRecommendation(topicId: number) {
-    if (topicId === 0) {
+  deleteTopicRecommendation(assessmentId : number, topicId : number , recommendation : TopicLevelRecommendation) {
+    if(recommendation !== undefined)
       return of(true)
-    } else {
+    else
       return throwError("Error!")
-    }
   }
 }
 
@@ -327,12 +326,17 @@ describe('RecommendationComponent', () => {
     }
     let topicArray: TopicLevelRecommendation[];
     topicArray = [];
+    component.topicId = 0;
+
     component.topicRecommendationArray = topicArray;
     component.topicRecommendationArray?.push(recommendation);
 
+    component.ngOnInit()
+    jest.spyOn(component,'deleteTemplate')
     component.deleteTemplate(recommendation);
+    jest.spyOn(component,'deleteRecommendationTemplate')
 
-    expect(component.topicRecommendationArray?.length).toBe(0);
+    expect(component.topicRecommendationArray.length).toBe(0);
   })
 
   it('should be able to enable the fields when recommendationId is defined', () => {
