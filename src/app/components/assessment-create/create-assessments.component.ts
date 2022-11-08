@@ -20,6 +20,7 @@ import {data_local} from "../../messages";
 import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {Responses} from 'src/app/types/Responses';
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 
 @Component({
@@ -90,7 +91,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
-              private formBuilder: FormBuilder, private errorDisplay: MatSnackBar) {
+              private formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -136,29 +137,29 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError();
+          this.showError("Server Error.");
         }
       })
     } else {
-      this.showFormError();
+      this.showFormError("Please fill in all the required fields correctly.");
     }
   }
 
-  private showError() {
-    this.errorDisplay.open("Server error. Please try again after sometime.", "", {
-      duration: 3000,
-      horizontalPosition: "center",
-      verticalPosition: "top",
-      panelClass: ['error-snackBar']
+  private showError(message:string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
-  private showFormError() {
-    this.errorDisplay.open("Please fill in all the required fields correctly.", "", {
-      duration: 2000,
-      horizontalPosition: "center",
-      verticalPosition: "top",
-      panelClass: ['error-snackBar']
+  private showFormError(message:string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -193,11 +194,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError();
+          this.showError("Server error.");
         }
       })
     } else{
-      this.showFormError();
+      this.showFormError("Please fill in all the required fields correctly ");
     }
   }
 
