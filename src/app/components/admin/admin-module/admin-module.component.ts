@@ -155,7 +155,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.table.renderRows()
   }
 
-  saveCategory(row :any) {
+  saveModule(row :any) {
     let moduleRequest={
       "moduleName":row.moduleName,
       "category": row.categoryName,
@@ -166,6 +166,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
         next: (_data) => {
           let data = this.dataSource.data
           row.isEdit = false
+          this.isEditable = false;
           data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
           this.dataSource.data = data
           this.table.renderRows()

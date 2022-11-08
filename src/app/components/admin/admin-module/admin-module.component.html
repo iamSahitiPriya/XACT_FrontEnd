@@ -87,7 +87,7 @@
                                                                        alt="close icon" class="closeIcon"/></button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveButton" type="submit" (click)="saveCategory(row)"
+          <button mat-flat-button class="saveButton" type="submit" (click)="saveModule(row)"
                   [disabled]="row.categoryName && !row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
           <button mat-flat-button class="delete" (click)="deleteRow()">
             <mat-icon id="delete">delete</mat-icon>
