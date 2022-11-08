@@ -25,6 +25,8 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {Location} from "@angular/common";
+import {SpyLocation} from "@angular/common/testing";
 
 
 class MockAppService {
@@ -48,8 +50,8 @@ class MockAppService {
 
   public getCategories(assessmentId: number) {
     if (assessmentId === 1) {
-      this.categoryData.userAssessmentCategories = []
-      this.category.userAssessmentCategories = []
+      // @ts-ignore
+      this.categoryData.userAssessmentCategories = undefined
       return of(this.categoryData)
     } else {
       return of(this.category)
@@ -70,6 +72,7 @@ describe('AssessmentModulesComponent', () => {
   let component: AssessmentModulesComponent;
   let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentModulesComponent>;
+  let locationStub :SpyLocation
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -81,7 +84,8 @@ describe('AssessmentModulesComponent', () => {
           {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}
+        {provide: AppServiceService, useClass: MockAppService},
+        {provide: Location, useClass: SpyLocation}
       ],
 
     })
@@ -92,6 +96,7 @@ describe('AssessmentModulesComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentModulesComponent);
     component = fixture.componentInstance;
+    locationStub = TestBed.get(Location);
     fixture.detectChanges();
     component.category = {
       assessmentCategories: [{
@@ -108,6 +113,8 @@ describe('AssessmentModulesComponent', () => {
   });
 
   it("should return the categories", () => {
+    component.assessmentId = 1
+    let assessmentId = 1
     const expectedData = [
       {
         "categoryId": 1,
@@ -144,7 +151,7 @@ describe('AssessmentModulesComponent', () => {
         ]
       },
     ]
-    mockAppService.getCategories(1).subscribe(data => {
+    mockAppService.getCategories(component.assessmentId).subscribe(data => {
       expect(data).toBe(expectedData)
     })
   });
@@ -200,6 +207,8 @@ describe('AssessmentModulesComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
   it("should fetch all the active categories", () => {
+    component.assessmentId = 1
+    let assessmentId = 1
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,
@@ -211,7 +220,7 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(1).subscribe(data => {
+    mockAppService.getCategories(component.assessmentId).subscribe(data => {
       expect(data).toBe(categoryResponse)
     })
     component.setModules(categoryResponse.userAssessmentCategories)
@@ -227,6 +236,8 @@ describe('AssessmentModulesComponent', () => {
     expect(response).toBeTruthy()
   });
   it("should fetch all the user selected categories", () => {
+    component.assessmentId = 2
+    let assessmentId = 2
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,active:true,
@@ -237,7 +248,7 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(2).subscribe(_date => {
+    mockAppService.getCategories(component.assessmentId).subscribe(_date => {
       // @ts-ignore
       _date.userAssessmentCategories = undefined
       expect(_date).toBe(categoryResponse)
@@ -288,5 +299,15 @@ describe('AssessmentModulesComponent', () => {
     component.ngOnInit()
     expect(component.assessmentName).toBe("abc1")
     expect(component.assessmentId).toBe(0)
+  });
+  it("should fetch the assessment categories", () => {
+    let assessmentId = 1
+    component.assessmentId = 1
+    component.ngOnInit()
+    mockAppService.getCategories(component.assessmentId).subscribe(data =>{
+      // @ts-ignore
+      expect(data.assessmentCategories).toBeDefined()
+      expect(data.userAssessmentCategories).toBeUndefined()
+    })
   });
 });

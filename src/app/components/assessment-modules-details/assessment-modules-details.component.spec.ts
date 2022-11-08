@@ -31,6 +31,7 @@ import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-ratin
 import {reducers} from "../../reducers/reducers";
 import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ModuleStructure} from "../../types/moduleStructure";
 
 class MockAppService {
   public getCategories() {
@@ -329,6 +330,13 @@ describe('AssessmentModulesDetailsComponent', () => {
       {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
+  });
+  it("should navigate to particular module", () => {
+    let dummyModule:ModuleStructure ={moduleId:1,moduleName:"hello",topics:[{topicId:1,topicName:"topic",module:1,parameters:[],references:[],assessmentLevel:""}],category:0}
+    component.navigate(dummyModule)
+    expect(component.moduleSelected).toBe(1)
+    expect(component.topics.length).toBe(1)
+
   });
 
 });

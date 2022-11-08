@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {CreateAssessmentsComponent} from './create-assessments.component';
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -29,6 +29,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import cloneDeep from "lodash/cloneDeep";
 
 class MockDialog {
   open() {
@@ -226,8 +227,9 @@ describe('CreateAssessmentsComponent', () => {
         domain: 'abc',
         industry: 'abc',
         teamSize: 12,
-        users: []
+        users: ["sam@thoughtworks.com"]
       }
+    component.emails = ["sam@thoughtworks.com"]
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -283,6 +285,7 @@ describe('CreateAssessmentsComponent', () => {
 
   it('should update assessment', () => {
     component.assessment = mockAssessment;
+    component.assessment.assessmentId = 123
     component.assessmentCopy = mockAssessment;
     const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
@@ -306,8 +309,10 @@ describe('CreateAssessmentsComponent', () => {
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.updateAssessment()
     expect(component).toBeTruthy()
-    mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
-      expect(data).toBe(assessmentData)
+    mockAppService.updateAssessment(123, assessmentDataPayload).subscribe({
+      next: (data) => {
+        expect(data).toBe(assessmentData)
+      }
     })
     fixture.detectChanges()
   });
@@ -386,7 +391,7 @@ describe('CreateAssessmentsComponent', () => {
     jest.spyOn(component, 'onOrganisationValueChange');
     component.onOrganisationValueChange();
 
-    component.assessment.organisationName="abc"
+    component.assessment.organisationName = "abc"
 
     mockAppService.getOrganizationName(component.assessment.organisationName).subscribe(data => {
       component.options.accounts = data;
@@ -426,26 +431,34 @@ describe('CreateAssessmentsComponent', () => {
   })
 
   it("should be able to filter among the options based on input", () => {
-    component.assessment.organisationName ="new Name"
-    jest.spyOn(component,'onOrganisationValueChange')
+    component.assessment.organisationName = "new Name"
+    jest.spyOn(component, 'onOrganisationValueChange')
     component.onOrganisationValueChange();
 
-    jest.spyOn(component,'filterOrganisationName')
+    jest.spyOn(component, 'filterOrganisationName')
+    component.options.accounts =[{name: "hello", industry: "world"}]
     component.filterOrganisationName(component.assessment.organisationName)
 
     expect(component.filterOrganisationName).toHaveBeenCalled();
   });
 
   it("should able to filter when input doesn't match with any organization name", () => {
-    component.assessment.organisationName="Equity name"
-    jest.spyOn(component,'onOrganisationValueChange')
+    component.assessment.organisationName = "E"
+    jest.spyOn(component, 'onOrganisationValueChange')
     component.onOrganisationValueChange();
 
-    jest.spyOn(component,'filterOptions')
-    component.filterOptions();
+    jest.spyOn(component, 'filterOptions')
+    component.filterOptions()
 
     expect(component.filterOptions).toHaveBeenCalled();
 
+  });
+  it("should make assessment copy on ngOnInit", async () => {
+    await component.ngOnInit()
+    component.assessment = blankAssessment;
+
+    expect(component.loggedInUserEmail).toStrictEqual("sam@gmail.com")
+    expect(component.assessmentCopy).toStrictEqual(blankAssessment)
   });
 
 });
