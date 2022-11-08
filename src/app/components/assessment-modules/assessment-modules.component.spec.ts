@@ -27,6 +27,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {Location} from "@angular/common";
 import {SpyLocation} from "@angular/common/testing";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
 
 
 class MockAppService {
@@ -73,6 +74,7 @@ describe('AssessmentModulesComponent', () => {
   let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentModulesComponent>;
   let locationStub :SpyLocation
+  let assessmentId:number
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -85,7 +87,7 @@ describe('AssessmentModulesComponent', () => {
         ])],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: Location, useClass: SpyLocation}
+        {provide: Location, useClass: SpyLocation},{provide: ActivatedRoute,useValue:{snapshot:{paramMap:convertToParamMap({'assessmentId':assessmentId})}}}
       ],
 
     })
@@ -113,8 +115,8 @@ describe('AssessmentModulesComponent', () => {
   });
 
   it("should return the categories", () => {
-    component.assessmentId = 1
-    let assessmentId = 1
+    component.assessmentId = 0
+    assessmentId = 1
     const expectedData = [
       {
         "categoryId": 1,
@@ -207,8 +209,7 @@ describe('AssessmentModulesComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
   it("should fetch all the active categories", () => {
-    component.assessmentId = 1
-    let assessmentId = 1
+    assessmentId = 0
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,
@@ -220,7 +221,7 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(component.assessmentId).subscribe(data => {
+    mockAppService.getCategories(assessmentId).subscribe(data => {
       expect(data).toBe(categoryResponse)
     })
     component.setModules(categoryResponse.userAssessmentCategories)
@@ -236,8 +237,8 @@ describe('AssessmentModulesComponent', () => {
     expect(response).toBeTruthy()
   });
   it("should fetch all the user selected categories", () => {
-    component.assessmentId = 2
-    let assessmentId = 2
+    component.assessmentId = 0
+    assessmentId = 0
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,active:true,
@@ -248,9 +249,7 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(component.assessmentId).subscribe(_date => {
-      // @ts-ignore
-      _date.userAssessmentCategories = undefined
+    mockAppService.getCategories(assessmentId).subscribe(_date => {
       expect(_date).toBe(categoryResponse)
     })
   });
@@ -301,7 +300,6 @@ describe('AssessmentModulesComponent', () => {
     expect(component.assessmentId).toBe(0)
   });
   it("should fetch the assessment categories", () => {
-    let assessmentId = 1
     component.assessmentId = 1
     component.ngOnInit()
     mockAppService.getCategories(component.assessmentId).subscribe(data =>{
@@ -309,5 +307,6 @@ describe('AssessmentModulesComponent', () => {
       expect(data.assessmentCategories).toBeDefined()
       expect(data.userAssessmentCategories).toBeUndefined()
     })
+    expect(component.category.userAssessmentCategories).toBeDefined()
   });
 });

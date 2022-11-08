@@ -179,6 +179,22 @@ describe('CreateAssessmentsComponent', () => {
     updatedAt: 0,
     users: []
   }
+  const mockAssessment1: AssessmentStructure = {
+    answerResponseList: [],
+    assessmentId: 123,
+    assessmentState: "inProgress",
+    assessmentName: "xact",
+    assessmentStatus: "Active",
+    assessmentPurpose: "Client Request",
+    domain: "IT",
+    industry: "Telecom",
+    organisationName: "Rel",
+    parameterRatingAndRecommendation: [],
+    teamSize: 10,
+    topicRatingAndRecommendation: [],
+    updatedAt: 0,
+    users: []
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -284,13 +300,12 @@ describe('CreateAssessmentsComponent', () => {
   });
 
   it('should update assessment', () => {
-    component.assessment = mockAssessment;
     component.assessment.assessmentId = 123
-    component.assessmentCopy = mockAssessment;
     const assessmentDataPayload: AssessmentRequest = {
       assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
       domain: "abc", industry: "abc", teamSize: 12, users: []
     };
+    component.assessment = mockAssessment1;
     const assessmentData =
       {
         "assessmentId": 45,
@@ -327,6 +342,29 @@ describe('CreateAssessmentsComponent', () => {
   it("should throw error if the assesssment details are empty while saving/updating", () => {
     component.saveAssessment()
     component.updateAssessment()
+    component.assessment.assessmentId = 123
+    const assessmentDataPayload: AssessmentRequest = {
+      assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
+      domain: "abc", industry: "abc", teamSize: 12, users: []
+    };
+    component.assessment = mockAssessment;
+    component.createAssessmentForm.controls['selected'].setValue("client request")
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
+    component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
+    expect(component.createAssessmentForm.valid).toBeTruthy()
+    component.updateAssessment()
+    expect(component).toBeTruthy()
+    mockAppService.updateAssessment(123, assessmentDataPayload).subscribe({
+      next: (data) => {
+        expect(data).toBeUndefined()
+      }, error: (error) => {
+        expect(error).toBe("Error!")
+      }
+    })
+    fixture.detectChanges()
   });
   it("should remove the emails from the list on cancel click", () => {
     const emailList = ["abc@thoughtworks.com", "hello@thoughtworks.com"];
@@ -436,7 +474,7 @@ describe('CreateAssessmentsComponent', () => {
     component.onOrganisationValueChange();
 
     jest.spyOn(component, 'filterOrganisationName')
-    component.options.accounts =[{name: "hello", industry: "world"}]
+    component.options.accounts = [{name: "hello", industry: "world"}]
     component.filterOrganisationName(component.assessment.organisationName)
 
     expect(component.filterOrganisationName).toHaveBeenCalled();

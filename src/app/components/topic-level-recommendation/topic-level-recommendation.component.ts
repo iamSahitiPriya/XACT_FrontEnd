@@ -188,7 +188,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
         this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
         this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.push(topicRecommendation);
-
       }
     } else {
       this.cloneTopicRecommendationResponse.topicRatingAndRecommendation = updatedRecommendationList;
