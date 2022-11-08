@@ -3,12 +3,13 @@
  */
 
 import landingPage from "./landingPage.cy";
+import assessmentPage from "./assessmentPage.cy";
 
 class commonFunction{
 
   static clickOnElement(webElementLocation){
-    let element = cy.get(webElementLocation)
-    element.click()
+    //let element = cy.get(webElementLocation)
+    webElementLocation.click({ force: true })
   }
 
   static typeInElement(webElementLocation,value) {
@@ -60,7 +61,56 @@ class commonFunction{
       assert.isNotOk(false, element+' is not visible')
     }
   }
+  static verifyText(element,text,message){
+    if(element.should('have.text',text)){
+      cy.log(message)
+      assert.isOk(element+' has '+text)
+    }else {
+      assert.fail(false, element+' does not have'+text)
+    }
+  }
 
+  static containsText(element,text,message){
+    // if(element.should('contain',text)){
+    //   cy.log(message)
+    //   assert.isOk(element+' contains '+text)
+    // }else {
+    //   assert.fail(false, element+' does not contain '+text)
+    // }
+
+    try{
+      element.should('contain',text)
+      cy.log(message)
+    }catch (e) {
+      assert.fail(false, element+' does not contain '+text)
+    }
+  }
+  static valueOfElement(element,text,message){
+
+      try{
+        element.should('have.value',text)
+        cy.log(message)
+      }catch (e) {
+        assert.fail(false, element+' does not have '+text+' as value')
+      }
+    }
+
+  static CloseOrReopenAssessment(){
+    cy.wait(1000)
+    cy.get('body').then(($body) => {
+      if ($body.find('button[id=finishAssessment]').text().includes('Finish')) {
+        cy.get('#finishAssessment').click()
+        assessmentPage.yesButtonInPopup().click()
+        commonFunctions.elementIsVisible(assessmentPage.reOpenhAssessmentButton(),'Assessment is closed')
+      }
+      cy.get('body').then(($body) => {
+        if ($body.find('button[id=reopenAssessment]').text().includes('Reopen')) {
+          cy.get('#reopenAssessment').click()
+          commonFunctions.elementIsVisible(assessmentPage.finishAssessmentButton(),'Assessment is Reopened')
+        }
+      })
+    })
+  }
 
 
 

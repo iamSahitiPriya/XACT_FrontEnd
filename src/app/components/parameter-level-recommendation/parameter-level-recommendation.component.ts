@@ -219,14 +219,10 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   deleteTemplate(recommendation: ParameterLevelRecommendation) {
     let index = -1;
     if (this.parameterRecommendationArray != undefined) {
-      recommendation.recommendation = "";
-      recommendation.deliveryHorizon = "";
-      recommendation.effort = "";
-      recommendation.impact = "";
       index = this.parameterRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.parameterRecommendationArray.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation);
+        this.parameterRecommendationArray?.splice(index,1);
+        this.deleteRecommendationTemplate(recommendation,index);
       }
     }
 
@@ -236,10 +232,11 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation) {
+   deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         error: _error => {
+          this.parameterRecommendationArray?.splice(index,1,recommendation);
           this.showError("Data cannot be deleted");
         }
       })
