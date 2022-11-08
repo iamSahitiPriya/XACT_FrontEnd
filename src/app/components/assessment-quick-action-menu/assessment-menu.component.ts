@@ -64,7 +64,7 @@ export class AssessmentMenuComponent implements OnDestroy{
     if (this.assessment.assessmentStatus === 'Completed') {
       this.showNotification(this.completedReportDownloadStatus, 20000);
     } else {
-      this.showNotification(this.inProgressReportDownloadStatus, 10000);
+      this.showNotification(this.inProgressReportDownloadStatus, 20000);
     }
   }
 
@@ -82,7 +82,7 @@ export class AssessmentMenuComponent implements OnDestroy{
 
   private showNotification(reportData: string, duration: number) {
     this.snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: reportData,
+      data: { message :reportData, iconType: "done" ,notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"

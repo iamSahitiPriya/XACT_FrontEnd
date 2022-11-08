@@ -14,6 +14,7 @@ import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -234,4 +235,23 @@ describe('AppServiceService', () => {
     }
     expect(service.generateAdminReport(adminAssessmentRequest)).toBeTruthy()
   });
+  it("should save the modules selected by user", () => {
+    let userAssessmentModuleRequest :UserAssessmentModuleRequest[] =[{"moduleId" :1}]
+
+    expect(service.saveUserModules(userAssessmentModuleRequest,1)).toBeTruthy()
+  });
+  it("should update the modules selected by user", () => {
+    let userAssessmentModuleRequest :UserAssessmentModuleRequest[] =[{"moduleId" :1}]
+
+    expect(service.updateUserModules(userAssessmentModuleRequest,1)).toBeTruthy()
+  });
+  it("should get the organisation names",()=>{
+    expect(service.getOrganizationName("org")).toBeTruthy();
+  });
+
+  it("should get template",()=>{
+    expect(service.getTemplate()).toBeTruthy();
+  })
+
 });
+

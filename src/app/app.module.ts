@@ -88,6 +88,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -264,6 +265,7 @@ export const appRoutes: Routes = [
     NgbModule,
     MatCheckboxModule,
     Ng2SearchPipeModule,
+    MatAutocompleteModule,
   ],
 
   exports: [

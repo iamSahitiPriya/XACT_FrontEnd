@@ -19,6 +19,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {FormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 let DEBOUNCE_TIME = 1200;
 
@@ -48,6 +49,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterIndex: number;
 
   form: FormGroup;
+  autoSave : string;
+  recommendationId:number
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
@@ -99,11 +102,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   deleteRecommendationText: string = "Delete Recommendation";
   private destroy$: Subject<void> = new Subject<void>();
 
-  showError(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -123,14 +127,18 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     this.setParameterRecommendationFields();
     this.setParameterLevelRecommendationResponseFields();
     this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+    this.autoSave = "Auto Saved"
+    this.recommendationId = 1
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
+        this.autoSave = ""
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.recommendationId = -1
         this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
   }
@@ -211,14 +219,10 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   deleteTemplate(recommendation: ParameterLevelRecommendation) {
     let index = -1;
     if (this.parameterRecommendationArray != undefined) {
-      recommendation.recommendation = "";
-      recommendation.deliveryHorizon = "";
-      recommendation.effort = "";
-      recommendation.impact = "";
       index = this.parameterRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.parameterRecommendationArray.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation);
+        this.parameterRecommendationArray?.splice(index,1);
+        this.deleteRecommendationTemplate(recommendation,index);
       }
     }
 
@@ -228,11 +232,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation) {
+  private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         error: _error => {
-          this.showError("Data cannot be deleted", "Close");
+          this.parameterRecommendationArray?.splice(index,1,recommendation);
+          this.showError("Data cannot be deleted");
         }
       })
     }
@@ -249,7 +254,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved", "Close");
+        this.showError("Data cannot be saved");
       }
     })
   }
