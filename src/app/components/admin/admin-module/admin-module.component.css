@@ -1,5 +1,5 @@
 .table{
-  width:100%;
+  width:90%;
 }
 .moduleRow {
   height: 62px;
@@ -16,9 +16,9 @@ th {
   opacity: 1;
 
 }
-/*th.category{*/
-/*  padding-right: 12em;*/
-/*}*/
+th.category{
+  padding-right: 18%;
+}
 th.category, td.category {
   border-bottom-style: none;
   text-align: center;
@@ -34,9 +34,7 @@ td.category {
   width: 28%;
   word-break: break-word;
 }
-.categoryDate {
-  padding-right: 4em;
-}
+
 .moduleName{
   padding-right:4em;
 }
@@ -225,4 +223,9 @@ app-search >>> mat-form-field.searchBar {
   margin-bottom: 24px;
   box-shadow: 0 8px 10px #0000001a;
   opacity: 1;
+}
+.selectionBox{
+  width:62%;
+  margin-top: 22px;
+  margin-bottom: 4px;
 }

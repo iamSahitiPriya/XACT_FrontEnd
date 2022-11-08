@@ -7,6 +7,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {MatPaginator} from "@angular/material/paginator";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {CategoryResponse} from "../../../types/categoryResponse";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-admin-module',
@@ -30,11 +32,13 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   categories =new Set<string>();
   module : ModuleData;
   isEditable: boolean;
+  categoryDetails : CategoryResponse[];
 
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatTable) table: MatTable<ModuleData>
   @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   dataSourceArray : ModuleData[];
   dataToDisplayed :ModuleData[];
@@ -54,6 +58,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.categoryDetails=data
       data.forEach((eachCategory) => {
           eachCategory.modules?.forEach(eachModule => {
               let module: ModuleData = {
@@ -61,6 +66,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
                 moduleName: "",
                 categoryName: "",
                 active: true,
+                categoryStatus:true,
                 updatedAt: -1,
                 comments: ""
               }
@@ -70,6 +76,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
               module.categoryName = eachCategory.categoryName;
               module.updatedAt = eachModule.updatedAt;
               module.comments = eachModule.comments;
+              module.categoryStatus=eachCategory.active;
               this.moduleStructure.push(module);
             }
           )
@@ -80,6 +87,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
   showError(message: string, action: string) {
@@ -92,7 +100,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   addModuleRow() {
     let newModule = {
-      moduleId: 0, categoryName: '',moduleName: '', active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      moduleId: 0, categoryName: '',moduleName: '', categoryStatus:true,active: true, updatedAt: Date.now(), isEdit: true, comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
