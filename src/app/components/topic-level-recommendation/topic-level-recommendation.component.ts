@@ -47,6 +47,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   index: number;
 
   form: FormGroup;
+  autoSave:string
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
@@ -68,6 +69,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
+  recommendationId: number;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
@@ -127,9 +129,13 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     this.setRecommendationsFields();
     this.setTopicLevelRecommendationResponse();
     this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
+    this.autoSave = "Auto Saved"
+    this.recommendationId = 1
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.autoSave = ""
+        this.recommendationId = -1
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
