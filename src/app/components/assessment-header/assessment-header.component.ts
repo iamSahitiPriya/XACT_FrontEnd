@@ -7,7 +7,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates, AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
@@ -45,8 +45,8 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
   assessmentHeader: string = "assessmentHeader";
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
   }
 
   finishAssessment() {

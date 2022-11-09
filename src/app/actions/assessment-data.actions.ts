@@ -15,8 +15,4 @@ export const getUpdatedAssessmentData = createAction("Assessment Updated data", 
 
 export const setErrorMessage = createAction("Error message", props<{ error: string }>());
 
-export const setUpdatedInfo = createAction("Set updated info", props<{ info: UpdatedStatus }>())
-
-export const getUpdatedInfo = createAction("Get updated info", props<{ info: UpdatedStatus }>());
-
 export const setAverageComputedScore = createAction("Set Average Score", props<{ averageScoreDetails: TopicRatingResponse }>())

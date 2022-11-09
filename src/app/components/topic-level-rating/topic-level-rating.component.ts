@@ -13,7 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates, AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
@@ -43,8 +43,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
   }
 
   @Input()

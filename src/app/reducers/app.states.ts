@@ -15,10 +15,6 @@ export interface AssessmentState {
 
 }
 
-export interface AssessmentStatus {
-  assessmentStatus: string
-}
-
 export interface ComputedScore {
   scoreDetails: TopicRatingResponse;
 }

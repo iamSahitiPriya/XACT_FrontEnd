@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import {
   getAssessmentData,
   getUpdatedAssessmentData,
@@ -73,19 +73,9 @@ export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
 }
 
-export const getAssessmentState = createFeatureSelector<AssessmentState>('assessmentState')
-
-export const getAssessments = createSelector(
-  getAssessmentState, (state: AssessmentState) => {
-    return state && state.assessments
-  },
-)
-
 export function scoreReducer(state: any, action: Action) {
   return _scoreReducer(state, action)
 }
-
-export const getAverageRating = createFeatureSelector<ComputedScore>('computedScore')
 
 
 

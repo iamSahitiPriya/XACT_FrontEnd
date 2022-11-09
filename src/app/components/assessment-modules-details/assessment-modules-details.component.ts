@@ -13,7 +13,7 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 import {ActivatedRoute} from "@angular/router";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates, AssessmentState} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
@@ -49,8 +49,8 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>, private dialog: MatDialog) {
-    this.answer = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog) {
+    this.answer = this.store.select((store) => store.assessmentState.assessments)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
