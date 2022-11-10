@@ -18,6 +18,7 @@ div.topicButtonColumn {
   color: #FFFFFF;
   text-transform: capitalize;
 }
+
 th.topic, td.topic {
   border-bottom-style: none;
   text-align: left;
@@ -34,6 +35,7 @@ td.topic {
   width: 19%;
   word-break: break-word;
 }
+
 th {
   text-align: left;
   font-weight: normal;
@@ -45,6 +47,7 @@ th {
   opacity: 1;
 
 }
+
 .topicDate {
   padding-right: 3em;
 }
@@ -54,6 +57,7 @@ th.topic, td.topic {
   border-bottom-style: none;
   text-align: left;
 }
+
 .editButton {
   width: 70px;
   height: 0px;
@@ -79,6 +83,7 @@ td.topic:last-of-type {
   height: 62px;
   text-align: left;
 }
+
 app-search >>> mat-form-field.searchBar {
   width: 80%;
   margin-left: 27%;
@@ -95,6 +100,10 @@ app-search >>> mat-form-field.searchBar {
   display: inline-block;
   margin-bottom: 2px;
   margin-right: 2px
+}
+
+::ng-deep .mat-slide-toggle.mat-disabled {
+  opacity: 1 !important;
 }
 
 tr:nth-child(5n + 1) span.circle {
@@ -116,26 +125,12 @@ tr:nth-child(5n + 4) span.circle {
 tr:nth-of-type(5n + 5) span.circle {
   background-color: #BE873E;
 }
-.inputTopic {
-  width: 230px;
-  height: 49px;
-  border: 1px solid #4BA1AC;
-  border-radius: 7px;
-  text-align: left;
-  font-weight: normal;
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  letter-spacing: 0;
-  color: #6F7071;
-  opacity: 1;
-  padding-left: 19px;
-  margin-top: 11px;
-  margin-bottom: 4px;
-}
-.selectDropdownForm >>> .mat-form-field-flex{
+
+.selectDropdownForm >>> .mat-form-field-flex {
   height: 57px;
   margin-top: 23px;
 }
+
 .selectDropdownForm .mat-form-field-infix {
   padding: 8px 0;
 }
@@ -156,18 +151,21 @@ tr:nth-of-type(5n + 5) span.circle {
   color: #658892;
   margin-right: 3px;
 }
-.deleteTopic{
+
+.deleteTopic {
   min-width: 0px;
   padding: 0;
 }
-.topicActive{
+
+.topicActive {
   padding-right: 4em;
 }
 
 .topicComments {
   overflow: hidden;
 }
-.topicCommentTextArea{
+
+.topicCommentTextArea {
   width: 99%;
   height: 60px;
   font-size: 16px;
@@ -175,10 +173,16 @@ tr:nth-of-type(5n + 5) span.circle {
   border-radius: 7px;
   opacity: 1;
 }
+
 td.expandedCommentsData {
   border-bottom-width: 0px;
 }
-tr.expandedTopicRow{
+
+tr.expandedTopicRow {
   height: 6px;
   border-bottom-width: 0px;
+}
+
+.topicInput >>> .mat-form-field-wrapped >>> .mat-form-field-appearance-outline .mat-form-field-flex {
+  margin-top: 19px;
 }

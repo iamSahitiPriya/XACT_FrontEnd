@@ -17,11 +17,16 @@
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-        <mat-select [(ngModel)]="row.categoryName">
-          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)" [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
+                        <mat-label>Select Category</mat-label>
+        <mat-select [(ngModel)]="row.categoryName" required>
+          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
+                      [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
             {{category.categoryName}}
           </mat-option>
         </mat-select>
+            <mat-error>
+              Please fill the field
+        </mat-error>
             </mat-form-field>
           <!--          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">-->
           <!--          {{commonErrorFieldText}}-->
@@ -54,11 +59,15 @@
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-        <mat-select [(ngModel)]="row.moduleName" class="topicSelector">
+            <mat-label>Select Module</mat-label>
+        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleId">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
+            <mat-error>
+              Please fill the field
+        </mat-error>
             </mat-form-field>
         </span>
       </td>
@@ -69,11 +78,14 @@
         {{row.topicName}}
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
-          <input matInput class="inputTopic" #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
+          <mat-form-field appearance="outline" class="topicInput">
+            <mat-label>Enter topic name</mat-label>
+          <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
+            </mat-form-field>
         </span>
       </td>
     </ng-container>
@@ -122,7 +134,7 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="topicRow"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedTopicRow"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedTopicRow"></tr>
   </table>
 </div>
 
