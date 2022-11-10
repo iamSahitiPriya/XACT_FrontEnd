@@ -9,6 +9,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatSort} from "@angular/material/sort";
+import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 
 @Component({
   selector: 'app-admin-module',
@@ -59,12 +60,14 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.categoryDetails=data
+      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       data.forEach((eachCategory) => {
           eachCategory.modules?.forEach(eachModule => {
               let module: ModuleData = {
                 moduleId: -1,
                 moduleName: "",
                 categoryName: "",
+                categoryId:-1,
                 active: true,
                 categoryStatus:true,
                 updatedAt: -1,
@@ -77,6 +80,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
               module.updatedAt = eachModule.updatedAt;
               module.comments = eachModule.comments;
               module.categoryStatus=eachCategory.active;
+              module.categoryId=eachCategory.categoryId;
               this.moduleStructure.push(module);
             }
           )
@@ -100,7 +104,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   addModuleRow() {
     let newModule = {
-      moduleId: 0, categoryName: '',moduleName: '', categoryStatus:true,active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      moduleId: 0, categoryName: '',categoryId :0,moduleName: '', categoryStatus:true,active: true, updatedAt: Date.now(), isEdit: true, comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
@@ -121,6 +125,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
         row.isEdit = false;
         this.selectedModule= null;
         this.table.renderRows()
+        this.showNotification("Your changes have been successfully updated.", 200000)
         this.moduleStructure = []
         this.ngOnInit()
       }, error: _error => {
@@ -146,6 +151,14 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.module = Object.assign({}, row)
     return this.selectedModule;
 
+  }
+  private showNotification(reportData: string, duration: number) {
+    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
   deleteRow() {

@@ -56,13 +56,13 @@
         <span *ngIf="row.isEdit || selectedModule===row">
           <input matInput class="input"#moduleName placeholder="Enter module name" [(ngModel)]="row.moduleName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
-          {{commonErrorFieldText}}
+         {{commonErrorFieldText}}
         </mat-error>
         </span></td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> Date</th>
-      <td class="category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MM-yyyy'}} </td>
+      <td class="category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="active">
