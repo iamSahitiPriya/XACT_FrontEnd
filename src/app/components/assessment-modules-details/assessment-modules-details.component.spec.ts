@@ -330,7 +330,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     expect(component.selectedIndex).toBe(1);
   });
   it("should navigate to particular module", () => {
-    let dummyModule:ModuleStructure ={moduleId:1,moduleName:"hello",topics:[{topicId:1,topicName:"topic",module:1,parameters:[],references:[],assessmentLevel:""}],category:0}
+    let dummyModule:ModuleStructure ={moduleId:1,moduleName:"hello",topics:[{topicId:1,topicName:"topic",module:1,parameters:[],references:[],updatedAt:0, active:false,}],category:0}
     component.navigate(dummyModule)
     expect(component.moduleSelected).toBe(1)
     expect(component.topics.length).toBe(1)
