@@ -116,7 +116,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     let moduleRequest={
       "moduleId":row.moduleId,
       "moduleName":row.moduleName,
-      "category": row.categoryName,
+      "category": row.categoryId,
       "active": row.active,
       "comments": row.comments
     }
