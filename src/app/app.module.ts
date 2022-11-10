@@ -88,6 +88,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { AdminTopicComponent } from './components/admin/admin-topic/admin-topic.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -132,7 +133,13 @@ export const appRoutes: Routes = [
       component:AdminDashboardComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
-    }],
+    },{
+      path:"topic",
+      component:AdminTopicComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
+    }
+    ],
     canActivate:[OktaAuthGuard]
   },
 
@@ -166,6 +173,7 @@ export const appRoutes: Routes = [
     AdminCategoryComponent,
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
+    AdminTopicComponent,
   ],
 
   imports: [

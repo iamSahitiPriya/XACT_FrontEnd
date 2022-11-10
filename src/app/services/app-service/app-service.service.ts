@@ -158,6 +158,9 @@ export class AppServiceService {
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
   }
+  saveTopic(topicRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  }
 }
 
 
