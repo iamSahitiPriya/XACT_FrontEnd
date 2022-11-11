@@ -46,5 +46,6 @@ export const environment = {
     storage: {
       sessionStorage: 'sessionStorage'
     }
-  }
+  },
+  UPDATE_TOPIC_URI: "/v1/admin/topics"
 };

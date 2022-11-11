@@ -13,7 +13,6 @@ import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";

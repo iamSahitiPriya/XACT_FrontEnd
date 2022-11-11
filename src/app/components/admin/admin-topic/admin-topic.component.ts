@@ -11,6 +11,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-topic',
@@ -42,9 +43,12 @@ export class AdminTopicComponent implements OnInit {
   selectedTopic: TopicData | null;
   private isTopicAdded: boolean;
   private isEditable: boolean;
+  private unsavedTopic: TopicData;
+  setCategory: string = '';
+  setModule: string = '';
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private formBuilder: FormBuilder,) {
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -62,7 +66,12 @@ export class AdminTopicComponent implements OnInit {
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
     let category = {categoryId: eachCategory.categoryId, module: [{moduleId: -1, moduleName: ""}]}
-    this.categoryList.push({categoryId: eachCategory.categoryId, categoryName: eachCategory.categoryName,active:eachCategory.active})
+    this.categoryList.push({
+      categoryId: eachCategory.categoryId,
+      categoryName: eachCategory.categoryName,
+      active: eachCategory.active
+    })
+    category.module.splice(0, 1)
     eachCategory.modules?.forEach(eachModule => {
       category.module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName})
       this.categoryAndModule.push(category)
@@ -117,17 +126,10 @@ export class AdminTopicComponent implements OnInit {
     this.isTopicAdded = true
   }
 
-  cancelChanges(row
-                  :
-                  any
-  ) {
-    console.log(row)
-
-  }
 
   saveTopic(row: any) {
     let topicSaveRequest = this.getTopicRequest(row);
-    this.appService.saveTopic(topicSaveRequest).subscribe({
+    this.appService.saveTopic(topicSaveRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         let data = this.dataSource.data
         row.isEdit = false
@@ -144,11 +146,12 @@ export class AdminTopicComponent implements OnInit {
   }
 
   private getTopicRequest(row: any) {
+    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     return {
-      module: row.moduleName,
+      module: selectedModuleId,
       topicName: row.topicName,
       active: row.active,
-      comments: row.comments
+      comments: row.comments,
     };
   }
 
@@ -161,16 +164,28 @@ export class AdminTopicComponent implements OnInit {
     })
   }
 
-  editTopic(row: any
-  ) {
-
+  editTopic(row: any) {
+    this.selectedTopic = this.selectedTopic == row ? null : row
+    this.isEditable = true
+    this.unsavedTopic = Object.assign({}, row)
+    return this.selectedTopic
   }
 
-  updateTopic(row
-                :
-                any
-  ) {
-
+  updateTopic(row: any) {
+    let topicRequest = this.getTopicRequest(row)
+    this.appService.updateTopic(topicRequest, row.topicId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          row.isEdit = false
+          this.selectedTopic = null
+          this.table.renderRows()
+          this.showNotification("Your changes have been successfully updated.", 2000)
+          this.topicData = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError("Some error occurred");
+        }
+      }
+    )
   }
 
   deleteAddedTopicRow() {
@@ -180,7 +195,39 @@ export class AdminTopicComponent implements OnInit {
     this.table.renderRows()
   }
 
-  shortlistModule(categoryId: any) {
+  private showNotification(reportData: string, duration: number) {
+    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
+  shortlistModule(categoryId: number) {
     this.moduleList = this.categoryAndModule.find(module => module.categoryId == categoryId).module
+  }
+
+  cancelUpdate(row: TopicData) {
+    this.resetTopic(row);
+    this.selectedTopic = this.selectedTopic === row ? null : row
+    return row;
+  }
+
+  private resetTopic(row: TopicData) {
+    row.categoryName = this.unsavedTopic.categoryName
+    row.categoryId = this.unsavedTopic.categoryId
+    row.active = this.unsavedTopic.active
+    row.moduleName = this.unsavedTopic.moduleName
+    row.moduleId = this.unsavedTopic.moduleId
+    row.topicId = this.unsavedTopic.topicId
+    row.topicName = this.unsavedTopic.topicName
+    row.updatedAt = this.unsavedTopic.updatedAt
+    row.comments = this.unsavedTopic.comments
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

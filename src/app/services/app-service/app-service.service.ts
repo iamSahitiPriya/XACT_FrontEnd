@@ -161,6 +161,11 @@ export class AppServiceService {
   saveTopic(topicRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
   }
+
+  updateTopic(topicRequest: any, topicId:number) {
+    return this.http.put(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
+
+  }
 }
 
 

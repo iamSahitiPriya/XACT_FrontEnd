@@ -17,10 +17,10 @@
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-                        <mat-label>Select Category</mat-label>
-        <mat-select [(ngModel)]="row.categoryName" required>
-          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
-                      [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
+            <mat-label>Select Category</mat-label>
+            <mat-select [(ngModel)]="row.categoryName" required>
+              <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
+                          [value]="category.categoryName" (onSelectionChange)="shortlistModule(category.categoryId)">
             {{category.categoryName}}
           </mat-option>
         </mat-select>
@@ -28,9 +28,6 @@
               Please fill the field
         </mat-error>
             </mat-form-field>
-          <!--          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">-->
-          <!--          {{commonErrorFieldText}}-->
-          <!--        </mat-error>-->
         </span>
       </td>
     </ng-container>
@@ -61,7 +58,7 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Module</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleId">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -107,11 +104,8 @@
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">Edit</button>
         </span>
         <span *ngIf="selectedTopic===row">
-        <button mat-flat-button class="updateButton" aria-label="expand row"
+        <button mat-flat-button class="updateTopicButton" aria-label="expand row"
                 (click)="updateTopic(row)">Update</button>
-        <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                       src="../../assets/closeIcon/closeIcon.svg"
-                                                                       alt="close icon" class="closeIcon"/></button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)">Save</button>
@@ -121,7 +115,12 @@
     <ng-container matColumnDef="reference">
       <th class="topic" mat-header-cell *matHeaderCellDef></th>
       <td class="topicDate topic" mat-cell *matCellDef="let row">
-        <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit || selectedTopic === row)">
+        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row"><img data-id="manage"
+                                                                                                  src="../../assets/closeIcon/closeIcon.svg"
+                                                                                                  alt="close icon"
+                                                                                                  class="closeTopicIcon"/>
+        </button>
+        <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>
         <button mat-flat-button *ngIf="!(row.isEdit || selectedTopic === row)">

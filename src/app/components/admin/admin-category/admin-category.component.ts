@@ -162,7 +162,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         row.isEdit = false;
         this.selectedCategory = null;
         this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 200000)
+        this.showNotification("Your changes have been successfully updated.", 2000)
         this.categoryData = []
         this.ngOnInit()
       }, error: _error => {
