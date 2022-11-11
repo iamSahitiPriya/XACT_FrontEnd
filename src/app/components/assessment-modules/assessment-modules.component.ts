@@ -186,6 +186,10 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this._location.back();
+    if(history.state.type == 'url'){
+      this.router.navigateByUrl('')
+    }else{
+      this._location.back()
+    }
   }
 }

@@ -158,7 +158,7 @@ tr:nth-of-type(5n + 5) span.circle {
 }
 
 .topicActive {
-  padding-right: 4em;
+  text-align: center;
 }
 
 .topicComments {
