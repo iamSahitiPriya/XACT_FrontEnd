@@ -135,5 +135,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="topicRow"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedTopicRow"></tr>
   </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
 

@@ -192,7 +192,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     } else {
       this.cloneTopicRecommendationResponse.topicRatingAndRecommendation = updatedRecommendationList;
     }
-    console.log(this.cloneTopicRecommendationResponse)
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicRecommendationResponse}))
 
   }

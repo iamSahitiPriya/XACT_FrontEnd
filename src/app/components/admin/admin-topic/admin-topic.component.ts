@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../../messages";
 import {MatPaginator} from "@angular/material/paginator";
@@ -25,7 +25,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
     ]),
   ],
 })
-export class AdminTopicComponent implements OnInit {
+export class AdminTopicComponent implements OnInit,OnDestroy {
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -48,7 +48,7 @@ export class AdminTopicComponent implements OnInit {
   setModule: string = '';
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private formBuilder: FormBuilder,) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar,) {
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -60,6 +60,8 @@ export class AdminTopicComponent implements OnInit {
         this.fetchModuleDetails(eachCategory);
       })
       this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
+      this.paginator.pageIndex = 0
+      this.dataSource.paginator = this.paginator;
       this.dataSourceArray = [...this.dataSource.data]
     })
   }
@@ -120,9 +122,9 @@ export class AdminTopicComponent implements OnInit {
       comments: "",
       isEdit: true
     }
-    this.dataSource.data.splice(0, 0, newTopic)
+    this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newTopic)
     this.table.renderRows();
-    // this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginator
     this.isTopicAdded = true
   }
 
@@ -190,7 +192,7 @@ export class AdminTopicComponent implements OnInit {
 
   deleteAddedTopicRow() {
     let data = this.dataSource.data
-    data.splice(0, 1)
+    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
     this.dataSource.data = data
     this.table.renderRows()
   }
