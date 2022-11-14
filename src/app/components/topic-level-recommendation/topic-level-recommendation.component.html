@@ -17,7 +17,14 @@
                   maxlength="5000"
                   (keyup)="saveParticularTopicRecommendationText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
-
+        <div class = spinParent>
+      <span class="autoSaveMessage">
+        <span class="spinClass">
+          <span class="loader" *ngIf="recommendationId === 1"></span>
+        </span>
+        <span>{{autoSave}}</span>
+      </span>
+        </div>
       </mat-form-field>
     </div>
     <div class="others">

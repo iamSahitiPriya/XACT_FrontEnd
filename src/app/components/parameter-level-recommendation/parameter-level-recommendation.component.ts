@@ -49,6 +49,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterIndex: number;
 
   form: FormGroup;
+  autoSave : string;
+  recommendationId:number
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
@@ -125,9 +127,13 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     this.setParameterRecommendationFields();
     this.setParameterLevelRecommendationResponseFields();
     this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+    this.autoSave = "Auto Saved"
+    this.recommendationId = 1
     this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
+        this.autoSave = ""
         this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.recommendationId = -1
         this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
@@ -213,14 +219,10 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   deleteTemplate(recommendation: ParameterLevelRecommendation) {
     let index = -1;
     if (this.parameterRecommendationArray != undefined) {
-      recommendation.recommendation = "";
-      recommendation.deliveryHorizon = "";
-      recommendation.effort = "";
-      recommendation.impact = "";
       index = this.parameterRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.parameterRecommendationArray.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation);
+        this.parameterRecommendationArray?.splice(index,1);
+        this.deleteRecommendationTemplate(recommendation,index);
       }
     }
 
@@ -230,10 +232,11 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation) {
+   deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         error: _error => {
+          this.parameterRecommendationArray?.splice(index,1,recommendation);
           this.showError("Data cannot be deleted");
         }
       })

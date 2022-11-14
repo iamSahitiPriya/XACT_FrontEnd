@@ -9,7 +9,7 @@
     <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{manageAssessmentTitle}}</h1>
     <button [matTooltip]=closeToolTip type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
-    </button>
+      </button>
 
     <div mat-dialog-content>
       <mat-form-field appearance="outline" class="assessmentName" >
@@ -61,26 +61,37 @@
       </mat-form-field>
       <br>
 
-      <mat-form-field appearance="outline" class="organizationName">
+      <mat-form-field appearance="outline" class="organizationName" [class.spinner]= "orgListLoader">
         <mat-label>{{organisationNameTitle}} *</mat-label>
-        <input class="colorClass" matInput [(ngModel)]="assessment.organisationName"
+        <input type="text"
+               [placeholder]=organisationNamePlaceholder
+               aria-label="Number"
+               matInput
+               [(ngModel)]="assessment.organisationName"
+               required
                formControlName="organizationNameValidator"
-               [placeholder]=organisationNamePlaceholder required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$"
-               maxlength="50">
-        <mat-error *ngIf="form['organizationNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['organizationNameValidator'].hasError('pattern')">
-          {{commonErrorFieldText}}
+               (focus)="onOrganisationValueChange()"
+               (input) ="onOrganisationValueChange()"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOrganisationName(assessment.organisationName)" >
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]===organisationValidationText">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngFor="let validation of OrganizationNameValidation.myControl">
+          <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
+            {{validation.message}}
+          </div>
         </mat-error>
       </mat-form-field>
       <br>
 
-      <mat-form-field appearance="outline" class="industry">
+      <mat-form-field appearance="outline" class="industry" >
         <mat-label>{{organisationIndustryTitle}} *</mat-label>
         <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator"
                [placeholder]=organisationIndustryPlaceholder
-               required pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" maxlength="50">
+               required
+               maxlength="50" >
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>

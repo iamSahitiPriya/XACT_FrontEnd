@@ -127,6 +127,45 @@ textArea.mat-input-element {
   width: 24px;
   margin-left: -5px;
 }
+.loader {
+  border: 2px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2px solid #45A0AC;;
+  width: 16px;
+  height: 16px;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+  position:absolute;
+  margin-left: -23px;
+}
+.spinClass{
+  margin-left: -20px;
+  margin-bottom: 3px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+.spinParent{
+  display: flex;
+  justify-content: flex-end;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.autoSaveMessage {
+  float: right;
+  margin-top: 12px;
+  font-size: 10px;
+  font-family: "Inter", sans-serif;
+  font-style: italic;
+  color: #45A0AC;
+}
+
 
 
 

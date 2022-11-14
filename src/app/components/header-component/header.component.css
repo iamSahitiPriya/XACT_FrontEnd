@@ -65,15 +65,17 @@
   opacity: 1;
 }
 
-.textItem{
+.textItem {
   display: block;
   padding-left: 34px
 }
-.icon{
-  height:3px;
+
+.icon {
+  height: 3px;
   display: block;
 }
-.feedbackIcon{
+
+.feedbackIcon {
   height: 0px;
   display: block;
 }
@@ -129,19 +131,7 @@ div.user {
   padding-left: 16px;
 }
 
-.support{
-  display: inline-flex;
-  padding-right: 2em;
-  font-size: medium;
-  color: #043d4e;
-}
-.support-text {
-  padding-left: 0.3em;
-  font-size: medium;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  opacity: 1;
-  letter-spacing: 0.25px;
+.account-icon {
   color: #043D4E;
-  line-height: 1.5;
+  padding-right: 5px;
 }

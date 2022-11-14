@@ -47,6 +47,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   index: number;
 
   form: FormGroup;
+  autoSave:string
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
@@ -68,6 +69,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   topicRecommendationResponse: AssessmentStructure;
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
+  recommendationId: number;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
@@ -109,7 +111,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     })
   }
 
-
   ngOnInit(): void {
     this.topicRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
@@ -127,9 +128,13 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     this.setRecommendationsFields();
     this.setTopicLevelRecommendationResponse();
     this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
+    this.autoSave = "Auto Saved"
+    this.recommendationId = 1
     this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
+        this.autoSave = ""
+        this.recommendationId = -1
         this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
@@ -232,14 +237,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   deleteTemplate(recommendation: TopicLevelRecommendation) {
     let index = -1;
     if (this.topicRecommendationArray != undefined) {
-      recommendation.recommendation = "";
-      recommendation.deliveryHorizon = "";
-      recommendation.effort = "";
-      recommendation.impact = "";
       index = this.topicRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.topicRecommendationArray.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation);
+        this.topicRecommendationArray?.splice(index,1);
+        this.deleteRecommendationTemplate(recommendation,index);
       }
     }
 
@@ -249,10 +250,11 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     return recommendationId === undefined;
   }
 
-  private deleteRecommendationTemplate(recommendation: TopicLevelRecommendation) {
+  deleteRecommendationTemplate(recommendation: TopicLevelRecommendation,index:number) {
     if (recommendation.recommendationId != undefined) {
-      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).pipe(takeUntil(this.destroy$)).subscribe({
+      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
         error: _error => {
+          this.topicRecommendationArray?.splice(index,1,recommendation);
           this.showError("Data cannot be deleted");
         }
       })
