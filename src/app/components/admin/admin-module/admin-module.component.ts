@@ -30,10 +30,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   dataSource : MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
-  categories =new Set<string>();
   module : ModuleData;
   isEditable: boolean;
-  categoryDetails : CategoryResponse[];
+  categoryDetails : any[]=[];
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -45,7 +44,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   dataToDisplayed :ModuleData[];
   selectedModule: ModuleData | null;
 
-  constructor(private appService: AppServiceService, private _snackbar:MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar) {
     this.moduleStructure = []
     this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -62,29 +61,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
       this.categoryDetails=data
       this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       data.forEach((eachCategory) => {
-          eachCategory.modules?.forEach(eachModule => {
-              let module: ModuleData = {
-                moduleId: -1,
-                moduleName: "",
-                categoryName: "",
-                categoryId:-1,
-                active: true,
-                categoryStatus:true,
-                updatedAt: -1,
-                comments: ""
-              }
-              module.moduleId = eachModule.moduleId;
-              module.moduleName = eachModule.moduleName;
-              module.active = eachModule.active;
-              module.categoryName = eachCategory.categoryName;
-              module.updatedAt = eachModule.updatedAt;
-              module.comments = eachModule.comments;
-              module.categoryStatus=eachCategory.active;
-              module.categoryId=eachCategory.categoryId;
-              this.moduleStructure.push(module);
-            }
-          )
-            this.categories.add(eachCategory.categoryName)
+          this.getModules(eachCategory);
         }
       )
       this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
@@ -94,11 +71,38 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
       this.dataSource.sort = this.sort;
     })
   }
+
+  private getModules(eachCategory: CategoryResponse) {
+    eachCategory.modules?.forEach(eachModule => {
+        let module: ModuleData = {
+          moduleId: -1,
+          moduleName: "",
+          categoryName: "",
+          categoryId: -1,
+          active: true,
+          categoryStatus: true,
+          updatedAt: -1,
+          comments: ""
+        }
+        module.moduleId = eachModule.moduleId;
+        module.moduleName = eachModule.moduleName;
+        module.active = eachModule.active;
+        module.categoryName = eachCategory.categoryName;
+        module.updatedAt = eachModule.updatedAt;
+        module.comments = eachModule.comments;
+        module.categoryStatus = eachCategory.active;
+        module.categoryId = eachCategory.categoryId;
+        this.moduleStructure.push(module);
+      }
+    )
+  }
+
   showError(message: string, action: string) {
-    this._snackbar.open(message, action, {
-      verticalPosition: 'top',
-      panelClass: ['errorSnackbar'],
-      duration: 2000
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -113,10 +117,11 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   updateModule(row :any) {
+    let categoryId=this.categoryDetails.find(cat=> cat.categoryName === row.categoryName).categoryId;
     let moduleRequest={
       "moduleId":row.moduleId,
       "moduleName":row.moduleName,
-      "category": row.categoryId,
+      "category": categoryId,
       "active": row.active,
       "comments": row.comments
     }
@@ -153,7 +158,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   }
   private showNotification(reportData: string, duration: number) {
-    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
@@ -169,9 +174,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   saveModule(row :any) {
+    const categoryId=this.categoryDetails.find(category=> category.categoryName === row.categoryName).categoryId;
     let moduleRequest={
       "moduleName":row.moduleName,
-      "category": row.categoryName,
+      "category": categoryId,
       "active": row.active,
       "comments": row.comments
     }

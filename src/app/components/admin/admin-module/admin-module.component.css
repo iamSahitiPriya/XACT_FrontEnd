@@ -232,3 +232,10 @@ app-search >>> mat-form-field.searchBar {
   position: absolute;
   font-size: 12px;
 }
+::ng-deep .saveSnackbar {
+  background-color: #6B9F78 !important;
+}
+
+::ng-deep .errorSnackbar {
+  background-color: #F15F79 !important;
+}
