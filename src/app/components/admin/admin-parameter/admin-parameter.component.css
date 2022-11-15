@@ -47,8 +47,11 @@ th {
 
 }
 
-td.parameterDate , td.topicParameter,td.parameterName,td.moduleParameter,td.categoryParameter,th.Heading{
+td.moduleParameter,th.Heading{
   padding-left: 2em;
+}
+td.categoryParameter{
+  padding-left:1em;
 }
 th.topic, td.topic {
   border-bottom-style: none;

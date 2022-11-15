@@ -1,7 +1,7 @@
 <div class="row">
   <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
-    <button mat-flat-button class="topicButton1" (click)="addParameterRow()">
+    <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
       Add Parameter
     </button>
   </div>
@@ -19,7 +19,7 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
                         <mat-label>Select Category</mat-label>
         <mat-select [(ngModel)]="row.categoryName" required>
-          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
+          <mat-option *ngFor="let category of categoryList"
                       [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
             {{category.categoryName}}
           </mat-option>
@@ -74,13 +74,13 @@
       <td class="parameter topicParameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
         {{row.topicName}}
         </span>
+
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-                        <mat-label>Select Topic</mat-label>
-        <mat-select [(ngModel)]="row.categoryName" required>
-          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
-                      [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
-            {{category.categoryName}}
+            <mat-label>Select Topic</mat-label>
+        <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleId">
+            {{module.moduleName}}
           </mat-option>
         </mat-select>
             <mat-error>
@@ -98,7 +98,7 @@
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="topicInput">
             <mat-label>Enter parameter name</mat-label>
-          <input matInput #parameterName placeholder="Enter parameter name" [(ngModel)]="row.parameterName"
+          <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
           {{commonErrorFieldText}}
