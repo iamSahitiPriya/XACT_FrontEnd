@@ -32,14 +32,14 @@ class MockAppService {
       "modules": this.moduleResponse,
       "categoryName" : "category1",
       "comments" : "comments",
-      "categoryId" : -1,
+      "categoryId" : 1,
       "updatedAt" : 1022022,
       "active": true
     },{
       "modules":this.moduleResponse,
       "categoryName" : "category2",
       "comments" : "comments",
-      "categoryId" : -2,
+      "categoryId" : 2,
       "updatedAt" : 1022022,
       "active": true
     }]
@@ -87,7 +87,7 @@ describe('AdminModuleComponent', () => {
     fixture.detectChanges();
     mockAppService = new MockAppService();
     row = {
-      active: true, moduleId: -1, categoryName: "category",moduleName:"module", comments: "comments", updatedAt: 1022022
+      active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
     }
   });
 
@@ -139,11 +139,29 @@ describe('AdminModuleComponent', () => {
   });
   it("should save categories", () => {
     let moduleRequest = of({
-      "categoryName": "categoryName",
+      "categoryName": "category1",
       "moduleName":"module",
       "active": false,
       "comments": "comments"
     })
+    component.categoryDetails=[{
+      "modules": [],
+      "categoryName" : "category1",
+      "comments" : "comments",
+      "categoryId" : 1,
+      "updatedAt" : 1022022,
+      "active": true
+    },{
+      "modules":[],
+      "categoryName" : "category2",
+      "comments" : "comments",
+      "categoryId" : 2,
+      "updatedAt" : 1022022,
+      "active": true
+    }]
+    let row= {
+      active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
+  }
     component.saveModule(row)
     mockAppService.saveModule(moduleRequest).subscribe(data =>{
       expect(data).toBe(moduleRequest)
