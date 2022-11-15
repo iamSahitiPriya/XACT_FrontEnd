@@ -59,11 +59,11 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.categoryDetails=data
-      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       data.forEach((eachCategory) => {
           this.getModules(eachCategory);
         }
       )
+      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
