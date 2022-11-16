@@ -9,6 +9,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatSort} from "@angular/material/sort";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {AdminModuleResponse} from "../../../types/AdminModuleResponse";
 
 @Component({
   selector: 'app-admin-module',
@@ -22,26 +23,27 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
     ]),
   ],
 })
-export class AdminModuleComponent implements OnInit, OnDestroy{
-  moduleStructure : ModuleData[];
-  displayedColumns: string[] = ['categoryName','moduleName','updatedAt','active','edit'];
+export class AdminModuleComponent implements OnInit, OnDestroy {
+  moduleStructure: ModuleData[];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
-  dataSource : MatTableDataSource<ModuleData>
+  dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
-  module : ModuleData;
+  module: ModuleData;
   isEditable: boolean;
-  categoryDetails : any[]=[];
+  categoryDetails: any[] = [];
 
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatTable) table: MatTable<ModuleData>
-  @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSourceArray : ModuleData[];
-  dataToDisplayed :ModuleData[];
+  dataSourceArray: ModuleData[];
+  dataToDisplayed: ModuleData[];
   selectedModule: ModuleData | null;
+  categoryNames: any[] = [];
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar) {
     this.moduleStructure = []
@@ -57,53 +59,71 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.appService.getAllModules().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      data.forEach((adminResponse) => {
-          let module: ModuleData = {
-            moduleId: -1,
-            moduleName: "",
-            categoryName: "",
-            categoryId: -1,
-            active: true,
-            categoryStatus: true,
-            updatedAt: -1,
-            comments: ""
-          }
-          module.moduleId = adminResponse.moduleId;
-          module.moduleName = adminResponse.moduleName;
-          module.active = adminResponse.active;
-          module.categoryName = adminResponse.category.categoryName;
-          module.updatedAt = adminResponse.updatedAt;
-          module.comments = adminResponse.comments;
-          module.categoryStatus = adminResponse.category.active;
-          module.categoryId = adminResponse.category.categoryId;
-          this.moduleStructure.push(module);
-        this.categoryDetails.push(adminResponse.category)
+        data.forEach((adminResponse) => {
+          this.fetchModules(adminResponse);
         })
         this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
+        this.fetchUniqueCategory()
         this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
         this.dataSourceArray = [...this.dataSource.data]
         this.paginator.pageIndex = 0
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        }
-      )
-
-
+      }
+    )
   }
 
+  private fetchModules(adminResponse: AdminModuleResponse) {
+    let module: ModuleData = {
+      moduleId: -1,
+      moduleName: "",
+      categoryName: "",
+      categoryId: -1,
+      active: true,
+      categoryStatus: true,
+      updatedAt: -1,
+      comments: ""
+    }
+    module.moduleId = adminResponse.moduleId;
+    module.moduleName = adminResponse.moduleName;
+    module.active = adminResponse.active;
+    module.categoryName = adminResponse.category.categoryName;
+    module.updatedAt = adminResponse.updatedAt;
+    module.comments = adminResponse.comments;
+    module.categoryStatus = adminResponse.category.active;
+    module.categoryId = adminResponse.category.categoryId;
+    this.moduleStructure.push(module);
+    this.categoryDetails.push(adminResponse.category)
+  }
+
+  fetchUniqueCategory() {
+    this.categoryDetails.forEach(object => {
+      if (!this.categoryNames.find(category => category.categoryId === object.categoryId)) {
+        this.categoryNames.push(object)
+      }
+    })
+  }
 
   showError(message: string, action: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
   addModuleRow() {
     let newModule = {
-      moduleId: 0, categoryName: '',categoryId :0,moduleName: '', categoryStatus:true,active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      moduleId: 0,
+      categoryName: '',
+      categoryId: 0,
+      moduleName: '',
+      categoryStatus: true,
+      active: true,
+      updatedAt: Date.now(),
+      isEdit: true,
+      comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
@@ -111,19 +131,19 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.isModuleAdded = true
   }
 
-  updateModule(row :any) {
-    let categoryId=this.categoryDetails.find(cat=> cat.categoryName === row.categoryName).categoryId;
-    let moduleRequest={
-      "moduleId":row.moduleId,
-      "moduleName":row.moduleName,
+  updateModule(row: any) {
+    let categoryId = this.categoryDetails.find(cat => cat.categoryName === row.categoryName).categoryId;
+    let moduleRequest = {
+      "moduleId": row.moduleId,
+      "moduleName": row.moduleName,
       "category": categoryId,
       "active": row.active,
       "comments": row.comments
     }
-    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe( {
+    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         row.isEdit = false;
-        this.selectedModule= null;
+        this.selectedModule = null;
         this.table.renderRows()
         this.showNotification("Your changes have been successfully updated.", 2000)
         this.moduleStructure = []
@@ -134,9 +154,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     })
   }
 
-  cancelChanges(row : any) {
+  cancelChanges(row: any) {
     row.categoryName = this.module.categoryName
-    row.moduleName=this.module.moduleName
+    row.moduleName = this.module.moduleName
     row.active = this.module.active
     row.updatedAt = this.module.updatedAt
     row.comments = this.module.comments
@@ -144,7 +164,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     return row;
   }
 
-  editRow(row :any) {
+  editRow(row: any) {
 
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
@@ -152,9 +172,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     return this.selectedModule;
 
   }
+
   private showNotification(reportData: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -168,10 +189,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.table.renderRows()
   }
 
-  saveModule(row :any) {
-    const categoryId=this.categoryDetails.find(category=> category.categoryName === row.categoryName).categoryId;
-    let moduleRequest={
-      "moduleName":row.moduleName,
+  saveModule(row: any) {
+    const categoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
+    let moduleRequest = {
+      "moduleName": row.moduleName,
       "category": categoryId,
       "active": row.active,
       "comments": row.comments
