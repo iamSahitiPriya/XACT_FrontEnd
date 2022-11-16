@@ -7,7 +7,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {MatPaginator} from "@angular/material/paginator";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatSort} from "@angular/material/sort";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 
@@ -57,45 +56,41 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.categoryDetails=data
-      data.forEach((eachCategory) => {
-          this.getModules(eachCategory);
+    this.appService.getAllModules().pipe(takeUntil(this.destroy$)).subscribe(data => {
+      data.forEach((adminResponse) => {
+          let module: ModuleData = {
+            moduleId: -1,
+            moduleName: "",
+            categoryName: "",
+            categoryId: -1,
+            active: true,
+            categoryStatus: true,
+            updatedAt: -1,
+            comments: ""
+          }
+          module.moduleId = adminResponse.moduleId;
+          module.moduleName = adminResponse.moduleName;
+          module.active = adminResponse.active;
+          module.categoryName = adminResponse.category.categoryName;
+          module.updatedAt = adminResponse.updatedAt;
+          module.comments = adminResponse.comments;
+          module.categoryStatus = adminResponse.category.active;
+          module.categoryId = adminResponse.category.categoryId;
+          this.moduleStructure.push(module);
+        this.categoryDetails.push(adminResponse.category)
+        })
+        this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
+        this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
+        this.dataSourceArray = [...this.dataSource.data]
+        this.paginator.pageIndex = 0
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         }
       )
-      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
-      this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
-      this.dataSourceArray = [...this.dataSource.data]
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
+
+
   }
 
-  private getModules(eachCategory: CategoryResponse) {
-    eachCategory.modules?.forEach(eachModule => {
-        let module: ModuleData = {
-          moduleId: -1,
-          moduleName: "",
-          categoryName: "",
-          categoryId: -1,
-          active: true,
-          categoryStatus: true,
-          updatedAt: -1,
-          comments: ""
-        }
-        module.moduleId = eachModule.moduleId;
-        module.moduleName = eachModule.moduleName;
-        module.active = eachModule.active;
-        module.categoryName = eachCategory.categoryName;
-        module.updatedAt = eachModule.updatedAt;
-        module.comments = eachModule.comments;
-        module.categoryStatus = eachCategory.active;
-        module.categoryId = eachCategory.categoryId;
-        this.moduleStructure.push(module);
-      }
-    )
-  }
 
   showError(message: string, action: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
@@ -130,7 +125,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
         row.isEdit = false;
         this.selectedModule= null;
         this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 200000)
+        this.showNotification("Your changes have been successfully updated.", 2000)
         this.moduleStructure = []
         this.ngOnInit()
       }, error: _error => {

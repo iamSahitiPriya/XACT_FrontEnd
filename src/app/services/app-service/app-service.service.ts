@@ -21,6 +21,7 @@ import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import {AdminModuleResponse} from "../../types/AdminModuleResponse";
 
 
 @Injectable({
@@ -133,18 +134,22 @@ export class AppServiceService {
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
   }
 
+  getAllModules():Observable<AdminModuleResponse[]>{
+    return this.http.get<AdminModuleResponse[]>(environment.BaseURI + environment.ALL_MODULE_URI);
+  }
+
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
   saveModule(moduleRequest :any){
-    return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI,moduleRequest)
+    return this.http.post(environment.BaseURI + environment.ALL_MODULE_URI,moduleRequest)
   }
   updateCategory(categoryRequest:any){
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
   }
 
   updateModule(moduleRequest: any) {
-      return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
+      return this.http.put(environment.BaseURI + environment.ALL_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
   }
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
