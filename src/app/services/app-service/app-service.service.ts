@@ -21,6 +21,7 @@ import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import {TopicResponse} from "../../types/Admin/topicResponse";
 
 
 @Injectable({
@@ -160,6 +161,9 @@ export class AppServiceService {
   }
   saveTopic(topicRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  }
+  getAllTopics(){
+    return this.http.get<TopicResponse[]>(environment.BaseURI + environment.SAVE_TOPIC_URI)
   }
 
   updateTopic(topicRequest: any, topicId:number) {
