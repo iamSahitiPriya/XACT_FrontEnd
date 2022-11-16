@@ -1,5 +1,5 @@
 <div class="row">
-  <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="col-md-9"></app-search>
+  <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
     <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
       Add Topic
@@ -18,10 +18,10 @@
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Category</mat-label>
-            <mat-select [(ngModel)]="row.module.category.categoryName" required >
-              <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)" (click)="shortlistModule($event)"
+            <mat-select [(ngModel)]="row.module.category.categoryName" required (selectionChange)="shortlistModule(row.module)">
+              <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
                           [value]="category.categoryName">
-            {{category.categoryId}}{{category.categoryName}}
+            {{category.categoryName}}
           </mat-option>
         </mat-select>
             <mat-error>

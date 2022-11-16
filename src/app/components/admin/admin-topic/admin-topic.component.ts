@@ -16,6 +16,7 @@ import {ModuleResponse} from "../../../types/Admin/moduleResponse";
 import {TopicResponse} from "../../../types/Admin/topicResponse";
 import cloneDeep from "lodash/cloneDeep";
 import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
+import {modifierPhases} from "@popperjs/core";
 
 @Component({
   selector: 'app-admin-topic',
@@ -181,7 +182,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getTopicRequest(row: any) {
+  private getTopicRequest(row: TopicResponse) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.module.moduleName).moduleId
     return {
       module: selectedModuleId,
@@ -203,6 +204,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   editTopic(row: TopicResponse) {
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
+    let categoryId = this.categoryList.find(category => category.categoryName == row.module.category.categoryName).categoryId
+    this.moduleList = this.categoryAndModule.get(categoryId)
     this.unsavedTopic = cloneDeep(row)
     return this.selectedTopic
   }
@@ -240,10 +243,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     });
   }
 
-  shortlistModule(event:any) {
-    console.log(event)
-    let categoryId = this.categoryList.find(category => category.categoryName === event).categoryId
-      this.moduleList = this.categoryAndModule.get(categoryId)
+  shortlistModule(module:any) {
+    let categoryId = this.categoryList.find(category => category.categoryName == module.category.categoryName).categoryId
+    this.moduleList = this.categoryAndModule.get(categoryId)
   }
 
   cancelUpdate(row: TopicResponse) {
@@ -253,7 +255,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private resetTopic(row: TopicResponse) {
-    console.log(this.unsavedTopic)
     row.module.category.categoryName = this.unsavedTopic.module.category.categoryName
     row.module.category.categoryId = this.unsavedTopic.module.category.categoryId
     row.active = this.unsavedTopic.active
