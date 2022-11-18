@@ -13,12 +13,12 @@
       <td class="topic" mat-cell *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedTopic === row)">
           <span class="circle"></span>
-        {{row.module.category.categoryName}}
+        {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Category</mat-label>
-            <mat-select [(ngModel)]="row.module.category.categoryName" required (selectionChange)="shortlistModule(row.module)">
+            <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
               <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
                           [value]="category.categoryName">
             {{category.categoryName}}
@@ -52,12 +52,12 @@
       <th class="topic" *matHeaderCellDef> Module</th>
       <td class="topic" *matCellDef="let row">
               <span *ngIf="!(row.isEdit || selectedTopic === row)">
-                {{row.module.moduleName}}
+                {{row.moduleName}}
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Module</mat-label>
-        <mat-select [(ngModel)]="row.module.moduleName" class="topicSelector" required>
+        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
             {{module.moduleName}}
           </mat-option>

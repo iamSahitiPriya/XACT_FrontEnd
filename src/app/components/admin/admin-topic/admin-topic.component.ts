@@ -9,14 +9,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Subject, takeUntil} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
-import {CategoryResponse} from "../../../types/categoryResponse";
-import {ModuleStructure} from "../../../types/moduleStructure";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ModuleResponse} from "../../../types/Admin/moduleResponse";
 import {TopicResponse} from "../../../types/Admin/topicResponse";
 import cloneDeep from "lodash/cloneDeep";
-import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
-import {modifierPhases} from "@popperjs/core";
 
 @Component({
   selector: 'app-admin-topic',
@@ -31,44 +25,47 @@ import {modifierPhases} from "@popperjs/core";
   ],
 })
 export class AdminTopicComponent implements OnInit, OnDestroy {
-  topicData: TopicResponse[];
+  topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
-  dataSource: MatTableDataSource<TopicResponse>;
+  dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<TopicData>
-  dataToDisplayed: TopicResponse[]
+  dataToDisplayed: TopicData[]
   private destroy$: Subject<void> = new Subject<void>();
-  private dataSourceArray: TopicResponse[];
+  private dataSourceArray: TopicData[];
   categoryList: any[] = []
   categoryAndModule = new Map()
+  moduleMap = new Map()
   moduleList: any[] = []
-  selectedTopic: TopicResponse | null;
+  selectedTopic: TopicData | null;
   private isTopicAdded: boolean;
   private isEditable: boolean;
-  private unsavedTopic: TopicResponse;
+  private unsavedTopic: TopicData;
   setCategory: string = '';
   setModule: string = '';
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar,) {
     this.topicData = []
-    this.dataSource = new MatTableDataSource<TopicResponse>(this.topicData)
+    this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
   }
 
   ngOnInit(): void {
+    this.moduleMap = new Map();
     this.appService.getAllTopics().pipe(takeUntil(this.destroy$)).subscribe(data => {
       data.forEach((eachTopic) => {
         if (eachTopic) {
           this.fetchCategory(eachTopic);
           this.fetchModule(eachTopic);
           this.fetchTopics(eachTopic);
+          this.mapModuleToTopic(eachTopic);
         }
       })
-      this.dataSource = new MatTableDataSource<TopicResponse>(this.topicData)
+      this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
       this.dataSourceArray = [...this.dataSource.data]
@@ -100,6 +97,21 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     }
   }
 
+  private mapModuleToTopic(eachTopic: TopicResponse) {
+    if (this.moduleMap.has(eachTopic.module.moduleId)) {
+      let moduleArray = this.moduleMap.get(eachTopic.module.moduleId)
+      let index = moduleArray.findIndex((topic: { topicName: string; }) => topic.topicName === eachTopic.topicName)
+      if (index == -1) {
+        moduleArray.push(eachTopic.topicName)
+        this.moduleMap.set(eachTopic.module.moduleId, moduleArray)
+      }
+    } else {
+      let moduleArray = []
+      moduleArray.push(eachTopic.topicName)
+      this.moduleMap.set(eachTopic.module.moduleId, moduleArray)
+    }
+  }
+
   private fetchCategory(eachTopic: TopicResponse) {
     let index = this.categoryList.findIndex(category => category.categoryId == eachTopic.module.category.categoryId)
     if (index == -1) {
@@ -112,26 +124,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private fetchTopics(eachTopic: TopicResponse) {
-    let topic: TopicResponse = {
-      module: {
-        category: {categoryId: -1, categoryName: "", active: false, comments: "", updatedAt: 0},
-        moduleId: -1,
-        moduleName: "",
-        active: false,
-        comments: "",
-        updatedAt: 0
-      },
-      topicId: -1,
-      topicName: "",
+    let topic: TopicData = {
       active: false,
-      updatedAt: 123,
+      categoryId: 0,
+      categoryName: "",
+      moduleId: 0,
+      moduleName: "",
+      topicId: 0,
+      topicName: "",
+      updatedAt: 0,
       comments: ""
+
     }
 
-    topic.module.category.categoryId = eachTopic.module.category.categoryId
-    topic.module.category.categoryName = eachTopic.module.category.categoryName
-    topic.module.moduleId = eachTopic.module.moduleId
-    topic.module.moduleName = eachTopic.module.moduleName
+    topic.categoryId = eachTopic.module.category.categoryId
+    topic.categoryName = eachTopic.module.category.categoryName
+    topic.moduleId = eachTopic.module.moduleId
+    topic.moduleName = eachTopic.module.moduleName
     topic.topicId = eachTopic.topicId
     topic.active = eachTopic.active
     topic.topicName = eachTopic.topicName
@@ -142,20 +151,17 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   addTopicRow() {
     let newTopic = {
-      module: {
-        category: {categoryId: -1, categoryName: "", active: false, comments: "", updatedAt: 0},
-        moduleId: -1,
-        moduleName: "",
-        active: false,
-        comments: "",
-        updatedAt: 0
-      },
-      topicId: -1,
-      topicName: "",
       active: false,
-      updatedAt: Date.now(),
+      categoryId: 0,
+      categoryName: "",
       comments: "",
+      moduleId: 0,
+      moduleName: "",
+      topicId: 0,
+      topicName: "",
+      updatedAt: Date.now(),
       isEdit: true
+
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newTopic)
     this.table.renderRows();
@@ -182,14 +188,20 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getTopicRequest(row: TopicResponse) {
-    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.module.moduleName).moduleId
-    return {
-      module: selectedModuleId,
-      topicName: row.topicName,
-      active: row.active,
-      comments: row.comments,
-    };
+  private getTopicRequest(row: TopicData) {
+    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
+    let topicArray = this.moduleMap.get(selectedModuleId)
+    let indexOfTopic = topicArray.findIndex((topic: string) => topic === row.topicName)
+    if(indexOfTopic === -1 && row.topicId === -1) {
+      return {
+        module: selectedModuleId,
+        topicName: row.topicName,
+        active: row.active,
+        comments: row.comments,
+      }
+    }else{
+      return this.showError("Cannot save duplicate topics.")
+    }
   }
 
   showError(message: string) {
@@ -201,10 +213,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
   }
 
-  editTopic(row: TopicResponse) {
+  editTopic(row: TopicData) {
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
-    let categoryId = this.categoryList.find(category => category.categoryName == row.module.category.categoryName).categoryId
+    let categoryId = this.categoryList.find(category => category.categoryName == row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     this.unsavedTopic = cloneDeep(row)
     return this.selectedTopic
@@ -243,23 +255,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     });
   }
 
-  shortlistModule(module:any) {
-    let categoryId = this.categoryList.find(category => category.categoryName == module.category.categoryName).categoryId
+  shortlistModule(module: any) {
+    let categoryId = this.categoryList.find(category => category.categoryName == module).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
   }
 
-  cancelUpdate(row: TopicResponse) {
+  cancelUpdate(row: TopicData) {
     this.resetTopic(row);
     this.selectedTopic = this.selectedTopic === row ? null : row
     return row;
   }
 
-  private resetTopic(row: TopicResponse) {
-    row.module.category.categoryName = this.unsavedTopic.module.category.categoryName
-    row.module.category.categoryId = this.unsavedTopic.module.category.categoryId
+  private resetTopic(row: TopicData) {
+    row.categoryName = this.unsavedTopic.categoryName
+    row.categoryId = this.unsavedTopic.categoryId
     row.active = this.unsavedTopic.active
-    row.module.moduleName = this.unsavedTopic.module.moduleName
-    row.module.moduleId = this.unsavedTopic.module.moduleId
+    row.moduleName = this.unsavedTopic.moduleName
+    row.moduleId = this.unsavedTopic.moduleId
     row.topicId = this.unsavedTopic.topicId
     row.topicName = this.unsavedTopic.topicName
     row.updatedAt = this.unsavedTopic.updatedAt
