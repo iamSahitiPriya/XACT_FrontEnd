@@ -119,7 +119,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     if (this.catRequest !== undefined) {
       this.catRequest.modules.forEach(modules => {
-        this.getModule(modules.moduleId, selectedCategory, selectedCategory, categoryId, true)
+        this.getModule(modules.moduleId, selectedCategory, selectedCategory, categoryId, true,modules.active)
 
       })
     }
@@ -165,11 +165,11 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  getModule(moduleId: number, selectedModule: boolean, selectedCategory: boolean, categoryId: number, categoryActive: boolean) {
+  getModule(moduleId: number, selectedModule: boolean, selectedCategory: boolean, categoryId: number, categoryActive: boolean,moduleActive : boolean) {
     let moduleReq = {
       moduleId: Number(moduleId)
     }
-    if (selectedModule && categoryActive) {
+    if (selectedModule && categoryActive && moduleActive) {
       this.moduleRequest.push(moduleReq);
     } else {
       this.moduleRequest = this.moduleRequest.filter(module => module.moduleId !== moduleReq.moduleId);
@@ -180,13 +180,13 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean): boolean {
+  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean,moduleStatus : boolean): boolean {
     let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
     let moduleIndex = -1;
     selectedModule = selectedCategory;
     if (categoryIndex !== -1 && selectedModule) {
       moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === Number(moduleId));
-    } else if (selectedCategory) {
+    } else if (selectedCategory && moduleStatus) {
       moduleIndex = 1;
     }
     return moduleIndex !== -1;
@@ -195,7 +195,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   setModules(userAssessmentCategories: CategoryStructure[]) {
     for (const userAssessmentCategory of userAssessmentCategories) {
       for (const module of userAssessmentCategory.modules) {
-        this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId, userAssessmentCategory.active);
+        this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId, userAssessmentCategory.active,module.active);
       }
     }
   }
