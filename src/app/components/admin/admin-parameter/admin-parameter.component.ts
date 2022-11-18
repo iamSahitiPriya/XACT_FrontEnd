@@ -51,9 +51,35 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      data.forEach(eachCategory => {
-        this.fetchModuleDetails(eachCategory);
+    this.appService.getAllParameters().pipe(takeUntil(this.destroy$)).subscribe(data => {
+
+      data.forEach(eachParameter=>{
+        let parameter: ParameterData = {
+          categoryId: -1,
+          categoryName: "",
+          moduleId: -1,
+          moduleName: "",
+          topicId: -1,
+          topicName: "",
+          active: false,
+          updatedAt: 123,
+          comments: "",
+          parameterId: 0,
+          parameterName: ''
+        }
+
+        parameter.categoryId=eachParameter.topic.module.category.categoryId;
+        parameter.categoryName=eachParameter.topic.module.category.categoryName;
+        parameter.moduleId=eachParameter.topic.module.moduleId;
+        parameter.moduleName=eachParameter.topic.module.moduleName;
+        parameter.topicId=eachParameter.topic.topicId;
+        parameter.topicName=eachParameter.topic.topicName;
+        parameter.active=eachParameter.active;
+        parameter.updatedAt=eachParameter.updatedAt;
+        parameter.comments=eachParameter.comments;
+        parameter.parameterId=eachParameter.parameterId;
+        parameter.parameterName=eachParameter.parameterName;
+        this.parameterData.push(parameter)
       })
       this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
       this.dataSourceArray = [...this.dataSource.data]
@@ -106,7 +132,7 @@ export class AdminParameterComponent implements OnInit {
     })
   }
 
-  addTopicRow() {
+  addParameterRow() {
     // let newTopic = {
     //   categoryId: -1,
     //   categoryName: "",
@@ -133,7 +159,7 @@ export class AdminParameterComponent implements OnInit {
 
   }
 
-  saveTopic(row: any) {
+  saveParameter(row: any) {
     // let topicSaveRequest = this.getTopicRequest(row);
     // this.appService.saveTopic(topicSaveRequest).subscribe({
     //   next: (_data) => {
@@ -151,7 +177,7 @@ export class AdminParameterComponent implements OnInit {
     // })
   }
 
-  private getTopicRequest(row: any) {
+  private getParameterRequest(row: any) {
     return {
       module: row.moduleName,
       topicName: row.topicName,
@@ -169,21 +195,21 @@ export class AdminParameterComponent implements OnInit {
     })
   }
 
-  editTopic(row: any) {
+  editParameter(row: any) {
     this.selectedParameter = this.selectedParameter=== row ? null : row
     this.isEditable = true;
     this.parameterData = Object.assign({}, row)
     return this.selectedParameter;
   }
 
-  updateTopic(row
+  updateParameter(row
                 :
                 any
   ) {
 
   }
 
-  deleteAddedTopicRow() {
+  deleteAddedParameterRow() {
     let data = this.dataSource.data
     data.splice(0, 1)
     this.dataSource.data = data

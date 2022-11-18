@@ -1,8 +1,8 @@
 <div class="row">
   <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
-    <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
-      Add Topic
+    <button mat-flat-button class="topicButton1" (click)="addParameterRow()">
+      Add Parameter
     </button>
   </div>
 </div>
@@ -28,9 +28,6 @@
               Please fill the field
         </mat-error>
             </mat-form-field>
-          <!--          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">-->
-          <!--          {{commonErrorFieldText}}-->
-          <!--        </mat-error>-->
         </span>
       </td>
     </ng-container>
@@ -78,12 +75,16 @@
         {{row.topicName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="topicInput">
-            <mat-label>Enter topic name</mat-label>
-          <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
-          {{commonErrorFieldText}}
+          <mat-form-field appearance="outline" class="selectDropdownForm">
+                        <mat-label>Select Topic</mat-label>
+        <mat-select [(ngModel)]="row.categoryName" required>
+          <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
+                      [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
+            {{category.categoryName}}
+          </mat-option>
+        </mat-select>
+            <mat-error>
+              Please fill the field
         </mat-error>
             </mat-form-field>
         </span>
@@ -93,6 +94,16 @@
       <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Parameter</th>
       <td class="parameter parameterName" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
         {{row.parameterName}}
+        </span>
+        <span *ngIf="row.isEdit || selectedParameter===row">
+          <mat-form-field appearance="outline" class="topicInput">
+            <mat-label>Enter parameter name</mat-label>
+          <input matInput #parameterName placeholder="Enter parameter name" [(ngModel)]="row.parameterName"
+                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+          {{commonErrorFieldText}}
+        </mat-error>
+            </mat-form-field>
         </span>
       </td>
     </ng-container>
@@ -111,26 +122,26 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef>Action</th>
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="!(row.isEdit || selectedParameter === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameter(row)">Edit</button>
         </span>
         <span *ngIf="selectedParameter===row">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateTopic(row)">Update</button>
+                (click)="updateParameter(row)">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
                                                                        src="../../assets/closeIcon/closeIcon.svg"
                                                                        alt="close icon" class="closeIcon"/></button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)">Save</button>
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameter(row)">Save</button>
+            <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit || selectedParameter === row)">
+          <mat-icon id="deleteTopic">delete</mat-icon>
+        </button>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter parameter" mat-cell *matCellDef="let row">
-        <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit || selectedParameter === row)">
-          <mat-icon id="deleteTopic">delete</mat-icon>
-        </button>
         <button mat-flat-button *ngIf="!(row.isEdit || selectedParameter === row)">
           <mat-icon>playlist_add</mat-icon>
         </button>
