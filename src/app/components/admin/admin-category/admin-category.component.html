@@ -46,7 +46,7 @@
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> Date</th>
-      <td class="categoryDate category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MM-yyyy'}} </td>
+      <td class="categoryDate category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="active">
