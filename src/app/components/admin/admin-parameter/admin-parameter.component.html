@@ -20,7 +20,7 @@
                         <mat-label>Select Category</mat-label>
         <mat-select [(ngModel)]="row.categoryName" required>
           <mat-option *ngFor="let category of categoryList"
-                      [value]="category.categoryId" (click)="shortlistModule(category.categoryId)">
+                      [value]="category.categoryName" (click)="shortlistModule(category.categoryId)">
             {{category.categoryName}}
           </mat-option>
         </mat-select>

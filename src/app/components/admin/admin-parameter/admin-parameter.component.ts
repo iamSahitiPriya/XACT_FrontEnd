@@ -11,6 +11,8 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
+import {ParameterResponse} from "../../../types/parameterResponse";
+import {CategoryData} from "../../../types/category";
 
 @Component({
   selector: 'app-admin-parameter',
@@ -52,8 +54,8 @@ export class AdminParameterComponent implements OnInit {
 
   ngOnInit(): void {
     this.appService.getAllParameters().pipe(takeUntil(this.destroy$)).subscribe(data => {
-
       data.forEach(eachParameter=>{
+        this.fetchCategories(eachParameter);
         let parameter: ParameterData = {
           categoryId: -1,
           categoryName: "",
@@ -67,7 +69,6 @@ export class AdminParameterComponent implements OnInit {
           parameterId: 0,
           parameterName: ''
         }
-
         parameter.categoryId=eachParameter.topic.module.category.categoryId;
         parameter.categoryName=eachParameter.topic.module.category.categoryName;
         parameter.moduleId=eachParameter.topic.module.moduleId;
@@ -218,6 +219,17 @@ export class AdminParameterComponent implements OnInit {
 
   shortlistModule(categoryId: any) {
     this.moduleList = this.categoryAndModule.find(module => module.categoryId == categoryId).module
+  }
+
+  private fetchCategories(eachParameter: ParameterResponse) {
+    let category : CategoryData={
+      active: false, categoryId: 0, categoryName: "", comments: "", updatedAt: 0
+    }
+    category.categoryName=eachParameter.topic.module.category.categoryName;
+    category.categoryId=eachParameter.topic.module.category.categoryId;
+    category.active=eachParameter.topic.module.category.active;
+
+    this.categoryList.push(category);
   }
 }
 
