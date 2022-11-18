@@ -45,5 +45,7 @@ export const environment = {
     storage: {
       sessionStorage: 'sessionStorage'
     }
-  }
+  },
+  ALL_PARAMETER_URI: "/v1/admin/parameters"
 };
+
