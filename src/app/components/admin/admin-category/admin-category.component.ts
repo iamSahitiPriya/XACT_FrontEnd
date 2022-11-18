@@ -48,6 +48,17 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   selectedCategory: CategoryData | null;
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
+  duplicateErrorMessage = data_local.ADMIN.CATEGORY.DUPLICATE_CATEGORY_ERROR_MESSAGE
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
+  updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
+  date = data_local.ADMIN.DATE
+  active = data_local.ADMIN.ACTIVE
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
+  categoryLabel = data_local.ADMIN.CATEGORY.CATEGORY
+  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
@@ -126,7 +137,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.dataSource.data.slice((this.paginator.pageIndex * this.paginator.pageSize) + 1).forEach(eachCategory => {
         if (eachCategory.categoryName.trim().toLowerCase() === value.categoryName.trim().toLowerCase()) {
           flag = true;
-          this.showError("No duplicate categories are allowed");
+          this.showError(this.duplicateErrorMessage);
         }
       }
     )
@@ -142,7 +153,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
           this.categoryData = []
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Some error occurred");
+          this.showError(this.serverErrorMessage);
         }
       })
     }
@@ -162,11 +173,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         row.isEdit = false;
         this.selectedCategory = null;
         this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 2000)
+        this.showNotification(this.updateSuccessMessage, 2000)
         this.categoryData = []
         this.ngOnInit()
       }, error: _error => {
-        this.showError("Some error occurred");
+        this.showError(this.serverErrorMessage);
       }
     })
 

@@ -2,14 +2,14 @@
   <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
     <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
-      Add Topic
+      {{addTopic}}
     </button>
   </div>
 </div>
 <div class="mat-elevation-z8 topic">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="category">
     <ng-container matColumnDef="categoryName">
-      <th class="topic" mat-header-cell *matHeaderCellDef>Category</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef>{{category}}</th>
       <td class="topic" mat-cell *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedTopic === row)">
           <span class="circle"></span>
@@ -17,7 +17,7 @@
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-            <mat-label>Select Category</mat-label>
+            <mat-label>{{selectCategory}}</mat-label>
             <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
               <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
                           [value]="category.categoryName">
@@ -25,7 +25,7 @@
           </mat-option>
         </mat-select>
             <mat-error>
-              Please fill the field
+              {{inputErrorMessage}}
         </mat-error>
             </mat-form-field>
         </span>
@@ -49,34 +49,34 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="moduleName">
-      <th class="topic" *matHeaderCellDef> Module</th>
+      <th class="topic" *matHeaderCellDef> {{module}}</th>
       <td class="topic" *matCellDef="let row">
               <span *ngIf="!(row.isEdit || selectedTopic === row)">
                 {{row.moduleName}}
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
-            <mat-label>Select Module</mat-label>
+            <mat-label>{{selectModule}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
             <mat-error>
-              Please fill the field
+              {{inputErrorMessage}}
         </mat-error>
             </mat-form-field>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="topicName">
-      <th class="topic" mat-header-cell *matHeaderCellDef> Topic</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{topic}}</th>
       <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedTopic === row)">
         {{row.topicName}}
         </span>
         <span *ngIf="row.isEdit || selectedTopic===row">
           <mat-form-field appearance="outline" class="topicInput">
-            <mat-label>Enter topic name</mat-label>
+            <mat-label>{{enterTopic}}</mat-label>
           <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
@@ -87,39 +87,35 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="topic" mat-header-cell *matHeaderCellDef> Date</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{date}}</th>
       <td class="topicDate topic" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
-      <th class="topic" mat-header-cell *matHeaderCellDef> Active</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{active}}</th>
       <td class="topic topicActive" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]=row.active
                           [disabled]="!(selectedTopic === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
     <ng-container matColumnDef="edit">
-      <th class="topic" mat-header-cell *matHeaderCellDef>Action</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef>{{action}}</th>
       <td class="topic" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="!(row.isEdit || selectedTopic === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">{{edit}}</button>
         </span>
         <span *ngIf="selectedTopic===row">
         <button mat-flat-button class="updateTopicButton" aria-label="expand row"
-                (click)="updateTopic(row)">Update</button>
+                (click)="updateTopic(row)">{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)">Save</button>
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)">{{save}}</button>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="reference">
       <th class="topic" mat-header-cell *matHeaderCellDef></th>
       <td class="topicDate topic" mat-cell *matCellDef="let row">
-        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row"><img data-id="manage"
-                                                                                                  src="../../assets/closeIcon/closeIcon.svg"
-                                                                                                  alt="close icon"
-                                                                                                  class="closeTopicIcon"/>
-        </button>
+        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row"><mat-icon>cancel</mat-icon></button>
         <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>

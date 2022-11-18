@@ -217,6 +217,10 @@ button.closeTopicButton {
   background: none;
   border: none;
 }
+
+button.closeTopicButton.mat-icon {
+  margin-top: 2px;
+}
 .topicInput{
   margin-top: 22px;
 }

@@ -46,7 +46,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   private unsavedTopic: TopicData;
   setCategory: string = '';
   setModule: string = '';
-
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
+  duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
+  updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
+  inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
+  addTopic = data_local.ADMIN.TOPIC.ADD_TOPIC
+  category = data_local.ADMIN.CATEGORY.CATEGORY
+  selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY
+  module = data_local.ADMIN.MODULE.MODULE
+  selectModule = data_local.ADMIN.MODULE.SELECT_MODULE
+  topic = data_local.ADMIN.TOPIC.TOPIC
+  enterTopic = data_local.ADMIN.TOPIC.ENTER_TOPIC
+  date = data_local.ADMIN.DATE
+  active = data_local.ADMIN.ACTIVE
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar,) {
     this.topicData = []
@@ -150,6 +166,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   addTopicRow() {
+    this.moduleList = []
     let newTopic = {
       active: false,
       categoryId: 0,
@@ -172,36 +189,54 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   saveTopic(row: any) {
     let topicSaveRequest = this.getTopicRequest(row);
-    this.appService.saveTopic(topicSaveRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        let data = this.dataSource.data
-        row.isEdit = false
-        this.isEditable = false;
-        data.splice(0, 1)
-        this.dataSource.data = data
-        this.table.renderRows()
-        this.topicData = []
-        this.ngOnInit()
-      }, error: (_err) => {
-        this.showError("Some error occurred")
-      }
-    })
+    if(topicSaveRequest !== null) {
+      this.appService.saveTopic(topicSaveRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          let data = this.dataSource.data
+          row.isEdit = false
+          this.isEditable = false;
+          data.splice(0, 1)
+          this.dataSource.data = data
+          this.table.renderRows()
+          this.topicData = []
+          this.ngOnInit()
+        }, error: (_err) => {
+          this.showError(this.serverErrorMessage)
+        }
+      })
+    }
+  }
+
+  private setTopicRequest(row : TopicData) {
+    let {selectedModuleId, topicIndex} = this.findTopicFromModule(row);
+    return {
+      module: selectedModuleId,
+      topicName: row.topicName,
+      active: row.active,
+      comments: row.comments,
+    }
+
   }
 
   private getTopicRequest(row: TopicData) {
+    let {selectedModuleId, topicIndex} = this.findTopicFromModule(row);
+      if (this.isTopicUnique(topicIndex)) {
+        return this.setTopicRequest(row)
+      } else {
+        this.showError(this.duplicateTopicError)
+        return null;
+      }
+  }
+
+  private isTopicUnique(topicIndex:number) {
+    return topicIndex === -1;
+  }
+
+  private findTopicFromModule(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     let topicArray = this.moduleMap.get(selectedModuleId)
     let indexOfTopic = topicArray.findIndex((topic: string) => topic === row.topicName)
-    if(indexOfTopic === -1 && row.topicId === -1) {
-      return {
-        module: selectedModuleId,
-        topicName: row.topicName,
-        active: row.active,
-        comments: row.comments,
-      }
-    }else{
-      return this.showError("Cannot save duplicate topics.")
-    }
+    return {selectedModuleId, topicIndex: indexOfTopic};
   }
 
   showError(message: string) {
@@ -223,20 +258,27 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   updateTopic(row: any) {
-    let topicRequest = this.getTopicRequest(row)
-    this.appService.updateTopic(topicRequest, row.topicId).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          row.isEdit = false
-          this.selectedTopic = null
-          this.table.renderRows()
-          this.showNotification("Your changes have been successfully updated.", 2000)
-          this.topicData = []
-          this.ngOnInit()
-        }, error: _error => {
-          this.showError("Some error occurred");
+    let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
+
+    if(this.unsavedTopic.topicName !== row.topicName) {
+      topicRequest = this.getTopicRequest(row)
+    }
+
+    if(topicRequest !== null) {
+      this.appService.updateTopic(topicRequest, row.topicId).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            row.isEdit = false
+            this.selectedTopic = null
+            this.table.renderRows()
+            this.showNotification(this.updateSuccessMessage, 2000)
+            this.topicData = []
+            this.ngOnInit()
+          }, error: _error => {
+            this.showError(this.serverErrorMessage);
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   deleteAddedTopicRow() {
