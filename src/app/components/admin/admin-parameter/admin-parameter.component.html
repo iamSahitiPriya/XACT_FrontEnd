@@ -1,7 +1,7 @@
 <div class="row">
   <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
-    <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
+    <button mat-flat-button class="topicButton1" (click)="addParameterRow()">
       Add Parameter
     </button>
   </div>
@@ -109,7 +109,7 @@
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Date</th>
-      <td class="parameter parameterDate" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <td class="parameter parameterName" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Active</th>

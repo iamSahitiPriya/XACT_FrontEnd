@@ -46,9 +46,11 @@ th {
   opacity: 1;
 
 }
-
-td.moduleParameter,th.Heading{
+th.Heading{
   padding-left: 2em;
+}
+td.moduleParameter,td.topicParameter,td.parameterName{
+  padding-left:2em;
 }
 td.categoryParameter{
   padding-left:1em;
