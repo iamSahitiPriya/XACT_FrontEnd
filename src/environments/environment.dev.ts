@@ -47,4 +47,5 @@ export const environment = {
     }
   },
   USER_ASSESSMENT_MODULE_URI: "/modules",
+  ALL_MODULE_URI: "/v1/admin/modules",
 };

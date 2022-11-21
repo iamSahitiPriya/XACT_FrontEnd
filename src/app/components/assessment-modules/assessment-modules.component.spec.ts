@@ -36,7 +36,9 @@ class MockAppService {
     assessmentCategories: [{
       categoryId: 0,
       categoryName: "hello",active:true,
-      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
+      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
+        updatedAt : 0,
+        comments : "",}]
     }],
     userAssessmentCategories: [{categoryId: 0,active:true, categoryName: "Hello", modules: []}]
   }
@@ -44,7 +46,9 @@ class MockAppService {
     assessmentCategories: [{
       categoryId: 0,
       categoryName: "hello",active:true,
-      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
+      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
+        updatedAt : 0,
+        comments : "",}]
     }],
     userAssessmentCategories: []
   }
@@ -104,7 +108,9 @@ describe('AssessmentModulesComponent', () => {
       assessmentCategories: [{
         categoryId: 0,active:true,
         categoryName: "hello",
-        modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
+        modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
+          updatedAt : 0,
+          comments : "",}]
       }],
       userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: []}]
     }
@@ -233,7 +239,7 @@ describe('AssessmentModulesComponent', () => {
     expect(component.getModule).toHaveBeenCalled();
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(1, 1, true, false)
+    let response = component.checkedModuleStatus(1, 1, true, false,true)
     expect(response).toBeTruthy()
   });
   it("should fetch all the user selected categories", () => {
@@ -254,11 +260,13 @@ describe('AssessmentModulesComponent', () => {
     })
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(0, 0, true, false)
+    let response = component.checkedModuleStatus(0, 0, true, false,true)
     expect(response).toBeFalsy()
   });
   it("should set modules", () => {
-    let response = {userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: [{moduleId:0,moduleName:"hello",topics:[],category:0}]}]}
+    let response = {userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: [{moduleId:0,moduleName:"hello",topics:[],category:0,active:true,
+          updatedAt : 0,
+          comments : "",}]}]}
 
     jest.spyOn(component,"getModule")
     component.setModules(response.userAssessmentCategories)

@@ -232,7 +232,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     return recommendationId === undefined;
   }
 
-   deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
+  deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         error: _error => {

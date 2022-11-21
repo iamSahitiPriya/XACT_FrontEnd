@@ -114,7 +114,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   deleteRow() {
     let data = this.dataSource.data
-    console.log(data)
     let categoryIndex = data.findIndex(category => category.categoryId === -1)
     if (categoryIndex !== -1) {
       data.splice(categoryIndex, 1)

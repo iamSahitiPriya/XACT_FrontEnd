@@ -7,7 +7,7 @@
   <div class="col-md-3">
     <div class="console">
     <mat-card class="consoleBox">
-      <mat-card-title class="cardTitle">Admin - Console</mat-card-title>
+      <mat-card-title class="cardTitle">Admin Console</mat-card-title>
       <mat-card-actions>
         <div class="buttons">
           <button mat-button class="dashboardButton" (click)="setEvent('dashboard')" [ngClass]="{'button-active':type === 'dashboard'}" [routerLink]="['/admin/dashboard']">
@@ -18,7 +18,7 @@
             <mat-icon>category</mat-icon>
                Category
           </button>
-          <button mat-button class="moduleButton" (click)="setEvent('module')" [ngClass]="{'button-active':type === 'module'}">
+          <button mat-button class="moduleButton" (click)="setEvent('module')" [ngClass]="{'button-active':type === 'module'}" [routerLink]="['/admin/module']">
             <mat-icon>view_module</mat-icon>
             Module
           </button>

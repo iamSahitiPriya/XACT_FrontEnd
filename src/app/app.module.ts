@@ -87,6 +87,7 @@ import {NotificationSnackbarComponent} from "./components/notification-component
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
+import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { AdminTopicComponent } from './components/admin/admin-topic/admin-topic.component';
 
@@ -134,17 +135,17 @@ export const appRoutes: Routes = [
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
     },{
+      path:"module",
+      component:AdminModuleComponent,
+      canActivate:[OktaAuthGuard]
+
+    },{
       path:"topic",
       component:AdminTopicComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
     }
-    ],
-    canActivate:[OktaAuthGuard]
-  },
-
-
-];
+    ]}];
 
 @NgModule({
   declarations: [
@@ -171,6 +172,7 @@ export const appRoutes: Routes = [
     AdminConsoleComponent,
     AssessmentSunburstChartComponent,
     AdminCategoryComponent,
+    AdminModuleComponent,
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
     AdminTopicComponent,

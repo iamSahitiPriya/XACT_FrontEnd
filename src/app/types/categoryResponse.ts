@@ -4,6 +4,7 @@
 
 import {ModuleStructure} from "./moduleStructure";
 
+
 export interface CategoryResponse {
   categoryId:number,
   categoryName:string,

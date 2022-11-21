@@ -48,4 +48,6 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
+  ALL_MODULE_URI: "/v1/admin/modules",
+
 };
