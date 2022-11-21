@@ -42,8 +42,8 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
   moduleList: any[] = []
   selectedTopic: TopicData | null;
   private isTopicAdded: boolean;
-  private isEditable: boolean;
-  private unsavedTopic: TopicData;
+  isEditable: boolean;
+  unsavedTopic: TopicData;
 
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
@@ -62,6 +62,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
+  moduleNotFound: any = "No modules available";
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
@@ -165,6 +166,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
 
   saveTopic(row: TopicData) {
     let topicSaveRequest = this.getTopicRequest(row);
+
     this.appService.saveTopic(topicSaveRequest).subscribe({
       next: (_data) => {
         let data = this.dataSource.data
@@ -180,11 +182,10 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     })
   }
 
-  private getTopicRequest(row: TopicData) {
+  getTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     let topicArray = this.moduleAndTopic.get(selectedModuleId)
     let topicIndex = topicArray.findIndex((topic: string) => topic === row.topicName)
-
     if (this.isTopicUnique(topicIndex)) {
       return this.setTopicRequest(row)
     } else {
@@ -193,11 +194,11 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     }
   }
 
-  private isTopicUnique(topicIndex: number) {
+   isTopicUnique(topicIndex: number) {
     return topicIndex === -1;
   }
 
-  private setTopicRequest(row: TopicData) {
+   setTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     return {
       module: selectedModuleId,
@@ -235,6 +236,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
       topicRequest = this.getTopicRequest(row)
     }
 
+
     if (topicRequest !== null) {
       this.appService.updateTopic(topicRequest, row.topicId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -265,6 +267,10 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
   shortlistModule(categoryName: string) {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
+    if(this.moduleList === undefined) {
+      this.moduleList = []
+      let module = {moduleName:this.moduleNotFound}
+      this.moduleList.push(module)}
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
@@ -284,7 +290,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     return row;
   }
 
-  private resetTopic(row: TopicData) {
+  resetTopic(row: TopicData) {
     row.categoryName = this.unsavedTopic.categoryName
     row.categoryId = this.unsavedTopic.categoryId
     row.active = this.unsavedTopic.active

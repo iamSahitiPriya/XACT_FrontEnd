@@ -58,7 +58,9 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>{{selectModule}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
+                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }"
+                      [disabled]="moduleList[0]===moduleNotFound">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
