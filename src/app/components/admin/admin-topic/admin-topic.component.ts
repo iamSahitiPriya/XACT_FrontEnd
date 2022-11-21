@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../../messages";
 import {MatPaginator} from "@angular/material/paginator";
@@ -25,7 +25,7 @@ import cloneDeep from "lodash/cloneDeep";
     ]),
   ],
 })
-export class AdminTopicComponent implements OnInit {
+export class AdminTopicComponent implements OnInit,OnDestroy {
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
