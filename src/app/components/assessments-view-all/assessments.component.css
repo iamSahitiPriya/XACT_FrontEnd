@@ -50,7 +50,7 @@ td.mat-cell {
 }
 
 td.mat-cell:last-child{
-  padding-left: 6%;
+  margin-left: 6%;
 }
 
 .heading {
