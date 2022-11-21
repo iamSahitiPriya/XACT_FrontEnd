@@ -150,65 +150,64 @@ export const data_local =
       TOOLTIP: "Click to View Chart Summary",
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },
+      ADMIN: {
+        SERVER_ERROR_MESSAGE: "Some error occurred",
+        UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
+        INPUT_ERROR_MESSAGE: "Please fill the field",
+        DATE: "Date",
+        ACTIVE: "Active",
+        ACTION: "Action",
+        EDIT: "Edit",
+        SAVE: "Save",
+        UPDATE: "Update",
 
-    ADMIN : {
-      SERVER_ERROR_MESSAGE : "Some error occurred",
-      UPDATE_SUCCESSFUL_MESSAGE : "Your changes have been successfully updated.",
-      INPUT_ERROR_MESSAGE : "Please fill the field",
-      DATE : "Date",
-      ACTIVE : "Active",
-      ACTION : "Action",
-      EDIT : "Edit",
-      SAVE : "Save",
-      UPDATE : "Update",
+        DASHBOARD: {
+          TOTAL_ASSESSMENT: "Total Assessments",
+          TOTAL_ACTIVE: "Assessments in Progress",
+          TOTAL_COMPLETE: "Completed Assessments",
+          DOWNLOAD_REPORT: "Download Report",
+          DASHBOARD_TITLE: "Dashboard",
+          DOWNLOAD_REPORT_LABEL: "Click to download report",
+          DROPDOWN_LABEL: "Click to select the days range",
+          ERROR_MESSAGE: "Error in processing request.",
+          APPLY_BUTTON_TEXT: "Apply",
+          TOTAL_SUBTEXT: "Total:",
+          CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
+        },
+        CATEGORY: {
+          CATEGORY: "Category",
+          DUPLICATE_CATEGORY_ERROR_MESSAGE: "No duplicate categories are allowed",
+          SELECT_CATEGORY: "Select Category",
+          ADD_CATEGORY: "Add Category"
 
-      DASHBOARD: {
-        TOTAL_ASSESSMENT: "Total Assessments",
-        TOTAL_ACTIVE: "Assessments in Progress",
-        TOTAL_COMPLETE: "Completed Assessments",
-        DOWNLOAD_REPORT: "Download Report",
-        DASHBOARD_TITLE: "Dashboard",
-        DOWNLOAD_REPORT_LABEL: "Click to download report",
-        DROPDOWN_LABEL: "Click to select the days range",
-        ERROR_MESSAGE: "Error in processing request.",
-        APPLY_BUTTON_TEXT: "Apply",
-        TOTAL_SUBTEXT: "Total:",
-        CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
+        },
+        MODULE: {
+          MODULE: "Module",
+          SELECT_MODULE: "Select Module",
+        },
+        TOPIC: {
+          DUPLICATE_TOPIC_ERROR_MESSAGE: "No duplicate topics are allowed",
+          ADD_TOPIC: "Add Topic",
+          TOPIC: "Topic",
+          ENTER_TOPIC: "Enter topic name",
+        }
       },
-      CATEGORY : {
-        CATEGORY : "Category",
-        DUPLICATE_CATEGORY_ERROR_MESSAGE :"No duplicate categories are allowed",
-        SELECT_CATEGORY : "Select Category",
-        ADD_CATEGORY : "Add Category"
-
+      DROPDOWN_OPTION_TEXT: {
+        LAST_WEEK: "Last 7 Days",
+        LAST_MONTH: "Last 30 Days",
+        LAST_QUARTER: "Last 90 Days",
+        LAST_YEAR: "Last 365 Days"
       },
-      MODULE : {
-        MODULE: "Module",
-        SELECT_MODULE : "Select Module",
-      },
-      TOPIC : {
-        DUPLICATE_TOPIC_ERROR_MESSAGE : "No duplicate topics are allowed",
-        ADD_TOPIC : "Add Topic",
-        TOPIC : "Topic",
-        ENTER_TOPIC : "Enter topic name",
+      RECOMMENDATION_TEXT: {
+        IMPACT_LABEL: "Impact",
+        EFFORT: "Effort",
+        DELIVERY_HORIZON: "Delivery Horizon",
+        DELETE: "Delete",
+        IMPACT_1: "High",
+        IMPACT_2: "Medium",
+        IMPACT_3: "Low",
+        DH_1: "Now",
+        DH_2: "Next",
+        DH_3: "Later"
       }
-    },
-    DROPDOWN_OPTION_TEXT: {
-      LAST_WEEK: "Last 7 Days",
-      LAST_MONTH: "Last 30 Days",
-      LAST_QUARTER: "Last 90 Days",
-      LAST_YEAR: "Last 365 Days"
-    },
-    RECOMMENDATION_TEXT: {
-      IMPACT_LABEL: "Impact",
-      EFFORT: "Effort",
-      DELIVERY_HORIZON: "Delivery Horizon",
-      DELETE: "Delete",
-      IMPACT_1: "High",
-      IMPACT_2: "Medium",
-      IMPACT_3: "Low",
-      DH_1: "Now",
-      DH_2: "Next",
-      DH_3: "Later"
-    }
-  };
+  }

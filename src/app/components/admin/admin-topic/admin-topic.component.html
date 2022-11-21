@@ -11,15 +11,15 @@
     <ng-container matColumnDef="categoryName">
       <th class="topic" mat-header-cell *matHeaderCellDef>{{category}}</th>
       <td class="topic" mat-cell *matCellDef="let row">
-      <span *ngIf="!(row.isEdit || selectedTopic === row)">
+      <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#B3B8BD' }">
           <span class="circle"></span>
         {{row.categoryName}}
         </span>
-        <span *ngIf="row.isEdit || selectedTopic===row">
+        <span *ngIf="selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>{{selectCategory}}</mat-label>
             <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
-              <mat-option *ngFor="let category of categoryList" [disabled]="!(category.active)"
+              <mat-option *ngFor="let category of categoryList" [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }"
                           [value]="category.categoryName">
             {{category.categoryName}}
           </mat-option>
@@ -33,7 +33,7 @@
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
-        <div [@detailExpand]="row.isEdit === true || row === selectedTopic ? 'expanded' : 'collapsed'"
+        <div [@detailExpand]="row === selectedTopic ? 'expanded' : 'collapsed'"
              class="topicComments">
           <mat-form-field appearance="outline" class="topicCommentTextArea">
             <textarea matInput placeholder="Comments"
@@ -51,14 +51,14 @@
     <ng-container matColumnDef="moduleName">
       <th class="topic" *matHeaderCellDef> {{module}}</th>
       <td class="topic" *matCellDef="let row">
-              <span *ngIf="!(row.isEdit || selectedTopic === row)">
+              <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#B3B8BD' }">
                 {{row.moduleName}}
         </span>
-        <span *ngIf="row.isEdit || selectedTopic===row">
+        <span *ngIf="selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>{{selectModule}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -74,7 +74,7 @@
       <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedTopic === row)">
         {{row.topicName}}
         </span>
-        <span *ngIf="row.isEdit || selectedTopic===row">
+        <span *ngIf="selectedTopic===row">
           <mat-form-field appearance="outline" class="topicInput">
             <mat-label>{{enterTopic}}</mat-label>
           <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
@@ -94,7 +94,7 @@
       <th class="topic" mat-header-cell *matHeaderCellDef> {{active}}</th>
       <td class="topic topicActive" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]=row.active
-                          [disabled]="!(selectedTopic === row || row.isEdit)"></mat-slide-toggle>
+                          [disabled]="!(selectedTopic === row)"></mat-slide-toggle>
       </td>
     </ng-container>
     <ng-container matColumnDef="edit">
@@ -103,7 +103,7 @@
         <span *ngIf="!(row.isEdit || selectedTopic === row)">
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">{{edit}}</button>
         </span>
-        <span *ngIf="selectedTopic===row">
+        <span *ngIf="selectedTopic===row && row.topicId !== -1">
         <button mat-flat-button class="updateTopicButton" aria-label="expand row"
                 (click)="updateTopic(row)">{{update}}</button>
         </span>
@@ -115,11 +115,11 @@
     <ng-container matColumnDef="reference">
       <th class="topic" mat-header-cell *matHeaderCellDef></th>
       <td class="topicDate topic" mat-cell *matCellDef="let row">
-        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row"><mat-icon>cancel</mat-icon></button>
+        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row && row.topicId !== -1"><mat-icon>cancel</mat-icon></button>
         <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>
-        <button mat-flat-button *ngIf="!(row.isEdit || selectedTopic === row)">
+        <button mat-flat-button *ngIf="!(selectedTopic === row)">
           <mat-icon>playlist_add</mat-icon>
         </button>
       </td>
@@ -134,4 +134,3 @@
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
-

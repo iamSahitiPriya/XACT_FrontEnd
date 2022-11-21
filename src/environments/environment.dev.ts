@@ -37,7 +37,7 @@ export const environment = {
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   ACCOUNT_URI : "/v1/accounts",
   SAVE_TOPIC_URI :"/v1/admin/topics",
-  UPDATE_TOPIC_URI: "/v1/admin/topics",
+  UPDATE_TOPIC_URI : "/v1/admin/topics",
   okta: {
     cookies: {
       secured: true
