@@ -160,6 +160,7 @@ export const data_local =
         EDIT: "Edit",
         SAVE: "Save",
         UPDATE: "Update",
+        ERROR: "No Special Characters allowed",
 
         DASHBOARD: {
           TOTAL_ASSESSMENT: "Total Assessments",

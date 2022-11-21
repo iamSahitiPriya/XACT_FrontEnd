@@ -100,11 +100,13 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
 
   addCategoryRow() {
+    this.deleteRow()
     let newCategory = {
-      categoryId: 0, categoryName: '', active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      categoryId: -1, categoryName: '', active: true, updatedAt: Date.now(), isEdit: true, comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newCategory)
     this.table.renderRows();
+    this.selectedCategory = this.selectedCategory === newCategory ? null : newCategory
     this.dataSource.paginator = this.paginator
     this.isCategoryAdded = true
 
@@ -112,17 +114,22 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   deleteRow() {
     let data = this.dataSource.data
-    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-    this.dataSource.data = data
-    this.table.renderRows()
+    console.log(data)
+    let categoryIndex = data.findIndex(category => category.categoryId === -1)
+    if (categoryIndex !== -1) {
+      data.splice(categoryIndex, 1)
+      this.dataSource.data = data
+      this.selectedCategory = null
+      this.table.renderRows()
+    }
   }
 
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -160,7 +167,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   editCategory(row: any) {
-
+    this.deleteRow()
     this.selectedCategory = this.selectedCategory === row ? null : row
     this.isEditable = true;
     this.category = Object.assign({}, row)
@@ -185,7 +192,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   private showNotification(reportData: string, duration: number) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"

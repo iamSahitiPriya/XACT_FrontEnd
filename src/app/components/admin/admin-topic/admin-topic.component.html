@@ -71,7 +71,7 @@
     </ng-container>
     <ng-container matColumnDef="topicName">
       <th class="topic" mat-header-cell *matHeaderCellDef> {{topic}}</th>
-      <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedTopic === row)">
+      <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(selectedTopic === row)">
         {{row.topicName}}
         </span>
         <span *ngIf="selectedTopic===row">

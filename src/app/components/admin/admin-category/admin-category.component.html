@@ -62,7 +62,7 @@
         <span *ngIf="!(row.isEdit || selectedCategory === row)">
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editCategory(row)">{{edit}}</button>
         </span>
-        <span *ngIf="selectedCategory===row">
+        <span *ngIf="selectedCategory===row && row.categoryId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
                 (click)="updateCategory(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"

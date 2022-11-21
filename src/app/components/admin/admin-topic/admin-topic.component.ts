@@ -36,7 +36,6 @@ export class AdminTopicComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<TopicData>
   dataToDisplayed: TopicData[]
   private destroy$: Subject<void> = new Subject<void>();
-  private dataSourceArray: TopicData[];
   categoryList: any[] = []
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -49,7 +48,7 @@ export class AdminTopicComponent implements OnInit {
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
-  inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
+  inputErrorMessage = data_local.ADMIN.ERROR
   addTopic = data_local.ADMIN.TOPIC.ADD_TOPIC
   category = data_local.ADMIN.CATEGORY.CATEGORY
   selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY
@@ -65,7 +64,6 @@ export class AdminTopicComponent implements OnInit {
   update = data_local.ADMIN.UPDATE
 
 
-
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
@@ -77,10 +75,9 @@ export class AdminTopicComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
-      this.topicData = this.topicData.sort((topic1,topic2) => topic2.updatedAt - topic1.updatedAt);
-      this.categoryList.sort((category1,category2) => Number(category2.active) - Number(category1.active))
+      this.topicData = this.topicData.sort((topic1, topic2) => topic2.updatedAt - topic1.updatedAt);
+      this.categoryList.sort((category1, category2) => Number(category2.active) - Number(category1.active))
       this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
-      this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -93,12 +90,16 @@ export class AdminTopicComponent implements OnInit {
   }
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
-    let module : any [] = [];
-    this.categoryList.push({categoryId: eachCategory.categoryId, categoryName: eachCategory.categoryName,active:eachCategory.active})
+    let module: any [] = [];
+    this.categoryList.push({
+      categoryId: eachCategory.categoryId,
+      categoryName: eachCategory.categoryName,
+      active: eachCategory.active
+    })
     eachCategory.modules?.forEach(eachModule => {
-      this.moduleAndTopic.set(eachModule.moduleId,[])
-      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName,active:eachModule.active})
-      this.categoryAndModule.set(eachCategory.categoryId,module )
+      this.moduleAndTopic.set(eachModule.moduleId, [])
+      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active})
+      this.categoryAndModule.set(eachCategory.categoryId, module)
       if (eachModule.topics) {
         this.fetchTopics(eachModule, eachCategory);
       }
@@ -109,11 +110,11 @@ export class AdminTopicComponent implements OnInit {
     eachModule.topics?.forEach(eachTopic => {
       let topics = this.moduleAndTopic.get(eachModule.moduleId)
       topics.push(eachTopic.topicName)
-      this.moduleAndTopic.set(eachModule.moduleId,topics)
+      this.moduleAndTopic.set(eachModule.moduleId, topics)
       let topic: TopicData = {
         categoryId: -1,
         categoryName: "",
-        categoryStatus : false,
+        categoryStatus: false,
         moduleId: -1,
         moduleName: "",
         moduleStatus: false,
@@ -139,11 +140,12 @@ export class AdminTopicComponent implements OnInit {
   }
 
   addTopicRow() {
+    this.deleteAddedTopicRow()
     this.moduleList = []
     let newTopic = {
       categoryId: -1,
       categoryName: "",
-      categoryStatus : false,
+      categoryStatus: false,
       moduleId: -1,
       moduleName: "",
       moduleStatus: false,
@@ -161,7 +163,7 @@ export class AdminTopicComponent implements OnInit {
     this.isTopicAdded = true
   }
 
-  saveTopic(row: any) {
+  saveTopic(row: TopicData) {
     let topicSaveRequest = this.getTopicRequest(row);
     this.appService.saveTopic(topicSaveRequest).subscribe({
       next: (_data) => {
@@ -173,7 +175,7 @@ export class AdminTopicComponent implements OnInit {
         this.topicData = []
         this.ngOnInit()
       }, error: (_err) => {
-        this.showError("Some error occurred")
+        this.showError(this.serverErrorMessage)
       }
     })
   }
@@ -181,21 +183,21 @@ export class AdminTopicComponent implements OnInit {
   private getTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     let topicArray = this.moduleAndTopic.get(selectedModuleId)
-    let topicIndex = topicArray.findIndex((topic:string) => topic === row.topicName)
+    let topicIndex = topicArray.findIndex((topic: string) => topic === row.topicName)
 
-    if(this.isTopicUnique(topicIndex)) {
+    if (this.isTopicUnique(topicIndex)) {
       return this.setTopicRequest(row)
-    }else{
-       this.showError("Cannot save duplicate topics.")
+    } else {
+      this.showError(this.duplicateTopicError)
       return null;
     }
   }
 
-  private isTopicUnique(topicIndex:number) {
+  private isTopicUnique(topicIndex: number) {
     return topicIndex === -1;
   }
 
-  private setTopicRequest(row : TopicData) {
+  private setTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     return {
       module: selectedModuleId,
@@ -214,7 +216,7 @@ export class AdminTopicComponent implements OnInit {
     })
   }
 
-  editTopic(row: any) {
+  editTopic(row:any) {
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
@@ -246,26 +248,24 @@ export class AdminTopicComponent implements OnInit {
           this.showError(this.serverErrorMessage);
         }
       })
-
     }
   }
 
   deleteAddedTopicRow() {
     let data = this.dataSource.data
-    data.forEach(row => {
-      if(row.topicId === -1) {
-        data.splice(0,1,row)
-      }
-    })
-    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-    this.dataSource.data = data
-    this.table.renderRows()
+    let index = data.findIndex(topic => topic.topicId === -1)
+    if (index !== -1) {
+      data.splice(index, 1)
+      this.dataSource.data = data
+      this.selectedTopic = null
+      this.table.renderRows()
+    }
   }
 
   shortlistModule(categoryName: string) {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    this.moduleList.sort((module1,module2) => Number(module2.active) - Number(module1.active))
+    this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
   private showNotification(reportData: string, duration: number) {
