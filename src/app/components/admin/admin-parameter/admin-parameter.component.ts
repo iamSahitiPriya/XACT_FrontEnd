@@ -11,8 +11,7 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
-import {ParameterResponse} from "../../../types/parameterResponse";
-import {CategoryData} from "../../../types/category";
+import {TopicStructure} from "../../../types/topicStructure";
 
 @Component({
   selector: 'app-admin-parameter',
@@ -39,9 +38,12 @@ export class AdminParameterComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   private dataSourceArray: ParameterData[];
   categoryList: any[] = []
-  categoryAndModule: any[] = []
   moduleList: any[] = []
   selectedParameter: ParameterData | null;
+  categoryAndModule = new Map();
+  moduleAndTopic = new Map();
+  topicList : any[]=[];
+  topicAndParameter=new Map();
   private isParameterAdded: boolean;
   private isEditable: boolean;
 
@@ -53,34 +55,9 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appService.getAllParameters().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      data.forEach(eachParameter=>{
-        this.fetchCategories(eachParameter);
-        let parameter: ParameterData = {
-          categoryId: -1,
-          categoryName: "",
-          moduleId: -1,
-          moduleName: "",
-          topicId: -1,
-          topicName: "",
-          active: false,
-          updatedAt: 123,
-          comments: "",
-          parameterId: 0,
-          parameterName: ''
-        }
-        parameter.categoryId=eachParameter.topic.module.category.categoryId;
-        parameter.categoryName=eachParameter.topic.module.category.categoryName;
-        parameter.moduleId=eachParameter.topic.module.moduleId;
-        parameter.moduleName=eachParameter.topic.module.moduleName;
-        parameter.topicId=eachParameter.topic.topicId;
-        parameter.topicName=eachParameter.topic.topicName;
-        parameter.active=eachParameter.active;
-        parameter.updatedAt=eachParameter.updatedAt;
-        parameter.comments=eachParameter.comments;
-        parameter.parameterId=eachParameter.parameterId;
-        parameter.parameterName=eachParameter.parameterName;
-        this.parameterData.push(parameter)
+    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+      data.forEach(eachCategory => {
+        this.fetchModuleDetails(eachCategory);
       })
       this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
       this.dataSourceArray = [...this.dataSource.data]
@@ -90,11 +67,16 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
-    let category = {categoryId: eachCategory.categoryId, module: [{moduleId: -1, moduleName: ""}]}
-    this.categoryList.push({categoryId: eachCategory.categoryId, categoryName: eachCategory.categoryName,active:eachCategory.active})
+    let module: any [] = [];
+    this.categoryList.push({
+      categoryId: eachCategory.categoryId,
+      categoryName: eachCategory.categoryName,
+      active: eachCategory.active
+    })
     eachCategory.modules?.forEach(eachModule => {
-      category.module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName})
-      this.categoryAndModule.push(category)
+      this.moduleAndTopic.set(eachModule.moduleId, [])
+      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active})
+      this.categoryAndModule.set(eachCategory.categoryId, module)
       if (eachModule.topics) {
         this.fetchTopics(eachModule, eachCategory);
       }
@@ -102,34 +84,47 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
+    let topic:any[]=[];
     eachModule.topics?.forEach(eachTopic => {
-      eachTopic.parameters.forEach(eachParameter=>{
-        let parameter: ParameterData = {
-          categoryId: -1,
-          categoryName: "",
-          moduleId: -1,
-          moduleName: "",
-          topicId: -1,
-          topicName: "",
-          active: false,
-          updatedAt: 123,
-          comments: "",
-          parameterId: 0,
-          parameterName: ''
-        }
-        parameter.categoryId = eachCategory.categoryId
-        parameter.categoryName = eachCategory.categoryName
-        parameter.moduleId = eachModule.moduleId
-        parameter.moduleName = eachModule.moduleName
-        parameter.topicId = eachTopic.topicId
-        parameter.parameterId=eachParameter.parameterId
-        parameter.parameterName=eachParameter.parameterName
-        parameter.active = eachParameter.active
-        parameter.topicName = eachTopic.topicName
-        parameter.updatedAt = eachParameter.updatedAt
-        parameter.comments = eachParameter.comments
-        this.parameterData.push(parameter)
-      })
+      this.topicAndParameter.set(eachTopic.topicId,[])
+      topic.push({topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active})
+      this.moduleAndTopic.set(eachModule.moduleId, topic)
+      if(eachTopic.parameters) {
+        this.fetchParameters(eachTopic, eachCategory, eachModule);
+      }
+    })
+  }
+
+  private fetchParameters(eachTopic: TopicStructure, eachCategory: CategoryResponse, eachModule: ModuleStructure) {
+    let parameters:any[]=[];
+    eachTopic.parameters?.forEach(eachParameter => {
+      parameters.push({parameterId : eachParameter.parameterId ,parameterName : eachParameter.parameterName,active : eachParameter.active});
+      this.topicAndParameter.set(eachTopic.topicId,parameters);
+      let parameter: ParameterData = {
+        categoryId: -1,
+        categoryName: "",
+        moduleId: -1,
+        moduleName: "",
+        topicId: -1,
+        topicName: "",
+        active: false,
+        updatedAt: 123,
+        comments: "",
+        parameterId: 0,
+        parameterName: ''
+      }
+      parameter.categoryId = eachCategory.categoryId
+      parameter.categoryName = eachCategory.categoryName
+      parameter.moduleId = eachModule.moduleId
+      parameter.moduleName = eachModule.moduleName
+      parameter.topicId = eachTopic.topicId
+      parameter.parameterId = eachParameter.parameterId
+      parameter.parameterName = eachParameter.parameterName
+      parameter.active = eachParameter.active
+      parameter.topicName = eachTopic.topicName
+      parameter.updatedAt = eachParameter.updatedAt
+      parameter.comments = eachParameter.comments
+      this.parameterData.push(parameter)
     })
   }
 
@@ -178,7 +173,7 @@ export class AdminParameterComponent implements OnInit {
     // })
   }
 
-  private getParameterRequest(row: any) {
+  private getTopicRequest(row: any) {
     return {
       module: row.moduleName,
       topicName: row.topicName,
@@ -217,19 +212,16 @@ export class AdminParameterComponent implements OnInit {
     this.table.renderRows()
   }
 
-  shortlistModule(categoryId: any) {
-    this.moduleList = this.categoryAndModule.find(module => module.categoryId == categoryId).module
+  shortlistModule(categoryName: string) {
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
+    this.moduleList = this.categoryAndModule.get(categoryId)
+    this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
-  private fetchCategories(eachParameter: ParameterResponse) {
-    let category : CategoryData={
-      active: false, categoryId: 0, categoryName: "", comments: "", updatedAt: 0
-    }
-    category.categoryName=eachParameter.topic.module.category.categoryName;
-    category.categoryId=eachParameter.topic.module.category.categoryId;
-    category.active=eachParameter.topic.module.category.active;
-
-    this.categoryList.push(category);
+  shortListTopics(moduleName: string) {
+    let moduleId =this.moduleList.find(eachModule => eachModule.moduleName === moduleName).moduleId
+    this.topicList =this.moduleAndTopic.get(moduleId)
+    this.topicList.sort((topic1,topic2)=>Number(topic2.active)-Number(topic1.active))
   }
 }
 

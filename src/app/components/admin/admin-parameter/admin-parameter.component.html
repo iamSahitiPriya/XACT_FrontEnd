@@ -18,9 +18,9 @@
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
                         <mat-label>Select Category</mat-label>
-        <mat-select [(ngModel)]="row.categoryName" required>
+        <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
           <mat-option *ngFor="let category of categoryList"
-                      [value]="category.categoryName" (click)="shortlistModule(category.categoryId)">
+                      [value]="category.categoryName">
             {{category.categoryName}}
           </mat-option>
         </mat-select>
@@ -57,8 +57,8 @@
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Module</mat-label>
-        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleId">
+        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required (selectionChange)="shortListTopics(row.moduleName)">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -79,8 +79,8 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Topic</mat-label>
         <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleId">
-            {{module.moduleName}}
+          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName">
+            {{topic.topicName}}
           </mat-option>
         </mat-select>
             <mat-error>
@@ -156,6 +156,5 @@
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,150,200]" aria-label="Select page of users"></mat-paginator>
 </div>
-
 
 

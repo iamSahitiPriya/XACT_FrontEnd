@@ -8,6 +8,7 @@ import {TopicReference} from "./topicReference";
 export interface TopicStructure {
   topicId: number,
   topicName: string,
+  active: boolean,
   module: number,
   assessmentLevel: string,
   parameters: ParameterStructure[],

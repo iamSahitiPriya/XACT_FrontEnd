@@ -49,8 +49,11 @@ th {
 th.Heading{
   padding-left: 2em;
 }
-td.moduleParameter,td.topicParameter,td.parameterName{
+td.topicParameter,td.parameterName{
   padding-left:2em;
+}
+td.moduleParameter{
+  padding-left: 1em;
 }
 td.categoryParameter{
   padding-left:1em;
@@ -188,4 +191,3 @@ tr.expandedTopicRow {
 .topicInput >>> .mat-form-field-wrapped >>> .mat-form-field-appearance-outline .mat-form-field-flex {
   margin-top: 19px;
 }
-
