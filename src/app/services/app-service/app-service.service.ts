@@ -144,7 +144,7 @@ export class AppServiceService {
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
   }
   updateParameter(parameterRequest:any, parameterId: number){
-    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
+    return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
   }
 
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {

@@ -88,6 +88,9 @@ export class AdminParameterComponent implements OnInit {
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
     let topic: any[] = [];
+    this.moduleList.push({
+    moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active
+    })
     eachModule.topics?.forEach(eachTopic => {
       this.topicAndParameter.set(eachTopic.topicId, [])
       topic.push({topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active})
@@ -100,6 +103,9 @@ export class AdminParameterComponent implements OnInit {
 
   private fetchParameters(eachTopic: TopicStructure, eachCategory: CategoryResponse, eachModule: ModuleStructure) {
     let parameters: any[] = [];
+    this.topicList.push({
+      topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active
+    })
     eachTopic.parameters?.forEach(eachParameter => {
       parameters.push({
         parameterId: eachParameter.parameterId,
@@ -216,7 +222,7 @@ export class AdminParameterComponent implements OnInit {
   updateParameter(row :any) {
     console.log("Callingg")
     let parameterRequest = this.getParameterRequest(row)
-    this.appService.updateParameter(parameterRequest,row.paramterId).pipe(takeUntil(this.destroy$)).subscribe({
+    this.appService.updateParameter(parameterRequest,row.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         row.isEdit = false;
         this.selectedParameter = null;
