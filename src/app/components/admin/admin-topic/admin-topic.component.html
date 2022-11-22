@@ -1,5 +1,6 @@
 <div class="row">
-  <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']" class="col-md-9"></app-search>
+  <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']"
+              class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
     <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
       {{addTopic}}
@@ -19,7 +20,8 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>{{selectCategory}}</mat-label>
             <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
-              <mat-option *ngFor="let category of categoryList" [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }"
+              <mat-option *ngFor="let category of categoryList"
+                          [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }"
                           [value]="category.categoryName">
             {{category.categoryName}}
           </mat-option>
@@ -79,7 +81,7 @@
         <span *ngIf="selectedTopic===row">
           <mat-form-field appearance="outline" class="topicInput">
             <mat-label>{{enterTopic}}</mat-label>
-          <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName"
+          <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName" required
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
           {{commonErrorFieldText}}
@@ -107,17 +109,20 @@
         </span>
         <span *ngIf="selectedTopic===row && row.topicId !== -1">
         <button mat-flat-button class="updateTopicButton" aria-label="expand row"
-                (click)="updateTopic(row)">{{update}}</button>
+                (click)="updateTopic(row)" [disabled]="isInputValid(row)">{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)">{{save}}</button>
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)"
+                  [disabled]="isInputValid(row)">{{save}}</button>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="reference">
       <th class="topic" mat-header-cell *matHeaderCellDef></th>
       <td class="topicDate topic" mat-cell *matCellDef="let row">
-        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row && row.topicId !== -1"><mat-icon>cancel</mat-icon></button>
+        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row && row.topicId !== -1">
+          <mat-icon>cancel</mat-icon>
+        </button>
         <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>

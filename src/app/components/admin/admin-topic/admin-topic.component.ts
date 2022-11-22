@@ -12,9 +12,10 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import cloneDeep from "lodash/cloneDeep";
+import * as fromActions from "../../../actions/assessment-data.actions";
+
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
-import * as fromActions from "../../../actions/assessment-data.actions";
 
 @Component({
   selector: 'app-admin-topic',
@@ -34,7 +35,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
-  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
+  commonErrorFieldText = data_local.ADMIN.ERROR;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -54,7 +55,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
-  inputErrorMessage = data_local.ADMIN.ERROR
+  inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
   addTopic = data_local.ADMIN.TOPIC.ADD_TOPIC
   category = data_local.ADMIN.CATEGORY.CATEGORY
   selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY
@@ -80,18 +81,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
-      if(data !== undefined) {
-      this.categories = data
-      data.forEach(eachCategory => {
-        this.fetchModuleDetails(eachCategory);
-      })
-      this.topicData = this.topicData.sort((topic1, topic2) => topic2.updatedAt - topic1.updatedAt);
-      this.categoryList.sort((category1, category2) => Number(category2.active) - Number(category1.active))
-      this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    } })
+      if (data !== undefined) {
+        this.categories = data
+        data.forEach(eachCategory => {
+          this.fetchModuleDetails(eachCategory);
+        })
+        this.sortTopic();
+      }
+    })
+  }
+
+  private sortTopic() {
+    this.topicData = this.topicData.sort((topic1, topic2) => topic2.updatedAt - topic1.updatedAt);
+    this.categoryList.sort((category1, category2) => Number(category2.active) - Number(category1.active))
+    this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
@@ -173,17 +179,19 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     this.isTopicAdded = true
   }
 
-  saveTopic(row: TopicData) {
+  saveTopic(row: any) {
     let topicSaveRequest = this.getTopicRequest(row);
-
     this.appService.saveTopic(topicSaveRequest).subscribe({
       next: (_data: any) => {
         let data = this.dataSource.data
         this.isEditable = false;
         data.splice(0, 1)
         this.dataSource.data = data
-        this.table.renderRows()
+        this.selectedTopic = null
+        row.updatedAt = _data.updatedAt
+        row.isEdit = false
         this.topicData = []
+        this.table.renderRows()
         this.sendToStore(_data)
         this.ngOnInit()
       }, error: (_err: any) => {
@@ -241,21 +249,20 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   updateTopic(row: any) {
     let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
-
     if (this.unsavedTopic.topicName !== row.topicName) {
       topicRequest = this.getTopicRequest(row)
     }
-
-
     if (topicRequest !== null) {
       this.appService.updateTopic(topicRequest, row.topicId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false
           this.selectedTopic = null
           this.table.renderRows()
-          this.showNotification(this.updateSuccessMessage, 2000)
+          row.updatedAt = _data.updatedAt
           this.topicData = []
+          this.updateTopicToStore(_data)
           this.ngOnInit()
+          this.showNotification(this.updateSuccessMessage, 2000)
         }, error: _error => {
           this.showError(this.serverErrorMessage);
         }
@@ -313,6 +320,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     row.comments = this.unsavedTopic.comments
   }
 
+  private getTopicStructure(_data: any) {
+    return this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules.find(
+      eachModule => eachModule.moduleId === _data.moduleId)?.topics
+  }
+
   private sendToStore(_data: any) {
     let topic = {
       topicId: _data.topicId,
@@ -321,15 +333,29 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       updatedAt: _data.updatedAt,
       active: _data.active,
       comments: _data.comments,
-      parameters : [],
-      references : []
+      parameters: _data.parameters ? _data.parameters : [],
+      references: _data.references ? _data.references : []
     }
+    let topicStructure = this.getTopicStructure(_data)
+    topicStructure?.push(topic)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
+  }
 
-    this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules.find(
-      eachModule => eachModule.moduleId === _data.moduleId)?.topics.push(topic)
+  private updateTopicToStore(_data: any) {
+    let topic = this.categories.find(eachCategory => eachCategory.categoryId === this.unsavedTopic.categoryId)
+      ?.modules.find(eachModule => eachModule.moduleId === this.unsavedTopic.moduleId)
+      ?.topics
+    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === this.unsavedTopic.topicId)
+    if (topicIndex !== undefined) {
+      let fetchedTopic: any = topic?.at(topicIndex)
+      _data['parameters'] = fetchedTopic.parameters
+      _data['references'] = fetchedTopic.references
+      topic?.splice(topicIndex, 1)
+      this.sendToStore(_data)
+    }
+  }
 
-
-    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData : this.categories}))
-
+  isInputValid(row: any) {
+    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
   }
 }
