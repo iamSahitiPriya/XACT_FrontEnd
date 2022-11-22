@@ -26,8 +26,8 @@ import {TopicStructure} from "../../../types/topicStructure";
   ],
 })
 export class AdminParameterComponent implements OnInit {
-  parameterData : ParameterData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName','parameterName','updatedAt','active', 'edit', 'reference'];
+  parameterData: ParameterData[];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -42,10 +42,13 @@ export class AdminParameterComponent implements OnInit {
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
-  topicList : any[]=[];
-  topicAndParameter=new Map();
+  topicList: any[] = [];
+  topicAndParameter = new Map();
   private isParameterAdded: boolean;
   private isEditable: boolean;
+  moduleNotFoundMessage: string = "Module not found"
+  topicNotFoundMessage: string = "Topic not found"
+  private duplicateTopicError: string = "Duplicates are not allowed"
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
@@ -84,22 +87,26 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
-    let topic:any[]=[];
+    let topic: any[] = [];
     eachModule.topics?.forEach(eachTopic => {
-      this.topicAndParameter.set(eachTopic.topicId,[])
+      this.topicAndParameter.set(eachTopic.topicId, [])
       topic.push({topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active})
       this.moduleAndTopic.set(eachModule.moduleId, topic)
-      if(eachTopic.parameters) {
+      if (eachTopic.parameters) {
         this.fetchParameters(eachTopic, eachCategory, eachModule);
       }
     })
   }
 
   private fetchParameters(eachTopic: TopicStructure, eachCategory: CategoryResponse, eachModule: ModuleStructure) {
-    let parameters:any[]=[];
+    let parameters: any[] = [];
     eachTopic.parameters?.forEach(eachParameter => {
-      parameters.push({parameterId : eachParameter.parameterId ,parameterName : eachParameter.parameterName,active : eachParameter.active});
-      this.topicAndParameter.set(eachTopic.topicId,parameters);
+      parameters.push({
+        parameterId: eachParameter.parameterId,
+        parameterName: eachParameter.parameterName,
+        active: eachParameter.active
+      });
+      this.topicAndParameter.set(eachTopic.topicId, parameters);
       let parameter: ParameterData = {
         categoryId: -1,
         categoryName: "",
@@ -129,57 +136,65 @@ export class AdminParameterComponent implements OnInit {
   }
 
   addParameterRow() {
-    // let newTopic = {
-    //   categoryId: -1,
-    //   categoryName: "",
-    //   moduleId: -1,
-    //   moduleName: "",
-    //   topicId: -1,
-    //   topicName: "",
-    //   active: false,
-    //   updatedAt: Date.now(),
-    //   comments: "",
-    //   isEdit: true
-    // }
-    // this.dataSource.data.splice(0, 0, newTopic)
-    // this.table.renderRows();
-    // // this.dataSource.paginator = this.paginator
-    // this.isTopicAdded = true
+    let newParameter = {
+      categoryId: -1,
+      categoryName: "",
+      moduleId: -1,
+      moduleName: "",
+      topicId: -1,
+      topicName: "",
+      parameterId: -1,
+      parameterName: "",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+      isEdit: true
+    }
+    this.dataSource.data.splice(0, 0, newParameter)
+    this.table.renderRows();
+    this.dataSource.paginator = this.paginator
+    this.isParameterAdded = true
   }
 
   cancelChanges(row
                   :
                   any
-  ) {
-    console.log(row)
-
-  }
+  ){}
 
   saveParameter(row: any) {
-    // let topicSaveRequest = this.getTopicRequest(row);
-    // this.appService.saveTopic(topicSaveRequest).subscribe({
-    //   next: (_data) => {
-    //     let data = this.dataSource.data
-    //     row.isEdit = false
-    //     this.isEditable = false;
-    //     data.splice(0, 1)
-    //     this.dataSource.data = data
-    //     this.table.renderRows()
-    //     this.topicData = []
-    //     this.ngOnInit()
-    //   }, error: (_err) => {
-    //     this.showError("Some error occurred")
-    //   }
-    // })
+    let parameterSaveRequest = this.getParameterRequest(row);
+    this.appService.saveParameter(parameterSaveRequest).subscribe({
+      next: (_data) => {
+        let data = this.dataSource.data
+        row.isEdit = false
+        this.isEditable = false;
+        data.splice(0, 1)
+        this.dataSource.data = data
+        this.table.renderRows()
+        this.parameterData = []
+        this.ngOnInit()
+      }, error: (_err) => {
+        this.showError("No duplicate parameters are allowed")
+      }
+    })
   }
 
-  private getTopicRequest(row: any) {
-    return {
-      module: row.moduleName,
-      topicName: row.topicName,
-      active: row.active,
-      comments: row.comments
-    };
+  private getParameterRequest(row: any): any {
+    console.log("Calling getPara")
+    console.log(row.topicName)
+    let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
+    let parameterArray = this.topicAndParameter.get(selectedTopicId)
+    if (parameterArray.findIndex((parameter: string) => parameter === row.parameterName) === -1) {
+      return {
+        topic: selectedTopicId,
+        parameterName: row.parameterName,
+        active: row.active,
+        comments: row.comments,
+      }
+    } else {
+      this.showError(this.duplicateTopicError)
+      return null
+    }
   }
 
   showError(message: string) {
@@ -192,18 +207,38 @@ export class AdminParameterComponent implements OnInit {
   }
 
   editParameter(row: any) {
-    this.selectedParameter = this.selectedParameter=== row ? null : row
+    this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
     this.parameterData = Object.assign({}, row)
     return this.selectedParameter;
   }
 
-  updateParameter(row
-                :
-                any
-  ) {
-
+  updateParameter(row :any) {
+    console.log("Callingg")
+    let parameterRequest = this.getParameterRequest(row)
+    this.appService.updateParameter(parameterRequest,row.paramterId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_data) => {
+        row.isEdit = false;
+        this.selectedParameter = null;
+        this.table.renderRows()
+        this.showNotification("Your changes have been successfully updated.", 200000)
+        this.parameterData = []
+        this.ngOnInit()
+      }, error: _error => {
+        this.showError("Some error occurred");
+      }
+    })
   }
+
+  private showNotification(reportData: string, duration: number) {
+    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
 
   deleteAddedParameterRow() {
     let data = this.dataSource.data
@@ -215,13 +250,21 @@ export class AdminParameterComponent implements OnInit {
   shortlistModule(categoryName: string) {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
+    if (this.moduleList === undefined) {
+      this.moduleList = [{moduleName: this.moduleNotFoundMessage}]
+    }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
   shortListTopics(moduleName: string) {
-    let moduleId =this.moduleList.find(eachModule => eachModule.moduleName === moduleName).moduleId
-    this.topicList =this.moduleAndTopic.get(moduleId)
-    this.topicList.sort((topic1,topic2)=>Number(topic2.active)-Number(topic1.active))
+    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === moduleName).moduleId
+    this.topicList = this.moduleAndTopic.get(moduleId)
+    if (this.topicList.length === 0) {
+      this.topicList = [{topicName: this.topicNotFoundMessage}]
+    }
+    this.topicList.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
   }
+
+
 }
 

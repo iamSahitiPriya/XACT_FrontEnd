@@ -134,14 +134,17 @@ export class AppServiceService {
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
   }
 
-  getAllParameters():Observable<ParameterResponse[]>{
-    return this.http.get<ParameterResponse[]>(environment.BaseURI + environment.ALL_PARAMETER_URI);
-  }
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
+  saveParameter(parameterRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
+  }
   updateCategory(categoryRequest:any){
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
+  }
+  updateParameter(parameterRequest:any, parameterId: number){
+    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
   }
 
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {

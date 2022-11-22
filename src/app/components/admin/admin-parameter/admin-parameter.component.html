@@ -57,8 +57,8 @@
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Module</mat-label>
-        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required (selectionChange)="shortListTopics(row.moduleName)">
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
+        <mat-select [(ngModel)]="row.moduleName" required (selectionChange)="shortListTopics(row.moduleName)">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [disabled]="moduleList[0].moduleName===moduleNotFoundMessage">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -79,7 +79,7 @@
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Topic</mat-label>
         <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
-          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName">
+          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName" [disabled]="topicList[0].topicName===topicNotFoundMessage">
             {{topic.topicName}}
           </mat-option>
         </mat-select>
