@@ -10,10 +10,13 @@ import {MatSort} from "@angular/material/sort";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {AssessmentStructure} from "../../../types/assessmentStructure";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {CategoryResponse} from "../../../types/categoryResponse";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
 
 
 @Component({
@@ -30,6 +33,7 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 })
 
 export class AdminCategoryComponent implements OnInit, OnDestroy {
+  masterData : Observable<CategoryResponse[]>
   categoryData: CategoryData[]
   displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -61,7 +65,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store :  Store<AppStates>) {
+    this.masterData = this.store.select((store) => store.masterData.masterData)
     this.categoryData = []
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -69,7 +74,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.masterData.subscribe(data => {
+      console.log(data)
       data.forEach((eachCategory) => {
         let category: CategoryData = {
           categoryId: -1,

@@ -170,8 +170,8 @@ export class AppServiceService {
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
   }
-  saveTopic(topicRequest:any){
-    return this.http.post(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  saveTopic(topicRequest:any) : any{
+    return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
   }
   updateTopic(topicRequest: any, topicId:number) {
     return this.http.put(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)

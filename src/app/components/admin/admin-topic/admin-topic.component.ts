@@ -6,12 +6,15 @@ import {MatSort} from "@angular/material/sort";
 import {TopicData} from "../../../types/topicData";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import cloneDeep from "lodash/cloneDeep";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
+import * as fromActions from "../../../actions/assessment-data.actions";
 
 @Component({
   selector: 'app-admin-topic',
@@ -25,7 +28,10 @@ import cloneDeep from "lodash/cloneDeep";
     ]),
   ],
 })
-export class AdminTopicComponent implements OnInit,OnDestroy {
+export class AdminTopicComponent implements OnInit, OnDestroy {
+  masterDataCopy: CategoryResponse[]
+  categories: CategoryResponse[]
+  masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -65,14 +71,17 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
   moduleNotFound: any = "No modules available";
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
+    this.masterData = this.store.select((store) => store.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.masterData.subscribe(data => {
+      if(data !== undefined) {
+      this.categories = data
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
@@ -82,7 +91,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    })
+    } })
   }
 
   ngOnDestroy(): void {
@@ -168,15 +177,16 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     let topicSaveRequest = this.getTopicRequest(row);
 
     this.appService.saveTopic(topicSaveRequest).subscribe({
-      next: (_data) => {
+      next: (_data: any) => {
         let data = this.dataSource.data
         this.isEditable = false;
         data.splice(0, 1)
         this.dataSource.data = data
         this.table.renderRows()
         this.topicData = []
+        this.sendToStore(_data)
         this.ngOnInit()
-      }, error: (_err) => {
+      }, error: (_err: any) => {
         this.showError(this.serverErrorMessage)
       }
     })
@@ -194,11 +204,11 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     }
   }
 
-   isTopicUnique(topicIndex: number) {
+  isTopicUnique(topicIndex: number) {
     return topicIndex === -1;
   }
 
-   setTopicRequest(row: TopicData) {
+  setTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     return {
       module: selectedModuleId,
@@ -217,7 +227,7 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     })
   }
 
-  editTopic(row:any) {
+  editTopic(row: any) {
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
@@ -267,10 +277,11 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
   shortlistModule(categoryName: string) {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    if(this.moduleList === undefined) {
+    if (this.moduleList === undefined) {
       this.moduleList = []
-      let module = {moduleName:this.moduleNotFound}
-      this.moduleList.push(module)}
+      let module = {moduleName: this.moduleNotFound}
+      this.moduleList.push(module)
+    }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
@@ -300,5 +311,25 @@ export class AdminTopicComponent implements OnInit,OnDestroy {
     row.topicName = this.unsavedTopic.topicName
     row.updatedAt = this.unsavedTopic.updatedAt
     row.comments = this.unsavedTopic.comments
+  }
+
+  private sendToStore(_data: any) {
+    let topic = {
+      topicId: _data.topicId,
+      topicName: _data.topicName,
+      module: _data.moduleId,
+      updatedAt: _data.updatedAt,
+      active: _data.active,
+      comments: _data.comments,
+      parameters : [],
+      references : []
+    }
+
+    this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules.find(
+      eachModule => eachModule.moduleId === _data.moduleId)?.topics.push(topic)
+
+
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData : this.categories}))
+
   }
 }

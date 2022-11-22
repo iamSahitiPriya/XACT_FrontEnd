@@ -4,13 +4,16 @@
 
 import {Action, createReducer, on} from '@ngrx/store';
 import {
+  getAllCategories,
   getAssessmentData,
-  getUpdatedAssessmentData,
+  getUpdatedAssessmentData, getUpdatedCategories,
   setAverageComputedScore,
   setErrorMessage,
 } from "../actions/assessment-data.actions";
 
-import {AssessmentState, ComputedScore} from "./app.states";
+import {AssessmentState, ComputedScore, MasterData} from "./app.states";
+import {CategoryResponse} from "../types/categoryResponse";
+import {act} from "@ngrx/effects";
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -29,6 +32,17 @@ export const initialState: AssessmentState = {
     parameterRatingAndRecommendation: [],
     users: []
   }
+}
+
+export  const  initialMasterData : MasterData = {
+  masterData  : [{
+  "categoryId": -1,
+  "categoryName":"",
+  "active": false,
+  "updatedAt" : 12345,
+  "comments": "",
+  "modules": []
+  }]
 }
 export const initialComputedScore: ComputedScore = {
   scoreDetails: {
@@ -68,6 +82,21 @@ const _scoreReducer = createReducer(
     }
   })
 )
+const _masterDataReducer = createReducer(
+  initialMasterData,
+  on(getAllCategories, (state,action) => {
+    return {
+      ...state,
+      masterData: action.categories
+    }
+  }),
+  on(getUpdatedCategories, (state,action) => {
+    return {
+      ...state,
+      masterData: action.newMasterData
+    }
+  })
+)
 
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
@@ -75,6 +104,10 @@ export function assessmentReducer(state: any, action: Action) {
 
 export function scoreReducer(state: any, action: Action) {
   return _scoreReducer(state, action)
+}
+
+export function masterDataReducer(state : any, action : Action) {
+  return _masterDataReducer(state,action)
 }
 
 
