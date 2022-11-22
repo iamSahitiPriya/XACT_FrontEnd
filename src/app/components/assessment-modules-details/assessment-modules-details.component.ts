@@ -70,7 +70,6 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     this.getAssessment();
   }
 
-
   private getAssessment() {
     this.answer.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       if (data !== undefined) {
@@ -86,8 +85,9 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.userAssessmentCategories.length > 0)
+      if (this.category.userAssessmentCategories.length > 0 ) {
         this.navigate(this.category.userAssessmentCategories[0].modules[0])
+      }
 
     })
   }

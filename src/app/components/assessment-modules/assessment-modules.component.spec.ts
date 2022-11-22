@@ -8,7 +8,7 @@ import {AssessmentModulesComponent} from './assessment-modules.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MatIconModule} from "@angular/material/icon";
 import {RouterTestingModule} from "@angular/router/testing";
-import {of} from "rxjs";
+import {BehaviorSubject, of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -25,7 +25,8 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-
+import {appRoutes} from "../../app.module";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 class MockAppService {
   moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
@@ -39,27 +40,17 @@ class MockAppService {
     }],
     userAssessmentCategories: [{categoryId: 0,active:true, categoryName: "Hello", modules: []}]
   }
-  category: UserCategoryResponse = {
-    assessmentCategories: [{
-      categoryId: 0,
-      categoryName: "hello",active:true,
-      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
-        updatedAt : 0,
-        comments : "",}]
-    }],
-    userAssessmentCategories: []
-  }
+  category ={}
 
-  public getCategories(assessmentId: number) {
-    if (assessmentId === 1) {
-      this.categoryData.userAssessmentCategories = []
-      this.category.userAssessmentCategories = []
+  public getCategories = (assessmentId: number) => {
+    if (assessmentId === 0) {
       return of(this.categoryData)
-    } else {
+    }
+    else {
       return of(this.category)
     }
 
-  }
+  };
 
   saveUserModules() {
     return of(this.moduleRequest)
@@ -75,7 +66,15 @@ describe('AssessmentModulesComponent', () => {
   let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentModulesComponent>;
 
+
   beforeEach(async () => {
+    const activatedRouteStub = {
+      paramMap: {
+        subscribe() {
+          return of();
+        }
+      }
+    };
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent,Ng2SearchPipe],
       imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,MatTooltipModule,MatSnackBarModule,
@@ -86,7 +85,7 @@ describe('AssessmentModulesComponent', () => {
         ])],
       providers: [
         {provide: AppServiceService, useClass: MockAppService}
-      ],
+        ]
 
     })
       .compileComponents();
@@ -97,6 +96,8 @@ describe('AssessmentModulesComponent', () => {
     fixture = TestBed.createComponent(AssessmentModulesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+
     component.category = {
       assessmentCategories: [{
         categoryId: 0,active:true,
@@ -113,47 +114,6 @@ describe('AssessmentModulesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should return the categories", () => {
-    const expectedData = [
-      {
-        "categoryId": 1,
-        "categoryName": "My Category1",
-        "modules": [
-          {
-            "moduleId": 1,
-            "moduleName": "My Module",
-            "category": 1,
-            "topics": [
-              {
-                "topicId": 1,
-                "topicName": "My Topic",
-                "module": 1,
-                "parameters": [
-                  {
-                    "parameterId": 1,
-                    "parameterName": "My Parameter",
-                    "topic": 1,
-                    "questions": [
-                      {
-                        "questionId": 1,
-                        "questionText": "My Question",
-                        "parameter": 1
-                      }
-                    ],
-                    "references": []
-                  }
-                ],
-                "references": []
-              }
-            ]
-          },
-        ]
-      },
-    ]
-    mockAppService.getCategories(1).subscribe(data => {
-      expect(data).toBe(expectedData)
-    })
-  });
   it("should return status of category", () => {
     jest.spyOn(component, "checkAllStatus")
     let response = component.checkAllStatus(0)
@@ -186,6 +146,7 @@ describe('AssessmentModulesComponent', () => {
       assessmentCategories: [],
       userAssessmentCategories: []
     }
+
     jest.spyOn(component, "navigate")
     component.moduleRequest = moduleRequest
     component.saveUserModule()
@@ -217,10 +178,11 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(1).subscribe(data => {
+    // component.setModules(categoryResponse.userAssessmentCategories)
+
+    mockAppService.getCategories(0).subscribe(data => {
       expect(data).toBe(categoryResponse)
     })
-    component.setModules(categoryResponse.userAssessmentCategories)
     expect(component.setModules).toHaveBeenCalled()
   });
   it("should remove a category", () => {
@@ -232,23 +194,14 @@ describe('AssessmentModulesComponent', () => {
     let response = component.checkedModuleStatus(1, 1, true, false,true)
     expect(response).toBeTruthy()
   });
-  it("should fetch all the user selected categories", () => {
-    let categoryResponse = {
-      assessmentCategories: [{
-        categoryId: 0,active:true,
-        categoryName: "hello",
-        modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
-      }],
-    }
-    jest.spyOn(component, "setModules")
-    jest.spyOn(component, "getModule")
-    component.ngOnInit()
+  it("should fetch all the user selected categories when no category is selected", () => {
+    // jest.spyOn(component, "getCategoriesData")
+    component.getCategoriesData(2);
     mockAppService.getCategories(2).subscribe(_date => {
-      // @ts-ignore
-      _date.userAssessmentCategories = undefined
-      expect(_date).toBe(categoryResponse)
+      expect(_date).toBe({})
     })
   });
+
   it("should select all the categories", () => {
     let response = component.checkedModuleStatus(0, 0, true, false,true)
     expect(response).toBeFalsy()
@@ -297,4 +250,10 @@ describe('AssessmentModulesComponent', () => {
     expect(component.assessmentName).toBe("abc1")
     expect(component.assessmentId).toBe(0)
   });
+  it("should navigate back to previous page on clicking back button", () => {
+    jest.spyOn(component,'navigateBack');
+    const button = fixture.nativeElement.querySelector("#backButton");
+    button.click()
+    expect(component.navigateBack).toBeCalled();
+  })
 });

@@ -27,46 +27,46 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {MatMenuModule} from "@angular/material/menu";
 
+let ASSESSMENT_DATA: AssessmentStructure [] = [
+  {
+    "assessmentId": 1,
+    "assessmentName": "xact",
+    "organisationName": "abc",
+    "assessmentStatus": "ACTIVE",
+    "assessmentPurpose":"Client Request",
+    "updatedAt": 1649836702001,
+    assessmentState:"inProgress",
+    "domain": "TW",
+    "industry": "IT",
+    "teamSize": 2,
+    "users": [],
+    "answerResponseList": [],
+    "parameterRatingAndRecommendation": [],
+    "topicRatingAndRecommendation": [],
+
+
+  },
+  {
+    "assessmentId": 2,
+    "assessmentName": "xact-1",
+    "assessmentState":"inProgress",
+    "organisationName": "abc",
+    "assessmentStatus": "ACTIVE",
+    "assessmentPurpose":"Client Request",
+    "updatedAt": 1649836702001,
+    "domain": "TW",
+    "industry": "IT",
+    "teamSize": 2,
+    "users": [],
+    "answerResponseList": [],
+    "parameterRatingAndRecommendation": [],
+    "topicRatingAndRecommendation": [],
+  }
+]
 class MockAppService {
-  ASSESSMENT_DATA: AssessmentStructure [] = [
-    {
-      "assessmentId": 1,
-      "assessmentName": "xact",
-      "organisationName": "abc",
-      "assessmentStatus": "ACTIVE",
-      "assessmentPurpose":"Client Request",
-      "updatedAt": 1649836702001,
-      assessmentState:"inProgress",
-      "domain": "TW",
-      "industry": "IT",
-      "teamSize": 2,
-      "users": [],
-      "answerResponseList": [],
-      "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": [],
-
-
-    },
-    {
-      "assessmentId": 1,
-      "assessmentName": "xact",
-      "assessmentState":"inProgress",
-      "organisationName": "abc",
-      "assessmentStatus": "ACTIVE",
-      "assessmentPurpose":"Client Request",
-      "updatedAt": 1649836702001,
-      "domain": "TW",
-      "industry": "IT",
-      "teamSize": 2,
-      "users": [],
-      "answerResponseList": [],
-      "parameterRatingAndRecommendation": [],
-      "topicRatingAndRecommendation": [],
-    }
-  ]
 
   public getAssessments(): Observable<AssessmentStructure[]> {
-    return of(this.ASSESSMENT_DATA)
+    return of(ASSESSMENT_DATA)
   }
 }
 
@@ -121,7 +121,7 @@ describe('AssessmentsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should get response', () => {
+  it('should get response and sort after update', () => {
     let assData: AssessmentStructure[] = [
       {
         "assessmentId": 1,
@@ -140,12 +140,48 @@ describe('AssessmentsComponent', () => {
         "topicRatingAndRecommendation": [],
       },
       {
-        "assessmentId": 1,
+        "assessmentId": 2,
         "assessmentState":"inProgress",
-        "assessmentName": "xact",
+        "assessmentName": "xact-1",
         "organisationName": "abc",
         "assessmentPurpose":"Client Request",
         "assessmentStatus": "ACTIVE",
+        "updatedAt": 1649836702001,
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": [],
+      }
+
+    ]
+
+    let assData1: AssessmentStructure[] = [
+      {
+        "assessmentId": 1,
+        "assessmentName": "xact",
+        "organisationName": "abc",
+        "assessmentStatus": "ACTIVE",
+        "assessmentPurpose":"Client Request",
+        "updatedAt": 1649836702001,
+        "domain": "TW",
+        "industry": "IT",
+        "teamSize": 2,
+        "users": [],
+        "assessmentState":"inProgress",
+        "answerResponseList": [],
+        "parameterRatingAndRecommendation": [],
+        "topicRatingAndRecommendation": [],
+      },
+      {
+        "assessmentId": 2,
+        "assessmentState":"inProgress",
+        "assessmentName": "xact-1",
+        "organisationName": "abc",
+        "assessmentPurpose":"Client Request",
+        "assessmentStatus": "Completed",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
@@ -163,7 +199,12 @@ describe('AssessmentsComponent', () => {
 
     fixture.detectChanges()
     mockAppService.getAssessments().subscribe((data) => {
-      expect(data).toBe(assData)
+      expect(data).toBe(assData);
+    })
+      ASSESSMENT_DATA[1].assessmentStatus = "Completed";
+      component.ngOnInit();
+      mockAppService.getAssessments().subscribe((data) => {
+        expect(data).toBe(assData1);
     })
   });
   it("should open assessment", () => {
@@ -171,5 +212,21 @@ describe('AssessmentsComponent', () => {
     component.openAssessment("")
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
+  });
+
+  it('should be able to navigate to assessment module selection page on first time click',() => {
+    jest.spyOn(component, 'navigation');
+    const button = fixture.nativeElement.querySelector("#assessmentRow");
+    button.click();
+    expect(component.navigation).toHaveBeenCalled();
+
+  });
+
+  it('should be able to navigate to assessment  page on click',() => {
+    jest.spyOn(component, 'navigation');
+    ASSESSMENT_DATA[0].assessmentState = "Complete";
+    const button = fixture.nativeElement.querySelector("#assessmentRow");
+    button.click();
+    expect(component.navigation).toHaveBeenCalled();
   });
 });

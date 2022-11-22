@@ -69,7 +69,7 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay" class="headerRow"></tr>
 
       <tr [matTooltipDisabled]="hideTooltip === true"
-        [matTooltip]=toolTipAssessmentCol+element.assessmentName role="button"
+        [matTooltip]=toolTipAssessmentCol+element.assessmentName role="button" id="assessmentRow"
       (click)="navigation(element.assessmentState,element.assessmentId)"
       mat-row *matRowDef="let element; columns: columnsToDisplay;">
       </tr>
