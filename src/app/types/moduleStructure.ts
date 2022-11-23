@@ -8,6 +8,8 @@ export interface ModuleStructure {
   moduleId: number,
   moduleName: string,
   category: number,
-  active : boolean,
+  active:boolean,
+  updatedAt : number,
+  comments ?: string,
   topics: TopicStructure[]
 }

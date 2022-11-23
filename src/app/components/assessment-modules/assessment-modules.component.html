@@ -57,9 +57,9 @@
         <mat-card class="moduleCards" [ngClass]="{'active':!(category1.active)}">
           <div class="row">
             <div *ngFor="let module of category1.modules | filter:searchText" style="color:black;margin-bottom: 10%">
-              <mat-checkbox class="col-xs-2 selectCheckBox" (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active)"
-                            [checked]="checkedModuleStatus(module.moduleId,category1.categoryId,selectedCategory.checked,selectedModule.checked)"
-                            [disabled]="!(category1.active)"
+              <mat-checkbox class="col-xs-2 selectCheckBox" (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active,module.active)"
+                            [disabled]="!(category1.active) || !(module.active)"
+                            [checked]="checkedModuleStatus(module.moduleId,category1.categoryId,selectedCategory.checked,selectedModule.checked,module.active)"
                             #selectedModule></mat-checkbox>
               <span class="moduleText">{{module.moduleName}}</span>
             </div>

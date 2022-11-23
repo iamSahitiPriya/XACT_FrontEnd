@@ -28,7 +28,7 @@ export const environment = {
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   IDLE_TIMEOUT: 60,  //in sec
   TIMEOUT: 600, // 10 min
-  ALL_CATEGORY_URI: "/v1/admin/categories",
+  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
@@ -45,4 +45,5 @@ export const environment = {
     }
   },
   USER_ASSESSMENT_MODULE_URI: "/modules",
+  SAVE_MODULE_URI: "/v1/admin/modules",
 };

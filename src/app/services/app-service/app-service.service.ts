@@ -133,12 +133,14 @@ export class AppServiceService {
   getAllCategories():Observable<CategoryResponse[]>{
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
   }
-
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
   saveParameter(parameterRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
+  }
+  saveModule(moduleRequest :any){
+    return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI,moduleRequest)
   }
   updateCategory(categoryRequest:any){
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
@@ -147,6 +149,9 @@ export class AppServiceService {
     return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
   }
 
+  updateModule(moduleRequest: any) {
+      return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
+  }
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
   }
