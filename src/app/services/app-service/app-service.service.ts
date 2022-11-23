@@ -139,7 +139,7 @@ export class AppServiceService {
   }
 
   saveCategory(categoryRequest:any){
-    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+    return this.http.post<any>(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
   saveModule(moduleRequest :any){
     return this.http.post(environment.BaseURI + environment.ALL_MODULE_URI,moduleRequest)

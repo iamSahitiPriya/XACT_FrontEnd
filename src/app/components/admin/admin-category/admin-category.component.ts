@@ -17,6 +17,7 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
+import * as fromActions from "../../../actions/assessment-data.actions"
 
 
 @Component({
@@ -35,6 +36,7 @@ import {AppStates} from "../../../reducers/app.states";
 export class AdminCategoryComponent implements OnInit, OnDestroy {
   masterData : Observable<CategoryResponse[]>
   categoryData: CategoryData[]
+  categories:CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -75,6 +77,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
+      this.categories = data
       data.forEach((eachCategory) => {
         let category: CategoryData = {
           categoryId: -1,
@@ -90,12 +93,17 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         category.comments = eachCategory.comments;
         this.categoryData.push(category)
       })
-      this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
-      this.dataSourceArray = [...this.dataSource.data]
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.sortCategory();
     })
+  }
+
+  private sortCategory() {
+    this.categoryData.sort((category1, category2) => category2.updatedAt - category1.updatedAt)
+    this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
+    this.dataSourceArray = [...this.dataSource.data]
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
@@ -162,6 +170,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
           this.dataSource.data = data
           this.table.renderRows()
           this.categoryData = []
+          this.sendDataToStore(_data)
           this.ngOnInit()
         }, error: _error => {
           this.showError(this.serverErrorMessage);
@@ -182,10 +191,12 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         row.isEdit = false;
+        console.log(_data)
         this.selectedCategory = null;
         this.table.renderRows()
         this.showNotification(this.updateSuccessMessage, 2000)
         this.categoryData = []
+        this.updateToStore(_data)
         this.ngOnInit()
       }, error: _error => {
         this.showError(this.serverErrorMessage);
@@ -210,5 +221,23 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     row.comments = this.category.comments
     this.selectedCategory = this.selectedCategory === row ? null : row
     return row;
+  }
+
+  private sendDataToStore(value: any) {
+    value['modules'] = []
+    this.categories.push(value)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+  }
+
+  updateToStore(_data: any) {
+    let category = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
+    if(category !== undefined) {
+      category.categoryName = _data.categoryName
+      category.active = _data.active
+      category.comments = _data.comments
+      category.updatedAt = Number(new Date())
+      this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+    }
+
   }
 }
