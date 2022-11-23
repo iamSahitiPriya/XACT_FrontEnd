@@ -12,6 +12,7 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
+import cloneDeep from "lodash/cloneDeep";
 
 @Component({
   selector: 'app-admin-parameter',
@@ -40,6 +41,7 @@ export class AdminParameterComponent implements OnInit {
   categoryList: any[] = []
   moduleList: any[] = []
   parameter : ParameterData
+  unSavedParameter : ParameterData
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -47,6 +49,7 @@ export class AdminParameterComponent implements OnInit {
   topicAndParameter = new Map();
   private isParameterAdded: boolean;
   private isEditable: boolean;
+  isParameterUnique =true;
   moduleNotFoundMessage: string = "Module not found"
   topicNotFoundMessage: string = "Topic not found"
   private duplicateTopicError: string = "Duplicates are not allowed"
@@ -63,6 +66,8 @@ export class AdminParameterComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
+      this.moduleStructure.sort((a,b)=>Number(b.updatedAt) - Number(a.updatedAt));
+      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
@@ -177,37 +182,44 @@ export class AdminParameterComponent implements OnInit {
 
   saveParameter(row: any) {
     let parameterSaveRequest = this.getParameterRequest(row);
-    this.appService.saveParameter(parameterSaveRequest).subscribe({
-      next: (_data) => {
-        let data = this.dataSource.data
-        row.isEdit = false
-        this.isEditable = false;
-        data.splice(0, 1)
-        this.dataSource.data = data
-        this.table.renderRows()
-        this.parameterData = []
-        this.ngOnInit()
-      }, error: (_err) => {
-        this.showError("No duplicate parameters are allowed")
-      }
-    })
+    if (this.isParameterUnique) {
+      this.appService.saveParameter(parameterSaveRequest).subscribe({
+        next: (_data) => {
+          let data = this.dataSource.data
+          row.isEdit = false
+          this.isEditable = false;
+          data.splice(0, 1)
+          this.dataSource.data = data
+          this.table.renderRows()
+          this.parameterData = []
+          this.ngOnInit()
+        }, error: (_err) => {
+          this.showError("No duplicate parameters are allowed")
+        }
+      })
+    }
   }
 
   private getParameterRequest(row: any): any {
-    console.log("Calling getPara")
-    console.log(row.topicName)
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterArray = this.topicAndParameter.get(selectedTopicId)
-    if (parameterArray.findIndex((parameter: string) => parameter === row.parameterName) === -1) {
-      return {
-        topic: selectedTopicId,
-        parameterName: row.parameterName,
-        active: row.active,
-        comments: row.comments,
-      }
+    let index =parameterArray.findIndex((parameter: any) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
+    if (index === -1) {
+      return this.setParameterRequest(selectedTopicId, row);
     } else {
+      this.isParameterUnique=false;
       this.showError(this.duplicateTopicError)
       return null
+    }
+  }
+
+  private setParameterRequest(selectedTopicId : number, row: any) {
+    this.isParameterUnique=true;
+    return {
+      topic: selectedTopicId,
+      parameterName: row.parameterName,
+      active: row.active,
+      comments: row.comments,
     }
   }
 
@@ -223,25 +235,31 @@ export class AdminParameterComponent implements OnInit {
   editParameter(row: any) {
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
+    this.unSavedParameter=cloneDeep(row)
     this.parameter = Object.assign({}, row)
     return this.selectedParameter;
   }
 
   updateParameter(row :any) {
-    console.log("Callingg")
-    let parameterRequest = this.getParameterRequest(row)
-    this.appService.updateParameter(parameterRequest,row.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        row.isEdit = false;
-        this.selectedParameter = null;
-        this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 200000)
-        this.parameterData = []
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError("Some error occurred");
-      }
-    })
+    let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
+    let parameterRequest = this.setParameterRequest(selectedTopicId,row);
+    if(this.unSavedParameter.parameterName !== row.parameterName){
+      parameterRequest =this.getParameterRequest(row);
+    }
+    if(this.isParameterUnique) {
+      this.appService.updateParameter(parameterRequest, row.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          row.isEdit = false;
+          this.selectedParameter = null;
+          this.table.renderRows()
+          this.showNotification("Your changes have been successfully updated.", 200000)
+          this.parameterData = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError("Some error occurred");
+        }
+      })
+    }
   }
 
   private showNotification(reportData: string, duration: number) {
