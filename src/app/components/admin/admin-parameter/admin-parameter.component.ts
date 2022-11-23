@@ -66,8 +66,10 @@ export class AdminParameterComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
-      this.moduleStructure.sort((a,b)=>Number(b.updatedAt) - Number(a.updatedAt));
-      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
+      this.parameterData.sort((parameter1,parameter2)=>Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
+      this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
+      this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
+      this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
       this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
@@ -122,10 +124,13 @@ export class AdminParameterComponent implements OnInit {
       let parameter: ParameterData = {
         categoryId: -1,
         categoryName: "",
+        categoryStatus:false,
         moduleId: -1,
         moduleName: "",
+        moduleStatus:false,
         topicId: -1,
         topicName: "",
+        topicStatus:false,
         active: false,
         updatedAt: 123,
         comments: "",
@@ -134,9 +139,12 @@ export class AdminParameterComponent implements OnInit {
       }
       parameter.categoryId = eachCategory.categoryId
       parameter.categoryName = eachCategory.categoryName
+      parameter.categoryStatus=eachCategory.active
       parameter.moduleId = eachModule.moduleId
       parameter.moduleName = eachModule.moduleName
+      parameter.moduleStatus=eachModule.active
       parameter.topicId = eachTopic.topicId
+      parameter.topicStatus=eachTopic.active
       parameter.parameterId = eachParameter.parameterId
       parameter.parameterName = eachParameter.parameterName
       parameter.active = eachParameter.active
@@ -151,10 +159,13 @@ export class AdminParameterComponent implements OnInit {
     let newParameter = {
       categoryId: -1,
       categoryName: "",
+      categoryStatus:false,
       moduleId: -1,
       moduleName: "",
+      moduleStatus:false,
       topicId: -1,
       topicName: "",
+      topicStatus : false,
       parameterId: -1,
       parameterName: "",
       active: false,

@@ -13,14 +13,14 @@
       <td class="parameter categoryParameter" mat-cell *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedParameter === row)">
           <span class="circle"></span>
-        {{row.categoryName}}
+        <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
                         <mat-label>Select Category</mat-label>
         <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
           <mat-option *ngFor="let category of categoryList"
-                      [value]="category.categoryName">
+                      [value]="category.categoryName"  [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
             {{category.categoryName}}
           </mat-option>
         </mat-select>
@@ -52,13 +52,14 @@
       <th class="parameter Heading" *matHeaderCellDef> Module</th>
       <td class="parameter moduleParameter" *matCellDef="let row">
               <span *ngIf="!(row.isEdit || selectedParameter === row)">
-                {{row.moduleName}}
+               <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Module</mat-label>
         <mat-select [(ngModel)]="row.moduleName" required (selectionChange)="shortListTopics(row.moduleName)">
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [disabled]="moduleList[0].moduleName===moduleNotFoundMessage">
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [disabled]="moduleList[0].moduleName===moduleNotFoundMessage"
+                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -72,14 +73,15 @@
     <ng-container matColumnDef="topicName">
       <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Topic</th>
       <td class="parameter topicParameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
-        {{row.topicName}}
+       <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
 
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>Select Topic</mat-label>
         <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
-          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName" [disabled]="topicList[0].topicName===topicNotFoundMessage">
+          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName" [disabled]="topicList[0].topicName===topicNotFoundMessage"
+                      [ngStyle]="{'color': topic.active ? '52575d' : '#B3B8BD' }">
             {{topic.topicName}}
           </mat-option>
         </mat-select>
