@@ -17,7 +17,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
-import {FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
@@ -46,7 +46,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   @Input()
   index: number;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   autoSave:string
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL

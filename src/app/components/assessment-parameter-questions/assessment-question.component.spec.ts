@@ -35,7 +35,12 @@ describe('AssessmentQuestionComponent', () => {
 
   class MockAppService {
     public saveNotes(assessmentNotes: AssessmentNotes) {
+      if(assessmentNotes.notes!="error text"){
         return of(assessmentNotes)
+      }
+      else {
+        return throwError("Error!")
+      }
     }
   }
 
@@ -219,6 +224,31 @@ describe('AssessmentQuestionComponent', () => {
   it("should throw error when notes cannot be saved", async () => {
     jest.spyOn(component,'showError')
     component.showError("message")
+    expect(component.showError).toHaveBeenCalled()
+  });
+
+  it("should not save answer and throw error", () => {
+    let assNotes : AssessmentNotes = {
+      assessmentId: 0, notes: "error text", questionId: 0, updatedAt: 0
+
+    }
+    jest.spyOn(component,'saveNotes')
+    component.saveNotes(assNotes)
+    jest.spyOn(component,"showError")
+
+
+    mockAppService.saveNotes(assNotes).subscribe(data => {
+        expect(data).toBeUndefined()},
+      error => {
+        expect(component.showError).toHaveBeenCalled()
+        expect(error).toBe(new Error("Error!"))
+      })
+  })
+
+  it("should show error", () => {
+    const message = "Data cannot be saved"
+    jest.spyOn(component, "showError")
+    component.showError(message)
     expect(component.showError).toHaveBeenCalled()
   });
 });

@@ -9,7 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CategoryData} from "../../../types/category";
 import {CategoryResponse} from "../../../types/categoryResponse";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -50,10 +50,15 @@ class MockAppService {
 
   public saveCategory(categoryRequest: Observable<any>): Observable<any> {
     return of(categoryRequest)
-  }
 
-  public updateCategory(categoryRequest: any): Observable<any> {
-    return of(categoryRequest)
+  }
+  public updateCategory(categoryRequest:any):Observable<any>{
+    if(categoryRequest.categoryName !="") {
+      return of(categoryRequest)
+    }
+    else {
+      return throwError("Error !")
+    }
   }
 
 
@@ -157,64 +162,80 @@ describe('AdminCategoryComponent', () => {
   });
   it("should update category on click of update", () => {
     component.selectedCategory = row
-
     component.updateCategory(row)
 
     mockAppService.updateCategory(row).subscribe(data => {
       expect(data).toBe(row);
     })
     expect(component.selectedCategory).toBeNull()
+  })
 
-  });
-  it("should cancel changes", () => {
-    component.selectedCategory = row;
-    component.category = {
-      active: true,
-      categoryId: -1,
-      categoryName: "category",
-      comments: "comments",
-      updatedAt: 1022022
-    }
-    component.cancelChanges(row);
-    expect(component.selectedCategory).toBe(null)
-  });
-  it("should show error", () => {
-    const message = "This is an error message"
-    jest.spyOn(component, "showError")
-    component.showError(message)
-    expect(component.showError).toHaveBeenCalled()
-  });
-  it("should throw error if the category is already present", () => {
-    component.ngOnInit()
-    component.isEditable = true
-    let categoryRequest = of({
-      categoryName: "value1",
-      active: false,
-      comments: "value.comments"
+    it('should not update category and throw error on click of update', () => {
+      component.selectedCategory = row
+      jest.spyOn(component, 'updateCategory')
+      let data = {active: true, categoryId: -1, categoryName: "", comments: "comments", updatedAt: 1022022}
+      component.updateCategory(data)
+
+      jest.spyOn(component, 'showError')
+      mockAppService.updateCategory(data).subscribe(data => {
+          expect(data).toBeUndefined()
+        },
+        error => {
+          expect(component.showError).toHaveBeenCalled()
+          expect(error).toBe(new Error("Error!"))
+        })
+
     })
-    let dummyCategoryReq = {
-      "categoryName": "category2",
-      "comments": "comments",
-      "categoryId": -1,
-      "active": true
-    }
-    jest.spyOn(component, "showError")
-    component.saveCategory(dummyCategoryReq)
-    jest.spyOn(component, "showError")
-    expect(component.showError).toHaveBeenCalled();
-  });
-  it("should update data to store", () => {
-    component.ngOnInit()
-    jest.spyOn(component, 'updateToStore')
-    let category = {
-      active: false,
-      categoryId: 2,
-      categoryName: "adasdasd",
-      updatedAt: 1669185488599,
-      comments: "this is a comment"
-    }
-    component.updateToStore(category)
-    expect(component.updateToStore).toHaveBeenCalled()
+
+    it("should cancel changes", () => {
+      component.selectedCategory = row;
+      component.category = {
+        active: true,
+        categoryId: -1,
+        categoryName: "category",
+        comments: "comments",
+        updatedAt: 1022022
+      }
+      component.cancelChanges(row);
+      expect(component.selectedCategory).toBe(null)
+    });
+    it("should show error", () => {
+      const message = "This is an error message"
+      jest.spyOn(component, "showError")
+      component.showError(message)
+      expect(component.showError).toHaveBeenCalled()
+    });
+    it("should throw error if the category is already present", () => {
+      component.ngOnInit()
+      component.isEditable = true
+      let categoryRequest = of({
+        categoryName: "value1",
+        active: false,
+        comments: "value.comments"
+      })
+      let dummyCategoryReq = {
+        "categoryName": "category2",
+        "comments": "comments",
+        "categoryId": -1,
+        "active": true
+      }
+      jest.spyOn(component, "showError")
+      component.saveCategory(dummyCategoryReq)
+      jest.spyOn(component, "showError")
+      expect(component.showError).toHaveBeenCalled();
+    });
+    it("should update data to store", () => {
+      component.ngOnInit()
+      jest.spyOn(component, 'updateToStore')
+      let category = {
+        active: false,
+        categoryId: 2,
+        categoryName: "adasdasd",
+        updatedAt: 1669185488599,
+        comments: "this is a comment"
+      }
+      component.updateToStore(category)
+      expect(component.updateToStore).toHaveBeenCalled()
+    });
 
   });
-});

@@ -17,7 +17,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
@@ -48,7 +48,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   @Input()
   parameterIndex: number;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   autoSave : string;
   recommendationId:number
 

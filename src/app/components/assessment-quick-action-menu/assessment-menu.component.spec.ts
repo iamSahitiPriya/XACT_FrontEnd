@@ -153,6 +153,42 @@ describe('AssessmentMenuComponent', () => {
     expect(matDialog.closeAll).toHaveBeenCalled()
   });
 
+  it('should call generate report & template on click for InComplete Assessment', fakeAsync(() => {
+    component.assessment = {
+      assessmentPurpose: "",
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Active",
+      updatedAt: 0,
+      assessmentState:"inProgress",
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    }
+    jest.spyOn(component, 'generateReport');
+    jest.spyOn(component,'isAssessmentTable')
+    global.URL.createObjectURL = jest.fn();
+    dom = fixture.debugElement.nativeElement;
+    component.type="assessmentTable";
+    fixture.detectChanges();
+    button = dom.querySelector("#menu-button");
+    button.click();
+    let t : any;
+    const menu = dom.parentNode.querySelector('#generate-menu');
+    menu.click();
+    tick();
+    expect(component.generateReport).toHaveBeenCalled();
+    tick(100);
+    flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
+  }));
+
 });
 
 

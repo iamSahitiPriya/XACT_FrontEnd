@@ -191,7 +191,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         row.isEdit = false;
-        console.log(_data)
         this.selectedCategory = null;
         this.table.renderRows()
         this.showNotification(this.updateSuccessMessage, 2000)

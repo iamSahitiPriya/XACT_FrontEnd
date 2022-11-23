@@ -68,11 +68,19 @@ class MockAppService {
   }
 
   saveTopic(row : TopicData) {
-      return of(row)
+    if(row.comments === "") {
+      return of(row) }
+    else {
+      return throwError("Error!")
+    }
   }
 
   updateTopic(row : any, topicId : number) {
-      return of(row)
+    if(topicId === -1) {
+      return of(row) }
+    else {
+      return throwError("Error!")
+    }
   }
 }
 
@@ -165,27 +173,63 @@ describe('AdminTopicComponent', () => {
   it("should save topic", () => {
 
     mockAppService.saveTopic(row).subscribe((data) => {
+      expect(component.sendToStore(data)).toHaveBeenCalled()
       expect(data).toBe(row)
     })
   });
 
   it("should throw error when saving topic", () => {
-    let row = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topicnew", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+    let row = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topicnew", active: false, updatedAt: Date.now(), comments: "comment", isEdit: true,}
 
-    mockAppService.saveTopic(row).subscribe((data) => {
-      expect(data).toBeUndefined()
-    }, error => {
-      expect(component.showError).toHaveBeenCalled()
-      expect(error).toBe(new Error("Error!"))
-    })
+    jest.spyOn(component,"saveTopic")
+    jest.spyOn(component,"getTopicRequest")
+    jest.spyOn(component,"isTopicUnique")
+    jest.spyOn(component,"setTopicRequest")
+    jest.spyOn(component,"showError")
+    component.ngOnInit()
+
+    component.moduleList = [{moduleId:1,moduleName:"module1",active:true},{moduleId:2,moduleName:"module2",active:true}]
+
+    component.saveTopic(row)
+
+    expect(component.showError).toHaveBeenCalled()
   });
 
   it("should update topic",() => {
     let topicRequest =  { comments: "comment" , module: 1 , topicName: "new topic", active: true}
 
-    mockAppService.updateTopic(topicRequest,1).subscribe((data) => {
+
+    mockAppService.updateTopic(topicRequest,-1).subscribe((data) => {
+      expect(component.sendToStore(data)).toHaveBeenCalled()
       expect(data).toBe(topicRequest)
     })
+  });
+
+  it("should throw error while updating topic",() => {
+    let topicRequest =  { comments: "comment" , module: 1 , topicName: "new topic", active: true}
+    row = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topicnew",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+      isEdit: true,
+    }
+    jest.spyOn(component,"showError")
+    component.ngOnInit()
+    component.moduleList = [{moduleId:1,moduleName:"module1",active:true},{moduleId:2,moduleName:"module2",active:true}]
+    component.unsavedTopic = row
+
+
+    component.updateTopic(row)
+
+    expect(component.showError).toHaveBeenCalled()
   });
 
   it("should add new rows", () => {
@@ -229,7 +273,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should show error when saving the topic already exists", () => {
-    let row : TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: -1, topicName: "topic1", updatedAt: 0}
+    let row : TopicData = {active: false, categoryId: 2, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 2, moduleName: "module1", moduleStatus: false, topicId: -1, topicName: "topic1", updatedAt: 0}
 
     jest.spyOn(component,"saveTopic")
     jest.spyOn(component,"getTopicRequest")

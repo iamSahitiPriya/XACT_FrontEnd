@@ -181,23 +181,25 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   saveTopic(row: any) {
     let topicSaveRequest = this.getTopicRequest(row);
-    this.appService.saveTopic(topicSaveRequest).subscribe({
-      next: (_data: any) => {
-        let data = this.dataSource.data
-        this.isEditable = false;
-        data.splice(0, 1)
-        this.dataSource.data = data
-        this.selectedTopic = null
-        row.updatedAt = _data.updatedAt
-        row.isEdit = false
-        this.topicData = []
-        this.table.renderRows()
-        this.sendToStore(_data)
-        this.ngOnInit()
-      }, error: (_err: any) => {
-        this.showError(this.serverErrorMessage)
-      }
-    })
+    if(topicSaveRequest !== null) {
+      this.appService.saveTopic(topicSaveRequest).subscribe({
+        next: (_data: any) => {
+          let data = this.dataSource.data
+          this.isEditable = false;
+          data.splice(0, 1)
+          this.dataSource.data = data
+          this.selectedTopic = null
+          row.updatedAt = _data.updatedAt
+          row.isEdit = false
+          this.topicData = []
+          this.table.renderRows()
+          this.sendToStore(_data)
+          this.ngOnInit()
+        }, error: (_err: any) => {
+          this.showError(this.serverErrorMessage)
+        }
+      })
+    }
   }
 
   getTopicRequest(row: TopicData) {
@@ -326,7 +328,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       eachModule => eachModule.moduleId === _data.moduleId)?.topics
   }
 
-  private sendToStore(_data: any) {
+  sendToStore(_data: any) {
     let topic = {
       topicId: _data.topicId,
       topicName: _data.topicName,

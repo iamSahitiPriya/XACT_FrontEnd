@@ -296,7 +296,7 @@ describe('TopicLevelAssessmentComponent', () => {
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
     expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
   });
-  it("should get parameter rating and recommendation", () => {
+  it("should get parameter rating and recommendation when undefined", () => {
     let dummyParameter: ParameterStructure = {
       parameterId: 1,
       parameterName: "",
@@ -305,33 +305,32 @@ describe('TopicLevelAssessmentComponent', () => {
       references: []
     }
     component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
+      answerResponseList: [],
+      assessmentId: 0,
+      assessmentName: "",
+      assessmentPurpose: "",
+      assessmentState: "",
+      assessmentStatus: "",
       domain: "",
-      assessmentState:"inProgress",
       industry: "",
-      teamSize: 0,
-      users: [],
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        },],
+      organisationName: "",
+      parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
-
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
-
+      updatedAt: 0,
+      users: []
     }
-    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
+    const dummyAnswerRequest: Notes[] = [{questionId: 1,answer:undefined}]
 
     let dummyNewParameter: ParameterRequest = {
       answerRequest: dummyAnswerRequest,
 
-      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 0, parameterLevelRecommendation: [{
+          "deliveryHorizon": "",
+          "effort": "",
+          "impact": "",
+          "recommendation": "",
+          "recommendationId":undefined
+        }]}
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
@@ -566,6 +565,22 @@ describe('TopicLevelAssessmentComponent', () => {
 
     expect(component.averageRating.topicId).toEqual(2);
     expect(component.averageRating.rating).toEqual(0);
+  })
+
+  it('should be able to set average rating when none of the parameter rating is selected', () => {
+    component.averageRating.rating= 4;
+    component.averageRating.topicId=1;
+    component.topicRequest = {
+      parameterLevel: [{
+        answerRequest: [{questionId: 1, answer: ""}],
+
+        parameterRatingAndRecommendation: {parameterId: 0, parameterLevelRecommendation: [{}]}
+      }]
+    }
+    component.topicInput={module: 0, parameters: [], references: [], topicId: 1, topicName: "",updatedAt: 12345, active : true}
+    jest.spyOn(component,'updateAverageRating')
+    component.updateAverageRating();
+    expect(component.averageRating.rating).toBe(0)
   })
 });
 

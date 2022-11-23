@@ -16,6 +16,9 @@ import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecomme
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {TopicRequest} from "../../types/topicRequest";
+import {Observable} from "rxjs";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {environment} from "../../../environments/environment";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -275,6 +278,10 @@ describe('AppServiceService', () => {
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   })
 
+
+  it("should get only selected categories",() =>{
+    expect(service.getOnlySelectedCategories(1)).toBeTruthy();
+  });
 
 });
 
