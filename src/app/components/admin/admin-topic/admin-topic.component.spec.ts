@@ -11,12 +11,14 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {TopicStructure} from "../../../types/topicStructure";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatIconModule} from "@angular/material/icon";
 import {TopicData} from "../../../types/topicData";
 import exp from "constants";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../../reducers/reducers";
 
 class MockAppService {
   topic : TopicStructure = {topicId:1,topicName:"topic1",active:true,comments:"",updatedAt: 12345,module:1,parameters:[],references:[]}
@@ -83,7 +85,7 @@ describe('AdminTopicComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminTopicComponent, SearchComponent ],
-      imports : [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule],
+      imports : [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule,StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator]
     })
     .compileComponents();
@@ -108,6 +110,46 @@ describe('AdminTopicComponent', () => {
       comments: "",
       isEdit: true,
     }
+    component.masterData = of([{
+      "categoryId":1,
+      "categoryName":"category1",
+      "active": true,
+      "updatedAt" : 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt" : 23456,
+        "comments" : " ",
+        "topics" : [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [],
+          "references": []
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      }]
+    },{"categoryId":3,
+      "categoryName":"category3",
+      "active": true,
+      "updatedAt" : 12345,
+      "comments": "comment1",
+      "modules": []}
+    ])
 
   });
 
@@ -116,11 +158,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should get topic data", () => {
-
-    mockAppService.getAllCategories().subscribe((data) => {
-      expect(data).toBe(data)
-    })
-
+    component.ngOnInit()
     expect(component.topicData[0].topicName).toBe("topic2")
   });
 
@@ -163,7 +201,7 @@ describe('AdminTopicComponent', () => {
 
   it("should delete row from the table on clicking the bin button", () => {
     let row : TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: -1, topicName: "new topic", updatedAt: 0}
-
+    component.ngOnInit()
     component.dataSource.data.push(row)
 
     component.deleteAddedTopicRow()
@@ -181,7 +219,7 @@ describe('AdminTopicComponent', () => {
 
     component.moduleList = [{moduleId:1,moduleName:"module1",active:true},{moduleId:2,moduleName:"module2",active:true}]
     component.isEditable = true
-
+    component.ngOnInit()
     component.saveTopic(row)
 
     let data = {"active": false, "comments": "", "module": 1, "topicName": "new topic"}
@@ -200,7 +238,7 @@ describe('AdminTopicComponent', () => {
 
     component.moduleList = [{moduleId:1,moduleName:"module1",active:true},{moduleId:2,moduleName:"module2",active:true}]
     component.isEditable = true
-
+    component.ngOnInit()
     component.saveTopic(row)
 
     expect(component.getTopicRequest(row)).toBeNull()
@@ -212,7 +250,7 @@ describe('AdminTopicComponent', () => {
     let row : TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: -1, topicName: "topic new", updatedAt: 0}
     let row1 : TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic2", updatedAt: 0}
 
-
+    component.ngOnInit()
     jest.spyOn(component,"updateTopic")
     jest.spyOn(component,"getTopicRequest")
 
@@ -229,16 +267,17 @@ describe('AdminTopicComponent', () => {
 
     component.ngOnInit()
 
-    component.shortlistModule("category1")
+    component.shortlistModule(row)
 
     expect(component.moduleList.length).toBe(1)
   });
 
   it("should display no modules available when no module is available in the selected category", () => {
+    let row : TopicData = {active: false, categoryId: 1, categoryName: "category3", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: -1, topicName: "topic new", updatedAt: 0}
 
     component.ngOnInit()
 
-    component.shortlistModule("category3")
+    component.shortlistModule(row)
 
     expect(component.moduleList.length).toBe(1)
     expect(component.moduleList[0].moduleName).toBe("No modules available")
@@ -257,8 +296,4 @@ describe('AdminTopicComponent', () => {
 
     expect(component.resetTopic).toHaveBeenCalled()
   });
-
-
-
-
 });

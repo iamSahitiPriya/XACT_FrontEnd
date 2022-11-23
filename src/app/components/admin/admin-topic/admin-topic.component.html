@@ -19,7 +19,7 @@
         <span *ngIf="selectedTopic===row">
           <mat-form-field appearance="outline" class="selectDropdownForm">
             <mat-label>{{selectCategory}}</mat-label>
-            <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
+            <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row)">
               <mat-option *ngFor="let category of categoryList"
                           [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }"
                           [value]="category.categoryName">

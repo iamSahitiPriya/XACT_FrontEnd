@@ -281,8 +281,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     }
   }
 
-  shortlistModule(categoryName: string) {
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
+  shortlistModule(row: TopicData) {
+    row.moduleName = ''
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
       this.moduleList = []
