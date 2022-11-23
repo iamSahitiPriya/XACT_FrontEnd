@@ -39,6 +39,7 @@ export class AdminParameterComponent implements OnInit {
   private dataSourceArray: ParameterData[];
   categoryList: any[] = []
   moduleList: any[] = []
+  parameter : ParameterData
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -162,10 +163,17 @@ export class AdminParameterComponent implements OnInit {
     this.isParameterAdded = true
   }
 
-  cancelChanges(row
-                  :
-                  any
-  ){}
+  cancelChanges(row: any){
+    row.categoryName = this.parameter.categoryName
+    row.moduleName=this.parameter.moduleName
+    row.parameterName=this.parameter.parameterName
+    row.active = this.parameter.active
+    row.updatedAt = this.parameter.updatedAt
+    row.comments = this.parameter.comments
+    this.selectedParameter = this.selectedParameter === row ? null : row
+    return row;
+  }
+
 
   saveParameter(row: any) {
     let parameterSaveRequest = this.getParameterRequest(row);
@@ -215,7 +223,7 @@ export class AdminParameterComponent implements OnInit {
   editParameter(row: any) {
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
-    this.parameterData = Object.assign({}, row)
+    this.parameter = Object.assign({}, row)
     return this.selectedParameter;
   }
 

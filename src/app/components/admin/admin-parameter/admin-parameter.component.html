@@ -109,7 +109,7 @@
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Date</th>
-      <td class="parameter parameterName" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <td class="parameter parameterDate" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Active</th>
@@ -124,28 +124,26 @@
         <span *ngIf="!(row.isEdit || selectedParameter === row)">
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameter(row)">Edit</button>
         </span>
-        <span *ngIf="selectedParameter===row">
-        <button mat-flat-button class="updateButton" aria-label="expand row"
+        <span *ngIf="selectedParameter===row && row.parameterId !== -1">
+        <button mat-flat-button class="update" aria-label="expand row"
                 (click)="updateParameter(row)">Update</button>
-        <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                       src="../../assets/closeIcon/closeIcon.svg"
-                                                                       alt="close icon" class="closeIcon"/></button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameter(row)">Save</button>
-            <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit || selectedParameter === row)">
-          <mat-icon id="deleteTopic">delete</mat-icon>
-        </button>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
-      <td class="parameter parameter" mat-cell *matCellDef="let row">
-        <button mat-flat-button *ngIf="!(row.isEdit || selectedParameter === row)">
-          <mat-icon>playlist_add</mat-icon>
-        </button>
-      </td>
+      <td class="parameter" mat-cell *matCellDef="let row">
+              <button class="closeTopicButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
+              <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
+                <mat-icon id="deleteTopic">delete</mat-icon>
+              </button>
+              <button mat-flat-button *ngIf="!(selectedParameter === row)">
+                <mat-icon>playlist_add</mat-icon>
+              </button>
+            </td>
     </ng-container>
     <ng-container>
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>

@@ -49,11 +49,18 @@ th {
 th.Heading{
   padding-left: 2em;
 }
-td.topicParameter,td.parameterName{
+td.topicParameter{
   padding-left:2em;
+}
+td.parameterName{
+  padding-left:1em;
 }
 td.moduleParameter{
   padding-left: 1em;
+}
+td.parameterDate{
+  color:red;
+  padding-left:1em;
 }
 td.categoryParameter{
   padding-left:1em;
@@ -139,7 +146,21 @@ tr:nth-of-type(5n + 5) span.circle {
 .selectDropdownForm .mat-form-field-infix {
   padding: 8px 0;
 }
-
+.update{
+  color:red;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  /*padding-bottom: 32px;*/
+  /*color: #658892;*/
+  margin-right: 3px;
+}
 .saveTopicButton {
   width: 70px;
   height: 30px;
@@ -190,4 +211,20 @@ tr.expandedTopicRow {
 
 .topicInput >>> .mat-form-field-wrapped >>> .mat-form-field-appearance-outline .mat-form-field-flex {
   margin-top: 19px;
+}
+.input {
+  width: 230px;
+  height: 49px;
+  border: 1px solid #4BA1AC;
+  border-radius: 7px;
+  text-align: left;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0;
+  color: #6F7071;
+  opacity: 1;
+  padding-left: 19px;
+  margin-top: 22px;
+  margin-bottom: 4px;
 }
