@@ -19,12 +19,15 @@
         <span *ngIf="row.isEdit || selectedModule===row">
          <mat-form-field appearance="outline" class="selectionBox">
            <mat-label>Select Category</mat-label>
-  <mat-select [(ngModel)]="row.categoryName">
-    <mat-option *ngFor="let category of categoryNames"  [value]="category.categoryName"
+  <mat-select [(ngModel)]="row.categoryName" required>
+    <mat-option *ngFor="let category of categoryDetails"  [value]="category.categoryName"
                 [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
       {{category.categoryName}}
     </mat-option>
   </mat-select>
+           <mat-error>
+             {{mandatoryFieldText}}
+           </mat-error>
 </mat-form-field>
         </span>
          </td>
