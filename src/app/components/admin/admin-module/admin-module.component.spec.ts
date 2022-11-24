@@ -95,7 +95,7 @@ describe('AdminModuleComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get all categories and modules', () => {
+  it('should get master data', () => {
     let module : ModuleData[]=[{
       "moduleId":-1,
       "moduleName":"moduleName",
@@ -137,7 +137,7 @@ describe('AdminModuleComponent', () => {
     component.deleteRow()
     expect(component.dataSource.data.length).toBe(1)
   });
-  it("should save categories", () => {
+  it("should save module", () => {
     let moduleRequest = of({
       "categoryName": "category1",
       "moduleName":"module",
@@ -174,7 +174,7 @@ describe('AdminModuleComponent', () => {
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedModule).toBe(row)
   });
-  it("should update category on click of update", () => {
+  it("should update module on click of update", () => {
     component.selectedModule= {
       active: false,
       categoryName: "newCategory",
