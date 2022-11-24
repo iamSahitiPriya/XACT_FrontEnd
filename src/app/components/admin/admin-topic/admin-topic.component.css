@@ -204,15 +204,6 @@ tr.expandedTopicRow {
   color: #658892;
 }
 
-.closeTopicIcon {
-  width: 24px;
-  height: 24px;
-  opacity: 1;
-  margin-right: -77px;
-  margin-left: -36px;
-  display: inline-block;
-}
-
 button.closeTopicButton {
   background: none;
   border: none;

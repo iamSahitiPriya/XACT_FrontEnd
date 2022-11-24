@@ -11,10 +11,6 @@
   padding-bottom: 18px;
 }
 
-/*::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {*/
-/*  margin: -1.75em 0 !important;*/
-/*}*/
-
 textArea.mat-input-element {
   padding-bottom: 30px;
 }
@@ -35,23 +31,6 @@ textArea.mat-input-element {
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
-
-::ng-deep .topicAssessment {
-  overflow-y: scroll !important;
-}
-
-::ng-deep .saveSnackbar {
-  background-color: #6B9F78 !important;
-}
-
-::ng-deep .errorSnackbar {
-  background-color: #F15F79 !important;
-}
-@media screen and (max-width: 1000px) {
-  .textArea {
-    font-size: 14px;
-  }
-  }
 
 .loader {
   border: 2px solid #f3f3f3;
@@ -91,3 +70,11 @@ textArea.mat-input-element {
   font-style: italic;
   color: #45A0AC;
 }
+
+@media screen and (max-width: 1000px) {
+  .textArea {
+    font-size: 14px;
+  }
+  }
+
+

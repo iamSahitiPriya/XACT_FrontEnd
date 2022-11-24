@@ -11,10 +11,6 @@
   font-size: 15px;
 }
 
-textArea.mat-input-element {
-  padding-bottom: 30px;
-}
-
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
@@ -31,11 +27,6 @@ textArea.mat-input-element {
   caret-color: #45A0AC !important;
 }
 
-::ng-deep .topicAssessment {
-  overflow-y: scroll !important;
-}
-
-
 .parameterRecommendation {
   margin-top: 13px;
   margin-right: 50px;
@@ -43,12 +34,6 @@ textArea.mat-input-element {
   background: #FFFFFF 1% 1% no-repeat padding-box;
   box-shadow: 1px 1px 6px #013D4F29;
   border-left: 1px solid #FFFFFF;
-}
-
-.plusIcon {
-  margin-left: 78%;
-  background-color: unset;
-  border: none;
 }
 
 
@@ -97,7 +82,6 @@ textArea.mat-input-element {
 
 .delete {
   width: 24%;
-  margin-top: -5px;
   padding-left: 45px;
 }
 

@@ -26,13 +26,13 @@
   width: 102%;
 }
 
-.mat-fab {
-  background-color: #043d4e;
-  border-radius: 0;
-  top: -0.5px;
-  left: -22px;
-  height: 3.275em;
-}
+/*.mat-fab {*/
+/*  background-color: #043d4e;*/
+/*  border-radius: 0;*/
+/*  top: -0.5px;*/
+/*  left: -22px;*/
+/*  height: 3.275em;*/
+/*}*/
 
 .addUserEmail {
   width: 100%;
@@ -118,9 +118,9 @@ h2 {
   width: 30%;
 }
 
-.mat-column-name {
-  padding-left: 50px;
-}
+/*.mat-column-name {*/
+/*  padding-left: 50px;*/
+/*}*/
 
 .mat-dialog-content {
   display: block;

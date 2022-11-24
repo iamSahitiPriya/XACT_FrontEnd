@@ -12,17 +12,16 @@
   width: 340vh;
 }
 
+/*.col-md-8 {*/
+/*  flex: 0 0 auto;*/
+/*  width: 73.666667%;*/
+/*  padding-left: 87.8%;*/
+/*}*/
 
-.col-md-8 {
-  flex: 0 0 auto;
-  width: 73.666667%;
-  padding-left: 87.8%;
-}
-
-.mat-stroked-button {
-  min-width: 88px;
-  color: #32616E;
-}
+/*.mat-stroked-button {*/
+/*  min-width: 88px;*/
+/*  color: #32616E;*/
+/*}*/
 
 .saveButton {
   width: 87px;
@@ -81,10 +80,6 @@
   caret-color: #45A0AC !important;
 }
 
-::ng-deep .topicAssessment {
-  overflow-y: scroll !important;
-}
-
 .parameterScoring {
   width: 90%;
   margin-right: 20px;
@@ -100,10 +95,6 @@
 #questionContainer {
   display: flex;
   width: 100%;
-}
-
-::ng-deep .saveSnackbar {
-  background-color: #6B9F78 !important;
 }
 
 .assessmentDetailsDisplay {
