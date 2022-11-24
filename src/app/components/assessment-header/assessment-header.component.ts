@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {data_local} from "../../messages";
@@ -21,7 +21,7 @@ import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessmen
 export class AssessmentHeaderComponent implements OnInit, OnDestroy{
 
   savedAnswer: string
-  createAssessmentForm: FormGroup;
+  createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   assessment: AssessmentStructure;
   data: AssessmentStructure;
@@ -45,7 +45,7 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
   assessmentHeader: string = "assessmentHeader";
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: FormBuilder, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 

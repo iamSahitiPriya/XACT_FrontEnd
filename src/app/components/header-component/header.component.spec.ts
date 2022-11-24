@@ -57,6 +57,13 @@ describe('HeaderComponent', () => {
     expect(component.isRoleAdmin).toBeFalsy();
     component.ngOnInit()
   });
+
+  it("should be able to sign out", () => {
+    jest.spyOn(component,'signOut');
+    const button = fixture.nativeElement.querySelector("#signout");
+    button.click();
+    expect(component.signOut).toBeCalled();
+  })
 });
 
 

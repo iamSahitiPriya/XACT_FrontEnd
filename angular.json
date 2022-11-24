@@ -90,7 +90,6 @@
           "configurations": {
             "developer": {
               "sourceMap": false,
-
               "budgets": [
                 {
                   "type": "initial",
@@ -156,7 +155,6 @@
                 "input": "src/index.prod.html",
                 "output": "index.html"
               }
-
             },
             "development": {
               "outputHashing": "all",
@@ -212,9 +210,10 @@
       }
     }
   },
-  "defaultProject": "XAct_Frontend_App",
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

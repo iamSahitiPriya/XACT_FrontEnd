@@ -8,7 +8,7 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -31,14 +31,14 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
-  createAssessmentForm: FormGroup;
+  createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
   orgListLoader:boolean = false;
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
-  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
+  selected = new UntypedFormControl('valid', [Validators.required, Validators.pattern('valid')]);
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -91,7 +91,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
 
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
-              private formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
+              private formBuilder: UntypedFormBuilder, private _snackBar: MatSnackBar) {
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -145,7 +145,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private showError(message:string) {
+   showError(message:string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
       duration : 2000,

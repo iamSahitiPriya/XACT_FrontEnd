@@ -67,6 +67,12 @@ describe('ErrorComponentComponent', () => {
   it('should close and move', fakeAsync(() => {
     expect(component.cancelChanges).toBeTruthy()
   }));
+  it('should be able to cancel the changes', ()=> {
+    jest.spyOn(component,'cancelChanges');
+    const button = fixture.nativeElement.querySelector("#home");
+    button.click();
+    expect(component.cancelChanges).toBeCalled();
+  })
 
 
 });
