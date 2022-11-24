@@ -305,12 +305,13 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.topics = [{
       topicId: 1,
       topicName: "hello",
+      active : false,
       assessmentLevel: "topic",
       parameters: [],
       module: 1,
       references: []
-    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
-      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
+    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", active: false,  parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello", assessmentLevel: "topic", active: false, parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
@@ -321,12 +322,13 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.topics = [{
       topicId: 1,
       topicName: "hello",
+      active : false,
       assessmentLevel: "topic",
       parameters: [],
       module: 1,
       references: []
-    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
-      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
+    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", active: false,  parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello", assessmentLevel: "topic", active: false, parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });

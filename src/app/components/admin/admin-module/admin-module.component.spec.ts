@@ -133,10 +133,12 @@ describe('AdminModuleComponent', () => {
     component.addModuleRow()
     expect(component.isModuleAdded).toBeTruthy()
   });
+
   it("should delete row from the table on clicking the bin button", () => {
     component.deleteRow()
     expect(component.dataSource.data.length).toBe(1)
   });
+
   it("should save categories", () => {
     let moduleRequest = of({
       "categoryName": "category1",

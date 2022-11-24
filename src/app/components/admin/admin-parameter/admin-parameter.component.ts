@@ -47,8 +47,8 @@ export class AdminParameterComponent implements OnInit {
   moduleAndTopic = new Map();
   topicList: any[] = [];
   topicAndParameter = new Map();
-  private isParameterAdded: boolean;
-  private isEditable: boolean;
+  isParameterAdded: boolean = false;
+  isEditable: boolean;
   isParameterUnique =true;
   moduleNotFoundMessage: string = "Module not found"
   topicNotFoundMessage: string = "Topic not found"
@@ -196,6 +196,7 @@ export class AdminParameterComponent implements OnInit {
     if (this.isParameterUnique) {
       this.appService.saveParameter(parameterSaveRequest).subscribe({
         next: (_data) => {
+          console.log(parameterSaveRequest)
           let data = this.dataSource.data
           row.isEdit = false
           this.isEditable = false;
@@ -205,7 +206,7 @@ export class AdminParameterComponent implements OnInit {
           this.parameterData = []
           this.ngOnInit()
         }, error: (_err) => {
-          this.showError("No duplicate parameters are allowed")
+          this.showError("Some error occurred")
         }
       })
     }
@@ -214,8 +215,11 @@ export class AdminParameterComponent implements OnInit {
   private getParameterRequest(row: any): any {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterArray = this.topicAndParameter.get(selectedTopicId)
-    let index =parameterArray.findIndex((parameter: any) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
+    console.log(parameterArray)
+    let index = parameterArray.findIndex((parameter: any) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
+    console.log(index)
     if (index === -1) {
+      console.log(selectedTopicId)
       return this.setParameterRequest(selectedTopicId, row);
     } else {
       this.isParameterUnique=false;
