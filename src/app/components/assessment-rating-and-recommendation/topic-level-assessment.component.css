@@ -112,6 +112,25 @@
   width: 98%;
   height: 95%;
 }
+
+#addRecommendation {
+  color: #4ba1ac;
+}
+
+.addRecommendation {
+  width: 95%;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
+  background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
+  border: none;
+}
+.button1:hover {
+  background-color: #00000024;
+}
+
 @media screen and (max-width: 1000px) {
   .assessmentDetailsDisplay{
     width: 100%;
@@ -125,5 +144,7 @@
   .parameter{
     font-size: 17px;
   }
+
+
 }
 

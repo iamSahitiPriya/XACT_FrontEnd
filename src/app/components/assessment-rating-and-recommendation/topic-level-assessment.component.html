@@ -22,6 +22,15 @@
           ></app-assessment-question>
         </div>
       </div>
+
+      <button
+              class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+        <div>
+          <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+          id="addRecommendation"> Add Question </span>
+        </div>
+      </button>
+
       <div *ngIf="parameter.references">
         <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
                                     [parameterId]="parameter.parameterId"
