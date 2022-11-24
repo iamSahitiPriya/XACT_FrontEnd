@@ -265,6 +265,16 @@ button.closeButton {
   color: #45A0AC !important;
 }
 
+.filter-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 16px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 25%;
+}
+
 
 
 

@@ -69,6 +69,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND
   moduleNotFound: any = "No modules available";
 
 
@@ -238,6 +239,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   editTopic(row: any) {
+    this.resetUnsavedChanges(row);
+
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
@@ -248,6 +251,17 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     return this.selectedTopic
   }
 
+
+  private resetUnsavedChanges(row: any) {
+    if (this.unsavedTopic !== undefined && this.unsavedTopic.topicId !== row.topicId) {
+      let data = this.dataSource.data
+      let index = data.findIndex(topic => topic.topicId === this.unsavedTopic.topicId)
+      if (index !== -1) {
+        data.splice(index, 1, this.unsavedTopic)
+        this.dataSource.data = data
+      }
+    }
+  }
 
   updateTopic(row: any) {
     let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);

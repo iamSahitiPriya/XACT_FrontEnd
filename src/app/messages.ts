@@ -151,6 +151,7 @@ export const data_local =
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },
       ADMIN: {
+        DATA_NOT_FOUND: "No data matching the filter",
         SERVER_ERROR_MESSAGE: "Some error occurred",
         UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
         INPUT_ERROR_MESSAGE: "Please fill the field",

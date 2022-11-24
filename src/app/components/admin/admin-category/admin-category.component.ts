@@ -65,6 +65,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   update = data_local.ADMIN.UPDATE
   categoryLabel = data_local.ADMIN.CATEGORY.CATEGORY
   addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
+
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store :  Store<AppStates>) {
@@ -180,11 +182,23 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   editCategory(row: any) {
+    this.resetUnsavedChanges(row)
     this.deleteRow()
     this.selectedCategory = this.selectedCategory === row ? null : row
     this.isEditable = true;
     this.category = Object.assign({}, row)
     return this.selectedCategory;
+  }
+
+  private resetUnsavedChanges(row: any) {
+    if (this.category !== undefined && this.category.categoryId !== row.categoryId) {
+      let data = this.dataSource.data
+      let index = data.findIndex(category => category.categoryId === this.category.categoryId)
+      if (index !== -1) {
+        data.splice(index, 1, this.category)
+        this.dataSource.data = data
+      }
+    }
   }
 
   updateCategory(row: any) {

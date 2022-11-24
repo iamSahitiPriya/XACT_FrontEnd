@@ -1,6 +1,20 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+table {
+  width: 100%;
+}
+
 div.topicButtonColumn {
   display: flex;
   justify-content: flex-end;
+}
+
+
+div.topic {
+  margin-top: 16px;
+  box-shadow: 0px 5px 25px #52575d1a;
 }
 
 .topicButton1 {
@@ -21,7 +35,7 @@ div.topicButtonColumn {
 
 th.topic, td.topic {
   border-bottom-style: none;
-  text-align: left;
+  text-align: center;
 }
 
 td.topic {
@@ -217,5 +231,15 @@ button.closeTopicButton.mat-icon {
 }
 .topicInput .mat-form-field-appearance-outline .mat-form-field-outline{
   height: 55px !important;
+}
+
+.filter-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 16px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 25%;
 }
 
