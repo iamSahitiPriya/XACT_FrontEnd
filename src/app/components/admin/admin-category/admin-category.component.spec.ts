@@ -127,15 +127,18 @@ describe('AdminCategoryComponent', () => {
     }]
     component.paginator.pageSize = 5
     component.paginator.pageIndex = 0
+
     component.ngOnInit()
     expect(component.dataSource).toBeTruthy()
     expect(component.isCategoryAdded).toBeFalsy();
+
     component.addCategoryRow()
     expect(component.isCategoryAdded).toBeTruthy()
   });
   it("should delete row from the table on clicking the bin button", () => {
     component.ngOnInit()
     component.deleteRow()
+
     expect(component.dataSource.data.length).toBe(2)
   });
 
@@ -156,7 +159,15 @@ describe('AdminCategoryComponent', () => {
   it("should select category on clicking edit", () => {
     component.selectedCategory = null
     component.isEditable = false
+    component.category = {
+      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
+    }
+    component.dataSource.data = [{
+      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
+    }]
+
     component.editCategory(row)
+
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedCategory).toBe(row)
   });
