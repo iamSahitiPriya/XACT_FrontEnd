@@ -284,9 +284,6 @@ describe('AppServiceService', () => {
   it("should get only selected categories", () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   })
-  it("should get all the modules", () => {
-    expect(service.getAllModules()).toBeTruthy();
-  })
   it("should save module", () => {
     let moduleRequest = {moduleName : "module", active:true, comments: ""}
     expect(service.saveModule(moduleRequest)).toBeTruthy();

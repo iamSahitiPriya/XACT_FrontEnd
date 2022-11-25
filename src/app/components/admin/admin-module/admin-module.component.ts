@@ -1,3 +1,7 @@
+/*
+ *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModuleData} from "../../../types/moduleData";
 import {MatTable, MatTableDataSource} from "@angular/material/table";

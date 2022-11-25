@@ -1,3 +1,7 @@
+/*
+ *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminModuleComponent } from './admin-module.component';
