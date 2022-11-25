@@ -66,6 +66,7 @@ export class AdminParameterComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
+      console.log(this.moduleList)
       this.parameterData.sort((parameter1,parameter2)=>Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
       this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
       this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
@@ -173,6 +174,8 @@ export class AdminParameterComponent implements OnInit {
       comments: "",
       isEdit: true
     }
+    this.moduleList=[]
+    this.topicList=[]
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === newParameter?null:newParameter
     this.dataSource.data.splice(0, 0, newParameter)
@@ -182,14 +185,17 @@ export class AdminParameterComponent implements OnInit {
   }
 
   cancelChanges(row: any){
-    row.categoryName = this.parameter.categoryName
-    row.moduleName=this.parameter.moduleName
-    row.parameterName=this.parameter.parameterName
-    row.active = this.parameter.active
-    row.updatedAt = this.parameter.updatedAt
-    row.comments = this.parameter.comments
+    this.resetRow(row)
     this.selectedParameter = this.selectedParameter === row ? null : row
     return row;
+  }
+  private resetRow(row: any) {
+    row.categoryName = this.unSavedParameter.categoryName
+    row.moduleName=this.unSavedParameter.moduleName
+    row.parameterName=this.unSavedParameter.parameterName
+    row.active = this.unSavedParameter.active
+    row.updatedAt = this.unSavedParameter.updatedAt
+    row.comments = this.unSavedParameter.comments
   }
 
 
@@ -250,6 +256,13 @@ export class AdminParameterComponent implements OnInit {
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
+    row.isEdit=false;
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
+    this.moduleList = this.categoryAndModule.get(categoryId)
+    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName ===row.moduleName).moduleId
+    this.topicList = this.moduleAndTopic.get(moduleId)
+    console.log("fromedt",this.moduleList);
+    console.log("topicList",this.topicList);
     this.unSavedParameter=cloneDeep(row)
     this.parameter = Object.assign({}, row)
     return this.selectedParameter;
@@ -315,6 +328,7 @@ export class AdminParameterComponent implements OnInit {
     }
     this.topicList.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
   }
+
 
 
 }

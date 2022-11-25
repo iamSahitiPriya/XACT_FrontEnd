@@ -139,7 +139,7 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row">
               <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
-              <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.parameterId === -1)">
+              <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
                 <mat-icon id="deleteTopic">delete</mat-icon>
               </button>
               <button mat-flat-button *ngIf="!(selectedParameter === row)">
