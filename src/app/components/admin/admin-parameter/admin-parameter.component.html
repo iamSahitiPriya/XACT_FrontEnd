@@ -10,7 +10,7 @@
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="category">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef>Category</th>
-      <td class="parameter categoryParameter" mat-cell *matCellDef="let row">
+      <td class="parameter" mat-cell *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedParameter === row)">
           <span class="circle"></span>
         <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
@@ -49,8 +49,8 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="moduleName">
-      <th class="parameter Heading" *matHeaderCellDef> Module</th>
-      <td class="parameter moduleParameter" *matCellDef="let row">
+      <th class="parameter" *matHeaderCellDef> Module</th>
+      <td class="parameter" *matCellDef="let row">
               <span *ngIf="!(row.isEdit || selectedParameter === row)">
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
@@ -71,8 +71,8 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="topicName">
-      <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Topic</th>
-      <td class="parameter topicParameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <th class="parameter" mat-header-cell *matHeaderCellDef> Topic</th>
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
        <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
 
@@ -93,8 +93,8 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="parameterName">
-      <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Parameter</th>
-      <td class="parameter parameterName" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <th class="parameter" mat-header-cell *matHeaderCellDef> Parameter</th>
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
@@ -102,20 +102,20 @@
             <mat-label>Enter parameter name</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
-          {{commonErrorFieldText}}
-        </mat-error>
+<!--          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">-->
+<!--          {{commonErrorFieldText}}-->
+<!--        </mat-error>-->
             </mat-form-field>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="parameter Heading" mat-header-cell *matHeaderCellDef> Date</th>
-      <td class="parameter parameterDate" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <th class="parameter" mat-header-cell *matHeaderCellDef> Date</th>
+      <td class="parameter" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Active</th>
-      <td class="parameter parameterActive" mat-cell *matCellDef="let row">
+      <td class="parameter" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]="row.active"
                           [disabled]="!(selectedParameter === row || row.isEdit)"></mat-slide-toggle>
       </td>
@@ -138,7 +138,7 @@
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row">
-              <button class="closeTopicButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
+              <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
               <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.parameterId === -1)">
                 <mat-icon id="deleteTopic">delete</mat-icon>
               </button>
@@ -151,8 +151,8 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="topicRow"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedTopicRow"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="parameterRow"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedParameterRow"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,150,200]" aria-label="Select page of users"></mat-paginator>
 </div>

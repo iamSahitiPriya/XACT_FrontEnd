@@ -32,7 +32,7 @@ td.parameter {
   color: #52575D;
   opacity: 1;
   width: 19%;
-  word-break: break-word;
+  word-wrap : break-word;
 }
 
 th {
@@ -46,30 +46,9 @@ th {
   opacity: 1;
 
 }
-th.Heading{
-  padding-left: 2em;
+th.parameter{
+  padding-right: 18%;
 }
-td.topicParameter{
-  padding-left:2em;
-}
-td.parameterName{
-  padding-left:1em;
-}
-td.moduleParameter{
-  padding-left: 1em;
-}
-td.parameterDate{
-  color:red;
-  padding-left:1em;
-}
-td.categoryParameter{
-  padding-left:1em;
-}
-th.topic, td.topic {
-  border-bottom-style: none;
-  text-align: left;
-}
-
 .editButton {
   width: 70px;
   height: 0px;
@@ -91,7 +70,7 @@ td.topic:last-of-type {
   text-align: left;
 }
 
-.topicRow {
+.parameterRow {
   height: 62px;
   text-align: left;
 }
@@ -204,7 +183,7 @@ td.expandedCommentsData {
   border-bottom-width: 0px;
 }
 
-tr.expandedTopicRow {
+tr.expandedParameterRow {
   height: 6px;
   border-bottom-width: 0px;
 }
@@ -227,4 +206,13 @@ tr.expandedTopicRow {
   padding-left: 19px;
   margin-top: 22px;
   margin-bottom: 4px;
+}
+.closeParameterButton{
+  background: none;
+  border: none;
+  height: 29px;
+  width: 22px;
+  margin-right: -3px;
+  display: inline-block;
+  margin-bottom: 3px;
 }
