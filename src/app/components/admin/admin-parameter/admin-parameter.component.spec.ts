@@ -194,7 +194,7 @@ describe('AdminParameterComponent', () => {
 
   it('should get master data', () => {
 
-    expect(component).toBeTruthy();
+    component.ngOnInit();
     mockAppService.getAllCategories().subscribe((data) => {
       expect(data).toBe(parameter)
     })
@@ -217,6 +217,7 @@ describe('AdminParameterComponent', () => {
   it("should cancel changes", () => {
 
     component.parameter = parameter
+    component.unSavedParameter = row
     jest.spyOn(component,"cancelChanges");
     component.cancelChanges(row);
     expect(component.cancelChanges).toHaveBeenCalled()
@@ -334,16 +335,16 @@ describe('AdminParameterComponent', () => {
 
   });
 
-  // it("should select parameter on clicking edit", () => {
-  //   component.selectedParameter = null
-  //   component.isEditable = false
-  //   component.unSavedParameter = row
-  //
-  //   component.editParameter(row)
-  //   expect(component.isEditable).toBeTruthy()
-  //   expect(component.selectedParameter).toBe(row)
-  //
-  // });
+  it("should select parameter on clicking edit", () => {
+    component.selectedParameter = null
+    component.isEditable = false
+    component.unSavedParameter = row
+
+    component.editParameter(row)
+    expect(component.isEditable).toBeTruthy()
+    expect(component.selectedParameter).toBe(row)
+
+  });
 
   it("should delete row from the table on clicking the bin button", () => {
     component.deleteAddedParameterRow()

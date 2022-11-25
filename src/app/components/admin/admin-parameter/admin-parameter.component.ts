@@ -12,7 +12,8 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
-import cloneDeep from "lodash/cloneDeep";
+import {cloneDeep} from "lodash";
+
 
 @Component({
   selector: 'app-admin-parameter',
@@ -66,7 +67,6 @@ export class AdminParameterComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
-      console.log(this.moduleList)
       this.parameterData.sort((parameter1,parameter2)=>Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
       this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
       this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
@@ -253,6 +253,7 @@ export class AdminParameterComponent implements OnInit {
   }
 
   editParameter(row: any) {
+    this.resetUnsavedChanges(row)
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
@@ -261,11 +262,19 @@ export class AdminParameterComponent implements OnInit {
     this.moduleList = this.categoryAndModule.get(categoryId)
     let moduleId = this.moduleList.find(eachModule => eachModule.moduleName ===row.moduleName).moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
-    console.log("fromedt",this.moduleList);
-    console.log("topicList",this.topicList);
     this.unSavedParameter=cloneDeep(row)
     this.parameter = Object.assign({}, row)
     return this.selectedParameter;
+  }
+  resetUnsavedChanges(row: any) {
+    if (this.unSavedParameter !== undefined && this.unSavedParameter.parameterId !== row.parameterId) {
+      let data = this.dataSource.data
+      let index = data.findIndex(parameter => parameter.parameterId === this.unSavedParameter.parameterId)
+      if (index !== -1) {
+        data.splice(index, 1, this.unSavedParameter)
+        this.dataSource.data = data
+      }
+    }
   }
 
   updateParameter(row :any) {
@@ -312,8 +321,11 @@ export class AdminParameterComponent implements OnInit {
   }
 
   shortlistModule(categoryName: string) {
+    console.log(this.moduleList)
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
+    this.topicList=[]
     this.moduleList = this.categoryAndModule.get(categoryId)
+    console.log(this.moduleList)
     if (this.moduleList === undefined) {
       this.moduleList = [{moduleName: this.moduleNotFoundMessage}]
     }
