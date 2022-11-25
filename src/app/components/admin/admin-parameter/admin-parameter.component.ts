@@ -173,6 +173,8 @@ export class AdminParameterComponent implements OnInit {
       comments: "",
       isEdit: true
     }
+    this.deleteAddedParameterRow()
+    this.selectedParameter = this.selectedParameter === newParameter?null:newParameter
     this.dataSource.data.splice(0, 0, newParameter)
     this.table.renderRows();
     this.dataSource.paginator = this.paginator
@@ -196,10 +198,10 @@ export class AdminParameterComponent implements OnInit {
     if (this.isParameterUnique) {
       this.appService.saveParameter(parameterSaveRequest).subscribe({
         next: (_data) => {
-          console.log(parameterSaveRequest)
           let data = this.dataSource.data
           row.isEdit = false
           this.isEditable = false;
+          this.selectedParameter = null
           data.splice(0, 1)
           this.dataSource.data = data
           this.table.renderRows()
@@ -215,11 +217,8 @@ export class AdminParameterComponent implements OnInit {
   private getParameterRequest(row: any): any {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterArray = this.topicAndParameter.get(selectedTopicId)
-    console.log(parameterArray)
     let index = parameterArray.findIndex((parameter: any) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
-    console.log(index)
     if (index === -1) {
-      console.log(selectedTopicId)
       return this.setParameterRequest(selectedTopicId, row);
     } else {
       this.isParameterUnique=false;
@@ -248,6 +247,7 @@ export class AdminParameterComponent implements OnInit {
   }
 
   editParameter(row: any) {
+    this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
     this.unSavedParameter=cloneDeep(row)
@@ -289,9 +289,13 @@ export class AdminParameterComponent implements OnInit {
 
   deleteAddedParameterRow() {
     let data = this.dataSource.data
-    data.splice(0, 1)
-    this.dataSource.data = data
-    this.table.renderRows()
+    let index = data.findIndex(parameter => parameter.parameterId === -1)
+    if(index !== -1){
+      data.splice(index,1);
+      this.dataSource.data = data
+      this.selectedParameter=null
+      this.table.renderRows()
+    }
   }
 
   shortlistModule(categoryName: string) {
