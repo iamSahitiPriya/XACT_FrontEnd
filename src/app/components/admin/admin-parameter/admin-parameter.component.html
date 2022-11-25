@@ -1,5 +1,5 @@
 <div class="row">
-  <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="col-md-9"></app-search>
+  <app-search [dataSource]="dataSource" [columns]="['4','categoryName','moduleName','topicName','parameterName']" class="col-md-9"></app-search>
   <div class="col-md-3 topicButtonColumn">
     <button mat-flat-button class="topicButton1" (click)="addParameterRow()">
       Add Parameter
@@ -7,7 +7,7 @@
   </div>
 </div>
 <div class="mat-elevation-z8 topic">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="category">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="parameter" class="parameterTable">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef>Category</th>
       <td class="parameter" mat-cell *matCellDef="let row">
@@ -16,7 +16,7 @@
         <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="selectDropdownForm">
+          <mat-form-field appearance="outline" class="dropDown">
                         <mat-label>Select Category</mat-label>
         <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row.categoryName)">
           <mat-option *ngFor="let category of categoryList"
@@ -34,8 +34,8 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
         <div [@detailExpand]="row.isEdit === true || row === selectedParameter ? 'expanded' : 'collapsed'"
-             class="topicComments">
-          <mat-form-field appearance="outline" class="topicCommentTextArea">
+             class="parameterComments">
+          <mat-form-field appearance="outline" class="parameterCommentTextArea">
             <textarea matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
@@ -55,7 +55,7 @@
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="selectDropdownForm">
+          <mat-form-field appearance="outline" class="dropDown">
             <mat-label>Select Module</mat-label>
         <mat-select [(ngModel)]="row.moduleName" required (selectionChange)="shortListTopics(row.moduleName)">
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [disabled]="moduleList[0].moduleName===moduleNotFoundMessage"
@@ -77,7 +77,7 @@
         </span>
 
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="selectDropdownForm">
+          <mat-form-field appearance="outline" class="dropDown">
             <mat-label>Select Topic</mat-label>
         <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
           <mat-option *ngFor="let topic of topicList" [value]="topic.topicName" [disabled]="topicList[0].topicName===topicNotFoundMessage"
@@ -98,25 +98,26 @@
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="topicInput">
+          <mat-form-field appearance="outline" class="inputParameter">
             <mat-label>Enter parameter name</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-<!--          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">-->
-<!--          {{commonErrorFieldText}}-->
-<!--        </mat-error>-->
+          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+          {{commonErrorFieldText}}
+        </mat-error>
             </mat-form-field>
         </span>
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Date</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <td class="parameter" mat-cell *matCellDef="let row">
+      {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Active</th>
-      <td class="parameter" mat-cell *matCellDef="let row">
-        <mat-slide-toggle [(ngModel)]="row.active"
+      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right': isEditable ? '2em' : '1em' }">
+       <mat-slide-toggle [(ngModel)]="row.active"
                           [disabled]="!(selectedParameter === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
@@ -128,10 +129,12 @@
         </span>
         <span *ngIf="selectedParameter===row && row.parameterId !== -1">
         <button mat-flat-button class="update" aria-label="expand row"
-                (click)="updateParameter(row)">Update</button>
+                (click)="updateParameter(row)" [disabled]="row.categoryName && row.moduleName && row.topicName && !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+          <span class="text">Update</span></button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameter(row)">Save</button>
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameter(row)"
+                  [disabled]="row.categoryName && row.moduleName && row.topicName &&!row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
         </span>
       </td>
     </ng-container>
@@ -153,6 +156,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="parameterRow"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedParameterRow"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="12" class="noData">No data available</td>
+    </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,150,200]" aria-label="Select page of users"></mat-paginator>
 </div>
