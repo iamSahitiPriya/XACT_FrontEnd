@@ -345,6 +345,32 @@ describe('AdminParameterComponent', () => {
     expect(component.selectedParameter).toBe(row)
 
   });
+  it("should reset the values from unsaved changes", () => {
+    component.selectedParameter = null
+    component.isEditable = false
+    component.unSavedParameter = row
+    let unSavedRow= {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: 1,
+      parameterName: "parameter",
+      active: true,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+     component.resetUnsavedChanges(unSavedRow)
+    component.editParameter(row)
+    expect(component.isEditable).toBeTruthy()
+    expect(component.selectedParameter).toBe(row)
+
+  });
 
   it("should delete row from the table on clicking the bin button", () => {
     component.deleteAddedParameterRow()
