@@ -113,6 +113,7 @@ class MockAppService {
     if(parameterRequest.parameterName === "parameterName") {
       return of(parameterRequest) }
     else {
+      console.log("Hereee")
       return throwError("Error!")
     }
   }
@@ -259,7 +260,6 @@ describe('AdminParameterComponent', () => {
     component.isParameterUnique = true
 
     jest.spyOn(component, "saveParameter")
-    console.log(row)
     component.saveParameter(rowToBeSaved)
 
     mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
@@ -291,6 +291,47 @@ describe('AdminParameterComponent', () => {
 
     expect(component.isParameterUnique).toBeFalsy()
     expect(component.saveParameter).toHaveBeenCalled()
+  });
+
+  it("should throw error when problem occurs while saving parameter when request is undefined", () => {
+    component.topicList = [{
+      "topicId": 1,
+      "topicName": "topic1",
+      "active": true,
+    }, {
+      "topicId": 2,
+      "topicName": "topic2",
+      "active": false
+    }]
+
+    let rowToBeSaved = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameterNew",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    component.isParameterUnique = true
+
+    jest.spyOn(component, "saveParameter")
+    component.saveParameter(rowToBeSaved)
+
+    mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
+      expect(data).toBe(undefined)
+    })
+
+    expect(component.saveParameter).toHaveBeenCalled()
+
   });
 
   // it("should select parameter on clicking edit", () => {
@@ -364,4 +405,114 @@ describe('AdminParameterComponent', () => {
     expect(component.topicList.length).toBe(1)
   })
 
+  it("should update parameter on click of update", () => {
+    component.topicList = [{
+      "topicId": 1,
+      "topicName": "topic1",
+      "active": true,
+    }, {
+      "topicId": 2,
+      "topicName": "topic2",
+      "active": false
+    }]
+
+    component.unSavedParameter = row
+
+      let rowToBeUpdated = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter",
+      active: true,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    component.updateParameter(rowToBeUpdated)
+    mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
+      expect(data).toBe(rowToBeUpdated); })
+    expect(component.selectedParameter).toBeNull()
+  });
+
+  it("should update parameter when parameter name is changed", () => {
+    component.topicList = [{
+      "topicId": 1,
+      "topicName": "topic1",
+      "active": true,
+    }, {
+      "topicId": 2,
+      "topicName": "topic2",
+      "active": false
+    }]
+
+    component.unSavedParameter = row
+
+    let rowToBeUpdated = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameterNew",
+      active: true,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    component.updateParameter(rowToBeUpdated)
+    mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
+      expect(data).toBe(rowToBeUpdated); })
+    expect(component.selectedParameter).toBeNull()
+  });
+
+  it("should throw error while trying to update parameter with undefined request ", () => {
+    component.topicList = [{
+      "topicId": 1,
+      "topicName": "topic1",
+      "active": true,
+    }, {
+      "topicId": 2,
+      "topicName": "topic2",
+      "active": false
+    }]
+
+    component.unSavedParameter = row
+
+    let rowToBeUpdated = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: 1,
+      parameterName: "parameter",
+      active: true,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    component.updateParameter(rowToBeUpdated)
+    mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
+      expect(data).toBe(undefined); })
+  });
+
+
 });
+
+
