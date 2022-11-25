@@ -178,12 +178,45 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
-    let t : any;
     const menu = dom.parentNode.querySelector('#generate-menu');
     menu.click();
     tick();
     expect(component.generateReport).toHaveBeenCalled();
     tick(100);
+    flush()
+    flushMicrotasks();
+    discardPeriodicTasks();
+  }));
+
+  it('should call delete assessment for InComplete Assessment', fakeAsync(() => {
+    component.assessment = {
+      assessmentPurpose: "",
+      assessmentId: 1,
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Active",
+      updatedAt: 0,
+      assessmentState:"inProgress",
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    }
+    component.type="assessmentTable";
+
+    jest.spyOn(component, 'deleteAssessment');
+    global.URL.createObjectURL = jest.fn();
+    dom = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
+    button = dom.querySelector("#menu-button");
+    button.click();
+    button = dom.parentNode.querySelector('#delete-assessment');
+    button.click();
+    expect(component.deleteAssessment).toHaveBeenCalled();
+    tick();
     flush()
     flushMicrotasks();
     discardPeriodicTasks();
