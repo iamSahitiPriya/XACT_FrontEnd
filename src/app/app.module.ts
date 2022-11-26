@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ *  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
 import {NgModule} from '@angular/core';
@@ -90,6 +90,7 @@ import {AssessmentHeaderComponent} from './components/assessment-header/assessme
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { AdminTopicComponent } from './components/admin/admin-topic/admin-topic.component';
+import { AdminReferenceComponent } from './components/admin/admin-reference/admin-reference.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -176,6 +177,7 @@ export const appRoutes: Routes = [
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
     AdminTopicComponent,
+    AdminReferenceComponent,
   ],
 
   imports: [

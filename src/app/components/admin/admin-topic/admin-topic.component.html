@@ -1,3 +1,7 @@
+<!--
+  ~  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
 <div class="row">
   <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']"
               class="col-md-9"></app-search>
@@ -126,10 +130,16 @@
         <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>
-        <button mat-flat-button *ngIf="!(selectedTopic === row)">
-          <mat-icon>playlist_add</mat-icon>
+        <div class="topic-reference">
+        <button *ngIf="!(selectedTopic === row)">
+          <mat-icon (click)="openTopicReferences(reference)">playlist_add</mat-icon>
         </button>
+        </div>
+        <ng-template #reference>
+          <app-admin-reference [topic]="row"></app-admin-reference>
+        </ng-template>
       </td>
+
     </ng-container>
     <ng-container>
       <th class="topic" mat-header-cell *matHeaderCellDef></th>

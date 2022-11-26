@@ -1,4 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+/*
+ *  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../../messages";
 import {MatPaginator} from "@angular/material/paginator";
@@ -16,6 +20,8 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {AdminReferenceComponent} from "../admin-reference/admin-reference.component";
 
 @Component({
   selector: 'app-admin-topic',
@@ -30,6 +36,7 @@ import {AppStates} from "../../../reducers/app.states";
   ],
 })
 export class AdminTopicComponent implements OnInit, OnDestroy {
+  private dialogRef: MatDialogRef<any>;
   masterDataCopy: CategoryResponse[]
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
@@ -73,7 +80,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   moduleNotFound: any = "No modules available";
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
     this.masterData = this.store.select((store) => store.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
@@ -374,5 +381,15 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   isInputValid(row: any) {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
+  }
+
+  async openTopicReferences(reference: TemplateRef<any>) {
+    this.dialogRef = this.dialog.open(reference,{
+      width: '62vw',
+      height: '66vh',
+      maxWidth: '80vw',
+      maxHeight: '71vh'
+    })
+    this.dialogRef.disableClose = true;
   }
 }
