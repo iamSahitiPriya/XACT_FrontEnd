@@ -50,8 +50,75 @@
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-
 }
+
+.reference-button {
+  padding-top: 3%;
+  padding-right: 2%;
+  display: inline-block;
+  float: right;
+}
+
+.reference-button button {
+  background-color: #4BA1AC;
+  text-align: left;
+  font-size: 16px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1.42px;
+  padding: 5%;
+  color: #fff;
+  text-transform: capitalize;
+  opacity: 1;
+  width: 16rem;
+}
+
+.selectDropdown >>> .mat-form-field-flex {
+  height: 57px;
+  width: 65px;
+  /*margin-top: 10%;*/
+}
+
+.selectDropdown >>> .mat-select-arrow {
+  color: black;
+  margin-top: 17%;
+}
+
+.selectDropdown .mat-select {
+  font-size: 17px;
+}
+
+.selectDropdown .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+.references {
+  padding-top: 8%;
+}
+
+.reference-input {
+  padding-top: 3px;
+  padding-left: 2%;
+  width: 80%;
+  font-size: 15px;
+}
+
+.edit-button button {
+  width: 4.4rem;
+  height: 2.5rem;
+  background: #658892 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  opacity: 1;
+  color: #fff;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  margin: 3% 2% 0 0;
+}
+
 
 
 

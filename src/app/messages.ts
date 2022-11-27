@@ -196,6 +196,7 @@ export const data_local =
         REFERENCES: {
           HEADER: "References - Readability",
           SCORE_CARD : "Maturity reference score card",
+          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
 
         },
       },

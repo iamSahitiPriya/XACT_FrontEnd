@@ -9,4 +9,34 @@
     <mat-icon class="close-icon">close</mat-icon>
   </button>
   <div class="score-card">{{scoreCard}}</div>
+  <div class="reference-button">
+    <button>{{addReference}}</button>
+  </div>
+  <div *ngIf="topicReferences !== undefined" class="references">
+    <div *ngFor="let reference of topicReferences;let i = index">
+      <mat-form-field appearance="outline" class="selectDropdown">
+      <mat-select [(ngModel)]="reference.rating" required>
+        <mat-option *ngFor="let rating of rating" [value]="rating">
+          {{rating}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        {{inputErrorMessage}}
+      </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="reference-input">
+        <textarea matInput
+                  name="reference{{reference.referenceId}}"
+                  id="reference{{reference.reference}}"
+                  [(ngModel)]="reference.reference"
+                  cdkTextareaAutosize
+                  class="textArea1"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="10"
+                  maxlength="10000">
+        </textarea>
+      </mat-form-field>
+      <span class="edit-button"> <button>Edit</button> </span>
+  </div>
+  </div>
 </div>
