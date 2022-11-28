@@ -4,17 +4,21 @@
   -->
 
 <div class="header">
+
   <p class="heading">{{header}}</p>
   <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
     <mat-icon class="close-icon">close</mat-icon>
   </button>
   <div class="score-card">{{scoreCard}}</div>
   <div class="reference-button">
-    <button>{{addReference}}</button>
+    <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
+
   <div *ngIf="topicReferences !== undefined" class="references">
-    <div *ngFor="let reference of topicReferences;let i = index">
-      <mat-form-field appearance="outline" class="selectDropdown">
+    <div class="reference" *ngFor="let reference of topicReferences;let i = index">
+
+      <div class="rating-dropdown">
+        <mat-form-field appearance="outline" class="selectDropdown">
       <mat-select [(ngModel)]="reference.rating" required>
         <mat-option *ngFor="let rating of rating" [value]="rating">
           {{rating}}
@@ -24,19 +28,36 @@
         {{inputErrorMessage}}
       </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="reference-input">
+      </div>
+
+      <div class="referenceInput">
+        <mat-form-field appearance="outline" class="reference-input">
         <textarea matInput
                   name="reference{{reference.referenceId}}"
                   id="reference{{reference.reference}}"
                   [(ngModel)]="reference.reference"
                   cdkTextareaAutosize
                   class="textArea1"
-                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMinRows="3"
                   cdkAutosizeMaxRows="10"
                   maxlength="10000">
         </textarea>
       </mat-form-field>
-      <span class="edit-button"> <button>Edit</button> </span>
+      </div>
+
+      <div *ngIf="reference.isEdit===false" class="edit-button">
+        <button (click)="setIsEdit(reference)">Edit</button>
+      </div>
+
+      <div *ngIf="reference.isEdit===true" class="save">
+        <div class="save-reference-button">
+          <button class="save-button" type="submit" (click)="saveReference(reference)">Save</button>
+        </div>
+        <div class="delete-icon">
+          <button><mat-icon id="deleteTopic">delete</mat-icon></button>
+        </div>
+      </div>
+
   </div>
   </div>
 </div>
