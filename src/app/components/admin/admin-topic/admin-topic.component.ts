@@ -392,4 +392,13 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
     this.dialogRef.disableClose = true;
   }
+
+  findCategoryId(row : any) {
+    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId;
+  }
+
+  findModuleId(row : any) {
+    let modules = this.categoryAndModule.get(this.findCategoryId(row))
+    return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
+  }
 }

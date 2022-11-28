@@ -136,7 +136,7 @@
         </button>
         </div>
         <ng-template #reference>
-          <app-admin-reference [topic]="row"></app-admin-reference>
+          <app-admin-reference [topic]="row" [category]="findCategoryId(row)" [module]="findModuleId(row)"></app-admin-reference>
         </ng-template>
       </td>
 
