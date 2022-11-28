@@ -83,6 +83,17 @@ export class AdminReferenceComponent implements OnInit {
     }
   }
 
+  private deleteReference(reference: any) {
+    this.appService.deleteTopicReference(reference.referenceId).pipe().subscribe({
+      next: () => {
+        this.deleteFromStore(reference)
+      }, error: _error => {
+        this.showError("Data cannot be saved");
+      }
+    })
+
+  }
+
   private setReferenceRequest(reference: any) {
     return {
       reference : reference.reference,
@@ -116,6 +127,17 @@ export class AdminReferenceComponent implements OnInit {
 
   }
 
+  deleteMaturityReference(reference: any) {
+    let index = this.topicReferences.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
+    if(reference.referenceId === -1) {
+      this.topicReferences.splice(index,1)
+      return this.topicReferences;
+    }
+    this.deleteReference(reference)
+    this.topicReferences.splice(index,1)
+    return  null;
+  }
+
   isReferenceArrayFull() : boolean {
     if(this.topicReferences === undefined)
       return false;
@@ -134,11 +156,6 @@ export class AdminReferenceComponent implements OnInit {
 
   setIsEdit(reference: any) {
    return  reference.isEdit = true
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private sendToStore(data: TopicReference) {
@@ -178,5 +195,27 @@ export class AdminReferenceComponent implements OnInit {
     const  uniqueReferences = new Set(this.topicReferences.map(reference => reference.reference))
 
     return this.isReferencesUnique(uniqueReferences,"No duplicate references are allowed")
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  private deleteFromStore(reference: any) {
+    this.categories.forEach(category => {
+      category.modules?.forEach(module => {
+        module.topics?.forEach(topic => {
+          if (topic.topicId === this.topic.topicId) {
+            let index = topic.references.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
+            topic.references.splice(index,1)
+            return this.categories
+          }
+          return null;
+        })
+      })
+    })
+
   }
 }

@@ -181,6 +181,10 @@ export class AppServiceService {
   saveTopicReference(topicReferenceRequest:any) {
     return this.http.post<TopicReference>(environment.BaseURI + environment.SAVE_TOPIC_REFERENCE_URI, topicReferenceRequest)
   }
+
+  deleteTopicReference(referenceId: number) {
+    return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_REFERENCE_URI + "/" + referenceId)
+  }
 }
 
 
