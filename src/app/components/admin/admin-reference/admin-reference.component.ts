@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {data_local} from "../../../messages";
 import {MatDialog} from "@angular/material/dialog";
 import {CategoryResponse} from "../../../types/categoryResponse";
@@ -21,7 +21,7 @@ import cloneDeep from "lodash/cloneDeep";
   templateUrl: './admin-reference.component.html',
   styleUrls: ['./admin-reference.component.css']
 })
-export class AdminReferenceComponent implements OnInit {
+export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   @Input() topic:any;
   @Input() category : number
@@ -31,7 +31,7 @@ export class AdminReferenceComponent implements OnInit {
   masterData: Observable<CategoryResponse[]>
   topicReferences : any[] | TopicReference[] | undefined
   unsavedReferences : TopicReference[] | undefined
-  rating : number [] = [1,2,3,4,5]
+  rating : any [] = []
   private destroy$: Subject<void> = new Subject<void>();
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
@@ -46,11 +46,13 @@ export class AdminReferenceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.rating = [{rating:1,selected:false},{rating:2,selected: false},{rating:3,selected: false},{rating:4,selected: false},{rating:5,selected: false}]
     this.topicReferences = []
     this.masterData.subscribe(data => {
       this.categories = data
       this.setTopicReferences()
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
+      this.disableSavedRatings()
     })
   }
 
@@ -256,5 +258,19 @@ export class AdminReferenceComponent implements OnInit {
     return this.categories.find(category => category.categoryId === this.category)?.modules.
     find(module => module.moduleId === this.module)?.topics.
     find(topic => topic.topicId === this.topic.topicId)
+  }
+
+  isInputValid(reference: any) : boolean {
+    let newReference : string = reference.reference;
+    if(newReference.length !== 0) newReference = newReference.trim()
+    return ((reference.rating === -1) || (newReference.length === 0))
+  }
+
+  private disableSavedRatings() {
+    this.unsavedReferences?.forEach(reference => {
+      let rating = this.rating.find(rating => rating.rating === reference.rating)
+      rating.selected = true
+    })
+    console.log(this.rating)
   }
 }
