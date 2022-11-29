@@ -13,8 +13,6 @@ import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
 import {cloneDeep} from "lodash";
-import {Store} from "@ngrx/store";
-import {AppStates, AssessmentState} from "../../../reducers/app.states";
 
 
 @Component({
@@ -73,15 +71,14 @@ export class AdminParameterComponent implements OnInit {
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar,private store :Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
     this.dataToDisplayed = [...this.dataSource.data]
-    this.masterData=this.store.select((store)=>store.masterData.masterDataResponse);
   }
 
   ngOnInit(): void {
-    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
