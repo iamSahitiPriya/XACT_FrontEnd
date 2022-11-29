@@ -28,7 +28,7 @@ export const environment = {
   ASSESSMENT_ADMIN_REPORT_URI: "/v1/reports/admin",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
-  ALL_CATEGORY_URI: "/v1/admin/categories",
+  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   UPDATE_CATEGORY_URI: "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
@@ -51,6 +51,6 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
-  ALL_MODULE_URI: "/v1/admin/modules",
+  SAVE_MODULE_URI: "/v1/admin/modules",
 
 };

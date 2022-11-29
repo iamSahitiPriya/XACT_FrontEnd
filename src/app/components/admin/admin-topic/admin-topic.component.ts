@@ -1,5 +1,5 @@
 /*
- *  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
@@ -189,7 +189,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   saveTopic(row: any) {
     let topicSaveRequest = this.getTopicRequest(row);
-    if(topicSaveRequest !== null) {
+    if (topicSaveRequest !== null) {
       this.appService.saveTopic(topicSaveRequest).subscribe({
         next: (_data: any) => {
           let data = this.dataSource.data
@@ -259,7 +259,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
 
-  private resetUnsavedChanges(row: any) {
+  resetUnsavedChanges(row: any) {
     if (this.unsavedTopic !== undefined && this.unsavedTopic.topicId !== row.topicId) {
       let data = this.dataSource.data
       let index = data.findIndex(topic => topic.topicId === this.unsavedTopic.topicId)

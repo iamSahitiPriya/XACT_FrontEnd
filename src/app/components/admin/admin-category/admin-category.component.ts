@@ -37,7 +37,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   masterData : Observable<CategoryResponse[]>
   categoryData: CategoryData[]
   categories:CategoryResponse[]
-  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit'];
+  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit','action'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<CategoryData>;

@@ -223,6 +223,24 @@ describe('AppServiceService', () => {
     expect(service.updateCategory(categoryRequest)).toBeTruthy()
   });
 
+  it("should Save Module", () => {
+    let moduleRequest ={
+      "categoryId" :1 ,
+      "moduleName":"module",
+      "active":true,
+    }
+    expect(service.saveModule(moduleRequest)).toBeTruthy();
+  });
+
+  it("should Save Module", () => {
+    let moduleRequest ={
+      "categoryId" :1 ,
+      "moduleName":"module",
+      "active":true,
+    }
+    expect(service.updateModule(moduleRequest)).toBeTruthy();
+  });
+
   it("should get the assessment data for admin", () => {
     let adminAssessmentRequest ={
       "assessmentId": 1,
@@ -265,9 +283,6 @@ describe('AppServiceService', () => {
   })
   it("should get only selected categories", () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
-  })
-  it("should get all the modules", () => {
-    expect(service.getAllModules()).toBeTruthy();
   })
   it("should save module", () => {
     let moduleRequest = {moduleName : "module", active:true, comments: ""}
