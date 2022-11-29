@@ -41,8 +41,8 @@ export class AdminParameterComponent implements OnInit {
   private dataSourceArray: ParameterData[];
   categoryList: any[] = []
   moduleList: any[] = []
-  parameter : ParameterData
-  unSavedParameter : ParameterData
+  parameter: ParameterData
+  unSavedParameter: ParameterData
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -50,7 +50,7 @@ export class AdminParameterComponent implements OnInit {
   topicAndParameter = new Map();
   isParameterAdded: boolean = false;
   isEditable: boolean;
-  isParameterUnique =true;
+  isParameterUnique = true;
   moduleNotFoundMessage: string = "Module not found"
   topicNotFoundMessage: string = "Topic not found"
   private duplicateTopicError: string = "Duplicates are not allowed"
@@ -67,7 +67,7 @@ export class AdminParameterComponent implements OnInit {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
-      this.parameterData.sort((parameter1,parameter2)=>Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
+      this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
       this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
       this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
       this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
@@ -98,7 +98,7 @@ export class AdminParameterComponent implements OnInit {
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
     let topic: any[] = [];
     this.moduleList.push({
-    moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active
+      moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active
     })
     eachModule.topics?.forEach(eachTopic => {
       this.topicAndParameter.set(eachTopic.topicId, [])
@@ -125,13 +125,13 @@ export class AdminParameterComponent implements OnInit {
       let parameter: ParameterData = {
         categoryId: -1,
         categoryName: "",
-        categoryStatus:false,
+        categoryStatus: false,
         moduleId: -1,
         moduleName: "",
-        moduleStatus:false,
+        moduleStatus: false,
         topicId: -1,
         topicName: "",
-        topicStatus:false,
+        topicStatus: false,
         active: false,
         updatedAt: 123,
         comments: "",
@@ -140,12 +140,12 @@ export class AdminParameterComponent implements OnInit {
       }
       parameter.categoryId = eachCategory.categoryId
       parameter.categoryName = eachCategory.categoryName
-      parameter.categoryStatus=eachCategory.active
+      parameter.categoryStatus = eachCategory.active
       parameter.moduleId = eachModule.moduleId
       parameter.moduleName = eachModule.moduleName
-      parameter.moduleStatus=eachModule.active
+      parameter.moduleStatus = eachModule.active
       parameter.topicId = eachTopic.topicId
-      parameter.topicStatus=eachTopic.active
+      parameter.topicStatus = eachTopic.active
       parameter.parameterId = eachParameter.parameterId
       parameter.parameterName = eachParameter.parameterName
       parameter.active = eachParameter.active
@@ -160,13 +160,13 @@ export class AdminParameterComponent implements OnInit {
     let newParameter = {
       categoryId: -1,
       categoryName: "",
-      categoryStatus:false,
+      categoryStatus: false,
       moduleId: -1,
       moduleName: "",
-      moduleStatus:false,
+      moduleStatus: false,
       topicId: -1,
       topicName: "",
-      topicStatus : false,
+      topicStatus: false,
       parameterId: -1,
       parameterName: "",
       active: false,
@@ -174,25 +174,26 @@ export class AdminParameterComponent implements OnInit {
       comments: "",
       isEdit: true
     }
-    this.moduleList=[]
-    this.topicList=[]
+    this.moduleList = []
+    this.topicList = []
     this.deleteAddedParameterRow()
-    this.selectedParameter = this.selectedParameter === newParameter?null:newParameter
+    this.selectedParameter = this.selectedParameter === newParameter ? null : newParameter
     this.dataSource.data.splice(0, 0, newParameter)
     this.table.renderRows();
     this.dataSource.paginator = this.paginator
     this.isParameterAdded = true
   }
 
-  cancelChanges(row: any){
+  cancelChanges(row: any) {
     this.resetRow(row)
     this.selectedParameter = this.selectedParameter === row ? null : row
     return row;
   }
+
   private resetRow(row: any) {
     row.categoryName = this.unSavedParameter.categoryName
-    row.moduleName=this.unSavedParameter.moduleName
-    row.parameterName=this.unSavedParameter.parameterName
+    row.moduleName = this.unSavedParameter.moduleName
+    row.parameterName = this.unSavedParameter.parameterName
     row.active = this.unSavedParameter.active
     row.updatedAt = this.unSavedParameter.updatedAt
     row.comments = this.unSavedParameter.comments
@@ -227,14 +228,14 @@ export class AdminParameterComponent implements OnInit {
     if (index === -1) {
       return this.setParameterRequest(selectedTopicId, row);
     } else {
-      this.isParameterUnique=false;
+      this.isParameterUnique = false;
       this.showError(this.duplicateTopicError)
       return null
     }
   }
 
-  private setParameterRequest(selectedTopicId : number, row: any) {
-    this.isParameterUnique=true;
+  private setParameterRequest(selectedTopicId: number, row: any) {
+    this.isParameterUnique = true;
     return {
       topic: selectedTopicId,
       parameterName: row.parameterName,
@@ -257,15 +258,16 @@ export class AdminParameterComponent implements OnInit {
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
-    row.isEdit=false;
+    row.isEdit = false;
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName ===row.moduleName).moduleId
+    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === row.moduleName).moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
-    this.unSavedParameter=cloneDeep(row)
+    this.unSavedParameter = cloneDeep(row)
     this.parameter = Object.assign({}, row)
     return this.selectedParameter;
   }
+
   resetUnsavedChanges(row: any) {
     if (this.unSavedParameter !== undefined && this.unSavedParameter.parameterId !== row.parameterId) {
       let data = this.dataSource.data
@@ -277,13 +279,13 @@ export class AdminParameterComponent implements OnInit {
     }
   }
 
-  updateParameter(row :any) {
+  updateParameter(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
-    let parameterRequest = this.setParameterRequest(selectedTopicId,row);
-    if(this.unSavedParameter.parameterName !== row.parameterName){
-      parameterRequest =this.getParameterRequest(row);
+    let parameterRequest = this.setParameterRequest(selectedTopicId, row);
+    if (this.unSavedParameter.parameterName !== row.parameterName) {
+      parameterRequest = this.getParameterRequest(row);
     }
-    if(this.isParameterUnique) {
+    if (this.isParameterUnique) {
       this.appService.updateParameter(parameterRequest, row.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false;
@@ -301,7 +303,7 @@ export class AdminParameterComponent implements OnInit {
 
   private showNotification(reportData: string, duration: number) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -312,20 +314,18 @@ export class AdminParameterComponent implements OnInit {
   deleteAddedParameterRow() {
     let data = this.dataSource.data
     let index = data.findIndex(parameter => parameter.parameterId === -1)
-    if(index !== -1){
-      data.splice(index,1);
+    if (index !== -1) {
+      data.splice(index, 1);
       this.dataSource.data = data
-      this.selectedParameter=null
+      this.selectedParameter = null
       this.table.renderRows()
     }
   }
 
   shortlistModule(categoryName: string) {
-    console.log(this.moduleList)
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
-    this.topicList=[]
+    this.topicList = []
     this.moduleList = this.categoryAndModule.get(categoryId)
-    console.log(this.moduleList)
     if (this.moduleList === undefined) {
       this.moduleList = [{moduleName: this.moduleNotFoundMessage}]
     }
@@ -340,7 +340,6 @@ export class AdminParameterComponent implements OnInit {
     }
     this.topicList.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
   }
-
 
 
 }

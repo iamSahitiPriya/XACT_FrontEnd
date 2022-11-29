@@ -113,7 +113,6 @@ class MockAppService {
     if(parameterRequest.parameterName === "parameterName") {
       return of(parameterRequest) }
     else {
-      console.log("Hereee")
       return throwError("Error!")
     }
   }
