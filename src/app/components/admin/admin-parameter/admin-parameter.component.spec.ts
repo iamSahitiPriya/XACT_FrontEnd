@@ -409,7 +409,7 @@ describe('AdminParameterComponent', () => {
     component.shortlistModule("category2")
 
     expect(component.shortlistModule).toHaveBeenCalled()
-    expect(component.moduleList[0].moduleName).toBe("Module not found")
+    expect(component.moduleList[0].moduleName).toBe("Module Not Found")
   })
 
 
