@@ -22,6 +22,7 @@ import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 import {AdminModuleResponse} from "../../types/AdminModuleResponse";
+import {UserQuestion} from "../../types/UserQuestion";
 
 
 @Injectable({
@@ -169,6 +170,10 @@ export class AppServiceService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
+  }
+  saveUserQuestion(userQuestion:UserQuestion, assessmentId:number,parameterId:number): Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI+environment.CREATE_USER_QUESTION_URI+"/"+assessmentId+"/"+parameterId , userQuestion, {'headers': headers})
   }
 }
 

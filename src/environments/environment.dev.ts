@@ -36,6 +36,8 @@ export const environment = {
   REPORT_DATA_URI:"/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   ACCOUNT_URI : "/v1/accounts",
+  CREATE_USER_QUESTION_URI:"/v1/assessments/user_question",
+
   okta: {
     cookies: {
       secured: true

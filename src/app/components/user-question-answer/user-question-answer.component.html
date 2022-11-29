@@ -1,1 +1,30 @@
-<mat-card class="recommendationHeading">Additional Questions</mat-card>
+<div class="additionalQuestion">
+<div *ngIf="valuen>0">
+  <mat-card class="additionalQuestionHeading">Additional Question</mat-card>
+
+<div *ngIf="flag === true" >
+  <form>
+    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + 1}} </span>
+    <mat-form-field class="questionArea" appearance="outline" id="testForm">
+      <textarea matInput
+                cdkTextareaAutosize
+                class="textArea1"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="1"
+                [(ngModel)]="questionText"
+                maxlength="10000"></textarea>
+    </mat-form-field>
+    <div id="doneQuestion"> <mat-icon (click)="saveQuestion()">done</mat-icon></div> <mat-icon (click)="flag=false">delete</mat-icon>
+  </form>
+</div>
+</div>
+
+<button (click)="generateQuestion()"
+        class="addQuestion button1"  id="addQuestionBox">
+  <div>
+    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+    id="addQuestion"> Add Question </span>
+  </div>
+</button>
+
+</div>

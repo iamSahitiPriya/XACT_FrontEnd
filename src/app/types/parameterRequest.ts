@@ -4,8 +4,11 @@
 
 import {Notes} from "./answerRequest";
 import {ParameterRatingAndRecommendation} from "./parameterRatingAndRecommendation";
+import {UserQuestion} from "./UserQuestion";
+
 
 export interface ParameterRequest {
   "answerRequest": Notes[];
+  "userQuestionRequestList"?:UserQuestion[];
   "parameterRatingAndRecommendation": ParameterRatingAndRecommendation;
 }

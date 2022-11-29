@@ -37,6 +37,7 @@ export const environment = {
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
+  CREATE_USER_QUESTION_URI:"/v1/assessments/user_question",
   okta: {
     cookies: {
       secured: true

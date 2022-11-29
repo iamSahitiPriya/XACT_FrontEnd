@@ -57,7 +57,7 @@ p {
   width: 1244px;
 }
 
-.recommendationHeading {
+.additionalQuestionHeading {
   display: block;
   position: relative;
   padding: 12px;
@@ -177,7 +177,7 @@ p {
   border: none;
 }
 
-.addRecommendation {
+.addQuestion {
   width: 95%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
@@ -220,7 +220,7 @@ p {
   border-radius: 0px;
 }
 
-#addRecommendation {
+#addQuestion {
   color: #4ba1ac;
 }
 @media screen and (max-width: 1000px) {

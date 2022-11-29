@@ -1,4 +1,4 @@
-.recommendationHeading {
+.additionalQuestionHeading {
   display: block;
   position: relative;
   padding: 12px;
@@ -14,4 +14,29 @@
   margin-top: 13px;
   margin-right: 50px;
   text-transform: capitalize;
+  width: 97%;
+}
+#addQuestion {
+  color: #4ba1ac;
+}
+
+.addQuestion {
+  width: 95%;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
+  background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
+  border: none;
+}
+.button1:hover {
+  background-color: #00000024;
+}
+.questionArea {
+  display: inline-flex;
+  width: 90%;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
+  width: 100% !important;
 }

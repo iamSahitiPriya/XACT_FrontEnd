@@ -18,6 +18,7 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {Observable} from "rxjs";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {environment} from "../../../environments/environment";
+import {UserQuestion} from "../../types/UserQuestion";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -261,6 +262,13 @@ describe('AppServiceService', () => {
 
   it("should get only selected categories",() =>{
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
+  });
+  it("should save new added question by user", () => {
+    let assessmentId= 1, parameterId= 1
+    let userQuestion: UserQuestion = {
+      question:"question by user"
+    }
+    expect(service.saveUserQuestion(userQuestion,assessmentId,parameterId)).toBeTruthy()
   });
 
 });

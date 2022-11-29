@@ -315,4 +315,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  addUserQuestion(parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
+
+  }
 }

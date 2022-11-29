@@ -170,7 +170,7 @@ textArea.mat-input-element {
   border: none;
 }
 
-.addRecommendation {
+.addQuestion {
   width: 95%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
@@ -210,11 +210,11 @@ textArea.mat-input-element {
   border-radius: 0px;
 }
 
-#addRecommendation {
+#addQuestion {
   color: #4ba1ac;
 }
 
-.recommendationHeading {
+.additionalQuestionHeading {
   display: block;
   position: relative;
   padding: 12px;
