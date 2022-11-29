@@ -111,12 +111,12 @@
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Date</th>
-      <td class="parameter" mat-cell *matCellDef="let row">
+      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right':isEditable ? '0%' : '1%' }">
       {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef> Active</th>
-      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right': isEditable ? '2em' : '1em' }">
+      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-left':isEditable ? '1%' : '0%' }">
        <mat-slide-toggle [(ngModel)]="row.active"
                           [disabled]="!(selectedParameter === row || row.isEdit)"></mat-slide-toggle>
       </td>
