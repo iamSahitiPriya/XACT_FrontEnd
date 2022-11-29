@@ -5,7 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {CategoryResponse} from "../../../types/categoryResponse";
@@ -13,6 +13,8 @@ import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
 import {cloneDeep} from "lodash";
+import {Store} from "@ngrx/store";
+import {AppStates, AssessmentState} from "../../../reducers/app.states";
 
 
 @Component({
@@ -39,6 +41,7 @@ export class AdminParameterComponent implements OnInit {
   dataToDisplayed: ParameterData[]
   private destroy$: Subject<void> = new Subject<void>();
   private dataSourceArray: ParameterData[];
+  masterData : Observable<CategoryResponse[]>
   categoryList: any[] = []
   moduleList: any[] = []
   parameter: ParameterData
@@ -51,19 +54,34 @@ export class AdminParameterComponent implements OnInit {
   isParameterAdded: boolean = false;
   isEditable: boolean;
   isParameterUnique = true;
-  moduleNotFoundMessage: string = "Module not found"
-  topicNotFoundMessage: string = "Topic not found"
-  private duplicateTopicError: string = "Duplicates are not allowed"
+  moduleNotFoundMessage: string = data_local.ADMIN_PARAMETER.MODULE_NOT_FOUND
+  topicNotFoundMessage: string = data_local.ADMIN_PARAMETER.TOPIC_NOT_FOUND
+  categoryLabel=data_local.ADMIN_PARAMETER.CATEGORY_SELECTION_LABEL
+  moduleLabel=data_local.ADMIN_PARAMETER.MODULE_SELECTION_LABEL
+  topicLabel=data_local.ADMIN_PARAMETER.TOPIC_SELECTION_LABEL
+  parameterInput =data_local.ADMIN_PARAMETER.PARAMETER_INPUT_TEXT
+  categoryHeader=data_local.ADMIN_PARAMETER.CATEGORY
+  moduleHeader=data_local.ADMIN_PARAMETER.MODULE
+  topicHeader=data_local.ADMIN_PARAMETER.TOPIC
+  parameterHeader=data_local.ADMIN_PARAMETER.PARAMETER
+  dateHeader=data_local.ADMIN_PARAMETER.DATE
+  activeHeader=data_local.ADMIN_PARAMETER.ACTIVE
+  actionHeader=data_local.ADMIN_PARAMETER.ACTION
+  mandatoryFieldText=data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
+  noDataAvailableText =data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+
+  private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar,private store :Store<AppStates>) {
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
     this.dataToDisplayed = [...this.dataSource.data]
+    this.masterData=this.store.select((store)=>store.masterData.masterDataResponse);
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       data.forEach(eachCategory => {
         this.fetchModuleDetails(eachCategory);
       })
@@ -229,7 +247,7 @@ export class AdminParameterComponent implements OnInit {
       return this.setParameterRequest(selectedTopicId, row);
     } else {
       this.isParameterUnique = false;
-      this.showError(this.duplicateTopicError)
+      this.showError(this.duplicateNameError)
       return null
     }
   }
