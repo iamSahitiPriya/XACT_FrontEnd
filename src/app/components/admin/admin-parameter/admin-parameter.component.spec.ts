@@ -388,7 +388,7 @@ describe('AdminParameterComponent', () => {
     }]
 
     jest.spyOn(component, "shortlistModule")
-    component.shortlistModule("category1")
+    component.shortlistModule(row)
 
     expect(component.shortlistModule).toHaveBeenCalled()
     expect(component.moduleList.length).toBe(1)
@@ -404,9 +404,25 @@ describe('AdminParameterComponent', () => {
       "categoryName": "category2",
       "active": false
     }]
+    let row = {
+      categoryId: 1,
+      categoryName: "category2",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
 
     jest.spyOn(component, "shortlistModule")
-    component.shortlistModule("category2")
+    component.shortlistModule(row)
 
     expect(component.shortlistModule).toHaveBeenCalled()
     expect(component.moduleList[0].moduleName).toBe("Module Not Found")

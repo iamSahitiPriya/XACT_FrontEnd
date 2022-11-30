@@ -4,6 +4,7 @@ div.topicButtonColumn {
 }
 .parameterTable{
   width:100%;
+  margin-top:20px;
 }
 
 .topicButton1 {
@@ -77,14 +78,11 @@ td.topic:last-of-type {
   text-align: left;
 }
 
-app-search >>> mat-form-field.searchBar {
-  width: 80%;
-  margin-left: 27%;
+.admin-searchBar {
+  width: 75%;
+  padding-left: 27%;
   margin-bottom: 24px;
-  box-shadow: 0 8px 10px #0000001a;
-  opacity: 1;
 }
-
 .circle {
   width: 8px;
   height: 8px;
@@ -141,8 +139,8 @@ td.parameter:nth-child(6){
 }
 
 .dropDown >>> .mat-form-field-flex {
-  height: 57px;
-  margin-top: 23px;
+  height: 63px;
+  margin-top: 20px;
 }
 .inputParameter >>> .mat-form-field-infix{
   height: 57px;
@@ -195,7 +193,7 @@ td.parameter:nth-child(6){
   width: 99%;
   height: 60px;
   font-size: 16px;
-  margin-top:20px;
+  margin-top:11px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
   opacity: 1;

@@ -50,7 +50,7 @@ export class AdminParameterComponent implements OnInit {
   topicList: any[] = [];
   topicAndParameter = new Map();
   isParameterAdded: boolean = false;
-  isEditable: boolean;
+  isEditable: boolean =false;
   isParameterUnique = true;
   moduleNotFoundMessage: string = data_local.ADMIN_PARAMETER.MODULE_NOT_FOUND
   topicNotFoundMessage: string = data_local.ADMIN_PARAMETER.TOPIC_NOT_FOUND
@@ -90,6 +90,7 @@ export class AdminParameterComponent implements OnInit {
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
 
@@ -337,8 +338,10 @@ export class AdminParameterComponent implements OnInit {
     }
   }
 
-  shortlistModule(categoryName: string) {
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === categoryName).categoryId
+  shortlistModule(row:any) {
+    row.moduleName=''
+    row.topicName=''
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.topicList = []
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
