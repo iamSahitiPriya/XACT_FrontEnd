@@ -25,6 +25,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
 
 
 class MockAppService {
@@ -32,20 +33,21 @@ class MockAppService {
   categoryData: UserCategoryResponse = {
     assessmentCategories: [{
       categoryId: 0,
-      categoryName: "hello",active:true,
-      modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
-        updatedAt : 0,
-        comments : "",}]
+      categoryName: "hello", active: true,
+      modules: [{
+        moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
+        updatedAt: 0,
+        comments: "",
+      }]
     }],
-    userAssessmentCategories: [{categoryId: 0,active:true, categoryName: "Hello", modules: []}]
+    userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
   }
-  category ={}
+  category = {}
 
   public getCategories = (assessmentId: number) => {
-    if (assessmentId === 0) {
+    if (assessmentId === 1) {
       return of(this.categoryData)
-    }
-    else {
+    } else {
       return of(this.category)
     }
 
@@ -70,21 +72,22 @@ describe('AssessmentModulesComponent', () => {
     const activatedRouteStub = {
       paramMap: {
         subscribe() {
-          return of();
+          return of(1);
         }
       }
     };
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesComponent,Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule,MatTooltipModule,MatSnackBarModule,
+      declarations: [AssessmentModulesComponent, Ng2SearchPipe],
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, MatTooltipModule, MatSnackBarModule,
         StoreModule.forRoot(reducers),
-        NoopAnimationsModule, MatCheckboxModule,MatInputModule,MatFormFieldModule,FormsModule,
+        NoopAnimationsModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule,
         RouterTestingModule.withRoutes([
           {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
         ])],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}
-        ]
+        {provide: AppServiceService, useClass: MockAppService},
+        {provide: ActivatedRoute, useValue: {snapshot: {paramMap: convertToParamMap({'assessmentId': '1'})}}}
+      ]
 
     })
       .compileComponents();
@@ -97,13 +100,15 @@ describe('AssessmentModulesComponent', () => {
     fixture.detectChanges();
     component.category = {
       assessmentCategories: [{
-        categoryId: 0,active:true,
+        categoryId: 0, active: true,
         categoryName: "hello",
-        modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0,active:true,
-          updatedAt : 0,
-          comments : "",}]
+        modules: [{
+          moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
+          updatedAt: 0,
+          comments: "",
+        }]
       }],
-      userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: []}]
+      userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
     }
   });
 
@@ -166,15 +171,16 @@ describe('AssessmentModulesComponent', () => {
     let categoryResponse = {
       assessmentCategories: [{
         categoryId: 0,
-        categoryName: "hello",active:true,
+        categoryName: "hello", active: true,
         modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
       }],
-      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", active:true,modules: []}]
+      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", active: true, modules: []}]
     }
+    component.assessmentId = 1
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    mockAppService.getCategories(1).subscribe(data => {
+    mockAppService.getCategories(2).subscribe(data => {
       expect(data).toBe(categoryResponse)
     })
     expect(component.setModules).toHaveBeenCalled()
@@ -185,7 +191,7 @@ describe('AssessmentModulesComponent', () => {
     expect(component.getModule).toHaveBeenCalled();
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(1, 1, true, false,true)
+    let response = component.checkedModuleStatus(1, 1, true, false, true)
     expect(response).toBeTruthy()
   });
   it("should fetch all the user selected categories when no category is selected", () => {
@@ -196,15 +202,21 @@ describe('AssessmentModulesComponent', () => {
     })
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(0, 0, true, false,true)
+    let response = component.checkedModuleStatus(0, 0, true, false, true)
     expect(response).toBeFalsy()
   });
   it("should set modules", () => {
-    let response = {userAssessmentCategories: [{categoryId: 0, active:true,categoryName: "Hello", modules: [{moduleId:0,moduleName:"hello",topics:[],category:0,active:true,
-          updatedAt : 0,
-          comments : "",}]}]}
+    let response = {
+      userAssessmentCategories: [{
+        categoryId: 0, active: true, categoryName: "Hello", modules: [{
+          moduleId: 0, moduleName: "hello", topics: [], category: 0, active: true,
+          updatedAt: 0,
+          comments: "",
+        }]
+      }]
+    }
 
-    jest.spyOn(component,"getModule")
+    jest.spyOn(component, "getModule")
     component.setModules(response.userAssessmentCategories)
     expect(component.getModule).toHaveBeenCalled()
   });
@@ -213,10 +225,10 @@ describe('AssessmentModulesComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"",
+      assessmentPurpose: "",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
@@ -241,10 +253,10 @@ describe('AssessmentModulesComponent', () => {
     })
     component.ngOnInit()
     expect(component.assessmentName).toBe("abc1")
-    expect(component.assessmentId).toBe(0)
+    expect(component.assessmentId).toBe(1)
   });
   it("should navigate back to previous page on clicking back button", () => {
-    jest.spyOn(component,'navigateBack');
+    jest.spyOn(component, 'navigateBack');
     const button = fixture.nativeElement.querySelector("#backButton");
     button.click()
     expect(component.navigateBack).toBeCalled();

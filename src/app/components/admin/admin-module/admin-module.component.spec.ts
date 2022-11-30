@@ -243,7 +243,7 @@ describe('AdminModuleComponent', () => {
   it("should show error", () => {
     const message = "This is an error message"
     jest.spyOn(component, "showError")
-    component.showError(message,"close")
+    component.showError(message)
     expect(component.showError).toHaveBeenCalled()
   });
 });
