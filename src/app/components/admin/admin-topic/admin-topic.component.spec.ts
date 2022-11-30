@@ -20,9 +20,9 @@ import {TopicStructure} from "../../../types/topicStructure";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatIconModule} from "@angular/material/icon";
 import {TopicData} from "../../../types/topicData";
-import exp from "constants";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 
 class MockAppService {
   topic: TopicStructure = {
@@ -99,17 +99,31 @@ class MockAppService {
   }
 }
 
+class MockDialog {
+  open() {
+    return {
+      afterClosed: () => of(1),
+      componentInstance: jest.fn()
+    }
+  }
+
+  closeAll() {
+  }
+
+}
+
 describe('AdminTopicComponent', () => {
   let component: AdminTopicComponent;
   let fixture: ComponentFixture<AdminTopicComponent>;
   let mockAppService: MockAppService
+  let matDialog : any
   let row: { categoryId: number, categoryName: string, categoryStatus: boolean, moduleId: number, moduleName: string, moduleStatus: boolean, topicId: number, topicName: string, active: boolean, updatedAt: number, comments: string, isEdit: boolean }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminTopicComponent, SearchComponent],
-      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers)],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator]
+      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog}],
     })
       .compileComponents();
   });
@@ -119,6 +133,8 @@ describe('AdminTopicComponent', () => {
     component = fixture.componentInstance;
     fixture.autoDetectChanges();
     mockAppService = new MockAppService();
+    matDialog = fixture.debugElement.injector.get(MatDialog)
+
     row = {
       categoryId: 1,
       categoryName: "category1",
@@ -510,6 +526,37 @@ describe('AdminTopicComponent', () => {
 
     expect(component.dataSource.data[0].topicName).toBe("topicnew")
 
-
   });
+
+  it("should open reference dialog", () => {
+    jest.spyOn(matDialog, "open")
+
+    component.openTopicReferences("")
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
+  });
+
+  it("should return category id of the selected row", () => {
+    let row = {categoryName:"category1"}
+
+    jest.spyOn(component,"findCategoryId")
+    component.ngOnInit()
+
+    expect(component.findCategoryId(row)).toBe(1)
+  });
+
+  it("should return module id of the selected row", () => {
+    let row = {moduleName:"module1",categoryName:"category1"}
+
+    jest.spyOn(component,"findModuleId")
+    component.ngOnInit()
+
+    expect(component.findModuleId(row)).toBe(1)
+  });
+
+  it("should return true if the inputs are not valid",() => {
+    let row = {moduleName:"",categoryName:"",topicName:""}
+
+    expect(component.isInputValid(row)).toBeTruthy()
+  })
 });

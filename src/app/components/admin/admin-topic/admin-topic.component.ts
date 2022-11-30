@@ -247,7 +247,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   editTopic(row: any) {
     this.resetUnsavedChanges(row);
-
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
@@ -383,7 +382,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
   }
 
-  async openTopicReferences(reference: TemplateRef<any>) {
+  async openTopicReferences(reference: any) {
     this.dialogRef = this.dialog.open(reference,{
       width: '62vw',
       height: '66vh',
