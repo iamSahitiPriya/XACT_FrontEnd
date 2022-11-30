@@ -180,7 +180,7 @@ describe('CreateAssessmentsComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: ["abc@thoughtworks.com"],
-    owner:false
+    owner:true
   }
 
   it('should create', () => {
@@ -214,6 +214,7 @@ describe('CreateAssessmentsComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
       updatedAt: 0,
+      owner:true
     }
     component.assessment = mockAssessment1
 

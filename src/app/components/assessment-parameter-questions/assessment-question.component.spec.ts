@@ -87,6 +87,7 @@ describe('AssessmentQuestionComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -138,6 +139,7 @@ describe('AssessmentQuestionComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -187,6 +189,7 @@ describe('AssessmentQuestionComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [],
 
       topicRatingAndRecommendation: [{

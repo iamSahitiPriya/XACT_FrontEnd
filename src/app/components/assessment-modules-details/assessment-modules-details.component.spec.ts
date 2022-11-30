@@ -187,6 +187,7 @@ describe('AssessmentModulesDetailsComponent', () => {
       assessmentState:"inProgress",
       teamSize: 1,
       users: ["abc@thoughtworks.com"],
+      owner:true,
       updatedAt: 12341234,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],

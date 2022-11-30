@@ -113,6 +113,7 @@ describe('AssessmentMenuComponent', () => {
           industry: "IT",
           teamSize: 2,
           users: [],
+          owner:true,
           answerResponseList: [],
           parameterRatingAndRecommendation: [],
           topicRatingAndRecommendation: []
@@ -166,6 +167,7 @@ describe('AssessmentMenuComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -201,6 +203,7 @@ describe('AssessmentMenuComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -216,12 +219,6 @@ describe('AssessmentMenuComponent', () => {
     let deleteButton = dom.parentNode.querySelector('#delete-assessment');
     deleteButton.click();
     expect(component.deleteAssessment).toHaveBeenCalled();
-
-    let okButton = dom.parentNode.querySelector('.okButton');
-    okButton.click();
-
-
-
     tick();
     flush()
     flushMicrotasks();
