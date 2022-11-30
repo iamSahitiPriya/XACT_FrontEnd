@@ -29,7 +29,8 @@ export const initialState: AssessmentState = {
     answerResponseList: [],
     topicRatingAndRecommendation: [],
     parameterRatingAndRecommendation: [],
-    users: []
+    users: [],
+    owner: false
   }
 }
 

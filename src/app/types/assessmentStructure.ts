@@ -20,6 +20,7 @@ export interface AssessmentStructure {
   "updatedAt": number,
   "answerResponseList": AssessmentAnswerResponse[],
   "parameterRatingAndRecommendation": ParameterRatingAndRecommendation[],
-  "topicRatingAndRecommendation": TopicRatingAndRecommendation[]
+  "topicRatingAndRecommendation": TopicRatingAndRecommendation[],
+  "owner":boolean
 }
 

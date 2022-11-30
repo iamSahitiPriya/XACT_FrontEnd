@@ -213,9 +213,15 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
-    button = dom.parentNode.querySelector('#delete-assessment');
-    button.click();
+    let deleteButton = dom.parentNode.querySelector('#delete-assessment');
+    deleteButton.click();
     expect(component.deleteAssessment).toHaveBeenCalled();
+
+    let okButton = dom.parentNode.querySelector('.okButton');
+    okButton.click();
+
+
+
     tick();
     flush()
     flushMicrotasks();

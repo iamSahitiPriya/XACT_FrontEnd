@@ -161,7 +161,8 @@ describe('CreateAssessmentsComponent', () => {
     teamSize: 0,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   }
 
   const mockAssessment: AssessmentStructure = {
@@ -178,7 +179,8 @@ describe('CreateAssessmentsComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: ["abc@thoughtworks.com"]
+    users: ["abc@thoughtworks.com"],
+    owner:false
   }
 
   it('should create', () => {

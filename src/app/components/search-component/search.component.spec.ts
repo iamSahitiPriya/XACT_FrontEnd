@@ -44,7 +44,8 @@ describe('SearchComponent', () => {
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      owner:false
 
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
@@ -67,7 +68,8 @@ describe('SearchComponent', () => {
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      owner:false
     }
     component.columns = ['1','assessmentName']
     component.searchAssessments()

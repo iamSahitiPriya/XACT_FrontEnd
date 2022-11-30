@@ -85,7 +85,8 @@ describe('AssessmentHeaderComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   }
 
   beforeEach(async () => {

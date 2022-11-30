@@ -31,19 +31,20 @@ class MockAppService {
 
   public getAssessment(assessmentId: number) {
     const mockAssessmentStructure = {
-      "assessmentId": 5,
-      "assessmentName": "abc1",
-      "organisationName": "Thoughtworks",
-      "assessmentStatus": "Active",
-      "updatedAt": 1654664982698,
-      "answerResponseList": [
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      answerResponseList: [
         {
-          "questionId": 1,
-          "answer": "answer1"
+          questionId: 1,
+          answer: "answer1"
         },
       ],
       "topicRatingAndRecommendation": [{topicId: 1, rating: 2, recommendation: ""}],
-      "parameterRatingAndRecommendation": []
+      "parameterRatingAndRecommendation": [],
+      isOwner:false
     }
     return of(mockAssessmentStructure)
 

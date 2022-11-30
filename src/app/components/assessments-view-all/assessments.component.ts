@@ -47,7 +47,8 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     teamSize: undefined,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   };
 
   homePageTitle = data_local.HOME.TITLE;
