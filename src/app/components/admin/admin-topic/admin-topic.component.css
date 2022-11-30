@@ -98,12 +98,10 @@ td.topic:last-of-type {
   text-align: left;
 }
 
-app-search >>> mat-form-field.searchBar {
+.admin-searchBar {
   width: 80%;
-  margin-left: 27%;
+  padding-left: 27%;
   margin-bottom: 24px;
-  box-shadow: 0 8px 10px #0000001a;
-  opacity: 1;
 }
 
 .circle {
@@ -140,9 +138,9 @@ tr:nth-of-type(5n + 5) span.circle {
   background-color: #BE873E;
 }
 
-.selectDropdownForm >>> .mat-form-field-flex {
+.selectDropdownForm{
   height: 57px;
-  margin-top: 23px;
+  margin-top: -9px;
 }
 
 .selectDropdownForm .mat-form-field-infix {
@@ -197,7 +195,7 @@ tr.expandedTopicRow {
   border-bottom-width: 0px;
 }
 
-.topicInput >>> .mat-form-field-wrapped >>> .mat-form-field-appearance-outline .mat-form-field-flex {
+.topicInput:only-child .mat-form-field-wrapped:only-child .mat-form-field-appearance-outline .mat-form-field-flex {
   margin-top: 19px;
 }
 .topic:nth-child(4){
