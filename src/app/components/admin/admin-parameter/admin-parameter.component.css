@@ -151,7 +151,7 @@ td.parameter:nth-child(6){
   padding: 8px 0;
 }
 .update{
-  width: 75px;
+  width: 72px;
   height: 30px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #61828C;
@@ -221,12 +221,13 @@ tr.expandedParameterRow {
   margin-right: -3px;
   display: inline-block;
   margin-bottom: 3px;
+  padding-left: 0px;
 }
 .expansionActive{
   padding-right:4em;
 }
 .text{
-  margin-left:-6px;
+  margin-left:-9px;
 }
 .noData{
   border-bottom-color: transparent;
