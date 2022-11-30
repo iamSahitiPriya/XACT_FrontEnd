@@ -135,7 +135,7 @@ export class AppServiceService {
 
 
   saveCategory(categoryRequest:any){
-    return this.http.post<any>(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
   saveModule(moduleRequest :any){
     return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI,moduleRequest)
@@ -165,6 +165,10 @@ export class AppServiceService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
+  }
+
+  deleteAssessment(assessmentId: number) : Observable<any> {
+    return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
   }
   saveTopic(topicRequest:any) : any{
     return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)

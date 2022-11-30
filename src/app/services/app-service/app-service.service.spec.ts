@@ -298,5 +298,9 @@ describe('AppServiceService', () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   });
 
+  it("should delete assessment",() =>{
+    expect(service.deleteAssessment(1)).toBeTruthy();
+  });
+
 });
 
