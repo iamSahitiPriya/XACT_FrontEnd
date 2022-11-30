@@ -89,7 +89,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { AdminTopicComponent } from './components/admin/admin-topic/admin-topic.component';
+import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

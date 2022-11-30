@@ -103,7 +103,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     )
   }
 
-  showError(message: string, action: string) {
+  showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
       duration : 2000,
@@ -140,7 +140,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
         this.moduleStructure = []
         this.ngOnInit()
       }, error: _error => {
-        this.showError("Some error occurred", "Close");
+        this.showError("Some error occurred");
       }
     })
   }
@@ -198,7 +198,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
           this.moduleStructure = []
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Some error occurred", "Close");
+          this.showError("Some error occurred");
         }
       }
     )

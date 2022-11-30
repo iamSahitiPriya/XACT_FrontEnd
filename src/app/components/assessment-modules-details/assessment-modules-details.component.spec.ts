@@ -33,9 +33,6 @@ import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 
 const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {

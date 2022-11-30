@@ -13,7 +13,7 @@ import {MatInputModule} from "@angular/material/input";
 import {BrowserModule} from "@angular/platform-browser";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of, throwError} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";

@@ -78,7 +78,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
-    this.masterData = this.store.select((store) => store.masterData.masterData)
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]

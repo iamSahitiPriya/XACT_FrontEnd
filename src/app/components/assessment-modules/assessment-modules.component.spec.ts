@@ -8,7 +8,7 @@ import {AssessmentModulesComponent} from './assessment-modules.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MatIconModule} from "@angular/material/icon";
 import {RouterTestingModule} from "@angular/router/testing";
-import {BehaviorSubject, of} from "rxjs";
+import {of} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -25,11 +25,6 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {appRoutes} from "../../app.module";
-import { Params, Router} from "@angular/router";
-import {Location} from "@angular/common";
-import {SpyLocation} from "@angular/common/testing";
-import {ActivatedRoute, convertToParamMap} from "@angular/router";
 
 
 class MockAppService {

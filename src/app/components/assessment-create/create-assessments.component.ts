@@ -8,7 +8,14 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -138,20 +145,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     } else {
-      this.showFormError("Please fill in all the required fields correctly.");
+      this.showError("Please fill in all the required fields correctly.");
     }
   }
 
-   showError(message: string) {
-    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
-      verticalPosition: "top",
-      horizontalPosition: "center"
-    })
-  }
-
-  private showFormError(message: string) {
+  showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
       duration: 2000,
@@ -195,7 +193,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     } else {
-      this.showFormError("Please fill in all the required fields correctly ");
+      this.showError("Please fill in all the required fields correctly ");
     }
   }
 

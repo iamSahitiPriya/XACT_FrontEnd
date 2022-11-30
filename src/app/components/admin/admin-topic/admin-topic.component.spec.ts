@@ -20,7 +20,6 @@ import {TopicStructure} from "../../../types/topicStructure";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatIconModule} from "@angular/material/icon";
 import {TopicData} from "../../../types/topicData";
-import exp from "constants";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 

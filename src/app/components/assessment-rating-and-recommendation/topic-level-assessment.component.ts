@@ -16,9 +16,8 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from '@ngrx/store';
-import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
-import {AppStates, AssessmentState} from "../../reducers/app.states";
+import {AppStates} from "../../reducers/app.states";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";

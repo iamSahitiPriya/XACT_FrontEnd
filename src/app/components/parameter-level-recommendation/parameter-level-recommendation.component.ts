@@ -8,8 +8,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AppStates, AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
