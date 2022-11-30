@@ -2,9 +2,9 @@
  *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminModuleComponent } from './admin-module.component';
+import {AdminModuleComponent} from './admin-module.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -243,7 +243,7 @@ describe('AdminModuleComponent', () => {
   it("should show error", () => {
     const message = "This is an error message"
     jest.spyOn(component, "showError")
-    component.showError(message,"close")
+    component.showError(message)
     expect(component.showError).toHaveBeenCalled()
   });
 });

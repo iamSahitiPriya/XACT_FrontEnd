@@ -28,7 +28,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AdminAssessmentResponse} from "../../../types/Admin/adminAssessmentResponse";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {NgbCalendar, NgbDate, NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
 
 class MockAppService {
  adminAssessmentResponse : AdminAssessmentResponse={

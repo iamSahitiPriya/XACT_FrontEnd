@@ -13,7 +13,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
-import {AbstractControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -29,7 +29,6 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
-import cloneDeep from "lodash/cloneDeep";
 
 jest.mock('lodash/cloneDeep', () => jest.fn());
 

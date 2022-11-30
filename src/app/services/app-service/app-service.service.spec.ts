@@ -15,10 +15,6 @@ import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
-import {TopicRequest} from "../../types/topicRequest";
-import {Observable} from "rxjs";
-import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {environment} from "../../../environments/environment";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
