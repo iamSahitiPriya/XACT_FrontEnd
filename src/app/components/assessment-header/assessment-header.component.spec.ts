@@ -36,7 +36,7 @@ import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessmen
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(1),
       componentInstance: jest.fn()
     }
   }
@@ -223,5 +223,11 @@ describe('AssessmentHeaderComponent', () => {
     expect(component.assessment.assessmentStatus).toBe("Completed");
   });
 
+  it('should be able to finish assessment after clicking on close button', () => {
+    jest.spyOn(component, 'finishAssessment')
+    dialog.open();
+    component.confirmFinishAssessmentAction();
+    expect(component.finishAssessment).toBeCalled();
+  })
 
 });

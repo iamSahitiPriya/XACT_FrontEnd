@@ -171,6 +171,10 @@ export class AppServiceService {
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
   }
+
+  deleteAssessment(assessmentId: number) : Observable<any> {
+    return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
+  }
 }
 
 

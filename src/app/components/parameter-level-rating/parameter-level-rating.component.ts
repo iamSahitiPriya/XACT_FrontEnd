@@ -5,7 +5,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -44,7 +44,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
@@ -83,7 +83,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
 
   }
 
-  form: FormGroup
+  form: UntypedFormGroup
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined

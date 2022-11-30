@@ -5,7 +5,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -43,7 +43,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
     this.answerResponse1 = this.store.select(fromReducer.getAssessments)
   }
 
@@ -70,7 +70,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   recommendationSample: TopicLevelRecommendation = {
     recommendationId: undefined,

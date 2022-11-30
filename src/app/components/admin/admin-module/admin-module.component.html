@@ -1,12 +1,14 @@
 <div class="row">
-  <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']" class="col-md-9"></app-search>
-  <div class="col-md-3 buttonColumn">
+  <div class="col-md-9">
+  <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']" class="admin-searchBar"></app-search>
+  </div>
+    <div class="col-md-3 buttonColumn">
     <button mat-flat-button class="button1" (click)="addModuleRow()">
       Add Module
     </button>
   </div>
 </div>
-<div class="mat-elevation-z8 category">
+<div class="mat-elevation-z8 module">
   <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
 
     <ng-container matColumnDef="categoryName">

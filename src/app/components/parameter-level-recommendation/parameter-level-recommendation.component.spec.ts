@@ -35,8 +35,8 @@ class MockAppService {
     }
   }
 
-  deleteParameterRecommendation(assessmentId : number, parameterId : number, recommendation : ParameterLevelRecommendation) {
-    if(recommendation !== undefined) {
+  deleteParameterRecommendation(assessmentId : number, parameterId : number, recommendationId : number) {
+    if(recommendationId !== 0) {
       return of(true)
     }
       return throwError("Error")
@@ -98,7 +98,7 @@ describe('ParameterRecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{
-        parameterId: 1, rating: 2, parameterLevelRecommendation: [
+        parameterId: 0, rating: 2, parameterLevelRecommendation: [
           {
             recommendationId: 1,
             recommendation: "some text",
@@ -379,6 +379,27 @@ describe('ParameterRecommendationComponent', () => {
     expect(component.parameterRecommendationArray.length).toBe(0);
   })
 
+  it('should throw error when not able to delete recommendation', () => {
+    let recommendation = {
+      recommendationId: 0,
+      recommendation: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some dummy text"
+    }
+
+    component.ngOnInit()
+    component.deleteTemplate(recommendation);
+    jest.spyOn(component,"deleteRecommendationTemplate")
+    jest.spyOn(component,"showError")
+    component.deleteRecommendationTemplate(recommendation,0)
+
+    mockAppService.deleteParameterRecommendation(1,1,0).subscribe(() => {
+    }, error => {
+      expect(component.showError).toHaveBeenCalled()
+    })
+  })
+
   it('should be able to enable the fields when parameter level recommendationId is defined', () => {
     let recommendationId: number | undefined;
     let value: boolean;
@@ -467,7 +488,6 @@ describe('ParameterRecommendationComponent', () => {
     component.ngOnInit()
     component.saveParticularParameterText(keyEvent);
     component.saveParticularParameterText(keyEvent)
-    component.inputChange()
     component.inputChange()
 
     await new Promise((r) => setTimeout(r, 2000));

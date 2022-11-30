@@ -29,6 +29,9 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import cloneDeep from "lodash/cloneDeep";
+
+jest.mock('lodash/cloneDeep', () => jest.fn());
 
 class MockDialog {
   open() {
@@ -76,7 +79,7 @@ class MockAppService {
   }
 
   public updateAssessment(assessmentId: number, assessmentDataPayload: AssessmentRequest): Observable<any> {
-    if (assessmentDataPayload.assessmentName === "xact") {
+    if (assessmentDataPayload.assessmentName === "Mock") {
       return of(this.assessmentMock)
     } else {
       return throwError("Error!")
@@ -115,7 +118,7 @@ describe('CreateAssessmentsComponent', () => {
       value: {reload: jest.fn()}
     })
     jest.mock('@okta/okta-auth-js');
-    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam', email: "sam@gmail.com"}));
+    oktaAuth.getUser = jest.fn(() => Promise.resolve({name: 'Sam', email: "sam@thoughtworks.com"}));
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
@@ -176,7 +179,7 @@ describe('CreateAssessmentsComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: ["abc@thoughtworks.com"]
   }
 
   it('should create', () => {
@@ -228,6 +231,7 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
+      component.emails=["abc@thoughtworks.com"]
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -305,10 +309,46 @@ describe('CreateAssessmentsComponent', () => {
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.updateAssessment()
+    mockAppService.updateAssessment(45,assessmentDataPayload).subscribe(data => {
+      expect(component.loading).toBe(false)
+    })
     expect(component).toBeTruthy()
     mockAppService.addAssessments(assessmentDataPayload).subscribe(data => {
       expect(data).toBe(assessmentData)
     })
+    fixture.detectChanges()
+  });
+
+  it('should not update assessment and throw error', () => {
+    component.assessment = mockAssessment;
+    component.assessment.assessmentName="xact"
+    component.assessmentCopy = mockAssessment;
+    const assessmentDataPayload: AssessmentRequest = {
+      assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
+      domain: "abc", industry: "abc", teamSize: 12, users: []
+    };
+    const assessmentData =
+      {
+        "assessmentId": 45,
+        "assessmentName": "xact",
+        "assessmentPurpose": "Client Request",
+        "organisationName": "abc",
+        "assessmentStatus": "Active",
+        "updatedAt": 1650886511968
+      }
+    component.createAssessmentForm.controls['selected'].setValue("client request")
+    component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
+    component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
+    component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
+    expect(component.createAssessmentForm.valid).toBeTruthy()
+    component.updateAssessment()
+    jest.spyOn(component,"showError")
+    mockAppService.updateAssessment(4,assessmentDataPayload).subscribe(data => {
+      expect(component.showError).toBeCalled()
+    })
+    expect(component).toBeTruthy()
     fixture.detectChanges()
   });
 
@@ -360,7 +400,7 @@ describe('CreateAssessmentsComponent', () => {
 
   });
 
-  it("should be able to get the organisation names", () => {
+  it("should be able to get the organisation names when the new words include same pattern", () => {
     const expectedResponse = [
       {
         name: "Equity",
@@ -373,6 +413,10 @@ describe('CreateAssessmentsComponent', () => {
 
     expect(component.onOrganisationValueChange).toHaveBeenCalled();
     expect(component.options.accounts).toStrictEqual(expectedResponse);
+    jest.spyOn(component,'filterOptions')
+    component.onOrganisationValueChange();
+    expect(component.filterOptions).toBeCalled();
+
   })
 
   it("should be able to get the industry name when organisation name get selected", () => {
@@ -396,6 +440,7 @@ describe('CreateAssessmentsComponent', () => {
     component.selectOrganisationName("Equity");
 
     expect(component.selectOrganisationName).toHaveBeenCalled();
+
   });
 
   it("should be able to show validation error when organisation name is not found", () => {
@@ -448,4 +493,10 @@ describe('CreateAssessmentsComponent', () => {
 
   });
 
+  it("should be able to fetch okta user details", () => {
+    component.assessment = mockAssessment;
+    jest.spyOn(component,"ngOnInit");
+    component.ngOnInit();
+    expect(component.oktaAuth.getUser).toHaveBeenCalled()
+  })
 });

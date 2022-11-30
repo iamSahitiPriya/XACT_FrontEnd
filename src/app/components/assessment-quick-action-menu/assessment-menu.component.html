@@ -37,6 +37,12 @@
         <span>{{generateReportTitle}}</span>
       </button>
 
+      <button  id="delete-assessment" (click)="deleteAssessment(assessment.assessmentId)"  mat-menu-item
+               [disabled]="assessment.assessmentStatus ==='Completed'">
+        <mat-icon class="iconColor">delete</mat-icon>
+        <span id="deleteAssessment" [matTooltip]=manageAssessmentToolTip [matTooltipPosition]="'right'" >{{deleteAssessmentTitle}}</span>
+      </button>
+
 
     </mat-menu>
 

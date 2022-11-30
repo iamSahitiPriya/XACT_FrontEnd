@@ -109,15 +109,14 @@ div.buttonColumn {
 }
 
 div.category {
+  margin-top: 16px;
   box-shadow: 0px 5px 25px #52575d1a;
 }
 
-app-search >>> mat-form-field.searchBar {
+.admin-searchBar {
   width: 75%;
-  margin-left: 27%;
+  padding-left: 27%;
   margin-bottom: 24px;
-  box-shadow: 0 8px 10px #0000001a;
-  opacity: 1;
 }
 
 .circle {
@@ -185,9 +184,8 @@ tr:nth-of-type(5n + 5) span.circle {
 }
 
 .commentsArea {
-  width: 99%;
+  width: 98%;
   height: 60px;
-  margin-left: 25px;
   font-size: 16px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
@@ -207,13 +205,6 @@ tr:nth-of-type(5n + 5) span.circle {
   padding: 0 9px 34px;
   margin-right: -2px;
   display: inline-block;
-  margin-top: 8px;
-}
-
-mat-form-field.commentsArea >>> div.mat-form-field-flex {
-  height: 70px;
-  width: 97%;
-  margin-left: -22px;
   margin-top: 8px;
 }
 

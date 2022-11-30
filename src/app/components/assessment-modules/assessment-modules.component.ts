@@ -59,7 +59,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
-
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
     this.assessmentResponse.subscribe(data => {
@@ -69,7 +68,16 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       }
 
     })
-    this.appService.getCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.getCategoriesData(this.assessmentId);
+
+    valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.category = data
+    })
+
+  }
+
+  getCategoriesData(assessmentId: number) {
+    this.appService.getCategories(assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data.userAssessmentCategories !== undefined) {
         categories.userAssessmentCategories = data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories;
@@ -81,10 +89,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
         valueEmitter.next(categories)
       }
     })
-    valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.category = data
-    })
-
   }
 
 

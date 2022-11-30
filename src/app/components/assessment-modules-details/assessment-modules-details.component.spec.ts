@@ -31,152 +31,96 @@ import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-ratin
 import {reducers} from "../../reducers/reducers";
 import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
+import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
+import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+
+const mockCategory : UserCategoryResponse = {assessmentCategories: [
+    {
+      "categoryId": 1,
+      "categoryName": "My Category1",
+      "active":true,
+      "modules": [
+        {
+          "moduleId": 1,
+          "moduleName": "My Module",
+          "category": 1,
+          "active":true,
+          "updatedAt":10101010,
+          "topics": [
+            {
+              "topicId": 1,
+              "topicName": "My Topic",
+              "module": 1,
+              "assessmentLevel":"new",
+              "parameters": [
+                {
+                  "parameterId": 1,
+                  "parameterName": "My Parameter",
+                  "topic": 1,
+                  "questions": [
+                    {
+                      "questionId": 1,
+                      "questionText": "My Question",
+                      "parameter": 1
+                    }
+                  ],
+                  "references": []
+                }
+              ],
+              "references": []
+            }
+          ]
+        },
+      ]
+    }], userAssessmentCategories: [
+    {
+      "categoryId": 1,
+      "categoryName": "My Category1",
+      "active":true,
+      "modules": [
+        {
+          "moduleId": 1,
+          "moduleName": "My Module",
+          "category": 1,
+          "active":true,
+          updatedAt:10101010,
+          "topics": [
+            {
+              "topicId": 1,
+              "topicName": "My Topic",
+              "module": 1,
+              "assessmentLevel":"new",
+              "parameters": [
+                {
+                  "parameterId": 1,
+                  "parameterName": "My Parameter",
+                  "topic": 1,
+                  "questions": [
+                    {
+                      "questionId": 1,
+                      "questionText": "My Question",
+                      "parameter": 1
+                    }
+                  ],
+                  "references": []
+                }
+              ],
+              "references": []
+            }
+          ]
+        },
+      ]
+    }
+  ]};
+
 
 class MockAppService {
   public getCategories() {
-    const mockCategory =
-      [
-        {
-          "categoryId": 1,
-          "categoryName": "My Category1",
-          "modules": [
-            {
-              "moduleId": 1,
-              "moduleName": "My Module",
-              "category": 1,
-              "topics": [
-                {
-                  "topicId": 1,
-                  "topicName": "My Topic",
-                  "module": 1,
-                  "parameters": [
-                    {
-                      "parameterId": 1,
-                      "parameterName": "My Parameter",
-                      "topic": 1,
-                      "questions": [
-                        {
-                          "questionId": 1,
-                          "questionText": "My Question",
-                          "parameter": 1
-                        }
-                      ],
-                      "references": []
-                    }
-                  ],
-                  "references": []
-                }
-              ]
-            },
-          ]
-        }, {
-        "categoryId": 2,
-        "categoryName": "My Category1",
-        "modules": [
-          {
-            "moduleId": 2,
-            "moduleName": "My Module",
-            "category": 2,
-            "topics": [
-              {
-                "topicId": 1,
-                "topicName": "My Topic",
-                "module": 2,
-                "parameters": [
-                  {
-                    "parameterId": 1,
-                    "parameterName": "My Parameter",
-                    "topic": 1,
-                    "questions": [
-                      {
-                        "questionId": 1,
-                        "questionText": "My Question",
-                        "parameter": 1
-                      }
-                    ],
-                    "references": []
-                  }
-                ],
-                "references": []
-              }
-            ]
-          },
-        ]
-      },
-      ]
     return of(mockCategory)
   }
   public getOnlySelectedCategories() {
-    const mockCategory =
-      [
-        {
-          "categoryId": 1,
-          "categoryName": "My Category1",
-          "modules": [
-            {
-              "moduleId": 1,
-              "moduleName": "My Module",
-              "category": 1,
-              "topics": [
-                {
-                  "topicId": 1,
-                  "topicName": "My Topic",
-                  "module": 1,
-                  "parameters": [
-                    {
-                      "parameterId": 1,
-                      "parameterName": "My Parameter",
-                      "topic": 1,
-                      "questions": [
-                        {
-                          "questionId": 1,
-                          "questionText": "My Question",
-                          "parameter": 1
-                        }
-                      ],
-                      "references": []
-                    }
-                  ],
-                  "references": []
-                }
-              ]
-            },
-          ]
-        }, {
-        "categoryId": 2,
-        "categoryName": "My Category1",
-        "modules": [
-          {
-            "moduleId": 2,
-            "moduleName": "My Module",
-            "category": 2,
-            "topics": [
-              {
-                "topicId": 1,
-                "topicName": "My Topic",
-                "module": 2,
-                "parameters": [
-                  {
-                    "parameterId": 1,
-                    "parameterName": "My Parameter",
-                    "topic": 1,
-                    "questions": [
-                      {
-                        "questionId": 1,
-                        "questionText": "My Question",
-                        "parameter": 1
-                      }
-                    ],
-                    "references": []
-                  }
-                ],
-                "references": []
-              }
-            ]
-          },
-        ]
-      },
-      ]
     return of(mockCategory)
   }
 
@@ -221,83 +165,33 @@ describe('AssessmentModulesDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should return the categories", () => {
-    const expectedData = [
-      {
-        "categoryId": 1,
-        "categoryName": "My Category1",
-        "modules": [
-          {
-            "moduleId": 1,
-            "moduleName": "My Module",
-            "category": 1,
-            "topics": [
-              {
-                "topicId": 1,
-                "topicName": "My Topic",
-                "module": 1,
-                "parameters": [
-                  {
-                    "parameterId": 1,
-                    "parameterName": "My Parameter",
-                    "topic": 1,
-                    "questions": [
-                      {
-                        "questionId": 1,
-                        "questionText": "My Question",
-                        "parameter": 1
-                      }
-                    ],
-                    "references": []
-                  }
-                ],
-                "references": []
-              }
-            ]
-          },
-        ]
-      },
+  it("should return the categories", async() => {
 
-      {
-        "categoryId": 2,
-        "categoryName": "My Category1",
-        "modules": [
-          {
-            "moduleId": 2,
-            "moduleName": "My Module",
-            "category": 2,
-            "topics": [
-              {
-                "topicId": 1,
-                "topicName": "My Topic",
-                "module": 2,
-                "parameters": [
-                  {
-                    "parameterId": 1,
-                    "parameterName": "My Parameter",
-                    "topic": 1,
-                    "questions": [
-                      {
-                        "questionId": 1,
-                        "questionText": "My Question",
-                        "parameter": 1
-                      }
-                    ],
-                    "references": []
-                  }
-                ],
-                "references": []
-              }
-            ]
-          },
-        ]
-      },
-    ]
     mockAppService.getCategories().subscribe(data => {
-      expect(data).toBe(expectedData)
+      expect(data).toBe(mockCategory)
     })
   });
 
+  it('should get the assessment data', () => {
+    component.answer=of({
+      assessmentId: 1,
+      assessmentName: "name",
+      assessmentPurpose:"Client",
+      organisationName: "New",
+      assessmentStatus: "Active",
+      domain: "new",
+      industry: "new",
+      assessmentState:"inProgress",
+      teamSize: 1,
+      users: ["abc@thoughtworks.com"],
+      updatedAt: 12341234,
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: []
+    })
+    component.ngOnInit();
+    expect(component.assessment.assessmentId).toBe(1)
+  })
   it('Tab change should move forward', () => {
     // @ts-ignore
     const tabChangeEvent: MatTabChangeEvent = {tab: undefined, index: 1};
