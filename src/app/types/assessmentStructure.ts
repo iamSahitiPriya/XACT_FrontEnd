@@ -5,6 +5,8 @@
 import {AssessmentAnswerResponse} from "./AssessmentAnswerResponse";
 import {ParameterRatingAndRecommendation} from "./parameterRatingAndRecommendation";
 import {TopicRatingAndRecommendation} from "./topicRatingAndRecommendation";
+import {UserQuestion} from "./UserQuestion";
+import {UserQuestionResponse} from "./userQuestionResponse";
 
 export interface AssessmentStructure {
   "assessmentId": number,
@@ -20,6 +22,7 @@ export interface AssessmentStructure {
   "updatedAt": number,
   "answerResponseList": AssessmentAnswerResponse[],
   "parameterRatingAndRecommendation": ParameterRatingAndRecommendation[],
-  "topicRatingAndRecommendation": TopicRatingAndRecommendation[]
+  "topicRatingAndRecommendation": TopicRatingAndRecommendation[],
+  "userQuestionResponseList":UserQuestionResponse[]
 }
 

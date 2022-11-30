@@ -23,6 +23,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
+import {UserQuestion} from "../../types/UserQuestion";
 
 export const saveAssessmentData = [{}]
 
@@ -145,6 +146,11 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
       questionId: questionId, answer: answer
     };
   }
+  getUserQuestions(questionId:number,question:string, answer:string|undefined): UserQuestion {
+    return {
+      questionId:questionId, question:question, answer:answer
+    }
+  }
 
 
   getAnswersList(parameter: ParameterStructure): Notes[] {
@@ -162,11 +168,31 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     }
     return answerRequest
   }
+  getUserQuestionList(parameter: ParameterStructure) : UserQuestion[] {
+    console.log("here atleast")
+    const userQuestionRequest = []
+    let userQuestionText: string;
+    let userAnswerText: string ;
+    let userQuestionId:number ;
+    if(this.answerResponse.userQuestionResponseList !== undefined){
+      for(let userQuestion in this.answerResponse.userQuestionResponseList){
+        // let indexUserQuestion =  this.answerResponse.userQuestionResponseList.findIndex(parameterIdPos => parameterIdPos.parameterId == parameter.parameterId)
+        if(this.answerResponse.userQuestionResponseList[userQuestion].parameterId === parameter.parameterId){
+          userQuestionText= this.answerResponse.userQuestionResponseList[userQuestion].question
+          userAnswerText = this.answerResponse.userQuestionResponseList[userQuestion].answer
+          userQuestionId = this.answerResponse.userQuestionResponseList[userQuestion].questionId
+          userQuestionRequest.push(this.getUserQuestions(userQuestionId,userQuestionText,userAnswerText))
+        }
+      }
+    }
+    return userQuestionRequest;
+  }
 
 
   getParameterRequest(parameter: ParameterStructure): ParameterRequest {
     let newParameterRequest = {
-      answerRequest: this.getAnswersList(parameter)
+      answerRequest: this.getAnswersList(parameter),
+      userQuestionRequestList: this.getUserQuestionList(parameter)
     }
     this.topicRequest.parameterLevel.push(<ParameterRequest>newParameterRequest);
     return <ParameterRequest>newParameterRequest;
@@ -185,7 +211,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     }
     if (indexByParameterId !== -1 && isRatingAndRecommendationPresent) {
       newParameterRequest = {
-        answerRequest: this.getAnswersList(parameter), parameterRatingAndRecommendation: {
+        answerRequest: this.getAnswersList(parameter),
+        userQuestionRequestList: this.getUserQuestionList(parameter),
+        parameterRatingAndRecommendation: {
           parameterId: parameter.parameterId,
           rating: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].rating,
           parameterLevelRecommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation ? this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation : [{
@@ -200,6 +228,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     } else {
       newParameterRequest = {
         answerRequest: this.getAnswersList(parameter),
+        userQuestionRequestList: this.getUserQuestionList(parameter),
         parameterRatingAndRecommendation: {
           rating: 0,
           parameterLevelRecommendation: [{

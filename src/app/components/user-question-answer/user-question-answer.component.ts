@@ -7,6 +7,7 @@ import {UntypedFormBuilder} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
+import {UserQuestionResponse} from "../../types/userQuestionResponse";
 
 @Component({
   selector: 'app-user-question-answer',
@@ -25,7 +26,7 @@ export class UserQuestionAnswerComponent {
   assessmentId : number
 
   @Input()
-  parameterRatingAndRecommendation:ParameterRatingAndRecommendation
+  userQuestionList:UserQuestion[]
 
   @Input()
   parameterIndex:number

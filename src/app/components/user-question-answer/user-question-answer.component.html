@@ -2,9 +2,22 @@
 <div *ngIf="valuen>0">
   <mat-card class="additionalQuestionHeading">Additional Question</mat-card>
 
+    <div *ngFor="let userQuestion of userQuestionList; let i=index;">
+    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}</span>
+      <br>
+      <mat-form-field class="questionArea" appearance="outline" >
+      <textarea matInput
+                cdkTextareaAutosize
+                class="textArea1"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="1"
+                [(ngModel)]="questionText"
+                maxlength="10000"></textarea>
+      </mat-form-field>
+  </div>
 <div *ngIf="flag === true" >
   <form>
-    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + 1}} </span>
+    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}} </span>
     <mat-form-field class="questionArea" appearance="outline" id="testForm">
       <textarea matInput
                 cdkTextareaAutosize
@@ -14,7 +27,7 @@
                 [(ngModel)]="questionText"
                 maxlength="10000"></textarea>
     </mat-form-field>
-    <div id="doneQuestion"> <mat-icon (click)="saveQuestion()">done</mat-icon></div> <mat-icon (click)="flag=false">delete</mat-icon>
+    <mat-icon (click)="saveQuestion()">done</mat-icon> <mat-icon (click)="flag=false">delete</mat-icon>
   </form>
 </div>
 </div>

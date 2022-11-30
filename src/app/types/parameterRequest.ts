@@ -9,6 +9,6 @@ import {UserQuestion} from "./UserQuestion";
 
 export interface ParameterRequest {
   "answerRequest": Notes[];
-  "userQuestionRequestList"?:UserQuestion[];
+  "userQuestionRequestList":UserQuestion[];
   "parameterRatingAndRecommendation": ParameterRatingAndRecommendation;
 }
