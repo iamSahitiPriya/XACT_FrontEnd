@@ -13,7 +13,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates, AssessmentState} from "../../reducers/app.states";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
@@ -53,8 +53,8 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
   type: any;
 
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AssessmentState>, private _snackBar: MatSnackBar, private _location: Location) {
-    this.assessmentResponse = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
+    this.assessmentResponse = this.store.select((store) => store.assessmentState.assessments)
   }
 
   ngOnInit(): void {
@@ -98,26 +98,11 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   checkAllStatus(categoryId: number): boolean {
-    /*const selectedCategory = this.category.userAssessmentCategories.find(category => {
-      return category.categoryId === categoryId
-    })
-    const foundAll = selectedCategory && selectedCategory.modules.every(v => this.moduleRequest.includes(v)) || false;
-    console.log("Found all", selectedCategory, foundAll);
-    return foundAll;*/
-
     let index = this.category.userAssessmentCategories.findIndex(category => {
       return category.categoryId === categoryId
     })
     return index !== -1
   }
-
-  /*checkSomeSelected(categoryId: number): boolean {
-    const selectedCategory = this.category.userAssessmentCategories.find(category => {
-      return category.categoryId === categoryId
-    })
-    const foundSome = (!this.checkAllStatus(categoryId)) && (selectedCategory && selectedCategory.modules.some(module1 => this.moduleRequest.indexOf(module1) >= 0)) || false;
-    return foundSome;
-  }*/
 
   getCategory(categoryId: number, selectedCategory: boolean) {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
@@ -205,6 +190,10 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this._location.back();
+    if(history.state.type == 'url'){
+      this.router.navigateByUrl('')
+    }else{
+      this._location.back()
+    }
   }
 }

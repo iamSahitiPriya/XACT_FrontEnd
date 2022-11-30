@@ -231,7 +231,7 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
-      component.emails=["abc@thoughtworks.com"]
+    component.emails=["abc@thoughtworks.com"]
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -409,11 +409,11 @@ describe('CreateAssessmentsComponent', () => {
     ];
     component.assessment.organisationName = "abc"
     jest.spyOn(component, 'onOrganisationValueChange');
+    jest.spyOn(component,'filterOptions')
     component.onOrganisationValueChange();
 
     expect(component.onOrganisationValueChange).toHaveBeenCalled();
     expect(component.options.accounts).toStrictEqual(expectedResponse);
-    jest.spyOn(component,'filterOptions')
     component.onOrganisationValueChange();
     expect(component.filterOptions).toBeCalled();
 

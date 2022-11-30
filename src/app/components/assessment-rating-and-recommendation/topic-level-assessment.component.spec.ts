@@ -238,12 +238,12 @@ describe('TopicLevelAssessmentComponent', () => {
   it("should call topic level is the topic input is null", () => {
 
     component.topicInput = {
+      active: false, updatedAt: 0,
       topicId: 0,
       topicName: "",
       parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
       references: [],
-      module: 1,
-      assessmentLevel: ""
+      module: 1
     }
     component.answerResponse = {
       assessmentId: 5,
@@ -397,11 +397,11 @@ describe('TopicLevelAssessmentComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
     }
     component.topicInput = {
+      active: false, updatedAt: 0,
       topicId: 0,
       topicName: "dummyTopic",
       parameters: [],
       references: [],
-      assessmentLevel: "Topic",
       module: 1
     }
     component.ngOnInit()
@@ -445,12 +445,12 @@ describe('TopicLevelAssessmentComponent', () => {
       }], topicRatingAndRecommendation: {topicId: 1, rating: 3, topicLevelRecommendation: []}
     }
     component.topicInput = {
+      active: false, updatedAt: 0,
       topicId: 0,
       topicName: "",
       parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
       references: [],
-      module: 1,
-      assessmentLevel: ""
+      module: 1
     }
     component.ngOnInit()
   });
@@ -469,12 +469,12 @@ describe('TopicLevelAssessmentComponent', () => {
       }], topicRatingAndRecommendation: {topicId: 1, rating: 3, topicLevelRecommendation: []}
     }
     component.topicInput = {
+      active: false, updatedAt: 0,
       topicId: 0,
       topicName: "",
       parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
       references: [],
-      module: 1,
-      assessmentLevel: ""
+      module: 1
     }
     component.save()
     expect(component.answerResponse).toBe(undefined)
@@ -538,7 +538,6 @@ describe('TopicLevelAssessmentComponent', () => {
       topicId: 1,
       topicName: "",
       parameters: [{parameterId: 1, parameterName: "hello", topic: 1, references: [], questions: []}],
-      assessmentLevel: "Topic",
       module: 1
     }
     component.ngOnInit()
@@ -554,12 +553,12 @@ describe('TopicLevelAssessmentComponent', () => {
       }], topicRatingAndRecommendation: {topicId: 1, rating: 0, topicLevelRecommendation: []}
     }
     component.topicInput = {
+      active: false, updatedAt: 0,
       topicId: 2,
       topicName: "",
       parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
       references: [],
-      module: 1,
-      assessmentLevel: ""
+      module: 1
     }
     component.ngOnInit();
     component.updateAverageRating();
@@ -578,7 +577,7 @@ describe('TopicLevelAssessmentComponent', () => {
         parameterRatingAndRecommendation: {parameterId: 0, parameterLevelRecommendation: [{}]}
       }]
     }
-    component.topicInput={assessmentLevel: "", module: 0, parameters: [], references: [], topicId: 1, topicName: ""}
+    component.topicInput={module: 0, parameters: [], references: [], topicId: 1, topicName: "",updatedAt: 12345, active : true}
     jest.spyOn(component,'updateAverageRating')
     component.updateAverageRating();
     expect(component.averageRating.rating).toBe(0)

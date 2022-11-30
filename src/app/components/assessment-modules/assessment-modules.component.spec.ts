@@ -26,7 +26,11 @@ import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {appRoutes} from "../../app.module";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import { Params, Router} from "@angular/router";
+import {Location} from "@angular/common";
+import {SpyLocation} from "@angular/common/testing";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
+
 
 class MockAppService {
   moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
@@ -96,8 +100,6 @@ describe('AssessmentModulesComponent', () => {
     fixture = TestBed.createComponent(AssessmentModulesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-
     component.category = {
       assessmentCategories: [{
         categoryId: 0,active:true,
@@ -146,7 +148,6 @@ describe('AssessmentModulesComponent', () => {
       assessmentCategories: [],
       userAssessmentCategories: []
     }
-
     jest.spyOn(component, "navigate")
     component.moduleRequest = moduleRequest
     component.saveUserModule()
@@ -178,9 +179,7 @@ describe('AssessmentModulesComponent', () => {
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
-    // component.setModules(categoryResponse.userAssessmentCategories)
-
-    mockAppService.getCategories(0).subscribe(data => {
+    mockAppService.getCategories(1).subscribe(data => {
       expect(data).toBe(categoryResponse)
     })
     expect(component.setModules).toHaveBeenCalled()
@@ -201,7 +200,6 @@ describe('AssessmentModulesComponent', () => {
       expect(_date).toBe({})
     })
   });
-
   it("should select all the categories", () => {
     let response = component.checkedModuleStatus(0, 0, true, false,true)
     expect(response).toBeFalsy()

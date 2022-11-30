@@ -9,7 +9,9 @@ export interface TopicStructure {
   topicId: number,
   topicName: string,
   module: number,
-  assessmentLevel: string,
+  updatedAt:number,
+  comments?:string,
+  active:boolean,
   parameters: ParameterStructure[],
   references: TopicReference[]
 }

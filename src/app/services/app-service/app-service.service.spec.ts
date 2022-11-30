@@ -15,6 +15,7 @@ import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+import {TopicRequest} from "../../types/topicRequest";
 import {Observable} from "rxjs";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {environment} from "../../../environments/environment";
@@ -269,13 +270,29 @@ describe('AppServiceService', () => {
   it("should get the organisation names",()=>{
     expect(service.getOrganizationName("org")).toBeTruthy();
   });
-
-  it("should get only selected categories",() =>{
-
-  });
   it("should get template",()=>{
     expect(service.getTemplate()).toBeTruthy();
   })
+  it("should save topics", () => {
+    let topic : any = {module: 1, topicName: "new topic", active: true, comments: "comments"}
+    expect(service.saveTopic(topic)).toBeTruthy()
+  })
+  it("should update topics", () => {
+    let topicRequest: any = { comments: "new comments", module: 1, topicName: "topic", active: true }
+    expect(service.updateTopic(topicRequest,1)).toBeTruthy();
+  })
+  it("should get only selected categories", () => {
+    expect(service.getOnlySelectedCategories(1)).toBeTruthy();
+  })
+  it("should save module", () => {
+    let moduleRequest = {moduleName : "module", active:true, comments: ""}
+    expect(service.saveModule(moduleRequest)).toBeTruthy();
+  })
+  it("should update module", () => {
+    let moduleRequest = {moduleName : "module", active:true, comments: ""}
+    expect(service.updateModule(moduleRequest)).toBeTruthy();
+  })
+
 
   it("should get only selected categories",() =>{
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();

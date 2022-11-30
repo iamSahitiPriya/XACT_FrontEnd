@@ -4,25 +4,26 @@
 
 <div class="row">
   <div class="col-md-9">
-  <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="admin-searchBar"></app-search>
+    <app-search [dataSource]="dataSource" [columns]="['1','categoryName']" class="admin-searchBar"></app-search>
   </div>
   <div class="col-md-3 buttonColumn">
     <button mat-flat-button class="button1" (click)="addCategoryRow()">
-      Add Category
+      {{addCategory}}
     </button>
   </div>
 </div>
 <div class="mat-elevation-z8 category">
   <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows aria-describedby="category">
     <ng-container matColumnDef="categoryName">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName"> Category</th>
+      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="category" mat-cell *matCellDef="let row">
         <span *ngIf="!(row.isEdit || selectedCategory === row)">
           <span class="circle"></span>
           {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedCategory===row">
-          <input matInput class="input"#categoryName placeholder="Enter category name" [(ngModel)]="row.categoryName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+          <input matInput class="input" #categoryName placeholder="Enter category name" [(ngModel)]="row.categoryName"
+                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
           <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
@@ -47,36 +48,47 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> Date</th>
-      <td class="categoryDate category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> {{date}}</th>
+      <td class="categoryDate category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MM-yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="active">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="active"> Active</th>
+      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="active"> {{active}}</th>
       <td class="category categoryActive" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]=row.active
                           [disabled]="!(selectedCategory === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
     <ng-container matColumnDef="edit">
-      <th class="category" mat-header-cell *matHeaderCellDef>Action</th>
+      <th class="category" mat-header-cell *matHeaderCellDef>{{action}}</th>
       <td class="category" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="!(row.isEdit || selectedCategory === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editCategory(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editCategory(row)">{{edit}}</button>
         </span>
-        <span *ngIf="selectedCategory===row">
+        <span *ngIf="selectedCategory===row && row.categoryId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateCategory(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
-        <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                       src="../../assets/closeIcon/closeIcon.svg"
-                                                                       alt="close icon" class="closeIcon"/></button>
+                (click)="updateCategory(row)"
+                [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveCategory(row)"
-                  [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
-          <button mat-flat-button class="delete" (click)="deleteRow()">
-            <mat-icon id="delete">delete</mat-icon>
-          </button>
+                  [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{save}}</button>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th class="category" mat-header-cell *matHeaderCellDef></th>
+      <td class="category" mat-cell *matCellDef="let row; let index = index;">
+        <span *ngIf="selectedCategory===row && row.categoryId !== -1">
+                  <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
+                                                                                 src="../../assets/closeIcon/closeIcon.svg"
+                                                                                 alt="close icon"
+                                                                                 class="closeIcon"/></button>
+        </span>
+        <span *ngIf="row.isEdit">
+                    <button mat-flat-button class="delete" (click)="deleteRow()">
+                      <mat-icon id="delete">delete</mat-icon>
+                    </button>
         </span>
       </td>
     </ng-container>
@@ -86,7 +98,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="categoryRow"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedRow"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell filter-data" colspan="4">{{dataNotFound}}</td>
+    </tr>
   </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
