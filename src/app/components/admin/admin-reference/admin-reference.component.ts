@@ -76,14 +76,14 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveReference(reference: any) {
+  saveTopicReference(reference: any) {
     if(reference.referenceId === -1 && this.isRatingUnique(reference) && this.isReferenceUnique(reference) ) {
       let newReference : any= this.setReferenceRequest(reference)
       this.appService.saveTopicReference(newReference).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           reference.isEdit = false
           reference.referenceId = _data.referenceId
-          this.sendToStore(_data)
+          this.sendReferenceToStore(_data)
           this.ngOnInit()
         }, error: _error => {
           this.showError("Data cannot be saved");
@@ -91,11 +91,11 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       })
     }
     else {
-      this.updateReference(reference)
+      this.updateTopicReference(reference)
     }
   }
 
-  private updateReference(reference: any) {
+  updateTopicReference(reference: any) {
     if(this.isRatingUnique(reference) && this.isReferenceUnique(reference)) {
       let updateReference : any = this.setReferenceRequest(reference)
       updateReference.referenceId = reference.referenceId
@@ -111,7 +111,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteReference(reference: any) {
+  deleteTopicReference(reference: any) {
     this.appService.deleteTopicReference(reference.referenceId).pipe().subscribe({
       next: () => {
         this.deleteFromStore(reference)
@@ -123,7 +123,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   }
 
-  private setReferenceRequest(reference: any) {
+  setReferenceRequest(reference: any) {
     return {
       reference : reference.reference,
       rating: reference.rating-1,
@@ -145,7 +145,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
         this.topicReferences.splice(index, 1)
         return this.topicReferences;
       }
-      this.deleteReference(reference)
+      this.deleteTopicReference(reference)
       this.topicReferences.splice(index, 1)
     }
     return  null;
@@ -158,7 +158,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       return this.topicReferences.length === 5;
   }
 
-  private setTopicReferences() {
+  setTopicReferences() {
     let references = this.getReferenceFromTopic()
     if(references !== undefined) {
       references?.forEach(reference => {
@@ -205,7 +205,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private sendToStore(data: TopicReference) {
+ sendReferenceToStore(data: TopicReference) {
     let reference : TopicReference = {
       referenceId : data.referenceId, rating : data.rating, topic:data.topic, reference:data.reference}
     let references = this.getReferenceFromTopic();
@@ -229,7 +229,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  private updateStore(reference: TopicReference) {
+  updateStore(reference: TopicReference) {
     let references = this.getReferenceFromTopic();
     if (references !== undefined) {
       let index = references.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
@@ -248,7 +248,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   }
 
-  private getReferenceFromTopic(){
+  getReferenceFromTopic(){
     return this.categories.find(category => category.categoryId === this.category)?.modules.
     find(module => module.moduleId === this.module)?.topics.
     find(topic => topic.topicId === this.topic.topicId)?.references
@@ -266,11 +266,10 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     return ((reference.rating === -1) || (newReference.length === 0))
   }
 
-  private disableSavedRatings() {
+  disableSavedRatings() {
     this.unsavedReferences?.forEach(reference => {
       let rating = this.rating.find(rating => rating.rating === reference.rating)
       rating.selected = true
     })
-    console.log(this.rating)
   }
 }

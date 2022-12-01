@@ -169,6 +169,13 @@
   margin-top: 2.5%;
 }
 
+::ng-deep .mat-select-disabled .mat-select-value {
+  color: black;
+}
+
+
+
+
 
 
 

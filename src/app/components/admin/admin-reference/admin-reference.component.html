@@ -55,7 +55,7 @@
 
       <div *ngIf="reference.isEdit===true" class="save">
         <div class="save-reference-button">
-          <button mat-flat-button class="save-button" type="submit" (click)="saveReference(reference)" [disabled]="isInputValid(reference)">Save</button>
+          <button mat-flat-button class="save-button" type="submit" (click)="saveTopicReference(reference)" [disabled]="isInputValid(reference)">Save</button>
         </div>
         <div class="delete-icon">
           <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
