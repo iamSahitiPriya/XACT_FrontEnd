@@ -10,12 +10,15 @@ import {Router} from "@angular/router";
   templateUrl: './admin-console.component.html',
   styleUrls: ['./admin-console.component.css']
 })
-export class AdminConsoleComponent{
-  type="dashboard";
-  tabIndex:number;
-  constructor(private router:Router) {
-    this.router.navigateByUrl("/admin/dashboard")
-    }
+export class AdminConsoleComponent {
+  type = "";
+  tabIndex: number;
+
+  constructor(private router: Router) {
+    const currentRoute = this.router.url.split('?')[0];
+    const path = currentRoute.split('/').pop()||'';
+    this.setEvent(path);
+  }
 
   setEvent(name: string) {
     this.type = name;
