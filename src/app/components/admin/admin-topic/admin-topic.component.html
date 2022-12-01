@@ -14,9 +14,9 @@
   </div>
 </div>
 <div class="mat-elevation-z8 topic">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="category">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort aria-describedby="category">
     <ng-container matColumnDef="categoryName">
-      <th class="topic" mat-header-cell *matHeaderCellDef>{{category}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{category}}</th>
       <td class="topic" mat-cell *matCellDef="let row">
       <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#B3B8BD' }">
           <span class="circle"></span>
@@ -57,7 +57,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="moduleName">
-      <th class="topic" *matHeaderCellDef> {{module}}</th>
+      <th class="topic" *matHeaderCellDef mat-sort-header="moduleName"> {{module}}</th>
       <td class="topic" *matCellDef="let row">
               <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#B3B8BD' }">
                 {{row.moduleName}}
@@ -80,7 +80,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="topicName">
-      <th class="topic" mat-header-cell *matHeaderCellDef> {{topic}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topic}}</th>
       <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(selectedTopic === row)">
         {{row.topicName}}
         </span>
@@ -97,11 +97,11 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="topic" mat-header-cell *matHeaderCellDef> {{date}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> {{date}}</th>
       <td class="topicDate topic" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
-      <th class="topic" mat-header-cell *matHeaderCellDef> {{active}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="active"> {{active}}</th>
       <td class="topic topicActive" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]=row.active
                           [disabled]="!(selectedTopic === row)"></mat-slide-toggle>
