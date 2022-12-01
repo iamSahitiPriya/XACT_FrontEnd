@@ -33,9 +33,7 @@ import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
 
 const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {
@@ -146,10 +144,12 @@ describe('AssessmentModulesDetailsComponent', () => {
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,MatTooltipModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
-          {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
+          {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
+
         ]), StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
+        {provide: ActivatedRoute, useValue: {snapshot: {paramMap: convertToParamMap({'assessmentId': '1'})}}}
         // {provide: OKTA_AUTH, useValue: oktaAuth},
 
       ],
@@ -187,6 +187,7 @@ describe('AssessmentModulesDetailsComponent', () => {
       assessmentState:"inProgress",
       teamSize: 1,
       users: ["abc@thoughtworks.com"],
+      owner:true,
       updatedAt: 12341234,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],

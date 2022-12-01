@@ -6,16 +6,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
 import {data_local} from "../../messages";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {Store} from "@ngrx/store";
-import {AppStates, AssessmentState} from "../../reducers/app.states";
+import {AppStates} from "../../reducers/app.states";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import * as fromReducer from "../../reducers/assessment.reducer";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Location} from '@angular/common';
@@ -53,7 +50,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
   type: any;
 
-  constructor(private appService: AppServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
     this.assessmentResponse = this.store.select((store) => store.assessmentState.assessments)
   }
 

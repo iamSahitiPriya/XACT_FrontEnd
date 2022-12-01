@@ -14,6 +14,8 @@ import {Subject, takeUntil} from "rxjs";
 import * as moment from 'moment';
 import {data_local} from "../../messages";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
+import {Router} from "@angular/router";
 
 export const assessmentData = [{}]
 
@@ -24,17 +26,17 @@ export const assessmentData = [{}]
 })
 
 
-export class AssessmentMenuComponent implements OnDestroy{
+export class AssessmentMenuComponent implements OnDestroy {
   @Input()
   assessment: AssessmentStructure;
   @Input()
   type: string;
 
 
-
   public static answerSaved: string;
   menuButtonToolTip = data_local.ASSESSMENT_MENU.MENU_BUTTON.TOOLTIP;
   manageAssessmentToolTip = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TOOLTIP;
+  deleteAssessmentToolTip = data_local.ASSESSMENT_MENU.DELETE_ASSESSMENT.TOOLTIP;
   manageAssessmentTitle = data_local.ASSESSMENT_MENU.MANAGE_ASSESSMENT.TITLE;
   manageCategoryModules = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TOOLTIP;
   addModuleTitle = data_local.ASSESSMENT_MENU.ADD_ASSESSMENT_MODULE.TITLE;
@@ -42,11 +44,14 @@ export class AssessmentMenuComponent implements OnDestroy{
   summaryTitleToolTip = data_local.SUMMARY_REPORT.TOOLTIP;
   generateReportToolTip = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TOOLTIP;
   generateReportTitle = data_local.ASSESSMENT_MENU.GENERATE_REPORT.TITLE;
+  deleteAssessmentTitle = data_local.ASSESSMENT_MENU.DELETE_ASSESSMENT.TITLE;
+  deleteAssessmentDialog = data_local.ASSESSMENT_MENU.DELETE_ASSESSMENT.DIALOG;
+  deleteAssessmentErrorMessage = data_local.ASSESSMENT_MENU.DELETE_ASSESSMENT.ERROR_MESSAGE;
   private completedReportDownloadStatus = data_local.ASSESSMENT_MENU.COMPLETE_REPORT_DOWNLOADING_MESSAGE;
   private inProgressReportDownloadStatus = data_local.ASSESSMENT_MENU.IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dialog: MatDialog,private appService: AppServiceService, private snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, private appService: AppServiceService, private snackBar: MatSnackBar, private router: Router) {
   }
 
 
@@ -82,7 +87,7 @@ export class AssessmentMenuComponent implements OnDestroy{
 
   private showNotification(reportData: string, duration: number) {
     this.snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done" ,notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -114,10 +119,41 @@ export class AssessmentMenuComponent implements OnDestroy{
   isAssessmentHeader(): boolean {
     return this.type == "assessmentHeader";
   }
+
   isAssessmentTable(): boolean {
-    return this.type == "assessmentTable" ;
+    return this.type == "assessmentTable";
   }
 
+
+  deleteAssessment(assessmentId: number) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.deleteAssessmentDialog;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.appService.deleteAssessment(assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
+          next: () => {
+            this.isAssessmentTable() ? window.location.reload() : this.router.navigate(['/']);
+          },
+          error: (_error) => {
+            this.showError(this.deleteAssessmentErrorMessage);
+          }
+        });
+      }
+    })
+  }
+
+
+  private showError(message: string) {
+    this.snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    })
+  }
 }
 
 

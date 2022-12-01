@@ -31,19 +31,20 @@ class MockAppService {
 
   public getAssessment(assessmentId: number) {
     const mockAssessmentStructure = {
-      "assessmentId": 5,
-      "assessmentName": "abc1",
-      "organisationName": "Thoughtworks",
-      "assessmentStatus": "Active",
-      "updatedAt": 1654664982698,
-      "answerResponseList": [
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      updatedAt: 1654664982698,
+      answerResponseList: [
         {
-          "questionId": 1,
-          "answer": "answer1"
+          questionId: 1,
+          answer: "answer1"
         },
       ],
       "topicRatingAndRecommendation": [{topicId: 1, rating: 2, recommendation: ""}],
-      "parameterRatingAndRecommendation": []
+      "parameterRatingAndRecommendation": [],
+      isOwner: false
     }
     return of(mockAssessmentStructure)
 
@@ -132,13 +133,14 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentName: "abc",
       organisationName: "",
       assessmentStatus: "",
-      assessmentPurpose:"",
+      assessmentPurpose: "",
       domain: "",
       industry: "",
       teamSize: 0,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       users: [],
       updatedAt: 0,
+      owner:true,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
 
       topicRatingAndRecommendation: [{
@@ -209,14 +211,15 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentId: 5,
       assessmentName: "abc",
       organisationName: "",
-      assessmentPurpose:"",
+      assessmentPurpose: "",
       assessmentStatus: "",
       updatedAt: 0,
       domain: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
 
       topicRatingAndRecommendation: [{
@@ -249,14 +252,15 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentId: 5,
       assessmentName: "abc",
       organisationName: "",
-      assessmentPurpose:"",
+      assessmentPurpose: "",
       assessmentStatus: "",
       domain: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       industry: "",
       teamSize: 0,
       users: [],
       updatedAt: 0,
+      owner: true,
       answerResponseList: [{questionId: 0, answer: "some answer"}],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
@@ -276,13 +280,14 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       assessmentStatus: "Active",
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       updatedAt: 1654664982698,
       answerResponseList: [
         {
@@ -317,20 +322,23 @@ describe('TopicLevelAssessmentComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
       updatedAt: 0,
-      users: []
+      users: [],
+      owner: true
     }
-    const dummyAnswerRequest: Notes[] = [{questionId: 1,answer:undefined}]
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: undefined}]
 
     let dummyNewParameter: ParameterRequest = {
       answerRequest: dummyAnswerRequest,
 
-      parameterRatingAndRecommendation: {parameterId: 1, rating: 0, parameterLevelRecommendation: [{
+      parameterRatingAndRecommendation: {
+        parameterId: 1, rating: 0, parameterLevelRecommendation: [{
           "deliveryHorizon": "",
           "effort": "",
           "impact": "",
           "recommendation": "",
-          "recommendationId":undefined
-        }]}
+          "recommendationId": undefined
+        }]
+      }
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
@@ -340,13 +348,14 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       updatedAt: 1654664982698,
       domain: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       industry: "",
       teamSize: 0,
       users: [],
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -371,13 +380,14 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -412,14 +422,15 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       industry: "",
       teamSize: 0,
       users: [],
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -504,15 +515,16 @@ describe('TopicLevelAssessmentComponent', () => {
     component.answerResponse1 = of({
       assessmentId: 5,
       assessmentName: "abc1",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
       domain: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       industry: "",
       teamSize: 0,
       users: [],
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -568,8 +580,8 @@ describe('TopicLevelAssessmentComponent', () => {
   })
 
   it('should be able to set average rating when none of the parameter rating is selected', () => {
-    component.averageRating.rating= 4;
-    component.averageRating.topicId=1;
+    component.averageRating.rating = 4;
+    component.averageRating.topicId = 1;
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],

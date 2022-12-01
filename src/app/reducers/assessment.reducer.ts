@@ -6,14 +6,13 @@ import {Action, createReducer, on} from '@ngrx/store';
 import {
   getAllCategories,
   getAssessmentData,
-  getUpdatedAssessmentData, getUpdatedCategories,
+  getUpdatedAssessmentData,
+  getUpdatedCategories,
   setAverageComputedScore,
   setErrorMessage,
 } from "../actions/assessment-data.actions";
 
 import {AssessmentState, ComputedScore, MasterData} from "./app.states";
-import {CategoryResponse} from "../types/categoryResponse";
-import {act} from "@ngrx/effects";
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -30,7 +29,8 @@ export const initialState: AssessmentState = {
     answerResponseList: [],
     topicRatingAndRecommendation: [],
     parameterRatingAndRecommendation: [],
-    users: []
+    users: [],
+    owner: false
   }
 }
 

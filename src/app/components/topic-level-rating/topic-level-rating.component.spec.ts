@@ -85,6 +85,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -135,6 +136,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -179,6 +181,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -214,6 +217,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -309,6 +313,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

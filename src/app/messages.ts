@@ -96,6 +96,12 @@ export const data_local =
         TITLE: "Manage modules",
         TOOLTIP: "Click to select category/modules"
       },
+      DELETE_ASSESSMENT: {
+        TITLE: "Delete assessment",
+        TOOLTIP: "Click to delete assessment",
+        DIALOG: "Assessment will be deleted, Are you sure ?",
+        ERROR_MESSAGE: "Error in deleting assessment"
+      },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
       LAST_SAVE_STATUS_TEXT: "Last saved at ",
       IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
