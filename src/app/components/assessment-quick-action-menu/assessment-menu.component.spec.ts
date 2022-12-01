@@ -113,6 +113,7 @@ describe('AssessmentMenuComponent', () => {
           industry: "IT",
           teamSize: 2,
           users: [],
+          owner:true,
           answerResponseList: [],
           parameterRatingAndRecommendation: [],
           topicRatingAndRecommendation: []
@@ -166,6 +167,7 @@ describe('AssessmentMenuComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -201,6 +203,7 @@ describe('AssessmentMenuComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -213,8 +216,8 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
-    button = dom.parentNode.querySelector('#delete-assessment');
-    button.click();
+    let deleteButton = dom.parentNode.querySelector('#delete-assessment');
+    deleteButton.click();
     expect(component.deleteAssessment).toHaveBeenCalled();
     tick();
     flush()

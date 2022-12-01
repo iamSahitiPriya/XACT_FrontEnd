@@ -38,20 +38,20 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  Total_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_ASSESSMENT;
-  Active_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_ACTIVE;
-  Complete_Assessment = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_COMPLETE;
-  dashboard_Title = data_local.ADMIN_DASHBOARD_LABEL.DASHBOARD_TITLE;
+  Total_Assessment = data_local.ADMIN.DASHBOARD.TOTAL_ASSESSMENT;
+  Active_Assessment = data_local.ADMIN.DASHBOARD.TOTAL_ACTIVE;
+  Complete_Assessment = data_local.ADMIN.DASHBOARD.TOTAL_COMPLETE;
+  dashboard_Title = data_local.ADMIN.DASHBOARD.DASHBOARD_TITLE;
   last_month = data_local.DROPDOWN_OPTION_TEXT.LAST_MONTH;
   last_week = data_local.DROPDOWN_OPTION_TEXT.LAST_WEEK;
   last_quarter = data_local.DROPDOWN_OPTION_TEXT.LAST_QUARTER;
   last_year = data_local.DROPDOWN_OPTION_TEXT.LAST_YEAR;
-  download_label = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT;
-  download = data_local.ADMIN_DASHBOARD_LABEL.DOWNLOAD_REPORT_LABEL;
-  dropdown_label = data_local.ADMIN_DASHBOARD_LABEL.DROPDOWN_LABEL;
-  apply_button_text = data_local.ADMIN_DASHBOARD_LABEL.APPLY_BUTTON_TEXT;
-  total = data_local.ADMIN_DASHBOARD_LABEL.TOTAL_SUBTEXT;
-  custom_date_error_message = data_local.ADMIN_DASHBOARD_LABEL.CUSTOM_DATE_ERROR_MESSAGE
+  download_label = data_local.ADMIN.DASHBOARD.DOWNLOAD_REPORT;
+  download = data_local.ADMIN.DASHBOARD.DOWNLOAD_REPORT_LABEL;
+  dropdown_label = data_local.ADMIN.DASHBOARD.DROPDOWN_LABEL;
+  apply_button_text = data_local.ADMIN.DASHBOARD.APPLY_BUTTON_TEXT;
+  total = data_local.ADMIN.DASHBOARD.TOTAL_SUBTEXT;
+  custom_date_error_message = data_local.ADMIN.DASHBOARD.CUSTOM_DATE_ERROR_MESSAGE
 
 
   custom: string = "Custom";
@@ -236,7 +236,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           this.adminAssessmentResponse.totalActiveAssessments = _data.totalActiveAssessments;
           this.adminAssessmentResponse.totalCompleteAssessments = _data.totalCompleteAssessments;
         }, error: _error => {
-          this.showError(data_local.ADMIN_DASHBOARD_LABEL.ERROR_MESSAGE, "Close");
+          this.showError(data_local.ADMIN.DASHBOARD.ERROR_MESSAGE, "Close");
         }
       })
       return true;

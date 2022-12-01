@@ -90,6 +90,7 @@ import {AssessmentHeaderComponent} from './components/assessment-header/assessme
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { AdminParameterComponent } from './components/admin/admin-parameter/admin-parameter.component';
+import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -137,17 +138,20 @@ export const appRoutes: Routes = [
     },{
       path:"module",
       component:AdminModuleComponent,
+      canActivate:[OktaAuthGuard]
+
+    },{
+      path:"topic",
+      component:AdminTopicComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
     },{
       path:"parameter",
       component:AdminParameterComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
-    }],
-    canActivate:[OktaAuthGuard]
-  },
-
-
-];
+    }
+    ]}];
 
 @NgModule({
   declarations: [
@@ -178,6 +182,7 @@ export const appRoutes: Routes = [
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
     AdminParameterComponent,
+    AdminTopicComponent,
   ],
 
   imports: [

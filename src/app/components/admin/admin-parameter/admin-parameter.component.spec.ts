@@ -67,8 +67,8 @@ class MockAppService {
         "topicName": "topic1",
         "module": 1,
         "active": true,
-        "assessmentLevel":"",
         "parameters": this.parameter,
+        "updatedAt":12345,
         "references": []
       },
         {
@@ -76,7 +76,7 @@ class MockAppService {
           "topicName": "topic2",
           "module": 1,
           "active": true,
-          "assessmentLevel": "",
+          "updatedAt":12345,
           "parameters": this.parameter,
           "references": []
         } ]

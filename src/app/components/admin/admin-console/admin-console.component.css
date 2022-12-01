@@ -93,15 +93,6 @@ button mat-icon {
   opacity: 1;
   display: inline-block;
 }
-.column{
-  align-items: center;
-}
-/*.dashBoard{*/
-/*  padding-left: 28em;*/
-/*  margin-top: -29em;*/
-/*}*/
-
-
 
 .button-active .parameterIcon {
   background:transparent url("src/assets/admin-dashboard/Group 3733.svg") 0% 0% no-repeat padding-box;
@@ -113,8 +104,4 @@ button mat-icon {
   width:74%;
 }
 
-
-.adminCategory {
-  width: 74%;
-}
 

@@ -175,6 +175,12 @@ export class AppServiceService {
   deleteAssessment(assessmentId: number) : Observable<any> {
     return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
   }
+  saveTopic(topicRequest:any) : any{
+    return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  }
+  updateTopic(topicRequest: any, topicId:number) {
+    return this.http.put<any>(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
+  }
 }
 
 

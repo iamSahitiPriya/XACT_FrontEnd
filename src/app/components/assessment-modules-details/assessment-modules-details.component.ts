@@ -10,10 +10,9 @@ import {ModuleStructure} from "../../types/moduleStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {ParameterStructure} from "../../types/parameterStructure";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {ActivatedRoute} from "@angular/router";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
@@ -49,8 +48,8 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>, private dialog: MatDialog) {
-    this.answer = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog,public router: Router,) {
+    this.answer = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -70,10 +69,12 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     this.getAssessment();
   }
 
+
   private getAssessment() {
     this.answer.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       if (data !== undefined) {
         this.assessment = data
+        this.navigateToModule(this.assessment.assessmentState,this.assessmentId)
       }
     })
   }
@@ -85,15 +86,21 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.userAssessmentCategories.length > 0 ) {
-        this.navigate(this.category.userAssessmentCategories[0].modules[0])
+      if (this.category.userAssessmentCategories !== undefined) {
+        if (this.category.userAssessmentCategories.length > 0)
+          this.navigate(this.category.userAssessmentCategories[0].modules[0])
       }
-
     })
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private navigateToModule(drafted: string, assessmentId:number) {
+    drafted === "inProgress" ? this.router.navigateByUrl("assessment/" + assessmentId, {state: {type: 'url'}}) : this.router.navigateByUrl("assessmentModule/" + assessmentId, {state: {type: 'url'}});
+
+
   }
 }

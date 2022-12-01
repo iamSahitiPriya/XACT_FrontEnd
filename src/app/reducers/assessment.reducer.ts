@@ -2,15 +2,17 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import {
+  getAllCategories,
   getAssessmentData,
   getUpdatedAssessmentData,
+  getUpdatedCategories,
   setAverageComputedScore,
   setErrorMessage,
 } from "../actions/assessment-data.actions";
 
-import {AssessmentState, ComputedScore} from "./app.states";
+import {AssessmentState, ComputedScore, MasterData} from "./app.states";
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -27,8 +29,20 @@ export const initialState: AssessmentState = {
     answerResponseList: [],
     topicRatingAndRecommendation: [],
     parameterRatingAndRecommendation: [],
-    users: []
+    users: [],
+    owner: false
   }
+}
+
+export  const  initialMasterData : MasterData = {
+  masterData  : [{
+  "categoryId": -1,
+  "categoryName":"",
+  "active": false,
+  "updatedAt" : 12345,
+  "comments": "",
+  "modules": []
+  }]
 }
 export const initialComputedScore: ComputedScore = {
   scoreDetails: {
@@ -68,24 +82,33 @@ const _scoreReducer = createReducer(
     }
   })
 )
+const _masterDataReducer = createReducer(
+  initialMasterData,
+  on(getAllCategories, (state,action) => {
+    return {
+      ...state,
+      masterData: action.categories
+    }
+  }),
+  on(getUpdatedCategories, (state,action) => {
+    return {
+      ...state,
+      masterData: action.newMasterData
+    }
+  })
+)
 
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
 }
 
-export const getAssessmentState = createFeatureSelector<AssessmentState>('assessmentState')
-
-export const getAssessments = createSelector(
-  getAssessmentState, (state: AssessmentState) => {
-    return state && state.assessments
-  },
-)
-
 export function scoreReducer(state: any, action: Action) {
   return _scoreReducer(state, action)
 }
 
-export const getAverageRating = createFeatureSelector<ComputedScore>('computedScore')
+export function masterDataReducer(state : any, action : Action) {
+  return _masterDataReducer(state,action)
+}
 
 
 

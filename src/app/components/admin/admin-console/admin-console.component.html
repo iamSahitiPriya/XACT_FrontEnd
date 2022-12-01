@@ -22,7 +22,7 @@
             <mat-icon>view_module</mat-icon>
             Module
           </button>
-          <button mat-button class="topicButton" (click)="setEvent('topic')" [ngClass]="{'button-active':type === 'topic'}">
+          <button mat-button class="topicButton" (click)="setEvent('topic')" [ngClass]="{'button-active':type === 'topic'}" [routerLink]="['/admin/topic']">
             <mat-icon>list</mat-icon>
             Topic
           </button>

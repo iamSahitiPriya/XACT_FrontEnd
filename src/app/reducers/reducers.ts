@@ -8,6 +8,7 @@ import * as fromReducer from './assessment.reducer';
 
 export const reducers: ActionReducerMap<AppStates> = {
   assessmentState: fromReducer.assessmentReducer,
-  computedScore: fromReducer.scoreReducer
+  computedScore: fromReducer.scoreReducer,
+  masterData : fromReducer.masterDataReducer
 }
 

@@ -85,7 +85,8 @@ describe('AssessmentHeaderComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   }
 
   beforeEach(async () => {
@@ -128,6 +129,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -165,6 +167,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -199,6 +202,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

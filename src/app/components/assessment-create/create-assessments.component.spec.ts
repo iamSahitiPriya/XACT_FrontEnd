@@ -13,7 +13,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
-import {AbstractControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Observable, of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -29,7 +29,6 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
-import cloneDeep from "lodash/cloneDeep";
 
 jest.mock('lodash/cloneDeep', () => jest.fn());
 
@@ -162,7 +161,8 @@ describe('CreateAssessmentsComponent', () => {
     teamSize: 0,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   }
 
   const mockAssessment: AssessmentStructure = {
@@ -179,7 +179,8 @@ describe('CreateAssessmentsComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: ["abc@thoughtworks.com"]
+    users: ["abc@thoughtworks.com"],
+    owner:true
   }
 
   it('should create', () => {
@@ -213,6 +214,7 @@ describe('CreateAssessmentsComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
       updatedAt: 0,
+      owner:true
     }
     component.assessment = mockAssessment1
 
@@ -231,7 +233,7 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
-      component.emails=["abc@thoughtworks.com"]
+    component.emails=["abc@thoughtworks.com"]
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
@@ -409,11 +411,11 @@ describe('CreateAssessmentsComponent', () => {
     ];
     component.assessment.organisationName = "abc"
     jest.spyOn(component, 'onOrganisationValueChange');
+    jest.spyOn(component,'filterOptions')
     component.onOrganisationValueChange();
 
     expect(component.onOrganisationValueChange).toHaveBeenCalled();
     expect(component.options.accounts).toStrictEqual(expectedResponse);
-    jest.spyOn(component,'filterOptions')
     component.onOrganisationValueChange();
     expect(component.filterOptions).toBeCalled();
 

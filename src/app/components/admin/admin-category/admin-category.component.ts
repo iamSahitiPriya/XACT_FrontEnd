@@ -10,10 +10,14 @@ import {MatSort} from "@angular/material/sort";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {AssessmentStructure} from "../../../types/assessmentStructure";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {CategoryResponse} from "../../../types/categoryResponse";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
+import * as fromActions from "../../../actions/assessment-data.actions"
 
 
 @Component({
@@ -30,8 +34,10 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 })
 
 export class AdminCategoryComponent implements OnInit, OnDestroy {
+  masterData : Observable<CategoryResponse[]>
   categoryData: CategoryData[]
-  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit'];
+  categories:CategoryResponse[]
+  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit','action'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<CategoryData>;
@@ -48,9 +54,23 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   selectedCategory: CategoryData | null;
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
+  duplicateErrorMessage = data_local.ADMIN.CATEGORY.DUPLICATE_CATEGORY_ERROR_MESSAGE
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
+  updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
+  date = data_local.ADMIN.DATE
+  active = data_local.ADMIN.ACTIVE
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
+  categoryLabel = data_local.ADMIN.CATEGORY.CATEGORY
+  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store :  Store<AppStates>) {
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.categoryData = []
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -58,7 +78,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.masterData.subscribe(data => {
+      this.categories = data
       data.forEach((eachCategory) => {
         let category: CategoryData = {
           categoryId: -1,
@@ -74,12 +95,17 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         category.comments = eachCategory.comments;
         this.categoryData.push(category)
       })
-      this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
-      this.dataSourceArray = [...this.dataSource.data]
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.sortCategory();
     })
+  }
+
+  private sortCategory() {
+    this.categoryData.sort((category1, category2) => category2.updatedAt - category1.updatedAt)
+    this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
+    this.dataSourceArray = [...this.dataSource.data]
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
@@ -89,11 +115,13 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
 
   addCategoryRow() {
+    this.deleteRow()
     let newCategory = {
-      categoryId: 0, categoryName: '', active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      categoryId: -1, categoryName: '', active: true, updatedAt: Date.now(), isEdit: true, comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newCategory)
     this.table.renderRows();
+    this.selectedCategory = this.selectedCategory === newCategory ? null : newCategory
     this.dataSource.paginator = this.paginator
     this.isCategoryAdded = true
 
@@ -101,17 +129,21 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   deleteRow() {
     let data = this.dataSource.data
-    data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-    this.dataSource.data = data
-    this.table.renderRows()
+    let categoryIndex = data.findIndex(category => category.categoryId === -1)
+    if (categoryIndex !== -1) {
+      data.splice(categoryIndex, 1)
+      this.dataSource.data = data
+      this.selectedCategory = null
+      this.table.renderRows()
+    }
   }
 
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -126,7 +158,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.dataSource.data.slice((this.paginator.pageIndex * this.paginator.pageSize) + 1).forEach(eachCategory => {
         if (eachCategory.categoryName.trim().toLowerCase() === value.categoryName.trim().toLowerCase()) {
           flag = true;
-          this.showError("No duplicate categories are allowed");
+          this.showError(this.duplicateErrorMessage);
         }
       }
     )
@@ -140,20 +172,33 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
           this.dataSource.data = data
           this.table.renderRows()
           this.categoryData = []
+          this.sendDataToStore(_data)
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Some error occurred");
+          this.showError(this.serverErrorMessage);
         }
       })
     }
   }
 
   editCategory(row: any) {
-
+    this.resetUnsavedChanges(row)
+    this.deleteRow()
     this.selectedCategory = this.selectedCategory === row ? null : row
     this.isEditable = true;
     this.category = Object.assign({}, row)
     return this.selectedCategory;
+  }
+
+  private resetUnsavedChanges(row: any) {
+    if (this.category !== undefined && this.category.categoryId !== row.categoryId) {
+      let data = this.dataSource.data
+      let index = data.findIndex(category => category.categoryId === this.category.categoryId)
+      if (index !== -1) {
+        data.splice(index, 1, this.category)
+        this.dataSource.data = data
+      }
+    }
   }
 
   updateCategory(row: any) {
@@ -162,11 +207,12 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
         row.isEdit = false;
         this.selectedCategory = null;
         this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 200000)
+        this.showNotification(this.updateSuccessMessage, 2000)
         this.categoryData = []
+        this.updateToStore(_data)
         this.ngOnInit()
       }, error: _error => {
-        this.showError("Some error occurred");
+        this.showError(this.serverErrorMessage);
       }
     })
 
@@ -174,7 +220,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   private showNotification(reportData: string, duration: number) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -188,5 +234,23 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     row.comments = this.category.comments
     this.selectedCategory = this.selectedCategory === row ? null : row
     return row;
+  }
+
+  private sendDataToStore(value: any) {
+    value['modules'] = []
+    this.categories.push(value)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+  }
+
+  updateToStore(_data: any) {
+    let category = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
+    if(category !== undefined) {
+      category.categoryName = _data.categoryName
+      category.active = _data.active
+      category.comments = _data.comments
+      category.updatedAt = Number(new Date())
+      this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+    }
+
   }
 }

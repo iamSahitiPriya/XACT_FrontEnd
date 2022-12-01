@@ -1,0 +1,152 @@
+<!--
+  ~  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div class="row">
+  <div class="col-md-9">
+    <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']"
+                class="admin-searchBar"></app-search>
+  </div>
+  <div class="col-md-3 topicButtonColumn">
+    <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
+      {{addTopic}}
+    </button>
+  </div>
+</div>
+<div class="mat-elevation-z8 topic">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows aria-describedby="category">
+    <ng-container matColumnDef="categoryName">
+      <th class="topic" mat-header-cell *matHeaderCellDef>{{category}}</th>
+      <td class="topic" mat-cell *matCellDef="let row">
+      <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#B3B8BD' }">
+          <span class="circle"></span>
+        {{row.categoryName}}
+        </span>
+        <span *ngIf="selectedTopic===row">
+          <mat-form-field appearance="outline" class="selectDropdownForm">
+            <mat-label>{{selectCategory}}</mat-label>
+            <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row)">
+              <mat-option *ngFor="let category of categoryList"
+                          [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }"
+                          [value]="category.categoryName">
+            {{category.categoryName}}
+          </mat-option>
+        </mat-select>
+            <mat-error>
+              {{inputErrorMessage}}
+        </mat-error>
+            </mat-form-field>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
+        <div [@detailExpand]="row === selectedTopic ? 'expanded' : 'collapsed'"
+             class="topicComments">
+          <mat-form-field appearance="outline" class="topicCommentTextArea">
+            <textarea matInput placeholder="Comments"
+                      [(ngModel)]="row.comments"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="2"
+                      maxlength="1000">
+
+            </textarea>
+          </mat-form-field>
+        </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="moduleName">
+      <th class="topic" *matHeaderCellDef> {{module}}</th>
+      <td class="topic" *matCellDef="let row">
+              <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#B3B8BD' }">
+                {{row.moduleName}}
+        </span>
+        <span *ngIf="selectedTopic===row">
+          <mat-form-field appearance="outline" class="selectDropdownForm">
+            <mat-label>{{selectModule}}</mat-label>
+        <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
+                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }"
+                      [disabled]="moduleList[0]===moduleNotFound">
+            {{module.moduleName}}
+          </mat-option>
+        </mat-select>
+            <mat-error>
+              {{inputErrorMessage}}
+        </mat-error>
+            </mat-form-field>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="topicName">
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{topic}}</th>
+      <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(selectedTopic === row)">
+        {{row.topicName}}
+        </span>
+        <span *ngIf="selectedTopic===row">
+          <mat-form-field appearance="outline" class="topicInput">
+            <mat-label>{{enterTopic}}</mat-label>
+          <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName" required
+                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+          {{commonErrorFieldText}}
+        </mat-error>
+            </mat-form-field>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="updatedAt">
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{date}}</th>
+      <td class="topicDate topic" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="active">
+      <th class="topic" mat-header-cell *matHeaderCellDef> {{active}}</th>
+      <td class="topic topicActive" mat-cell *matCellDef="let row">
+        <mat-slide-toggle [(ngModel)]=row.active
+                          [disabled]="!(selectedTopic === row)"></mat-slide-toggle>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <th class="topic" mat-header-cell *matHeaderCellDef>{{action}}</th>
+      <td class="topic" mat-cell *matCellDef="let row; let index = index;">
+        <span *ngIf="!(row.isEdit || selectedTopic === row)">
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editTopic(row)">{{edit}}</button>
+        </span>
+        <span *ngIf="selectedTopic===row && row.topicId !== -1">
+        <button mat-flat-button class="updateTopicButton" aria-label="expand row"
+                (click)="updateTopic(row)" [disabled]="isInputValid(row)">{{update}}</button>
+        </span>
+        <span *ngIf="row.isEdit">
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)"
+                  [disabled]="isInputValid(row)">{{save}}</button>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="reference">
+      <th class="topic" mat-header-cell *matHeaderCellDef></th>
+      <td class="topicDate topic" mat-cell *matCellDef="let row">
+        <button class="closeTopicButton" (click)="cancelUpdate(row)" *ngIf="selectedTopic===row && row.topicId !== -1">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
+          <mat-icon id="deleteTopic">delete</mat-icon>
+        </button>
+        <button mat-flat-button *ngIf="!(selectedTopic === row)">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container>
+      <th class="topic" mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="topicRow"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedTopicRow"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell filter-data" colspan="4">{{dataNotFound}}</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
