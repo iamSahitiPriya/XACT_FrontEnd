@@ -91,7 +91,7 @@
         </span>
         <span *ngIf="selectedModule===row">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateModule(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
+                (click)="updateModule(row)" [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
                                                                        src="../../assets/closeIcon/closeIcon.svg"
                                                                        alt="close icon" class="closeIcon"/></button>
