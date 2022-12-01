@@ -270,6 +270,10 @@ describe('AppServiceService', () => {
     }
     expect(service.saveUserQuestion(userQuestion,assessmentId,parameterId)).toBeTruthy()
   });
+  it("should delete new added question by user", () => {
+    let assessmentId= 1, questionId= 1
+    expect(service.deleteUserQuestion(assessmentId,questionId)).toBeTruthy()
+  });
 
 });
 

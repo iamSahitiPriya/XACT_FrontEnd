@@ -4,7 +4,12 @@
 
   <div class="userQuestionAnswers">
     <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
-    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}</span>
+    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}
+      <div class="questionFunctions">
+      <mat-icon>edit</mat-icon>
+        <mat-icon (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
+      </div></span>
+
       <br>
 
       <div *ngIf="userQuestion.questionId">

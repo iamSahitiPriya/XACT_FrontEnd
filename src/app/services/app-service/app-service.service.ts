@@ -175,6 +175,10 @@ export class AppServiceService {
     const headers = {'content-type': 'application/json'}
     return this.http.patch(environment.BaseURI+environment.CREATE_USER_QUESTION_URI+"/"+assessmentId+"/"+parameterId , userQuestion, {'headers': headers})
   }
+  deleteUserQuestion(assessmentId:number,questionId:number):Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.delete(environment.BaseURI+environment.DELETE_USER_QUESTION_URI+"/"+assessmentId+"/"+questionId,{'headers':headers})
+  }
 }
 
 

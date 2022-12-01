@@ -128,7 +128,7 @@ export class UserAdditionalAnswerComponent implements OnInit{
   private sendAnswer(userQuestionResponse: UserQuestionResponse) {
     let index = 0;
     let updatedUserAnswerList = [];
-    updatedUserAnswerList.push(this.userQuestionResponse);
+    updatedUserAnswerList.push(userQuestionResponse);
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
     if (this.cloneAnswerResponse.userQuestionResponseList != undefined) {
       index = this.cloneAnswerResponse.userQuestionResponseList.findIndex(eachQuestion => eachQuestion.questionId === userQuestionResponse.questionId)
