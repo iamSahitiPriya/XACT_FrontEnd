@@ -4,6 +4,10 @@
 
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
+import * as fromActions from "../../../actions/assessment-data.actions";
+
 
 @Component({
   selector: 'app-admin-console',
@@ -13,8 +17,9 @@ import {Router} from "@angular/router";
 export class AdminConsoleComponent{
   type="dashboard";
   tabIndex:number;
-  constructor(private router:Router) {
+  constructor(private router:Router, private store: Store<AppStates>) {
     this.router.navigateByUrl("/admin/dashboard")
+    this.store.dispatch(fromActions.isAdmin({isAdmin:true}))
     }
 
   setEvent(name: string) {
