@@ -115,7 +115,8 @@ describe('AssessmentMenuComponent', () => {
           users: [],
           answerResponseList: [],
           parameterRatingAndRecommendation: [],
-          topicRatingAndRecommendation: []
+          topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
         }
     jest.spyOn(component, 'getTemplate');
     jest.spyOn(component, 'generateReport');
@@ -168,7 +169,8 @@ describe('AssessmentMenuComponent', () => {
       users: [],
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     jest.spyOn(component, 'generateReport');
     jest.spyOn(component,'isAssessmentTable')

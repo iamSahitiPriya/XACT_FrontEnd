@@ -85,7 +85,8 @@ describe('AssessmentHeaderComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    userQuestionResponseList:[]
   }
 
   beforeEach(async () => {
@@ -130,7 +131,8 @@ describe('AssessmentHeaderComponent', () => {
       users: [],
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Active";
@@ -167,7 +169,8 @@ describe('AssessmentHeaderComponent', () => {
       users: [],
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Completed";
@@ -216,7 +219,8 @@ describe('AssessmentHeaderComponent', () => {
         ]
       }],
 
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.ngOnInit()
     component.finishAssessment();

@@ -66,6 +66,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                       "parameter": 1
                     }
                   ],
+                  "userQuestions":[],
                   "references": []
                 }
               ],
@@ -104,6 +105,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                       "parameter": 1
                     }
                   ],
+                  "userQuestions":[],
                   "references": []
                 }
               ],
@@ -187,7 +189,8 @@ describe('AssessmentModulesDetailsComponent', () => {
       updatedAt: 12341234,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     })
     component.ngOnInit();
     expect(component.assessment.assessmentId).toBe(1)

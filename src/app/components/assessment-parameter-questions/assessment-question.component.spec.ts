@@ -103,7 +103,8 @@ describe('AssessmentQuestionComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.answerInput = {questionId: 1, answer: "hello"}
 
@@ -154,7 +155,8 @@ describe('AssessmentQuestionComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
 
@@ -200,7 +202,8 @@ describe('AssessmentQuestionComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.answerInput = {questionId: 2, answer: "hello"}
 

@@ -1,21 +1,18 @@
 <div class="additionalQuestion">
-<div *ngIf="valuen>0">
-  <mat-card class="additionalQuestionHeading">Additional Question</mat-card>
+<div *ngIf="additionalQuestionCount>0">
+  <div class="additionalQuestionHeading">Additional Question</div>
 
-    <div *ngFor="let userQuestion of userQuestionList; let i=index;">
+  <div class="userQuestionAnswers">
+    <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}</span>
       <br>
-      <mat-form-field class="questionArea" appearance="outline" >
-      <textarea matInput
-                cdkTextareaAutosize
-                class="textArea1"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="1"
-                [(ngModel)]="questionText"
-                maxlength="10000"></textarea>
-      </mat-form-field>
+
+      <div *ngIf="userQuestion.questionId">
+      <app-user-additional-answer [assessmentId]="assessmentId" [userAnswerInput]="userQuestion" [parameterId]="parameterId" [userQuestionId]="userQuestion.questionId"></app-user-additional-answer>
+      </div>
   </div>
-<div *ngIf="flag === true" >
+
+<div *ngIf="createQuestionFlag === true" >
   <form>
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}} </span>
     <mat-form-field class="questionArea" appearance="outline" id="testForm">
@@ -27,16 +24,17 @@
                 [(ngModel)]="questionText"
                 maxlength="10000"></textarea>
     </mat-form-field>
-    <mat-icon (click)="saveQuestion()">done</mat-icon> <mat-icon (click)="flag=false">delete</mat-icon>
+    <mat-icon (click)="saveQuestion()">done</mat-icon> <mat-icon (click)="removeQuestion()">delete</mat-icon>
   </form>
+</div>
 </div>
 </div>
 
 <button (click)="generateQuestion()"
-        class="addQuestion button1"  id="addQuestionBox">
+        class="addQuestion button1"  id="addQuestionBox" [disabled]="createQuestionFlag===true">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
-    id="addQuestion"> Add Question </span>
+    id="addQuestion"> Add new question </span>
   </div>
 </button>
 

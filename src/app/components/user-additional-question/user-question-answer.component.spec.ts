@@ -42,5 +42,9 @@ describe('UserQuestionAnswerComponent', () => {
     button.click();
     expect(component.generateQuestion).toBeCalled();
   })
-
+  it('should be able to change flag for removing question', () => {
+    jest.spyOn(component,'removeQuestion');
+    component.removeQuestion();
+    expect(component.createQuestionFlag).toBe(false)
+  })
 });

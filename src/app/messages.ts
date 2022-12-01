@@ -181,5 +181,9 @@ export const data_local =
       DH_1: "Now",
       DH_2: "Next",
       DH_3: "Later"
+    },
+    SHOW_ERROR_MESSAGE: {
+      POPUP_ERROR:"Data cannot be saved",
+      MENU_ERROR:"Error occurred while saving the data"
     }
   };

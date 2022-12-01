@@ -102,6 +102,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      ,userQuestionResponseList:[]
     }
     const topicRatingAndRecommendation = {
       rating: 2,
@@ -151,7 +152,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     }
     const topicRatingAndRecommendation = {
       rating: 3,
@@ -185,7 +187,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     const topicRatingAndRecommendation = {
       rating: 2,
@@ -220,7 +223,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: []
+      parameterRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     const topicRatingAndRecommendation = {
       rating: 2,
@@ -325,7 +329,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     }
     const topicRatingAndRecommendation = {
       rating: 2,

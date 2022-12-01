@@ -107,7 +107,8 @@ describe('ParameterRecommendationComponent', () => {
             deliveryHorizon: "some more text"
           }
         ]
-      }]
+      }],
+      userQuestionResponseList:[]
     })
     let parameterLevelRecommendationText = {
       assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
@@ -180,6 +181,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }]
+      ,userQuestionResponseList:[]
     })
     let parameterLevelRecommendationText = {
       assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
@@ -249,7 +251,8 @@ describe('ParameterRecommendationComponent', () => {
             deliveryHorizon: "some more text"
           }
         ]
-      }]
+      }],
+      userQuestionResponseList:[]
     })
 
     let parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest = {
@@ -323,7 +326,8 @@ describe('ParameterRecommendationComponent', () => {
             deliveryHorizon: "some more text"
           }
         ]
-      }]
+      }],
+      userQuestionResponseList:[]
     })
     component.assessmentId = 1
     component.parameterId = 0
@@ -466,7 +470,8 @@ describe('ParameterRecommendationComponent', () => {
             deliveryHorizon: "some more text"
           }
         ]
-      }]
+      }],
+      userQuestionResponseList:[]
     })
 
     let parameterLevelRecommendationText = {
@@ -569,7 +574,8 @@ describe('ParameterRecommendationComponent', () => {
             deliveryHorizon: "some more text"
           }
         ]
-      }]
+      }],
+      userQuestionResponseList:[]
     }
     component.parameterRecommendation = {
       recommendationId: undefined,

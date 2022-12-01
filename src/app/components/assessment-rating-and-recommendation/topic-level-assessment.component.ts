@@ -24,6 +24,7 @@ import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
 import {UserQuestion} from "../../types/UserQuestion";
+import {UserQuestionResponse} from "../../types/userQuestionResponse";
 
 export const saveAssessmentData = [{}]
 
@@ -32,10 +33,12 @@ let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 export class parameterRequest {
 
   answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
+  userQuestionRequest:UserQuestion[]
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
-  constructor(answerRequest: Notes[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
+  constructor(answerRequest: Notes[],userQuestionRequestList:UserQuestion[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
     this.answerRequest1 = answerRequest;
+    this.userQuestionRequest=userQuestionRequestList;
     this.parameterRatingAndRecommendation = parameterRatingAndRecommendation
   }
 }
@@ -98,6 +101,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     let answers: AssessmentAnswerResponse[] = []
     let parameterRatingAndRecomm: ParameterRatingAndRecommendation[] = []
     let topicRatingAndRecomm: TopicRatingAndRecommendation[] = []
+    let userQuestions : UserQuestionResponse[] =[]
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
@@ -113,8 +117,14 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
               answers.push(<AssessmentAnswerResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest[Number(eachAnswer)])
             }
           }
+          for(let eachUserQuestion in saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList){
+            if(saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList[Number(eachUserQuestion)] !== undefined){
+              userQuestions.push(<UserQuestionResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList[Number(eachUserQuestion)])
+            }
+
+          }
         }
-        this.sendAnswers(answers, parameterRatingAndRecomm, topicRatingAndRecomm)
+        this.sendAnswers(answers,userQuestions, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
         window.location.reload();
       }
@@ -169,14 +179,12 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     return answerRequest
   }
   getUserQuestionList(parameter: ParameterStructure) : UserQuestion[] {
-    console.log("here atleast")
     const userQuestionRequest = []
     let userQuestionText: string;
     let userAnswerText: string ;
     let userQuestionId:number ;
     if(this.answerResponse.userQuestionResponseList !== undefined){
       for(let userQuestion in this.answerResponse.userQuestionResponseList){
-        // let indexUserQuestion =  this.answerResponse.userQuestionResponseList.findIndex(parameterIdPos => parameterIdPos.parameterId == parameter.parameterId)
         if(this.answerResponse.userQuestionResponseList[userQuestion].parameterId === parameter.parameterId){
           userQuestionText= this.answerResponse.userQuestionResponseList[userQuestion].question
           userAnswerText = this.answerResponse.userQuestionResponseList[userQuestion].answer
@@ -282,13 +290,20 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   }
 
 
-  private sendAnswers(answers: AssessmentAnswerResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
+  private sendAnswers(answers: AssessmentAnswerResponse[],userQuestions:UserQuestionResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
     if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
         eachAnswer['questionId'] === eachAnswerQuestion['questionId'])).concat(answers)
     } else {
       this.cloneAnswerResponse.answerResponseList = answers
+    }
+    if(userQuestions[0] !== undefined && this.cloneAnswerResponse.userQuestionResponseList !== undefined){
+      this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachUserQuestion => !userQuestions.find(eachUserQuestionAnswer =>
+      eachUserQuestion['questionId'] === eachUserQuestionAnswer['questionId'])).concat(userQuestions)
+    }
+    else{
+      this.cloneAnswerResponse.userQuestionResponseList= userQuestions
     }
     if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>

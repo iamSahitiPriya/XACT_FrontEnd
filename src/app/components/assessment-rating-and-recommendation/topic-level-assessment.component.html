@@ -32,7 +32,7 @@
 <!--      </button>-->
 
       <div>
-        <app-user-question-answer [valuen]=topicRequest.parameterLevel[i].userQuestionRequestList.length   [parameterId]="parameter.parameterId"
+        <app-user-question-answer [additionalQuestionCount]=topicRequest.parameterLevel[i].userQuestionRequestList.length   [parameterId]="parameter.parameterId"
                                   [assessmentId]="assessmentId"
                                   [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                   [parameterIndex]="i"

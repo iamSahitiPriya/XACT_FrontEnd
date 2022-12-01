@@ -1,27 +1,20 @@
 .additionalQuestionHeading {
-  display: block;
-  position: relative;
-  padding: 12px;
-  border-radius: 0;
-  background: #EAF4F6 0 0 no-repeat padding-box;
-  font: normal normal bold 18px/21px 'Inter', sans-serif;
+  background-color: #45A0AC1D;
+  height: 50px;
+  width: 98%;
+  color: #043D4E;
+  font-size: 20px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
-  letter-spacing: 0.36px;
-  color: #043D4E;
-  opacity: 1;
-  text-align: left;
-  margin-top: 13px;
-  margin-right: 50px;
-  text-transform: capitalize;
-  width: 97%;
+  display: inline-table;
+  padding: 15px 152px 8px 20px;
 }
 #addQuestion {
   color: #4ba1ac;
 }
 
 .addQuestion {
-  width: 95%;
+  width: 98%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
   background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
@@ -30,6 +23,20 @@
   background-size: 10px 1px, 1px 10px;
   border: none;
 }
+
+.question {
+  padding-left: 15px;
+  padding-right: 21px;
+  opacity: 1;
+}
+
+.question-content {
+  font-size: 18px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+}
+
 .button1:hover {
   background-color: #00000024;
 }
@@ -39,4 +46,9 @@
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
   width: 100% !important;
+}
+.userQuestionAnswers{
+  background-color: #E8EDEE;
+  width: 98%;
+  padding-top: 28px;
 }

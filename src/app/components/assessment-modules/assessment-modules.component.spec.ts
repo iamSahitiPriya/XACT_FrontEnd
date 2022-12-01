@@ -242,9 +242,10 @@ describe('AssessmentModulesComponent', () => {
             effort: "LOW",
             deliveryHorizon: "some more text"
           }
-        ]
+        ],
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     })
     component.ngOnInit()
     expect(component.assessmentName).toBe("abc1")
