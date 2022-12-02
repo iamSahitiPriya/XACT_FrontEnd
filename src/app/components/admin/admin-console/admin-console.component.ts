@@ -14,13 +14,16 @@ import * as fromActions from "../../../actions/assessment-data.actions";
   templateUrl: './admin-console.component.html',
   styleUrls: ['./admin-console.component.css']
 })
-export class AdminConsoleComponent{
-  type="dashboard";
-  tabIndex:number;
-  constructor(private router:Router, private store: Store<AppStates>) {
-    this.router.navigateByUrl("/admin/dashboard")
+export class AdminConsoleComponent {
+  type = "";
+  tabIndex: number;
+
+  constructor(private router: Router,private store: Store<AppStates>) {
+    const currentRoute = this.router.url.split('?')[0];
+    const path = currentRoute.split('/').pop()||'';
+    this.setEvent(path);
     this.store.dispatch(fromActions.isAdmin({isAdmin:true}))
-    }
+  }
 
   setEvent(name: string) {
     this.type = name;

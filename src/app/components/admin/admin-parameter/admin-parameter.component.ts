@@ -12,7 +12,11 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
-import {cloneDeep} from "lodash";
+import {cloneDeep, each} from "lodash";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
+import {ParameterStructure} from "../../../types/parameterStructure";
+import * as fromActions from "../../../actions/assessment-data.actions";
 
 
 @Component({
@@ -29,6 +33,7 @@ import {cloneDeep} from "lodash";
 })
 export class AdminParameterComponent implements OnInit {
   parameterData: ParameterData[];
+  categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
@@ -70,25 +75,29 @@ export class AdminParameterComponent implements OnInit {
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
     this.dataToDisplayed = [...this.dataSource.data]
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      data.forEach(eachCategory => {
-        this.fetchModules(eachCategory);
-      })
-      this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
-      this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
-      this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
-      this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
-      this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data !== undefined) {
+        this.categoryData = data
+        data.forEach(eachCategory => {
+          this.fetchModules(eachCategory);
+        })
+        this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
+        this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
+        this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
+        this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
+        this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
+        this.paginator.pageIndex = 0
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
     })
   }
 
@@ -192,7 +201,7 @@ export class AdminParameterComponent implements OnInit {
     this.topicList = []
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === newParameter ? null : newParameter
-    this.dataSource.data.splice(0, 0, newParameter)
+    this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newParameter)
     this.table.renderRows();
     this.dataSource.paginator = this.paginator
     this.isParameterAdded = true
@@ -227,7 +236,7 @@ export class AdminParameterComponent implements OnInit {
           this.dataSource.data = data
           this.table.renderRows()
           this.parameterData = []
-          this.ngOnInit()
+          this.sendToStore(_data)
         }, error: (_err) => {
           this.showError("Some error occurred")
         }
@@ -304,6 +313,7 @@ export class AdminParameterComponent implements OnInit {
         next: (_data) => {
           row.isEdit = false;
           this.selectedParameter = null;
+          this.updateToStore(_data)
           this.table.renderRows()
           this.showNotification("Your changes have been successfully updated.", 2000)
           this.parameterData = []
@@ -358,5 +368,33 @@ export class AdminParameterComponent implements OnInit {
   }
 
 
+  private updateToStore(_data: any) {
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === _data.topicId)?.parameters
+
+    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === _data.parameterId)
+    if (parameterIndex !== -1) {
+      let fetchedParameter: any = parameters?.at(parameterIndex)
+      _data["questions"] = fetchedParameter.questions
+      _data["references"] = fetchedParameter.references
+      parameters.splice(parameterIndex,1)
+      this.sendToStore(_data)
+    }
+  }
+
+  private sendToStore(_data: any) {
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === _data.topicId)?.parameters
+    let parameter = {
+      parameterId: _data.parameterId,
+      parameterName: _data.parameterName,
+      active: _data.active,
+      comments: _data.comments,
+      updatedAt: Date.now(),
+      questions: _data.questions ? _data.questions : [],
+      references: _data.references ? _data.references : []
+    }
+    parameters.push(parameter)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryData}))
+    this.ngOnInit();
+  }
 }
 

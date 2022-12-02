@@ -105,9 +105,17 @@ class MockAppService {
       }]
     }]
 
-  getAllCategories() : Observable<any> {
-    return  of(this.data)
+  parameterResponse = {
+    categoryId: 1,
+    moduleId: 1,
+    topicId: 1,
+    parameterId: 1,
+    parameterName: "parameter",
+    active: false,
+    updatedAt: Date.now(),
+    comments: "",
   }
+
 
   saveParameter(parameterRequest : any) {
     if(parameterRequest.parameterName === "parameterName") {
@@ -119,7 +127,7 @@ class MockAppService {
 
   updateParameter(row : any, parameterId : number) {
     if(parameterId === -1) {
-      return of(row) }
+      return of(this.parameterResponse) }
     else {
       return throwError("Error!")
     }
@@ -180,6 +188,66 @@ describe('AdminParameterComponent', () => {
       topicStatus: false,
       updatedAt: 0
     }
+    component.masterData = of([{
+      "categoryId": 1,
+      "categoryName": "category1",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt": 23456,
+        "comments": " ",
+        "topics": [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [{
+            "parameterId":1,
+            "parameterName":"parameter",
+            "topic":1,
+            "updatedAt": 1234,
+            "comments": "",
+            "active": true,
+            "questions":[],
+            "references":[],
+          }],
+          "references": []
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      },
+        {
+          "moduleId": 2,
+          "moduleName": 'module2',
+          "category": 1,
+          "active": false,
+          "updatedAt": 23456,
+          "comments": " ",
+          "topics":[]
+        }]
+    }, {
+      "categoryId": 3,
+      "categoryName": "category3",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": []
+    }
+    ])
   });
 
     it('should create', () => {
@@ -194,9 +262,6 @@ describe('AdminParameterComponent', () => {
   it('should get master data', () => {
 
     component.ngOnInit();
-    mockAppService.getAllCategories().subscribe((data) => {
-      expect(data).toBe(parameter)
-    })
     expect(component.parameterData[0].categoryName).toBe("category1");
     expect(component.parameterData[0].moduleName).toBe("module1");
     expect(component.parameterData[0].topicName).toBe("topic1");
@@ -260,6 +325,8 @@ describe('AdminParameterComponent', () => {
     component.isParameterUnique = true
 
     jest.spyOn(component, "saveParameterRow")
+    jest.spyOn(component,"ngOnInit")
+    component.ngOnInit();
     component.saveParameterRow(rowToBeSaved)
 
     mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
@@ -267,6 +334,7 @@ describe('AdminParameterComponent', () => {
     })
 
     expect(component.saveParameterRow).toHaveBeenCalled()
+    expect(component.ngOnInit).toHaveBeenCalled()
   });
 
   it("should not save parameter if name is not unique", () => {
@@ -281,7 +349,7 @@ describe('AdminParameterComponent', () => {
     }]
 
     component.isParameterUnique = true
-
+    component.ngOnInit();
     jest.spyOn(component, "saveParameterRow")
     component.saveParameterRow(row)
 
@@ -324,6 +392,7 @@ describe('AdminParameterComponent', () => {
     component.isParameterUnique = true
 
     jest.spyOn(component, "saveParameterRow")
+    component.ngOnInit()
     component.saveParameterRow(rowToBeSaved)
 
     mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
@@ -338,7 +407,7 @@ describe('AdminParameterComponent', () => {
     component.selectedParameter = null
     component.isEditable = false
     component.unSavedParameter = row
-
+     component.ngOnInit()
     component.editParameterRow(row)
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedParameter).toBe(row)
@@ -348,6 +417,7 @@ describe('AdminParameterComponent', () => {
     component.selectedParameter = null
     component.isEditable = false
     component.unSavedParameter = row
+    component.unSavedParameter.parameterId=1
     let unSavedRow= {
       categoryId: 1,
       categoryName: "category1",
@@ -358,12 +428,13 @@ describe('AdminParameterComponent', () => {
       topicId: 1,
       topicName: "topic1",
       topicStatus: false,
-      parameterId: 1,
+      parameterId: 2,
       parameterName: "parameter",
       active: true,
       updatedAt: Date.now(),
       comments: "",
     }
+    component.ngOnInit()
      component.resetUnsavedChanges(unSavedRow)
     component.editParameterRow(row)
     expect(component.isEditable).toBeTruthy()
@@ -372,6 +443,8 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should delete row from the table on clicking the bin button", () => {
+    component.ngOnInit()
+    component.addParameterRow()
     component.deleteAddedParameterRow()
     expect(component.dataSource.data.length).toBe(1)
   });
@@ -439,12 +512,33 @@ describe('AdminParameterComponent', () => {
       "moduleName": "module2",
       "active": false
     }]
+    component.ngOnInit();
 
     jest.spyOn(component, "shortListTopics")
     component.shortListTopics("module1")
 
     expect(component.shortListTopics).toHaveBeenCalled()
-    expect(component.topicList.length).toBe(1)
+    expect(component.topicList.length).toBe(2)
+  })
+
+  it("should not shortlist topic when topicList is undefined", () => {
+    component.ngOnInit();
+
+    component.moduleList = [{
+      "moduleId": 1,
+      "moduleName": "module1",
+      "active": true,
+    }, {
+      "moduleId": 2,
+      "moduleName": "module2",
+      "active": false
+    }]
+
+    jest.spyOn(component, "shortListTopics")
+    component.shortListTopics("module2")
+
+    expect(component.shortListTopics).toHaveBeenCalled()
+    expect(component.topicList[0].topicName).toBe("Topic Not Found")
   })
 
   it("should update parameter on click of update", () => {
@@ -512,7 +606,7 @@ describe('AdminParameterComponent', () => {
       updatedAt: Date.now(),
       comments: "",
     }
-
+    component.ngOnInit()
     component.updateParameterRow(rowToBeUpdated)
     mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
       expect(data).toBe(rowToBeUpdated); })

@@ -44,7 +44,7 @@ describe('AppServiceService', () => {
       {
         assessmentName: "abcdef",
         organisationName: "Rel23",
-        assessmentPurpose:"Client Request",
+        assessmentPurpose: "Client Request",
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
@@ -105,7 +105,7 @@ describe('AppServiceService', () => {
       assessmentName: "",
       domain: "",
       organisationName: "",
-      assessmentPurpose:"",
+      assessmentPurpose: "",
       industry: "",
       teamSize: 0,
       users: []
@@ -220,25 +220,25 @@ describe('AppServiceService', () => {
   });
 
   it("should Save Module", () => {
-    let moduleRequest ={
-      "categoryId" :1 ,
-      "moduleName":"module",
-      "active":true,
+    let moduleRequest = {
+      "categoryId": 1,
+      "moduleName": "module",
+      "active": true,
     }
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   });
 
   it("should Save Module", () => {
-    let moduleRequest ={
-      "categoryId" :1 ,
-      "moduleName":"module",
-      "active":true,
+    let moduleRequest = {
+      "categoryId": 1,
+      "moduleName": "module",
+      "active": true,
     }
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   });
 
   it("should get the assessment data for admin", () => {
-    let adminAssessmentRequest ={
+    let adminAssessmentRequest = {
       "assessmentId": 1,
       "endDate": "2022-06-01",
       "startDate": "2022-07-13"
@@ -246,7 +246,7 @@ describe('AppServiceService', () => {
     expect(service.getAdminAssessment(adminAssessmentRequest)).toBeTruthy()
   });
   it("should get the report for assessment data", () => {
-    let adminAssessmentRequest ={
+    let adminAssessmentRequest = {
       "assessmentId": 1,
       "endDate": "2022-06-01",
       "startDate": "2022-07-13"
@@ -254,49 +254,58 @@ describe('AppServiceService', () => {
     expect(service.generateAdminReport(adminAssessmentRequest)).toBeTruthy()
   });
   it("should save the modules selected by user", () => {
-    let userAssessmentModuleRequest :UserAssessmentModuleRequest[] =[{"moduleId" :1}]
+    let userAssessmentModuleRequest: UserAssessmentModuleRequest[] = [{"moduleId": 1}]
 
-    expect(service.saveUserModules(userAssessmentModuleRequest,1)).toBeTruthy()
+    expect(service.saveUserModules(userAssessmentModuleRequest, 1)).toBeTruthy()
   });
   it("should update the modules selected by user", () => {
-    let userAssessmentModuleRequest :UserAssessmentModuleRequest[] =[{"moduleId" :1}]
+    let userAssessmentModuleRequest: UserAssessmentModuleRequest[] = [{"moduleId": 1}]
 
-    expect(service.updateUserModules(userAssessmentModuleRequest,1)).toBeTruthy()
+    expect(service.updateUserModules(userAssessmentModuleRequest, 1)).toBeTruthy()
   });
-  it("should get the organisation names",()=>{
+  it("should get the organisation names", () => {
     expect(service.getOrganizationName("org")).toBeTruthy();
   });
-  it("should get template",()=>{
+  it("should get template", () => {
     expect(service.getTemplate()).toBeTruthy();
   })
   it("should save topics", () => {
-    let topic : any = {module: 1, topicName: "new topic", active: true, comments: "comments"}
+    let topic: any = {module: 1, topicName: "new topic", active: true, comments: "comments"}
     expect(service.saveTopic(topic)).toBeTruthy()
   })
   it("should update topics", () => {
-    let topicRequest: any = { comments: "new comments", module: 1, topicName: "topic", active: true }
-    expect(service.updateTopic(topicRequest,1)).toBeTruthy();
+    let topicRequest: any = {comments: "new comments", module: 1, topicName: "topic", active: true}
+    expect(service.updateTopic(topicRequest, 1)).toBeTruthy();
   })
   it("should get only selected categories", () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   })
   it("should save module", () => {
-    let moduleRequest = {moduleName : "module", active:true, comments: ""}
+    let moduleRequest = {moduleName: "module", active: true, comments: ""}
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   })
   it("should update module", () => {
-    let moduleRequest = {moduleName : "module", active:true, comments: ""}
+    let moduleRequest = {moduleName: "module", active: true, comments: ""}
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   })
 
 
-  it("should get only selected categories",() =>{
+  it("should get only selected categories", () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   });
 
-  it("should delete assessment",() =>{
+  it("should delete assessment", () => {
     expect(service.deleteAssessment(1)).toBeTruthy();
   });
+  it("should save parameter", () => {
+    let parameterRequest = {parameterName: "parameter", active: true, comments: ""}
+    expect(service.saveParameter(parameterRequest)).toBeTruthy();
+  })
+  it("should update parameter", () => {
+    let parameterRequest = {parameterName: "parameter", active: true, comments: ""}
+    let parameterId = 1
+    expect(service.updateParameter(parameterRequest, parameterId)).toBeTruthy();
+  })
 
 });
 
