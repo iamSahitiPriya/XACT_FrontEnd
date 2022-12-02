@@ -20,7 +20,7 @@
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="dropDown">
                         <mat-label>{{categoryLabel}}</mat-label>
-        <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModule(row)">
+        <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModules(row)">
           <mat-option *ngFor="let category of categoryList"
                       [value]="category.categoryName"  [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
             {{category.categoryName}}
@@ -127,15 +127,15 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef>{{actionHeader}}</th>
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="!(row.isEdit || selectedParameter === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameter(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameterRow(row)">Edit</button>
         </span>
         <span *ngIf="selectedParameter===row && row.parameterId !== -1">
         <button mat-flat-button class="update" aria-label="expand row"
-                (click)="updateParameter(row)" [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">
+                (click)="updateParameterRow(row)" [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">
           <span class="text">Update</span></button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameter(row)"
+          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameterRow(row)"
                   [disabled]="row.categoryName && row.moduleName && row.topicName &&!row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
         </span>
       </td>

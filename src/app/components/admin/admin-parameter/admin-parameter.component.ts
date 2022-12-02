@@ -38,8 +38,7 @@ export class AdminParameterComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<ParameterData>
   dataToDisplayed: ParameterData[]
   private destroy$: Subject<void> = new Subject<void>();
-  private dataSourceArray: ParameterData[];
-  masterData : Observable<CategoryResponse[]>
+  masterData: Observable<CategoryResponse[]>
   categoryList: any[] = []
   moduleList: any[] = []
   parameter: ParameterData
@@ -50,23 +49,23 @@ export class AdminParameterComponent implements OnInit {
   topicList: any[] = [];
   topicAndParameter = new Map();
   isParameterAdded: boolean = false;
-  isEditable: boolean =false;
+  isEditable: boolean = false;
   isParameterUnique = true;
   moduleNotFoundMessage: string = data_local.ADMIN_PARAMETER.MODULE_NOT_FOUND
   topicNotFoundMessage: string = data_local.ADMIN_PARAMETER.TOPIC_NOT_FOUND
-  categoryLabel=data_local.ADMIN_PARAMETER.CATEGORY_SELECTION_LABEL
-  moduleLabel=data_local.ADMIN_PARAMETER.MODULE_SELECTION_LABEL
-  topicLabel=data_local.ADMIN_PARAMETER.TOPIC_SELECTION_LABEL
-  parameterInput =data_local.ADMIN_PARAMETER.PARAMETER_INPUT_TEXT
-  categoryHeader=data_local.ADMIN_PARAMETER.CATEGORY
-  moduleHeader=data_local.ADMIN_PARAMETER.MODULE
-  topicHeader=data_local.ADMIN_PARAMETER.TOPIC
-  parameterHeader=data_local.ADMIN_PARAMETER.PARAMETER
-  dateHeader=data_local.ADMIN_PARAMETER.DATE
-  activeHeader=data_local.ADMIN_PARAMETER.ACTIVE
-  actionHeader=data_local.ADMIN_PARAMETER.ACTION
-  mandatoryFieldText=data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
-  noDataAvailableText =data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  categoryLabel = data_local.ADMIN_PARAMETER.CATEGORY_SELECTION_LABEL
+  moduleLabel = data_local.ADMIN_PARAMETER.MODULE_SELECTION_LABEL
+  topicLabel = data_local.ADMIN_PARAMETER.TOPIC_SELECTION_LABEL
+  parameterInput = data_local.ADMIN_PARAMETER.PARAMETER_INPUT_TEXT
+  categoryHeader = data_local.ADMIN_PARAMETER.CATEGORY
+  moduleHeader = data_local.ADMIN_PARAMETER.MODULE
+  topicHeader = data_local.ADMIN_PARAMETER.TOPIC
+  parameterHeader = data_local.ADMIN_PARAMETER.PARAMETER
+  dateHeader = data_local.ADMIN_PARAMETER.DATE
+  activeHeader = data_local.ADMIN_PARAMETER.ACTIVE
+  actionHeader = data_local.ADMIN_PARAMETER.ACTION
+  mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
+  noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
 
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
@@ -80,22 +79,21 @@ export class AdminParameterComponent implements OnInit {
   ngOnInit(): void {
     this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
       data.forEach(eachCategory => {
-        this.fetchModuleDetails(eachCategory);
+        this.fetchModules(eachCategory);
       })
       this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
       this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
       this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
       this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
       this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
-      this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
   }
 
-  private fetchModuleDetails(eachCategory: CategoryResponse) {
-    let module: any [] = [];
+  private fetchModules(eachCategory: CategoryResponse) {
+    let modules: any [] = [];
     this.categoryList.push({
       categoryId: eachCategory.categoryId,
       categoryName: eachCategory.categoryName,
@@ -103,8 +101,8 @@ export class AdminParameterComponent implements OnInit {
     })
     eachCategory.modules?.forEach(eachModule => {
       this.moduleAndTopic.set(eachModule.moduleId, [])
-      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active})
-      this.categoryAndModule.set(eachCategory.categoryId, module)
+      modules.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active})
+      this.categoryAndModule.set(eachCategory.categoryId, modules)
       if (eachModule.topics) {
         this.fetchTopics(eachModule, eachCategory);
       }
@@ -216,7 +214,7 @@ export class AdminParameterComponent implements OnInit {
   }
 
 
-  saveParameter(row: any) {
+  saveParameterRow(row: any) {
     let parameterSaveRequest = this.getParameterRequest(row);
     if (this.isParameterUnique) {
       this.appService.saveParameter(parameterSaveRequest).subscribe({
@@ -269,7 +267,7 @@ export class AdminParameterComponent implements OnInit {
     })
   }
 
-  editParameter(row: any) {
+  editParameterRow(row: any) {
     this.resetUnsavedChanges(row)
     this.deleteAddedParameterRow()
     this.selectedParameter = this.selectedParameter === row ? null : row
@@ -295,7 +293,7 @@ export class AdminParameterComponent implements OnInit {
     }
   }
 
-  updateParameter(row: any) {
+  updateParameterRow(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterRequest = this.setParameterRequest(selectedTopicId, row);
     if (this.unSavedParameter.parameterName !== row.parameterName) {
@@ -307,7 +305,7 @@ export class AdminParameterComponent implements OnInit {
           row.isEdit = false;
           this.selectedParameter = null;
           this.table.renderRows()
-          this.showNotification("Your changes have been successfully updated.", 200000)
+          this.showNotification("Your changes have been successfully updated.", 2000)
           this.parameterData = []
           this.ngOnInit()
         }, error: _error => {
@@ -338,9 +336,9 @@ export class AdminParameterComponent implements OnInit {
     }
   }
 
-  shortlistModule(row:any) {
-    row.moduleName=''
-    row.topicName=''
+  shortlistModules(row: any) {
+    row.moduleName = ''
+    row.topicName = ''
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.topicList = []
     this.moduleList = this.categoryAndModule.get(categoryId)

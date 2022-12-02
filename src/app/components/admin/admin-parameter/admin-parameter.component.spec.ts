@@ -259,14 +259,14 @@ describe('AdminParameterComponent', () => {
 
     component.isParameterUnique = true
 
-    jest.spyOn(component, "saveParameter")
-    component.saveParameter(rowToBeSaved)
+    jest.spyOn(component, "saveParameterRow")
+    component.saveParameterRow(rowToBeSaved)
 
     mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
       expect(data).toBe(parameterRequest)
     })
 
-    expect(component.saveParameter).toHaveBeenCalled()
+    expect(component.saveParameterRow).toHaveBeenCalled()
   });
 
   it("should not save parameter if name is not unique", () => {
@@ -282,15 +282,15 @@ describe('AdminParameterComponent', () => {
 
     component.isParameterUnique = true
 
-    jest.spyOn(component, "saveParameter")
-    component.saveParameter(row)
+    jest.spyOn(component, "saveParameterRow")
+    component.saveParameterRow(row)
 
     mockAppService.saveParameter(row).subscribe(data =>{
       expect(data).toBe(throwError("Error!"))
     })
 
     expect(component.isParameterUnique).toBeFalsy()
-    expect(component.saveParameter).toHaveBeenCalled()
+    expect(component.saveParameterRow).toHaveBeenCalled()
   });
 
   it("should throw error when problem occurs while saving parameter when request is undefined", () => {
@@ -323,14 +323,14 @@ describe('AdminParameterComponent', () => {
 
     component.isParameterUnique = true
 
-    jest.spyOn(component, "saveParameter")
-    component.saveParameter(rowToBeSaved)
+    jest.spyOn(component, "saveParameterRow")
+    component.saveParameterRow(rowToBeSaved)
 
     mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
       expect(data).toBe(undefined)
     })
 
-    expect(component.saveParameter).toHaveBeenCalled()
+    expect(component.saveParameterRow).toHaveBeenCalled()
 
   });
 
@@ -339,7 +339,7 @@ describe('AdminParameterComponent', () => {
     component.isEditable = false
     component.unSavedParameter = row
 
-    component.editParameter(row)
+    component.editParameterRow(row)
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedParameter).toBe(row)
 
@@ -365,7 +365,7 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
      component.resetUnsavedChanges(unSavedRow)
-    component.editParameter(row)
+    component.editParameterRow(row)
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedParameter).toBe(row)
 
@@ -387,10 +387,10 @@ describe('AdminParameterComponent', () => {
       "active": false
     }]
 
-    jest.spyOn(component, "shortlistModule")
-    component.shortlistModule(row)
+    jest.spyOn(component, "shortlistModules")
+    component.shortlistModules(row)
 
-    expect(component.shortlistModule).toHaveBeenCalled()
+    expect(component.shortlistModules).toHaveBeenCalled()
     expect(component.moduleList.length).toBe(1)
   })
 
@@ -421,10 +421,10 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
 
-    jest.spyOn(component, "shortlistModule")
-    component.shortlistModule(row)
+    jest.spyOn(component, "shortlistModules")
+    component.shortlistModules(row)
 
-    expect(component.shortlistModule).toHaveBeenCalled()
+    expect(component.shortlistModules).toHaveBeenCalled()
     expect(component.moduleList[0].moduleName).toBe("Module Not Found")
   })
 
@@ -477,7 +477,7 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
 
-    component.updateParameter(rowToBeUpdated)
+    component.updateParameterRow(rowToBeUpdated)
     mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
       expect(data).toBe(rowToBeUpdated); })
     expect(component.selectedParameter).toBeNull()
@@ -513,7 +513,7 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
 
-    component.updateParameter(rowToBeUpdated)
+    component.updateParameterRow(rowToBeUpdated)
     mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
       expect(data).toBe(rowToBeUpdated); })
     expect(component.selectedParameter).toBeNull()
@@ -549,7 +549,7 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
 
-    component.updateParameter(rowToBeUpdated)
+    component.updateParameterRow(rowToBeUpdated)
     mockAppService.updateParameter(rowToBeUpdated, rowToBeUpdated.parameterId).subscribe(data =>{
       expect(data).toBe(undefined); })
   });
