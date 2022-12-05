@@ -181,14 +181,10 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   cancelChanges(reference: any) {
-    if(reference.referenceId == -1)
-      this.deleteUnSavedReferences()
-    else {
       reference.reference = this.unsavedChanges.reference
       reference.referenceId = this.unsavedChanges.referenceId
       reference.rating = this.unsavedChanges.rating
       reference.isEdit = false
-    }
   }
 
   private isRatingUnique(reference : any | TopicReference) : boolean {
