@@ -18,7 +18,6 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {Observable, of, throwError} from "rxjs";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
-import {ModuleData} from "../../../types/moduleData";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 

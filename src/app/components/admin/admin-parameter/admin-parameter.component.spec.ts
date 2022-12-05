@@ -10,14 +10,13 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
-import {Observable, of, throwError} from "rxjs";
+import {of, throwError} from "rxjs";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatIconModule} from "@angular/material/icon";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 import {ParameterData} from 'src/app/types/ParameterData';
 import {ParameterStructure} from "../../../types/parameterStructure";
-import cloneDeep from "lodash/cloneDeep";
 
 class MockAppService {
   parameterRequest : ParameterData = {
