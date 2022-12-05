@@ -94,7 +94,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.7mb"
+                  "maximumError": "3.1mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -104,14 +104,16 @@
               ],
               "outputHashing": "all",
               "buildOptimizer": true,
-              "optimization": true
+              "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": false
             },
             "qa": {
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.7mb"
+                  "maximumError": "3.1mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -125,16 +127,19 @@
                   "with": "src/environments/environment.qa.ts"
                 }
               ],
+              "sourceMap": false,
               "outputHashing": "all",
               "buildOptimizer": true,
-              "optimization": true
+              "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": false
             },
             "production": {
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.7mb"
+                  "maximumError": "3.1mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -148,9 +153,12 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "sourceMap": false,
               "outputHashing": "all",
               "buildOptimizer": true,
               "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": false,
               "index": {
                 "input": "src/index.prod.html",
                 "output": "index.html"
