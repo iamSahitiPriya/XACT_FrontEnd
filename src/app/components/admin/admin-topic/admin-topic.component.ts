@@ -21,7 +21,6 @@ import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import {cloneDeep} from "lodash";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {AdminReferenceComponent} from "../admin-reference/admin-reference.component";
 
 @Component({
   selector: 'app-admin-topic',

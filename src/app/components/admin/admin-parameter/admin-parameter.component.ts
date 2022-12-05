@@ -12,10 +12,9 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
-import {cloneDeep, each} from "lodash";
+import {cloneDeep} from "lodash";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
-import {ParameterStructure} from "../../../types/parameterStructure";
 import * as fromActions from "../../../actions/assessment-data.actions";
 
 
