@@ -138,12 +138,12 @@ td.parameter:nth-child(6){
   width:15%;
 }
 
-.dropDown >>> .mat-form-field-flex {
+::ng-deep .dropDown .mat-form-field-flex {
   height: 63px;
   margin-top: 20px;
 }
-.inputParameter >>> .mat-form-field-infix{
-  height: 57px;
+::ng-deep .inputParameter .mat-form-field-infix{
+  height: 50px;
 }
 .dropDown .mat-form-field-infix {
   padding: 8px 0;

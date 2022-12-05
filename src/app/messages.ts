@@ -198,7 +198,13 @@ export const data_local =
           ADD_TOPIC: "Add Topic",
           TOPIC: "Topic",
           ENTER_TOPIC: "Enter topic name",
-        }
+        },
+        REFERENCES: {
+          HEADER: "References - Readability",
+          SCORE_CARD : "Maturity reference score card",
+          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
+
+        },
       },
       DROPDOWN_OPTION_TEXT: {
         LAST_WEEK: "Last 7 Days",

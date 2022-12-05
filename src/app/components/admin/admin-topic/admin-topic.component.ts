@@ -20,6 +20,8 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import {cloneDeep} from "lodash";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {AdminReferenceComponent} from "../admin-reference/admin-reference.component";
 
 @Component({
   selector: 'app-admin-topic',
@@ -34,6 +36,7 @@ import {cloneDeep} from "lodash";
   ],
 })
 export class AdminTopicComponent implements OnInit, OnDestroy {
+  private dialogRef: MatDialogRef<any>;
   masterDataCopy: CategoryResponse[]
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
@@ -77,8 +80,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   moduleNotFound: any = "No modules available";
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
-    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
+    this.masterData = this.store.select((store) => store.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -378,5 +381,24 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   isInputValid(row: any) {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
+  }
+
+  async openTopicReferences(reference: any) {
+    this.dialogRef = this.dialog.open(reference,{
+      width: '62vw',
+      height: '66vh',
+      maxWidth: '80vw',
+      maxHeight: '71vh'
+    })
+    this.dialogRef.disableClose = true;
+  }
+
+  findCategoryId(row : any) {
+    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId;
+  }
+
+  findModuleId(row : any) {
+    let modules = this.categoryAndModule.get(this.findCategoryId(row))
+    return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
   }
 }

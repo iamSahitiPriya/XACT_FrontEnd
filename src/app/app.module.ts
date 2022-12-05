@@ -92,6 +92,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { AdminParameterComponent } from './components/admin/admin-parameter/admin-parameter.component';
 import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
+import { AdminReferenceComponent } from './components/admin/admin-reference/admin-reference.component';
+
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
 export const appRoutes: Routes = [
@@ -183,6 +185,7 @@ export const appRoutes: Routes = [
     AssessmentHeaderComponent,
     AdminParameterComponent,
     AdminTopicComponent,
+    AdminReferenceComponent,
   ],
 
   imports: [
