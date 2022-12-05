@@ -1,0 +1,185 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+.header {
+  padding-top: 1%;
+}
+
+.close button, .reference-button button, .delete-icon button, .edit-button button {
+  display: inline-block;
+  float: right;
+  border: none;
+  background-color: transparent;
+}
+
+.heading {
+  display: inline-block;
+  text-align: left;
+  padding-left: 2%;
+  font-size: 24px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.4px;
+  color: #45A0AC;
+  opacity: 1;
+}
+
+.close-icon.mat-icon {
+  color: #043D4E;
+  width: 50px;
+  height: 38px;
+}
+
+.close-icon.material-icons {
+  font-size: 25px;
+}
+
+.score-card {
+  margin-top: 2%;
+  height: 4vh;
+  width: 59vw;
+  padding: 1.5% 0% 0% 2%;
+  background-color: #F4FAFC;
+  text-align: left;
+  font-size: 21px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+}
+
+.reference-button {
+  padding-top: 3%;
+  padding-right: 2%;
+  display: inline-block;
+  float: right;
+}
+
+.reference-button button {
+  background-color: #4BA1AC;
+  text-align: left;
+  font-size: 16px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1.42px;
+  padding: 5%;
+  color: #fff;
+  text-transform: capitalize;
+  opacity: 1;
+  width: 16rem;
+}
+
+.reference-button button:disabled {
+  background: #C3C3C3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 2px 2px #00000024;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.reference {
+  display: flex;
+  flex-direction: row;
+}
+
+.rating-dropdown {
+  padding-top: 2%;
+}
+
+.referenceInput {
+  width:86%;
+}
+
+.selectDropdown >>> .mat-form-field-flex {
+  height: 57px;
+  width: 65px;
+}
+
+.selectDropdown >>> .mat-select-arrow {
+  color: black;
+  margin-top: 17%;
+}
+
+.selectDropdown .mat-select {
+  font-size: 17px;
+}
+
+.selectDropdown .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+.references {
+  padding-top: 8%;
+}
+
+.reference-input {
+  padding-top: 3px;
+  padding-left: 2%;
+  width: 96%;
+  font-size: 15px;
+}
+
+.edit-button {
+  margin-right: 4%;
+  margin-top: 3%;
+}
+
+.edit-button button {
+  width: 4.4rem;
+  height: 2.5rem;
+  background: #658892 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  opacity: 1;
+  color: #fff;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  margin: 3% 2% 0 0;
+}
+
+.save-button {
+  width: 70px;
+  height: 36px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  padding-bottom: 1px;
+  color: #658892;
+  margin-right: 12px;
+}
+
+.delete-icon button {
+  margin-top: 10%;
+}
+
+.save {
+  display: flex;
+  margin-top: 2.5%;
+}
+
+::ng-deep .mat-select-disabled .mat-select-value {
+  color: black;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -241,3 +241,8 @@ button.closeTopicButton.mat-icon {
   padding-left: 25%;
 }
 
+.topic-reference button{
+  border: none;
+  background-color: transparent;
+}
+
