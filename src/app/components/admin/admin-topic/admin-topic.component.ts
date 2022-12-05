@@ -15,11 +15,11 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {ModuleStructure} from "../../../types/moduleStructure";
-import cloneDeep from "lodash/cloneDeep";
 import * as fromActions from "../../../actions/assessment-data.actions";
 
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
+import {cloneDeep} from "lodash";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {AdminReferenceComponent} from "../admin-reference/admin-reference.component";
 
@@ -41,7 +41,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'active', 'updatedAt', 'edit', 'reference'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','edit', 'reference'];
   commonErrorFieldText = data_local.ADMIN.ERROR;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -247,13 +247,14 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   editTopic(row: any) {
     this.resetUnsavedChanges(row);
+
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
     row.isEdit = false
     let categoryId = this.categoryList.find(category => category.categoryName == row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    this.unsavedTopic = cloneDeep(row)
+    this.unsavedTopic =cloneDeep(row);
     return this.selectedTopic
   }
 

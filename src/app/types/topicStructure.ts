@@ -8,10 +8,10 @@ import {TopicReference} from "./topicReference";
 export interface TopicStructure {
   topicId: number,
   topicName: string,
+  active: boolean,
   module: number,
   updatedAt:number,
   comments?:string,
-  active:boolean,
   parameters: ParameterStructure[],
   references: TopicReference[]
 }

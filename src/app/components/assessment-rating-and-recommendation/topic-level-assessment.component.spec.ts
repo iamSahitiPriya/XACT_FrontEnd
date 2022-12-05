@@ -55,7 +55,7 @@ class MockAppService {
   }
 }
 
-let parameter: { parameterId: number; references: any[]; questions: { questionId: number; parameter: number; questionText: string }[]; topic: number; parameterName: string }
+let parameter: { parameterId: number; references: any[]; questions: { questionId: number; parameter: number; questionText: string }[]; topic: number; parameterName: string, active: false, updatedAt: 0, comments: "" }
 jest.useFakeTimers();
 
 describe('TopicLevelAssessmentComponent', () => {
@@ -175,6 +175,7 @@ describe('TopicLevelAssessmentComponent', () => {
 
   it('should able to get the parameter level details from the parameter structure', () => {
     parameter = {
+      comments: "",
       parameterId: 1,
       parameterName: "hello",
       topic: 1,
@@ -185,6 +186,8 @@ describe('TopicLevelAssessmentComponent', () => {
           parameter: 1
         }
       ],
+      active: false,
+      updatedAt: 0,
       references: []
     }
     let answerRequest = []
@@ -195,6 +198,7 @@ describe('TopicLevelAssessmentComponent', () => {
   })
   it("should get the parameter level answer request", () => {
     parameter = {
+      active: false, comments: "", updatedAt: 0,
       parameterId: 1,
       parameterName: "hello",
       topic: 1,
@@ -241,10 +245,11 @@ describe('TopicLevelAssessmentComponent', () => {
   it("should call topic level is the topic input is null", () => {
 
     component.topicInput = {
-      active: false, updatedAt: 0,
+      active: false,
+     updatedAt: 0,
       topicId: 0,
       topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      parameters: [{parameterId: 0, parameterName: "", topic: 1,active: false, updatedAt:0, questions: [], references: []}],
       references: [],
       module: 1
     }
@@ -305,6 +310,8 @@ describe('TopicLevelAssessmentComponent', () => {
     let dummyParameter: ParameterStructure = {
       parameterId: 1,
       parameterName: "",
+      active: false,
+      updatedAt: 0,
       topic: 1,
       questions: [{questionId: 1, questionText: "some text", parameter: 1}],
       references: []
@@ -459,7 +466,7 @@ describe('TopicLevelAssessmentComponent', () => {
       active: false, updatedAt: 0,
       topicId: 0,
       topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [],active:false,updatedAt:12334, references: []}],
       references: [],
       module: 1
     }
@@ -483,7 +490,7 @@ describe('TopicLevelAssessmentComponent', () => {
       active: false, updatedAt: 0,
       topicId: 0,
       topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, active: false, updatedAt: 0, comments: "", questions: [], references: []}],
       references: [],
       module: 1
     }
@@ -549,7 +556,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicInput = {
       topicId: 1,
       topicName: "",
-      parameters: [{parameterId: 1, parameterName: "hello", topic: 1, references: [], questions: []}],
+      parameters: [{parameterId: 1, parameterName: "hello", topic: 1,active:false,updatedAt:0,comments:"", references: [], questions: []}],
       module: 1
     }
     component.ngOnInit()
@@ -568,7 +575,7 @@ describe('TopicLevelAssessmentComponent', () => {
       active: false, updatedAt: 0,
       topicId: 2,
       topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, questions: [], references: []}],
+      parameters: [{parameterId: 0, parameterName: "", topic: 1, active: false, updatedAt: 0, comments: "", questions: [], references: []}],
       references: [],
       module: 1
     }

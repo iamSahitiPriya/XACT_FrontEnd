@@ -17,6 +17,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatRadioModule} from "@angular/material/radio";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../../reducers/reducers";
 
 
 describe('AdminConsoleComponent', () => {
@@ -26,7 +28,7 @@ describe('AdminConsoleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminConsoleComponent ],
-      imports:[MatFormFieldModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule,CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,RouterTestingModule]
+      imports:[MatFormFieldModule,NoopAnimationsModule, FormsModule, ReactiveFormsModule,CommonModule, BrowserModule, MatSnackBarModule, MatCardModule,MatTooltipModule, HttpClientTestingModule, MatRadioModule, MatIconModule,RouterTestingModule,StoreModule.forRoot(reducers)]
     })
     .compileComponents();
   });

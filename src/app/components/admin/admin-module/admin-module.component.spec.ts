@@ -19,6 +19,8 @@ import {Observable, of, throwError} from "rxjs";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {ModuleData} from "../../../types/moduleData";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../../reducers/reducers";
 
 
 class MockAppService {
@@ -48,10 +50,11 @@ class MockAppService {
       "active": true
     }]
   moduleRequest = {
-    "categoryName": "categoryName",
+    "categoryId": 1,
     "moduleName":"moduleName",
     "active": false,
-    "comments": "comments"
+    "comments": "comments",
+    "moduleId":1
   }
 
   public getAllCategories() : Observable<CategoryResponse[]> {
@@ -59,14 +62,14 @@ class MockAppService {
   }
   public saveModule(moduleRequest:any):Observable<any>{
     if(moduleRequest.moduleName === "module"){
-      return of(moduleRequest)
+      return of(this.moduleRequest)
     }
     else{
       return throwError("Error!")
     }
   }
   public updateModule(moduleRequest:any):Observable<any>{
-    return of(moduleRequest)
+    return of(this.moduleRequest)
   }
 
 
@@ -79,7 +82,7 @@ describe('AdminModuleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminModuleComponent,SearchComponent  ],
-      imports:[HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule,MatSlideToggleModule,FormsModule,NoopAnimationsModule, MatSnackBarModule,MatInputModule],
+      imports:[HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule,MatSlideToggleModule,FormsModule,NoopAnimationsModule, MatSnackBarModule,MatInputModule,StoreModule.forRoot(reducers)],
       providers: [{provide: AppServiceService, useClass: MockAppService},MatPaginator]
     })
       .compileComponents();
@@ -93,6 +96,49 @@ describe('AdminModuleComponent', () => {
     row = {
       active: true, moduleId: -1, categoryName: "category",moduleName:"module", comments: "comments", updatedAt: 1022022
     }
+    component.masterData = of([{
+      "categoryId": 1,
+      "categoryName": "category1",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt": 23456,
+        "comments": " ",
+        "topics": [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [],
+          "references": []
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      }]
+    }, {
+      "categoryId": 3,
+      "categoryName": "category3",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": []
+    }
+    ])
+
   });
 
   it('should create', () => {
@@ -100,22 +146,10 @@ describe('AdminModuleComponent', () => {
   });
 
   it('should get master data', () => {
-    let module : ModuleData[]=[{
-      "moduleId":-1,
-      "moduleName":"moduleName",
-      "categoryName" :"category1",
-      "categoryStatus": true,
-      "categoryId":-1,
-      "active" : true,
-      "updatedAt" :  1022022,
-      "comments" : "some comments",
-    }]
+    component.ngOnInit();
     expect(component).toBeTruthy();
-    mockAppService.getAllCategories().subscribe((data) => {
-      expect(data).toBe(module)
-    })
     expect(component.moduleStructure[0].categoryName).toBe("category1");
-    expect(component.moduleStructure[0].moduleName).toBe("moduleName");
+    expect(component.moduleStructure[0].moduleName).toBe("module1");
   });
 
   it("should add a row to the table", () => {
@@ -137,9 +171,11 @@ describe('AdminModuleComponent', () => {
     component.addModuleRow()
     expect(component.isModuleAdded).toBeTruthy()
   });
+
   it("should delete row from the table on clicking the bin button", () => {
+    component.ngOnInit()
     component.deleteRow()
-    expect(component.dataSource.data.length).toBe(1)
+    expect(component.dataSource.data.length).toBe(0)
   });
   it("should save module", () => {
     let moduleRequest = of({
@@ -166,9 +202,11 @@ describe('AdminModuleComponent', () => {
     let row= {
       active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
     }
+    jest.spyOn(component,"sendDataToStore")
     component.saveModule(row)
     mockAppService.saveModule(moduleRequest).subscribe(data =>{
       expect(data).toBe(moduleRequest)
+      expect(component.sendDataToStore).toHaveBeenCalled()
     })
   });
   it("should select category on clicking edit", () => {
@@ -205,9 +243,9 @@ describe('AdminModuleComponent', () => {
       "active": true
     }]
     let row= {
-      active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
+      active: true, moduleId: 1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
     }
-
+    component.ngOnInit();
     component.updateModule(row)
     mockAppService.updateModule(row).subscribe(data =>{
       expect(data).toBe(row);

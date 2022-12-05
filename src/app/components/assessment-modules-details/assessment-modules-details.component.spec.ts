@@ -59,6 +59,8 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
+                  "updatedAt":12345,
+                  "active":false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -98,6 +100,8 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
+                  "updatedAt" : 1234,
+                  "active" : false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -218,9 +222,10 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.topics = [{
       topicId: 1,
       topicName: "hello",
+      active : false,
       parameters: [],
       module: 1,
-      references: [],updatedAt:0, active:false,
+      references: [],updatedAt:0,
     }, {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,},
       {topicId: 3, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,}]
     component.tabChanged(tabChangeEvent);

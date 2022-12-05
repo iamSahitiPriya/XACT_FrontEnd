@@ -17,6 +17,8 @@ export const setErrorMessage = createAction("Error message", props<{ error: stri
 
 export const setAverageComputedScore = createAction("Set Average Score", props<{ averageScoreDetails: TopicRatingResponse }>())
 
-export const getAllCategories = createAction("Get master data",props<{categories : CategoryResponse[]}>())
+export const getAllCategories = createAction("Get master data", props<{ categories: CategoryResponse[] }>())
 
-export const getUpdatedCategories = createAction("Get updated master data", props<{newMasterData : CategoryResponse[]}> ())
+export const getUpdatedCategories = createAction("Get updated master data", props<{ newMasterData: CategoryResponse[] }>())
+
+export const isAdmin = createAction("validate the user", props<{ isAdmin: boolean }>())

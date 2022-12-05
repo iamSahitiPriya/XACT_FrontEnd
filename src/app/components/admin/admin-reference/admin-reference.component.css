@@ -94,12 +94,12 @@
   width:86%;
 }
 
-.selectDropdown >>> .mat-form-field-flex {
+::ng-deep .selectDropdown .mat-form-field-flex {
   height: 57px;
   width: 65px;
 }
 
-.selectDropdown >>> .mat-select-arrow {
+::ng-deep .selectDropdown .mat-select-arrow {
   color: black;
   margin-top: 17%;
 }

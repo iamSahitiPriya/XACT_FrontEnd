@@ -223,5 +223,23 @@ export const data_local =
         DH_1: "Now",
         DH_2: "Next",
         DH_3: "Later"
-      }
+      },
+    ADMIN_PARAMETER:{
+      CATEGORY_SELECTION_LABEL:"Select category",
+      MODULE_SELECTION_LABEL:"Select Module",
+      TOPIC_SELECTION_LABEL:"Select Topic",
+      PARAMETER_INPUT_TEXT:"Enter Parameter Name",
+      CATEGORY:"Category",
+      MODULE:"Module",
+      TOPIC:"Topic",
+      PARAMETER:"Parameter",
+      DATE:"Date",
+      ACTIVE:"Active",
+      ACTION:"Action",
+      MODULE_NOT_FOUND:"Module Not Found",
+      TOPIC_NOT_FOUND:"Topic Not Found",
+      DUPLICATION_NAME_ERROR:"Duplicates are not allowed",
+      NO_DATA_AVAILABLE_TEXT:"No data available"
+
+    }
   }

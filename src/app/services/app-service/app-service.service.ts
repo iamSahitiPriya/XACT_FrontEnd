@@ -21,6 +21,7 @@ import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import {ParameterResponse} from "../../types/parameterResponse";
 import {TopicReference} from "../../types/topicReference";
 
 
@@ -133,14 +134,22 @@ export class AppServiceService {
   getAllCategories():Observable<CategoryResponse[]>{
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
   }
+
+
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+  }
+  saveParameter(parameterRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
   }
   saveModule(moduleRequest :any){
     return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI,moduleRequest)
   }
   updateCategory(categoryRequest:any){
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
+  }
+  updateParameter(parameterRequest:any, parameterId: number){
+    return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
   }
 
   updateModule(moduleRequest: any) {

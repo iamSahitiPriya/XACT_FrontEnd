@@ -5,7 +5,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModuleData} from "../../../types/moduleData";
 import {MatTable, MatTableDataSource} from "@angular/material/table";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
@@ -14,6 +14,9 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {MatSort} from "@angular/material/sort";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../reducers/app.states";
+import * as fromActions from "../../../actions/assessment-data.actions";
 
 @Component({
   selector: 'app-admin-module',
@@ -27,29 +30,31 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
     ]),
   ],
 })
-export class AdminModuleComponent implements OnInit, OnDestroy{
-  moduleStructure : ModuleData[];
-  displayedColumns: string[] = ['categoryName','moduleName','updatedAt','active','edit'];
+export class AdminModuleComponent implements OnInit, OnDestroy {
+  moduleStructure: ModuleData[];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
-  dataSource : MatTableDataSource<ModuleData>
+  dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
-  module : ModuleData;
+  module: ModuleData;
   isEditable: boolean;
-  categoryDetails : any[]=[];
+  categoryDetails: any[] = [];
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  masterData: Observable<CategoryResponse[]>;
 
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatTable) table: MatTable<ModuleData>
-  @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSourceArray : ModuleData[];
-  dataToDisplayed :ModuleData[];
+  dataSourceArray: ModuleData[];
+  dataToDisplayed: ModuleData[];
   selectedModule: ModuleData | null;
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.moduleStructure = []
     this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -62,13 +67,13 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.appService.getAllCategories().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.categoryDetails=data
-      data.forEach((eachCategory) => {
+    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.categoryDetails = data
+      data?.forEach((eachCategory) => {
           this.getModules(eachCategory);
         }
       )
-     this.moduleStructure.sort((a,b)=>Number(b.updatedAt) - Number(a.updatedAt));
+      this.moduleStructure.sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt));
       this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
       this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
       this.dataSourceArray = [...this.dataSource.data]
@@ -105,16 +110,24 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
   addModuleRow() {
     let newModule = {
-      moduleId: 0, categoryName: '',categoryId :0,moduleName: '', categoryStatus:true,active: true, updatedAt: Date.now(), isEdit: true, comments: ''
+      moduleId: 0,
+      categoryName: '',
+      categoryId: 0,
+      moduleName: '',
+      categoryStatus: true,
+      active: true,
+      updatedAt: Date.now(),
+      isEdit: true,
+      comments: ''
     }
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
@@ -122,21 +135,22 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.isModuleAdded = true
   }
 
-  updateModule(row :any) {
-    let categoryId=this.categoryDetails.find(cat=> cat.categoryName === row.categoryName).categoryId;
-    let moduleRequest={
-      "moduleId":row.moduleId,
-      "moduleName":row.moduleName,
+  updateModule(row: any) {
+    let categoryId = this.categoryDetails.find(cat => cat.categoryName === row.categoryName).categoryId;
+    let moduleRequest = {
+      "moduleId": row.moduleId,
+      "moduleName": row.moduleName,
       "category": categoryId,
       "active": row.active,
       "comments": row.comments
     }
-    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe( {
+    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         row.isEdit = false;
-        this.selectedModule= null;
+        this.selectedModule = null;
         this.table.renderRows()
-        this.showNotification("Your changes have been successfully updated.", 200000)
+        this.updateModuleDataToStore(_data)
+        this.showNotification("Your changes have been successfully updated.", 2000)
         this.moduleStructure = []
         this.ngOnInit()
       }, error: _error => {
@@ -145,9 +159,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     })
   }
 
-  cancelChanges(row : any) {
+  cancelChanges(row: any) {
     row.categoryName = this.module.categoryName
-    row.moduleName=this.module.moduleName
+    row.moduleName = this.module.moduleName
     row.active = this.module.active
     row.updatedAt = this.module.updatedAt
     row.comments = this.module.comments
@@ -155,7 +169,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     return row;
   }
 
-  editRow(row :any) {
+  editRow(row: any) {
 
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
@@ -163,9 +177,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     return this.selectedModule;
 
   }
+
   private showNotification(reportData: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: { message :reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
       verticalPosition: "top",
       horizontalPosition: "center"
@@ -179,10 +194,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     this.table.renderRows()
   }
 
-  saveModule(row :any) {
-    const categoryId=this.categoryDetails.find(category=> category.categoryName === row.categoryName).categoryId;
-    let moduleRequest={
-      "moduleName":row.moduleName,
+  saveModule(row: any) {
+    const categoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
+    let moduleRequest = {
+      "moduleName": row.moduleName,
       "category": categoryId,
       "active": row.active,
       "comments": row.comments
@@ -195,6 +210,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
           data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
           this.dataSource.data = data
           this.table.renderRows()
+          this.sendDataToStore(_data);
           this.moduleStructure = []
           this.ngOnInit()
         }, error: _error => {
@@ -204,4 +220,30 @@ export class AdminModuleComponent implements OnInit, OnDestroy{
     )
   }
 
+  private updateModuleDataToStore(_data: any) {
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
+    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === _data.moduleId)
+    if (index !== -1) {
+      let fetchedModules = modules?.at(index);
+      _data['topics']=fetchedModules.topics;
+      modules?.splice(index,1)
+      this.sendDataToStore(_data)
+    }
+
+  }
+
+   sendDataToStore(_data: any) {
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
+    let module = {
+      moduleId: _data.moduleId,
+      moduleName: _data.moduleName,
+      category: _data.categoryId,
+      active: _data.active,
+      updatedAt: Date.now(),
+      comments: _data.comments,
+      topics: _data.topics ? _data.topics :[]
+    }
+    modules?.push(module)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categoryDetails}))
+  }
 }

@@ -89,7 +89,9 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { AdminTopicComponent } from './components/admin/admin-topic/admin-topic.component';
+import { AdminParameterComponent } from './components/admin/admin-parameter/admin-parameter.component';
+import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
+
 import { AdminReferenceComponent } from './components/admin/admin-reference/admin-reference.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -145,6 +147,11 @@ export const appRoutes: Routes = [
       component:AdminTopicComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
+    },{
+      path:"parameter",
+      component:AdminParameterComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
     }
     ]}];
 
@@ -176,6 +183,7 @@ export const appRoutes: Routes = [
     AdminModuleComponent,
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
+    AdminParameterComponent,
     AdminTopicComponent,
     AdminReferenceComponent,
   ],
