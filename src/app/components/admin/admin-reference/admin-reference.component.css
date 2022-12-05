@@ -13,11 +13,17 @@
   background-color: transparent;
 }
 
+.content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 95%;
+}
+
 .heading {
   display: inline-block;
   text-align: left;
   padding-left: 2%;
-  font-size: 24px ;
+  font-size: 21px ;
   font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -123,14 +129,13 @@
   font-size: 15px;
 }
 
-.edit-button {
-  margin-right: 4%;
-  margin-top: 3%;
+.delete-icon {
+  padding: 1.5% 1.5% 1.5% 7%;
 }
 
 .edit-button button {
   width: 4.4rem;
-  height: 2.5rem;
+  height: 2rem;
   background: #658892 0% 0% no-repeat padding-box;
   border-radius: 8px;
   opacity: 1;
@@ -143,9 +148,9 @@
   margin: 3% 2% 0 0;
 }
 
-.save-button {
+.save-button, .update-button {
   width: 70px;
-  height: 36px;
+  height: 30px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #61828C;
   border-radius: 8px;
@@ -160,13 +165,22 @@
   margin-right: 12px;
 }
 
+.update-button {
+  width:  80px;
+}
+
 .delete-icon button {
   margin-top: 10%;
 }
 
-.save {
+.save , .edit{
   display: flex;
-  margin-top: 2.5%;
+  flex-direction: row;
+}
+
+.cancel-button button {
+  border: none;
+  background-color: transparent;
 }
 
 ::ng-deep .mat-select-disabled .mat-select-value {

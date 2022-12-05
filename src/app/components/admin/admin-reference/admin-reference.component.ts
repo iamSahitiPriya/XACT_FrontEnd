@@ -31,6 +31,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   masterData: Observable<CategoryResponse[]>
   topicReferences : any[] | TopicReference[] | undefined
   unsavedReferences : TopicReference[] | undefined
+  unsavedChanges : TopicReference
   rating : any [] = []
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -77,7 +78,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   saveTopicReference(reference: any) {
-    if(reference.referenceId === -1 && this.isRatingUnique(reference) && this.isReferenceUnique(reference) ) {
+    if(this.isRatingUnique(reference) && this.isReferenceUnique(reference) ) {
       let newReference : any= this.setReferenceRequest(reference)
       this.appService.saveTopicReference(newReference).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -89,9 +90,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
           this.showError("Data cannot be saved");
         }
       })
-    }
-    else {
-      this.updateTopicReference(reference)
     }
   }
 
@@ -132,10 +130,18 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   addMaturityReference() {
+    this.deleteUnSavedReferences()
     let reference : any = {referenceId:-1,reference:"",rating:-1,topic:this.topic.topicId,isEdit:true}
 
     this.topicReferences?.unshift(reference)
 
+  }
+
+  private deleteUnSavedReferences() {
+    if(this.topicReferences !== undefined && this.topicReferences.length !== 0) {
+      if(this.topicReferences[0].referenceId === -1)
+        this.topicReferences.splice(0,1)
+    }
   }
 
   deleteMaturityReference(reference: any) {
@@ -170,7 +176,19 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   setIsEdit(reference: any) {
-    return  reference.isEdit = true
+    reference.isEdit = true
+    this.unsavedChanges = cloneDeep(reference)
+  }
+
+  cancelChanges(reference: any) {
+    if(reference.referenceId == -1)
+      this.deleteUnSavedReferences()
+    else {
+      reference.reference = this.unsavedChanges.reference
+      reference.referenceId = this.unsavedChanges.referenceId
+      reference.rating = this.unsavedChanges.rating
+      reference.isEdit = false
+    }
   }
 
   private isRatingUnique(reference : any | TopicReference) : boolean {
@@ -205,7 +223,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
- sendReferenceToStore(data: TopicReference) {
+  sendReferenceToStore(data: TopicReference) {
     let reference : TopicReference = {
       referenceId : data.referenceId, rating : data.rating, topic:data.topic, reference:data.reference}
     let references = this.getReferenceFromTopic();
@@ -273,3 +291,4 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     })
   }
 }
+
