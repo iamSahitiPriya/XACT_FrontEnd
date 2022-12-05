@@ -53,4 +53,5 @@ export const environment = {
     }
   },
   SAVE_MODULE_URI: "/v1/admin/modules",
+  SAVE_PARAMETER_URI: "/v1/admin/parameters",
 };
