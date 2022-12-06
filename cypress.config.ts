@@ -35,7 +35,7 @@ export default defineConfig({
   responseTimeout: 10000,
   defaultCommandTimeout: 10000,
   redirectionLimit: 500,
-  watchForFileChanges: true,
+  watchForFileChanges: false,
   chromeWebSecurity: false,
 
 

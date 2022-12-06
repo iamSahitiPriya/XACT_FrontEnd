@@ -48,9 +48,14 @@ class assessmentPage {
     return cy.get('.parameterScoring')
   }
 
-  static computedMaturityScoreRating(){
-    return cy.get('app-assessment-average-rating > :nth-child(1) > :nth-child(2) > .mat-toolbar > .rating')
-  }
+  // static computedMaturityScoreRating(){
+  //   return cy.get('app-assessment-average-rating > :nth-child(1) > :nth-child(2) > .mat-toolbar > .rating')
+  // }
+
+  static computedMaturityScoreRating(index){
+      return cy.get(':nth-child('+index+') > .mat-toolbar > .rating')
+    }
+
 
   static parameter(index){
     return cy.get(':nth-child('+index+') > #questionContainer > .parameter')
@@ -67,6 +72,9 @@ class assessmentPage {
   static recomendation(index){
     return cy.get('#recommendationElement_topic'+index)
   }
+  static topicRecomendation(){
+      return cy.get('#recommendationElement_topic')
+    }
 
   static maturityScoreHeader(){
     return cy.get('.topicScoring > .mat-card')
@@ -78,6 +86,12 @@ class assessmentPage {
 
   static assessmentMaturityScoreRating(index){
     return cy.get('.topicScoring > :nth-child('+index+') > .mat-toolbar > .rating')
+  }
+ static autoSaveMessage(parameterIndex,fieldIndex){
+    return cy.get(':nth-child('+parameterIndex+') > :nth-child(2) > :nth-child('+fieldIndex+') > app-assessment-question.ng-star-inserted > :nth-child(1) > form.ng-untouched > #testForm > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix > .spinParent >.autoSaveMessage')
+  }
+ static autoSaveMessageRecomendationsTab(){
+    return cy.get('.recommendation-text > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix > .spinParent>.autoSaveMessage')
   }
 
   static topicSaveButton(){
@@ -99,8 +113,12 @@ class assessmentPage {
     return cy.get('mat-tab-header>.mat-tab-label-container>div>div>div:nth-of-type('+index+')')
   }
 
+  // static softwareEngineeringModules(index){
+  //   return cy.get('.sideBar>mat-expansion-panel:first-of-type>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
+  // }
+
   static softwareEngineeringModules(index){
-    return cy.get('.sideBar>mat-expansion-panel:first-of-type>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
+    return cy.get('.categoryModules > :nth-child('+index+')')
   }
   static productAndDesignModules(index){
     return cy.get('.sideBar>mat-expansion-panel:nth-of-type(2)>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
