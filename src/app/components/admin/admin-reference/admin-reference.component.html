@@ -5,12 +5,12 @@
 
 <div class="header">
 
-  <p class="heading">{{header}}{{topic.topicName}}</p>
+  <p class="heading" *ngIf="topic !== undefined">{{header}}{{topic.topicName}}</p>
   <span class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
     <mat-icon class="close-icon">close</mat-icon>
   </button></span>
 </div>
-<div class="content">
+<div class="content" *ngIf="isTopicLevel">
   <div class="score-card">{{scoreCard}}</div>
   <div class="reference-button">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
@@ -74,5 +74,7 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="!isTopicLevel">Parameter Level References already exists!!</div>
 
 

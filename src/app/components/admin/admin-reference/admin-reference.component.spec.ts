@@ -20,25 +20,22 @@ import {TopicReference} from "../../../types/topicReference";
 
 class MockAppService {
   saveTopicReference(reference : any) {
-    reference = {reference:"new",referenceId:-1,rating:0,topic:1}
-    if(reference.referenceId === -1)
+    if(reference.reference === "new")
       return of(reference)
     else
       return throwError("Error!")
   }
 
   updateTopicReference(referenceId:number,reference : any) {
-    reference = {reference:"new",referenceId:1,rating:0,topic:1}
     if(reference.referenceId === 1)
       return of(reference)
     else
       return throwError("Error!")
   }
 
-  deleteTopicReference(referenceId : number) {
-    let reference = {reference:"new",referenceId:1,rating:0,topic:1}
+  deleteTopicReference(referenceId : any) {
     if(referenceId === 1)
-      return of(reference)
+      return of(referenceId)
     else
       return throwError("Error!")
   }
@@ -50,8 +47,6 @@ describe('AdminReferenceComponent', () => {
   let component: AdminReferenceComponent;
   let fixture: ComponentFixture<AdminReferenceComponent>;
   let mockAppService : MockAppService
-  let topic: { categoryId: number, categoryName: string, categoryStatus: boolean, moduleId: number, moduleName: string, moduleStatus: boolean, topicId: number, topicName: string, active: boolean, updatedAt: number, comments: string, isEdit: boolean }
-
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -122,6 +117,7 @@ describe('AdminReferenceComponent', () => {
   })
 
   it('should create', () => {
+    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 
@@ -145,7 +141,7 @@ describe('AdminReferenceComponent', () => {
 
     let reference = {referenceId:-1,reference:"new",rating:1}
 
-
+    component.ngOnInit()
     component.unsavedReferences = [{referenceId:1,reference:"new reference",rating:4,topic:1}]
 
     jest.spyOn(component,"setReferenceRequest")
@@ -158,6 +154,21 @@ describe('AdminReferenceComponent', () => {
 
   });
 
+  it("should call show error method when there is an error while saving reference", () => {
+
+    component.referenceToSend = {referenceId:-1,reference:"new reference",rating:1}
+    component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,topic:1}]
+
+    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"showError")
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+
+    component.saveTopicReference(component.referenceToSend)
+
+    expect(component.showError).toHaveBeenCalled()
+
+  });
+
   it("should update topic reference", () => {
 
     let reference = {referenceId:1,reference:"new",rating:1,isEdit:true}
@@ -167,19 +178,32 @@ describe('AdminReferenceComponent', () => {
 
     jest.spyOn(component,"setReferenceRequest")
     jest.spyOn(component,"updateStore")
-    jest.spyOn(component,"updateTopicReference")
     component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
 
-    component.saveTopicReference(reference)
+    component.updateTopicReference(reference)
 
     expect(component.updateStore).toHaveBeenCalled()
+  });
+
+  it("should call show error method when there is an error while updating reference", () => {
+
+    component.referenceToSend = {referenceId:2,reference:"new",rating:1,isEdit:true}
+    component.unsavedReferences = [{referenceId:2,reference:"new",rating:4,topic:1}]
+
+    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"showError")
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+
+    component.updateTopicReference(component.referenceToSend)
+
+    expect(component.showError).toHaveBeenCalled()
   });
 
   it("should  call delete topic reference", () => {
 
     let reference = {referenceId:1,reference:"new",rating:1,isEdit:true}
 
-
+    component.ngOnInit()
     component.topicReferences = [{referenceId:1,reference:"new",rating:4,topic:1}]
 
     jest.spyOn(component,"deleteTopicReference")
@@ -188,6 +212,20 @@ describe('AdminReferenceComponent', () => {
     component.deleteMaturityReference(reference)
 
     expect(component.deleteTopicReference).toHaveBeenCalled()
+
+  });
+
+  it("should call show error method when there is an error while deleting reference", () => {
+
+    component.referenceToSend = {referenceId:2,reference:"new",rating:1,isEdit:true}
+    component.topicReferences = [{referenceId:2,reference:"new",rating:4,topic:1}]
+
+    jest.spyOn(component,"showError")
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+
+    component.deleteMaturityReference(component.referenceToSend)
+
+    expect(component.showError).toHaveBeenCalled()
 
   });
 
@@ -204,6 +242,16 @@ describe('AdminReferenceComponent', () => {
     component.deleteMaturityReference(reference)
 
     expect(component.topicReferences.length).toBe(0)
+  });
+
+  it("should delete unsaved topic reference before adding a new one", () => {
+    component.topicReferences = [{referenceId:-1,reference:"new",rating:4,topic:1}]
+
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+
+    component.addMaturityReference()
+
+    expect(component.topicReferences.length).toBe(1)
   });
 
   it("should add topic references to the topicReferences Array", () => {
@@ -236,16 +284,14 @@ describe('AdminReferenceComponent', () => {
     expect(component.getReferenceFromTopic).toHaveBeenCalled()
   });
 
-  it("should return true if the row is editable", () => {
-
-    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true}
-
-    expect(component.setIsEdit(reference)).toBeTruthy()
-  });
 
   it("should close the popup", () => {
+    component.ngOnInit()
     component.topicReferences = [{referenceId:1,reference:"new",rating:4,topic:1},{referenceId:2,reference:"new reference",rating:3,topic:1}]
     component.unsavedReferences = [{referenceId:1,reference:"new reference",rating:4,topic:1}]
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+    component.category = 1
+    component.module = 1
 
     component.close()
 
@@ -360,7 +406,7 @@ describe('AdminReferenceComponent', () => {
 
     let reference :TopicReference= {referenceId:1,reference:"new",rating:1,topic:1}
 
-
+    component.ngOnInit()
     component.categories = [{
       "categoryId": 1,
       "categoryName": "category1",
@@ -408,12 +454,14 @@ describe('AdminReferenceComponent', () => {
       "modules": []
     }
     ]
+    jest.spyOn(component,"deleteFromStore")
     component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
     component.category = 1
     component.module = 1
 
     component.deleteTopicReference(reference)
 
+    expect(component.deleteFromStore).toHaveBeenCalled()
     expect(component.categories[0].modules[0].topics[0].references.length).toBe(1)
   });
 
@@ -492,6 +540,15 @@ describe('AdminReferenceComponent', () => {
     component.disableSavedRatings()
 
     expect(component.rating[3].selected).toBeTruthy()
+  });
+
+  it("should cancel changes", () => {
+    let reference = {referenceId:1,reference:"",rating:1,isEdit:true}
+    component.unsavedChanges = {referenceId:1,reference:"new reference",rating:4,topic:1}
+
+    component.cancelChanges(reference)
+
+    expect(reference.rating).toBe(4)
   });
 
 

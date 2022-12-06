@@ -33,6 +33,8 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   unsavedReferences : TopicReference[] | undefined
   unsavedChanges : TopicReference
   rating : any [] = []
+  referenceToSend : any = {}
+  isTopicLevel : boolean
   private destroy$: Subject<void> = new Subject<void>();
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
@@ -47,18 +49,19 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.referenceToSend = {}
     this.rating = [{rating:1,selected:false},{rating:2,selected: false},{rating:3,selected: false},{rating:4,selected: false},{rating:5,selected: false}]
     this.topicReferences = []
     this.masterData.subscribe(data => {
       this.categories = data
       this.setTopicReferences()
+      this.isTopicLevel = this.isTopicLevelReference()
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
       this.disableSavedRatings()
     })
   }
 
   private closePopUp() {
-
     this.dialog.closeAll();
   }
 
@@ -79,8 +82,8 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   saveTopicReference(reference: any) {
     if(this.isRatingUnique(reference) && this.isReferenceUnique(reference) ) {
-      let newReference : any= this.setReferenceRequest(reference)
-      this.appService.saveTopicReference(newReference).pipe(takeUntil(this.destroy$)).subscribe({
+      this.referenceToSend = this.setReferenceRequest(reference)
+      this.appService.saveTopicReference(this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           reference.isEdit = false
           reference.referenceId = _data.referenceId
@@ -95,9 +98,9 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   updateTopicReference(reference: any) {
     if(this.isRatingUnique(reference) && this.isReferenceUnique(reference)) {
-      let updateReference : any = this.setReferenceRequest(reference)
-      updateReference.referenceId = reference.referenceId
-      this.appService.updateTopicReference(reference.referenceId,updateReference).pipe(takeUntil(this.destroy$)).subscribe({
+     this.referenceToSend = this.setReferenceRequest(reference)
+      this.referenceToSend.referenceId = reference.referenceId
+      this.appService.updateTopicReference(reference.referenceId,this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
         next : (_data) => {
           reference.isEdit = false
           this.updateStore(_data)
@@ -122,11 +125,12 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
   setReferenceRequest(reference: any) {
-    return {
+    this.referenceToSend =  {
       reference : reference.reference,
       rating: reference.rating-1,
       topic: this.topic.topicId
     }
+    return this.referenceToSend
   }
 
   addMaturityReference() {
@@ -234,7 +238,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   }
 
 
-  private deleteFromStore(reference: any) {
+  deleteFromStore(reference: any) {
     let references = this.getReferenceFromTopic();
     if (references !== undefined) {
       let index = references.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
@@ -285,6 +289,16 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       let rating = this.rating.find(rating => rating.rating === reference.rating)
       rating.selected = true
     })
+  }
+
+  private isTopicLevelReference() {
+    let flag : boolean = true
+    let topic = this.getSelectedTopic()
+    topic?.parameters.forEach(parameter => {
+      if(parameter.references.length !== 0)
+        flag = false
+    })
+    return flag;
   }
 }
 
