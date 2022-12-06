@@ -5,13 +5,15 @@
 
 <div class="header">
 
-  <p class="heading" *ngIf="topic !== undefined">{{header}}{{topic.topicName}}</p>
-  <span class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
+  <div class="heading" *ngIf="topic !== undefined">{{header}}{{topic.topicName}}</div>
+  <div class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
     <mat-icon class="close-icon">close</mat-icon>
-  </button></span>
+  </button></div>
 </div>
 <div class="content" *ngIf="isTopicLevel">
-  <div class="score-card">{{scoreCard}}</div>
+  <div class="score-card"><span>
+    {{scoreCard}}</span>
+  </div>
   <div class="reference-button">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
@@ -50,23 +52,28 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="reference.isEdit===true" class="save">
-        <div *ngIf="reference.referenceId === -1" class="save-reference-button">
-          <button mat-flat-button class="save-button" type="submit" (click)="saveTopicReference(reference)" [disabled]="isInputValid(reference)">Save</button>
+      <div *ngIf="reference.isEdit===true && reference.referenceId === -1" class="save">
+        <div  class="save-reference-button">
+          <button mat-flat-button class="save-button" type="submit" (click)="saveTopicReference(reference)" [disabled]="isInputValid(reference)">{{save}}</button>
         </div>
-        <div *ngIf="reference.referenceId !== -1" class="update-reference-button">
-          <button mat-flat-button class="update-button" type="submit" (click)="updateTopicReference(reference)" [disabled]="isInputValid(reference)">Update</button>
+        <div class="delete-button">
+          <button (click)="deleteUnSavedReferences()"><mat-icon id="deleteReference">delete</mat-icon></button>
         </div>
-        <div *ngIf="reference.referenceId !== -1" class="cancel-button">
+        </div>
+         <div *ngIf="reference.isEdit === true && reference.referenceId !== -1" class = update>
+        <div class="update-reference-button">
+          <button mat-flat-button class="update-button" type="submit" (click)="updateTopicReference(reference)" [disabled]="isInputValid(reference)">{{update}}</button>
+        </div>
+        <div  class="cancel-button">
           <button (click)="cancelChanges(reference)"><mat-icon>cancel</mat-icon></button>
         </div>
       </div>
 
       <div class="edit">
         <div *ngIf="reference.isEdit===false" class="edit-button">
-          <button (click)="setIsEdit(reference)">Edit</button>
+          <button (click)="setIsEdit(reference)">{{edit}}</button>
         </div>
-        <div class="delete-icon" *ngIf="reference.isEdit===false || reference.referenceId === -1">
+        <div class="delete-icon" *ngIf="reference.isEdit===false">
           <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
         </div>
       </div>
@@ -75,6 +82,6 @@
   </div>
 </div>
 
-<div *ngIf="!isTopicLevel">Parameter Level References already exists!!</div>
+<div class="message" *ngIf="isTopicLevel === false">{{parameterReferenceMessage}}</div>
 
 

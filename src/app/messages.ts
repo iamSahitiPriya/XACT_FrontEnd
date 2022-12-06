@@ -200,10 +200,10 @@ export const data_local =
         ENTER_TOPIC: "Enter topic name",
       },
       REFERENCES: {
-        HEADER: "References - Readability",
-        SCORE_CARD : "Maturity reference score card",
+        HEADER: "References - ",
+        SCORE_CARD : "Maturity Reference Score Card",
         ADD_REFERENCE_BUTTON : "Add Maturity Reference",
-
+        PARAMETER_REFERENCE_MESSAGE : "Parameter Level References already exists!!"
       },
     },
     DROPDOWN_OPTION_TEXT: {

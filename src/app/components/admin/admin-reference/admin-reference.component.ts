@@ -42,7 +42,10 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   scoreCard = data_local.ADMIN.REFERENCES.SCORE_CARD
   addReference = data_local.ADMIN.REFERENCES.ADD_REFERENCE_BUTTON
   inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
-
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
+  edit = data_local.ADMIN.EDIT
+  parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
 
   constructor(private appService: AppServiceService,public dialog: MatDialog,private store: Store<AppStates>,private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((store) => store.masterData.masterData)
@@ -56,6 +59,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       this.categories = data
       this.setTopicReferences()
       this.isTopicLevel = this.isTopicLevelReference()
+      console.log(this.isTopicLevel)
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
       this.disableSavedRatings()
     })
@@ -141,7 +145,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   }
 
-  private deleteUnSavedReferences() {
+  deleteUnSavedReferences() {
     if(this.topicReferences !== undefined && this.topicReferences.length !== 0) {
       if(this.topicReferences[0].referenceId === -1)
         this.topicReferences.splice(0,1)
@@ -151,10 +155,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   deleteMaturityReference(reference: any) {
     if(this.topicReferences !== undefined) {
       let index = this.topicReferences.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
-      if (reference.referenceId === -1) {
-        this.topicReferences.splice(index, 1)
-        return this.topicReferences;
-      }
       this.deleteTopicReference(reference)
       this.topicReferences.splice(index, 1)
     }
@@ -294,10 +294,12 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   private isTopicLevelReference() {
     let flag : boolean = true
     let topic = this.getSelectedTopic()
-    topic?.parameters.forEach(parameter => {
-      if(parameter.references.length !== 0)
-        flag = false
-    })
+    if(topic?.parameters !== undefined) {
+      topic?.parameters.forEach(parameter => {
+        if (parameter.references !== undefined && parameter.references.length !== 0)
+          flag = false
+      })
+    }
     return flag;
   }
 }
