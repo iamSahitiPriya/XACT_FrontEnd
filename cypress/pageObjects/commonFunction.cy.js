@@ -12,6 +12,12 @@ class commonFunction{
     webElementLocation.click({ force: true })
   }
 
+  static clickElement(webElementLocation,message){
+    //let element = cy.get(webElementLocation)
+    webElementLocation.click({ force: true })
+    cy.log(message)
+  }
+
   static typeInElement(webElementLocation,value) {
     webElementLocation.clear().type(value)
     if(webElementLocation.should('have.value',value)){
@@ -61,6 +67,17 @@ class commonFunction{
       assert.isNotOk(false, element+' is not visible')
     }
   }
+
+   static elementIsNotVisible(element,message){
+    if(element.should('not.be.visible')){
+      cy.log(message)
+      assert.isOk(element+' is not visible for test')
+    }else {
+      assert.isNotOk(false, element+' is visible')
+    }
+  }
+
+
   static verifyText(element,text,message){
     if(element.should('have.text',text)){
       cy.log(message)
@@ -112,6 +129,15 @@ class commonFunction{
     })
   }
 
+  static valueOfElement(element,text,message){
+
+    try{
+      element.should('have.value',text)
+      cy.log(message)
+    }catch (e) {
+      assert.fail(false, element+' does not have '+text+' as value')
+    }
+  }
 
 
 }

@@ -51,6 +51,10 @@ class landingPage {
   static OrganisationName() {
     return cy.get('.organizationName')
   }
+  static OrganisationSuggestion() {
+    return cy.get('.mat-option-text')
+  }
+
   static Domain() {
     return cy.get('.domain')
   }
@@ -65,6 +69,14 @@ class landingPage {
     //return cy.get('.mat-paginator-page-size > .mat-form-field > .mat-form-field-wrapper')
     return cy.get('.mat-paginator-page-size > .mat-form-field')
   }
+  static optionsMenu(index){
+    return cy.get(':nth-child('+index+')> .cdk-column-link > .menuButton1 > app-assessment-menu > div.ng-star-inserted')
+  }
+
+  static manageModules(){
+    return cy.get('.mat-menu-content > .mat-focus-indicator.mat-tooltip-trigger > span')
+  }
+
   static pagenation10(){
     return cy.get('#mat-option-1 > .mat-option-text')
   }
@@ -125,7 +137,7 @@ class landingPage {
     return cy.get('#mat-dialog-title-0')
   }
   static closeAssessmentPopup(){
-    return cy.get('button[id=close]')
+    return cy.get('#close')
   }
   static saveAssessmentButton(){
     return cy.get('.saveButton')
@@ -138,6 +150,14 @@ class landingPage {
 
   static configureOption(){
     return cy.get('#open-assessment > #createAssessment')
+  }
+
+  static purposeOfAssessment(){
+    return cy.get('.mat-select-placeholder')
+  }
+
+  static purposeOfAssessmentOptions(index){
+    return cy.get('mat-option:nth-child('+index+')')
   }
 
   static assessmentNameInGrid(index){
@@ -198,7 +218,8 @@ class landingPage {
     cy.wait(1000)
     landingPage.AssessmentName().type(AssessmentName)
     landingPage.OrganisationName().should('be.visible')
-    landingPage.OrganisationName().type(OrgName)
+    landingPage.OrganisationName().clear().type(OrgName)
+    landingPage.OrganisationSuggestion().click({ multiple: true })
     landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
     landingPage.Industry().should('be.visible')
@@ -220,7 +241,6 @@ class landingPage {
 
   static assessmentPopupErrorValidation(errorMessage,teamSizeFieldErrorMessage){
     landingPage.assessmentNameError().should('have.text',errorMessage)
-    landingPage.organisationNameError().should('have.text',errorMessage)
     landingPage.domainFieldError().should('have.text',errorMessage)
     landingPage.industryFieldError().should('have.text',errorMessage)
     landingPage.teamSizeFieldError().should('have.text',teamSizeFieldErrorMessage)
