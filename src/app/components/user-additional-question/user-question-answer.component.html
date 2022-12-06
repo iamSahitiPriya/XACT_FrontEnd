@@ -1,14 +1,38 @@
-<div class="additionalQuestion">
+<div class="additionalQuestion" >
 <div *ngIf="additionalQuestionCount>0">
   <div class="additionalQuestionHeading">Additional Question</div>
 
   <div class="userQuestionAnswers">
     <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
+
+      <div *ngIf="questionEditFlag === userQuestion.questionId">
+        <form>
+          <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}  </span>
+
+      <mat-form-field class="questionArea" appearance="outline" id="testForm1">
+      <textarea matInput
+                cdkTextareaAutosize
+                class="textArea1"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="1"
+                [(ngModel)]=userQuestion.question
+                maxlength="3000"></textarea>
+    </mat-form-field>
+
+
+      <mat-icon class="saveQuestionIcon"(click)="updateQuestion(userQuestion)" >done</mat-icon>
+        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
+        </form>
+      </div>
+
+      <div *ngIf="questionEditFlag !== userQuestion.questionId">
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}
+
       <div class="questionFunctions">
-      <mat-icon>edit</mat-icon>
-        <mat-icon (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
+        <mat-icon class="questionFunctionButton" (click)="editQuestionFlag(userQuestion.questionId)">edit</mat-icon>
+        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
       </div></span>
+      </div>
 
       <br>
 
@@ -17,9 +41,9 @@
       </div>
   </div>
 
-<div *ngIf="createQuestionFlag === true" >
+<div class="question" *ngIf="createQuestionFlag === true" >
   <form>
-    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}} </span>
+    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}}  </span>
     <mat-form-field class="questionArea" appearance="outline" id="testForm">
       <textarea matInput
                 cdkTextareaAutosize
@@ -27,9 +51,11 @@
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="1"
                 [(ngModel)]="questionText"
-                maxlength="10000"></textarea>
+                maxlength="3000"></textarea>
     </mat-form-field>
-    <mat-icon (click)="saveQuestion()">done</mat-icon> <mat-icon (click)="removeQuestion()">delete</mat-icon>
+
+    <mat-icon class="saveQuestionIcon" (click)="saveQuestion()">done</mat-icon> <mat-icon class="questionFunctionButton" (click)="removeQuestion()">delete</mat-icon>
+
   </form>
 </div>
 </div>

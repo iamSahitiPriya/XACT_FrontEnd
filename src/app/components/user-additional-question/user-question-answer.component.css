@@ -42,7 +42,8 @@
 }
 .questionArea {
   display: inline-flex;
-  width: 90%;
+  width: 94%;
+  padding-right: 4%;
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
   width: 100% !important;
@@ -56,4 +57,15 @@
   display: flex;
   justify-content: flex-end;
   margin-top: -25px;
+}
+textarea.mat-input-element.cdk-textarea-autosize {
+  color: #4BA1AC !important ;
+  font-size: 16px;
+}
+.questionFunctionButton{
+  color: #043D4E;
+}
+
+.saveQuestionIcon{
+  color: #6B9E78;
 }
