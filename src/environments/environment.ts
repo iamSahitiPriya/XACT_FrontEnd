@@ -28,7 +28,7 @@ export const environment = {
   ASSESSMENT_ADMIN_REPORT_URI: "/v1/reports/admin",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
-  ALL_CATEGORY_URI: "/v1/admin/categories",
+  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   UPDATE_CATEGORY_URI: "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
@@ -37,6 +37,11 @@ export const environment = {
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
+  SAVE_TOPIC_URI :"/v1/admin/topics",
+  UPDATE_TOPIC_URI : "/v1/admin/topics",
+  SAVE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
+  DELETE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
+  UPDATE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
 
   okta: {
     cookies: {
@@ -46,6 +51,8 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
-  ALL_MODULE_URI: "/v1/admin/modules",
+  SAVE_MODULE_URI: "/v1/admin/modules",
+    SAVE_PARAMETER_URI: "/v1/admin/parameters",
+  }
 
-};
+

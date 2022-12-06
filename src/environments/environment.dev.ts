@@ -28,7 +28,7 @@ export const environment = {
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   IDLE_TIMEOUT: 60,  //in sec
   TIMEOUT: 600, // 10 min
-  ALL_CATEGORY_URI: "/v1/admin/categories",
+  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
@@ -36,6 +36,13 @@ export const environment = {
   REPORT_DATA_URI:"/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   ACCOUNT_URI : "/v1/accounts",
+  SAVE_TOPIC_URI :"/v1/admin/topics",
+  UPDATE_TOPIC_URI : "/v1/admin/topics",
+  SAVE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
+  DELETE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
+  UPDATE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
+
+
   okta: {
     cookies: {
       secured: true
@@ -45,5 +52,6 @@ export const environment = {
     }
   },
   USER_ASSESSMENT_MODULE_URI: "/modules",
-  ALL_MODULE_URI: "/v1/admin/modules",
+  SAVE_MODULE_URI: "/v1/admin/modules",
+  SAVE_PARAMETER_URI: "/v1/admin/parameters",
 };

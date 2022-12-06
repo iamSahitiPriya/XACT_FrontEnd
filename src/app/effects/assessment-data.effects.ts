@@ -6,15 +6,17 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {getAssessmentData, getAssessmentId} from "../actions/assessment-data.actions";
+import {getAllCategories, getAssessmentData, getAssessmentId, isAdmin} from "../actions/assessment-data.actions";
 import {AppServiceService} from "../services/app-service/app-service.service";
 import {of} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorComponentComponent} from "../components/error-component/error-component.component";
+import {NotificationSnackbarComponent} from "../components/notification-component/notification-component.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class AssessmentDataEffects {
-  constructor(private actions: Actions, private appService: AppServiceService, private dialog: MatDialog) {
+  constructor(private actions: Actions, private appService: AppServiceService, private dialog: MatDialog, private _snackbar: MatSnackBar) {
   }
 
   getAssessments = createEffect(() => this.actions.pipe(
@@ -30,10 +32,34 @@ export class AssessmentDataEffects {
       }
     ))
   )
+
+  getCategories = createEffect(() => this.actions.pipe(
+      ofType(isAdmin),
+      switchMap((user) => {
+          return user.isAdmin ? this.appService.getAllCategories().pipe(
+            map(result => getAllCategories({categories: result})),
+            catchError(_error => {
+              this.showError("Server Error")
+              return of()
+            })
+          ) : of()
+        }
+      )
+    )
+  )
   public errorHandler = () => {
     const openConfirm = this.dialog.open(ErrorComponentComponent, {backdropClass: 'backdrop-bg-opaque'});
     openConfirm.componentInstance.headerText = "Error";
     openConfirm.componentInstance.bodyText = "We are facing problem accessing this assessment.";
+  }
+
+  showError(message: string) {
+    this._snackbar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    })
   }
 
 }

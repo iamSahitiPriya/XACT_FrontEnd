@@ -5,15 +5,14 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
@@ -44,8 +43,8 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
   }
 
   @Input()
@@ -83,7 +82,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
 
   }
 
-  form: FormGroup
+  form: UntypedFormGroup
 
   parameterLevelRecommendation: ParameterRecommendation = {
     assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined

@@ -96,6 +96,12 @@ export const data_local =
         TITLE: "Manage modules",
         TOOLTIP: "Click to select category/modules"
       },
+      DELETE_ASSESSMENT: {
+        TITLE: "Delete assessment",
+        TOOLTIP: "Click to delete assessment",
+        DIALOG: "Assessment will be deleted, Are you sure ?",
+        ERROR_MESSAGE: "Error in deleting assessment"
+      },
       CONFIRMATION_POPUP_TEXT: "Are you sure? You will not be able to edit assessment again without reopening it.",
       LAST_SAVE_STATUS_TEXT: "Last saved at ",
       IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
@@ -150,36 +156,90 @@ export const data_local =
       TOOLTIP: "Click to View Chart Summary",
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },
+      ADMIN: {
+        DATA_NOT_FOUND: "No data matching the filter",
+        SERVER_ERROR_MESSAGE: "Some error occurred",
+        UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
+        INPUT_ERROR_MESSAGE: "Please fill the field",
+        DATE: "Date",
+        ACTIVE: "Active",
+        ACTION: "Action",
+        EDIT: "Edit",
+        SAVE: "Save",
+        UPDATE: "Update",
+        ERROR: "No Special Characters allowed",
 
-    ADMIN_DASHBOARD_LABEL:{
-      TOTAL_ASSESSMENT:"Total Assessments",
-      TOTAL_ACTIVE:"Assessments in Progress",
-      TOTAL_COMPLETE:"Completed Assessments",
-      DOWNLOAD_REPORT:"Download Report",
-      DASHBOARD_TITLE:"Dashboard",
-      DOWNLOAD_REPORT_LABEL:"Click to download report",
-      DROPDOWN_LABEL : "Click to select the days range",
-      ERROR_MESSAGE: "Error in processing request.",
-      APPLY_BUTTON_TEXT : "Apply",
-      TOTAL_SUBTEXT : "Total:",
-      CUSTOM_DATE_ERROR_MESSAGE : "Select a date range within 2 years"
-    },
-    DROPDOWN_OPTION_TEXT: {
-      LAST_WEEK: "Last 7 Days",
-      LAST_MONTH: "Last 30 Days",
-      LAST_QUARTER: "Last 90 Days",
-      LAST_YEAR: "Last 365 Days"
-    },
-    RECOMMENDATION_TEXT: {
-      IMPACT_LABEL: "Impact",
-      EFFORT: "Effort",
-      DELIVERY_HORIZON: "Delivery Horizon",
-      DELETE: "Delete",
-      IMPACT_1: "High",
-      IMPACT_2: "Medium",
-      IMPACT_3: "Low",
-      DH_1: "Now",
-      DH_2: "Next",
-      DH_3: "Later"
+        DASHBOARD: {
+          TOTAL_ASSESSMENT: "Total Assessments",
+          TOTAL_ACTIVE: "Assessments in Progress",
+          TOTAL_COMPLETE: "Completed Assessments",
+          DOWNLOAD_REPORT: "Download Report",
+          DASHBOARD_TITLE: "Dashboard",
+          DOWNLOAD_REPORT_LABEL: "Click to download report",
+          DROPDOWN_LABEL: "Click to select the days range",
+          ERROR_MESSAGE: "Error in processing request.",
+          APPLY_BUTTON_TEXT: "Apply",
+          TOTAL_SUBTEXT: "Total:",
+          CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
+        },
+        CATEGORY: {
+          CATEGORY: "Category",
+          DUPLICATE_CATEGORY_ERROR_MESSAGE: "No duplicate categories are allowed",
+          SELECT_CATEGORY: "Select Category",
+          ADD_CATEGORY: "Add Category"
+
+        },
+        MODULE: {
+          MODULE: "Module",
+          SELECT_MODULE: "Select Module",
+        },
+        TOPIC: {
+          DUPLICATE_TOPIC_ERROR_MESSAGE: "No duplicate topics are allowed",
+          ADD_TOPIC: "Add Topic",
+          TOPIC: "Topic",
+          ENTER_TOPIC: "Enter topic name",
+        },
+        REFERENCES: {
+          HEADER: "References - Readability",
+          SCORE_CARD : "Maturity reference score card",
+          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
+
+        },
+      },
+      DROPDOWN_OPTION_TEXT: {
+        LAST_WEEK: "Last 7 Days",
+        LAST_MONTH: "Last 30 Days",
+        LAST_QUARTER: "Last 90 Days",
+        LAST_YEAR: "Last 365 Days"
+      },
+      RECOMMENDATION_TEXT: {
+        IMPACT_LABEL: "Impact",
+        EFFORT: "Effort",
+        DELIVERY_HORIZON: "Delivery Horizon",
+        DELETE: "Delete",
+        IMPACT_1: "High",
+        IMPACT_2: "Medium",
+        IMPACT_3: "Low",
+        DH_1: "Now",
+        DH_2: "Next",
+        DH_3: "Later"
+      },
+    ADMIN_PARAMETER:{
+      CATEGORY_SELECTION_LABEL:"Select category",
+      MODULE_SELECTION_LABEL:"Select Module",
+      TOPIC_SELECTION_LABEL:"Select Topic",
+      PARAMETER_INPUT_TEXT:"Enter Parameter Name",
+      CATEGORY:"Category",
+      MODULE:"Module",
+      TOPIC:"Topic",
+      PARAMETER:"Parameter",
+      DATE:"Date",
+      ACTIVE:"Active",
+      ACTION:"Action",
+      MODULE_NOT_FOUND:"Module Not Found",
+      TOPIC_NOT_FOUND:"Topic Not Found",
+      DUPLICATION_NAME_ERROR:"Duplicates are not allowed",
+      NO_DATA_AVAILABLE_TEXT:"No data available"
+
     }
-  };
+  }

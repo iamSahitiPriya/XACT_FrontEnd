@@ -1,3 +1,7 @@
+/*
+ *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
 .table{
   width:90%;
 }
@@ -41,7 +45,8 @@ td.category {
 .moduleActive {
   padding-right: 4em;
 }
-div.category {
+div.module {
+  margin-top: 16px;
   box-shadow: 0 5px 25px #52575d1a;
 }
 
@@ -216,13 +221,12 @@ tr.eachRow {
 .mat-slide-toggle.mat-disabled {
   opacity: 1!important;
 }
-app-search >>> mat-form-field.searchBar {
-  width: 80%;
-  margin-left: 27%;
+.admin-searchBar {
+  width: 75%;
+  padding-left: 27%;
   margin-bottom: 24px;
-  box-shadow: 0 8px 10px #0000001a;
-  opacity: 1;
 }
+
 .selectionBox{
   width:62%;
   margin-top: 22px;

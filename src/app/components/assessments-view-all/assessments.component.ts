@@ -27,7 +27,7 @@ let valueEmitter = new BehaviorSubject<AssessmentStructure[]>(assessments)
 
 export class AssessmentsComponent implements OnInit, OnDestroy {
 
-  hideTooltip:boolean = false;
+  hideTooltip: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -37,17 +37,18 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",
-    assessmentPurpose:"",
+    assessmentPurpose: "",
     assessmentStatus: "",
     domain: "",
-    assessmentState:"",
+    assessmentState: "",
     industry: "",
     organisationName: "",
     parameterRatingAndRecommendation: [],
     teamSize: undefined,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   };
 
   homePageTitle = data_local.HOME.TITLE;
@@ -91,7 +92,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
   }
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
-  columnsToDisplay:string[] = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt','link'];
+  columnsToDisplay: string[] = ['assessmentName', 'organisationName', 'assessmentStatus', 'updatedAt', 'link'];
   assessmentTable: string = "assessmentTable";
 
 
@@ -108,8 +109,8 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  navigation(drafted: string,assessmentId : number) {
-     drafted==="inProgress" ? this.router.navigateByUrl("assessment/"+assessmentId,{state:{type:'table'}}):this.router.navigateByUrl("assessmentModule/"+assessmentId, {state:{type:'table'}});
+  navigation(drafted: string, assessmentId: number) {
+    drafted === "inProgress" ? this.router.navigateByUrl("assessment/" + assessmentId, {state: {type: 'table'}}) : this.router.navigateByUrl("assessmentModule/" + assessmentId, {state: {type: 'table'}});
 
   }
 

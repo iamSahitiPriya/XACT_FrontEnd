@@ -2,7 +2,6 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .textArea {
   width: 99%;
@@ -31,11 +30,6 @@ textArea.mat-input-element {
   caret-color: #45A0AC !important;
 }
 
-::ng-deep .topicAssessment {
-  overflow-y: scroll !important;
-}
-
-
 .recommendation {
   margin-top: 13px;
   margin-right: 50px;
@@ -45,11 +39,6 @@ textArea.mat-input-element {
   border-left: 1px solid #FFFFFF;
 }
 
-.plusIcon {
-  margin-left: 78%;
-  background-color: unset;
-  border: none;
-}
 
 .deleteIcon {
   background-color: #043D4E;
@@ -123,6 +112,7 @@ textArea.mat-input-element {
 .others {
   display: flex;
   flex-direction: row;
+  margin-top: 2%;
 }
 .loader {
   border: 2px solid #f3f3f3;

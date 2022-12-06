@@ -1,12 +1,18 @@
+<!--
+  ~  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
 <div class="row">
-  <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']" class="col-md-9"></app-search>
-  <div class="col-md-3 buttonColumn">
+  <div class="col-md-9">
+  <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']" class="admin-searchBar"></app-search>
+  </div>
+    <div class="col-md-3 buttonColumn">
     <button mat-flat-button class="button1" (click)="addModuleRow()">
       Add Module
     </button>
   </div>
 </div>
-<div class="mat-elevation-z8 category">
+<div class="mat-elevation-z8 module">
   <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
 
     <ng-container matColumnDef="categoryName">
@@ -19,12 +25,15 @@
         <span *ngIf="row.isEdit || selectedModule===row">
          <mat-form-field appearance="outline" class="selectionBox">
            <mat-label>Select Category</mat-label>
-  <mat-select [(ngModel)]="row.categoryName">
-    <mat-option *ngFor="let category of categoryNames"  [value]="category.categoryName"
+  <mat-select [(ngModel)]="row.categoryName" required>
+    <mat-option *ngFor="let category of categoryDetails"  [value]="category.categoryName"
                 [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
       {{category.categoryName}}
     </mat-option>
   </mat-select>
+           <mat-error>
+             {{mandatoryFieldText}}
+           </mat-error>
 </mat-form-field>
         </span>
          </td>
@@ -82,7 +91,7 @@
         </span>
         <span *ngIf="selectedModule===row">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateModule(row)" [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
+                (click)="updateModule(row)" [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
                                                                        src="../../assets/closeIcon/closeIcon.svg"
                                                                        alt="close icon" class="closeIcon"/></button>

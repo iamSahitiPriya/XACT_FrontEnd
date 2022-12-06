@@ -18,7 +18,7 @@ export class SearchComponent {
   @Input()
   dataSource!: MatTableDataSource<any>
 
-  columnName : string [] = []
+  // columnName : string [] = []
 
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
 
@@ -29,9 +29,9 @@ export class SearchComponent {
 
   searchAssessments() {
     const filterValue = document.getElementById("search") as HTMLInputElement;
-    this.dataSource.filteredData.forEach((element) => {
-      this.columnName = Object.keys(element)
-    })
+    // this.dataSource.filteredData.forEach((element) => {
+    //   this.columnName = Object.keys(element)
+    // })
     let firstColumnFilter = ""
     let flag = false
     this.dataSource.filterPredicate = (d: any, filter) => {

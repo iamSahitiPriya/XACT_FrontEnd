@@ -5,7 +5,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -13,8 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
@@ -43,8 +42,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
   }
 
   @Input()
@@ -70,7 +69,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   recommendationSample: TopicLevelRecommendation = {
     recommendationId: undefined,

@@ -8,12 +8,18 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
 import {AssessmentStructure} from "../../types/assessmentStructure";
-import cloneDeep from "lodash/cloneDeep";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {data_local} from "../../messages";
@@ -31,14 +37,14 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
-  createAssessmentForm: FormGroup;
+  createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
-  orgListLoader:boolean = false;
+  orgListLoader: boolean = false;
   loading: boolean;
   re = /^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/;
   emailTextField: string;
-  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
+  selected = new UntypedFormControl('valid', [Validators.required, Validators.pattern('valid')]);
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -71,27 +77,25 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
   purposeOfAssessment = [{
-    value:'Internal Assessment'
-  },{value:'Client Assessment'},{value:'Just Exploring'}]
+    value: 'Internal Assessment'
+  }, {value: 'Client Assessment'}, {value: 'Just Exploring'}]
 
 
-  options : Responses ={accounts:[{name:"", industry:""}]};
+  options: Responses = {accounts: [{name: "", industry: ""}]};
 
 
   filteredOptions: Observable<string[]>;
   result: OrganisationResponse[];
   previousOrgPattern = "$";
-  accounts:string[];
+  accounts: string[];
 
   @Input()
   assessment: AssessmentStructure;
   assessmentCopy: AssessmentStructure;
 
 
-
-
   constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
-              private formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
+              private formBuilder: UntypedFormBuilder, private _snackBar: MatSnackBar) {
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -100,8 +104,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   public OrganizationNameValidation = {
     'myControl': [
-      { type: 'invalidAutocompleteString', message: this.organisationValidationText },
-      { type: 'required', message: this.mandatoryFieldText }
+      {type: 'invalidAutocompleteString', message: this.organisationValidationText},
+      {type: 'required', message: this.mandatoryFieldText}
     ]
   }
 
@@ -110,7 +114,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       {
         selected: ['', Validators.required],
         assessmentNameValidator: ['', Validators.required],
-        organizationNameValidator:['',Validators.required],
+        organizationNameValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
@@ -119,10 +123,10 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     )
     this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
-    this.assessmentCopy = cloneDeep(this.assessment);
+    this.assessmentCopy = Object.assign({}, this.assessment)
     if (this.assessment.users !== undefined) {
       this.emails = this.assessment.users;
-      this.assessmentCopy = cloneDeep(this.assessment);
+      this.assessmentCopy = Object.assign({}, this.assessment)
     }
 
   }
@@ -141,25 +145,16 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         }
       })
     } else {
-      this.showFormError("Please fill in all the required fields correctly.");
+      this.showError("Please fill in all the required fields correctly.");
     }
   }
 
-  private showError(message:string) {
+  showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
-    })
-  }
-
-  private showFormError(message:string) {
-    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -197,8 +192,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
           this.showError("Server error.");
         }
       })
-    } else{
-      this.showFormError("Please fill in all the required fields correctly ");
+    } else {
+      this.showError("Please fill in all the required fields correctly ");
     }
   }
 
@@ -228,14 +223,14 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   resetAssessment() {
-      this.assessment.industry = this.assessmentCopy.industry;
-      this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
-      this.assessment.assessmentName = this.assessmentCopy.assessmentName;
-      this.assessment.domain = this.assessmentCopy.domain;
-      this.assessment.industry = this.assessmentCopy.industry;
-      this.assessment.teamSize = this.assessmentCopy.teamSize;
-      this.assessment.organisationName = this.assessmentCopy.organisationName;
-      this.assessment.users = this.assessmentCopy.users;
+    this.assessment.industry = this.assessmentCopy.industry;
+    this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
+    this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+    this.assessment.domain = this.assessmentCopy.domain;
+    this.assessment.industry = this.assessmentCopy.industry;
+    this.assessment.teamSize = this.assessmentCopy.teamSize;
+    this.assessment.organisationName = this.assessmentCopy.organisationName;
+    this.assessment.users = this.assessmentCopy.users;
 
 
   }
@@ -282,66 +277,64 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   onOrganisationValueChange() {
-    if (this.assessment.organisationName.length >= 2 && !(this.assessment.organisationName.includes(this.previousOrgPattern)) ) {
-      this.previousOrgPattern=this.assessment.organisationName;
-      this.orgListLoader =true;
+    if (this.assessment.organisationName.length >= 2 && !(this.assessment.organisationName.includes(this.previousOrgPattern))) {
+      this.previousOrgPattern = this.assessment.organisationName;
+      this.orgListLoader = true;
       this.appService.getOrganizationName(this.assessment.organisationName).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.options.accounts = _data;
           this.filterOptions();
-          this.orgListLoader=false;
+          this.orgListLoader = false;
         }
       })
-    }
-    else if(this.assessment.organisationName.length <2){
-      this.previousOrgPattern="$"
-      this.accounts=[];
-      this.options.accounts=[];
+    } else if (this.assessment.organisationName.length < 2) {
+      this.previousOrgPattern = "$"
+      this.accounts = [];
+      this.options.accounts = [];
       this.filterOptions();
       this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
-    }
-    else{
-      this.filterOptions();
     }
   }
 
 
-
   filterOptions() {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
-    this.filteredOptions= this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
+    this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
       map(value => this.filterOrganisationName(this.assessment.organisationName || ''))
     );
   }
 
-   filterOrganisationName(value : string): string[] {
+  filterOrganisationName(value: string): string[] {
     const filterValue = value.toLowerCase();
-     this.accounts = [];
+    this.accounts = [];
     if (this.options.accounts !== undefined) {
-      this.options.accounts.forEach(account => {this.accounts.push(account.name)})
-      this.accounts=this.accounts.filter(option =>option.toLowerCase().includes(filterValue));
-      if(this.accounts.length === 0 && this.assessment.organisationName.length>=2){
-        this.accounts=[this.organisationValidationText]
+      this.options.accounts.forEach(account => {
+        this.accounts.push(account.name)
+      })
+      this.accounts = this.accounts.filter(option => option.toLowerCase().includes(filterValue));
+      if (this.accounts.length === 0 && this.assessment.organisationName.length >= 2) {
+        this.accounts = [this.organisationValidationText]
       }
     }
     return this.accounts;
   }
 
-   autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
-      let flag : boolean = false;
+  autocompleteStringValidator(validOptions: OrganisationResponse[]): ValidatorFn {
+    let flag: boolean = false;
     return (control: AbstractControl): { [key: string]: any } | null => {
       validOptions.forEach(account => {
         if (account.name == control.value) {
           flag = true
-        }})
-      return flag ? null : { 'invalidAutocompleteString': { value: control.value } }
+        }
+      })
+      return flag ? null : {'invalidAutocompleteString': {value: control.value}}
     }
   }
 
   selectOrganisationName(organisationName: string) {
-    this.options.accounts.forEach(account =>{
-      if(account.name == organisationName){
+    this.options.accounts.forEach(account => {
+      if (account.name == organisationName) {
         this.assessment.industry = account.industry
       }
     })

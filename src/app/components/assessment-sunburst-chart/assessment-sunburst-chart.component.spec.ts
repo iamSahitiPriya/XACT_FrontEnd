@@ -18,7 +18,9 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule} from "@angular/forms";
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {HttpClient, HttpHandler} from "@angular/common/http";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -43,8 +45,15 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AssessmentSunburstChartComponent ],
-      imports: [ FormsModule,MatFormFieldModule,MatDividerModule,MatToolbarModule, MatButtonModule ,MatSelectModule, MatCardModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)]
+      imports: [ FormsModule,MatFormFieldModule,MatDividerModule,MatToolbarModule, MatButtonModule ,MatSelectModule, MatCardModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)],
+      providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
+        {
+          provide: AppServiceService,
+          useClass: MockAppService
+        },
+      ]
     })
+
     .compileComponents();
   });
 
@@ -283,8 +292,7 @@ describe('AssessmentSunburstChartComponent', () => {
   })
 
   it("should fetch the answers from the ngrx store", () => {
-    jest.spyOn(component,'getDataAndSunBurstChart');
-    component.data = { name:"project",children:[{
+    let chartData = { name:"project",children:[{
         name:"ass1",rating:3,children:[{
           name:"ass2",rating:2,children:[{
             name:"ass3",rating:3,children:[{
@@ -293,10 +301,11 @@ describe('AssessmentSunburstChartComponent', () => {
           }]
         }]
       }]}
-    component.ngOnInit();
-    expect(component.getDataAndSunBurstChart).toBeCalled();
-    mockAppService.getReportData(1).subscribe(data =>{
-      expect(data).toBe(component.data)
+    component.getDataAndSunBurstChart();
+    jest.spyOn(component,'drawSunBurstChart')
+    mockAppService.getReportData(1).subscribe((data) =>{
+      expect(data).toBe(chartData)
+      expect(component.drawSunBurstChart).toBeCalled();
     })
   })
 

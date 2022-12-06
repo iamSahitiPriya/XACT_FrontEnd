@@ -15,7 +15,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 
@@ -35,7 +35,12 @@ describe('AssessmentQuestionComponent', () => {
 
   class MockAppService {
     public saveNotes(assessmentNotes: AssessmentNotes) {
-      return of(assessmentNotes)
+      if(assessmentNotes.notes!="error text"){
+        return of(assessmentNotes)
+      }
+      else {
+        return throwError("Error!")
+      }
     }
   }
 
@@ -74,14 +79,15 @@ describe('AssessmentQuestionComponent', () => {
       assessmentId: 0,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -108,7 +114,7 @@ describe('AssessmentQuestionComponent', () => {
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
     let assessmentNotes: AssessmentNotes = {
-      assessmentId: 0, questionId: undefined, notes: undefined
+      assessmentId: 1, questionId: undefined, notes: undefined
     };
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -123,16 +129,17 @@ describe('AssessmentQuestionComponent', () => {
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -174,14 +181,15 @@ describe('AssessmentQuestionComponent', () => {
       assessmentId: 0,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [],
 
       topicRatingAndRecommendation: [{
@@ -213,7 +221,37 @@ describe('AssessmentQuestionComponent', () => {
 
     mockAppService.saveNotes(assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
+      expect(component.answerResponse.answerResponseList.length).toBe(1)
     })
-    expect(component.answerResponse.answerResponseList.length).toBe(1)
+  });
+  it("should throw error when notes cannot be saved", async () => {
+    jest.spyOn(component,'showError')
+    component.showError("message")
+    expect(component.showError).toHaveBeenCalled()
+  });
+
+  it("should not save answer and throw error", () => {
+    let assNotes : AssessmentNotes = {
+      assessmentId: 0, notes: "error text", questionId: 0, updatedAt: 0
+
+    }
+    jest.spyOn(component,'saveNotes')
+    component.saveNotes(assNotes)
+    jest.spyOn(component,"showError")
+
+
+    mockAppService.saveNotes(assNotes).subscribe(data => {
+        expect(data).toBeUndefined()},
+      error => {
+        expect(component.showError).toHaveBeenCalled()
+        expect(error).toBe(new Error("Error!"))
+      })
+  })
+
+  it("should show error", () => {
+    const message = "Data cannot be saved"
+    jest.spyOn(component, "showError")
+    component.showError(message)
+    expect(component.showError).toHaveBeenCalled()
   });
 });

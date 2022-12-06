@@ -219,11 +219,6 @@ div.expansion_color:nth-of-type(5n + 1) {
   display: none;
 }
 
-.parameterHeading {
-  background-color: #45A0AC1D;
-  height: 10%;
-}
-
 .sideBar {
   height: 640px;
   width: 288px;
@@ -274,7 +269,6 @@ div.expansion_color:nth-of-type(5n + 1) {
     font-size: 13px;
     padding: -1px;
   }
-
 
 }
 

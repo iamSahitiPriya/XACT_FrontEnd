@@ -9,14 +9,13 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Notes} from "../../types/answerRequest";
 import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {FormBuilder} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
@@ -62,8 +61,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   private savedAnswer: UpdatedStatus = {assessmentId: 0, status: ""};
   private cloneAnswerResponse1: AssessmentStructure;
 
-  constructor(private appService: AppServiceService, private _fb: FormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularAnswer = debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
 
   }
@@ -107,7 +106,11 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
     this.answerNote.answer = this.answerInput.answer
     this.questionId = this.assessmentNotes.questionId
     this.autoSave = "Auto Saved"
-    this.appService.saveNotes(this.assessmentNotes).pipe(takeUntil(this.destroy$)).subscribe({
+    this.saveNotes(this.assessmentNotes);
+  }
+
+  saveNotes(assessmentNotes:AssessmentNotes){
+    this.appService.saveNotes(assessmentNotes).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(this.assessmentNotes);
         this.questionId = -1

@@ -36,7 +36,7 @@ import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessmen
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(1),
       componentInstance: jest.fn()
     }
   }
@@ -85,7 +85,8 @@ describe('AssessmentHeaderComponent', () => {
     teamSize: 10,
     topicRatingAndRecommendation: [],
     updatedAt: 0,
-    users: []
+    users: [],
+    owner:false
   }
 
   beforeEach(async () => {
@@ -128,6 +129,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -165,6 +167,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "IT",
       teamSize: 2,
       users: [],
+      owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: []
@@ -199,6 +202,7 @@ describe('AssessmentHeaderComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -223,5 +227,11 @@ describe('AssessmentHeaderComponent', () => {
     expect(component.assessment.assessmentStatus).toBe("Completed");
   });
 
+  it('should be able to finish assessment after clicking on close button', () => {
+    jest.spyOn(component, 'finishAssessment')
+    dialog.open();
+    component.confirmFinishAssessmentAction();
+    expect(component.finishAssessment).toBeCalled();
+  })
 
 });

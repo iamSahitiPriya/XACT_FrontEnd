@@ -43,8 +43,8 @@ class MockAppService {
     }
   }
 
-  deleteTopicRecommendation(assessmentId : number, topicId : number , recommendation : TopicLevelRecommendation) {
-    if(recommendation !== undefined)
+  deleteTopicRecommendation(assessmentId : number, topicId : number , recommendationId : number) {
+    if(recommendationId !== 0)
       return of(true)
     else
       return throwError("Error!")
@@ -88,13 +88,14 @@ describe('RecommendationComponent', () => {
       teamSize: 0,
       assessmentState:"inProgress",
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
+        topicId: 1, rating: 2, topicLevelRecommendation: [
           {
             recommendationId: 1,
             recommendation: "some text",
@@ -150,6 +151,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -207,6 +209,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -265,6 +268,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -339,6 +343,29 @@ describe('RecommendationComponent', () => {
     expect(component.topicRecommendationArray.length).toBe(0);
   })
 
+  it('should not delete recommendation and throw error', () => {
+    let recommendation = {
+      recommendationId: 0,
+      recommendation: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some dummy text"
+    }
+
+    component.ngOnInit()
+    component.deleteTemplate(recommendation);
+    jest.spyOn(component,'deleteRecommendationTemplate')
+    jest.spyOn(component,'showError')
+    component.deleteRecommendationTemplate(recommendation,0)
+
+
+    mockAppService.deleteTopicRecommendation(1,1,0).subscribe(() => {
+    }, error => {
+      expect(component.showError).toHaveBeenCalled()
+    })
+
+  })
+
   it('should be able to enable the fields when recommendationId is defined', () => {
     let recommendationId: number | undefined;
     let value: boolean;
@@ -379,6 +406,7 @@ describe('RecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

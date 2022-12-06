@@ -13,7 +13,7 @@
           <span>{{username}}</span>
         </div>
         <ul class="dropdown-menu menu">
-          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin']" *ngIf="isRoleAdmin">
+          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin/dashboard']" *ngIf="isRoleAdmin">
             <mat-icon>supervisor_account</mat-icon>
             <span class="li-text">Admin Console</span></a></li>
 
@@ -33,7 +33,7 @@
             <span class="li-text">{{feedback}}</span></a></li>
 
 
-          <li><a class="dropdown-item  item" (click)="signOut()">
+          <li><a id="signout" class="dropdown-item  item" (click)="signOut()">
             <mat-icon>exit_to_app</mat-icon>
             <span class="li-text">{{logout}}</span></a></li>
         </ul>

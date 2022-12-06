@@ -8,8 +8,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
@@ -17,7 +16,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
@@ -48,7 +47,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   @Input()
   parameterIndex: number;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   autoSave : string;
   recommendationId:number
 
@@ -72,8 +71,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.parameterRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.parameterRecommendationResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
   }
 
