@@ -116,12 +116,6 @@
   position: relative;
 }
 
-/*.selectDropdown .mat-form-field-appearance-outline .mat-form-field-flex {*/
-/*  padding : 0 0.75em 4.5em 0.75em;*/
-/*  margin-top: -0.25em;*/
-/*  position: relative;*/
-/*}*/
-
 ::ng-deep .selectDropdown .mat-select-arrow {
   color: black;
   margin-top: 17%;
