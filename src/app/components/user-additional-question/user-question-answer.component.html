@@ -20,17 +20,17 @@
     </mat-form-field>
 
 
-      <mat-icon class="saveQuestionIcon"(click)="updateQuestion(userQuestion)" >done</mat-icon>
-        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
+      <mat-icon class="saveQuestionIcon"(click)="updateQuestion(userQuestion)" matTooltip="update">done</mat-icon>
+        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="delete">delete</mat-icon>
         </form>
       </div>
 
       <div *ngIf="questionEditFlag !== userQuestion.questionId">
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}
 
-      <div class="questionFunctions">
-        <mat-icon class="questionFunctionButton" (click)="editQuestionFlag(userQuestion.questionId)">edit</mat-icon>
-        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)">delete</mat-icon>
+      <div class="questionFunctions" >
+        <mat-icon class="questionFunctionButton" (click)="editQuestionFlag(userQuestion.questionId)" matTooltip="edit">edit</mat-icon>
+        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="delete">delete</mat-icon>
       </div></span>
       </div>
 
@@ -54,15 +54,14 @@
                 maxlength="3000"></textarea>
     </mat-form-field>
 
-    <mat-icon class="saveQuestionIcon" (click)="saveQuestion()">done</mat-icon> <mat-icon class="questionFunctionButton" (click)="removeQuestion()">delete</mat-icon>
+    <mat-icon id="saveQuestion" class="saveQuestionIcon" (click)="saveQuestion()" matTooltip="save">done</mat-icon> <mat-icon class="questionFunctionButton" (click)="removeQuestion()" matTooltip="delete">delete</mat-icon>
 
   </form>
 </div>
 </div>
 </div>
 
-<button (click)="generateQuestion()"
-        class="addQuestion button1"  id="addQuestionBox" [disabled]="createQuestionFlag===true">
+<button (click)="generateQuestion()" class="addQuestion button1"  id="addQuestionBox" [disabled]="assessmentStatus ==='Completed' || editFlag">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
     id="addQuestion"> Add new question </span>

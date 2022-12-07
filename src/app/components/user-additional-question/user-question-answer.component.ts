@@ -11,6 +11,7 @@ import {AssessmentState} from "../../reducers/app.states";
 import * as fromReducer from "../../reducers/assessment.reducer";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 let assessmentData = [{}]
 @Component({
   selector: 'app-user-question-answer',
@@ -42,6 +43,7 @@ export class UserQuestionAnswerComponent implements OnInit{
 
 
   questionEditFlag:number;
+  editFlag:boolean = false;
 
   userQuestion: UserQuestion = {
     question: ""
@@ -78,27 +80,37 @@ export class UserQuestionAnswerComponent implements OnInit{
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
 
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
+    })
+  }
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
+
   saveQuestion() {
     this.userQuestion.question = this.questionText;
-    this.appService.saveUserQuestion(this.userQuestion, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          assessmentData.push(this.userQuestion);
-          this.createQuestionFlag = false;
-          this.userQuestionResponse = _data;
-          this.sendAnswer(this.userQuestionResponse)
-          this.updateDataSavedStatus()
-          this.questionText = ""
-          this.userQuestionList.push(this.userQuestionResponse)
+    if(this.userQuestion.question.length>0) {
+      this.appService.saveUserQuestion(this.userQuestion, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            assessmentData.push(this.userQuestion);
+            this.createQuestionFlag = false;
+            this.userQuestionResponse = _data;
+            this.sendUserQuestionAnswer(this.userQuestionResponse)
+            this.updateDataSavedStatus()
+            this.questionText = ""
 
-        }, error: _error => {
-          // this.showError("Data cannot be saved");
+          }, error: _error => {
+            this.showError(this.errorMessagePopUp);
+          }
         }
-      }
-    )
+      )
+    }
 
   }
 
@@ -113,43 +125,45 @@ export class UserQuestionAnswerComponent implements OnInit{
   }
 
   deleteUserQuestion(questionId: any) {
-    this.appService.deleteUserQuestion(this.assessmentId,questionId).pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.userQuestionList = this.userQuestionList.filter(eachQuestion => eachQuestion.questionId !== questionId)
-      this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
-
-      this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachQuestion => eachQuestion.questionId !== questionId)
-
-      this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
-
+    this.appService.deleteUserQuestion(this.assessmentId,questionId).pipe(takeUntil(this.destroy$)).subscribe( {next:() => {
+      this.removeUserQuestion(questionId)
       this.updateDataSavedStatus();
-      this.additionalQuestionCount-=1
+      this.additionalQuestionCount -= 1
+    },
+      error: _error => {
+        this.showError(this.errorMessagePopUp);
+      }
     })
   }
 
 
   editQuestionFlag(questionId: any) {
     this.questionEditFlag = questionId
+    this.editFlag = true
   }
 
   updateQuestion(userQuestion: UserQuestion) {
     this.questionEditFlag = 0;
-    this.appService.saveUserQuestion(userQuestion, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
-        // this.createQuestionFlag = false;
-        next: (_data) => {
-          assessmentData.push(this.userQuestion);
-          this.createQuestionFlag = false;
-          this.userQuestionResponse = _data;
-          this.sendAnswer(this.userQuestionResponse)
-          this.updateDataSavedStatus()
-          this.questionText = ""
-        }, error: _error => {
-          // this.showError("Data cannot be saved");
+    if(userQuestion.question.length>0) {
+      this.appService.saveUserQuestion(userQuestion, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            assessmentData.push(this.userQuestion);
+            this.createQuestionFlag = false;
+            this.userQuestionResponse = _data;
+            this.sendUserQuestionAnswer(this.userQuestionResponse)
+            this.updateDataSavedStatus()
+            this.questionText = ""
+            this.editFlag = false
+          },
+        error: _error => {
+            this.showError(this.errorMessagePopUp);
+          }
         }
-      }
       )
+    }
   }
 
-  private sendAnswer(userQuestion: UserQuestionResponse) {
+  private sendUserQuestionAnswer(userQuestion: UserQuestionResponse) {
     let index = 0;
     let updatedUserQuestionAnswerList = [];
     updatedUserQuestionAnswerList.push(userQuestion);
@@ -163,9 +177,20 @@ export class UserQuestionAnswerComponent implements OnInit{
       }
       else {
         this.cloneAnswerResponse.userQuestionResponseList.push(userQuestion)
+        this.userQuestionList.push(userQuestion)
+
       }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
+
+  private removeUserQuestion(questionId:number){
+    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
+    if(this.cloneAnswerResponse.userQuestionResponseList != undefined) {
+      this.userQuestionList = this.userQuestionList.filter(eachQuestion => eachQuestion.questionId !== questionId)
+      this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachQuestion => eachQuestion.questionId !== questionId)
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
@@ -175,4 +200,5 @@ export class UserQuestionAnswerComponent implements OnInit{
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
+
 }

@@ -33,7 +33,7 @@ describe('UserAdditionalAnswerComponent', () => {
   }
 
   class MockAppService {
-    public saveUserQuestion(userQuestion:UserQuestion,assessmentId:number,parameterId:number,userQuestionResponse:UserQuestionResponse) {
+    public saveUserQuestion(userQuestion:UserQuestion,assessmentId:number,parameterId:number) {
       if(userQuestion.questionId===1){
         return of(userQuestion)
       }
@@ -117,7 +117,7 @@ describe('UserAdditionalAnswerComponent', () => {
     }
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveUserQuestion(userQuestion,1,1,userQuestionResponse).subscribe(data => {
+    mockAppService.saveUserQuestion(userQuestion,1,1).subscribe(data => {
       expect(data).toBe(userQuestion)
     })
     expect(component.userQuestion.answer).toBe("hello")
@@ -136,7 +136,7 @@ describe('UserAdditionalAnswerComponent', () => {
     jest.spyOn(component,"showError")
 
 
-    mockAppService.saveUserQuestion(userQuestion,2,2,userQuestionResponse).subscribe(data => {
+    mockAppService.saveUserQuestion(userQuestion,2,2).subscribe(data => {
         expect(data).toBeUndefined()},
       error => {
         expect(component.showError).toHaveBeenCalled()
