@@ -204,6 +204,8 @@ export const data_local =
           SCORE_CARD : "Maturity reference score card",
           ADD_REFERENCE_BUTTON : "Add Maturity Reference",
           PARAMETER_REFERENCE_MESSAGE : "Parameter Level References already exists!!",
+          TOPIC_REFERENCE_MESSAGE: "Topic Level References already exists!!",
+
         },
       },
       DROPDOWN_OPTION_TEXT: {

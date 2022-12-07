@@ -42,6 +42,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
+  topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((store) => store.masterData.masterData)
