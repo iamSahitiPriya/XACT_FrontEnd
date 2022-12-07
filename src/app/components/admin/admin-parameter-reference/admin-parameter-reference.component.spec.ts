@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminParameterReferenceComponent } from './admin-parameter-reference.component';
+import {of, throwError} from "rxjs";
+
 
 describe('AdminParameterReferenceComponent', () => {
   let component: AdminParameterReferenceComponent;

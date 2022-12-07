@@ -398,7 +398,7 @@ export class AdminParameterComponent implements OnInit {
     this.ngOnInit();
   }
 
-  async openParamaterReference(reference: any) {
+  async openParameterReference(reference: any) {
     this.dialogRef = this.dialog.open(reference,{
       width: '62vw',
       height: '66vh',
