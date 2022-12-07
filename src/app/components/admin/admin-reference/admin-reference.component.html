@@ -5,7 +5,7 @@
 
 <div class="header">
 
-  <div class="heading" *ngIf="topic !== undefined">{{header}}{{topic.topicName}}</div>
+  <div class="heading">{{header}}{{topic && topic.topicName}}</div>
   <div class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
     <mat-icon class="close-icon">close</mat-icon>
   </button></div>
