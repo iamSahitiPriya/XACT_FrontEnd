@@ -21,7 +21,6 @@ import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
-import {ParameterResponse} from "../../types/parameterResponse";
 import {TopicReference} from "../../types/topicReference";
 
 

@@ -19,8 +19,8 @@ import {data_local} from "../../messages";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 
 let categories: UserCategoryResponse = {
-  assessmentCategories:[]
-  ,userAssessmentCategories:[]
+  assessmentCategories: []
+  , userAssessmentCategories: []
 }
 let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
 
@@ -48,7 +48,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog,public router: Router,) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog, public router: Router,) {
     this.answer = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
@@ -74,7 +74,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     this.answer.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       if (data !== undefined) {
         this.assessment = data
-        this.navigateToModule(this.assessment.assessmentState,this.assessmentId)
+        this.navigateToModule(this.assessment.assessmentState, this.assessmentId)
       }
     })
   }
@@ -87,8 +87,10 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
       if (this.category.userAssessmentCategories !== undefined) {
+        this.category.userAssessmentCategories = this.category.userAssessmentCategories.sort((category1, category2) => Number(category2.active) - Number(category1.active))
+        let index = this.category.userAssessmentCategories.findIndex(category => category.active)
         if (this.category.userAssessmentCategories.length > 0)
-          this.navigate(this.category.userAssessmentCategories[0].modules[0])
+          this.navigate(this.category.userAssessmentCategories[index].modules[0])
       }
     })
   }
@@ -98,7 +100,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private navigateToModule(drafted: string, assessmentId:number) {
+  private navigateToModule(drafted: string, assessmentId: number) {
     drafted === "inProgress" ? this.router.navigateByUrl("assessment/" + assessmentId, {state: {type: 'url'}}) : this.router.navigateByUrl("assessmentModule/" + assessmentId, {state: {type: 'url'}});
 
 
