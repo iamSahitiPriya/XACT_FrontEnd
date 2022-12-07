@@ -40,7 +40,7 @@
   margin-top: 2%;
   height: 4vh;
   width: 59vw;
-  padding: 1.5% 0% 0% 2%;
+  padding: 1.5% 0 0 2%;
   background-color: #F4FAFC;
   text-align: left;
   font-size: 21px ;
@@ -75,8 +75,8 @@
 }
 
 .reference-button button:disabled {
-  background: #C3C3C3 0% 0% no-repeat padding-box;
-  box-shadow: 0px 2px 2px #00000024;
+  background: #C3C3C3 0 0 no-repeat padding-box;
+  box-shadow: 0 2px 2px #00000024;
   border-radius: 4px;
   opacity: 1;
 }
@@ -131,7 +131,7 @@
 .edit-button button {
   width: 4.4rem;
   height: 2.5rem;
-  background: #658892 0% 0% no-repeat padding-box;
+  background: #658892 0 0 no-repeat padding-box;
   border-radius: 8px;
   opacity: 1;
   color: #fff;
@@ -146,7 +146,7 @@
 .save-button {
   width: 70px;
   height: 36px;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0 0 no-repeat padding-box;
   border: 1px solid #61828C;
   border-radius: 8px;
   opacity: 1;

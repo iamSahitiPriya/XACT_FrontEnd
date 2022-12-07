@@ -143,14 +143,26 @@
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row">
-              <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
-              <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
-                <mat-icon id="deleteTopic">delete</mat-icon>
-              </button>
-              <button mat-flat-button *ngIf="!(selectedParameter === row)">
-                <mat-icon>playlist_add</mat-icon>
-              </button>
-            </td>
+        <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
+        <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
+          <mat-icon id="deleteTopic">delete</mat-icon>
+        </button>
+        <div class="parameter-reference">
+        <button *ngIf="!(selectedParameter === row)" (click)="openParamaterReference(reference)">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
+        </div>
+
+        <ng-template #reference>
+          <app-admin-parameter-reference [parameter]="row"
+                                         [topic]="findTopicId(row)"
+                                         [module]="findModuleId(row)"
+                                         [category]="findCategoryId(row)">
+
+          </app-admin-parameter-reference>
+        </ng-template>
+      </td>
+
     </ng-container>
     <ng-container>
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>

@@ -1,0 +1,22 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div class="parameter-header">
+  <div class="parameter-heading" *ngIf="parameter !== undefined">{{header}}{{parameter.parameterName}}</div>
+  <div class="parameter-close">
+    <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+  </div>
+</div>
+
+<div class="parameter-content" *ngIf="isParameterLevel">
+  <div class="parameter-score-card">
+    <span>{{scoreCard}}</span>
+  </div>
+
+  <div class="parameter-reference-button">
+    <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
+  </div>
+</div>

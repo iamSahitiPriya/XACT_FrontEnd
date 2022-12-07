@@ -200,7 +200,7 @@ export const data_local =
           ENTER_TOPIC: "Enter topic name",
         },
         REFERENCES: {
-          HEADER: "References - Readability",
+          HEADER: "References - ",
           SCORE_CARD : "Maturity reference score card",
           ADD_REFERENCE_BUTTON : "Add Maturity Reference",
 

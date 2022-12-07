@@ -16,6 +16,7 @@ import {cloneDeep} from "lodash";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({
@@ -31,6 +32,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
   ],
 })
 export class AdminParameterComponent implements OnInit {
+  private dialogRef: MatDialogRef<any>;
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference'];
@@ -74,7 +76,7 @@ export class AdminParameterComponent implements OnInit {
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -395,5 +397,30 @@ export class AdminParameterComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryData}))
     this.ngOnInit();
   }
+
+  async openParamaterReference(reference: any) {
+    this.dialogRef = this.dialog.open(reference,{
+      width: '62vw',
+      height: '66vh',
+      maxWidth: '80vw',
+      maxHeight: '71vh'
+    })
+    this.dialogRef.disableClose = true;
+  }
+
+  findCategoryId(row: any){
+    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId
+  }
+
+  findModuleId(row: any){
+    let modules  = this.categoryAndModule.get(this.findCategoryId(row))
+    return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
+  }
+
+  findTopicId(row:any) {
+    let topics = this.moduleAndTopic.get(this.findModuleId(row))
+    return topics.find((topic: { topicName: any; }) => topic.topicName === row.topicName).topicId
+  }
+
 }
 

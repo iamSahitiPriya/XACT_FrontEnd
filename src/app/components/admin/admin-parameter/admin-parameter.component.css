@@ -208,6 +208,11 @@ tr.expandedParameterRow {
   border-bottom-width: 0px;
 }
 
+.parameter-reference button{
+  border: none;
+  background-color: transparent;
+}
+
 .inputParameter{
   margin-top:26px;
 }
@@ -236,4 +241,6 @@ tr.expandedParameterRow {
   word-break: break-word;
   padding-left: 45%;
 }
+
+
 
