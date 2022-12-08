@@ -9,6 +9,7 @@ pipeline {
         PROD_CLIENT_ID = credentials('PROD_CLIENT_ID')
         PROD_ISSUER = credentials('PROD_ISSUER')
         ARTIFACT_FILE = "xact-frontend-${env.GIT_COMMIT}.zip"
+        CURRENT_BRANCH = "${env.GIT_BRANCH}"
     }
 
     tools { nodejs "nodejs" }
@@ -63,6 +64,9 @@ pipeline {
             }
         }
         stage('Create & Archive Dev Build') {
+             when {
+                equals(actual: (CURRENT_BRANCH.contains('release') || CURRENT_BRANCH == 'develop'), expected: true)
+            }
             steps {
                 sh "npm run updateBuild -- dev ${DEV_CLIENT_ID} ${DEV_ISSUER}"
                 sh 'npm run build-dev'
@@ -76,6 +80,9 @@ pipeline {
             }
         }
         stage('Deploy to Dev') {
+             when {
+                equals(actual: (CURRENT_BRANCH.contains('release') || CURRENT_BRANCH == 'develop'), expected: true)
+            }
             steps {
                 sh 'aws s3 rm s3://xact-app-dev/ --recursive'
                 sh 'aws s3 cp ./dev-build/ s3://xact-app-dev/ --recursive  --include "*" '
@@ -84,6 +91,9 @@ pipeline {
             }
         }
         stage('Create & Archive QA Build') {
+             when {
+                equals(actual: (CURRENT_BRANCH.contains('release') || CURRENT_BRANCH == 'develop'), expected: true)
+            }
                       steps {
                           sh "npm run updateBuild -- qa ${QA_CLIENT_ID} ${QA_ISSUER}"
                           sh 'npm run build-qa'
@@ -97,6 +107,9 @@ pipeline {
                       }
         }
         stage('Create & Archive Prod Build') {
+             when {
+                equals(actual: (CURRENT_BRANCH.contains('release') || CURRENT_BRANCH == 'develop'), expected: true)
+            }
               steps {
                   sh "npm run updateBuild -- prod ${PROD_CLIENT_ID} ${PROD_ISSUER}"
                   sh 'npm run build-prod'
