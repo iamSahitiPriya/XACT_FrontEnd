@@ -3,7 +3,7 @@
   -->
 
 <div class="header">
-  <div class="heading" *ngIf="parameter !== undefined">{{header}}{{parameter.parameterName}}</div>
+  <div class="heading">{{header}}{{parameter && parameter.parameterName}}</div>
   <div class="close">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
     <mat-icon class="close-icon">close</mat-icon>
