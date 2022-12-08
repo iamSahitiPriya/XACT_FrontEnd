@@ -70,10 +70,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
 
   }
-
-
   public answerSaved: string
-  public makeDisable = false
 
   @Input() selectedIndex: number
   assessmentId: number

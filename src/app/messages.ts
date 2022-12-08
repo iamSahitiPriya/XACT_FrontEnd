@@ -156,37 +156,37 @@ export const data_local =
       TOOLTIP: "Click to View Chart Summary",
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },
-      ADMIN: {
-        DATA_NOT_FOUND: "No data matching the filter",
-        SERVER_ERROR_MESSAGE: "Some error occurred",
-        UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
-        INPUT_ERROR_MESSAGE: "Please fill the field",
-        DATE: "Date",
-        ACTIVE: "Active",
-        ACTION: "Action",
-        EDIT: "Edit",
-        SAVE: "Save",
-        UPDATE: "Update",
-        ERROR: "No Special Characters allowed",
+    ADMIN: {
+      DATA_NOT_FOUND: "No data matching the filter",
+      SERVER_ERROR_MESSAGE: "Some error occurred",
+      UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
+      INPUT_ERROR_MESSAGE: "Please fill the field",
+      DATE: "Date",
+      ACTIVE: "Active",
+      ACTION: "Action",
+      EDIT: "Edit",
+      SAVE: "Save",
+      UPDATE: "Update",
+      ERROR: "No Special Characters allowed",
 
-        DASHBOARD: {
-          TOTAL_ASSESSMENT: "Total Assessments",
-          TOTAL_ACTIVE: "Assessments in Progress",
-          TOTAL_COMPLETE: "Completed Assessments",
-          DOWNLOAD_REPORT: "Download Report",
-          DASHBOARD_TITLE: "Dashboard",
-          DOWNLOAD_REPORT_LABEL: "Click to download report",
-          DROPDOWN_LABEL: "Click to select the days range",
-          ERROR_MESSAGE: "Error in processing request.",
-          APPLY_BUTTON_TEXT: "Apply",
-          TOTAL_SUBTEXT: "Total:",
-          CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
-        },
-        CATEGORY: {
-          CATEGORY: "Category",
-          DUPLICATE_CATEGORY_ERROR_MESSAGE: "No duplicate categories are allowed",
-          SELECT_CATEGORY: "Select Category",
-          ADD_CATEGORY: "Add Category"
+      DASHBOARD: {
+        TOTAL_ASSESSMENT: "Total Assessments",
+        TOTAL_ACTIVE: "Assessments in Progress",
+        TOTAL_COMPLETE: "Completed Assessments",
+        DOWNLOAD_REPORT: "Download Report",
+        DASHBOARD_TITLE: "Dashboard",
+        DOWNLOAD_REPORT_LABEL: "Click to download report",
+        DROPDOWN_LABEL: "Click to select the days range",
+        ERROR_MESSAGE: "Error in processing request.",
+        APPLY_BUTTON_TEXT: "Apply",
+        TOTAL_SUBTEXT: "Total:",
+        CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
+      },
+      CATEGORY: {
+        CATEGORY: "Category",
+        DUPLICATE_CATEGORY_ERROR_MESSAGE: "No duplicate categories are allowed",
+        SELECT_CATEGORY: "Select Category",
+        ADD_CATEGORY: "Add Category"
 
         },
         MODULE: {
@@ -203,8 +203,8 @@ export const data_local =
           HEADER: "References - ",
           SCORE_CARD : "Maturity reference score card",
           ADD_REFERENCE_BUTTON : "Add Maturity Reference",
-          PARAMETER_REFERENCE_MESSAGE : "Parameter Level References already exists!!",
-          TOPIC_REFERENCE_MESSAGE: "Topic Level References already exists!!",
+          PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!!",
+          TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!!",
 
         },
       },

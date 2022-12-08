@@ -56,7 +56,6 @@ export class AdminParameterReferenceComponent implements OnInit {
       this.categories = data
       this.setParameterReferences()
       this.isParameterLevel = this.isParameterLevelReference()
-      console.log(this.parameterReferences)
       this.unsavedReferences = cloneDeep(this.getReferenceFromParameter())
       this.disableSavedRatings()
     })
@@ -196,7 +195,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     return flag;
   }
 
-  private setParameterReferences() {
+  setParameterReferences() {
     let references = this.getReferenceFromParameter()
     if (references !== undefined) {
       references?.forEach(reference => {
@@ -280,8 +279,8 @@ export class AdminParameterReferenceComponent implements OnInit {
     return  null;
   }
 
-  private deleteParameterReference(reference: any) {
-    this.appService.deleteTopicReference(reference.referenceId).pipe().subscribe({
+  deleteParameterReference(reference: any) {
+    this.appService.deleteParameterReference(reference.referenceId).pipe().subscribe({
       next: () => {
         this.deleteFromStore(reference)
         this.ngOnInit()
