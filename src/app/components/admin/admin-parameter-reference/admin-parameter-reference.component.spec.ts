@@ -586,8 +586,10 @@ describe('AdminParameterReferenceComponent', () => {
     expect(reference.rating).toBe(4)
   });
 
+  it("should return true when parameter reference array size is 5", () => {
+    component.parameterReferences = [{referenceId:1,reference:"new reference",rating:4,parameter:1},{referenceId:4,reference:"new reference4",rating:2,parameter:1},{referenceId:5,reference:"new reference5",rating:3,parameter:1},
+                              {referenceId:2,reference:"new reference2",rating:5,parameter:1},{referenceId:3,reference:"new reference3",rating:1,parameter:1}]
 
-
-
-
+    expect( component.isReferenceArrayFull()).toBeTruthy()
+  });
 });

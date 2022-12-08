@@ -24,6 +24,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   @Input() module: number
   @Input() parameter: any
 
+  parameterId : number | undefined
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
   parameterReferences: any[] | TopicReference[] | undefined
@@ -43,6 +44,9 @@ export class AdminParameterReferenceComponent implements OnInit {
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+  dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
+  duplicateRatingMessage = data_local.ADMIN.REFERENCES.DUPLICATE_RATING_ERROR_MESSAGE
+  duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((store) => store.masterData.masterData)
@@ -55,6 +59,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     this.masterData.subscribe(data => {
       this.categories = data
       this.setParameterReferences()
+      this.getParameterId()
       this.isParameterLevel = this.isParameterLevelReference()
       this.unsavedReferences = cloneDeep(this.getReferenceFromParameter())
       this.disableSavedRatings()
@@ -103,7 +108,7 @@ export class AdminParameterReferenceComponent implements OnInit {
           this.sendReferenceToStore(_data)
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Data cannot be saved");
+          this.showError(this.dataNotSaved);
         }
       })
     }
@@ -114,7 +119,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     if(this.unsavedReferences !== undefined) {
       this.unsavedReferences.forEach(eachReference => {
         if(eachReference.referenceId !== reference.referenceId && eachReference.rating === reference.rating) {
-          this.showError("No duplicate ratings are allowed")
+          this.showError(this.duplicateRatingMessage)
           flag = false
         }
       })
@@ -127,7 +132,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     if(this.unsavedReferences !== undefined) {
       this.unsavedReferences.forEach(eachReference => {
         if(eachReference.referenceId !== reference.referenceId && eachReference.reference.trim() === reference.reference.trim()) {
-          this.showError("No duplicate references are allowed")
+          this.showError(this.duplicateReferenceMessage)
           flag = false
         }
       })
@@ -139,7 +144,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     this.referenceToSend =  {
       reference : reference.reference,
       rating: reference.rating-1,
-      parameter: this.parameter.parameterId
+      parameter: this.parameterId
     }
     return this.referenceToSend
   }
@@ -168,7 +173,7 @@ export class AdminParameterReferenceComponent implements OnInit {
           this.updateStore(_data)
           this.ngOnInit()
         }, error : _error => {
-          this.showError("Data cannot be saved");
+          this.showError(this.dataNotSaved);
         }
       })
     }
@@ -220,7 +225,7 @@ export class AdminParameterReferenceComponent implements OnInit {
       referenceId: -1,
       reference: "",
       rating: -1,
-      parameter: this.parameter.parameterId,
+      parameter: this.parameterId,
       isEdit: true
     }
     this.parameterReferences?.unshift(reference)
@@ -285,7 +290,7 @@ export class AdminParameterReferenceComponent implements OnInit {
         this.deleteFromStore(reference)
         this.ngOnInit()
       }, error: _error => {
-        this.showError("Data cannot be saved");
+        this.showError(this.dataNotSaved);
       }
     })
   }
@@ -297,5 +302,10 @@ export class AdminParameterReferenceComponent implements OnInit {
       references.splice(index, 1)
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
+  }
+
+  private getParameterId() {
+    this.parameterId = this.getSelectedParameter()?.parameterId
+    return this.parameterId
   }
 }

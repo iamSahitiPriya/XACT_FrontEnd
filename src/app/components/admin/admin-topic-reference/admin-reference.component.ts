@@ -28,6 +28,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   @Input() module : number
 
   categories : CategoryResponse[]
+  topicId : number | undefined
   masterData: Observable<CategoryResponse[]>
   topicReferences : any[] | TopicReference[] | undefined
   unsavedReferences : TopicReference[] | undefined
@@ -46,6 +47,9 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
+  dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
+  duplicateRatingMessage = data_local.ADMIN.REFERENCES.DUPLICATE_RATING_ERROR_MESSAGE
+  duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
 
   constructor(private appService: AppServiceService,public dialog: MatDialog,private store: Store<AppStates>,private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((store) => store.masterData.masterData)
@@ -58,6 +62,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     this.masterData.subscribe(data => {
       this.categories = data
       this.setTopicReferences()
+      this.getTopicId()
       this.isTopicLevel = this.isTopicLevelReference()
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
       this.disableSavedRatings()
@@ -93,7 +98,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
           this.sendReferenceToStore(_data)
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Data cannot be saved");
+          this.showError(this.dataNotSaved);
         }
       })
     }
@@ -109,7 +114,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
           this.updateStore(_data)
           this.ngOnInit()
         }, error : _error => {
-          this.showError("Data cannot be saved");
+          this.showError(this.dataNotSaved);
         }
       })
     }
@@ -121,7 +126,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
         this.deleteFromStore(reference)
         this.ngOnInit()
       }, error: _error => {
-        this.showError("Data cannot be saved");
+        this.showError(this.dataNotSaved);
       }
     })
 
@@ -131,14 +136,14 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     this.referenceToSend =  {
       reference : reference.reference,
       rating: reference.rating-1,
-      topic: this.topic.topicId
+      topic: this.topicId
     }
     return this.referenceToSend
   }
 
   addMaturityReference() {
     this.deleteUnSavedReferences()
-    let reference : any = {referenceId:-1,reference:"",rating:-1,topic:this.topic.topicId,isEdit:true}
+    let reference : any = {referenceId:-1,reference:"",rating:-1,topic:this.topicId,isEdit:true}
 
     this.topicReferences?.unshift(reference)
 
@@ -195,7 +200,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     if(this.unsavedReferences !== undefined) {
       this.unsavedReferences.forEach(eachReference => {
         if(eachReference.referenceId !== reference.referenceId && eachReference.rating === reference.rating) {
-          this.showError("No duplicate ratings are allowed")
+          this.showError(this.duplicateRatingMessage)
           flag = false
         }
       })
@@ -208,7 +213,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     if(this.unsavedReferences !== undefined) {
       this.unsavedReferences.forEach(eachReference => {
         if(eachReference.referenceId !== reference.referenceId && eachReference.reference.trim() === reference.reference.trim()) {
-          this.showError("No duplicate references are allowed")
+          this.showError(this.duplicateReferenceMessage)
           flag = false
         }
       })
@@ -268,13 +273,13 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   getReferenceFromTopic(){
     return this.categories.find(category => category.categoryId === this.category)?.modules.
     find(module => module.moduleId === this.module)?.topics.
-    find(topic => topic.topicId === this.topic.topicId)?.references
+    find(topic => topic.topicName === this.topic.topicName)?.references
   }
 
   private getSelectedTopic() {
     return this.categories.find(category => category.categoryId === this.category)?.modules.
     find(module => module.moduleId === this.module)?.topics.
-    find(topic => topic.topicId === this.topic.topicId)
+    find(topic => topic.topicName === this.topic.topicName)
   }
 
   isInputValid(reference: any) : boolean {
@@ -290,7 +295,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     })
   }
 
-  private isTopicLevelReference() {
+   isTopicLevelReference() {
     let flag : boolean = true
     let topic = this.getSelectedTopic()
     if(topic?.parameters !== undefined) {
@@ -300,6 +305,11 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       })
     }
     return flag;
+  }
+
+  private getTopicId() {
+    this.topicId = this.getSelectedTopic()?.topicId
+    return this.topicId
   }
 }
 

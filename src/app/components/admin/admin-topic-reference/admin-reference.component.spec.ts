@@ -551,6 +551,79 @@ describe('AdminReferenceComponent', () => {
     expect(reference.rating).toBe(4)
   });
 
+  it("should return false if the topic has parameter level references", () => {
+
+    let reference :TopicReference= {referenceId:1,reference:"new",rating:1,topic:1}
+
+
+    component.categories = [{
+      "categoryId": 1,
+      "categoryName": "category1",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt": 23456,
+        "comments": " ",
+        "topics": [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [{
+            "parameterId": 1,
+            "parameterName": "parameter1",
+            "topic": 1,
+            "updatedAt": 1234,
+            "comments": "",
+            "active": true,
+            "questions" : [],
+            "references": [{
+              "rating" : 4,
+              "reference" : "new reference",
+              "referenceId": 1,
+              "parameter":1
+            }]
+          }],
+          "references": [{
+            "rating" : 4,
+            "reference" : "new reference",
+            "referenceId": 1,
+            "topic":1
+          }]
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      }]
+    }, {
+      "categoryId": 3,
+      "categoryName": "category3",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": []
+    }
+    ]
+    component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+    component.category = 1
+    component.module = 1
+
+    expect(component.isTopicLevelReference()).toBe(false)
+  });
+
 
 });
 

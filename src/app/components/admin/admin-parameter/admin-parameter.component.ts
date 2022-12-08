@@ -72,6 +72,8 @@ export class AdminParameterComponent implements OnInit {
   actionHeader = data_local.ADMIN_PARAMETER.ACTION
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
   noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+
 
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
@@ -398,14 +400,18 @@ export class AdminParameterComponent implements OnInit {
     this.ngOnInit();
   }
 
-  async openParameterReference(reference: any) {
-    this.dialogRef = this.dialog.open(reference,{
-      width: '62vw',
-      height: '66vh',
-      maxWidth: '80vw',
-      maxHeight: '71vh'
-    })
-    this.dialogRef.disableClose = true;
+  async openParameterReference(reference: any,row:any) {
+    if(this.isParameterReference(row)) {
+      this.dialogRef = this.dialog.open(reference, {
+        width: '62vw',
+        height: '66vh',
+        maxWidth: '80vw',
+        maxHeight: '71vh'
+      })
+      this.dialogRef.disableClose = true;
+    }
+    else
+      this.showError(this.topicReferenceMessage)
   }
 
   findCategoryId(row: any){
@@ -422,5 +428,15 @@ export class AdminParameterComponent implements OnInit {
     return topics.find((topic: { topicName: any; }) => topic.topicName === row.topicName).topicId
   }
 
+  private isParameterReference(row: any) {
+    let flag = false;
+    this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
+    find(module => module.moduleName === row.moduleName)?.topics.
+    find(topic => topic.topicName === row.topicName)?.parameters.forEach(parameter => {
+      if (parameter.references !== undefined && parameter.references.length !== 0)
+        flag = true
+    })
+    return flag
+  }
 }
 

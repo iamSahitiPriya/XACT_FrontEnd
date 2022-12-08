@@ -665,11 +665,171 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should open reference dialog", () => {
+    component.ngOnInit()
+    let row = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter1",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+    component.categoryData = [{
+      "categoryId": 1,
+      "categoryName": "category1",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt": 23456,
+        "comments": " ",
+        "topics": [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [{
+            "parameterId": 1,
+            "parameterName": "parameter1",
+            "topic": 1,
+            "updatedAt": 1234,
+            "comments": "",
+            "active": true,
+            "questions" : [],
+            "references": [{
+              "rating" : 4,
+              "reference" : "new reference",
+              "referenceId": 1,
+              "parameter":1
+            }]
+          }],
+          "references": [{
+            "rating" : 4,
+            "reference" : "new reference",
+            "referenceId": 1,
+            "topic":1
+          }]
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      }]
+    }, {
+      "categoryId": 3,
+      "categoryName": "category3",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": []
+    }
+    ]
     jest.spyOn(matDialog, "open")
 
-    component.openParameterReference("")
+    component.openParameterReference("",row)
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
+  });
+
+
+  it("should show error when the parameter has topic level reference", () => {
+    component.ngOnInit()
+    let row = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter1",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+    component.categoryData = [{
+      "categoryId": 1,
+      "categoryName": "category1",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": [{
+        "moduleId": 1,
+        "moduleName": 'module1',
+        "category": 1,
+        "active": false,
+        "updatedAt": 23456,
+        "comments": " ",
+        "topics": [{
+          "topicId": 1,
+          "topicName": "topic1",
+          "module": 1,
+          "updatedAt": 1234,
+          "comments": "",
+          "active": true,
+          "parameters": [{
+            "parameterId": 1,
+            "parameterName": "parameter1",
+            "topic": 1,
+            "updatedAt": 1234,
+            "comments": "",
+            "active": true,
+            "questions" : [],
+            "references": [],
+          }],
+          "references": [{
+            "rating" : 4,
+            "reference" : "new reference",
+            "referenceId": 1,
+            "topic":1
+          }]
+        }, {
+          "topicId": 3,
+          "topicName": "topic2",
+          "module": 1,
+          "updatedAt": 45678,
+          "comments": "",
+          "active": false,
+          "parameters": [],
+          "references": []
+        }]
+      }]
+    }, {
+      "categoryId": 3,
+      "categoryName": "category3",
+      "active": true,
+      "updatedAt": 12345,
+      "comments": "comment1",
+      "modules": []
+    }
+    ]
+    jest.spyOn(component, "showError")
+
+    component.openParameterReference("",row)
+    fixture.detectChanges()
+    expect(component.showError).toHaveBeenCalled()
   });
 
   it("should return category id of the selected row", () => {

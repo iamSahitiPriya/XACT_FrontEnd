@@ -148,7 +148,7 @@
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>
         <div class="parameter-reference">
-        <button *ngIf="!(selectedParameter === row)" (click)="openParameterReference(reference)">
+        <button *ngIf="!(selectedParameter === row)" (click)="openParameterReference(reference,row)">
           <mat-icon>playlist_add</mat-icon>
         </button>
         </div>

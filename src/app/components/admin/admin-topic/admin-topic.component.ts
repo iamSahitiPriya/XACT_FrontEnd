@@ -76,7 +76,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND
-  moduleNotFound: any = "No modules available";
+  moduleNotFound: any =  data_local.ADMIN.MODULE_NOT_FOUND;
+  parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
+
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
@@ -238,7 +240,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: 3000,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
@@ -382,14 +384,29 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
   }
 
-  async openTopicReferences(reference: any) {
-    this.dialogRef = this.dialog.open(reference,{
-      width: '62vw',
-      height: '66vh',
-      maxWidth: '80vw',
-      maxHeight: '71vh'
+  async openTopicReferences(reference: any,row:any) {
+   if(this.isTopicReferences(row)) {
+     this.dialogRef = this.dialog.open(reference, {
+       width: '62vw',
+       height: '66vh',
+       maxWidth: '80vw',
+       maxHeight: '71vh'
+     })
+     this.dialogRef.disableClose = true;
+   }
+   else
+     this.showError(this.parameterReferenceMessage)
+  }
+
+  private isTopicReferences(row : any) {
+    let flag = true;
+    this.categories.find(category => category.categoryName === row.categoryName)?.modules.
+    find(module => module.moduleName === row.moduleName)?.topics.
+    find(topic => topic.topicName === row.topicName)?.parameters.forEach(parameter => {
+      if (parameter.references !== undefined && parameter.references.length !== 0)
+        flag = false
     })
-    this.dialogRef.disableClose = true;
+    return flag
   }
 
   findCategoryId(row : any) {
