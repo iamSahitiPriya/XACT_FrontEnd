@@ -48,7 +48,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
-    this.masterData = this.store.select((store) => store.masterData.masterData)
+    this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
   }
 
   ngOnInit(): void {
@@ -247,7 +247,7 @@ export class AdminParameterReferenceComponent implements OnInit {
 
   disableSavedRatings() {
     this.unsavedReferences?.forEach(reference => {
-      let rating = this.rating.find(rating => rating.rating === reference.rating)
+      let rating = this.rating.find(eachRating => eachRating.rating === reference.rating)
       rating.selected = true
     })
   }
