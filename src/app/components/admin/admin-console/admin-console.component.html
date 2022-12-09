@@ -4,7 +4,7 @@
 
 <div class="row" id="adminConsole">
   <br>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="console">
     <mat-card class="consoleBox">
       <mat-card-title class="cardTitle">Admin Console</mat-card-title>
@@ -22,11 +22,11 @@
             <mat-icon>view_module</mat-icon>
             Module
           </button>
-          <button mat-button class="topicButton" (click)="setEvent('topic')" [ngClass]="{'button-active':type === 'topic'}">
+          <button mat-button class="topicButton" (click)="setEvent('topic')" [ngClass]="{'button-active':type === 'topic'}" [routerLink]="['/admin/topic']">
             <mat-icon>list</mat-icon>
             Topic
           </button>
-          <button mat-button class="parameterButton" (click)="setEvent('parameter')" [ngClass]="{'button-active':type === 'parameter'}">
+          <button mat-button class="parameterButton" (click)="setEvent('parameter')" [ngClass]="{'button-active':type === 'parameter'}" [routerLink]="['/admin/parameter']">
             <div class="parameterIcon"></div>
             Parameter
           </button>
@@ -36,7 +36,7 @@
     </mat-card>
     </div>
   </div>
-<div class="col-md-9">
+<div class="col-md-10">
   <router-outlet></router-outlet>
 </div>
 </div>

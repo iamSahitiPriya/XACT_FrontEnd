@@ -21,7 +21,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {HttpClient, HttpHandler} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
 
 
 describe('AssessmentSunburstChartComponent', () => {

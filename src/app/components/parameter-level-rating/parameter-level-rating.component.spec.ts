@@ -81,6 +81,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -135,6 +136,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -168,6 +170,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -205,6 +208,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -243,6 +247,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -336,6 +341,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -374,6 +380,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

@@ -1,0 +1,259 @@
+/*
+ *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+table {
+  width: 100%;
+}
+
+div.topicButtonColumn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+div.topic {
+  margin-top: 16px;
+  box-shadow: 0px 5px 25px #52575d1a;
+}
+
+.topicButton1 {
+  width: 70%;
+  height: 50px;
+  background: #4BA1AC 0 0 no-repeat padding-box;
+  box-shadow: 0 2px 2px #00000024;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 1px;
+  color: #FFFFFF;
+  text-transform: capitalize;
+}
+
+th.topic, td.topic {
+  border-bottom-style: none;
+  text-align: center;
+}
+
+td.topic {
+  text-align: left;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0px;
+  color: #52575D;
+  opacity: 1;
+  word-break: break-word;
+}
+
+th {
+  text-align: left;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0;
+  color: #043D4E;
+  background: #EBFAFF 0% 0% no-repeat padding-box;
+  opacity: 1;
+
+}
+
+.topicDate {
+  padding-right: 3em;
+}
+
+
+th.topic, td.topic {
+  border-bottom-style: none;
+  text-align: left;
+}
+
+.editButton {
+  width: 70px;
+  height: 0px;
+  background: #658892 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  opacity: 1;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  padding-bottom: 32px;
+  margin-right: 3px;
+}
+
+td.topic:last-of-type {
+  padding-right: 0px !important;
+  text-align: left;
+}
+
+.topicRow {
+  height: 62px;
+  text-align: left;
+}
+
+.admin-searchBar {
+  width: 80%;
+  padding-left: 27%;
+  margin-bottom: 24px;
+}
+
+.circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 1;
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-right: 2px
+}
+
+::ng-deep .mat-slide-toggle.mat-disabled {
+  opacity: 1 !important;
+}
+
+tr:nth-child(5n + 1) span.circle {
+  background-color: #619FAA;
+}
+
+tr:nth-child(5n+2) span.circle {
+  background-color: #F15F79;
+}
+
+tr:nth-child(5n + 3) span.circle {
+  background-color: #6B9F78;
+}
+
+tr:nth-child(5n + 4) span.circle {
+  background-color: #5D9EAA;
+}
+
+tr:nth-of-type(5n + 5) span.circle {
+  background-color: #BE873E;
+}
+
+.selectDropdownForm{
+  height: 57px;
+  margin-top: -9px;
+}
+
+.selectDropdownForm .mat-form-field-infix {
+  padding: 8px 0;
+}
+
+.saveTopicButton {
+  width: 70px;
+  height: 30px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  padding-bottom: 32px;
+  color: #658892;
+  margin-right: 3px;
+}
+
+.deleteTopic {
+  min-width: 0px;
+  padding: 0;
+}
+
+.topicActive {
+  text-align: center;
+}
+
+.topicComments {
+  overflow: hidden;
+}
+
+.topicCommentTextArea {
+  width: 99%;
+  height: 60px;
+  font-size: 16px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border-radius: 7px;
+  opacity: 1;
+}
+
+td.expandedCommentsData {
+  border-bottom-width: 0px;
+}
+
+tr.expandedTopicRow {
+  height: 6px;
+  border-bottom-width: 0px;
+}
+
+.topicInput:only-child .mat-form-field-wrapped:only-child .mat-form-field-appearance-outline .mat-form-field-flex {
+  margin-top: 19px;
+}
+.topic:nth-child(4){
+  padding-left: 56px;
+}
+.updateTopicButton{
+  height: 30px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  padding-bottom: 32px;
+  color: #658892;
+}
+
+button.closeTopicButton {
+  background: none;
+  border: none;
+}
+
+button.closeTopicButton.mat-icon {
+  margin-top: 2px;
+}
+.topicInput{
+  margin-top: 22px;
+}
+.topicInput .mat-form-field-appearance-outline .mat-form-field-outline{
+  height: 55px !important;
+}
+
+.filter-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 16px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 25%;
+}
+
+.topic-reference button{
+  border: none;
+  background-color: transparent;
+}
+
+td.topic:nth-child(5){
+  width:13%;
+}
+td.topic:nth-child(1){
+  width:20%;
+}
+td.topic:nth-child(2){
+  width:20%;
+}
+td.topic:nth-child(4){
+  width:20%;
+}

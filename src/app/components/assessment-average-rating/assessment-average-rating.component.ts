@@ -5,8 +5,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {Observable, Subject, takeUntil} from "rxjs";
-import {ComputedScore} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates, ComputedScore} from "../../reducers/app.states";
 import {Store} from "@ngrx/store";
 import {data_local} from "../../messages";
 
@@ -30,8 +29,8 @@ export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
 
   averageRatingTitle = data_local.TOPIC_AVERAGE_RATING.TITLE;
 
-  constructor(private store: Store<TopicRatingResponse>) {
-    this.finalAverageRating = this.store.select(fromReducer.getAverageRating)
+  constructor(private store: Store<AppStates>) {
+    this.finalAverageRating = this.store.select(fromReducer => fromReducer.computedScore)
 
   }
 

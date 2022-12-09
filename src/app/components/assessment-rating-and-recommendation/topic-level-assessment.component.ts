@@ -16,9 +16,8 @@ import {ParameterStructure} from "../../types/parameterStructure";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from '@ngrx/store';
-import * as fromReducer from '../../reducers/assessment.reducer';
 import * as fromActions from '../../actions/assessment-data.actions'
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates} from "../../reducers/app.states";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
@@ -71,8 +70,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
+
   }
 
 

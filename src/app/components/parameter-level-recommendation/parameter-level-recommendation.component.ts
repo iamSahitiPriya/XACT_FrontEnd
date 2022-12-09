@@ -8,8 +8,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
@@ -72,8 +71,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.parameterRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.parameterRecommendationResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
   }
 

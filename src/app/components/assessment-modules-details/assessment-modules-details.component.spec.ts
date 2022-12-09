@@ -31,10 +31,9 @@ import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-ratin
 import {reducers} from "../../reducers/reducers";
 import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
-import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
 
 const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {
@@ -53,12 +52,15 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
               "topicId": 1,
               "topicName": "My Topic",
               "module": 1,
-              "assessmentLevel":"new",
+              "updatedAt" : 12345,
+              "active" : false,
               "parameters": [
                 {
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
+                  "updatedAt":12345,
+                  "active":false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -86,18 +88,21 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
           "moduleName": "My Module",
           "category": 1,
           "active":true,
-          updatedAt:10101010,
+          "updatedAt":10101010,
           "topics": [
             {
               "topicId": 1,
               "topicName": "My Topic",
               "module": 1,
-              "assessmentLevel":"new",
+              "updatedAt" : 1234,
+              "active" : false,
               "parameters": [
                 {
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
+                  "updatedAt" : 1234,
+                  "active" : false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -145,10 +150,12 @@ describe('AssessmentModulesDetailsComponent', () => {
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,MatTooltipModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
-          {path: 'assessmentModuleDetails', component: AssessmentModulesDetailsComponent}
+          {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
+
         ]), StoreModule.forRoot(reducers)],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
+        {provide: ActivatedRoute, useValue: {snapshot: {paramMap: convertToParamMap({'assessmentId': '1'})}}}
         // {provide: OKTA_AUTH, useValue: oktaAuth},
 
       ],
@@ -186,6 +193,7 @@ describe('AssessmentModulesDetailsComponent', () => {
       assessmentState:"inProgress",
       teamSize: 1,
       users: ["abc@thoughtworks.com"],
+      owner:true,
       updatedAt: 12341234,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
@@ -201,13 +209,12 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.selectedIndex = 0;
     component.topics = [{
       topicId: 1,
-      topicName: "hello",
-      assessmentLevel: "topic",
+      topicName: "hello",updatedAt:0, active:false,
       parameters: [],
       module: 1,
       references: []
-    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
-      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
+    }, {topicId: 2, topicName: "hello",updatedAt:0, active:false, parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello",updatedAt:0, active:false, parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
@@ -218,14 +225,25 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.topics = [{
       topicId: 1,
       topicName: "hello",
-      assessmentLevel: "topic",
+      active : false,
       parameters: [],
       module: 1,
-      references: []
-    }, {topicId: 2, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []},
-      {topicId: 3, topicName: "hello", assessmentLevel: "topic", parameters: [], module: 1, references: []}]
+      references: [],updatedAt:0,
+    }, {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,},
+      {topicId: 3, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
+  });
+  it("should navigate to particular module", () => {
+    let dummyModule:ModuleStructure ={
+      active: false,
+      comments: "",
+      updatedAt: 0,
+      moduleId:1,moduleName:"hello",topics:[{topicId:1,topicName:"topic",module:1,parameters:[],references:[],updatedAt:0, active:false,}],category:0}
+    component.navigate(dummyModule)
+    expect(component.moduleSelected).toBe(1)
+    expect(component.topics.length).toBe(1)
+
   });
 
 });

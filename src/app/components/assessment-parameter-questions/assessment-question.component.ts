@@ -15,8 +15,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
@@ -62,8 +61,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   private savedAnswer: UpdatedStatus = {assessmentId: 0, status: ""};
   private cloneAnswerResponse1: AssessmentStructure;
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularAnswer = debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
 
   }

@@ -137,7 +137,7 @@ describe('validating functionality of login page of xAct application', () => {
     cy.visit('/')
     loginPage.xActLogin()
     loginPage.xActHomepagetitleValidation()
-    loginPage.userNameDisplay().click()
+    //loginPage.userNameDisplay().click()
     //loginPage.logOut().click()
     // cy.title().should('eq','Thoughtworks - Sign In')
   })

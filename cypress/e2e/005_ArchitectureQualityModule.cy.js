@@ -2,6 +2,8 @@ import loginPage from "../pageObjects/loginPage.cy";
 import landingPage from "../pageObjects/landingPage.cy";
 import commonFunction from '../pageObjects/commonFunction.cy'
 import assessmentPage from "../pageObjects/assessmentPage.cy";
+import manageModules from "../pageObjects/manageModules.cy";
+import 'cypress-if'
 
 
 describe('validating creating Assessment assessment popup functionality', () => {
@@ -13,6 +15,14 @@ describe('validating creating Assessment assessment popup functionality', () => 
   //Architectural style parameter
   it('tc001 Architectural style parameter validation',()=> {
     landingPage.assessmentNameInGrid(1).click()
+    // manageModules.moduleHeader().then($moduleHeader =>{
+    //   if($moduleHeader.is(':visible')){
+    //     manageModules.moduleCheckBox(1).click()
+    //     commonFunction.clickOnElement(manageModules.saveButton())
+    //   }
+    // })
+    manageModules.moduleCheckBox(1).click()
+    commonFunction.clickOnElement(manageModules.saveButton())
     cy.fixture('ArchitecturalStyle').then((testData) => {
       assessmentPage.topicTab(1).should('have.class', 'mat-ripple mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted')
       assessmentPage.parameter(1).should('be.visible').contains(testData[0].ArchitecturalStyleParameters[0])
@@ -118,6 +128,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
 
         it('tc010 Technology stack Assignment score description validation', () => {
+
           landingPage.assessmentNameInGrid(1).click()
           assessmentPage.topicTab(3).click()
           cy.fixture('ArchitecturalStyle').then((testData) => {

@@ -54,18 +54,6 @@ p {
 }
 
 
-.rating-disabled {
-  width: 76px;
-  height: 76px;
-  background: #F7F7F7 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 6px #00000029;
-  color: #6D9D79;
-  opacity: 1;
-  text-align: center;
-  cursor: pointer;
-  margin-right: 0.6em;
-}
-
 .rating {
   width: 76px;
   height: 76px;
@@ -102,16 +90,6 @@ p {
   background: transparent url('src/assets/Path 3417/Path 3417.png') 0% 0% no-repeat padding-box;
 }
 
-.textArea {
-  width: 95%;
-  height: 100px;
-  font-size: 15px;
-}
-
-textArea.mat-input-element {
-  padding-bottom: 30px;
-}
-
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
@@ -128,10 +106,6 @@ textArea.mat-input-element {
   caret-color: #45A0AC !important;
 }
 
-::ng-deep .topicAssessment {
-  overflow-y: scroll !important;
-}
-
 .reference {
   padding-right: 1.5em;
   text-align: justify;
@@ -140,13 +114,6 @@ textArea.mat-input-element {
   padding-bottom: 5px;
 }
 
-::ng-deep .saveSnackbar {
-  background-color: #6B9F78 !important;
-}
-
-::ng-deep .errorSnackbar {
-  background-color: #F15F79 !important;
-}
 @media screen and (max-width: 1000px) {
   .scoreReference{
     font-size: 14px;
@@ -154,15 +121,6 @@ textArea.mat-input-element {
   .scoreHeading{
     font-size: 17px;
   }
-}
-
-.recommendation {
-  margin-top: 13px;
-  margin-right: 50px;
-  margin-bottom: 20px;
-  background: 1% 1% no-repeat padding-box;
-  box-shadow: 1px 1px 6px #013D4F29;
-  border-left: 1px solid #FFFFFF;
 }
 
 .plusIcon {
@@ -183,27 +141,6 @@ textArea.mat-input-element {
 
 .button1:hover {
   background-color: #00000024;
-}
-
-
-.parent {
-  display: flex;
-}
-
-.effect {
-  padding-left: 10%;
-}
-
-.deliveryHorizon {
-  padding-left: 20%;
-}
-
-.radio1, .radio2, .input1 {
-  padding-top: 10px;
-}
-
-.input1 {
-  width: auto;
 }
 
 .mat-card {

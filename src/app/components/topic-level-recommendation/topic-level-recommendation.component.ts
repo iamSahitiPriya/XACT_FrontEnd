@@ -8,8 +8,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {TopicRecommendationResponse} from "../../types/topicRecommendationRespose";
@@ -71,8 +70,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
   recommendationId: number;
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.topicRecommendationResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.topicRecommendationResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularTopicRecommendationText = debounce(this.saveParticularTopicRecommendationText, DEBOUNCE_TIME)
   }
 
@@ -189,7 +188,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
         this.cloneTopicRecommendationResponse.topicRatingAndRecommendation[index].topicLevelRecommendation = this.topicRecommendationSample;
       } else {
         this.cloneTopicRecommendationResponse.topicRatingAndRecommendation.push(topicRecommendation);
-
       }
     } else {
       this.cloneTopicRecommendationResponse.topicRatingAndRecommendation = updatedRecommendationList;

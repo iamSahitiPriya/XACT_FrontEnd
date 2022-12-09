@@ -24,5 +24,6 @@ export interface AssessmentStructure {
   "parameterRatingAndRecommendation": ParameterRatingAndRecommendation[],
   "topicRatingAndRecommendation": TopicRatingAndRecommendation[],
   "userQuestionResponseList":UserQuestionResponse[]
+  "owner":boolean
 }
 

@@ -23,6 +23,7 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 import {AdminModuleResponse} from "../../types/AdminModuleResponse";
 import {UserQuestion} from "../../types/UserQuestion";
+import {TopicReference} from "../../types/topicReference";
 
 
 @Injectable({
@@ -135,22 +136,25 @@ export class AppServiceService {
     return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
   }
 
-  getAllModules():Observable<AdminModuleResponse[]>{
-    return this.http.get<AdminModuleResponse[]>(environment.BaseURI + environment.ALL_MODULE_URI);
-  }
 
   saveCategory(categoryRequest:any){
     return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
+  saveParameter(parameterRequest:any){
+    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
+  }
   saveModule(moduleRequest :any){
-    return this.http.post(environment.BaseURI + environment.ALL_MODULE_URI,moduleRequest)
+    return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI,moduleRequest)
   }
   updateCategory(categoryRequest:any){
     return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId , categoryRequest);
   }
+  updateParameter(parameterRequest:any, parameterId: number){
+    return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId , parameterRequest)
+  }
 
   updateModule(moduleRequest: any) {
-      return this.http.put(environment.BaseURI + environment.ALL_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
+      return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI+"/"+moduleRequest.moduleId , moduleRequest);
   }
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_ADMIN_REPORT_URI + "/" + adminAssessmentRequest.assessmentId + "/"+adminAssessmentRequest.startDate+"/"+adminAssessmentRequest.endDate, {responseType: 'blob'})
@@ -179,6 +183,27 @@ export class AppServiceService {
     const headers = {'content-type': 'application/json'}
     return this.http.delete(environment.BaseURI+environment.DELETE_USER_QUESTION_URI+"/"+assessmentId+"/"+questionId,{'headers':headers})
   }
+
+  deleteAssessment(assessmentId: number) : Observable<any> {
+    return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
+  }
+  saveTopic(topicRequest:any) : any{
+    return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  }
+  updateTopic(topicRequest: any, topicId:number) {
+    return this.http.put<any>(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
+  }
+
+  saveTopicReference(topicReferenceRequest:any) {
+    return this.http.post<TopicReference>(environment.BaseURI + environment.SAVE_TOPIC_REFERENCE_URI, topicReferenceRequest)
+  }
+  deleteTopicReference(referenceId: number) {
+    return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_REFERENCE_URI + "/" + referenceId)
+  }
+  updateTopicReference(referenceId: number,topicReferenceRequest: TopicReference) {
+    return this.http.put<TopicReference>(environment.BaseURI + environment.UPDATE_TOPIC_REFERENCE_URI + "/" + referenceId,topicReferenceRequest)
+  }
+
 }
 
 

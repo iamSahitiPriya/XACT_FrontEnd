@@ -1,0 +1,67 @@
+
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div class="header">
+
+  <p class="heading">{{header}}</p>
+  <span class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button></span>
+  <div class="score-card">{{scoreCard}}</div>
+  <div class="reference-button">
+    <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
+  </div>
+
+  <div *ngIf="topicReferences !== undefined" class="references">
+    <div class="reference" *ngFor="let reference of topicReferences;let i = index">
+
+      <div class="rating-dropdown">
+        <mat-form-field appearance="outline" class="selectDropdown">
+      <mat-select [(ngModel)]="reference.rating" required
+                  [disabled]="reference.isEdit===false">
+        <mat-option *ngFor="let rating of rating"
+                    [value]="rating.rating"
+                    [disabled]="rating.selected === true">
+          {{rating.rating}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        {{inputErrorMessage}}
+      </mat-error>
+      </mat-form-field>
+      </div>
+
+      <div class="referenceInput">
+        <mat-form-field appearance="outline" class="reference-input">
+        <textarea matInput
+                  name="reference{{reference.referenceId}}"
+                  id="reference{{reference.reference}}"
+                  [(ngModel)]="reference.reference"
+                  [readonly]="reference.isEdit===false"
+                  cdkTextareaAutosize
+                  class="textArea1"
+                  cdkAutosizeMinRows="3"
+                  cdkAutosizeMaxRows="10"
+                  maxlength="10000">
+        </textarea>
+      </mat-form-field>
+      </div>
+
+      <div *ngIf="reference.isEdit===false" class="edit-button">
+        <button (click)="setIsEdit(reference)">Edit</button>
+      </div>
+
+      <div *ngIf="reference.isEdit===true" class="save">
+        <div class="save-reference-button">
+          <button mat-flat-button class="save-button" type="submit" (click)="saveTopicReference(reference)" [disabled]="isInputValid(reference)">Save</button>
+        </div>
+        <div class="delete-icon">
+          <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
+        </div>
+      </div>
+
+  </div>
+  </div>
+</div>

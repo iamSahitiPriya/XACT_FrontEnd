@@ -36,40 +36,6 @@ h2 {
   font-family: 'Inter', sans-serif;
 }
 
-.mat-expansion-panel {
-  border-radius: 0;
-  margin-right: -10px;
-  margin-left: -10px;
-  background: transparent;
-  box-shadow: none;
-  margin-bottom: 23px
-}
-
-.mat-expansion-panel-header {
-  background-color: #F4FAFC;
-  font-size: 18px;
-  color: #043D4E;
-}
-
-.mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
-  background-color: #F4FAFC;
-  -webkit-transition: none;
-  transition: none;
-}
-
-.mat-expansion-panel-header-title {
-  color: #043D4E;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-}
-
-.mat-expansion-panel-content {
-  display: flex;
-  flex-direction: row;
-  overflow: visible;
-  height: 250px;
-}
-
 .categoryCard {
   margin-top: 20px;
   width: 100%;
@@ -111,36 +77,6 @@ h2 {
   color: #4BA1AC;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-}
-
-.categoryModules {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  margin-left: -43px;
-  margin-right: -43px;
-}
-
-.finishAssessment {
-  background-color: #4BA1AC;
-  font-family: 'Inter', sans-serif;
-  color: white;
-  padding: 13px 39px;
-  font-size: 16px;
-  border-radius: 4px;
-  border-color: transparent;
-}
-
-#assessmentButton {
-  display: flex;
-  position: inherit;
-  flex-direction: row-reverse;
-  padding-top: 320px;
-}
-.computerIcon{
-  float: right;
-  margin-left: 89%;
 }
 
 .moduleCards{

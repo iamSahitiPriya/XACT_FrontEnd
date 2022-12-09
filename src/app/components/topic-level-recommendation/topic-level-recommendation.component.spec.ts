@@ -88,6 +88,7 @@ describe('RecommendationComponent', () => {
       teamSize: 0,
       assessmentState:"inProgress",
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -151,6 +152,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -209,6 +211,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -268,6 +271,7 @@ describe('RecommendationComponent', () => {
       assessmentState:"inProgress",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -406,6 +410,7 @@ describe('RecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

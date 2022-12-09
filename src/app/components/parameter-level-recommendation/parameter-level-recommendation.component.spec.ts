@@ -81,6 +81,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -154,6 +155,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -225,6 +227,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -300,6 +303,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -444,6 +448,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,
@@ -548,6 +553,7 @@ describe('ParameterRecommendationComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
+      owner:true,
       answerResponseList: [
         {
           questionId: 1,

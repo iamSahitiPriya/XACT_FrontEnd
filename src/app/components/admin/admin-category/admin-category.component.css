@@ -20,8 +20,8 @@ th {
 }
 
 th.category, td.category {
- border-bottom-style: none;
- text-align: center;
+  border-bottom-style: none;
+  text-align: center;
 }
 
 td.category {
@@ -32,11 +32,11 @@ td.category {
   letter-spacing: 0px;
   color: #52575D;
   opacity: 1;
-  width: 28%;
+  width: 30%;
   word-break: break-word;
 }
+
 .delete {
-  min-width: 0px;
   padding: 0;
 }
 
@@ -73,6 +73,7 @@ td.category:last-of-type {
 .categoryActive {
   padding-right: 4em;
 }
+
 ::ng-deep .mat-slide-toggle.mat-disabled {
   opacity: 1 !important;
 }
@@ -98,11 +99,6 @@ div.buttonColumn {
   color: #FFFFFF;
   text-transform: capitalize;
 }
-
-/*.plusIcon {*/
-/*  background-color: unset;*/
-/*  border: none;*/
-/*}*/
 
 #addCategory {
   color: #4ba1ac;
@@ -193,10 +189,6 @@ tr:nth-of-type(5n + 5) span.circle {
 }
 
 .mat-icon#delete {
-  height: 29px;
-  width: 22px;
-  margin-right: -77px;
-  margin-left: -36px;
   display: inline-block;
   margin-bottom: 3px;
 }
@@ -206,6 +198,10 @@ tr:nth-of-type(5n + 5) span.circle {
   margin-right: -2px;
   display: inline-block;
   margin-top: 8px;
+}
+
+td.category:nth-child(4) {
+  text-align: center;
 }
 
 .comments {
@@ -253,11 +249,7 @@ td.expandedData {
 }
 
 .closeIcon {
-  width: 24px;
-  height: 24px;
-  opacity: 1;
-  margin-right: -77px;
-  margin-left: -36px;
+  text-align: center;
   display: inline-block;
 }
 
@@ -268,6 +260,16 @@ button.closeButton {
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
+}
+
+.filter-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 16px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 25%;
 }
 
 

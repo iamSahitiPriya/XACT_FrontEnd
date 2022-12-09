@@ -4,8 +4,8 @@
 
 import {AssessmentStructure} from "../types/assessmentStructure";
 import {createAction, props} from '@ngrx/store';
-import {UpdatedStatus} from "../types/UpdatedStatus";
 import {TopicRatingResponse} from "../types/topicRatingResponse";
+import {CategoryResponse} from "../types/categoryResponse";
 
 export const getAssessmentData = createAction('[ASSESSMENT STRUCTURE] Get assessment', props<{ payload: AssessmentStructure }>())
 
@@ -15,8 +15,10 @@ export const getUpdatedAssessmentData = createAction("Assessment Updated data", 
 
 export const setErrorMessage = createAction("Error message", props<{ error: string }>());
 
-export const setUpdatedInfo = createAction("Set updated info", props<{ info: UpdatedStatus }>())
-
-export const getUpdatedInfo = createAction("Get updated info", props<{ info: UpdatedStatus }>());
-
 export const setAverageComputedScore = createAction("Set Average Score", props<{ averageScoreDetails: TopicRatingResponse }>())
+
+export const getAllCategories = createAction("Get master data", props<{ categories: CategoryResponse[] }>())
+
+export const getUpdatedCategories = createAction("Get updated master data", props<{ newMasterData: CategoryResponse[] }>())
+
+export const isAdmin = createAction("validate the user", props<{ isAdmin: boolean }>())

@@ -126,7 +126,7 @@ class loginPage {
   }
 
   static xActHomepagetitleValidation(){
-    cy.title().should('eq','X-Act | Client maturity assessment tool')
+    cy.title().should('eq','Thoughtworks X-Act | Client maturity assessment tool')
   }
 }
 

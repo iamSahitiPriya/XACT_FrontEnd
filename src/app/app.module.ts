@@ -91,6 +91,10 @@ import {AdminModuleComponent} from "./components/admin/admin-module/admin-module
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { UserQuestionAnswerComponent } from './components/user-additional-question/user-question-answer.component';
 import { UserAdditionalAnswerComponent } from './components/user-additional-answer/user-additional-answer.component';
+import {AdminParameterComponent} from './components/admin/admin-parameter/admin-parameter.component';
+import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
+
+import {AdminReferenceComponent} from './components/admin/admin-reference/admin-reference.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -138,12 +142,20 @@ export const appRoutes: Routes = [
     },{
       path:"module",
       component:AdminModuleComponent,
-    }],
-    canActivate:[OktaAuthGuard]
-  },
+      canActivate:[OktaAuthGuard]
 
-
-];
+    },{
+      path:"topic",
+      component:AdminTopicComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
+    },{
+      path:"parameter",
+      component:AdminParameterComponent,
+      pathMatch:'full',
+      canActivate:[OktaAuthGuard]
+    }
+    ]}];
 
 @NgModule({
   declarations: [
@@ -175,6 +187,9 @@ export const appRoutes: Routes = [
     AssessmentHeaderComponent,
     UserQuestionAnswerComponent,
     UserAdditionalAnswerComponent,
+    AdminParameterComponent,
+    AdminTopicComponent,
+    AdminReferenceComponent,
   ],
 
   imports: [
