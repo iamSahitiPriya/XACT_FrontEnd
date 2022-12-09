@@ -32,7 +32,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 })
 export class AdminModuleComponent implements OnInit, OnDestroy {
   moduleStructure: ModuleData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit','action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -42,6 +42,11 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   categoryDetails: any[] = [];
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   masterData: Observable<CategoryResponse[]>;
+  noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
 
   private destroy$: Subject<void> = new Subject<void>();
 
