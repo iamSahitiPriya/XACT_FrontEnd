@@ -208,7 +208,8 @@ describe('AssessmentMenuComponent', () => {
       owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     component.type="assessmentTable";
 

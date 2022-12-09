@@ -41,13 +41,17 @@
   background-color: #00000024;
 }
 .questionArea {
-  display: inline-flex;
-  width: 94%;
-  padding-right: 4%;
+  display: -webkit-inline-flex;
+  width: 92%;
+  padding-right: 3%;
+  padding-left: 1%;
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
   width: 100% !important;
 }
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+ padding-bottom:7px !important;
+ }
 .userQuestionAnswers{
   background-color: #E8EDEE;
   width: 98%;
@@ -57,13 +61,25 @@
   display: flex;
   justify-content: flex-end;
   margin-top: -25px;
+  margin-bottom: -7px;
+}
+.questionEditFunctions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -66px;
 }
 textarea.mat-input-element.cdk-textarea-autosize {
-  color: #4BA1AC !important ;
-  font-size: 16px;
+  color: black !important ;
+  font-size: 18px;
 }
 .questionFunctionButton{
   color: #043D4E;
+}
+.questionCreateFunctions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -66px;
+  padding-bottom: 40px;
 }
 
 .saveQuestionIcon{

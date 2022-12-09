@@ -1,5 +1,5 @@
 export interface UserQuestion{
-  "questionId"?:number;
+  "questionId":number;
   "question":string;
   "answer"?:string;
 }

@@ -7,13 +7,13 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {UntypedFormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
-import * as fromReducer from "../../reducers/assessment.reducer";
+import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {data_local} from "../../messages";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {UserAnswer} from "../../types/userAnswer";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -27,22 +27,22 @@ let DEBOUNCE_TIME = 1200;
   styleUrls: ['./user-additional-answer.component.css']
 })
 
-export class UserAdditionalAnswerComponent implements OnInit{
+export class UserAdditionalAnswerComponent implements OnInit {
 
   @Input()
   userAnswerInput: UserQuestion;
 
   @Input()
-  assessmentId:number
+  assessmentId: number
 
   @Input()
-  parameterId:number
+  parameterId: number
 
   @Input()
-  userQuestionId:number
+  userQuestionId: number
 
-  autoSave : string;
-  questionId:number
+  autoSave: string;
+  questionId: number
   assessmentStatus: string;
 
 
@@ -55,8 +55,8 @@ export class UserAdditionalAnswerComponent implements OnInit{
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AssessmentState>) {
-    this.answerResponse1 = this.store.select(fromReducer.getAssessments)
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
     this.saveParticularUserAnswer = debounce(this.saveParticularUserAnswer, DEBOUNCE_TIME)
 
   }
@@ -74,21 +74,21 @@ export class UserAdditionalAnswerComponent implements OnInit{
   private cloneAnswerResponse1: AssessmentStructure;
 
 
-  userQuestion:UserQuestion = {
-    answer: "", question: "", questionId: 0
+  userAnswer: UserAnswer = {
+    answer: "", questionId: 0
   }
 
-  userQuestionResponse :UserQuestionResponse ={
+  userQuestionResponse: UserQuestionResponse = {
     answer: "", parameterId: 0, question: "", questionId: 0
 
   };
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -96,26 +96,24 @@ export class UserAdditionalAnswerComponent implements OnInit{
     AssessmentMenuComponent.answerSaved = "Saving..."
     this.userQuestionResponse.parameterId = this.parameterId
     this.userQuestionResponse.questionId = this.userQuestionId
-
     this.userQuestionResponse.question = this.userAnswerInput.question
+    this.userAnswer.questionId = this.userAnswerInput.questionId
     if (this.userAnswerInput.answer != null) {
       this.userQuestionResponse.answer = this.userAnswerInput.answer
+      this.userAnswer.answer = this.userAnswerInput.answer
+
     }
-    this.userQuestionResponse.parameterId=this.parameterId
-    this.userQuestion.questionId = this.userAnswerInput.questionId
-    this.userQuestion.answer = this.userAnswerInput.answer
-    this.userQuestion.question=this.userAnswerInput.question
     this.autoSave = "Auto Saved"
-    this.saveUserQuestionAnswer(this.userQuestion,this.assessmentId,this.parameterId,this.userQuestionResponse);
+    this.saveUserQuestionAnswer(this.userAnswer, this.assessmentId, this.parameterId, this.userQuestionResponse);
   }
 
-  saveUserQuestionAnswer(userQuestion:UserQuestion,assessmentId:number,parameterId:number,userQuestionResponse:UserQuestionResponse){
-    this.appService.saveUserQuestion(userQuestion,assessmentId,parameterId).pipe(takeUntil(this.destroy$)).subscribe({
+  saveUserQuestionAnswer(userAnswer: UserAnswer, assessmentId: number, parameterId: number, userQuestionResponse: UserQuestionResponse) {
+    this.appService.updateUserAnswer(userAnswer, assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
-        assessmentData.push(this.userQuestion);
+        assessmentData.push(this.userAnswer);
         this.questionId = -1
         this.autoSave = ""
-        this.sendAnswer(userQuestionResponse)
+        this.sendUserAnswer(userQuestionResponse)
         this.updateDataSavedStatus()
       },
       error: _err => {
@@ -125,7 +123,7 @@ export class UserAdditionalAnswerComponent implements OnInit{
     });
   }
 
-  private sendAnswer(userQuestionResponse: UserQuestionResponse) {
+  private sendUserAnswer(userQuestionResponse: UserQuestionResponse) {
     let index = 0;
     let updatedUserAnswerList = [];
     updatedUserAnswerList.push(userQuestionResponse);

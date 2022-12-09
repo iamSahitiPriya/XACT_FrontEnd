@@ -74,11 +74,11 @@ describe('UserQuestionAnswerComponent', () => {
     expect(component.createQuestionFlag).toBe(false)
   })
   it('should call save User Added Question',() => {
-    component.userQuestion={
+    component.userQuestionRequest={
       question:"new"
     }
     component.questionText="new"
-    let userQuestion: UserQuestion = {
+    let userQuestion: UserQuestionRequest = {
       question:"new"
     }
     jest.spyOn(component,'saveQuestion')
@@ -90,8 +90,7 @@ describe('UserQuestionAnswerComponent', () => {
 
   })
   it('should throw error when not able  to save User Added Question',() => {
-    component.userQuestion={
-      questionId:1,
+    component.userQuestionRequest={
       question:"new"
     }
     component.questionText="new"

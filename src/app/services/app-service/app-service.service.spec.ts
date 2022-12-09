@@ -19,6 +19,7 @@ import {Observable} from "rxjs";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {environment} from "../../../environments/environment";
 import {UserQuestion} from "../../types/UserQuestion";
+import {UserQuestionRequest} from "../../types/userQuestionRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -299,10 +300,11 @@ describe('AppServiceService', () => {
   });
   it("should save new added question by user", () => {
     let assessmentId= 1, parameterId= 1
-    let userQuestion: UserQuestion = {
+    let userQuestionRequest : UserQuestionRequest = {
       question:"question by user"
     }
-    expect(service.saveUserQuestion(userQuestion,assessmentId,parameterId)).toBeTruthy()
+
+    expect(service.saveUserQuestion(userQuestionRequest,assessmentId,parameterId)).toBeTruthy()
   });
   it("should delete new added question by user", () => {
     let assessmentId= 1, questionId= 1

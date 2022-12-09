@@ -17,6 +17,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {UserAnswer} from "../../types/userAnswer";
 
 describe('UserAdditionalAnswerComponent', () => {
   let component: UserAdditionalAnswerComponent;
@@ -33,9 +34,9 @@ describe('UserAdditionalAnswerComponent', () => {
   }
 
   class MockAppService {
-    public saveUserQuestion(userQuestion:UserQuestion,assessmentId:number,parameterId:number) {
-      if(userQuestion.questionId===1){
-        return of(userQuestion)
+    public updateUserAnswer(userAnswer:UserAnswer,assessmentId:number) {
+      if(userAnswer.questionId===1){
+        return of(userAnswer)
       }
       else {
         return throwError("Error!")
@@ -99,7 +100,8 @@ describe('UserAdditionalAnswerComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[{parameterId:1,question:"new",answer:"new",questionId:1}]
+      userQuestionResponseList:[{parameterId:1,question:"new",answer:"new",questionId:1}],
+      owner:true
     })
     component.userAnswerInput = {question: "new", questionId: 1, answer: "hello"}
 
@@ -108,8 +110,8 @@ describe('UserAdditionalAnswerComponent', () => {
     jest.spyOn(component, 'saveParticularUserAnswer')
     component.ngOnInit()
     component.saveParticularUserAnswer(keyEvent);
-    let userQuestion: UserQuestion = {
-      questionId: 1, question:"new",answer:"hello"
+    let userAnswer: UserAnswer = {
+      questionId: 1, answer:"hello"
     };
     let userQuestionResponse: UserQuestionResponse = {
       questionId: 1, question:"new",answer:"hello",parameterId:1
@@ -117,31 +119,50 @@ describe('UserAdditionalAnswerComponent', () => {
     }
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveUserQuestion(userQuestion,1,1).subscribe(data => {
-      expect(data).toBe(userQuestion)
+    mockAppService.updateUserAnswer(userAnswer,1).subscribe(data => {
+      expect(data).toBe(userQuestionResponse);
     })
-    expect(component.userQuestion.answer).toBe("hello")
+    expect(component.userAnswer.answer).toBe("hello")
   });
 
   it("should not save User Question Answer and throw error", () => {
-    let userQuestion: UserQuestion = {
-      questionId: 2, question:"new",answer:"hello"
+    let userAnswer: UserAnswer = {
+      questionId: 2,answer:"hello"
     };
     let userQuestionResponse: UserQuestionResponse = {
       questionId: 2, question:"new",answer:"hello",parameterId:1
 
     }
     jest.spyOn(component,'saveUserQuestionAnswer')
-    component.saveUserQuestionAnswer(userQuestion,2,2,userQuestionResponse)
+    component.saveUserQuestionAnswer(userAnswer,2,2,userQuestionResponse)
     jest.spyOn(component,"showError")
 
 
-    mockAppService.saveUserQuestion(userQuestion,2,2).subscribe(data => {
+    mockAppService.updateUserAnswer(userAnswer,2).subscribe(data => {
         expect(data).toBeUndefined()},
       error => {
         expect(component.showError).toHaveBeenCalled()
         expect(error).toBe(new Error("Error!"))
       })
   })
+
+  it('should update already saved question', () => {
+    component.userAnswerInput={
+      questionId:1,
+      question:"new?",
+      answer:"answer"
+    }
+    component.userAnswer = {
+      questionId: 1,answer:"updated Answer"
+    };
+    let userQuestionResponse: UserQuestionResponse = {
+      questionId: 2, question:"new",answer:"hello",parameterId:1
+    }
+    jest.spyOn(component,'saveUserQuestionAnswer')
+    component.saveUserQuestionAnswer(component.userAnswer,2,2,userQuestionResponse)
+
+    expect(component.userAnswer.answer).toBe("updated Answer")
+  })
+
 
 });

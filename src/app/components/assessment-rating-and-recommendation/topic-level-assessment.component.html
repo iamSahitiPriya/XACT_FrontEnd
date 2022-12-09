@@ -23,19 +23,13 @@
         </div>
       </div>
 
-<!--      <button (click)="addUserQuestion(topicRequest.parameterLevel[i].parameterRatingAndRecommendation)"-->
-<!--              class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">-->
-<!--        <div>-->
-<!--          <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span-->
-<!--          id="addRecommendation"> Add Question </span>-->
-<!--        </div>-->
-<!--      </button>-->
 
       <div>
         <app-user-question-answer [additionalQuestionCount]=topicRequest.parameterLevel[i].userQuestionRequestList.length   [parameterId]="parameter.parameterId"
                                   [assessmentId]="assessmentId"
                                   [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                   [parameterIndex]="i"
+                                  [parameterName]="parameter.parameterName"
                                   [questionIndex]="parameter.questions.length"
         ></app-user-question-answer>
       </div>

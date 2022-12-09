@@ -44,7 +44,8 @@ class MockAppService {
     questions: [],
     references: [],
     topic: -1,
-    updatedAt: 1234567
+    updatedAt: 1234567,
+    userQuestions:[]
   }]
 
 
@@ -216,6 +217,7 @@ describe('AdminParameterComponent', () => {
             "active": true,
             "questions":[],
             "references":[],
+            "userQuestions":[]
           }],
           "references": []
         }, {

@@ -21,9 +21,10 @@ import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
-import {AdminModuleResponse} from "../../types/AdminModuleResponse";
 import {UserQuestion} from "../../types/UserQuestion";
 import {TopicReference} from "../../types/topicReference";
+import {UserAnswer} from "../../types/userAnswer";
+import {UserQuestionRequest} from "../../types/userQuestionRequest";
 
 
 @Injectable({
@@ -175,10 +176,19 @@ export class AppServiceService {
     queryParams = queryParams.append("name",name);
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI , {params:queryParams})
   }
-  saveUserQuestion(userQuestion:UserQuestion, assessmentId:number,parameterId:number): Observable<any> {
+  saveUserQuestion(userQuestionRequest:UserQuestionRequest, assessmentId:number,parameterId:number): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI+environment.CREATE_USER_QUESTION_URI+"/"+assessmentId+"/"+parameterId , userQuestion, {'headers': headers})
+    return this.http.post(environment.BaseURI+environment.CREATE_UPDATE_USER_QUESTION_URI+"/"+assessmentId+"/"+parameterId , userQuestionRequest.question, {'headers': headers})
   }
+  updateUserQuestion(userQuestion:UserQuestion, assessmentId:number): Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI+environment.CREATE_UPDATE_USER_QUESTION_URI+"/"+assessmentId+"/"+userQuestion.questionId , userQuestion.question, {'headers': headers})
+  }
+  updateUserAnswer(userAnswer:UserAnswer, assessmentId:number): Observable<any> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.patch(environment.BaseURI+environment.CREATE_UPDATE_USER_QUESTION_URI+"/"+assessmentId+"/"+userAnswer.questionId , userAnswer.answer, {'headers': headers})
+  }
+
   deleteUserQuestion(assessmentId:number,questionId:number):Observable<any> {
     const headers = {'content-type': 'application/json'}
     return this.http.delete(environment.BaseURI+environment.DELETE_USER_QUESTION_URI+"/"+assessmentId+"/"+questionId,{'headers':headers})
