@@ -702,6 +702,7 @@ describe('AdminParameterComponent', () => {
           "updatedAt": 1234,
           "comments": "",
           "active": true,
+          "references" : [],
           "parameters": [{
             "parameterId": 1,
             "parameterName": "parameter1",
@@ -716,14 +717,7 @@ describe('AdminParameterComponent', () => {
               "referenceId": 1,
               "parameter":1
             }]
-          }],
-          "references": [{
-            "rating" : 4,
-            "reference" : "new reference",
-            "referenceId": 1,
-            "topic":1
-          }]
-        }, {
+        }]},{
           "topicId": 3,
           "topicName": "topic2",
           "module": 1,

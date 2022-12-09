@@ -202,7 +202,7 @@ export const data_local =
         },
         REFERENCES: {
           HEADER: "References - ",
-          SCORE_CARD : "Maturity reference score card",
+          SCORE_CARD : "Maturity Reference Score Card",
           ADD_REFERENCE_BUTTON : "Add Maturity Reference",
           PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!",
           TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",

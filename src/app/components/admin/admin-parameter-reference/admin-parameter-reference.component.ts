@@ -31,7 +31,6 @@ export class AdminParameterReferenceComponent implements OnInit {
   unsavedReferences: ParameterReference[] | undefined
   rating: any [] = []
   referenceToSend: any = {}
-  isParameterLevel: boolean
   unsavedChanges: ParameterReference;
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -60,7 +59,6 @@ export class AdminParameterReferenceComponent implements OnInit {
       this.categories = data
       this.setParameterReferences()
       this.getParameterId()
-      this.isParameterLevel = this.isParameterLevelReference()
       this.unsavedReferences = cloneDeep(this.getReferenceFromParameter())
       this.disableSavedRatings()
     })
@@ -188,17 +186,6 @@ export class AdminParameterReferenceComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  private isParameterLevelReference() {
-    let flag: boolean = false
-    let topic = this.getSelectedTopic()
-    if (topic?.parameters !== undefined) {
-      topic?.parameters.forEach((parameter: { references: string | any[] | undefined; }) => {
-        if (parameter.references !== undefined && parameter.references.length !== 0)
-          flag = true
-      })
-    }
-    return flag;
-  }
 
   setParameterReferences() {
     let references = this.getReferenceFromParameter()
@@ -215,9 +202,6 @@ export class AdminParameterReferenceComponent implements OnInit {
     return this.categories.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics.find(topic => topic.topicId === this.topic)?.parameters.find(parameter => parameter.parameterName === this.parameter.parameterName)?.references
   }
 
-  private getSelectedTopic() {
-    return this.categories.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics.find(topic => topic.topicId === this.topic)
-  }
 
   addMaturityReference() {
     this.deleteUnSavedReferences()

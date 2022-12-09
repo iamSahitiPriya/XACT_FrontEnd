@@ -35,7 +35,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   unsavedChanges : TopicReference
   rating : any [] = []
   referenceToSend : any = {}
-  isTopicLevel : boolean
   private destroy$: Subject<void> = new Subject<void>();
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
@@ -63,7 +62,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       this.categories = data
       this.setTopicReferences()
       this.getTopicId()
-      this.isTopicLevel = this.isTopicLevelReference()
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
       this.disableSavedRatings()
     })
@@ -293,18 +291,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       let rating = this.rating.find(rating => rating.rating === reference.rating)
       rating.selected = true
     })
-  }
-
-   isTopicLevelReference() {
-    let flag : boolean = true
-    let topic = this.getSelectedTopic()
-    if(topic?.parameters !== undefined) {
-      topic?.parameters.forEach(parameter => {
-        if (parameter.references !== undefined && parameter.references.length !== 0)
-          flag = false
-      })
-    }
-    return flag;
   }
 
   private getTopicId() {

@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<div class="content" *ngIf="isParameterLevel">
+<div class="content">
   <div class="score-card">
     <span>{{scoreCard}}</span>
   </div>
@@ -81,10 +81,7 @@
           <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
-
-<div class="message" *ngIf="isParameterLevel === false">{{topicReferenceMessage}}</div>
 

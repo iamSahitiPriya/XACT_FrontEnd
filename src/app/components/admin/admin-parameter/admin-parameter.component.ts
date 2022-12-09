@@ -429,13 +429,13 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private isParameterReference(row: any) {
-    let flag = false;
-    this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
+    let flag = true;
+    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
     find(module => module.moduleName === row.moduleName)?.topics.
-    find(topic => topic.topicName === row.topicName)?.parameters.forEach(parameter => {
-      if (parameter.references !== undefined && parameter.references.length !== 0)
-        flag = true
-    })
+    find(topic => topic.topicName === row.topicName)?.references
+      if (references !== undefined && references.length !== 0)
+        flag = false
+
     return flag
   }
 }
