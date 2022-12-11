@@ -1,13 +1,13 @@
 <div class="additionalQuestion" >
 <div *ngIf="additionalQuestionCount>0">
-  <div class="additionalQuestionHeading">{{additionalQuestionHeading}} {{parameterName}}</div>
-<!--  <mat-expansion-panel>-->
-<!--    <mat-expansion-panel-header>-->
-<!--      <mat-panel-title>-->
-<!--        Additional Questions-->
-<!--      </mat-panel-title>-->
-<!--    </mat-expansion-panel-header>-->
-  <div class="userQuestionAnswers">
+  <div class="additionalQuestionHeading">
+  <div >{{additionalQuestionHeading}} {{parameterName}}</div>
+    <button class="expandBar" (click)="closeAccordion($event)">
+    <mat-icon *ngIf="!showAccordion">expand_more</mat-icon>
+    <mat-icon *ngIf="showAccordion">expand_less</mat-icon>
+    </button>
+    </div>
+  <div class="userQuestionAnswers" *ngIf="showAccordion">
     <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
 
       <div *ngIf="questionEditFlagNumber === userQuestion.questionId ">
@@ -69,8 +69,7 @@
 
 </div>
 </div>
-<!--  </mat-expansion-panel>-->
-</div>
+  </div>
 
 <button (click)="generateQuestion()" class="addQuestion button1"  id="addQuestionBox" [disabled]="assessmentStatus ==='Completed'">
   <div>

@@ -104,6 +104,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  showAccordion: any = true;
 
 
   saveQuestion() {
@@ -222,4 +223,8 @@ export class UserQuestionAnswerComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 
+  closeAccordion($event: MouseEvent) {
+    this.showAccordion = !this.showAccordion;
+
+  }
 }

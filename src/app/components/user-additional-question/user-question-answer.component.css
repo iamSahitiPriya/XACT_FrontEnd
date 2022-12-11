@@ -6,8 +6,18 @@
   font-size: 20px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
-  display: inline-table;
-  padding: 15px 152px 8px 20px;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+}
+.expandBar{
+  margin-left: 60%;
+  border: none;
+  background-color: transparent;
+  margin-bottom: 12px;
+  color: #043D4E;
+
 }
 #addQuestion {
   color: #4ba1ac;
@@ -75,6 +85,7 @@ textarea.mat-input-element.cdk-textarea-autosize {
 .questionFunctionButton{
   color: #043D4E;
   border: none;
+  background-color: transparent;
 }
 .questionCreateFunctions{
   display: flex;
@@ -86,4 +97,5 @@ textarea.mat-input-element.cdk-textarea-autosize {
 .saveQuestionIcon{
   color: #6B9E78;
   border: none;
+  background-color: transparent;
 }
