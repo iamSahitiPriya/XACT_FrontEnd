@@ -24,6 +24,7 @@ import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 
 export const saveAssessmentData = [{}]
 
@@ -156,9 +157,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
       questionId: questionId, answer: answer
     };
   }
-  getUserQuestions(questionId:number,question:string, answer:string|undefined): UserQuestion {
+  getUserQuestions(questionId:number,parameterId:number, question:string, answer:string): UserQuestionSaveRequest {
     return {
-      questionId:questionId, question:question, answer:answer
+      questionId:questionId,parameterId:parameterId, question:question, answer:answer
     }
   }
 
@@ -178,18 +179,20 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     }
     return answerRequest
   }
-  getUserQuestionList(parameter: ParameterStructure) : UserQuestion[] {
+  getUserQuestionList(parameter: ParameterStructure) : UserQuestionSaveRequest[] {
     const userQuestionRequest = []
     let userQuestionText: string;
     let userAnswerText: string ;
     let userQuestionId:number ;
+    let parameterId:number;
     if(this.answerResponse.userQuestionResponseList !== undefined){
       for(let userQuestion in this.answerResponse.userQuestionResponseList){
         if(this.answerResponse.userQuestionResponseList[userQuestion].parameterId === parameter.parameterId){
           userQuestionText= this.answerResponse.userQuestionResponseList[userQuestion].question
           userAnswerText = this.answerResponse.userQuestionResponseList[userQuestion].answer
           userQuestionId = this.answerResponse.userQuestionResponseList[userQuestion].questionId
-          userQuestionRequest.push(this.getUserQuestions(userQuestionId,userQuestionText,userAnswerText))
+          parameterId = this.answerResponse.userQuestionResponseList[userQuestion].parameterId
+          userQuestionRequest.push(this.getUserQuestions(userQuestionId,parameterId,userQuestionText,userAnswerText))
         }
       }
     }

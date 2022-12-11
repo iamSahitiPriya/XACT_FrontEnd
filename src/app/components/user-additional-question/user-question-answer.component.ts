@@ -109,8 +109,8 @@ export class UserQuestionAnswerComponent implements OnInit {
             this.createQuestionFlag = false;
             this.userQuestionResponse = _data;
             this.sendUserQuestionAnswer(this.userQuestionResponse)
-            this.updateDataSavedStatus()
             this.questionText = ""
+            this.updateDataSavedStatus()
 
           }, error: _error => {
             this.showError(this.errorMessagePopUp);
@@ -137,7 +137,6 @@ export class UserQuestionAnswerComponent implements OnInit {
     this.createQuestionFlag = false
     this.additionalQuestionCount -= 1
     this.questionText = ""
-    console.log(this.userQuestionList.length,this.additionalQuestionCount)
   }
 
   deleteUserQuestion(questionId: number) {
@@ -145,9 +144,9 @@ export class UserQuestionAnswerComponent implements OnInit {
       this.appService.deleteUserQuestion(this.assessmentId, questionId).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           this.removeUserQuestion(questionId)
-          this.updateDataSavedStatus();
           this.additionalQuestionCount -= 1;
           this.questionEditFlag = false;
+          this.updateDataSavedStatus();
         },
         error: _error => {
           this.showError(this.errorMessagePopUp);
@@ -170,9 +169,9 @@ export class UserQuestionAnswerComponent implements OnInit {
               this.userQuestionResponse.answer = userQuestion.answer
             }
             this.sendUserQuestionAnswer(this.userQuestionResponse)
-            this.updateDataSavedStatus()
             this.questionText = ""
             this.questionEditFlag = false
+            this.updateDataSavedStatus()
           },
           error: _error => {
             this.showError(this.errorMessagePopUp);
@@ -195,9 +194,7 @@ export class UserQuestionAnswerComponent implements OnInit {
         }
       } else {
         this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
-        this.userQuestionList.push(userQuestionResponse)
-
-      }
+        this.userQuestionList.push(userQuestionResponse)}
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
     }

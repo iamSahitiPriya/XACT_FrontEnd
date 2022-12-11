@@ -28,6 +28,7 @@ import {debounce} from "lodash";
 import {AssessmentAverageRatingComponent} from "../assessment-average-rating/assessment-average-rating.component";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {UserQuestion} from "../../types/UserQuestion";
+import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 
 class MockAppService {
 
@@ -118,7 +119,7 @@ describe('TopicLevelAssessmentComponent', () => {
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
-        userQuestionRequestList:[{questionId:1,question:"new",answer:"new"}],
+        userQuestionRequestList:[{questionId:1,parameterId:1,question:"new",answer:"new"}],
 
         parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
       }], topicRatingAndRecommendation: {
@@ -349,7 +350,7 @@ describe('TopicLevelAssessmentComponent', () => {
 
     }
     const dummyAnswerRequest: Notes[] = [{questionId: 1,answer:undefined}]
-    let dummyUserQuestionRequestList: UserQuestion[] =[];
+    let dummyUserQuestionRequestList: UserQuestionSaveRequest[] =[];
 
     let dummyNewParameter: ParameterRequest = {
 

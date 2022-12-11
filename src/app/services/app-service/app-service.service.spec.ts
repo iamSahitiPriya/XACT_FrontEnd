@@ -20,6 +20,8 @@ import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {environment} from "../../../environments/environment";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
+import {User} from "../../types/user";
+import {UserAnswer} from "../../types/userAnswer";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -306,6 +308,22 @@ describe('AppServiceService', () => {
 
     expect(service.saveUserQuestion(userQuestionRequest,assessmentId,parameterId)).toBeTruthy()
   });
+
+  it("should update user question", () => {
+    let userQuestion:UserQuestion = {
+      questionId:1,question:"updated"
+    }
+    let assessmentId= 1;
+    expect(service.updateUserQuestion(userQuestion,assessmentId)).toBeTruthy()
+  });
+  it("should update user answer", () => {
+    let userAnswer:UserAnswer = {
+      questionId:1,answer:"updated"
+    }
+    let assessmentId =1;
+    expect(service.updateUserAnswer(userAnswer,assessmentId)).toBeTruthy()
+  });
+
   it("should delete new added question by user", () => {
     let assessmentId= 1, questionId= 1
     expect(service.deleteUserQuestion(assessmentId,questionId)).toBeTruthy()
