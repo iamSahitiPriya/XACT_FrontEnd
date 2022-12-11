@@ -68,6 +68,12 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
+  additionalQuestionHeading = data_local.ADDITIONAL_QUESTIONS.HEADING;
+  addQuestionButtonText = data_local.ADDITIONAL_QUESTIONS.ADD_QUESTION_TEXT;
+  editHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.EDIT;
+  saveHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.SAVE;
+  updateHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.UPDATE;
+  deleteHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.DELETE;
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {

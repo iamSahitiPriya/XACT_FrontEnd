@@ -1,6 +1,6 @@
 <div class="additionalQuestion" >
 <div *ngIf="additionalQuestionCount>0">
-  <div class="additionalQuestionHeading">Additional Questions - {{parameterName}}</div>
+  <div class="additionalQuestionHeading">{{additionalQuestionHeading}} {{parameterName}}</div>
 <!--  <mat-expansion-panel>-->
 <!--    <mat-expansion-panel-header>-->
 <!--      <mat-panel-title>-->
@@ -26,8 +26,8 @@
         </form>
 
      <div class="questionEditFunctions">
-      <mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="update">done</mat-icon>     <span>&nbsp;&nbsp;</span>
-       <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="delete">delete</mat-icon>
+      <button class="saveQuestionIcon"><mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="{{updateHoverText}}">done</mat-icon>  </button>   <span>&nbsp;&nbsp;</span>
+       <button class="questionFunctionButton"><mat-icon  (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
      </div>
         <br>
       </div>
@@ -36,8 +36,8 @@
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}
 
       <div class="questionFunctions" >
-        <mat-icon class="questionFunctionButton" (click)="editQuestionFlag(userQuestion.questionId)" matTooltip="edit">edit</mat-icon>   <span>&nbsp;&nbsp;</span>
-        <mat-icon class="questionFunctionButton" (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="delete">delete</mat-icon>
+       <button class="questionFunctionButton"><mat-icon  (click)="editQuestionFlag(userQuestion.questionId)" matTooltip="{{editHoverText}}">edit</mat-icon> </button>   <span>&nbsp;&nbsp;</span>
+        <button class="questionFunctionButton"><mat-icon (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
       </div></span>
       </div>
 
@@ -62,9 +62,9 @@
   </form>
 
   <div class="questionCreateFunctions">
-  <mat-icon id="saveQuestion" class="saveQuestionIcon" (click)="saveQuestion()" matTooltip="save">done</mat-icon>
+  <button class="saveQuestionIcon"> <mat-icon id="saveQuestion" (click)="saveQuestion()" matTooltip="{{saveHoverText}}">done</mat-icon> </button>
     <span>&nbsp;&nbsp;</span>
-    <mat-icon class="questionFunctionButton" (click)="removeQuestion()" matTooltip="delete">delete</mat-icon>
+    <button class="questionFunctionButton"><mat-icon  (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon> </button>
   </div>
 
 </div>
@@ -75,7 +75,7 @@
 <button (click)="generateQuestion()" class="addQuestion button1"  id="addQuestionBox" [disabled]="assessmentStatus ==='Completed'">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
-    id="addQuestion"> Add new question </span>
+    id="addQuestion"> {{addQuestionButtonText}} </span>
   </div>
 </button>
 

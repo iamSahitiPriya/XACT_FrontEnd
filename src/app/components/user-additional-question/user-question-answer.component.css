@@ -74,6 +74,7 @@ textarea.mat-input-element.cdk-textarea-autosize {
 }
 .questionFunctionButton{
   color: #043D4E;
+  border: none;
 }
 .questionCreateFunctions{
   display: flex;
@@ -84,4 +85,5 @@ textarea.mat-input-element.cdk-textarea-autosize {
 
 .saveQuestionIcon{
   color: #6B9E78;
+  border: none;
 }

@@ -245,5 +245,15 @@ export const data_local =
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR:"Data cannot be saved",
       MENU_ERROR:"Error occurred while saving the data"
+    },
+    ADDITIONAL_QUESTIONS:{
+      HEADING:"Additional Questions -",
+      ADD_QUESTION_TEXT:"Add a New Question",
+      QUESTION_FUNCTIONALITY_MESSAGE:{
+        EDIT:"Edit",
+        UPDATE:"Update",
+        SAVE:"Save",
+        DELETE:"Delete"
+      }
     }
   }
