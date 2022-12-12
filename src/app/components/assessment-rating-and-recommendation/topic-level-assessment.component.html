@@ -6,8 +6,49 @@
 
   <div class="topicQuestions" *ngIf="topicInput">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-      <div id="questionContainer">
-        <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
+      <div *ngIf="parameter.active">
+        <div id="questionContainer">
+          <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
+          </div>
+        </div>
+
+
+        <div>
+          <div class="question" *ngFor="let question of parameter.questions; let j=index;">
+            <span class="question-content">{{i + 1}}.{{j + 1}} &nbsp;{{question.questionText}}</span>
+            <br>
+            <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question"
+                                     [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"
+                                     [assessmentId]="assessmentId"
+            ></app-assessment-question>
+          </div>
+        </div>
+        <div *ngIf="parameter.references">
+          <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
+                                      [parameterId]="parameter.parameterId"
+                                      [topicId]="topicInput.topicId"
+                                      [parameterScore]="parameter.references"
+                                      [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
+                                      [assessmentId]="assessmentId"
+                                      [parameterName]="parameter.parameterName"
+                                      [parameterList]="topicRequest.parameterLevel"
+          ></app-parameter-level-rating>
+        </div>
+
+        <div *ngIf="topicInput.references">
+          <app-topic-level-rating *ngIf="topicRequest.topicRatingAndRecommendation"
+                                  [topicRecommendation]="topicInput.topicId"
+                                  [topicScore]="topicInput.references"
+                                  [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
+                                  [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
+                                  [topicName]="topicInput.topicName"
+          ></app-topic-level-rating>
+        </div>
+        <div>
+          <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
+                  mat-raised-button
+                  (click)="save()">{{saveButtonText}}
+          </button>
         </div>
       </div>
 

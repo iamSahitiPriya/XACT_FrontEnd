@@ -2,15 +2,12 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   video: false,
-  reporter: "mochawesome",
-
-
-
+  reporter: "cypress-multi-reporters",
   reporterOptions: {
     reporterEnabled: "mochawesome",
     mochawesomeReporterOptions: {
       reportDir: "mochawesome-report",
-      overwrite: true,
+      overwrite: false,
       html: true,
       json: false,
       timestamp: "mmddyyyy_HHMMss",
