@@ -55,14 +55,13 @@
                                   [topicName]="topicInput.topicName"
           ></app-topic-level-rating>
         </div>
-        <div>
-          <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
-                  mat-raised-button
-                  (click)="save()">{{saveButtonText}}
-          </button>
-        </div>
       </div>
-
+    </div>
+    <div>
+      <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
+              mat-raised-button
+              (click)="save()">{{saveButtonText}}
+      </button>
     </div>
   </div>
   <div class="averageMaturityScore">
