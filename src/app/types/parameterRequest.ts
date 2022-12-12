@@ -4,8 +4,6 @@
 
 import {Notes} from "./answerRequest";
 import {ParameterRatingAndRecommendation} from "./parameterRatingAndRecommendation";
-import {UserQuestion} from "./UserQuestion";
-import {UserQuestionRequest} from "./userQuestionRequest";
 import {UserQuestionSaveRequest} from "./userQuestionSaveRequest";
 
 

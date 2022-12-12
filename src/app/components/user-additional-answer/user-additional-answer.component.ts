@@ -104,10 +104,10 @@ export class UserAdditionalAnswerComponent implements OnInit {
 
     }
     this.autoSave = "Auto Saved"
-    this.saveUserQuestionAnswer(this.userAnswer, this.assessmentId, this.parameterId, this.userQuestionResponse);
+    this.saveUserQuestionAnswer(this.userAnswer, this.assessmentId, this.userQuestionResponse);
   }
 
-  saveUserQuestionAnswer(userAnswer: UserAnswer, assessmentId: number, parameterId: number, userQuestionResponse: UserQuestionResponse) {
+  saveUserQuestionAnswer(userAnswer: UserAnswer, assessmentId: number, userQuestionResponse: UserQuestionResponse) {
     this.appService.updateUserAnswer(userAnswer, assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(this.userAnswer);

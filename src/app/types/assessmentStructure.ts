@@ -5,7 +5,6 @@
 import {AssessmentAnswerResponse} from "./AssessmentAnswerResponse";
 import {ParameterRatingAndRecommendation} from "./parameterRatingAndRecommendation";
 import {TopicRatingAndRecommendation} from "./topicRatingAndRecommendation";
-import {UserQuestion} from "./UserQuestion";
 import {UserQuestionResponse} from "./userQuestionResponse";
 
 export interface AssessmentStructure {

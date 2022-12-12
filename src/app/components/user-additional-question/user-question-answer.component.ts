@@ -13,7 +13,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 
-let assessmentData = [{}]
+export const assessmentData = [{}]
 
 @Component({
   selector: 'app-user-question-answer',
@@ -223,7 +223,7 @@ export class UserQuestionAnswerComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }
 
-  closeAccordion($event: MouseEvent) {
+  changeAccordionState(_$event: MouseEvent) {
     this.showAccordion = !this.showAccordion;
 
   }

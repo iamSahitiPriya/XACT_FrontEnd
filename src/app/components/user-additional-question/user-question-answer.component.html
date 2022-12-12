@@ -2,7 +2,7 @@
 <div *ngIf="additionalQuestionCount>0">
   <div class="additionalQuestionHeading">
   <div >{{additionalQuestionHeading}} {{parameterName}}</div>
-    <button class="expandBar" (click)="closeAccordion($event)">
+    <button class="expandBar" (click)="changeAccordionState($event)">
     <mat-icon *ngIf="!showAccordion">expand_more</mat-icon>
     <mat-icon *ngIf="showAccordion">expand_less</mat-icon>
     </button>

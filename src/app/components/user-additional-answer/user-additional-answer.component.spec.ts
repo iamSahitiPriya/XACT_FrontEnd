@@ -134,7 +134,7 @@ describe('UserAdditionalAnswerComponent', () => {
 
     }
     jest.spyOn(component,'saveUserQuestionAnswer')
-    component.saveUserQuestionAnswer(userAnswer,2,2,userQuestionResponse)
+    component.saveUserQuestionAnswer(userAnswer,2,userQuestionResponse)
     jest.spyOn(component,"showError")
 
 
@@ -159,7 +159,7 @@ describe('UserAdditionalAnswerComponent', () => {
       questionId: 2, question:"new",answer:"hello",parameterId:1
     }
     jest.spyOn(component,'saveUserQuestionAnswer')
-    component.saveUserQuestionAnswer(component.userAnswer,2,2,userQuestionResponse)
+    component.saveUserQuestionAnswer(component.userAnswer,2,userQuestionResponse)
 
     expect(component.userAnswer.answer).toBe("updated Answer")
   })
