@@ -10,9 +10,9 @@
   flex-direction: initial;
   padding-top: 15px;
   padding-left: 18px;
+  justify-content:space-between;
 }
 .expandBar{
-  margin-left: 60%;
   border: none;
   background-color: transparent;
   margin-bottom: 12px;

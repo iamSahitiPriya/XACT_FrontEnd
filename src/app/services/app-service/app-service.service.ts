@@ -186,7 +186,7 @@ export class AppServiceService {
   }
   updateUserAnswer(userAnswer:UserAnswer, assessmentId:number): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI+environment.CREATE_UPDATE_USER_QUESTION_URI+"/"+assessmentId+"/"+userAnswer.questionId , userAnswer.answer, {'headers': headers})
+    return this.http.patch(environment.BaseURI+environment.UPDATE_USER_ANSWER_URI+"/"+assessmentId+"/"+userAnswer.questionId , userAnswer.answer, {'headers': headers})
   }
 
   deleteUserQuestion(assessmentId:number,questionId:number):Observable<any> {

@@ -38,7 +38,7 @@ export const environment = {
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
   CREATE_UPDATE_USER_QUESTION_URI:"/v1/assessments/additional_question",
-  UPDATE_USER_ANSWER_URI:"v1/assessments/additional_answer",
+  UPDATE_USER_ANSWER_URI:"/v1/assessments/additional_answer",
   DELETE_USER_QUESTION_URI:"/v1/assessments/deleteUserQuestion",
   SAVE_TOPIC_URI :"/v1/admin/topics",
   UPDATE_TOPIC_URI : "/v1/admin/topics",
