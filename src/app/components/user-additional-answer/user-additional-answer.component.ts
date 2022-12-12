@@ -103,7 +103,6 @@ export class UserAdditionalAnswerComponent implements OnInit {
       this.userAnswer.answer = this.userAnswerInput.answer
 
     }
-    this.autoSave = "Auto Saved"
     this.saveUserQuestionAnswer(this.userAnswer, this.assessmentId, this.userQuestionResponse);
   }
 

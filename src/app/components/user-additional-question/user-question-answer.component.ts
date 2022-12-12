@@ -129,8 +129,10 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   generateQuestion() {
-    this.additionalQuestionCount += 1;
-    this.createQuestionFlag = true
+    if(!this.createQuestionFlag) {
+      this.additionalQuestionCount += 1;
+      this.createQuestionFlag = true
+    }
   }
 
   editQuestionFlag(questionId: any) {
