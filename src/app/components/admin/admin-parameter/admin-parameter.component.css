@@ -49,9 +49,11 @@ th {
   opacity: 1;
 
 }
-th.parameter{
-  padding-right: 18%;
+div.parameter {
+  margin-top: 16px;
+  box-shadow: 0 5px 25px #52575d1a;
 }
+
 .editButton {
   width: 70px;
   height: 0px;
@@ -142,7 +144,7 @@ td.parameter:nth-child(6){
   height: 63px;
   margin-top: 20px;
 }
-::ng-deep .inputParameter .mat-form-field-infix{
+::ng-deep .inputTextParameter .mat-form-field-infix{
   height: 50px;
 }
 .dropDown .mat-form-field-infix {
@@ -208,7 +210,7 @@ tr.expandedParameterRow {
   border-bottom-width: 0px;
 }
 
-.inputParameter{
+.inputTextParameter{
   margin-top:26px;
 }
 .closeParameterButton{
