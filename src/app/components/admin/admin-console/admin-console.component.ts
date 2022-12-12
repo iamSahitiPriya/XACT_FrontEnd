@@ -26,7 +26,6 @@ export class AdminConsoleComponent {
   }
 
   setEvent(name: string) {
-    console.log(name)
     this.type = name;
   }
 
