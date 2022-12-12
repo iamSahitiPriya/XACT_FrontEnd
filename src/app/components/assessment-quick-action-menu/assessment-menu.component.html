@@ -40,7 +40,7 @@
       <button *ngIf="assessment.owner" id="delete-assessment" (click)="deleteAssessment(assessment.assessmentId)" mat-menu-item
               [disabled]="assessment.assessmentStatus ==='Completed'">
         <mat-icon class="iconColor">delete</mat-icon>
-        <span id="deleteAssessment" [matTooltip]=deleteAssessmentToolTip [matTooltipPosition]="'right'" >{{deleteAssessmentTitle}}</span>
+        <span id="deleteAssessment" [matTooltip]=deleteAssessmentToolTip [matTooltipPosition]="'left'" >{{deleteAssessmentTitle}}</span>
       </button>
 
 
