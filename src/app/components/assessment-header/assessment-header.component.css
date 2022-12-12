@@ -94,3 +94,19 @@
 /*.iconColor{*/
 /*  color: #043D4E ;*/
 /*}*/
+@media not all and (min-resolution:.001dpcm) {
+  @media {
+    .dataStatus{
+      letter-spacing: 0.03px;
+    }
+    .btn-report {
+      letter-spacing: 0.03px;
+    }
+    .btn-finish{
+      letter-spacing: 0.03px;
+    }
+    .btn-reopen{
+      letter-spacing: 0.03px;
+    }
+  }
+}
