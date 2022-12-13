@@ -2,13 +2,13 @@
   <div class="col-md-9">
   <app-search [dataSource]="dataSource" [columns]="['4','categoryName','moduleName','topicName','parameterName']" class="admin-searchBar"></app-search>
   </div>
-  <div class="col-md-3 topicButtonColumn">
-    <button mat-flat-button class="topicButton1" (click)="addParameterRow()">
+  <div class="col-md-3 parameterButtonColumn">
+    <button mat-flat-button class="parameterButton1" (click)="addParameterRow()">
       Add Parameter
     </button>
   </div>
 </div>
-<div class="mat-elevation-z8 topic">
+<div class="mat-elevation-z8 parameter">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows  matSort aria-describedby="parameter" class="parameterTable">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryHeader}}</th>
@@ -135,7 +135,7 @@
           <span class="text">Update</span></button>
         </span>
         <span *ngIf="row.isEdit">
-          <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveParameterRow(row)"
+          <button mat-flat-button class="saveParameterButton" type="submit" (click)="saveParameterRow(row)"
                   [disabled]="row.categoryName && row.moduleName && row.topicName &&!row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
         </span>
       </td>
@@ -145,7 +145,7 @@
       <td class="parameter" mat-cell *matCellDef="let row">
               <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
               <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
-                <mat-icon id="deleteTopic">delete</mat-icon>
+                <mat-icon id="deleteParameter">delete</mat-icon>
               </button>
               <button mat-flat-button *ngIf="!(selectedParameter === row)">
                 <mat-icon>playlist_add</mat-icon>

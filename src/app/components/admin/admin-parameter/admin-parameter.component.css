@@ -1,4 +1,4 @@
-div.topicButtonColumn {
+div.parameterButtonColumn {
   display: flex;
   justify-content: flex-end;
 }
@@ -7,7 +7,11 @@ div.topicButtonColumn {
   margin-top:20px;
 }
 
-.topicButton1 {
+div.parameter{
+  box-shadow: 0 5px 25px #52575d1a;
+}
+
+.parameterButton1 {
   width: 70%;
   height: 50px;
   background: #4BA1AC 0 0 no-repeat padding-box;
@@ -163,7 +167,7 @@ td.parameter:nth-child(6){
   color: #658892;
   margin-right: 5px;
 }
-.saveTopicButton {
+.saveParameterButton {
   width: 70px;
   height: 30px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
