@@ -116,16 +116,6 @@ describe('AssessmentModulesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should return status of category", () => {
-    jest.spyOn(component, "checkAllStatus")
-    let response = component.checkAllStatus(0)
-    expect(response).toBe(true)
-  });
-  it("should get a category", () => {
-    jest.spyOn(component, "getModule")
-    component.getCategory(0, true)
-    expect(component.getModule).toHaveBeenCalled();
-  });
   it("should save user selected module", () => {
     let moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
     component.category = {
@@ -185,15 +175,6 @@ describe('AssessmentModulesComponent', () => {
     })
     expect(component.setModules).toHaveBeenCalled()
   });
-  it("should remove a category", () => {
-    jest.spyOn(component, "getModule")
-    component.getCategory(0, false)
-    expect(component.getModule).toHaveBeenCalled();
-  });
-  it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(1, 1, true, false, true)
-    expect(response).toBeTruthy()
-  });
   it("should fetch all the user selected categories when no category is selected", () => {
     // jest.spyOn(component, "getCategoriesData")
     component.getCategoriesData(2);
@@ -201,10 +182,7 @@ describe('AssessmentModulesComponent', () => {
       expect(_date).toBe({})
     })
   });
-  it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(0, 0, true, false, true)
-    expect(response).toBeFalsy()
-  });
+
   it("should set modules", () => {
     let response = {
       userAssessmentCategories: [{
@@ -216,9 +194,10 @@ describe('AssessmentModulesComponent', () => {
       }]
     }
 
+    component.moduleRequest = []
     jest.spyOn(component, "getModule")
     component.setModules(response.userAssessmentCategories)
-    expect(component.getModule).toHaveBeenCalled()
+    expect(component.moduleRequest.length).toBe(1)
   });
   it("fetch assessment name and id from the store", () => {
     component.assessmentResponse = of({
@@ -261,5 +240,12 @@ describe('AssessmentModulesComponent', () => {
     const button = fixture.nativeElement.querySelector("#backButton");
     button.click()
     expect(component.navigateBack).toBeCalled();
+  })
+
+  it("should set allComplete to false when userAssessmentCategory is undefined", () => {
+    // @ts-ignore
+    component.category.userAssessmentCategories = undefined
+
+    expect(component.category.assessmentCategories.category[0].allComplete).toBeFalsy()
   })
 });

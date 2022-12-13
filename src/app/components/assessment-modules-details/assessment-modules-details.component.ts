@@ -17,6 +17,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {CategoryStructure} from "../../types/categoryStructure";
 
 let categories: UserCategoryResponse = {
   assessmentCategories: []
@@ -104,5 +105,14 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     drafted === "inProgress" ? this.router.navigateByUrl("assessment/" + assessmentId, {state: {type: 'url'}}) : this.router.navigateByUrl("assessmentModule/" + assessmentId, {state: {type: 'url'}});
 
 
+  }
+
+  isCategoryDisplayed(category: CategoryStructure) : boolean {
+    let isDisplayed = false
+    category.modules?.forEach(module => {
+    if(module.active && category.active)
+      isDisplayed = true
+    })
+   return isDisplayed
   }
 }

@@ -16,6 +16,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Location} from '@angular/common';
+import {AssessmentCategoryStructure} from "../../types/AssessmentCategoryStructure";
 
 
 let categories: UserCategoryResponse = {
@@ -38,7 +39,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   categoryIconMapping: Map<number, string> = new Map<number, string>()
   private destroy$: Subject<void> = new Subject<void>();
   assessmentId: number;
-  catRequest: CategoryStructure | undefined
+  catRequest: any | undefined
   moduleRequest: UserAssessmentModuleRequest[] = []
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
@@ -78,11 +79,18 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       if (data.userAssessmentCategories !== undefined) {
         categories.userAssessmentCategories = data.userAssessmentCategories;
         categories.assessmentCategories = data.assessmentCategories;
+        this.setCategorySelectedState()
         this.setModules(this.category.userAssessmentCategories);
         valueEmitter.next(categories)
       } else {
         this.category.userAssessmentCategories = []
         categories.assessmentCategories = data.assessmentCategories
+        categories.assessmentCategories?.forEach(category => {
+          category.allComplete = false
+          category.modules?.forEach((module: { selected: boolean; }) => {
+            module.selected = false
+          })
+        })
         valueEmitter.next(categories)
       }
     })
@@ -94,23 +102,29 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  checkAllStatus(categoryId: number): boolean {
-    let index = this.category.userAssessmentCategories.findIndex(category => {
-      return category.categoryId === categoryId
-    })
-    return index !== -1
-  }
+  // checkAllStatus(categoryId: number): boolean {
+  //   this.category.assessmentCategories.forEach(category => {
+  //     if(category.categoryId === categoryId)
+  //       return category.allComplete
+  //   })
+  //   return false
+  //   let index = this.category.userAssessmentCategories.findIndex(category => {
+  //     return category.categoryId === categoryId
+  //   })
+  //   return index !== -1
+  // }
 
-  getCategory(categoryId: number, selectedCategory: boolean) {
-    this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
-    if (this.catRequest !== undefined) {
-      this.catRequest.modules.forEach(modules => {
-        this.getModule(modules.moduleId, selectedCategory, selectedCategory, categoryId, true,modules.active)
-
-      })
-    }
-
-  }
+  // getCategory(categoryId: number, selectedCategory: boolean) {
+  //   this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
+  //   if (this.catRequest !== undefined) {
+  //     this.catRequest.allComplete = selectedCategory
+  //     this.catRequest.modules.forEach((modules: { moduleId: number; active: boolean; }) => {
+  //       this.getModule(modules.moduleId, selectedCategory, selectedCategory, categoryId, true,modules.active)
+  //
+  //     })
+  //   }
+  //
+  // }
 
   showError(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -131,7 +145,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
           this.navigate();
         })
       } else {
-        this.appService.updateUserModules(this.moduleRequest, this.assessmentId).subscribe(_data => {
+        this.appService.updateUserModules(arrayUniqueByKey, this.assessmentId).subscribe(_data => {
             this.navigate();
           }
         )
@@ -151,7 +165,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  getModule(moduleId: number, selectedModule: boolean, selectedCategory: boolean, categoryId: number, categoryActive: boolean,moduleActive : boolean) {
+  getModule(moduleId: number | string, selectedModule: boolean, selectedCategory: boolean, categoryId: number, categoryActive: boolean,moduleActive : boolean) {
     let moduleReq = {
       moduleId: Number(moduleId)
     }
@@ -166,22 +180,25 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean,moduleStatus : boolean): boolean {
-    let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
-    let moduleIndex = -1;
-    selectedModule = selectedCategory;
-    if (categoryIndex !== -1 && selectedModule) {
-      moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === Number(moduleId));
-    } else if (selectedCategory && moduleStatus) {
-      moduleIndex = 1;
-    }
-    return moduleIndex !== -1;
-  }
+  // checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean,moduleStatus : boolean): boolean {
+  //   let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
+  //   let moduleIndex = -1;
+  //   selectedModule = selectedCategory;
+  //   if (categoryIndex !== -1 && selectedModule) {
+  //     moduleIndex = this.category.userAssessmentCategories[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === Number(moduleId));
+  //   } else if (selectedCategory && moduleStatus) {
+  //     moduleIndex = 1;
+  //   }
+  //   return moduleIndex !== -1;
+  // }
 
   setModules(userAssessmentCategories: CategoryStructure[]) {
     for (const userAssessmentCategory of userAssessmentCategories) {
       for (const module of userAssessmentCategory.modules) {
-        this.getModule(module.moduleId, true, true, userAssessmentCategory.categoryId, userAssessmentCategory.active,module.active);
+        let moduleReq = {
+          moduleId: Number(module.moduleId)
+        }
+        this.moduleRequest.push(moduleReq)
       }
     }
   }
@@ -193,4 +210,73 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       this._location.back()
     }
   }
+
+  setAllModules(categoryId: number, checked: boolean) {
+    this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
+    this.catRequest.allComplete = checked
+    this.catRequest.modules?.forEach((module: { moduleId: number; active: boolean; selected: boolean; }) => {
+      this.getModule(module.moduleId, checked, checked, categoryId, true,module.active)
+      module.selected = checked
+      if(!module.active)
+        module.selected = false
+    })
+  }
+
+  updateAllComplete(categoryId : number) {
+    let category  = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
+    if(category !== undefined) {
+      category.allComplete = true
+      let isActive = true
+      category.modules?.forEach((module) => {
+        if (!module.active)
+          isActive =  true
+        else
+          isActive = isActive && module.selected
+      })
+      category.allComplete = isActive
+    }
+  }
+
+  setSelectedModules(categoryId : number) {
+    let category = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
+    if(category !== undefined)
+    return category.modules?.filter((module: { selected: any; }) => module.selected).length > 0 && !category.allComplete
+    else
+      return false
+  }
+
+  private setCategorySelectedState() {
+    categories.assessmentCategories.forEach(category => {
+      let selectedCategory = categories.userAssessmentCategories.find(userSelectedCategory => userSelectedCategory.categoryId ===  category.categoryId)
+      category.allComplete = false
+      if(category.modules !== undefined) {
+        category.allComplete = true
+        category.modules?.forEach((module: { selected: boolean; moduleId: number; active: boolean }) => {
+          let moduleState = this.setModuleSelectedState(selectedCategory, module);
+          category.allComplete = category.allComplete && moduleState
+        })
+      }
+    })
+  }
+
+  private setModuleSelectedState(selectedCategory: CategoryStructure | undefined, module: { selected: boolean; moduleId: number; active : boolean }) : boolean {
+    if (selectedCategory !== undefined) {
+      let selectedModule = selectedCategory.modules.find(userSelectedModule => userSelectedModule.moduleId === module.moduleId)
+      module.selected = selectedModule !== undefined;
+    } else
+      module.selected = false
+
+    return module.active ?  module.selected : true
+
+  }
+
+  isActive(category : any) {
+    if(category.active === false)
+      return true
+    else if(category.modules === undefined)
+      return true
+    else
+      return category.modules?.every((module: { active: any; }) => module.active === false)
+  }
+
 }

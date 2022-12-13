@@ -181,3 +181,7 @@ h2 {
   vertical-align: unset !important;
   line-height: unset !important;
 }
+
+::ng-deep .select .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #77969F;
+}
