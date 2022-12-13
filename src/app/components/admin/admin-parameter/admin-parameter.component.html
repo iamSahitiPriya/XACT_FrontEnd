@@ -8,7 +8,7 @@
     </button>
   </div>
 </div>
-<div class="mat-elevation-z8 topic">
+<div class="mat-elevation-z8 parameter">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows  matSort aria-describedby="parameter" class="parameterTable">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryHeader}}</th>
@@ -100,7 +100,7 @@
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="inputParameter">
+          <mat-form-field appearance="outline" class="inputTextParameter">
             <mat-label>{{parameterInput}}</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
