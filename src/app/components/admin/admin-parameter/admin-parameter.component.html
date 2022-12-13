@@ -100,7 +100,7 @@
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
-          <mat-form-field appearance="outline" class="inputParameter">
+          <mat-form-field appearance="outline" class="inputTextParameter">
             <mat-label>{{parameterInput}}</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
                  pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
