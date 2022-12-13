@@ -368,9 +368,9 @@ export class AdminParameterComponent implements OnInit {
 
 
   private updateToStore(_data: any) {
-    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === _data.topicId)?.parameters
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter.topicId)?.parameters
 
-    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === _data.parameterId)
+    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter.parameterId)
     if (parameterIndex !== -1) {
       let fetchedParameter: any = parameters?.at(parameterIndex)
       _data["questions"] = fetchedParameter.questions

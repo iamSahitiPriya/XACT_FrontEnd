@@ -241,8 +241,8 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   private updateModuleDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
-    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === _data.moduleId)
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
+    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
     if (index !== -1) {
       let fetchedModules = modules?.at(index);
       _data['topics']=fetchedModules.topics;
