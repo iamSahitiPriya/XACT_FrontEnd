@@ -48,7 +48,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
 
   constructor(private appService: AppServiceService,public dialog: MatDialog,private store: Store<AppStates>,private _snackBar: MatSnackBar) {
-    this.masterData = this.store.select((store) => store.masterData.masterData)
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
   }
 
   ngOnInit(): void {
@@ -59,7 +59,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       this.categories = data
       this.setTopicReferences()
       this.isTopicLevel = this.isTopicLevelReference()
-      console.log(this.isTopicLevel)
       this.unsavedReferences = cloneDeep(this.getReferenceFromTopic())
       this.disableSavedRatings()
     })
@@ -286,7 +285,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
 
   disableSavedRatings() {
     this.unsavedReferences?.forEach(reference => {
-      let rating = this.rating.find(rating => rating.rating === reference.rating)
+      let rating = this.rating.find(eachRating => eachRating.rating === reference.rating)
       rating.selected = true
     })
   }

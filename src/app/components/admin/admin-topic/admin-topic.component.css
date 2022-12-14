@@ -65,12 +65,6 @@ th {
   padding-right: 3em;
 }
 
-
-th.topic, td.topic {
-  border-bottom-style: none;
-  text-align: left;
-}
-
 .editButton {
   width: 70px;
   height: 0px;
