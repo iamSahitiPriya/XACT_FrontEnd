@@ -35,7 +35,7 @@ div.topic {
 
 th.topic, td.topic {
   border-bottom-style: none;
-  text-align: center;
+  text-align: left;
 }
 
 td.topic {
