@@ -194,7 +194,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       let isActive = true
       category.modules?.forEach((module) => {
         if (!module.active)
-          isActive = true
+          isActive = isActive && true
         else
           isActive = isActive && module.selected
       })
