@@ -181,3 +181,6 @@ h2 {
   vertical-align: unset !important;
   line-height: unset !important;
 }
+.computerIcon{
+  overflow: visible;
+}

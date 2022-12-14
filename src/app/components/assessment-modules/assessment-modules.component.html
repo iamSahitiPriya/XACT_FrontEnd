@@ -48,7 +48,7 @@
             <mat-checkbox class="col-md-10 selectCheckBox" [disabled]="!(category1.active)"
                           (change)="getCategory(category1.categoryId,selectedCategory.checked)"
                           [checked]="checkAllStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
-            <mat-icon>computer</mat-icon>
+            <mat-icon class="computerIcon">computer</mat-icon>
           </div>
           <mat-card-title-group>
             <mat-card-title>{{category1.categoryName}}</mat-card-title>
