@@ -402,7 +402,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     let flag = true;
     this.categories.find(category => category.categoryName === row.categoryName)?.modules.
     find(module => module.moduleName === row.moduleName)?.topics.
-    find(topic => topic.topicName === row.topicName)?.parameters.forEach(parameter => {
+    find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
       if(parameter.references !== undefined && parameter.references.length !== 0)
         flag = false
     })
