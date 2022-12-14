@@ -17,6 +17,20 @@
   margin-left: -5px;
 }
 
+@media screen and (max-width: 1200px) {
+  .consoleBox .label {
+    display: none
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .consoleBox .label {
+    display: unset;
+  }
+
+}
+
 .cardTitle {
   text-align: left;
   font-size: 20px;
@@ -41,13 +55,13 @@
   height: 40%;
   text-align: left;
   font-style: normal;
-  font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 18px;
   letter-spacing: 0px;
   width: 100%;
   color: #52575d;
   opacity: 1;
-  margin: 6px -4px!important;
+  margin: 6px -4px !important;
   border-radius: 32px;
 }
 
@@ -89,19 +103,19 @@ button mat-icon {
   padding-left: 20px;
   margin-right: 17px;
   margin-left: 18px;
-  background:transparent url("src/assets/admin-dashboard/Group 3732.svg") 0% 0% no-repeat padding-box;
+  background: transparent url("src/assets/admin-dashboard/Group 3732.svg") 0% 0% no-repeat padding-box;
   opacity: 1;
   display: inline-block;
 }
 
 .button-active .parameterIcon {
-  background:transparent url("src/assets/admin-dashboard/Group 3733.svg") 0% 0% no-repeat padding-box;
+  background: transparent url("src/assets/admin-dashboard/Group 3733.svg") 0% 0% no-repeat padding-box;
   display: inline-block;
 }
 
 
-.dashBoard{
-  width:74%;
+.dashBoard {
+  width: 74%;
 }
 
 

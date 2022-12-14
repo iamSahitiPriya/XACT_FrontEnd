@@ -71,7 +71,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   recommendationId: number;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.topicRecommendationResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
     this.saveParticularTopicRecommendationText = debounce(this.saveParticularTopicRecommendationText, DEBOUNCE_TIME)
   }
 

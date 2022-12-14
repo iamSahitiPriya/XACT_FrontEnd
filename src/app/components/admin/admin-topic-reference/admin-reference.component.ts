@@ -35,6 +35,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   unsavedChanges : TopicReference
   rating : any [] = []
   referenceToSend : any = {}
+  isTopicLevel : boolean
   private destroy$: Subject<void> = new Subject<void>();
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;

@@ -32,7 +32,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 })
 export class AdminModuleComponent implements OnInit, OnDestroy {
   moduleStructure: ModuleData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit','action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -42,6 +42,11 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   categoryDetails: any[] = [];
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   masterData: Observable<CategoryResponse[]>;
+  noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -119,7 +124,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   addModuleRow() {
     let newModule = {
-      moduleId: 0,
+      moduleId: -1,
       categoryName: '',
       categoryId: 0,
       moduleName: '',
@@ -129,6 +134,8 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       isEdit: true,
       comments: ''
     }
+    this.deleteAddedModuleRow()
+    this.selectedModule = this.selectedModule=== newModule ? null : newModule
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
     this.dataSource.paginator = this.paginator
@@ -170,12 +177,23 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   editRow(row: any) {
-
+     this.deleteAddedModuleRow()
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
     this.module = Object.assign({}, row)
     return this.selectedModule;
 
+  }
+
+  deleteAddedModuleRow() {
+    let data = this.dataSource.data
+    let index = data.findIndex(module=>module.moduleId === -1)
+    if (index !== -1) {
+      data.splice(index, 1);
+      this.dataSource.data = data
+      this.selectedModule = null
+      this.table.renderRows()
+    }
   }
 
   private showNotification(reportData: string, duration: number) {
@@ -189,6 +207,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   deleteRow() {
     let data = this.dataSource.data
+    this.selectedModule=null;
     data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
     this.dataSource.data = data
     this.table.renderRows()
@@ -207,6 +226,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
           let data = this.dataSource.data
           row.isEdit = false
           this.isEditable = false;
+          this.selectedModule = null
           data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
           this.dataSource.data = data
           this.table.renderRows()
@@ -221,8 +241,8 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   private updateModuleDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
-    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === _data.moduleId)
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
+    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
     if (index !== -1) {
       let fetchedModules = modules?.at(index);
       _data['topics']=fetchedModules.topics;

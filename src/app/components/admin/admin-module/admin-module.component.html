@@ -13,11 +13,11 @@
   </div>
 </div>
 <div class="mat-elevation-z8 module">
-  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="moduleTable" aria-describedby="category">
 
     <ng-container matColumnDef="categoryName">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName"> Category </th>
-      <td class="category" mat-cell *matCellDef="let row">
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName"> Category </th>
+      <td class="module" mat-cell *matCellDef="let row">
           <span *ngIf="!(row.isEdit || selectedModule === row)">
           <span class="circle"></span>
             <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
@@ -58,59 +58,77 @@
     </ng-container>
 
     <ng-container matColumnDef="moduleName">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="moduleName"> Module </th>
-      <td class="category moduleName" mat-cell *matCellDef="let row">
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="moduleName"> Module </th>
+      <td class="module moduleName" mat-cell *matCellDef="let row">
         <span *ngIf="!(row.isEdit || selectedModule === row)">
           {{row.moduleName}}
         </span>
         <span *ngIf="row.isEdit || selectedModule===row">
-          <input matInput class="input"#moduleName placeholder="Enter module name" [(ngModel)]="row.moduleName" pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
+        <mat-form-field appearance="outline" class="inputModule">
+            <mat-label>Enter Module Name </mat-label>
+          <input matInput #moduleName placeholder="Enter Module name" [(ngModel)]="row.moduleName"
+                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
           <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
-         {{commonErrorFieldText}}
+          {{commonErrorFieldText}}
         </mat-error>
+            </mat-form-field>
         </span></td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> Date</th>
-      <td class="category" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> Date</th>
+      <td class="module" mat-cell *matCellDef="let row"> {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="active">
-      <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="active"> Active</th>
-      <td class="category moduleActive" mat-cell *matCellDef="let row">
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="active"> Active</th>
+      <td class="module moduleActive" mat-cell *matCellDef="let row">
         <mat-slide-toggle [(ngModel)]=row.active
                           [disabled]="!(selectedModule === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
-      <th class="category" mat-header-cell *matHeaderCellDef>Action</th>
-      <td class="category" mat-cell *matCellDef="let row; let index = index;" style="padding-right: 3em">
+      <th class="module" mat-header-cell *matHeaderCellDef>{{action}}</th>
+      <td class="module" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="!(row.isEdit || selectedModule === row)">
-        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editRow(row)">Edit</button>
+        <button mat-flat-button class="editButton" aria-label="expand row" (click)="editRow(row)">{{edit}}</button>
         </span>
-        <span *ngIf="selectedModule===row">
+        <span *ngIf="selectedModule===row && row.moduleId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
-                (click)="updateModule(row)" [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
-        <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                       src="../../assets/closeIcon/closeIcon.svg"
-                                                                       alt="close icon" class="closeIcon"/></button>
+                (click)="updateModule(row)"
+                [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveModule(row)"
-                  [disabled]="row.categoryName && !row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
-          <button mat-flat-button class="delete" (click)="deleteRow()">
-            <mat-icon id="delete">delete</mat-icon>
-          </button>
+                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{save}}</button>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th class="module" mat-header-cell *matHeaderCellDef></th>
+      <td class="module" mat-cell *matCellDef="let row; let index = index;">
+        <span *ngIf="selectedModule===row && row.moduleId !== -1">
+                  <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
+                                                                                 src="../../assets/closeIcon/closeIcon.svg"
+                                                                                 alt="close icon"
+                                                                                 class="closeIcon"/></button>
+        </span>
+        <span *ngIf="row.isEdit">
+                    <button mat-flat-button class="delete" (click)="deleteRow()">
+                      <mat-icon id="delete">delete</mat-icon>
+                    </button>
         </span>
       </td>
     </ng-container>
     <ng-container>
-      <th class="category" mat-header-cell *matHeaderCellDef></th>
+      <th class="module" mat-header-cell *matHeaderCellDef></th>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="eachRow"></tr>
     <tr mat-row *matRowDef="let row; columns:['expandedDetail']" class="expandedRow"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="12" class="noData">{{noDataAvailableText}}</td>
+    </tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
