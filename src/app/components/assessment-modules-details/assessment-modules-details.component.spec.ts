@@ -40,6 +40,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {
       "categoryId": 1,
       "categoryName": "My Category1",
+      "allComplete":true,
       "active":true,
       "modules": [
         {
@@ -47,6 +48,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
           "moduleName": "My Module",
           "category": 1,
           "active":true,
+          "selected":true,
           "updatedAt":10101010,
           "topics": [
             {

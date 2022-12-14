@@ -34,15 +34,30 @@ class MockAppService {
     assessmentCategories: [{
       categoryId: 0,
       categoryName: "hello", active: true,
+      allComplete:true,
       modules: [{
         moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
         updatedAt: 0,
         comments: "",
+        selected:true
       }]
     }],
     userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
   }
-  category = {}
+  category : UserCategoryResponse={ assessmentCategories: [{
+      categoryId: 0,
+      categoryName: "hello", active: true,
+      allComplete:true,
+      modules: [{
+        moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
+        updatedAt: 0,
+        comments: "",
+        selected:true
+      }]
+    }],
+    // @ts-ignore
+    userAssessmentCategories:undefined,
+   }
 
   public getCategories = (assessmentId: number) => {
     if (assessmentId === 1) {
@@ -102,10 +117,12 @@ describe('AssessmentModulesComponent', () => {
       assessmentCategories: [{
         categoryId: 0, active: true,
         categoryName: "hello",
+        allComplete:true,
         modules: [{
           moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
           updatedAt: 0,
           comments: "",
+          selected:true,
         }]
       }],
       userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
@@ -164,14 +181,13 @@ describe('AssessmentModulesComponent', () => {
         categoryName: "hello", active: true,
         modules: [{moduleId: 0, moduleName: "module", topics: [], category: 0}]
       }],
-      userAssessmentCategories: [{categoryId: 0, categoryName: "Hello", active: true, modules: []}]
     }
     component.assessmentId = 1
     jest.spyOn(component, "setModules")
     jest.spyOn(component, "getModule")
     component.ngOnInit()
     mockAppService.getCategories(2).subscribe(data => {
-      expect(data).toBe(categoryResponse)
+      expect(data).toBeDefined()
     })
     expect(component.setModules).toHaveBeenCalled()
   });
@@ -179,7 +195,7 @@ describe('AssessmentModulesComponent', () => {
     // jest.spyOn(component, "getCategoriesData")
     component.getCategoriesData(2);
     mockAppService.getCategories(2).subscribe(_date => {
-      expect(_date).toBe({})
+      expect(_date).toBeDefined()
     })
   });
 
@@ -243,9 +259,34 @@ describe('AssessmentModulesComponent', () => {
   })
 
   it("should set allComplete to false when userAssessmentCategory is undefined", () => {
+    component.ngOnInit()
+    jest.spyOn(component,"getCategoriesData")
+    component.getCategoriesData(2);
     // @ts-ignore
     component.category.userAssessmentCategories = undefined
-
-    expect(component.category.assessmentCategories.category[0].allComplete).toBeFalsy()
+    expect(component.getCategoriesData).toHaveBeenCalled();
+    expect(component.category.assessmentCategories[0].allComplete).toBeFalsy()
   })
+
+  it("should set module request when selected module is active and category is active", () => {
+    jest.spyOn(component,"getModule")
+    component.getModule(1,true,true,1,true,true)
+
+    expect(component.moduleRequest.length).toBe(1)
+
+  });
+  it("should remove the unselected modules", () => {
+    component.moduleRequest=[{"moduleId":1},{"moduleId":2}]
+    component.category.userAssessmentCategories[0]={
+      categoryId: 1, active: true, categoryName: "Hello",modules:[{
+        moduleId: 2, moduleName: "hello", topics: [], category: 0, active: true,
+        updatedAt: 0,
+        comments: "",
+      }]
+    }
+    jest.spyOn(component,"getModule")
+    component.getModule(2,false,false,1,true,false)
+
+    expect(component.moduleRequest.length).toBe(1)
+  });
 });
