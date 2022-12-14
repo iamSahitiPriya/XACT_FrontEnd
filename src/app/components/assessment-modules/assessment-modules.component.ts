@@ -187,7 +187,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     })
   }
 
-  updateAllComplete(categoryId: number) {
+  updateAllCompleteStatus(categoryId: number) {
     let category = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
     if (category !== undefined) {
       category.allComplete = true
@@ -202,7 +202,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  setSelectedModules(categoryId: number) {
+  isCategoryIntermediate(categoryId: number) {
     let category = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
     if (category !== undefined)
       return category.modules?.filter((module: { selected: any; }) => module.selected).length > 0 && !category.allComplete

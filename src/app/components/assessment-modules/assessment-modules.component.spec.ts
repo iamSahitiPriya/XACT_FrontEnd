@@ -34,30 +34,31 @@ class MockAppService {
     assessmentCategories: [{
       categoryId: 0,
       categoryName: "hello", active: true,
-      allComplete:true,
+      allComplete: true,
       modules: [{
         moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
         updatedAt: 0,
         comments: "",
-        selected:true
+        selected: true
       }]
     }],
     userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
   }
-  category : UserCategoryResponse={ assessmentCategories: [{
+  category: UserCategoryResponse = {
+    assessmentCategories: [{
       categoryId: 0,
       categoryName: "hello", active: true,
-      allComplete:true,
+      allComplete: true,
       modules: [{
         moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
         updatedAt: 0,
         comments: "",
-        selected:true
+        selected: true
       }]
     }],
     // @ts-ignore
-    userAssessmentCategories:undefined,
-   }
+    userAssessmentCategories: undefined,
+  }
 
   public getCategories = (assessmentId: number) => {
     if (assessmentId === 1) {
@@ -117,12 +118,12 @@ describe('AssessmentModulesComponent', () => {
       assessmentCategories: [{
         categoryId: 0, active: true,
         categoryName: "hello",
-        allComplete:true,
+        allComplete: true,
         modules: [{
           moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
           updatedAt: 0,
           comments: "",
-          selected:true,
+          selected: true,
         }]
       }],
       userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
@@ -228,7 +229,7 @@ describe('AssessmentModulesComponent', () => {
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -260,7 +261,7 @@ describe('AssessmentModulesComponent', () => {
 
   it("should set allComplete to false when userAssessmentCategory is undefined", () => {
     component.ngOnInit()
-    jest.spyOn(component,"getCategoriesData")
+    jest.spyOn(component, "getCategoriesData")
     component.getCategoriesData(2);
     // @ts-ignore
     component.category.userAssessmentCategories = undefined
@@ -269,24 +270,68 @@ describe('AssessmentModulesComponent', () => {
   })
 
   it("should set module request when selected module is active and category is active", () => {
-    jest.spyOn(component,"getModule")
-    component.getModule(1,true,true,1,true,true)
+    jest.spyOn(component, "getModule")
+    component.getModule(1, true, true, 1, true, true)
 
     expect(component.moduleRequest.length).toBe(1)
 
   });
   it("should remove the unselected modules", () => {
-    component.moduleRequest=[{"moduleId":1},{"moduleId":2}]
-    component.category.userAssessmentCategories[0]={
-      categoryId: 1, active: true, categoryName: "Hello",modules:[{
+    component.moduleRequest = [{"moduleId": 1}, {"moduleId": 2}]
+    component.category.userAssessmentCategories[0] = {
+      categoryId: 1, active: true, categoryName: "Hello", modules: [{
         moduleId: 2, moduleName: "hello", topics: [], category: 0, active: true,
         updatedAt: 0,
         comments: "",
       }]
     }
-    jest.spyOn(component,"getModule")
-    component.getModule(2,false,false,1,true,false)
+    jest.spyOn(component, "getModule")
+    component.getModule(2, false, false, 1, true, false)
 
     expect(component.moduleRequest.length).toBe(1)
   });
+  it("should set the module status based on the category selection", () => {
+    component.ngOnInit();
+    jest.spyOn(component, "getModule");
+    component.category.assessmentCategories[0].modules[0].active = false
+    component.setAllModules(0, true)
+    expect(component.getModule).toHaveBeenCalled()
+  });
+  it("should update the status of all complete field when module is active", () => {
+    component.ngOnInit()
+    component.updateAllCompleteStatus(0)
+    expect(component.category.assessmentCategories[0].allComplete).toBeFalsy()
+  });
+  it("should update the status of all complete field when module is inActive", () => {
+    component.ngOnInit()
+    component.category.assessmentCategories[0].modules[0].active = false
+    component.updateAllCompleteStatus(0)
+    expect(component.category.assessmentCategories[0].allComplete).toBeTruthy()
+  });
+  it("should set the category on intermediate status when one module is selected", () => {
+    component.ngOnInit()
+
+    expect(component.isCategoryIntermediate(0)).toBeFalsy()
+  });
+  it("should return false when category is undefined", () => {
+    component.ngOnInit()
+
+    expect(component.isCategoryIntermediate(1)).toBeFalsy()
+  });
+
+  it("should return true when selected category is not active", () => {
+    component.ngOnInit();
+    component.category.assessmentCategories[0].active =false;
+
+    expect(component.isActive(component.category.assessmentCategories[0])).toBeTruthy()
+  });
+
+  it("should return true when selected category has undefined modules", () => {
+    component.ngOnInit();
+    // @ts-ignore
+    component.category.assessmentCategories[0].modules=undefined
+
+    expect(component.isActive(component.category.assessmentCategories[0])).toBeTruthy()
+  });
+
 });

@@ -49,7 +49,7 @@
                           [disabled]="isActive(category1)"
                           (change)="setAllModules(category1.categoryId,selectedCategory.checked)"
                           [checked]="category1.allComplete"
-                          [indeterminate]="setSelectedModules(category1.categoryId)"
+                          [indeterminate]="isCategoryIntermediate(category1.categoryId)"
                           #selectedCategory></mat-checkbox>
             <mat-icon>computer</mat-icon>
           </div>
@@ -65,7 +65,7 @@
                             [ngClass]="{'active':!(module.active)}"
                             (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active,module.active)"
                             [(ngModel)]="module.selected"
-                            (ngModelChange)="updateAllComplete(category1.categoryId)"
+                            (ngModelChange)="updateAllCompleteStatus(category1.categoryId)"
                             #selectedModule></mat-checkbox>
               <span class="moduleText">{{module.moduleName}}</span>
             </div>
