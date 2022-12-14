@@ -365,10 +365,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private updateTopicToStore(_data: any) {
-    let topic = this.categories.find(eachCategory => eachCategory.categoryId === this.unsavedTopic.categoryId)
-      ?.modules.find(eachModule => eachModule.moduleId === this.unsavedTopic.moduleId)
+    let topic = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
+      ?.modules.find(eachModule => eachModule.moduleId ===_data.moduleId)
       ?.topics
-    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === this.unsavedTopic.topicId)
+    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
       let fetchedTopic: any = topic?.at(topicIndex)
       _data['parameters'] = fetchedTopic.parameters
