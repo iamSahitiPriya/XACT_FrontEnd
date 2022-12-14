@@ -41,7 +41,9 @@ export const environment = {
   SAVE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
   DELETE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
   UPDATE_TOPIC_REFERENCE_URI : "/v1/admin/topicReferences",
-
+  SAVE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
+  DELETE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
+  UPDATE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
 
   okta: {
     cookies: {

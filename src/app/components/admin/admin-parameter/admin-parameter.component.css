@@ -213,6 +213,10 @@ tr.expandedParameterRow {
 .inputTextParameter{
   margin-top:26px;
 }
+.parameter-reference button{
+  border: none;
+  background-color: transparent;
+}
 .closeParameterButton{
   background: none;
   border: none;

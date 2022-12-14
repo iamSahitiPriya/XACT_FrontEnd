@@ -60,7 +60,7 @@
 }
 
 .reference-button {
-  padding-top: 2%;
+  padding-top: 1%;
   display: inline-block;
   float: right;
   width: 100%;
@@ -85,8 +85,8 @@
 }
 
 .reference-button button:disabled {
-  background: #C3C3C3 0% 0% no-repeat padding-box;
-  box-shadow: 0px 2px 2px #00000024;
+  background: #C3C3C3 0 0 no-repeat padding-box;
+  box-shadow: 0 2px 2px #00000024;
   border-radius: 4px;
   opacity: 1;
 }
@@ -130,7 +130,7 @@
 }
 
 .references {
-  padding-top: 8%;
+  padding-top: 6%;
 }
 
 .reference-input {
@@ -180,7 +180,7 @@
 
 .save-reference-button {
   width: 5rem;
-  padding-left: 14%;
+  padding-left: 11%;
 }
 
 
@@ -235,6 +235,18 @@
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
+}
+
+::ng-deep .referenceInput .mat-form-field-appearance-outline .mat-form-field-infix{
+  border-top: 0 !important;
+}
+
+::ng-deep .rating-dropdown .mat-form-field-appearance-outline .mat-form-field-flex{
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+}
+
+::ng-deep .rating-dropdown .mat-form-field-appearance-outline .mat-form-field-infix{
+  padding: 0 !important;
 }
 
 
