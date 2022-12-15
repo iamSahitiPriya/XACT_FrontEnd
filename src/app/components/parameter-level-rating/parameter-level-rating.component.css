@@ -128,7 +128,7 @@ p {
   border: none;
 }
 
-.addQuestion {
+.addRecommendation {
   width: 95%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
@@ -147,11 +147,11 @@ p {
   border-radius: 0px;
 }
 
-#addQuestion {
+#addRecommendation {
   color: #4ba1ac;
 }
 
-.additionalQuestionHeading {
+.recommendationHeading {
   display: block;
   position: relative;
   padding: 12px;
