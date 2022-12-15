@@ -76,11 +76,13 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND
-  moduleNotFound: any = "No modules available";
+  moduleNotFound: any =  data_local.ADMIN.MODULE_NOT_FOUND;
+  parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
+
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
-    this.masterData = this.store.select((store) => store.masterData.masterData)
+    this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
@@ -238,7 +240,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: 3000,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
@@ -365,10 +367,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private updateTopicToStore(_data: any) {
-    let topic = this.categories.find(eachCategory => eachCategory.categoryId === this.unsavedTopic.categoryId)
-      ?.modules.find(eachModule => eachModule.moduleId === this.unsavedTopic.moduleId)
+    let topic = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
+      ?.modules.find(eachModule => eachModule.moduleId ===_data.moduleId)
       ?.topics
-    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === this.unsavedTopic.topicId)
+    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
       let fetchedTopic: any = topic?.at(topicIndex)
       _data['parameters'] = fetchedTopic.parameters
@@ -382,14 +384,31 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
   }
 
-  async openTopicReferences(reference: any) {
-    this.dialogRef = this.dialog.open(reference,{
-      width: '62vw',
-      height: '66vh',
-      maxWidth: '80vw',
-      maxHeight: '71vh'
+  async openTopicReferences(reference: any,row:any) {
+   if(this.isTopicReferences(row)) {
+     this.dialogRef = this.dialog.open(reference, {
+       width: '62vw',
+       height: '66vh',
+       maxWidth: '80vw',
+       maxHeight: '71vh'
+     })
+     this.dialogRef.disableClose = true;
+   }
+   else
+     this.showError(this.parameterReferenceMessage)
+  }
+
+  private isTopicReferences(row : any) {
+    let flag = true;
+    this.categories.find(category => category.categoryName === row.categoryName)?.modules.
+    find(module => module.moduleName === row.moduleName)?.topics.
+    find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
+      if(parameter.references !== undefined && parameter.references.length !== 0)
+        flag = false
     })
-    this.dialogRef.disableClose = true;
+
+
+    return flag
   }
 
   findCategoryId(row : any) {

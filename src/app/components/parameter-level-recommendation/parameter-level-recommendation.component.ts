@@ -72,7 +72,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterRecommendationIndex: number | undefined
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.parameterRecommendationResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
     this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
   }
 
