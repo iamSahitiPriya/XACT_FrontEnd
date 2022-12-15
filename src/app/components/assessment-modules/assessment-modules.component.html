@@ -54,7 +54,7 @@
             <mat-icon>computer</mat-icon>
           </div>
           <mat-card-title-group>
-            <mat-card-title>{{category1.categoryName}}</mat-card-title>
+            <mat-card-title [matTooltip]="category1.categoryName">{{category1.categoryName}}</mat-card-title>
           </mat-card-title-group>
         </mat-card>
         <mat-card class="moduleCards" [ngClass]="{'active':!(category1.active)}">
