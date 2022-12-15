@@ -176,7 +176,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  setAllModules(categoryId: number, checked: boolean) {
+  setModuleSelectedStatus(categoryId: number, checked: boolean) {
     this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
     this.catRequest.allComplete = checked
     this.catRequest.modules?.forEach((module: { moduleId: number; active: boolean; selected: boolean; }) => {

@@ -294,7 +294,7 @@ describe('AssessmentModulesComponent', () => {
     component.ngOnInit();
     jest.spyOn(component, "getModule");
     component.category.assessmentCategories[0].modules[0].active = false
-    component.setAllModules(0, true)
+    component.setModuleSelectedStatus(0, true)
     expect(component.getModule).toHaveBeenCalled()
   });
   it("should update the status of all complete field when module is active", () => {
