@@ -134,7 +134,7 @@
         </button>
         <div class="topic-reference">
         <button *ngIf="!(selectedTopic === row)">
-          <mat-icon (click)="openTopicReferences(reference)">playlist_add</mat-icon>
+          <mat-icon (click)="openTopicReferences(reference,row)">playlist_add</mat-icon>
         </button>
         </div>
         <ng-template #reference>

@@ -341,6 +341,32 @@ describe('AppServiceService', () => {
     let parameterId = 1
     expect(service.updateParameter(parameterRequest, parameterId)).toBeTruthy();
   })
+  it("should save topic reference",() => {
+    let topicRequest = {topic:1,reference:"new",rating:1}
+    expect(service.saveTopicReference(topicRequest)).toBeTruthy();
+  })
+  it("should update topic reference",() => {
+    let topicRequest = {topic:1,reference:"new",rating:1,referenceId:1}
+    let referenceId = 1
+    expect(service.updateTopicReference(referenceId,topicRequest)).toBeTruthy();
+  })
+  it("should delete topic reference",() => {
+    let referenceId = 1
+    expect(service.deleteTopicReference(referenceId)).toBeTruthy();
+  })
+  it("should save parameter reference",() => {
+    let parameterRequest = {parameter:1,reference:"new",rating:1}
+    expect(service.saveParameterReference(parameterRequest)).toBeTruthy();
+  })
+  it("should update parameter reference",() => {
+    let parameterRequest = {parameter:1,reference:"new",rating:1,referenceId:1}
+    let referenceId = 1
+    expect(service.updateParameterReference(referenceId,parameterRequest)).toBeTruthy();
+  })
+  it("should delete parameter reference",() => {
+    let referenceId = 1
+    expect(service.deleteParameterReference(referenceId)).toBeTruthy();
+  })
 
 });
 

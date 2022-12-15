@@ -62,7 +62,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   private cloneAnswerResponse1: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
     this.saveParticularAnswer = debounce(this.saveParticularAnswer, DEBOUNCE_TIME)
 
   }

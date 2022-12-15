@@ -72,7 +72,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>) {
-    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
   public answerSaved: string

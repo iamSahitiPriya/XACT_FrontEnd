@@ -16,6 +16,7 @@ import {cloneDeep} from "lodash";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({
@@ -31,6 +32,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
   ],
 })
 export class AdminParameterComponent implements OnInit {
+  private dialogRef: MatDialogRef<any>;
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference'];
@@ -70,11 +72,13 @@ export class AdminParameterComponent implements OnInit {
   actionHeader = data_local.ADMIN_PARAMETER.ACTION
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
   noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+
 
   private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -88,16 +92,20 @@ export class AdminParameterComponent implements OnInit {
         data.forEach(eachCategory => {
           this.fetchModules(eachCategory);
         })
-        this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
-        this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
-        this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
-        this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
+        this.sortData();
         this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
         this.paginator.pageIndex = 0
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
     })
+  }
+
+  private sortData() {
+    this.parameterData.sort((parameter1, parameter2) => Number(parameter2.updatedAt) - Number(parameter1.updatedAt));
+    this.categoryList?.sort((category1, category2) => Number(category2.active) - Number(category1.active))
+    this.moduleList?.sort((module1, module2) => Number(module2.active) - Number(module1.active))
+    this.topicList?.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))
   }
 
   private fetchModules(eachCategory: CategoryResponse) {
@@ -368,9 +376,9 @@ export class AdminParameterComponent implements OnInit {
 
 
   private updateToStore(_data: any) {
-    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === _data.topicId)?.parameters
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter.topicId)?.parameters
 
-    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === _data.parameterId)
+    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter.parameterId)
     if (parameterIndex !== -1) {
       let fetchedParameter: any = parameters?.at(parameterIndex)
       _data["questions"] = fetchedParameter.questions
@@ -394,6 +402,45 @@ export class AdminParameterComponent implements OnInit {
     parameters.push(parameter)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryData}))
     this.ngOnInit();
+  }
+
+  async openParameterReference(reference: any,row:any) {
+    if(this.isParameterReference(row)) {
+      this.dialogRef = this.dialog.open(reference, {
+        width: '62vw',
+        height: '66vh',
+        maxWidth: '80vw',
+        maxHeight: '71vh'
+      })
+      this.dialogRef.disableClose = true;
+    }
+    else
+      this.showError(this.topicReferenceMessage)
+  }
+
+  findCategoryId(row: any){
+    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId
+  }
+
+  findModuleId(row: any){
+    let modules  = this.categoryAndModule.get(this.findCategoryId(row))
+    return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
+  }
+
+  findTopicId(row:any) {
+    let topics = this.moduleAndTopic.get(this.findModuleId(row))
+    return topics.find((topic: { topicName: any; }) => topic.topicName === row.topicName).topicId
+  }
+
+  private isParameterReference(row: any) {
+    let flag = true;
+    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
+    find(module => module.moduleName === row.moduleName)?.topics.
+    find(topic => topic.topicName === row.topicName)?.references
+      if (references !== undefined && references.length !== 0)
+        flag = false
+
+    return flag
   }
 }
 

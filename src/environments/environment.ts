@@ -53,7 +53,10 @@ export const environment = {
     }
   },
   SAVE_MODULE_URI: "/v1/admin/modules",
-    SAVE_PARAMETER_URI: "/v1/admin/parameters",
-  }
+  SAVE_PARAMETER_URI: "/v1/admin/parameters",
+  SAVE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
+  DELETE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
+  UPDATE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
+}
 
 
