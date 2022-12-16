@@ -40,8 +40,17 @@ class MockAppService {
         updatedAt: 0,
         comments: "",
         selected: true
-      }]
-    }],
+      }]}, {
+        categoryId: 1,
+        categoryName: "hello", active: true,
+        allComplete: true,
+        modules: [{
+          moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
+          updatedAt: 0,
+          comments: "",
+          selected: true
+        }]
+      }],
     userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
   }
   category: UserCategoryResponse = {
@@ -333,5 +342,12 @@ describe('AssessmentModulesComponent', () => {
 
     expect(component.isActive(component.category.assessmentCategories[0])).toBeTruthy()
   });
+  it("should return false when category is not selected",() => {
+    component.ngOnInit()
+
+    component.getCategoriesData(1)
+
+    expect(component.category.assessmentCategories[1].allComplete).toBeFalsy();
+  })
 
 });
