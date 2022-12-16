@@ -68,13 +68,10 @@
   display: inline-grid;
 }
 
-/*.menuIcon {*/
-/*  width: 2.5em;*/
-/*  height: 2.8125em;*/
-/*}*/
 
 .menu-bar-right {
   padding-right: 4.98em;
+  float: right;
 }
 
 .dataStatus {
@@ -91,6 +88,20 @@
   padding-top: 8px;
   display: inline;
 }
-/*.iconColor{*/
-/*  color: #043D4E ;*/
-/*}*/
+
+@media not all and (min-resolution:.001dpcm) {
+  @media {
+    .dataStatus{
+      letter-spacing: 0.03px;
+    }
+    .btn-report {
+      letter-spacing: 0.03px;
+    }
+    .btn-finish{
+      letter-spacing: 0.03px;
+    }
+    .btn-reopen{
+      letter-spacing: 0.03px;
+    }
+  }
+}
