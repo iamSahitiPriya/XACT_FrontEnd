@@ -173,6 +173,9 @@ describe('AdminCategoryComponent', () => {
   });
   it("should update category on click of update", () => {
     component.selectedCategory = row
+    component.category ={
+      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
+    }
     component.updateCategory(row)
 
     mockAppService.updateCategory(row).subscribe(data => {
@@ -184,6 +187,9 @@ describe('AdminCategoryComponent', () => {
     it('should not update category and throw error on click of update', () => {
       component.selectedCategory = row
       jest.spyOn(component, 'updateCategory')
+      component.category ={
+        active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
+      }
       let data = {active: true, categoryId: -1, categoryName: "", comments: "comments", updatedAt: 1022022}
       component.updateCategory(data)
 

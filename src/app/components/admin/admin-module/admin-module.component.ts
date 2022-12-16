@@ -32,7 +32,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 })
 export class AdminModuleComponent implements OnInit, OnDestroy {
   moduleStructure: ModuleData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit','action'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit', 'action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -40,6 +40,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   module: ModuleData;
   isEditable: boolean;
   categoryDetails: any[] = [];
+  isModuleUnique = true;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   masterData: Observable<CategoryResponse[]>;
   noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
@@ -47,6 +48,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
+   duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -135,7 +137,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       comments: ''
     }
     this.deleteAddedModuleRow()
-    this.selectedModule = this.selectedModule=== newModule ? null : newModule
+    this.selectedModule = this.selectedModule === newModule ? null : newModule
     this.dataSource.data.splice(this.paginator.pageIndex * this.paginator.pageSize, 0, newModule)
     this.table.renderRows();
     this.dataSource.paginator = this.paginator
@@ -143,27 +145,26 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   updateModule(row: any) {
-    let categoryId = this.categoryDetails.find(cat => cat.categoryName === row.categoryName).categoryId;
-    let moduleRequest = {
-      "moduleId": row.moduleId,
-      "moduleName": row.moduleName,
-      "category": categoryId,
-      "active": row.active,
-      "comments": row.comments
+    let moduleRequest = this.setModuleRequest(row);
+    if (this.module.moduleName.toLowerCase().replace(/\s/g, '')  !== row.moduleName.toLowerCase().replace(/\s/g, '') ) {
+      moduleRequest= this.getModuleRequest(row);
     }
-    this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        row.isEdit = false;
-        this.selectedModule = null;
-        this.table.renderRows()
-        this.updateModuleDataToStore(_data)
-        this.showNotification("Your changes have been successfully updated.", 2000)
-        this.moduleStructure = []
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError("Some error occurred");
-      }
-    })
+    if(this.isModuleUnique) {
+      moduleRequest['moduleId']=row.moduleId
+      this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          row.isEdit = false;
+          this.selectedModule = null;
+          this.table.renderRows()
+          this.updateModuleDataToStore(_data)
+          this.showNotification("Your changes have been successfully updated.", 2000)
+          this.moduleStructure = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError("Some error occurred");
+        }
+      })
+    }
   }
 
   cancelChanges(row: any) {
@@ -177,7 +178,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   editRow(row: any) {
-     this.deleteAddedModuleRow()
+    this.deleteAddedModuleRow()
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
     this.module = Object.assign({}, row)
@@ -187,7 +188,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   deleteAddedModuleRow() {
     let data = this.dataSource.data
-    let index = data.findIndex(module=>module.moduleId === -1)
+    let index = data.findIndex(module => module.moduleId === -1)
     if (index !== -1) {
       data.splice(index, 1);
       this.dataSource.data = data
@@ -207,63 +208,96 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   deleteRow() {
     let data = this.dataSource.data
-    this.selectedModule=null;
+    this.selectedModule = null;
     data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
     this.dataSource.data = data
     this.table.renderRows()
   }
 
   saveModule(row: any) {
-    const categoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
+    let moduleRequest = this.getModuleRequest(row);
+    if(this.isModuleUnique) {
+      this.appService.saveModule(moduleRequest).subscribe({
+          next: (_data) => {
+            let data = this.dataSource.data
+            row.isEdit = false
+            this.isEditable = false;
+            this.selectedModule = null
+            data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
+            this.dataSource.data = data
+            this.table.renderRows()
+            this.sendDataToStore(_data);
+            this.moduleStructure = []
+            this.ngOnInit()
+          }, error: _error => {
+            this.showError("Some error occurred");
+          }
+        }
+      )
+    }
+  }
+
+  private getModuleRequest(row: any) {
+    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
+    let moduleArray = this.categoryDetails.find(category => category.categoryName === row.categoryName).modules
+    let index = moduleArray.findIndex((module: any) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
+    let moduleRequest :any;
+    if (index === -1) {
+      this.isModuleUnique = true;
+      moduleRequest = {
+        "moduleName": row.moduleName,
+        "category": selectedCategoryId,
+        "active": row.active,
+        "comments": row.comments
+      }
+    } else {
+      this.isModuleUnique = false;
+      this.showError(this.duplicateNameError)
+      return null
+    }
+
+  return  moduleRequest;
+}
+
+private updateModuleDataToStore(_data: any)
+{
+  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
+  let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
+  if (index !== -1) {
+    let fetchedModules = modules?.at(index);
+    _data['topics'] = fetchedModules.topics;
+    modules?.splice(index, 1)
+    this.sendDataToStore(_data)
+  }
+
+}
+
+sendDataToStore(_data: any)
+{
+  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
+  let module = {
+    moduleId: _data.moduleId,
+    moduleName: _data.moduleName,
+    category: _data.categoryId,
+    active: _data.active,
+    updatedAt: Date.now(),
+    comments: _data.comments,
+    topics: _data.topics ? _data.topics : []
+  }
+  modules?.push(module)
+  this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))
+}
+
+  private setModuleRequest(row: any) {
+    this.isModuleUnique=true;
+    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
     let moduleRequest = {
+      "moduleId":row.moduleId,
       "moduleName": row.moduleName,
-      "category": categoryId,
+      "category": selectedCategoryId,
       "active": row.active,
       "comments": row.comments
     }
-    this.appService.saveModule(moduleRequest).subscribe({
-        next: (_data) => {
-          let data = this.dataSource.data
-          row.isEdit = false
-          this.isEditable = false;
-          this.selectedModule = null
-          data.splice(this.paginator.pageIndex * this.paginator.pageSize, 1)
-          this.dataSource.data = data
-          this.table.renderRows()
-          this.sendDataToStore(_data);
-          this.moduleStructure = []
-          this.ngOnInit()
-        }, error: _error => {
-          this.showError("Some error occurred");
-        }
-      }
-    )
-  }
-
-  private updateModuleDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
-    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
-    if (index !== -1) {
-      let fetchedModules = modules?.at(index);
-      _data['topics']=fetchedModules.topics;
-      modules?.splice(index,1)
-      this.sendDataToStore(_data)
-    }
-
-  }
-
-   sendDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
-    let module = {
-      moduleId: _data.moduleId,
-      moduleName: _data.moduleName,
-      category: _data.categoryId,
-      active: _data.active,
-      updatedAt: Date.now(),
-      comments: _data.comments,
-      topics: _data.topics ? _data.topics :[]
-    }
-    modules?.push(module)
-    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categoryDetails}))
+    return moduleRequest;
   }
 }
