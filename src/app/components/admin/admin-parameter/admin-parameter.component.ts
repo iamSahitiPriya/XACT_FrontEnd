@@ -69,16 +69,16 @@ export class AdminParameterComponent implements OnInit {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   categoryLabel = data_local.ADMIN.CATEGORY_NAME
-  moduleLabel= data_local.ADMIN.MODULE_NAME
-  topicLabel=data_local.ADMIN.TOPIC_NAME
-  parameterLabel= data_local.ADMIN.PARAMETER_NAME
-  parameterInput=data_local.ADMIN.PARAMETER.PARAMETER_INPUT_TEXT
+  moduleLabel = data_local.ADMIN.MODULE_NAME
+  topicLabel = data_local.ADMIN.TOPIC_NAME
+  parameterLabel = data_local.ADMIN.PARAMETER_NAME
+  parameterInput = data_local.ADMIN.PARAMETER.PARAMETER_INPUT_TEXT
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -312,7 +312,7 @@ export class AdminParameterComponent implements OnInit {
   updateParameterRow(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterRequest = this.setParameterRequest(selectedTopicId, row);
-    if (this.unSavedParameter.parameterName !== row.parameterName) {
+    if (this.unSavedParameter.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
       parameterRequest = this.getParameterRequest(row);
     }
     if (this.isParameterUnique) {
@@ -383,7 +383,7 @@ export class AdminParameterComponent implements OnInit {
       let fetchedParameter: any = parameters?.at(parameterIndex)
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
-      parameters.splice(parameterIndex,1)
+      parameters.splice(parameterIndex, 1)
       this.sendToStore(_data)
     }
   }
@@ -404,8 +404,8 @@ export class AdminParameterComponent implements OnInit {
     this.ngOnInit();
   }
 
-  async openParameterReference(reference: any,row:any) {
-    if(this.isParameterReference(row)) {
+  async openParameterReference(reference: any, row: any) {
+    if (this.isParameterReference(row)) {
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
         height: '66vh',
@@ -413,32 +413,29 @@ export class AdminParameterComponent implements OnInit {
         maxHeight: '71vh'
       })
       this.dialogRef.disableClose = true;
-    }
-    else
+    } else
       this.showError(this.topicReferenceMessage)
   }
 
-  findCategoryId(row: any){
+  findCategoryId(row: any) {
     return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId
   }
 
-  findModuleId(row: any){
-    let modules  = this.categoryAndModule.get(this.findCategoryId(row))
+  findModuleId(row: any) {
+    let modules = this.categoryAndModule.get(this.findCategoryId(row))
     return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
   }
 
-  findTopicId(row:any) {
+  findTopicId(row: any) {
     let topics = this.moduleAndTopic.get(this.findModuleId(row))
     return topics.find((topic: { topicName: any; }) => topic.topicName === row.topicName).topicId
   }
 
   private isParameterReference(row: any) {
     let flag = true;
-    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
-    find(module => module.moduleName === row.moduleName)?.topics.
-    find(topic => topic.topicName === row.topicName)?.references
-      if (references !== undefined && references.length !== 0)
-        flag = false
+    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.find(module => module.moduleName === row.moduleName)?.topics.find(topic => topic.topicName === row.topicName)?.references
+    if (references !== undefined && references.length !== 0)
+      flag = false
 
     return flag
   }
