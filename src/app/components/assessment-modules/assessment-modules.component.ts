@@ -187,14 +187,12 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   updateAllCompleteStatus(categoryId: number) {
-    let category = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
+    let category = this.category.assessmentCategories.find(eachCategory => eachCategory.categoryId === categoryId)
     if (category !== undefined) {
       category.allComplete = true
       let isActive = true
       category.modules?.forEach((module) => {
-        if (!module.active)
-          isActive = isActive && true
-        else
+        if (module.active)
           isActive = isActive && module.selected
       })
       category.allComplete = isActive
@@ -202,7 +200,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   isCategoryIntermediate(categoryId: number) {
-    let category = this.category.assessmentCategories.find(category => category.categoryId === categoryId)
+    let category = this.category.assessmentCategories.find(eachCategory => eachCategory.categoryId === categoryId)
     if (category !== undefined)
       return category.modules?.filter((module: { selected: any; }) => module.selected).length > 0 && !category.allComplete
     else
