@@ -16,7 +16,6 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Location} from '@angular/common';
-import {AssessmentCategoryStructure} from "../../types/AssessmentCategoryStructure";
 
 
 let categories: UserCategoryResponse = {
