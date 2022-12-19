@@ -117,4 +117,16 @@
     font-size: 17px;
   }
 }
+@media not all and (min-resolution:.001dpcm) {
+  @media {
+    .question-content {
+      font-size: 18px;
+      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      color: #000000;
+      letter-spacing: 0.06px;
+    }
+  }
+}
+
 
