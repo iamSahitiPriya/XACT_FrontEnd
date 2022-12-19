@@ -55,7 +55,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
   isCategoryUnique = true;
-  duplicateErrorMessage = data_local.ADMIN.CATEGORY.DUPLICATE_CATEGORY_ERROR_MESSAGE
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
   date = data_local.ADMIN.DATE
@@ -64,9 +64,10 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
-  categoryLabel = data_local.ADMIN.CATEGORY.CATEGORY
-  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel= data_local.ADMIN.MODULE_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
+  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {

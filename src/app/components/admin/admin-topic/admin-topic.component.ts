@@ -59,24 +59,25 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   unsavedTopic: TopicData;
 
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
-  duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
+  duplicateError = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
   inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
   addTopic = data_local.ADMIN.TOPIC.ADD_TOPIC
-  category = data_local.ADMIN.CATEGORY.CATEGORY
-  selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY
-  module = data_local.ADMIN.MODULE.MODULE
-  selectModule = data_local.ADMIN.MODULE.SELECT_MODULE
-  topic = data_local.ADMIN.TOPIC.TOPIC
-  enterTopic = data_local.ADMIN.TOPIC.ENTER_TOPIC
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   date = data_local.ADMIN.DATE
   active = data_local.ADMIN.ACTIVE
   action = data_local.ADMIN.ACTION
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
-  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel= data_local.ADMIN.MODULE_NAME
+  topicLabel=data_local.ADMIN.TOPIC_NAME
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   moduleNotFound: any =  data_local.ADMIN.MODULE_NOT_FOUND;
+  selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY;
+  selectModule=data_local.ADMIN.MODULE.SELECT_MODULE;
+  enterTopic =data_local.ADMIN.TOPIC.ENTER_TOPIC
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
 
 
@@ -215,10 +216,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     let topicArray = this.moduleAndTopic.get(selectedModuleId)
     let topicIndex = topicArray.findIndex((topic: string) => topic === row.topicName)
+
     if (this.isTopicUnique(topicIndex)) {
       return this.setTopicRequest(row)
     } else {
-      this.showError(this.duplicateTopicError)
+      this.showError(this.duplicateError)
       return null;
     }
   }
@@ -273,7 +275,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   updateTopic(row: any) {
     let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
-    if (this.unsavedTopic.topicName !== row.topicName) {
+    if (this.unsavedTopic.topicName.toLowerCase().replace(/\s/g, '') !== row.topicName.toLowerCase().replace(/\s/g, '')) {
       topicRequest = this.getTopicRequest(row)
     }
     if (topicRequest !== null) {

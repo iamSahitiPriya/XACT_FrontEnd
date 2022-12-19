@@ -43,12 +43,19 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   isModuleUnique = true;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   masterData: Observable<CategoryResponse[]>;
-  noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
+  updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
+  date = data_local.ADMIN.DATE
+  active = data_local.ADMIN.ACTIVE
   action = data_local.ADMIN.ACTION
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
-   duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel= data_local.ADMIN.MODULE_NAME
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
+  addModule =data_local.ADMIN.MODULE.ADD_MODULE
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -161,7 +168,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
           this.moduleStructure = []
           this.ngOnInit()
         }, error: _error => {
-          this.showError("Some error occurred");
+          this.showError(this.serverErrorMessage);
         }
       })
     }
@@ -230,7 +237,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
             this.moduleStructure = []
             this.ngOnInit()
           }, error: _error => {
-            this.showError("Some error occurred");
+            this.showError(this.serverErrorMessage);
           }
         }
       )
@@ -252,7 +259,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       }
     } else {
       this.isModuleUnique = false;
-      this.showError(this.duplicateNameError)
+      this.showError(this.duplicateErrorMessage)
       return null
     }
 
