@@ -202,7 +202,6 @@ describe('AssessmentModulesComponent', () => {
     expect(component.setModules).toHaveBeenCalled()
   });
   it("should fetch all the user selected categories when no category is selected", () => {
-    // jest.spyOn(component, "getCategoriesData")
     component.getCategoriesData(2);
     mockAppService.getCategories(2).subscribe(_date => {
       expect(_date).toBeDefined()

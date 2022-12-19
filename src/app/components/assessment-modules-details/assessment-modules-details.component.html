@@ -48,7 +48,7 @@
         <span *ngFor="let module of category.modules" class="moduleCard">
         <mat-card  (click)="navigate(module);tabs.selectedIndex=0" *ngIf="module.active"
                     [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">
-            <span [matTooltip]="module.moduleName" [matTooltipPosition]="'below'">{{module.moduleName}}</span>
+            <span [matTooltip]="module.moduleName" [matTooltipPosition]="'below'" >{{module.moduleName}}</span>
           </mat-card>
           </span>
       </div>
