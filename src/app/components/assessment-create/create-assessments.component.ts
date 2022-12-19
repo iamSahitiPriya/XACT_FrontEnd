@@ -301,7 +301,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.createAssessmentForm.controls['organizationNameValidator'].setValidators(this.autocompleteStringValidator(this.options.accounts))
     this.filteredOptions = this.createAssessmentForm.controls['organizationNameValidator'].valueChanges.pipe(
       startWith(''),
-      map(value => this.filterOrganisationName(this.assessment.organisationName || ''))
+      map(_value => this.filterOrganisationName(this.assessment.organisationName || ''))
     );
   }
 

@@ -22,6 +22,7 @@ import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 import {TopicReference} from "../../types/topicReference";
+import {ParameterReference} from "../../types/parameterReference";
 
 
 @Injectable({
@@ -192,6 +193,16 @@ export class AppServiceService {
   }
   updateTopicReference(referenceId: number,topicReferenceRequest: TopicReference) {
     return this.http.put<TopicReference>(environment.BaseURI + environment.UPDATE_TOPIC_REFERENCE_URI + "/" + referenceId,topicReferenceRequest)
+  }
+
+  saveParameterReference(parameterReferenceRequest:any) {
+    return this.http.post<ParameterReference>(environment.BaseURI + environment.SAVE_PARAMETER_REFERENCE_URI, parameterReferenceRequest)
+  }
+  deleteParameterReference(referenceId:any) {
+    return this.http.delete<ParameterReference>(environment.BaseURI + environment.DELETE_PARAMETER_REFERENCE_URI + "/" + referenceId)
+  }
+  updateParameterReference(referenceId: number,parameterReferenceRequest: ParameterReference) {
+    return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId,parameterReferenceRequest)
   }
 
 }

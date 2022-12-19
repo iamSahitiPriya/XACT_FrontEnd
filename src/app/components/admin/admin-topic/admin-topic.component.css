@@ -35,7 +35,7 @@ div.topic {
 
 th.topic, td.topic {
   border-bottom-style: none;
-  text-align: center;
+  text-align: left;
 }
 
 td.topic {
@@ -63,12 +63,6 @@ th {
 
 .topicDate {
   padding-right: 3em;
-}
-
-
-th.topic, td.topic {
-  border-bottom-style: none;
-  text-align: left;
 }
 
 .editButton {

@@ -1,0 +1,258 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+.header {
+  display : flex;
+  flex-direction: row;
+  padding-top: 1%;
+}
+
+.close button, .reference-button button, .delete-icon button, .edit-button button {
+  display: inline-block;
+  float: right;
+  border: none;
+  background-color: transparent;
+}
+
+.content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 95%;
+}
+
+.heading {
+  width: 97%;
+  text-align: left;
+  padding-left: 2%;
+  font-size: 21px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.4px;
+  color: #45A0AC;
+  opacity: 1;
+}
+
+.close-icon.mat-icon {
+  color: #043D4E;
+  width: 50px;
+  height: 38px;
+}
+
+.close-icon.material-icons {
+  font-size: 25px;
+}
+
+.score-card {
+  height: 4vh;
+  width: 58vw;
+  padding: 1.5% 0% 4% 2%;
+  background-color: #F4FAFC;
+  text-align: left;
+  font-size: 21px ;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+}
+
+.reference-button {
+  padding-top: 1%;
+  display: inline-block;
+  float: right;
+  width: 100%;
+  padding-right: 2%;
+}
+
+.reference-button button {
+  background-color: #4ba1ac;
+  text-align: left;
+  font-size: 15px;
+  font-family: Inter,sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1.42px;
+  padding-left: 2.5%;
+  color: #fff;
+  text-transform: capitalize;
+  opacity: 1;
+  width: 15rem;
+  height: 3rem;
+  border-radius: 4px;
+}
+
+.reference-button button:disabled {
+  background: #C3C3C3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 2px 2px #00000024;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.reference {
+  display: flex;
+  flex-direction: row;
+}
+
+.rating-dropdown {
+  padding-top: 2%;
+}
+
+.referenceInput {
+  width:83%;
+}
+
+.cancel-button {
+  padding-top: 4%;
+}
+
+::ng-deep .selectDropdown .mat-form-field-flex {
+  height: 50px;
+  width: 50px;
+  /*padding : 0 0.75em 4.5em 0.75em;*/
+  margin-top: -0.90em;
+  position: relative;
+}
+
+::ng-deep .selectDropdown .mat-select-arrow {
+  color: black;
+  margin-top: 17%;
+}
+
+.selectDropdown .mat-select {
+  font-size: 17px;
+}
+
+.selectDropdown .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+.references {
+  padding-top: 6%;
+}
+
+.reference-input {
+  padding-top: 3px;
+  padding-left: 2%;
+  width: 96%;
+  font-size: 15px;
+}
+
+.delete-icon {
+  padding: 1.5% 1.5% 1.5% 16%;
+}
+
+.edit-button button {
+  width: 4.4rem;
+  height: 2rem;
+  background: #658892 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  opacity: 1;
+  color: #fff;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  margin: 2px 0px 0px 13px;
+}
+
+.update-reference-button .mat-flat-button {
+  padding : 0;
+}
+
+.save-button, .update-button {
+  width: 70px;
+  height: 35px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #61828C;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  color: #658892;
+}
+
+.save-reference-button {
+  width: 5rem;
+  padding-left: 11%;
+}
+
+
+.update-button {
+  width:  80px;
+}
+
+.delete-button button {
+  border: none;
+  background: transparent;
+}
+
+.delete-button {
+  padding-top: 4%
+}
+
+.delete-icon button {
+  margin-top: 10%;
+  padding-right: 70%;
+}
+
+.save , .edit, .update{
+  display: flex;
+  flex-direction: row;
+  padding-top:2%
+}
+
+.cancel-button button {
+  border: none;
+  background-color: transparent;
+}
+
+.message {
+  height: 50%;
+  margin-top: 7%;
+  padding: 2%;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 21px;
+  letter-spacing: 0.4px;
+}
+
+::ng-deep .mat-select-disabled .mat-select-value {
+  color: black;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
+}
+
+::ng-deep .referenceInput .mat-form-field-appearance-outline .mat-form-field-infix{
+  border-top: 0 !important;
+}
+
+::ng-deep .rating-dropdown .mat-form-field-appearance-outline .mat-form-field-flex{
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+}
+
+::ng-deep .rating-dropdown .mat-form-field-appearance-outline .mat-form-field-infix{
+  padding: 0 !important;
+}
+
+
+
+
+
+
+
+
+

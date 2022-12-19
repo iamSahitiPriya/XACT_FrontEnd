@@ -51,7 +51,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   type: any;
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
-    this.assessmentResponse = this.store.select((store) => store.assessmentState.assessments)
+    this.assessmentResponse = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
   ngOnInit(): void {
