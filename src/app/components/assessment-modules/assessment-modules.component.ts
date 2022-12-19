@@ -229,7 +229,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
       let selectedModule = selectedCategory.modules.find(userSelectedModule => userSelectedModule.moduleId === module.moduleId)
       module.selected = selectedModule !== undefined;
       return module.active ? module.selected : true
-    } 
+    }
     else {
       module.selected = false
       return  false;
