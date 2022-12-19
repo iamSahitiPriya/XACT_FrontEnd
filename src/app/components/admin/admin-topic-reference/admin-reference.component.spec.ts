@@ -551,6 +551,5 @@ describe('AdminReferenceComponent', () => {
     expect(reference.rating).toBe(4)
   });
 
-
 });
 
