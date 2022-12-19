@@ -21,7 +21,7 @@ import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
 export const topicRecommendationData = [{}]
-let DEBOUNCE_TIME = 1200;
+let DEBOUNCE_TIME = 800;
 
 @Component({
   selector: 'app-topic-level-recommendation',

@@ -27,7 +27,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 1200;
+let DEBOUNCE_TIME = 800;
 
 
 @Component({
