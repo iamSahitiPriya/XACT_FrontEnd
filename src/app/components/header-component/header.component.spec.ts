@@ -46,7 +46,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should have logo in header', () => {
-    expect(fixture.nativeElement.querySelector('#logo').getAttribute("src")).toBe("../../assets/logo.png");
+    expect(fixture.nativeElement.querySelector('#logo').getAttribute("src")).toBe("../../assets/logo.svg");
   });
 
   it('should pass user name to html', () => {
