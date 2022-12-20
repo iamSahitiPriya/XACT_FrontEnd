@@ -25,7 +25,7 @@ import {UserQuestionResponse} from "../../types/userQuestionResponse";
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 800;
+let DEBOUNCE_TIME = 600;
 
 
 @Component({
@@ -39,7 +39,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   assessmentStatus: string;
   @Input()
-  answerInput: string|undefined;
+  answerInput: string | undefined;
 
   @Input()
   type: string
@@ -48,23 +48,25 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   questionNumber: number
 
   @Input()
-  parameterId:number;
+  parameterId: number;
 
   @Input()
   assessmentId: number;
 
   @Input()
-  question:string
+  question: string
 
   textarea: number = 0;
 
-  questionId : number;
-  autoSave : string;
+  questionId: number;
+  autoSave: string;
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
+  autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
+  additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
 
 
   private cloneAnswerResponse: AssessmentStructure;
@@ -80,8 +82,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   }
 
 
-  answerRequest:AnswerRequest = {
-    questionId:0 , answer:"" , type:""
+  answerRequest: AnswerRequest = {
+    questionId: 0, answer: "", type: ""
   }
   answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
@@ -103,33 +105,33 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
   saveParticularAnswer(_$event: KeyboardEvent) {
-    this.answerRequest.questionId= this.questionNumber
-    this.answerRequest.type= this.type;
+    this.answerRequest.questionId = this.questionNumber
+    this.answerRequest.type = this.type;
     if (this.answerInput != null) {
       this.answerRequest.answer = this.answerInput
     }
 
     this.questionId = this.questionNumber
-    this.autoSave = "Auto Saved"
-    this.saveNotes(this.answerRequest,this.assessmentId);
+    this.autoSave = this.autoSaveMessage
+    this.saveNotes(this.answerRequest, this.assessmentId);
 
   }
 
-  saveNotes(answerRequest:AnswerRequest, assessmentId:number){
-    this.appService.saveNotes(assessmentId,answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
+  saveNotes(answerRequest: AnswerRequest, assessmentId: number) {
+    this.appService.saveNotes(assessmentId, answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(answerRequest);
         this.questionId = -1
         this.autoSave = ""
-        if(this.type === "ADDITIONAL"){
+        if (this.type === this.additionalTypeQuestion) {
           this.userQuestionResponse.parameterId = this.parameterId
           this.userQuestionResponse.questionId = this.questionNumber
           this.userQuestionResponse.question = this.question
@@ -137,9 +139,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
             this.userQuestionResponse.answer = this.answerInput
           }
           this.sendUserAnswer(this.userQuestionResponse)
-        }
-        else{
-          this.answerNote.answer= this.answerInput
+        } else {
+          this.answerNote.answer = this.answerInput
           this.answerNote.questionId = this.questionNumber
           this.sendAnswer(this.answerNote);
         }

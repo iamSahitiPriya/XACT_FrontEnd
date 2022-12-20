@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserQuestionAnswerComponent } from './user-question-answer.component';
+import {UserQuestionAnswerComponent} from './user-question-answer.component';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatCardModule} from "@angular/material/card";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -14,12 +13,8 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserModule} from "@angular/platform-browser";
 import {UserQuestion} from "../../types/UserQuestion";
-import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {of, throwError} from "rxjs";
-import {UserAdditionalAnswerComponent} from "../user-additional-answer/user-additional-answer.component";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
-
-
 
 
 describe('UserQuestionAnswerComponent', () => {

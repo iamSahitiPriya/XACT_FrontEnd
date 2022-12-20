@@ -105,7 +105,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   showAccordion: any = true;
-  questionType: string = "ADDITIONAL";
+  questionType: string = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
 
 
   saveQuestion() {
@@ -130,14 +130,14 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   generateQuestion() {
-    if(!this.createQuestionFlag) {
+    if (!this.createQuestionFlag) {
       this.additionalQuestionCount += 1;
       this.createQuestionFlag = true
     }
   }
 
   editQuestionFlag(questionId: any) {
-    if(!this.createQuestionFlag) {
+    if (!this.createQuestionFlag) {
       this.questionEditFlagNumber = questionId
       this.questionEditFlag = true
     }
@@ -150,7 +150,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   deleteUserQuestion(questionId: number) {
-    if(!this.createQuestionFlag) {
+    if (!this.createQuestionFlag) {
       this.appService.deleteUserQuestion(this.assessmentId, questionId).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           this.removeUserQuestion(questionId)
@@ -204,7 +204,8 @@ export class UserQuestionAnswerComponent implements OnInit {
         }
       } else {
         this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
-        this.userQuestionList.push(userQuestionResponse)}
+        this.userQuestionList.push(userQuestionResponse)
+      }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
     }

@@ -260,5 +260,12 @@ export const data_local =
         SAVE:"Save",
         DELETE:"Delete"
       }
+    },
+    AUTO_SAVE: {
+      AUTO_SAVE_MESSAGE:"Auto Saved"
+    },
+    QUESTION_TYPE_TEXT : {
+      DEFAULT_TYPE:"DEFAULT",
+      ADDITIONAL_TYPE:"ADDITIONAL"
     }
   }

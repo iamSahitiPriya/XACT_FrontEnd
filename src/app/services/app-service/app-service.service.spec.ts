@@ -9,18 +9,13 @@ import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {SaveRequest} from "../../types/saveRequest";
-import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
-import {Observable} from "rxjs";
-import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {environment} from "../../../environments/environment";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
-import {User} from "../../types/user";
 import {AnswerRequest} from "../../types/answerRequest";
 
 describe('AppServiceService', () => {
@@ -121,8 +116,8 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular answer", () => {
-    let dummyAssessmentNotes: AssessmentNotes = {assessmentId: 1, questionId: 1, notes: ""}
-    expect(service.saveNotes(dummyAssessmentNotes)).toBeTruthy()
+    let answerRequest: AnswerRequest = {questionId: 1, answer: "", type: "ADDITIONAL"}
+    expect(service.saveNotes(1, answerRequest)).toBeTruthy()
   });
 
   it("should update particular topic Recommendation", () => {
@@ -301,25 +296,25 @@ describe('AppServiceService', () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   });
   it("should save new added question by user", () => {
-    let assessmentId= 1, parameterId= 1
-    let userQuestionRequest : UserQuestionRequest = {
-      question:"question by user"
+    let assessmentId = 1, parameterId = 1
+    let userQuestionRequest: UserQuestionRequest = {
+      question: "question by user"
     }
 
-    expect(service.saveUserQuestion(userQuestionRequest,assessmentId,parameterId)).toBeTruthy()
+    expect(service.saveUserQuestion(userQuestionRequest, assessmentId, parameterId)).toBeTruthy()
   });
 
   it("should update user question", () => {
-    let userQuestion:UserQuestion = {
-      questionId:1,question:"updated"
+    let userQuestion: UserQuestion = {
+      questionId: 1, question: "updated"
     }
-    let assessmentId= 1;
-    expect(service.updateUserQuestion(userQuestion,assessmentId)).toBeTruthy()
+    let assessmentId = 1;
+    expect(service.updateUserQuestion(userQuestion, assessmentId)).toBeTruthy()
   });
 
   it("should delete new added question by user", () => {
-    let assessmentId= 1, questionId= 1
-    expect(service.deleteUserQuestion(assessmentId,questionId)).toBeTruthy()
+    let assessmentId = 1, questionId = 1
+    expect(service.deleteUserQuestion(assessmentId, questionId)).toBeTruthy()
   });
 
   it("should delete assessment", () => {
@@ -334,29 +329,29 @@ describe('AppServiceService', () => {
     let parameterId = 1
     expect(service.updateParameter(parameterRequest, parameterId)).toBeTruthy();
   })
-  it("should save topic reference",() => {
-    let topicRequest = {topic:1,reference:"new",rating:1}
+  it("should save topic reference", () => {
+    let topicRequest = {topic: 1, reference: "new", rating: 1}
     expect(service.saveTopicReference(topicRequest)).toBeTruthy();
   })
-  it("should update topic reference",() => {
-    let topicRequest = {topic:1,reference:"new",rating:1,referenceId:1}
+  it("should update topic reference", () => {
+    let topicRequest = {topic: 1, reference: "new", rating: 1, referenceId: 1}
     let referenceId = 1
-    expect(service.updateTopicReference(referenceId,topicRequest)).toBeTruthy();
+    expect(service.updateTopicReference(referenceId, topicRequest)).toBeTruthy();
   })
-  it("should delete topic reference",() => {
+  it("should delete topic reference", () => {
     let referenceId = 1
     expect(service.deleteTopicReference(referenceId)).toBeTruthy();
   })
-  it("should save parameter reference",() => {
-    let parameterRequest = {parameter:1,reference:"new",rating:1}
+  it("should save parameter reference", () => {
+    let parameterRequest = {parameter: 1, reference: "new", rating: 1}
     expect(service.saveParameterReference(parameterRequest)).toBeTruthy();
   })
-  it("should update parameter reference",() => {
-    let parameterRequest = {parameter:1,reference:"new",rating:1,referenceId:1}
+  it("should update parameter reference", () => {
+    let parameterRequest = {parameter: 1, reference: "new", rating: 1, referenceId: 1}
     let referenceId = 1
-    expect(service.updateParameterReference(referenceId,parameterRequest)).toBeTruthy();
+    expect(service.updateParameterReference(referenceId, parameterRequest)).toBeTruthy();
   })
-  it("should delete parameter reference",() => {
+  it("should delete parameter reference", () => {
     let referenceId = 1
     expect(service.deleteParameterReference(referenceId)).toBeTruthy();
   })

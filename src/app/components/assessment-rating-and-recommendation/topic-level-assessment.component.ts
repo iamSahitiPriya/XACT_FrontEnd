@@ -33,12 +33,12 @@ let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 export class parameterRequest {
 
   answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
-  userQuestionRequest:UserQuestion[]
+  userQuestionRequest: UserQuestion[]
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
-  constructor(answerRequest: Notes[],userQuestionRequestList:UserQuestion[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
+  constructor(answerRequest: Notes[], userQuestionRequestList: UserQuestion[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {
     this.answerRequest1 = answerRequest;
-    this.userQuestionRequest=userQuestionRequestList;
+    this.userQuestionRequest = userQuestionRequestList;
     this.parameterRatingAndRecommendation = parameterRatingAndRecommendation
   }
 }
@@ -75,13 +75,14 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
+
   public answerSaved: string
 
   @Input() selectedIndex: number
   assessmentId: number
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
-  questionType: string = "DEFAULT";
+  questionType: string = data_local.QUESTION_TYPE_TEXT.DEFAULT_TYPE;
 
 
   ngOnInit(): void {
@@ -100,7 +101,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     let answers: AssessmentAnswerResponse[] = []
     let parameterRatingAndRecomm: ParameterRatingAndRecommendation[] = []
     let topicRatingAndRecomm: TopicRatingAndRecommendation[] = []
-    let userQuestions : UserQuestionResponse[] =[]
+    let userQuestions: UserQuestionResponse[] = []
     const saveRequest: SaveRequest = {
       assessmentId: this.assessmentId, topicRequest: this.topicRequest
     };
@@ -116,14 +117,14 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
               answers.push(<AssessmentAnswerResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].answerRequest[Number(eachAnswer)])
             }
           }
-          for(let eachUserQuestion in saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList){
-            if(saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList[Number(eachUserQuestion)] !== undefined){
+          for (let eachUserQuestion in saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList) {
+            if (saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList[Number(eachUserQuestion)] !== undefined) {
               userQuestions.push(<UserQuestionResponse>saveRequest.topicRequest.parameterLevel[Number(eachParameter)].userQuestionRequestList[Number(eachUserQuestion)])
             }
 
           }
         }
-        this.sendAnswers(answers,userQuestions, parameterRatingAndRecomm, topicRatingAndRecomm)
+        this.sendAnswers(answers, userQuestions, parameterRatingAndRecomm, topicRatingAndRecomm)
         saveAssessmentData.push(saveRequest);
         window.location.reload();
       }
@@ -155,9 +156,10 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
       questionId: questionId, answer: answer
     };
   }
-  getUserQuestions(questionId:number,parameterId:number, question:string, answer:string): UserQuestionSaveRequest {
+
+  getUserQuestions(questionId: number, parameterId: number, question: string, answer: string): UserQuestionSaveRequest {
     return {
-      questionId:questionId,parameterId:parameterId, question:question, answer:answer
+      questionId: questionId, parameterId: parameterId, question: question, answer: answer
     }
   }
 
@@ -177,20 +179,21 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     }
     return answerRequest
   }
-  getUserQuestionList(parameter: ParameterStructure) : UserQuestionSaveRequest[] {
+
+  getUserQuestionList(parameter: ParameterStructure): UserQuestionSaveRequest[] {
     const userQuestionRequest = []
     let userQuestionText: string;
-    let userAnswerText: string ;
-    let userQuestionId:number ;
-    let parameterId:number;
-    if(this.answerResponse.userQuestionResponseList !== undefined){
-      for(let userQuestion in this.answerResponse.userQuestionResponseList){
-        if(this.answerResponse.userQuestionResponseList[userQuestion].parameterId === parameter.parameterId){
-          userQuestionText= this.answerResponse.userQuestionResponseList[userQuestion].question
+    let userAnswerText: string;
+    let userQuestionId: number;
+    let parameterId: number;
+    if (this.answerResponse.userQuestionResponseList !== undefined) {
+      for (let userQuestion in this.answerResponse.userQuestionResponseList) {
+        if (this.answerResponse.userQuestionResponseList[userQuestion].parameterId === parameter.parameterId) {
+          userQuestionText = this.answerResponse.userQuestionResponseList[userQuestion].question
           userAnswerText = this.answerResponse.userQuestionResponseList[userQuestion].answer
           userQuestionId = this.answerResponse.userQuestionResponseList[userQuestion].questionId
           parameterId = this.answerResponse.userQuestionResponseList[userQuestion].parameterId
-          userQuestionRequest.push(this.getUserQuestions(userQuestionId,parameterId,userQuestionText,userAnswerText))
+          userQuestionRequest.push(this.getUserQuestions(userQuestionId, parameterId, userQuestionText, userAnswerText))
         }
       }
     }
@@ -291,7 +294,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   }
 
 
-  private sendAnswers(answers: AssessmentAnswerResponse[],userQuestions:UserQuestionResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
+  private sendAnswers(answers: AssessmentAnswerResponse[], userQuestions: UserQuestionResponse[], parameter: ParameterRatingAndRecommendation[], topic: TopicRatingAndRecommendation[]) {
     this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
     if (answers[0] !== undefined && this.cloneAnswerResponse.answerResponseList !== undefined) {
       this.cloneAnswerResponse.answerResponseList = this.cloneAnswerResponse.answerResponseList.filter(eachAnswer => !answers.find(eachAnswerQuestion =>
@@ -299,12 +302,11 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     } else {
       this.cloneAnswerResponse.answerResponseList = answers
     }
-    if(userQuestions[0] !== undefined && this.cloneAnswerResponse.userQuestionResponseList !== undefined){
+    if (userQuestions[0] !== undefined && this.cloneAnswerResponse.userQuestionResponseList !== undefined) {
       this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachUserQuestion => !userQuestions.find(eachUserQuestionAnswer =>
-      eachUserQuestion['questionId'] === eachUserQuestionAnswer['questionId'])).concat(userQuestions)
-    }
-    else{
-      this.cloneAnswerResponse.userQuestionResponseList= userQuestions
+        eachUserQuestion['questionId'] === eachUserQuestionAnswer['questionId'])).concat(userQuestions)
+    } else {
+      this.cloneAnswerResponse.userQuestionResponseList = userQuestions
     }
     if (topic[0] !== undefined && this.cloneAnswerResponse.topicRatingAndRecommendation !== undefined) {
       this.cloneAnswerResponse.topicRatingAndRecommendation = this.cloneAnswerResponse.topicRatingAndRecommendation.filter(eachTopic => !topic.find(eachAnswerQuestion =>
@@ -330,7 +332,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
-          let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating||0);
+          let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating || 0);
           ratingSum = ratingSum + currentRating;
           if (currentRating > 0) {
             ratingNumber = ratingNumber + 1;

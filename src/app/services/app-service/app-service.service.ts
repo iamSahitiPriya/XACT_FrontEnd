@@ -74,9 +74,9 @@ export class AppServiceService {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
 
-  saveNotes(assessmentId:number,assessmentNotes: AnswerRequest) {
+  saveNotes(assessmentId: number, answerRequest: AnswerRequest) {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentId + "/"+"answers"+"/" + assessmentNotes.questionId, assessmentNotes, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentId + "/" + "answers" + "/" + answerRequest.questionId, answerRequest, {'headers': headers})
   }
 
 

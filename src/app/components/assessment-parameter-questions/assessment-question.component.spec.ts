@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of, throwError} from "rxjs";
 import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {AnswerRequest} from "../../types/answerRequest";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -34,8 +35,8 @@ describe('AssessmentQuestionComponent', () => {
   }
 
   class MockAppService {
-    public saveNotes(assessmentNotes: AssessmentNotes) {
-      if(assessmentNotes.notes!="error text"){
+    public saveNotes(assessmentId:number , assessmentNotes: AnswerRequest) {
+      if(assessmentId != 1){
         return of(assessmentNotes)
       }
       else {
@@ -66,11 +67,11 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it('should create', () => {
-    component.answerInput = {questionId: 123, answer: "My answer"}
+    component.answerInput = "My answer"
     fixture.detectChanges();
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
-  it('should auto save the data whenever the value is changes', async () => {
+  it('should auto save the data whenever the value is changes for Default questions', async () => {
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,
@@ -104,22 +105,75 @@ describe('AssessmentQuestionComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
       userQuestionResponseList:[]
     })
-    component.answerInput = {questionId: 1, answer: "hello"}
+    component.answerInput ="hello"
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component, 'saveParticularAnswer')
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
-    let assessmentNotes: AssessmentNotes = {
-      assessmentId: 1, questionId: undefined, notes: undefined
+    let assessmentNotes: AnswerRequest = {
+      questionId: 1, answer:"" , type: "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(assessmentNotes).subscribe(data => {
+    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
-    expect(component.assessmentNotes.notes).toBe("hello")
+    expect(component.answerRequest.answer).toBe("hello")
+  });
+
+  it('should auto save the data whenever the value is changes for Additional questions', async () => {
+    component.assessmentId = 5
+    component.answerResponse1 = of({
+      assessmentId: 0,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentState: "inProgress",
+      assessmentStatus: "Active",
+      assessmentPurpose: "Client Request",
+      updatedAt: 1654664982698,
+      domain: "",
+      industry: "",
+      teamSize: 0,
+      users: [],
+      owner:true,
+      answerResponseList: [
+        {
+          questionId: 1,
+          answer: "answer1"
+        }],
+      topicRatingAndRecommendation: [{
+        topicId: 0, rating: 1, topicLevelRecommendation: [
+          {
+            recommendationId: 1,
+            recommendation: "some text",
+            impact: "HIGH",
+            effect: "LOW",
+            deliveryHorizon: "some more text"
+          }
+        ]
+      }],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[{questionId:1,question:"new question?",parameterId:1,answer:""}]
+    })
+    component.answerInput ="hello"
+
+    const keyEventData = {isTrusted: true, code: 'KeyA'};
+    const keyEvent = new KeyboardEvent('keyup', keyEventData);
+    jest.spyOn(component, 'saveParticularAnswer')
+    component.ngOnInit()
+    component.type = "ADDITIONAL"
+    component.saveParticularAnswer(keyEvent);
+    let assessmentNotes: AnswerRequest = {
+      questionId: 1, answer:"" , type: "ADDITIONAL"
+    };
+    await new Promise((r) => setTimeout(r, 2000));
+
+    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
+      expect(data).toBe(assessmentNotes)
+    })
+    expect(component.answerRequest.answer).toBe("hello")
   });
 
   it("should push answers if it is not present", async () => {
@@ -156,19 +210,19 @@ describe('AssessmentQuestionComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
       userQuestionResponseList:[]
     })
-    component.answerInput = {questionId: 2, answer: "hello"}
+    component.answerInput = "hello"
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
     jest.spyOn(component, 'saveParticularAnswer')
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
-    let assessmentNotes: AssessmentNotes = {
-      assessmentId: 1, questionId: undefined, notes: undefined
+    let assessmentNotes: AnswerRequest = {
+       questionId: 1, answer:"",type: "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(assessmentNotes).subscribe(data => {
+    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
   });
@@ -203,7 +257,8 @@ describe('AssessmentQuestionComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
       userQuestionResponseList:[]
     })
-    component.answerInput = {questionId: 2, answer: "hello"}
+    component.answerInput = "hello"
+    component.questionNumber = 1;
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
@@ -212,13 +267,13 @@ describe('AssessmentQuestionComponent', () => {
     // @ts-ignore
     component.answerResponse.answerResponseList = undefined
     component.saveParticularAnswer(keyEvent);
-    let assessmentNotes: AssessmentNotes = {
-      assessmentId: 1, questionId: undefined, notes: undefined
+    let answerRequest: AnswerRequest = {
+      questionId: 0, answer: "" , type : "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(assessmentNotes).subscribe(data => {
-      expect(data).toBe(assessmentNotes)
+    mockAppService.saveNotes(2,answerRequest).subscribe(data => {
+      expect(data).toBe(answerRequest)
       expect(component.answerResponse.answerResponseList.length).toBe(1)
     })
   });
@@ -229,16 +284,16 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it("should not save answer and throw error", () => {
-    let assNotes : AssessmentNotes = {
-      assessmentId: 0, notes: "error text", questionId: 0, updatedAt: 0
+    let answerRequest : AnswerRequest = {
+     answer: "error text", questionId: 0, type: "DEFAULT"
 
     }
     jest.spyOn(component,'saveNotes')
-    component.saveNotes(assNotes)
+    component.saveNotes(answerRequest,1)
     jest.spyOn(component,"showError")
 
 
-    mockAppService.saveNotes(assNotes).subscribe(data => {
+    mockAppService.saveNotes(1,answerRequest).subscribe(data => {
         expect(data).toBeUndefined()},
       error => {
         expect(component.showError).toHaveBeenCalled()
