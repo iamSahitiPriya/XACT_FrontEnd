@@ -66,14 +66,11 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it('should create', () => {
-    component.initial = 1;
-    component.questionDetails = {questionId: 123, questionText: 'Hello', parameter: 1234}
     component.answerInput = {questionId: 123, answer: "My answer"}
     fixture.detectChanges();
     //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
   });
   it('should auto save the data whenever the value is changes', async () => {
-    component.questionDetails = {questionId: 1, questionText: 'Hello', parameter: 1}
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,
@@ -126,7 +123,6 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it("should push answers if it is not present", async () => {
-    component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,
@@ -177,7 +173,6 @@ describe('AssessmentQuestionComponent', () => {
     })
   });
   it("should set the answer response if it is not present", async () => {
-    component.questionDetails = {questionId: 2, questionText: 'Hello', parameter: 1}
     component.assessmentId = 5
     component.answerResponse1 = of({
       assessmentId: 0,

@@ -4,7 +4,7 @@
 
 import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
-import {Notes} from "../../types/answerRequest";
+import {Notes} from "../../types/answerNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";

@@ -9,7 +9,6 @@ import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {SaveRequest} from "../../types/saveRequest";
-import {AssessmentNotes} from "../../types/assessmentNotes";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
@@ -23,7 +22,7 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 import {UserQuestion} from "../../types/UserQuestion";
 import {TopicReference} from "../../types/topicReference";
-import {UserAnswer} from "../../types/userAnswer";
+import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 
@@ -75,9 +74,9 @@ export class AppServiceService {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + environment.ASSESSMENT_STATUS_OPEN_URI, null);
   }
 
-  saveNotes(assessmentNotes: AssessmentNotes) {
+  saveNotes(assessmentId:number,assessmentNotes: AnswerRequest) {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentNotes.assessmentId + "/" + assessmentNotes.questionId, assessmentNotes.notes, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentId + "/"+"answers"+"/" + assessmentNotes.questionId, assessmentNotes, {'headers': headers})
   }
 
 
@@ -188,22 +187,17 @@ export class AppServiceService {
 
   saveUserQuestion(userQuestionRequest: UserQuestionRequest, assessmentId: number, parameterId: number): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_ANSWER_URI + "/" + assessmentId + "/" + parameterId + "/" + "question", userQuestionRequest.question, {'headers': headers})
+    return this.http.post(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + parameterId + "/" + "questions", userQuestionRequest.question, {'headers': headers})
   }
 
   updateUserQuestion(userQuestion: UserQuestion, assessmentId: number): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_ANSWER_URI + "/" + assessmentId + "/" + "question" + "/" + userQuestion.questionId, userQuestion.question, {'headers': headers})
-  }
-
-  updateUserAnswer(userAnswer: UserAnswer, assessmentId: number): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_ANSWER_URI + "/" + assessmentId + "/" + "answer" + "/" + userAnswer.questionId, userAnswer.answer, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + userQuestion.questionId, userQuestion.question, {'headers': headers})
   }
 
   deleteUserQuestion(assessmentId: number, questionId: number): Observable<any> {
     const headers = {'content-type': 'application/json'}
-    return this.http.delete(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_ANSWER_URI + "/" + assessmentId + "/" + "question" + "/" + questionId, {'headers': headers})
+    return this.http.delete(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + questionId, {'headers': headers})
   }
 
   deleteAssessment(assessmentId: number): Observable<any> {

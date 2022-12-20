@@ -18,7 +18,7 @@ import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter
 import {CommonModule} from "@angular/common";
 import {TopicLevelRatingComponent} from "../topic-level-rating/topic-level-rating.component";
 import {ParameterStructure} from 'src/app/types/parameterStructure';
-import {Notes} from 'src/app/types/answerRequest';
+import {Notes} from 'src/app/types/answerNotes';
 import {ParameterRatingAndRecommendation} from 'src/app/types/parameterRatingAndRecommendation';
 import {ParameterRequest} from "../../types/parameterRequest";
 import {StoreModule} from "@ngrx/store";

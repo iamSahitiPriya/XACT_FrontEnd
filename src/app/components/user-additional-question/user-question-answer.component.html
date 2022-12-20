@@ -43,7 +43,9 @@
 
 
       <div *ngIf="userQuestion.questionId">
-      <app-user-additional-answer [assessmentId]="assessmentId" [userAnswerInput]="userQuestion" [parameterId]="parameterId" [userQuestionId]="userQuestion.questionId"></app-user-additional-answer>
+      <app-assessment-question [assessmentId]="assessmentId" [questionNumber]="userQuestion.questionId"
+                               [answerInput]="userQuestion.answer" [question]="userQuestion.question"
+                               [parameterId]="parameterId"></app-assessment-question>
       </div>
   </div>
 

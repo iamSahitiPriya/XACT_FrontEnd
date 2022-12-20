@@ -17,8 +17,10 @@
           <div class="question" *ngFor="let question of parameter.questions; let j=index;">
             <span class="question-content">{{i + 1}}.{{j + 1}} &nbsp;{{question.questionText}}</span>
             <br>
-            <app-assessment-question *ngIf="topicRequest.parameterLevel[i]" [questionDetails]="question"
-                                     [answerInput]="topicRequest.parameterLevel[i].answerRequest[j]"
+            <app-assessment-question *ngIf="topicRequest.parameterLevel[i]"
+                                     [answerInput]="topicRequest.parameterLevel[i].answerRequest[j].answer"
+                                     [questionNumber]="topicRequest.parameterLevel[i].answerRequest[j].questionId"
+                                     [parameterId]="parameter.parameterId"
                                      [assessmentId]="assessmentId"
             ></app-assessment-question>
           </div>
