@@ -74,7 +74,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   moduleLabel = data_local.ADMIN.MODULE_NAME
   topicLabel = data_local.ADMIN.TOPIC_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
-  moduleNotFound: any = data_local.ADMIN.MODULE_NOT_FOUND;
+  moduleNotFound = data_local.ADMIN.MODULE_NOT_FOUND;
   selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY;
   selectModule = data_local.ADMIN.MODULE.SELECT_MODULE;
   enterTopic = data_local.ADMIN.TOPIC.ENTER_TOPIC
@@ -89,11 +89,14 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.categoryList = []
     this.masterData.subscribe(data => {
       if (data !== undefined) {
         this.categories = data
         data.forEach(eachCategory => {
-          this.fetchModuleDetails(eachCategory);
+          if (eachCategory.categoryId !== -1 && eachCategory.categoryName !== "") {
+            this.fetchModuleDetails(eachCategory);
+          }
         })
         this.sortTopic();
       }
@@ -310,9 +313,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
-      this.moduleList = []
-      let module = {moduleName: this.moduleNotFound}
-      this.moduleList.push(module)
+      this.moduleList = [{moduleName: this.moduleNotFound}]
     }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
@@ -381,7 +382,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   isInputValid(row: any) {
-    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
+    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')));
   }
 
   async openTopicReferences(reference: any, row: any) {

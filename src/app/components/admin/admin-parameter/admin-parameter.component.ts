@@ -86,11 +86,13 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoryList=[]
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryData = data
         data.forEach(eachCategory => {
-          this.fetchModules(eachCategory);
+          if(eachCategory.categoryId !== -1 && eachCategory.categoryName !== "")
+             this.fetchModules(eachCategory);
         })
         this.sortData();
         this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)

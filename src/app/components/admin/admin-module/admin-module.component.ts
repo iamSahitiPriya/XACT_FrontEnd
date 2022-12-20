@@ -81,10 +81,12 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.categoryDetails=[]
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.categoryDetails = data
       data?.forEach((eachCategory) => {
-          this.getModules(eachCategory);
+        if(eachCategory.categoryId !== -1 && eachCategory.categoryName !== "")
+           this.getModules(eachCategory);
         }
       )
       this.moduleStructure.sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt));
