@@ -81,6 +81,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   assessmentId: number
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
+  questionType: string = "DEFAULT";
 
 
   ngOnInit(): void {

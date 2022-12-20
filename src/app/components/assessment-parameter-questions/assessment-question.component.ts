@@ -6,27 +6,21 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-import {Notes} from "../../types/answerNotes";
-import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {UntypedFormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Observable, Subject, takeUntil} from "rxjs";
-import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
-import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {AnswerRequest} from "../../types/answerRequest";
-import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
-import {type} from "os";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -119,7 +113,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   saveParticularAnswer(_$event: KeyboardEvent) {
     this.answerRequest.questionId= this.questionNumber
     this.answerRequest.type= this.type;
-    this.answerRequest.answer = this.answerInput
+    if (this.answerInput != null) {
+      this.answerRequest.answer = this.answerInput
+    }
 
     this.questionId = this.questionNumber
     this.autoSave = "Auto Saved"
@@ -137,7 +133,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
           this.userQuestionResponse.parameterId = this.parameterId
           this.userQuestionResponse.questionId = this.questionNumber
           this.userQuestionResponse.question = this.question
-          this.userQuestionResponse.answer = this.answerInput
+          if (this.answerInput != null) {
+            this.userQuestionResponse.answer = this.answerInput
+          }
           this.sendUserAnswer(this.userQuestionResponse)
         }
         else{

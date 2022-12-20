@@ -105,6 +105,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   showAccordion: any = true;
+  questionType: string = "ADDITIONAL";
 
 
   saveQuestion() {

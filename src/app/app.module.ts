@@ -90,7 +90,6 @@ import {AssessmentHeaderComponent} from './components/assessment-header/assessme
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { UserQuestionAnswerComponent } from './components/user-additional-question/user-question-answer.component';
-import { UserAdditionalAnswerComponent } from './components/user-additional-answer/user-additional-answer.component';
 import {AdminParameterComponent} from './components/admin/admin-parameter/admin-parameter.component';
 import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
@@ -187,7 +186,6 @@ export const appRoutes: Routes = [
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
     UserQuestionAnswerComponent,
-    UserAdditionalAnswerComponent,
     AdminParameterComponent,
     AdminTopicComponent,
     AdminReferenceComponent,
