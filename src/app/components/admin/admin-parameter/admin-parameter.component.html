@@ -136,7 +136,7 @@
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveParameterButton" type="submit" (click)="saveParameterRow(row)"
-                  [disabled]="row.categoryName && row.moduleName && row.topicName &&!row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Save</button>
+                  [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">Save</button>
         </span>
       </td>
     </ng-container>

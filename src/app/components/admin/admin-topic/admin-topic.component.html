@@ -68,7 +68,7 @@
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
                       [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }"
-                      [disabled]="moduleList[0]===moduleNotFound">
+                      [disabled]="moduleList[0].moduleName===moduleNotFound">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -115,7 +115,7 @@
         </span>
         <span *ngIf="selectedTopic===row && row.topicId !== -1">
         <button mat-flat-button class="updateTopicButton" aria-label="expand row"
-                (click)="updateTopic(row)" [disabled]="isInputValid(row)">{{update}}</button>
+                (click)="updateTopic(row)" [disabled]="isInputValid(row)" >{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)"
