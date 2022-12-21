@@ -45,7 +45,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<CategoryData>
   AssessmentStructure: AssessmentStructure;
   dataSourceArray: CategoryData[]

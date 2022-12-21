@@ -13,7 +13,7 @@
   </div>
 </div>
 <div class="mat-elevation-z8 category">
-  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows aria-describedby="category">
+  <table mat-table [dataSource]="dataSource" aria-describedby="category" matSort multiTemplateDataRows >
     <ng-container matColumnDef="categoryName">
       <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="category" mat-cell *matCellDef="let row">

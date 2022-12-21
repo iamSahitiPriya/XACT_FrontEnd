@@ -18,9 +18,9 @@
     <ng-container matColumnDef="categoryName">
       <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName"> {{categoryLabel}} </th>
       <td class="module" mat-cell *matCellDef="let row">
-          <span *ngIf="!(row.isEdit || selectedModule === row)">
+          <span *ngIf="!(row.isEdit || selectedModule === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
           <span class="circle"></span>
-            <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
+           {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedModule===row">
          <mat-form-field appearance="outline" class="selectionBox">

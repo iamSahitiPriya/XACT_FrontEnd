@@ -67,8 +67,8 @@
             <mat-label>{{selectModule}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
-                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }"
-                      [disabled]="moduleList[0].moduleName===moduleNotFound">
+                      [disabled]="moduleList[0].moduleName===moduleNotFound"
+                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
             {{module.moduleName}}
           </mat-option>
         </mat-select>

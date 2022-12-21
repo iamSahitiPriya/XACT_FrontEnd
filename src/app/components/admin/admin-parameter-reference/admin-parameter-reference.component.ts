@@ -8,7 +8,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import cloneDeep from "lodash/cloneDeep";
+import {cloneDeep} from "lodash";
 import {ParameterReference} from "../../../types/parameterReference";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import * as fromActions from "../../../actions/assessment-data.actions";
@@ -31,7 +31,8 @@ export class AdminParameterReferenceComponent implements OnInit {
   unsavedReferences: ParameterReference[] | undefined
   rating: any [] = []
   referenceToSend: any = {}
-  unsavedChanges: ParameterReference;
+  unsavedChanges: ParameterReference | null;
+  selectedReference: any | null;
   private destroy$: Subject<void> = new Subject<void>();
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
@@ -55,6 +56,8 @@ export class AdminParameterReferenceComponent implements OnInit {
     this.rating = [{rating: 1, selected: false}, {rating: 2, selected: false}, {rating: 3, selected: false},
       {rating: 4, selected: false}, {rating: 5, selected: false}]
     this.parameterReferences = []
+    this.unsavedChanges = null
+    this.unsavedReferences = []
     this.masterData.subscribe(data => {
       this.categories = data
       this.setParameterReferences()
@@ -103,6 +106,7 @@ export class AdminParameterReferenceComponent implements OnInit {
         next: (_data) => {
           reference.isEdit = false
           reference.referenceId = _data.referenceId
+          this.selectedReference = null
           this.sendReferenceToStore(_data)
           this.ngOnInit()
         }, error: _error => {
@@ -110,6 +114,35 @@ export class AdminParameterReferenceComponent implements OnInit {
         }
       })
     }
+  }
+
+  updateParameterReference(reference: any) {
+    if(this.isRatingUnique(reference) && this.isReferenceUnique(reference)) {
+      this.referenceToSend = this.setReferenceRequest(reference)
+      this.referenceToSend.referenceId = reference.referenceId
+      this.appService.updateParameterReference(reference.referenceId,this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
+        next : (_data) => {
+          reference.isEdit = false
+          this.updateStore(_data)
+          this.selectedReference = null
+          this.ngOnInit()
+        }, error : _error => {
+          this.showError(this.dataNotSaved);
+        }
+      })
+    }
+  }
+
+  deleteParameterReference(reference: any) {
+    this.appService.deleteParameterReference(reference.referenceId).pipe().subscribe({
+      next: () => {
+        this.deleteFromStore(reference)
+        this.selectedReference = null
+        this.ngOnInit()
+      }, error: _error => {
+        this.showError(this.dataNotSaved);
+      }
+    })
   }
 
   isRatingUnique(reference: any | ParameterReference): boolean {
@@ -140,7 +173,7 @@ export class AdminParameterReferenceComponent implements OnInit {
 
   setReferenceRequest(reference: any) {
     this.referenceToSend =  {
-      reference : reference.reference,
+      reference : reference.reference.trim(),
       rating: reference.rating-1,
       parameter: this.parameterId
     }
@@ -161,21 +194,6 @@ export class AdminParameterReferenceComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  updateParameterReference(reference: any) {
-    if(this.isRatingUnique(reference) && this.isReferenceUnique(reference)) {
-      this.referenceToSend = this.setReferenceRequest(reference)
-      this.referenceToSend.referenceId = reference.referenceId
-      this.appService.updateParameterReference(reference.referenceId,this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
-        next : (_data) => {
-          reference.isEdit = false
-          this.updateStore(_data)
-          this.ngOnInit()
-        }, error : _error => {
-          this.showError(this.dataNotSaved);
-        }
-      })
-    }
-  }
 
   updateStore(reference: ParameterReference) {
     let references = this.getReferenceFromParameter();
@@ -196,6 +214,7 @@ export class AdminParameterReferenceComponent implements OnInit {
         this.parameterReferences?.unshift(eachReference)
       })
     }
+    this.sortReferences()
   }
 
   getReferenceFromParameter() {
@@ -204,14 +223,12 @@ export class AdminParameterReferenceComponent implements OnInit {
 
 
   addMaturityReference() {
+    if (this.selectedReference !== null && this.selectedReference !== undefined)
+      this.selectedReference.isEdit = false
     this.deleteUnSavedReferences()
-    let reference: any = {
-      referenceId: -1,
-      reference: "",
-      rating: -1,
-      parameter: this.parameterId,
-      isEdit: true
-    }
+    this.resetUnsavedChanges()
+    let reference: any = {referenceId: -1, reference: "", rating: -1, parameter: this.parameterId, isEdit: true}
+    this.selectedReference = this.selectedReference == reference ? null : reference
     this.parameterReferences?.unshift(reference)
 
   }
@@ -241,8 +258,14 @@ export class AdminParameterReferenceComponent implements OnInit {
   }
 
   setIsEdit(reference: any) {
+    this.deleteUnSavedReferences()
+    this.resetUnsavedChanges()
+    let parameterId: any = this.parameterId
+    let selectedReference: ParameterReference = {parameter: parameterId, reference: reference.reference, referenceId: reference.referenceId, rating: reference.rating}
+    if (this.selectedReference !== null && this.selectedReference !== undefined) this.selectedReference.isEdit = false
     reference.isEdit = true
-    this.unsavedChanges = cloneDeep(reference)
+    this.unsavedChanges = cloneDeep(selectedReference)
+    this.selectedReference = this.selectedReference === reference ? null : reference
   }
 
   disableSavedRatings() {
@@ -253,10 +276,8 @@ export class AdminParameterReferenceComponent implements OnInit {
   }
 
   cancelChanges(reference: any) {
-    reference.reference = this.unsavedChanges.reference
-    reference.referenceId = this.unsavedChanges.referenceId
-    reference.rating = this.unsavedChanges.rating
-    reference.isEdit = false
+    this.selectedReference = this.selectedReference == reference ? null : reference
+    this.resetReference(reference);
   }
 
   deleteMaturityReference(reference: any) {
@@ -268,16 +289,6 @@ export class AdminParameterReferenceComponent implements OnInit {
     return  null;
   }
 
-  deleteParameterReference(reference: any) {
-    this.appService.deleteParameterReference(reference.referenceId).pipe().subscribe({
-      next: () => {
-        this.deleteFromStore(reference)
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError(this.dataNotSaved);
-      }
-    })
-  }
 
   deleteFromStore(reference: any) {
     let references = this.getReferenceFromParameter();
@@ -291,5 +302,26 @@ export class AdminParameterReferenceComponent implements OnInit {
   private getParameterId() {
     this.parameterId = this.getSelectedParameter()?.parameterId
     return this.parameterId
+  }
+
+  private resetUnsavedChanges() {
+    if(this.unsavedChanges !== null) {
+      let reference = this.parameterReferences?.find(eachReference => eachReference.referenceId === this.unsavedChanges?.referenceId)
+      this.resetReference(reference)
+    }
+  }
+
+  private resetReference(reference: any) {
+    if (this.unsavedChanges !== null) {
+      reference.reference = this.unsavedChanges.reference
+      reference.referenceId = this.unsavedChanges.referenceId
+      reference.rating = this.unsavedChanges.rating
+      reference.isEdit = false
+    }
+  }
+
+  private sortReferences() {
+    this.parameterReferences?.sort((reference1,reference2) => reference1.rating - reference2.rating)
+
   }
 }

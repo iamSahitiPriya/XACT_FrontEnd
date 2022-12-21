@@ -32,6 +32,7 @@
   letter-spacing: 0.4px;
   color: #45A0AC;
   opacity: 1;
+  overflow-wrap: break-word;
 }
 
 .close-icon.mat-icon {
@@ -70,7 +71,6 @@
 .reference-button button {
   background-color: #4ba1ac;
   text-align: left;
-  font-size: 15px;
   font-family: Inter,sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -94,6 +94,7 @@
 .reference {
   display: flex;
   flex-direction: row;
+  width:100%
 }
 
 .rating-dropdown {
@@ -141,7 +142,7 @@
 }
 
 .delete-icon {
-  padding: 1.5% 1.5% 1.5% 16%;
+  padding: 1.8% 1.5% 1.5% 16%;
 }
 
 .edit-button button {
@@ -199,7 +200,6 @@
 }
 
 .delete-icon button {
-  margin-top: 10%;
   padding-right: 70%;
 }
 

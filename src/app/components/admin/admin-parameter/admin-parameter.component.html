@@ -13,10 +13,9 @@
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="parameter" mat-cell *matCellDef="let row">
-      <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <span *ngIf="!(row.isEdit || selectedParameter === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
           <span class="circle"></span>
-        <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
-        </span>
+        {{row.categoryName}}</span>
         <span *ngIf="row.isEdit || selectedParameter===row">
           <mat-form-field appearance="outline" class="dropDown">
                         <mat-label>{{categoryLabel}}</mat-label>
@@ -112,12 +111,12 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="updatedAt">
-      <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="date">{{date}}</th>
+      <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt">{{date}}</th>
       <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right':isEditable ? '0%' : '1%' }">
       {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
-      <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt"> {{active}}</th>
+      <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="active"> {{active}}</th>
       <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-left':isEditable ? '1%' : '0%' }">
        <mat-slide-toggle [(ngModel)]="row.active"
                           [disabled]="!(selectedParameter === row || row.isEdit)"></mat-slide-toggle>
@@ -148,7 +147,7 @@
                 <mat-icon id="deleteParameter">delete</mat-icon>
               </button>
         <div class="parameter-reference">
-              <button mat-flat-button *ngIf="!(selectedParameter === row)"
+              <button *ngIf="!(selectedParameter === row)"
                       (click)="openParameterReference(reference,row)">
                 <mat-icon>playlist_add</mat-icon>
               </button>

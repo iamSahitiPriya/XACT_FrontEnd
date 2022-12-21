@@ -40,7 +40,7 @@ export class AdminParameterComponent implements OnInit {
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<ParameterData>
   dataToDisplayed: ParameterData[]
   private destroy$: Subject<void> = new Subject<void>();
@@ -91,7 +91,6 @@ export class AdminParameterComponent implements OnInit {
       if (data !== undefined) {
         this.categoryData = data
         data.forEach(eachCategory => {
-          if(eachCategory.categoryId !== -1 && eachCategory.categoryName !== "")
              this.fetchModules(eachCategory);
         })
         this.sortData();

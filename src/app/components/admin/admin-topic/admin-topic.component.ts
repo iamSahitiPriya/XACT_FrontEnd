@@ -45,7 +45,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<TopicData>
   dataToDisplayed: TopicData[]
   private destroy$: Subject<void> = new Subject<void>();
@@ -94,9 +94,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       if (data !== undefined) {
         this.categories = data
         data.forEach(eachCategory => {
-          if (eachCategory.categoryId !== -1 && eachCategory.categoryName !== "") {
             this.fetchModuleDetails(eachCategory);
-          }
         })
         this.sortTopic();
       }

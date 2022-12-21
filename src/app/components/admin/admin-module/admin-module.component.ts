@@ -61,7 +61,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatTable) table: MatTable<ModuleData>
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}  ) sort: MatSort;
 
   dataSourceArray: ModuleData[];
   dataToDisplayed: ModuleData[];
@@ -85,7 +85,6 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.categoryDetails = data
       data?.forEach((eachCategory) => {
-        if(eachCategory.categoryId !== -1 && eachCategory.categoryName !== "")
            this.getModules(eachCategory);
         }
       )
