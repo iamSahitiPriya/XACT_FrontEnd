@@ -71,6 +71,9 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+
+
+
     this.appService.getAssessments().pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         assessments = response
@@ -86,9 +89,14 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.dataSource = new MatTableDataSource(value);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+        if (typeof data[sortHeaderId] === 'string') {
+          return data[sortHeaderId].toLocaleLowerCase();
+        }
+        return data[sortHeaderId];
+      };
       this.dataSource.sort = this.sort;
     })
-
   }
 
   dataSource = new MatTableDataSource<AssessmentStructure>()
