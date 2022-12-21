@@ -299,13 +299,12 @@ sendDataToStore(_data: any)
   private setModuleRequest(row: any) {
     this.isModuleUnique=true;
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
-    let moduleRequest = {
+    return  {
       "moduleId":row.moduleId,
       "moduleName": row.moduleName,
       "category": selectedCategoryId,
       "active": row.active,
       "comments": row.comments
     }
-    return moduleRequest;
   }
 }

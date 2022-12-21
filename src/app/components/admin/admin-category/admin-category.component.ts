@@ -269,11 +269,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   private setCategoryRequest(row: any) {
     this.isCategoryUnique = true;
-     let categoryRequest = {
+     return {
       "categoryName": row.categoryName,
       "active": row.active,
       "comments": row.comments
     };
-     return categoryRequest;
+
   }
 }
