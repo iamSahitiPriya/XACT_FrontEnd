@@ -115,36 +115,6 @@ div.category {
   margin-bottom: 24px;
 }
 
-.circle {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  opacity: 1;
-  display: inline-block;
-  margin-bottom: 2px;
-  margin-right: 2px
-}
-
-tr:nth-child(5n + 1) span.circle {
-  background-color: #619FAA;
-}
-
-tr:nth-child(5n+2) span.circle {
-  background-color: #F15F79;
-}
-
-tr:nth-child(5n + 3) span.circle {
-  background-color: #6B9F78;
-}
-
-tr:nth-child(5n + 4) span.circle {
-  background-color: #5D9EAA;
-}
-
-tr:nth-of-type(5n + 5) span.circle {
-  background-color: #BE873E;
-}
-
 .saveButton {
   width: 70px;
   height: 30px;

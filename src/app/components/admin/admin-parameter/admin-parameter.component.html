@@ -14,7 +14,6 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryHeader}}</th>
       <td class="parameter" mat-cell *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedParameter === row)">
-          <span class="circle"></span>
         <span [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">{{row.categoryName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter===row">
