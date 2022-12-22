@@ -73,20 +73,20 @@ describe('AdminDashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should able to get quarter end date when getAssessmentDataForQuarter is called", () => {
+  it("should able to get month end date when getAssessmentDataForMonth is called", () => {
 
     component.selectedOption=0;
 
     let date = new Date();
-    date.setDate(date.getDate() - 92);
-    let quarterDate=component.datePipe.transform(date,'YYYY-MM-dd');
+    date.setDate(date.getDate() - 30);
+    let monthDate=component.datePipe.transform(date,'YYYY-MM-dd');
 
     jest.spyOn(component,'getAssessmentDataForQuarter')
     component.ngOnInit()
     jest.spyOn(component,'inputChange')
     component.inputChange();
 
-    expect(component.adminAssessmentRequest.endDate).toEqual(quarterDate);
+    expect(component.adminAssessmentRequest.endDate).toEqual(monthDate);
   });
 
   it("should able to get week end date when getAssessmentDataForWeek is called", () => {
@@ -275,10 +275,10 @@ describe('AdminDashboardComponent', () => {
   })
 
 
-  it('should  generate report for quarter', fakeAsync(() => {
+  it('should  generate report for month', fakeAsync(() => {
     component.selectedOption=0
 
-    jest.spyOn(component, 'getReportForQuarter');
+    jest.spyOn(component, 'getReportForMonth');
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
@@ -286,7 +286,7 @@ describe('AdminDashboardComponent', () => {
     let generateReport = fixture.debugElement.nativeElement.querySelector("#generate-report");
     generateReport.click();
     tick();
-    expect(component.getReportForQuarter).toHaveBeenCalled();
+    expect(component.getReportForMonth).toHaveBeenCalled();
     flush()
     flushMicrotasks();
     discardPeriodicTasks();

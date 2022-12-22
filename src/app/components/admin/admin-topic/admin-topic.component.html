@@ -19,7 +19,6 @@
       <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="topic" mat-cell *matCellDef="let row">
       <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#B3B8BD' }">
-          <span class="circle"></span>
         {{row.categoryName}}
         </span>
         <span *ngIf="selectedTopic===row">

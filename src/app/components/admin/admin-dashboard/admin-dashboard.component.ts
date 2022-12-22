@@ -60,7 +60,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.todayDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    this.getAssessmentDataForQuarter();
+    this.getAssessmentDataForMonth();
   }
 
   ngOnDestroy(): void {

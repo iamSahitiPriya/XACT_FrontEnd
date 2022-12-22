@@ -18,7 +18,6 @@
       <th class="category" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="category" mat-cell *matCellDef="let row">
         <span *ngIf="!(row.isEdit || selectedCategory === row)">
-          <span class="circle"></span>
           {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedCategory===row">
