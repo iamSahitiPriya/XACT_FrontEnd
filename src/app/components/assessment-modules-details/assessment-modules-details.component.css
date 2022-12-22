@@ -287,6 +287,3 @@ div.expansion_color:nth-of-type(5n + 1) {
   text-overflow: ellipsis;
 }
 
-::ng-deep .toolTip .mat-tooltip {
-  font-size: 14px !important;
-}
