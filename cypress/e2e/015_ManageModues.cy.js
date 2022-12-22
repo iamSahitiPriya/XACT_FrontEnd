@@ -1,8 +1,5 @@
-import landingPage from "../pageObjects/landingPage.cy";
-import loginPage from "../pageObjects/loginPage.cy";
-import commonFunctions from "../pageObjects/commonFunction.cy";
-import assessmentPage from "../pageObjects/assessmentPage.cy";
 import manageModules from "../pageObjects/manageModules.cy";
+
 describe('validating functionality of Restarting an assessment of xAct application', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {

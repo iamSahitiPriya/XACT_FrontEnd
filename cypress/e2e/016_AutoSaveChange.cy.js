@@ -1,9 +1,8 @@
 import landingPage from "../pageObjects/landingPage.cy";
-import loginPage from "../pageObjects/loginPage.cy";
 import commonFunctions from "../pageObjects/commonFunction.cy";
 import assessmentPage from "../pageObjects/assessmentPage.cy";
-import manageModules from "../pageObjects/manageModules.cy";
-describe('Auto save displayed at the bottom right corner of the textbox where we are typing.', () => {
+
+describe('Auto save displayed at the bottom right corner of the textbox where we are typing', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {
     cy.window().then(win => win.location.hash = "/foo/bar")

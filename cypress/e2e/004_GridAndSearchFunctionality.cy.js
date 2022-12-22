@@ -1,7 +1,5 @@
-import loginPage from "../pageObjects/loginPage.cy";
 import landingPage from "../pageObjects/landingPage.cy";
-import commonFunction from '../pageObjects/commonFunction.cy'
-import commonFunctions from "../pageObjects/commonFunction.cy";
+import commonFunctions from '../pageObjects/commonFunction.cy'
 
 
 describe('validating creating Assessment grid and search functionality', () => {
