@@ -54,7 +54,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   selectedCategory: CategoryData | null;
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
-  isCategoryUnique = true;
   duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
@@ -150,7 +149,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   saveCategory(value: any) {
     let categoryRequest = this.getCategoryRequest(value)
-    if (this.isCategoryUnique) {
+    if (categoryRequest !== null) {
       this.appService.saveCategory(categoryRequest).subscribe({
         next: (_data) => {
           let data = this.dataSource.data
@@ -169,22 +168,18 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
+  private isUniqueCategory(categoryName : string) : boolean {
+    let index = this.categories.findIndex((category: any) => category.categoryName.toLowerCase().replace(/\s/g, '') === categoryName.toLowerCase().replace(/\s/g, ''));
+    return index === -1;
+  }
+
   private getCategoryRequest(value: any) {
-    let index = this.categoryData.findIndex((category: any) => category.categoryName.toLowerCase().replace(/\s/g, '') === value.categoryName.toLowerCase().replace(/\s/g, ''));
-    let categoryRequest:any;
-    if (index === -1) {
-      this.isCategoryUnique = true;
-      categoryRequest = {
-        "categoryName": value.categoryName,
-        "active": value.active,
-        "comments": value.comments
-      };
+    if (this.isUniqueCategory(value.categoryName)) {
+     return  this.setCategoryRequest(value)
     } else {
-      this.isCategoryUnique = false;
       this.showError(this.duplicateErrorMessage)
       return null
     }
-    return categoryRequest;
   }
 
   editCategory(row: any) {
@@ -208,12 +203,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   updateCategory(row: any) {
-    let categoryRequest :any;
-    categoryRequest = this.setCategoryRequest(row);
+    let categoryRequest: any | null = this.setCategoryRequest(row);
     if (this.category.categoryName.toLowerCase().replace(/\s/g, '')  !== row.categoryName.toLowerCase().replace(/\s/g, '') ) {
       categoryRequest= this.getCategoryRequest(row);
     }
-    if(this.isCategoryUnique) {
+    if(categoryRequest !== null) {
       categoryRequest['categoryId']=row.categoryId
       this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -268,12 +262,10 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   private setCategoryRequest(row: any) {
-    this.isCategoryUnique = true;
      return {
       "categoryName": row.categoryName,
       "active": row.active,
       "comments": row.comments
     };
-
   }
 }
