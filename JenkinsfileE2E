@@ -18,10 +18,14 @@ pipeline {
         stage('End-to-End Testing'){
             steps{
                 sh 'npm run e2e -- -e xAct_username=${ENV_CYPRESS_USERNAME},xAct_password=${ENV_CYPRESS_PASSWORD}'
-                sh 'mochawesome-merge ./mochawesome-report/*.json -o ./mochawesome-report/output.json'
-                sh 'marge  ./mochawesome-report/output.json --reportDir ./mochawesome-report/ --inline'
             }
         }
+        stage('Merge & Create Final Report'){
+                    steps{
+                         sh 'mochawesome-merge ./mochawesome-report/*.json -o ./mochawesome-report/output.json'
+                         sh 'marge  ./mochawesome-report/output.json --reportDir ./mochawesome-report/ --inline'
+                    }
+                }
     }
      post {
             always {
