@@ -166,7 +166,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, selectedModule: boolean,moduleStatus : boolean): boolean {
+  checkedModuleStatus(moduleId: number, categoryId: number, selectedCategory: boolean, moduleStatus : boolean): boolean {
     let categoryIndex = this.category.userAssessmentCategories.findIndex(eachCategory => eachCategory.categoryId === categoryId);
     let moduleIndex = -1;
     if (categoryIndex !== -1 && selectedCategory) {
