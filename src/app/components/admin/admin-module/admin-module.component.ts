@@ -248,9 +248,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   private getModuleRequest(row: any) {
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
     let moduleArray = this.categoryDetails.find(category => category.categoryName === row.categoryName).modules
-    let index = moduleArray.findIndex((module: any) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
+    let index = moduleArray?.findIndex((module: any) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
     let moduleRequest :any;
-    if (index === -1) {
+    if (index === -1 || index === undefined) {
       this.isModuleUnique = true;
       moduleRequest = {
         "moduleName": row.moduleName,

@@ -366,4 +366,38 @@ describe('AdminDashboardComponent', () => {
       expect(error).toBe(new Error("Error!"))
     })
   });
+
+  it("should return assessment id as 1 when setQuarterRequest is called", () => {
+    component.ngOnInit()
+
+    component.setQuarterRequest()
+
+    expect(component.adminAssessmentRequest.assessmentId).toBe(1)
+  })
+
+  it("should call getAssessmentDataForQuarter when selectedOption is 0",() => {
+    component.ngOnInit()
+    component.selectedOption = 0
+    jest.spyOn(component,"getAssessmentDataForQuarter")
+    jest.spyOn(component,"setAssessmentData")
+
+    component.inputChange()
+
+    expect(component.getAssessmentDataForQuarter).toHaveBeenCalled()
+    expect(component.selectedOption).toBe(0)
+    expect(component.setAssessmentData).toHaveBeenCalled()
+  })
+
+  it("should call getReportForQuarter when selectedOption is 0",() => {
+    component.ngOnInit()
+    component.selectedOption = 0
+    jest.spyOn(component,"getReportForQuarter")
+    jest.spyOn(component,"getReport")
+
+    component.downloadReport()
+
+    expect(component.getReportForQuarter).toHaveBeenCalled()
+    expect(component.getReport).toHaveBeenCalled()
+
+  })
 });

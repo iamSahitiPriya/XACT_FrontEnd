@@ -400,7 +400,7 @@ export class AdminParameterComponent implements OnInit {
       questions: _data.questions ? _data.questions : [],
       references: _data.references ? _data.references : []
     }
-    parameters.push(parameter)
+    parameters?.push(parameter)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryData}))
     this.ngOnInit();
   }

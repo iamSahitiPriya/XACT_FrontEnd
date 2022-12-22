@@ -191,7 +191,7 @@ describe('AssessmentModulesComponent', () => {
     expect(component.getModule).toHaveBeenCalled();
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(1, 1, true, false, true)
+    let response = component.checkedModuleStatus(1, 1, true, true)
     expect(response).toBeTruthy()
   });
   it("should fetch all the user selected categories when no category is selected", () => {
@@ -202,7 +202,7 @@ describe('AssessmentModulesComponent', () => {
     })
   });
   it("should select all the categories", () => {
-    let response = component.checkedModuleStatus(0, 0, true, false, true)
+    let response = component.checkedModuleStatus(0, 0, true, true)
     expect(response).toBeFalsy()
   });
   it("should set modules", () => {
