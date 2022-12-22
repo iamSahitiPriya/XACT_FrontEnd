@@ -20,15 +20,11 @@ pipeline {
                 sh 'npm run e2e -- -e xAct_username=${ENV_CYPRESS_USERNAME},xAct_password=${ENV_CYPRESS_PASSWORD}'
             }
         }
-        stage('Merge & Create Final Report'){
-                    steps{
-                         sh 'mochawesome-merge ./mochawesome-report/*.json -o ./mochawesome-report/output.json'
-                         sh 'marge  ./mochawesome-report/output.json --reportDir ./mochawesome-report/ --inline'
-                    }
-                }
     }
      post {
             always {
+                sh 'npx mochawesome-merge ./mochawesome-report/*.json -o ./mochawesome-report/output.json'
+                sh 'npx marge  ./mochawesome-report/output.json --reportDir ./mochawesome-report/ --inline'
                 publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
                                        keepAll: true,
