@@ -8,8 +8,8 @@ export default defineConfig({
     mochawesomeReporterOptions: {
       reportDir: "mochawesome-report",
       overwrite: false,
-      html: true,
-      json: false,
+      html: false,
+      json: true,
       timestamp: "mmddyyyy_HHMMss",
       showSkipped: true,
       charts: true,
@@ -17,10 +17,6 @@ export default defineConfig({
       embeddedScreenshots: true,
       testFiles: "**/*.feature",
     },
-  },
-
-  retries: {
-    runMode: 1,
   },
 
   screenshotOnRunFailure: true,
@@ -35,12 +31,6 @@ export default defineConfig({
   watchForFileChanges: false,
   chromeWebSecurity: false,
 
-
-  env: {
-    FOO: "bar",
-  },
-
-  projectId: "rjmg83",
 
   e2e: {
     setupNodeEvents(on, config) {
