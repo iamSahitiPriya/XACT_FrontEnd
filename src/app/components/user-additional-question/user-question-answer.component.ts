@@ -114,8 +114,8 @@ export class UserQuestionAnswerComponent implements OnInit {
       this.appService.saveUserQuestion(this.userQuestionRequest, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             assessmentData.push(this.userQuestionRequest);
-            this.createQuestionFlag = false;
             this.userQuestionResponse = _data;
+            this.createQuestionFlag = false;
             this.sendUserQuestionAnswer(this.userQuestionResponse)
             this.questionText = ""
             this.updateDataSavedStatus()
@@ -208,6 +208,7 @@ export class UserQuestionAnswerComponent implements OnInit {
       }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
+      this.userQuestionList.push(userQuestionResponse)
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
