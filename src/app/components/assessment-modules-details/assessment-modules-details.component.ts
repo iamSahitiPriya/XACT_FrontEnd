@@ -17,6 +17,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {CategoryStructure} from "../../types/categoryStructure";
 
 let categories: UserCategoryResponse = {
   assessmentCategories: []
@@ -86,11 +87,14 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.userAssessmentCategories !== undefined) {
+      if (this.category.userAssessmentCategories !== undefined && this.category.userAssessmentCategories.length > 0 ) {
         this.category.userAssessmentCategories = this.category.userAssessmentCategories.sort((category1, category2) => Number(category2.active) - Number(category1.active))
         let index = this.category.userAssessmentCategories.findIndex(category => category.active)
-        if (this.category.userAssessmentCategories.length > 0)
-          this.navigate(this.category.userAssessmentCategories[index].modules[0])
+          this.category.userAssessmentCategories[index].modules?.forEach(eachModule => {
+            if(eachModule.active) {
+              let moduleIndex = this.category.userAssessmentCategories[index].modules.findIndex(module => module.moduleId === eachModule.moduleId)
+              return this.navigate(this.category.userAssessmentCategories[index].modules[moduleIndex]) }
+            })
       }
     })
   }
@@ -104,5 +108,14 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     drafted === "inProgress" ? this.router.navigateByUrl("assessment/" + assessmentId, {state: {type: 'url'}}) : this.router.navigateByUrl("assessmentModule/" + assessmentId, {state: {type: 'url'}});
 
 
+  }
+
+  isCategoryDisplayed(category: CategoryStructure) : boolean {
+    let isDisplayed = false
+    category.modules?.forEach(module => {
+    if(module.active && category.active)
+      isDisplayed = true
+    })
+   return isDisplayed
   }
 }
