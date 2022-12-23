@@ -52,8 +52,8 @@
 }
 .questionArea {
   display: -webkit-inline-flex;
-  width: 92%;
-  padding-right: 3%;
+  width: 82%;
+  padding-right: 1%;
   padding-left: 1%;
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
