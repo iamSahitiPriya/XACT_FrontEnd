@@ -6,28 +6,26 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-import {Notes} from "../../types/answerRequest";
-import {QuestionStructure} from "../../types/questionStructure";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {UntypedFormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Observable, Subject, takeUntil} from "rxjs";
-import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
 import {AssessmentAnswerResponse} from "../../types/AssessmentAnswerResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {debounce} from 'lodash';
-import {UpdatedStatus} from 'src/app/types/UpdatedStatus';
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {AnswerRequest} from "../../types/answerRequest";
+import {UserQuestionResponse} from "../../types/userQuestionResponse";
 
 export const assessmentData = [{}]
 export let loading = false
 
-let DEBOUNCE_TIME = 1200;
+let DEBOUNCE_TIME = 600;
 
 
 @Component({
@@ -38,28 +36,44 @@ let DEBOUNCE_TIME = 1200;
 
 
 export class AssessmentQuestionComponent implements OnInit, OnDestroy {
-  @Input()
-  questionDetails: QuestionStructure;
 
   assessmentStatus: string;
   @Input()
-  answerInput: Notes;
+  answerInput: string | undefined;
+
   @Input()
-  initial: number
+  type: string
+
   @Input()
-  assessmentId: number
+  questionNumber: number
+
+  @Input()
+  parameterId: number;
+
+  @Input()
+  assessmentId: number;
+
+  @Input()
+  question: string
+
   textarea: number = 0;
 
-  questionId : number;
-  autoSave : string;
+  questionId: number;
+  autoSave: string;
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
+  menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
+  autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
+  additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
 
 
   private cloneAnswerResponse: AssessmentStructure;
-  private savedAnswer: UpdatedStatus = {assessmentId: 0, status: ""};
   private cloneAnswerResponse1: AssessmentStructure;
+
+  answerResponse1: Observable<AssessmentStructure>
+  answerResponse: AssessmentStructure
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -68,13 +82,15 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   }
 
 
-  assessmentNotes: AssessmentNotes = {
-    assessmentId: 0, questionId: undefined, notes: undefined, updatedAt: undefined
-  };
+  answerRequest: AnswerRequest = {
+    questionId: 0, answer: "", type: ""
+  }
   answerNote: AssessmentAnswerResponse = {questionId: undefined, answer: undefined};
 
-  answerResponse1: Observable<AssessmentStructure>
-  answerResponse: AssessmentStructure
+  userQuestionResponse: UserQuestionResponse = {
+    answer: "", parameterId: 0, question: "", questionId: 0
+  };
+
   private destroy$: Subject<void> = new Subject<void>();
 
 
@@ -89,38 +105,50 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
   saveParticularAnswer(_$event: KeyboardEvent) {
-    AssessmentMenuComponent.answerSaved = "Saving..."
-    this.assessmentNotes.assessmentId = this.assessmentId
-    this.assessmentNotes.questionId = this.questionDetails.questionId
-    this.assessmentNotes.notes = this.answerInput.answer
-    this.assessmentNotes.updatedAt = Number(new Date(Date.now()))
-    this.answerNote.questionId = this.questionDetails.questionId
-    this.answerNote.answer = this.answerInput.answer
-    this.questionId = this.assessmentNotes.questionId
-    this.autoSave = "Auto Saved"
-    this.saveNotes(this.assessmentNotes);
+    this.answerRequest.questionId = this.questionNumber
+    this.answerRequest.type = this.type;
+    if (this.answerInput != null) {
+      this.answerRequest.answer = this.answerInput
+    }
+
+    this.questionId = this.questionNumber
+    this.autoSave = this.autoSaveMessage
+    this.saveNotes(this.answerRequest, this.assessmentId);
+
   }
 
-  saveNotes(assessmentNotes:AssessmentNotes){
-    this.appService.saveNotes(assessmentNotes).pipe(takeUntil(this.destroy$)).subscribe({
+  saveNotes(answerRequest: AnswerRequest, assessmentId: number) {
+    this.appService.saveNotes(assessmentId, answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
-        assessmentData.push(this.assessmentNotes);
+        assessmentData.push(answerRequest);
         this.questionId = -1
         this.autoSave = ""
-        this.sendAnswer(this.answerNote)
+        if (this.type === this.additionalTypeQuestion) {
+          this.userQuestionResponse.parameterId = this.parameterId
+          this.userQuestionResponse.questionId = this.questionNumber
+          this.userQuestionResponse.question = this.question
+          if (this.answerInput != null) {
+            this.userQuestionResponse.answer = this.answerInput
+          }
+          this.sendUserAnswer(this.userQuestionResponse)
+        } else {
+          this.answerNote.answer = this.answerInput
+          this.answerNote.questionId = this.questionNumber
+          this.sendAnswer(this.answerNote);
+        }
         this.updateDataSavedStatus()
       },
       error: _err => {
-        AssessmentMenuComponent.answerSaved = "Error occurred while saving the data"
-        this.showError("Data cannot be saved");
+        AssessmentMenuComponent.answerSaved = this.menuMessageError
+        this.showError(this.errorMessagePopUp);
       }
     });
   }
@@ -139,6 +167,26 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
       }
     } else {
       this.cloneAnswerResponse.answerResponseList = updatedAnswerList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
+  }
+
+  private sendUserAnswer(userQuestionResponse: UserQuestionResponse) {
+    let index = 0;
+    let updatedUserAnswerList = [];
+    updatedUserAnswerList.push(userQuestionResponse);
+    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
+    if (this.cloneAnswerResponse.userQuestionResponseList != undefined) {
+      index = this.cloneAnswerResponse.userQuestionResponseList.findIndex(eachQuestion => eachQuestion.questionId === userQuestionResponse.questionId)
+      if (index !== -1) {
+        if (userQuestionResponse.answer != null) {
+          this.cloneAnswerResponse.userQuestionResponseList[index].answer = userQuestionResponse.answer
+        }
+      } else {
+        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
+      }
+    } else {
+      this.cloneAnswerResponse.userQuestionResponseList = updatedUserAnswerList
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }

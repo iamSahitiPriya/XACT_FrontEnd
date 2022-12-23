@@ -44,6 +44,8 @@ let ASSESSMENT_DATA: AssessmentStructure [] = [
     "answerResponseList": [],
     "parameterRatingAndRecommendation": [],
     "topicRatingAndRecommendation": [],
+    "userQuestionResponseList":[]
+
 
 
   },
@@ -63,6 +65,7 @@ let ASSESSMENT_DATA: AssessmentStructure [] = [
     "answerResponseList": [],
     "parameterRatingAndRecommendation": [],
     "topicRatingAndRecommendation": [],
+    "userQuestionResponseList":[]
   }
 ]
 class MockAppService {
@@ -141,7 +144,9 @@ describe('AssessmentsComponent', () => {
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
+        "userQuestionResponseList":[]
       },
+
       {
         "assessmentId": 2,
         "assessmentState":"inProgress",
@@ -158,6 +163,7 @@ describe('AssessmentsComponent', () => {
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
+        "userQuestionResponseList":[]
       }
 
     ]
@@ -179,6 +185,7 @@ describe('AssessmentsComponent', () => {
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
+        "userQuestionResponseList":[]
       },
       {
         "assessmentId": 2,
@@ -196,6 +203,7 @@ describe('AssessmentsComponent', () => {
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
+        "userQuestionResponseList":[]
       }
 
     ]

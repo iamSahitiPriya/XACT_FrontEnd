@@ -86,6 +86,7 @@ describe('AssessmentHeaderComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: [],
+    userQuestionResponseList:[],
     owner:false
   }
 
@@ -132,7 +133,8 @@ describe('AssessmentHeaderComponent', () => {
       owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Active";
@@ -170,7 +172,8 @@ describe('AssessmentHeaderComponent', () => {
       owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Completed";
@@ -220,7 +223,8 @@ describe('AssessmentHeaderComponent', () => {
         ]
       }],
 
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.ngOnInit()
     component.finishAssessment();

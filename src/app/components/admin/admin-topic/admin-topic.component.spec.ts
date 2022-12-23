@@ -608,6 +608,7 @@ describe('AdminTopicComponent', () => {
             "comments": "",
             "active": true,
             "questions" : [],
+            "userQuestions":[],
             "references": [{
               "referenceId" : 1,
               "reference" : "reference",

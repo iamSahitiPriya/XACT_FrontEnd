@@ -229,14 +229,6 @@
   color: black;
 }
 
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: #45A0AC !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #45A0AC !important;
-}
-
 ::ng-deep .referenceInput .mat-form-field-appearance-outline .mat-form-field-infix{
   border-top: 0 !important;
 }

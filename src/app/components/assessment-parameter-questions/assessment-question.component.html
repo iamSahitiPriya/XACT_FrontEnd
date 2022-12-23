@@ -2,13 +2,13 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div *ngIf="questionDetails">
+<div *ngIf="questionNumber">
   <form>
     <mat-form-field class="textArea" appearance="outline" id="testForm">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
-      <textarea matInput name="textarea{{questionDetails.questionId}}"
-                id="assessmentAnswer{{questionDetails.questionId}}"
-                [(ngModel)]="answerInput.answer"
+      <textarea matInput name="textarea{{questionNumber}}"
+                id="assessmentAnswer{{questionNumber}}"
+                [(ngModel)]="answerInput"
                 cdkTextareaAutosize
                 class="textArea1"
                 cdkAutosizeMinRows="1"
@@ -19,7 +19,7 @@
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="questionId === questionDetails.questionId"></span>
+          <span class="loader" *ngIf="questionId === questionNumber"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>

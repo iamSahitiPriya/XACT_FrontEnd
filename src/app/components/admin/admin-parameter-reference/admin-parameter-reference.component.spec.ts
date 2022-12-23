@@ -86,6 +86,7 @@ describe('AdminParameterReferenceComponent', () => {
             "comments": "",
             "active": true,
             "questions" : [],
+            "userQuestions":[],
             "references": [{
               "rating" : 4,
               "reference" : "new reference",
@@ -363,6 +364,7 @@ describe('AdminParameterReferenceComponent', () => {
             "comments": "",
             "active": true,
             "questions" : [],
+            "userQuestions":[],
             "references": [{
               "rating" : 4,
               "reference" : "new reference",
@@ -439,6 +441,7 @@ describe('AdminParameterReferenceComponent', () => {
             "comments": "",
             "active": true,
             "questions" : [],
+            "userQuestions":[],
             "references": [{
               "rating" : 4,
               "reference" : "new reference",
@@ -517,6 +520,7 @@ describe('AdminParameterReferenceComponent', () => {
             "comments": "",
             "active": true,
             "questions" : [],
+            "userQuestions":[],
             "references": [{
               "rating" : 4,
               "reference" : "new reference",

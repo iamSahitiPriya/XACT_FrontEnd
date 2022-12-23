@@ -20,7 +20,7 @@ import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 
-let DEBOUNCE_TIME = 1200;
+let DEBOUNCE_TIME = 800;
 
 @Component({
   selector: 'app-parameter-level-recommendation',
