@@ -4,6 +4,7 @@
 
 import {QuestionStructure} from "./questionStructure";
 import {ParameterReference} from "./parameterReference";
+import {UserQuestion} from "./UserQuestion";
 
 export interface ParameterStructure {
   parameterId: number,
@@ -13,5 +14,6 @@ export interface ParameterStructure {
   updatedAt:number,
   comments?:string,
   questions: QuestionStructure[],
+  userQuestions: UserQuestion[],
   references: ParameterReference[]
 }

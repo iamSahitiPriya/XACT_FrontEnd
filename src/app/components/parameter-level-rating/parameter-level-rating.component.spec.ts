@@ -98,7 +98,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     }
     const parameterRatingAndRecommendation = {
       rating: 2,
@@ -142,7 +143,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
@@ -175,7 +177,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+      userQuestionResponseList:[]
     }
     const parameterRatingAndRecommendation = {
       rating: undefined,
@@ -212,10 +215,11 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -250,7 +254,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: []
+      parameterRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     const parameterRatingAndRecommendation = {
       rating: 2,
@@ -343,10 +348,11 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -381,10 +387,11 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
           answer: "answer1"
         }],
       topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",

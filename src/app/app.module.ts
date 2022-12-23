@@ -89,6 +89,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { UserQuestionAnswerComponent } from './components/user-additional-question/user-question-answer.component';
 import {AdminParameterComponent} from './components/admin/admin-parameter/admin-parameter.component';
 import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
@@ -186,6 +187,7 @@ export const appRoutes: Routes = [
     AdminModuleComponent,
     NotificationSnackbarComponent,
     AssessmentHeaderComponent,
+    UserQuestionAnswerComponent,
     AdminParameterComponent,
     AdminTopicComponent,
     AdminReferenceComponent,

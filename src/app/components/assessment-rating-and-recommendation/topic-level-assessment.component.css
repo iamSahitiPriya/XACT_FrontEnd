@@ -63,23 +63,6 @@
   color: #000000;
 }
 
-
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: #45A0AC !important;
-}
-
-::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-  color: #00000099 !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #45A0AC !important;
-}
-
-.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
-  caret-color: #45A0AC !important;
-}
-
 .parameterScoring {
   width: 90%;
   margin-right: 20px;
@@ -103,6 +86,9 @@
   width: 98%;
   height: 95%;
 }
+
+
+
 @media screen and (max-width: 1000px) {
   .assessmentDetailsDisplay{
     width: 100%;
@@ -116,6 +102,8 @@
   .parameter{
     font-size: 17px;
   }
+
+
 }
 @media not all and (min-resolution:.001dpcm) {
   @media {

@@ -2,6 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-.dialogActions{
-  float: right;
+export interface Notes {
+  "questionId": number,
+  "answer"?: string
 }

@@ -1,0 +1,101 @@
+.additionalQuestionHeading {
+  background-color: #45A0AC1D;
+  height: 50px;
+  width: 98%;
+  color: #043D4E;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+  justify-content:space-between;
+}
+.expandBar{
+  border: none;
+  background-color: transparent;
+  margin-bottom: 12px;
+  color: #043D4E;
+
+}
+#addQuestion {
+  color: #4ba1ac;
+}
+
+.addQuestion {
+  width: 98%;
+  padding: 10px 0px 10px 0;
+  margin: 18px 0px 12px 3px;
+  background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
+  border: none;
+}
+
+.question {
+  padding-left: 15px;
+  padding-right: 21px;
+  opacity: 1;
+}
+
+.question-content {
+  font-size: 18px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+}
+
+.button1:hover {
+  background-color: #00000024;
+}
+.questionArea {
+  display: -webkit-inline-flex;
+  width: 92%;
+  padding-right: 3%;
+  padding-left: 1%;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
+  width: 100% !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+ padding-bottom:7px !important;
+ }
+.userQuestionAnswers{
+  background-color: #E8EDEE;
+  width: 98%;
+  padding-top: 28px;
+}
+.questionFunctions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -25px;
+  margin-bottom: -7px;
+}
+.questionEditFunctions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -66px;
+}
+textarea.mat-input-element.cdk-textarea-autosize {
+  color: black !important ;
+  font-size: 18px;
+}
+.questionFunctionButton{
+  color: #043D4E;
+  border: none;
+  background-color: transparent;
+}
+.questionCreateFunctions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -66px;
+  padding-bottom: 40px;
+}
+
+.saveQuestionIcon{
+  color: #6B9E78;
+  border: none;
+  background-color: transparent;
+}

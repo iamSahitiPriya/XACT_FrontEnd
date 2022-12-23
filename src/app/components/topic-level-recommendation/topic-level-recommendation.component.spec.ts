@@ -105,7 +105,8 @@ describe('RecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -168,7 +169,8 @@ describe('RecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -226,7 +228,8 @@ describe('RecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
 
     let topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
@@ -285,7 +288,8 @@ describe('RecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
     component.assessmentId = 1
     component.topicId = 0
@@ -423,7 +427,8 @@ describe('RecommendationComponent', () => {
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}]
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList:[]
     })
 
     let topicLevelRecommendationText = {

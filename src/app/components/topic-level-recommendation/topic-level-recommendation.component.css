@@ -14,21 +14,6 @@ textArea.mat-input-element {
   padding-bottom: 30px;
 }
 
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: #45A0AC !important;
-}
-
-::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-  color: #00000099 !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #45A0AC !important;
-}
-
-.mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
-  caret-color: #45A0AC !important;
-}
 
 .recommendation {
   margin-top: 13px;

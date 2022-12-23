@@ -45,6 +45,7 @@ describe('SearchComponent', () => {
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
+      userQuestionResponseList:[],
       owner:false
 
     }
@@ -69,6 +70,7 @@ describe('SearchComponent', () => {
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
+      userQuestionResponseList:[],
       owner:false
     }
     component.columns = ['1','assessmentName']

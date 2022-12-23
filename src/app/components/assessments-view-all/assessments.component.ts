@@ -34,6 +34,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
   private dialogRef: MatDialogRef<any>;
   blankAssessment: AssessmentStructure = {
+    userQuestionResponseList: [],
     answerResponseList: [],
     assessmentId: -1,
     assessmentName: "",

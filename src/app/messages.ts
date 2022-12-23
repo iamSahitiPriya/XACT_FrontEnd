@@ -246,5 +246,26 @@ export const data_local =
       DUPLICATION_NAME_ERROR:"Duplicates are not allowed",
       NO_DATA_AVAILABLE_TEXT:"No data available"
 
+    },
+    SHOW_ERROR_MESSAGE: {
+      POPUP_ERROR:"Data cannot be saved",
+      MENU_ERROR:"Error occurred while saving the data"
+    },
+    ADDITIONAL_QUESTIONS:{
+      HEADING:"Additional Questions -",
+      ADD_QUESTION_TEXT:"Add a New Question",
+      QUESTION_FUNCTIONALITY_MESSAGE:{
+        EDIT:"Edit",
+        UPDATE:"Update",
+        SAVE:"Save",
+        DELETE:"Delete"
+      }
+    },
+    AUTO_SAVE: {
+      AUTO_SAVE_MESSAGE:"Auto Saved"
+    },
+    QUESTION_TYPE_TEXT : {
+      DEFAULT_TYPE:"DEFAULT",
+      ADDITIONAL_TYPE:"ADDITIONAL"
     }
   }

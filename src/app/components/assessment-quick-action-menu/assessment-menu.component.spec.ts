@@ -116,7 +116,8 @@ describe('AssessmentMenuComponent', () => {
           owner:true,
           answerResponseList: [],
           parameterRatingAndRecommendation: [],
-          topicRatingAndRecommendation: []
+          topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
         }
     jest.spyOn(component, 'getTemplate');
     jest.spyOn(component, 'generateReport');
@@ -170,7 +171,8 @@ describe('AssessmentMenuComponent', () => {
       owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     jest.spyOn(component, 'generateReport');
     jest.spyOn(component,'isAssessmentTable')
@@ -206,7 +208,8 @@ describe('AssessmentMenuComponent', () => {
       owner:true,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: []
+      topicRatingAndRecommendation: [],
+      userQuestionResponseList:[]
     }
     component.type="assessmentTable";
 

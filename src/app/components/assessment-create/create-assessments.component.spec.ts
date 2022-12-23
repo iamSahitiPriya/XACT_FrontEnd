@@ -162,6 +162,7 @@ describe('CreateAssessmentsComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: [],
+    userQuestionResponseList:[],
     owner:false
   }
 
@@ -180,6 +181,7 @@ describe('CreateAssessmentsComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: ["abc@thoughtworks.com"],
+    userQuestionResponseList:[],
     owner:true
   }
 
@@ -214,6 +216,8 @@ describe('CreateAssessmentsComponent', () => {
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
       updatedAt: 0,
+      userQuestionResponseList:[],
+
       owner:true
     }
     component.assessment = mockAssessment1
