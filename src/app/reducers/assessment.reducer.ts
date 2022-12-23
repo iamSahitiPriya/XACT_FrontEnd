@@ -36,14 +36,7 @@ export const initialState: AssessmentState = {
 }
 
 export  const  initialMasterData : MasterData = {
-  masterData  : [{
-  "categoryId": -1,
-  "categoryName":"",
-  "active": false,
-  "updatedAt" : 12345,
-  "comments": "",
-  "modules": []
-  }]
+  masterData  : []
 }
 export const initialComputedScore: ComputedScore = {
   scoreDetails: {

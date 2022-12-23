@@ -23,11 +23,13 @@ pipeline {
     }
      post {
             always {
+                sh 'npx mochawesome-merge ./mochawesome-report/*.json -o ./mochawesome-report/output.json'
+                sh 'npx marge  ./mochawesome-report/output.json --reportDir ./mochawesome-report/ --inline'
                 publishHTML (target : [allowMissing: false,
                                        alwaysLinkToLastBuild: true,
                                        keepAll: true,
                                        reportDir: 'mochawesome-report',
-                                       reportFiles: 'mochawesome.html',
+                                       reportFiles: 'output.html',
                                        reportName: 'End-to-End Test Reports',
                                        reportTitles: 'End-to-End Test Report'])
                 cleanWs notFailBuild: true
