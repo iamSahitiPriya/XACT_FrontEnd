@@ -45,12 +45,12 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="categoryModules" *ngIf="category">
-        <span *ngFor="let module of category.modules" class="moduleCard">
-        <mat-card  (click)="navigate(module);tabs.selectedIndex=0" *ngIf="module.active"
+        <div *ngFor="let module of category.modules">
+        <mat-card  (click)="navigate(module);tabs.selectedIndex=0"  *ngIf="module.active" class="moduleCard"
                     [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">
             <span [matTooltip]="module.moduleName" [matTooltipPosition]="'below'" >{{module.moduleName}}</span>
           </mat-card>
-          </span>
+          </div>
       </div>
     </mat-expansion-panel>
   </div>

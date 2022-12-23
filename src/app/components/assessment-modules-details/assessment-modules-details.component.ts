@@ -87,11 +87,14 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.userAssessmentCategories !== undefined) {
+      if (this.category.userAssessmentCategories !== undefined && this.category.userAssessmentCategories.length > 0 ) {
         this.category.userAssessmentCategories = this.category.userAssessmentCategories.sort((category1, category2) => Number(category2.active) - Number(category1.active))
         let index = this.category.userAssessmentCategories.findIndex(category => category.active)
-        if (this.category.userAssessmentCategories.length > 0)
-          this.navigate(this.category.userAssessmentCategories[index].modules[0])
+          this.category.userAssessmentCategories[index].modules?.forEach(eachModule => {
+            if(eachModule.active) {
+              let moduleIndex = this.category.userAssessmentCategories[index].modules.findIndex(module => module.moduleId === eachModule.moduleId)
+              return this.navigate(this.category.userAssessmentCategories[index].modules[moduleIndex]) }
+            })
       }
     })
   }
