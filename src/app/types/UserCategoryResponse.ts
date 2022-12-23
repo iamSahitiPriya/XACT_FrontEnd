@@ -1,6 +1,7 @@
 import {CategoryStructure} from "./categoryStructure";
+import {AssessmentCategoryStructure} from "./AssessmentCategoryStructure";
 
 export interface UserCategoryResponse{
-  assessmentCategories:CategoryStructure[],
+  assessmentCategories:AssessmentCategoryStructure[],
   userAssessmentCategories:CategoryStructure[]
 }

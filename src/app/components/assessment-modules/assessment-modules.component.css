@@ -95,6 +95,11 @@ h2 {
 }
 .moduleText{
   padding-left: 10%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 16rem;
+  display: inline-block;
 }
 .saveModuleButton{
   width: 95px;
@@ -168,4 +173,14 @@ h2 {
 }
 .computerIcon{
   overflow: visible;
+}
+
+::ng-deep .select .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #4ba1ac;
+}
+::ng-deep .categoryName .mat-card-title {
+  width: 16rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

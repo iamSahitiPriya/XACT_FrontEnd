@@ -158,3 +158,7 @@ ngb-datepicker {
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
+
+.mat-tooltip {
+  font-size: 14px !important;
+}

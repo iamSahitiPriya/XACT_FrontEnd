@@ -43,25 +43,33 @@
     <div class="assessmentCards col-md-2"
          *ngFor="let category1 of category.assessmentCategories | filter:searchText">
       <div class="row">
-        <mat-card class="categoryCard" [ngClass]="{'active':!(category1.active)}">
-          <div class="row">
-            <mat-checkbox class="col-md-10 selectCheckBox" [disabled]="!(category1.active)"
-                          (change)="getCategory(category1.categoryId,selectedCategory.checked)"
-                          [checked]="checkAllStatus(category1.categoryId)" #selectedCategory></mat-checkbox>
+        <mat-card class="categoryCard" [ngClass]="{'active':isActive(category1)}">
+          <div class="row select">
+            <mat-checkbox class="col-md-10 selectCheckBox"
+                          [disabled]="isActive(category1)"
+                          (change)="setModuleSelectedStatus(category1.categoryId,selectedCategory.checked)"
+                          [checked]="category1.allComplete"
+                          [indeterminate]="isCategoryIntermediate(category1.categoryId)"
+                          #selectedCategory></mat-checkbox>
             <mat-icon class="computerIcon">computer</mat-icon>
           </div>
           <mat-card-title-group>
-            <mat-card-title>{{category1.categoryName}}</mat-card-title>
+            <span class="categoryName"><mat-card-title [matTooltip]="category1.categoryName">{{category1.categoryName}}</mat-card-title></span>
           </mat-card-title-group>
         </mat-card>
-        <mat-card class="moduleCards" [ngClass]="{'active':!(category1.active)}">
+        <mat-card class="moduleCards">
           <div class="row">
-            <div *ngFor="let module of category1.modules | filter:searchText" style="color:black;margin-bottom: 10%">
-              <mat-checkbox class="col-xs-2 selectCheckBox" (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active,module.active)"
-                            [disabled]="!(category1.active) || !(module.active)" [ngClass]="{'active':!(module.active)}"
-                            [checked]="checkedModuleStatus(module.moduleId,category1.categoryId,selectedCategory.checked,selectedModule.checked,module.active)"
+            <div *ngFor="let module of category1.modules | filter:searchText" style="color:black;margin-bottom: 10%;display:flex;flex-direction: row">
+              <mat-checkbox class="col-xs-2 selectCheckBox"
+                            [ngClass]="{'active':!(module.active)}"
+                            [disabled]="!(category1.active) || !(module.active)"
+                            (change)="getModule(module.moduleId,selectedModule.checked,selectedCategory.checked,category1.categoryId,category1.active,module.active)"
+                            [(ngModel)]="module.selected"
+                            (ngModelChange)="updateAllCompleteStatus(category1.categoryId)"
                             #selectedModule></mat-checkbox>
-              <span class="moduleText">{{module.moduleName}}</span>
+              <span class="moduleText"
+                    [matTooltip]="module.moduleName"
+                    [ngClass]="{'active':!(module.active)}">{{module.moduleName}}</span>
             </div>
           </div>
         </mat-card>
