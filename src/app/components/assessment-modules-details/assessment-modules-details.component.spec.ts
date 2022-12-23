@@ -34,11 +34,13 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {ActivatedRoute, convertToParamMap} from "@angular/router";
+import {CategoryResponse} from "../../types/categoryResponse";
 
 const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {
       "categoryId": 1,
       "categoryName": "My Category1",
+      "allComplete":true,
       "active":true,
       "modules": [
         {
@@ -46,6 +48,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
           "moduleName": "My Module",
           "category": 1,
           "active":true,
+          "selected":true,
           "updatedAt":10101010,
           "topics": [
             {
@@ -240,7 +243,50 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.navigate(dummyModule)
     expect(component.moduleSelected).toBe(1)
     expect(component.topics.length).toBe(1)
-
   });
+
+  it("should return true when active category has atleast one active module", () => {
+    let category : CategoryResponse =  {
+      "categoryId": 1,
+      "categoryName": "My Category1",
+      "active":true,
+      "updatedAt":10101010,
+      "modules": [
+        {
+          "moduleId": 1,
+          "moduleName": "My Module",
+          "category": 1,
+          "active":true,
+          "updatedAt":10101010,
+          "topics": []}]}
+
+    jest.spyOn(component,"isCategoryDisplayed")
+
+    let status = component.isCategoryDisplayed(category)
+
+    expect(status).toBeTruthy()
+  })
+
+  it("should return false when  active category has no active module", () => {
+    let category : CategoryResponse =  {
+      "categoryId": 1,
+      "categoryName": "My Category1",
+      "active":true,
+      "updatedAt":10101010,
+      "modules": [
+        {
+          "moduleId": 1,
+          "moduleName": "My Module",
+          "category": 1,
+          "active":false,
+          "updatedAt":10101010,
+          "topics": []}]}
+
+    jest.spyOn(component,"isCategoryDisplayed")
+
+    let status = component.isCategoryDisplayed(category)
+
+    expect(status).toBeFalsy()
+  })
 
 });

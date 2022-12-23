@@ -150,7 +150,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   saveCategory(value: any) {
     let categoryRequest = this.getCategoryRequest(value)
     if (categoryRequest !== null) {
-      this.appService.saveCategory(categoryRequest).subscribe({
+      this.appService.saveCategory(categoryRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           let data = this.dataSource.data
           value.isEdit = false

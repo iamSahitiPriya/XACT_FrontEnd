@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminParameterReferenceComponent } from './admin-parameter-reference.component';
+import {AdminParameterReferenceComponent} from './admin-parameter-reference.component';
 import {of, throwError} from "rxjs";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {HttpClientModule} from "@angular/common/http";
@@ -11,7 +11,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
-import {TopicReference} from "../../../types/topicReference";
 import {ParameterReference} from "../../../types/parameterReference";
 
 class MockAppService {

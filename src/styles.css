@@ -93,3 +93,6 @@ ngb-datepicker {
   -webkit-border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.15);
 }
+.mat-tooltip {
+  font-size: 14px !important;
+}
