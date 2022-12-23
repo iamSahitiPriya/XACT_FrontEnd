@@ -40,7 +40,7 @@ export class AdminParameterComponent implements OnInit {
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<ParameterData>
   dataToDisplayed: ParameterData[]
   private destroy$: Subject<void> = new Subject<void>();
@@ -57,28 +57,28 @@ export class AdminParameterComponent implements OnInit {
   isParameterAdded: boolean = false;
   isEditable: boolean = false;
   isParameterUnique = true;
-  moduleNotFoundMessage: string = data_local.ADMIN_PARAMETER.MODULE_NOT_FOUND
-  topicNotFoundMessage: string = data_local.ADMIN_PARAMETER.TOPIC_NOT_FOUND
-  categoryLabel = data_local.ADMIN_PARAMETER.CATEGORY_SELECTION_LABEL
-  moduleLabel = data_local.ADMIN_PARAMETER.MODULE_SELECTION_LABEL
-  topicLabel = data_local.ADMIN_PARAMETER.TOPIC_SELECTION_LABEL
-  parameterInput = data_local.ADMIN_PARAMETER.PARAMETER_INPUT_TEXT
-  categoryHeader = data_local.ADMIN_PARAMETER.CATEGORY
-  moduleHeader = data_local.ADMIN_PARAMETER.MODULE
-  topicHeader = data_local.ADMIN_PARAMETER.TOPIC
-  parameterHeader = data_local.ADMIN_PARAMETER.PARAMETER
-  dateHeader = data_local.ADMIN_PARAMETER.DATE
-  activeHeader = data_local.ADMIN_PARAMETER.ACTIVE
-  actionHeader = data_local.ADMIN_PARAMETER.ACTION
+  moduleNotFoundMessage: string = data_local.ADMIN.MODULE_NOT_FOUND
+  topicNotFoundMessage: string = data_local.ADMIN.PARAMETER.TOPIC_NOT_FOUND
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
+  updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
+  date = data_local.ADMIN.DATE
+  active = data_local.ADMIN.ACTIVE
+  action = data_local.ADMIN.ACTION
+  edit = data_local.ADMIN.EDIT
+  save = data_local.ADMIN.SAVE
+  update = data_local.ADMIN.UPDATE
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel = data_local.ADMIN.MODULE_NAME
+  topicLabel = data_local.ADMIN.TOPIC_NAME
+  parameterLabel = data_local.ADMIN.PARAMETER_NAME
+  parameterInput = data_local.ADMIN.PARAMETER.PARAMETER_INPUT_TEXT
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
-  noDataAvailableText = data_local.ADMIN_PARAMETER.NO_DATA_AVAILABLE_TEXT
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
 
 
-  private duplicateNameError: string = data_local.ADMIN_PARAMETER.DUPLICATION_NAME_ERROR;
-
-
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -86,11 +86,12 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoryList=[]
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryData = data
         data.forEach(eachCategory => {
-          this.fetchModules(eachCategory);
+             this.fetchModules(eachCategory);
         })
         this.sortData();
         this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -259,7 +260,7 @@ export class AdminParameterComponent implements OnInit {
       return this.setParameterRequest(selectedTopicId, row);
     } else {
       this.isParameterUnique = false;
-      this.showError(this.duplicateNameError)
+      this.showError(this.duplicateErrorMessage)
       return null
     }
   }
@@ -312,7 +313,7 @@ export class AdminParameterComponent implements OnInit {
   updateParameterRow(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterRequest = this.setParameterRequest(selectedTopicId, row);
-    if (this.unSavedParameter.parameterName !== row.parameterName) {
+    if (this.unSavedParameter.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
       parameterRequest = this.getParameterRequest(row);
     }
     if (this.isParameterUnique) {
@@ -383,7 +384,7 @@ export class AdminParameterComponent implements OnInit {
       let fetchedParameter: any = parameters?.at(parameterIndex)
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
-      parameters.splice(parameterIndex,1)
+      parameters.splice(parameterIndex, 1)
       this.sendToStore(_data)
     }
   }
@@ -399,13 +400,13 @@ export class AdminParameterComponent implements OnInit {
       questions: _data.questions ? _data.questions : [],
       references: _data.references ? _data.references : []
     }
-    parameters.push(parameter)
+    parameters?.push(parameter)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryData}))
     this.ngOnInit();
   }
 
-  async openParameterReference(reference: any,row:any) {
-    if(this.isParameterReference(row)) {
+  async openParameterReference(reference: any, row: any) {
+    if (this.isParameterReference(row)) {
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
         height: '66vh',
@@ -413,32 +414,29 @@ export class AdminParameterComponent implements OnInit {
         maxHeight: '71vh'
       })
       this.dialogRef.disableClose = true;
-    }
-    else
+    } else
       this.showError(this.topicReferenceMessage)
   }
 
-  findCategoryId(row: any){
+  findCategoryId(row: any) {
     return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId
   }
 
-  findModuleId(row: any){
-    let modules  = this.categoryAndModule.get(this.findCategoryId(row))
+  findModuleId(row: any) {
+    let modules = this.categoryAndModule.get(this.findCategoryId(row))
     return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
   }
 
-  findTopicId(row:any) {
+  findTopicId(row: any) {
     let topics = this.moduleAndTopic.get(this.findModuleId(row))
     return topics.find((topic: { topicName: any; }) => topic.topicName === row.topicName).topicId
   }
 
   private isParameterReference(row: any) {
     let flag = true;
-    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.
-    find(module => module.moduleName === row.moduleName)?.topics.
-    find(topic => topic.topicName === row.topicName)?.references
-      if (references !== undefined && references.length !== 0)
-        flag = false
+    let references = this.categoryData.find(category => category.categoryName === row.categoryName)?.modules.find(module => module.moduleName === row.moduleName)?.topics.find(topic => topic.topicName === row.topicName)?.references
+    if (references !== undefined && references.length !== 0)
+      flag = false
 
     return flag
   }

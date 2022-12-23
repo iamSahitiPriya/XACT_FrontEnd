@@ -162,14 +162,49 @@ export const data_local =
       SERVER_ERROR_MESSAGE: "Some error occurred",
       UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
       INPUT_ERROR_MESSAGE: "Please fill the field",
-      DATE: "Date",
-      ACTIVE: "Active",
-      ACTION: "Action",
+      CATEGORY_NAME: "Category",
+      MODULE_NAME:"Module",
+      TOPIC_NAME:"Topic",
+      PARAMETER_NAME:"Parameter",
+      DATE:"Date",
+      ACTIVE:"Active",
+      ACTION:"Action",
       EDIT: "Edit",
       SAVE: "Save",
       UPDATE: "Update",
       ERROR: "No Special Characters allowed",
+      DUPLICATE_ERROR_MESSAGE: "Duplicate names are not allowed",
+      CATEGORY_SELECTION_LABEL:"Select category",
+      MODULE_SELECTION_LABEL:"Select Module",
+      CATEGORY: {
+        SELECT_CATEGORY: "Select Category",
+        ADD_CATEGORY: "Add Category"
 
+        },
+        MODULE: {
+          ADD_MODULE:"Add Module",
+          SELECT_MODULE: "Select Module",
+          MODULE_INPUT_TEXT:"Enter Module Name",
+        },
+        TOPIC: {
+          ADD_TOPIC: "Add Topic",
+          ENTER_TOPIC: "Enter topic name",
+        },
+      PARAMETER:{
+        TOPIC_SELECTION_LABEL:"Select Topic",
+        PARAMETER_INPUT_TEXT:"Enter Parameter Name",
+        TOPIC_NOT_FOUND:"Topic Not Found",
+      },
+        REFERENCES: {
+          HEADER: "References - ",
+          SCORE_CARD : "Maturity Reference Score Card",
+          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
+          PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!",
+          TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
+          DATA_NOT_SAVED : "Data cannot be saved",
+          DUPLICATE_RATING_ERROR_MESSAGE : "No duplicate ratings are allowed",
+          DUPLICATE_REFERENCE_ERROR_MESSAGE : "No duplicate references are allowed",
+        },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",
         TOTAL_ACTIVE: "Assessments in Progress",
@@ -183,33 +218,6 @@ export const data_local =
         TOTAL_SUBTEXT: "Total:",
         CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
       },
-      CATEGORY: {
-        CATEGORY: "Category",
-        DUPLICATE_CATEGORY_ERROR_MESSAGE: "No duplicate categories are allowed",
-        SELECT_CATEGORY: "Select Category",
-        ADD_CATEGORY: "Add Category"
-
-        },
-        MODULE: {
-          MODULE: "Module",
-          SELECT_MODULE: "Select Module",
-        },
-        TOPIC: {
-          DUPLICATE_TOPIC_ERROR_MESSAGE: "No duplicate topics are allowed",
-          ADD_TOPIC: "Add Topic",
-          TOPIC: "Topic",
-          ENTER_TOPIC: "Enter topic name",
-        },
-        REFERENCES: {
-          HEADER: "References - ",
-          SCORE_CARD : "Maturity Reference Score Card",
-          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
-          PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!",
-          TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
-          DATA_NOT_SAVED : "Data cannot be saved",
-          DUPLICATE_RATING_ERROR_MESSAGE : "No duplicate ratings are allowed",
-          DUPLICATE_REFERENCE_ERROR_MESSAGE : "No duplicate references are allowed",
-        },
       },
       DROPDOWN_OPTION_TEXT: {
         LAST_WEEK: "Last 7 Days",
@@ -229,24 +237,6 @@ export const data_local =
         DH_2: "Next",
         DH_3: "Later"
       },
-    ADMIN_PARAMETER:{
-      CATEGORY_SELECTION_LABEL:"Select category",
-      MODULE_SELECTION_LABEL:"Select Module",
-      TOPIC_SELECTION_LABEL:"Select Topic",
-      PARAMETER_INPUT_TEXT:"Enter Parameter Name",
-      CATEGORY:"Category",
-      MODULE:"Module",
-      TOPIC:"Topic",
-      PARAMETER:"Parameter",
-      DATE:"Date",
-      ACTIVE:"Active",
-      ACTION:"Action",
-      MODULE_NOT_FOUND:"Module Not Found",
-      TOPIC_NOT_FOUND:"Topic Not Found",
-      DUPLICATION_NAME_ERROR:"Duplicates are not allowed",
-      NO_DATA_AVAILABLE_TEXT:"No data available"
-
-    },
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR:"Data cannot be saved",
       MENU_ERROR:"Error occurred while saving the data"

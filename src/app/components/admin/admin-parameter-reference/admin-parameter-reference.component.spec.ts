@@ -595,4 +595,25 @@ describe('AdminParameterReferenceComponent', () => {
 
     expect( component.isReferenceArrayFull()).toBeTruthy()
   });
+
+  it("should change the selected parameter reference when add maturity reference is clicked while updating another reference",() => {
+    component.parameterReferences = [{referenceId:1,reference:"reference",rating:1,parameter:1},{referenceId:2,reference:"reference2",rating:2,parameter:1}]
+    component.selectedReference = {isEdit : true,reference:"new reference"}
+    component.unsavedChanges = {referenceId:1,reference:"reference",rating:1,parameter:1}
+
+    component.addMaturityReference()
+
+    expect(component.selectedReference.reference).toBe("")
+  })
+
+  it("should set isEdit to true when the user clicks on edit button of particular parameter reference",() => {
+    component.selectedReference = {isEdit : true,reference:"new reference"}
+    let reference = {referenceId:1,reference:"reference",isEdit:false,rating:1}
+
+    component.setIsEdit(reference)
+
+    expect(reference.isEdit).toBeTruthy()
+    expect(component.selectedReference.reference).toBe("reference")
+  })
+
 });

@@ -34,10 +34,10 @@ import * as fromActions from "../../../actions/assessment-data.actions"
 })
 
 export class AdminCategoryComponent implements OnInit, OnDestroy {
-  masterData : Observable<CategoryResponse[]>
+  masterData: Observable<CategoryResponse[]>
   categoryData: CategoryData[]
-  categories:CategoryResponse[]
-  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit','action'];
+  categories: CategoryResponse[]
+  displayedColumns: string[] = ['categoryName', 'updatedAt', 'active', 'edit', 'action'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<CategoryData>;
@@ -45,7 +45,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<CategoryData>
   AssessmentStructure: AssessmentStructure;
   dataSourceArray: CategoryData[]
@@ -54,7 +54,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   selectedCategory: CategoryData | null;
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
-  duplicateErrorMessage = data_local.ADMIN.CATEGORY.DUPLICATE_CATEGORY_ERROR_MESSAGE
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
   date = data_local.ADMIN.DATE
@@ -63,13 +63,13 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
-  categoryLabel = data_local.ADMIN.CATEGORY.CATEGORY
-  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel= data_local.ADMIN.MODULE_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
+  addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
 
 
-
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store :  Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.categoryData = []
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
@@ -148,22 +148,9 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   saveCategory(value: any) {
-    let categoryRequest = {
-      "categoryName": value.categoryName,
-      "active": value.active,
-      "comments": value.comments
-    }
-
-    let flag = false;
-    this.dataSource.data.slice((this.paginator.pageIndex * this.paginator.pageSize) + 1).forEach(eachCategory => {
-        if (eachCategory.categoryName.trim().toLowerCase() === value.categoryName.trim().toLowerCase()) {
-          flag = true;
-          this.showError(this.duplicateErrorMessage);
-        }
-      }
-    )
-    if (!flag) {
-      this.appService.saveCategory(categoryRequest).subscribe({
+    let categoryRequest = this.getCategoryRequest(value)
+    if (categoryRequest !== null) {
+      this.appService.saveCategory(categoryRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           let data = this.dataSource.data
           value.isEdit = false
@@ -178,6 +165,20 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
           this.showError(this.serverErrorMessage);
         }
       })
+    }
+  }
+
+  private isUniqueCategory(categoryName : string) : boolean {
+    let index = this.categories.findIndex((category: any) => category.categoryName.toLowerCase().replace(/\s/g, '') === categoryName.toLowerCase().replace(/\s/g, ''));
+    return index === -1;
+  }
+
+  private getCategoryRequest(value: any) {
+    if (this.isUniqueCategory(value.categoryName)) {
+     return  this.setCategoryRequest(value)
+    } else {
+      this.showError(this.duplicateErrorMessage)
+      return null
     }
   }
 
@@ -202,20 +203,26 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   updateCategory(row: any) {
-    this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        row.isEdit = false;
-        this.selectedCategory = null;
-        this.table.renderRows()
-        this.showNotification(this.updateSuccessMessage, 2000)
-        this.categoryData = []
-        this.updateToStore(_data)
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError(this.serverErrorMessage);
-      }
-    })
-
+    let categoryRequest: any | null = this.setCategoryRequest(row);
+    if (this.category.categoryName.toLowerCase().replace(/\s/g, '')  !== row.categoryName.toLowerCase().replace(/\s/g, '') ) {
+      categoryRequest= this.getCategoryRequest(row);
+    }
+    if(categoryRequest !== null) {
+      categoryRequest['categoryId']=row.categoryId
+      this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          row.isEdit = false;
+          this.selectedCategory = null;
+          this.table.renderRows()
+          this.showNotification(this.updateSuccessMessage, 2000)
+          this.categoryData = []
+          this.updateToStore(_data)
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError(this.serverErrorMessage);
+        }
+      })
+    }
   }
 
   private showNotification(reportData: string, duration: number) {
@@ -239,18 +246,26 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   private sendDataToStore(value: any) {
     value['modules'] = []
     this.categories.push(value)
-    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
   updateToStore(_data: any) {
     let category = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
-    if(category !== undefined) {
+    if (category !== undefined) {
       category.categoryName = _data.categoryName
       category.active = _data.active
       category.comments = _data.comments
       category.updatedAt = Number(new Date())
-      this.store.dispatch(fromActions.getUpdatedCategories({newMasterData:this.categories}))
+      this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
     }
 
+  }
+
+  private setCategoryRequest(row: any) {
+     return {
+      "categoryName": row.categoryName,
+      "active": row.active,
+      "comments": row.comments
+    };
   }
 }

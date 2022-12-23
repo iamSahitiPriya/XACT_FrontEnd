@@ -78,6 +78,21 @@ class MockAppService {
   }
   ]
 
+  row : TopicData = {
+    active: false,
+    categoryId: 1,
+    categoryName: "category1",
+    categoryStatus: false,
+    comments: "",
+    moduleId: 1,
+    moduleName: "module1",
+    moduleStatus: false,
+    topicId: 1,
+    topicName: "topic new",
+    updatedAt: 0
+
+  }
+
   getAllCategories(): Observable<any> {
     return of(this.data)
   }
@@ -91,8 +106,8 @@ class MockAppService {
   }
 
   updateTopic(row: any, topicId: number) {
-    if (topicId === -1) {
-      return of(row)
+    if (topicId === 1) {
+      return of(this.row)
     } else {
       return throwError("Error!")
     }
@@ -264,7 +279,7 @@ describe('AdminTopicComponent', () => {
       moduleId: 1,
       moduleName: "module1",
       moduleStatus: false,
-      topicId: 1,
+      topicId: -1,
       topicName: "topicnew",
       active: false,
       updatedAt: Date.now(),
@@ -398,7 +413,7 @@ describe('AdminTopicComponent', () => {
       moduleId: 1,
       moduleName: "module1",
       moduleStatus: false,
-      topicId: -1,
+      topicId: 1,
       topicName: "topic new",
       updatedAt: 0
     }
@@ -651,5 +666,17 @@ describe('AdminTopicComponent', () => {
     let row = {moduleName:"",categoryName:"",topicName:""}
 
     expect(component.isInputValid(row)).toBeTruthy()
+  })
+
+  it("should set isEdit to false and isEditable to true when the user clicks on edit button",() => {
+    component.ngOnInit()
+    let row = {moduleName:"module1",categoryName:"category1",topicName:"topic1",isEdit:true,active:false,topicId:1}
+    component.unsavedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
+    component.selectedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
+
+    component.editTopic(row)
+
+    expect(component.isEditable).toBeTruthy()
+    expect(row.isEdit).toBeFalsy()
   })
 });

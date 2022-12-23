@@ -16,7 +16,7 @@
 <div class="mat-elevation-z8 topic">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort aria-describedby="category">
     <ng-container matColumnDef="categoryName">
-      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{category}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="topic" mat-cell *matCellDef="let row">
       <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#B3B8BD' }">
         {{row.categoryName}}
@@ -56,7 +56,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="moduleName">
-      <th class="topic" *matHeaderCellDef mat-sort-header="moduleName"> {{module}}</th>
+      <th class="topic" *matHeaderCellDef mat-sort-header="moduleName"> {{moduleLabel}}</th>
       <td class="topic" *matCellDef="let row">
               <span *ngIf="!(selectedTopic === row)" [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#B3B8BD' }">
                 {{row.moduleName}}
@@ -66,8 +66,8 @@
             <mat-label>{{selectModule}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" class="topicSelector" required>
           <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
-                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }"
-                      [disabled]="moduleList[0]===moduleNotFound">
+                      [disabled]="moduleList[0].moduleName===moduleNotFound"
+                      [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
             {{module.moduleName}}
           </mat-option>
         </mat-select>
@@ -79,7 +79,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="topicName">
-      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topic}}</th>
+      <th class="topic" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topicLabel}}</th>
       <td class="topic" mat-cell *matCellDef="let row"> <span *ngIf="!(selectedTopic === row)">
         {{row.topicName}}
         </span>
@@ -114,7 +114,7 @@
         </span>
         <span *ngIf="selectedTopic===row && row.topicId !== -1">
         <button mat-flat-button class="updateTopicButton" aria-label="expand row"
-                (click)="updateTopic(row)" [disabled]="isInputValid(row)">{{update}}</button>
+                (click)="updateTopic(row)" [disabled]="isInputValid(row)" >{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveTopicButton" type="submit" (click)="saveTopic(row)"

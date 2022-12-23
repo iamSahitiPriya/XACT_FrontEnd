@@ -149,6 +149,9 @@ describe('AdminReferenceComponent', () => {
     component.topic = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
 
     component.saveTopicReference(reference)
+    mockAppService.saveTopicReference(reference).subscribe(data => {
+      expect(data).toBe(reference)
+    })
 
     expect(component.sendReferenceToStore).toHaveBeenCalled()
 
@@ -550,6 +553,26 @@ describe('AdminReferenceComponent', () => {
 
     expect(reference.rating).toBe(4)
   });
+
+  it("should change the selected reference when add maturity reference is clicked while updating another reference",() => {
+    component.topicReferences = [{referenceId:1,reference:"reference",rating:1,topic:1},{referenceId:2,reference:"reference2",rating:2,topic:1}]
+    component.selectedReference = {isEdit : true,reference:"new reference"}
+    component.unsavedChanges = {referenceId:1,reference:"reference",rating:1,topic:1}
+
+    component.addMaturityReference()
+
+    expect(component.selectedReference.reference).toBe("")
+  })
+
+  it("should set isEdit to true when the user clicks on edit button of particular reference",() => {
+    component.selectedReference = {isEdit : true,reference:"new reference"}
+    let reference = {referenceId:1,reference:"reference",isEdit:false,rating:1}
+
+    component.setIsEdit(reference)
+
+    expect(reference.isEdit).toBeTruthy()
+    expect(component.selectedReference.reference).toBe("reference")
+  })
 
 });
 

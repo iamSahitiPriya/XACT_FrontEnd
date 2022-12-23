@@ -40,12 +40,12 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','edit', 'reference'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
   commonErrorFieldText = data_local.ADMIN.ERROR;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<TopicData>
   dataToDisplayed: TopicData[]
   private destroy$: Subject<void> = new Subject<void>();
@@ -59,29 +59,29 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   unsavedTopic: TopicData;
 
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
-  duplicateTopicError = data_local.ADMIN.TOPIC.DUPLICATE_TOPIC_ERROR_MESSAGE
+  duplicateError = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
   inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
   addTopic = data_local.ADMIN.TOPIC.ADD_TOPIC
-  category = data_local.ADMIN.CATEGORY.CATEGORY
-  selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY
-  module = data_local.ADMIN.MODULE.MODULE
-  selectModule = data_local.ADMIN.MODULE.SELECT_MODULE
-  topic = data_local.ADMIN.TOPIC.TOPIC
-  enterTopic = data_local.ADMIN.TOPIC.ENTER_TOPIC
+  duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   date = data_local.ADMIN.DATE
   active = data_local.ADMIN.ACTIVE
   action = data_local.ADMIN.ACTION
   edit = data_local.ADMIN.EDIT
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
-  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND
-  moduleNotFound: any =  data_local.ADMIN.MODULE_NOT_FOUND;
+  categoryLabel = data_local.ADMIN.CATEGORY_NAME
+  moduleLabel = data_local.ADMIN.MODULE_NAME
+  topicLabel = data_local.ADMIN.TOPIC_NAME
+  dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
+  moduleNotFound = data_local.ADMIN.MODULE_NOT_FOUND;
+  selectCategory = data_local.ADMIN.CATEGORY.SELECT_CATEGORY;
+  selectModule = data_local.ADMIN.MODULE.SELECT_MODULE;
+  enterTopic = data_local.ADMIN.TOPIC.ENTER_TOPIC
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
 
 
-
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>,private dialog: MatDialog) {
+  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
@@ -89,11 +89,12 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.categoryList = []
     this.masterData.subscribe(data => {
       if (data !== undefined) {
         this.categories = data
         data.forEach(eachCategory => {
-          this.fetchModuleDetails(eachCategory);
+            this.fetchModuleDetails(eachCategory);
         })
         this.sortTopic();
       }
@@ -214,11 +215,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   getTopicRequest(row: TopicData) {
     let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
     let topicArray = this.moduleAndTopic.get(selectedModuleId)
-    let topicIndex = topicArray.findIndex((topic: string) => topic === row.topicName)
+    let topicIndex = topicArray.findIndex((topic: string) => topic.toLowerCase().replace(/\s/g, '') === row.topicName.toLowerCase().replace(/\s/g, ''))
     if (this.isTopicUnique(topicIndex)) {
       return this.setTopicRequest(row)
     } else {
-      this.showError(this.duplicateTopicError)
+      this.showError(this.duplicateError)
       return null;
     }
   }
@@ -255,7 +256,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     row.isEdit = false
     let categoryId = this.categoryList.find(category => category.categoryName == row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    this.unsavedTopic =cloneDeep(row);
+    this.unsavedTopic = cloneDeep(row);
     return this.selectedTopic
   }
 
@@ -273,7 +274,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   updateTopic(row: any) {
     let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
-    if (this.unsavedTopic.topicName !== row.topicName) {
+    if (this.unsavedTopic.topicName.toLowerCase().replace(/\s/g, '') !== row.topicName.toLowerCase().replace(/\s/g, '')) {
       topicRequest = this.getTopicRequest(row)
     }
     if (topicRequest !== null) {
@@ -310,9 +311,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
-      this.moduleList = []
-      let module = {moduleName: this.moduleNotFound}
-      this.moduleList.push(module)
+      this.moduleList = [{moduleName: this.moduleNotFound}]
     }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
@@ -368,7 +367,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   private updateTopicToStore(_data: any) {
     let topic = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
-      ?.modules.find(eachModule => eachModule.moduleId ===_data.moduleId)
+      ?.modules.find(eachModule => eachModule.moduleId === _data.moduleId)
       ?.topics
     let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
@@ -381,29 +380,26 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   isInputValid(row: any) {
-    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === ''));
+    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')));
   }
 
-  async openTopicReferences(reference: any,row:any) {
-   if(this.isTopicReferences(row)) {
-     this.dialogRef = this.dialog.open(reference, {
-       width: '62vw',
-       height: '66vh',
-       maxWidth: '80vw',
-       maxHeight: '71vh'
-     })
-     this.dialogRef.disableClose = true;
-   }
-   else
-     this.showError(this.parameterReferenceMessage)
+  async openTopicReferences(reference: any, row: any) {
+    if (this.isTopicReferences(row)) {
+      this.dialogRef = this.dialog.open(reference, {
+        width: '62vw',
+        height: '66vh',
+        maxWidth: '80vw',
+        maxHeight: '71vh'
+      })
+      this.dialogRef.disableClose = true;
+    } else
+      this.showError(this.parameterReferenceMessage)
   }
 
-  private isTopicReferences(row : any) {
+  private isTopicReferences(row: any) {
     let flag = true;
-    this.categories.find(category => category.categoryName === row.categoryName)?.modules.
-    find(module => module.moduleName === row.moduleName)?.topics.
-    find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
-      if(parameter.references !== undefined && parameter.references.length !== 0)
+    this.categories.find(category => category.categoryName === row.categoryName)?.modules.find(module => module.moduleName === row.moduleName)?.topics.find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
+      if (parameter.references !== undefined && parameter.references.length !== 0)
         flag = false
     })
 
@@ -411,11 +407,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     return flag
   }
 
-  findCategoryId(row : any) {
+  findCategoryId(row: any) {
     return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId;
   }
 
-  findModuleId(row : any) {
+  findModuleId(row: any) {
     let modules = this.categoryAndModule.get(this.findCategoryId(row))
     return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
   }

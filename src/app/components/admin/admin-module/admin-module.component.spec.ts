@@ -244,6 +244,16 @@ describe('AdminModuleComponent', () => {
     let row= {
       active: true, moduleId: 1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
     }
+    component.module={
+      moduleId:1,
+      moduleName:"module",
+      categoryName : "category1",
+      categoryId : 1,
+      categoryStatus: true,
+      active : true,
+      updatedAt : 1022022,
+      comments : "",
+    };
     component.ngOnInit();
     component.updateModule(row)
     mockAppService.updateModule(row).subscribe(data =>{
@@ -282,6 +292,27 @@ describe('AdminModuleComponent', () => {
     jest.spyOn(component, "showError")
     component.showError(message)
     expect(component.showError).toHaveBeenCalled()
+  });
+  it("should throw duplicate error when module is updated with same name", () => {
+    let row= {
+      active: true, moduleId: 1, categoryName: "category1",moduleName:"module1", comments: "comments", updatedAt: 1022022
+    }
+    component.module={
+      moduleId:1,
+      moduleName:"moduleName",
+      categoryName : "category1",
+      categoryId : 1,
+      categoryStatus: true,
+      active : true,
+      updatedAt : 1022022,
+      comments : "",
+    };
+    component.ngOnInit();
+    component.updateModule(row)
+    mockAppService.updateModule(row).subscribe(data =>{
+      expect(data).toBe(row);
+    })
+    expect(component.isModuleUnique).toBeFalsy()
   });
 });
 
