@@ -15,7 +15,8 @@
           <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}     </span>
 
       <mat-form-field class="questionArea" appearance="outline" id="testForm1">
-      <textarea matInput
+      <textarea matInput id="testForm{{userQuestion.questionId}}"
+                name="userQuestion{{userQuestion.questionId}}"
                 cdkTextareaAutosize
                 class="textArea1"
                 cdkAutosizeMinRows="1"

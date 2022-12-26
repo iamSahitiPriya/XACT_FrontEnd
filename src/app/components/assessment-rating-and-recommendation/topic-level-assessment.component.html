@@ -27,13 +27,25 @@
           </div>
         </div>
 
-        <div>
-          <app-user-question-answer [additionalQuestionCount]=topicRequest.parameterLevel[i].userQuestionRequestList.length   [parameterId]="parameter.parameterId"
+        <div *ngIf="parameter.questions">
+          <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
+            [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                     [parameterIndex]="i"
                                     [parameterName]="parameter.parameterName"
                                     [questionIndex]="parameter.questions.length"
+          ></app-user-question-answer>
+        </div>
+
+        <div *ngIf="!parameter.questions">
+          <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
+                                     [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
+                                     [assessmentId]="assessmentId"
+                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
+                                     [parameterIndex]="i"
+                                     [parameterName]="parameter.parameterName"
+                                     [questionIndex]="0"
           ></app-user-question-answer>
         </div>
 
@@ -49,17 +61,20 @@
           ></app-parameter-level-rating>
         </div>
 
-        <div *ngIf="topicInput.references">
-          <app-topic-level-rating *ngIf="topicRequest.topicRatingAndRecommendation"
-                                  [topicRecommendation]="topicInput.topicId"
-                                  [topicScore]="topicInput.references"
-                                  [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
-                                  [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
-                                  [topicName]="topicInput.topicName"
-          ></app-topic-level-rating>
-        </div>
       </div>
     </div>
+
+    <div *ngIf="topicInput.references">
+      <app-topic-level-rating *ngIf="topicRequest.topicRatingAndRecommendation"
+                              [topicRecommendation]="topicInput.topicId"
+                              [topicScore]="topicInput.references"
+                              [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
+                              [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
+                              [topicName]="topicInput.topicName"
+      ></app-topic-level-rating>
+    </div>
+
+
     <div>
       <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
               mat-raised-button

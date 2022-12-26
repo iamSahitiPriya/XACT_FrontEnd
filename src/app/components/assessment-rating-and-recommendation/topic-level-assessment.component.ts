@@ -33,7 +33,7 @@ let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 export class parameterRequest {
 
   answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
-  userQuestionRequest: UserQuestion[]
+  userQuestionRequest: UserQuestion[] = []
   parameterRatingAndRecommendation: ParameterRatingAndRecommendation
 
   constructor(answerRequest: Notes[], userQuestionRequestList: UserQuestion[], parameterRatingAndRecommendation: ParameterRatingAndRecommendation) {

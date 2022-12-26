@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UserQuestion} from "../../types/UserQuestion";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
@@ -32,7 +31,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   assessmentId: number
 
   @Input()
-  userQuestionList: UserQuestion[]
+  userQuestionList: UserQuestionResponse[]
 
   @Input()
   parameterIndex: number
@@ -165,20 +164,13 @@ export class UserQuestionAnswerComponent implements OnInit {
     }
   }
 
-  updateQuestion(userQuestion: UserQuestion) {
+  updateQuestion(userQuestion: UserQuestionResponse) {
     this.questionEditFlagNumber = 0;
     if (userQuestion.question.length > 0) {
       this.appService.updateUserQuestion(userQuestion, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
-            assessmentData.push(userQuestion);
             this.createQuestionFlag = false;
-            this.userQuestionResponse.questionId = userQuestion.questionId
-            this.userQuestionResponse.question = userQuestion.question
-            this.userQuestionResponse.parameterId = this.parameterId
-            if (userQuestion.answer != null) {
-              this.userQuestionResponse.answer = userQuestion.answer
-            }
-            this.sendUserQuestionAnswer(this.userQuestionResponse)
+            this.sendUserQuestionAnswer(userQuestion)
             this.questionText = ""
             this.questionEditFlag = false
             this.updateDataSavedStatus()

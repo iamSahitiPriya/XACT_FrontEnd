@@ -15,6 +15,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {UserQuestion} from "../../types/UserQuestion";
 import {of, throwError} from "rxjs";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
+import {UserQuestionResponse} from "../../types/userQuestionResponse";
 
 
 describe('UserQuestionAnswerComponent', () => {
@@ -59,7 +60,7 @@ describe('UserQuestionAnswerComponent', () => {
         BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       providers: [{provide: AppServiceService, useClass: MockAppService}],
     })
-    .compileComponents();
+      .compileComponents();
 
 
   });
@@ -168,13 +169,13 @@ describe('UserQuestionAnswerComponent', () => {
     }
     component.deleteUserQuestion(2);
     mockAppService.deleteUserQuestion(2,2).subscribe(data => {
-        expect(data).toBe(true)
+      expect(data).toBe(true)
     });
   })
   it('should be able to update the question', () => {
     jest.spyOn(component,"updateQuestion")
-    let userQuestion : UserQuestion = {
-      questionId:1,question:"update"
+    let userQuestion : UserQuestionResponse = {
+      questionId:1,question:"update",parameterId:5,answer:""
     }
 
     component.answerResponse = {
@@ -204,8 +205,8 @@ describe('UserQuestionAnswerComponent', () => {
 
   it('should not be able to update user Question and throw error', () => {
     jest.spyOn(component,'updateQuestion');
-    let userQuestion : UserQuestion = {
-      questionId:2,question:"new",answer:"answer"
+    let userQuestion : UserQuestionResponse = {
+      questionId:2,question:"new",answer:"answer",parameterId:5
     }
     component.updateQuestion(userQuestion);
     mockAppService.updateUserQuestion(userQuestion,1).subscribe(data => {
