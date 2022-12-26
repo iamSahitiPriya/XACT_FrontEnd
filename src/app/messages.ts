@@ -218,6 +218,13 @@ export const data_local =
         TOTAL_SUBTEXT: "Total:",
         CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
       },
+      QUESTION : {
+        ADD_QUESTION : " Add Question",
+        QUESTIONS : "Questions",
+        QUESTION : "Question",
+        REQUIRED_FIELD : "This field is required"
+
+      },
       },
       DROPDOWN_OPTION_TEXT: {
         LAST_WEEK: "Last 7 Days",

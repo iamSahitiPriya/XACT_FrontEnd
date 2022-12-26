@@ -291,7 +291,6 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
       this.unsavedReferences.forEach(reference => references?.push(reference))
 
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
-
   }
 
   getReferenceFromTopic() {

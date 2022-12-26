@@ -57,4 +57,6 @@ export const environment = {
   USER_ASSESSMENT_MODULE_URI: "/modules",
   SAVE_MODULE_URI: "/v1/admin/modules",
   SAVE_PARAMETER_URI: "/v1/admin/parameters",
+  UPDATE_QUESTION:"/v1/admin/question",
+  SAVE_QUESTION:"/v1/admin/questions"
 };

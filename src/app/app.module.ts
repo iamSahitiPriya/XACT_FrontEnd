@@ -97,6 +97,7 @@ import {AdminReferenceComponent} from './components/admin/admin-topic-reference/
 import {
   AdminParameterReferenceComponent
 } from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
+import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -192,6 +193,7 @@ export const appRoutes: Routes = [
     AdminTopicComponent,
     AdminReferenceComponent,
     AdminParameterReferenceComponent,
+    AdminQuestionComponent,
   ],
 
   imports: [

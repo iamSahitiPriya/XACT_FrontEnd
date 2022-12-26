@@ -87,11 +87,6 @@ ngb-datepicker {
 ::-webkit-scrollbar {
   display: none;
   -webkit-appearance: none;
-  width: 0px;
-  background-clip: padding-box;
-  border: 4px solid rgba(0, 0, 0, 0);
-  -webkit-border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.15);
 }
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;

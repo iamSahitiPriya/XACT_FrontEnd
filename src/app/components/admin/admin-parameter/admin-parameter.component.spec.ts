@@ -857,6 +857,15 @@ describe('AdminParameterComponent', () => {
     expect(component.findTopicId(row)).toBe(1)
   });
 
+  it("should open question dialog box", () => {
+    jest.spyOn(matDialog, "open")
+
+    component.openQuestions("")
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
+
+  });
+
 
 
 

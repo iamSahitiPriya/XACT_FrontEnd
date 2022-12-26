@@ -35,7 +35,7 @@ export class AdminParameterComponent implements OnInit {
   private dialogRef: MatDialogRef<any>;
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference', 'addQuestion'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -439,6 +439,16 @@ export class AdminParameterComponent implements OnInit {
       flag = false
 
     return flag
+  }
+
+  openQuestions(questions:any) {
+    this.dialogRef = this.dialog.open(questions, {
+      width: '62vw',
+      height: '66vh',
+      maxWidth: '80vw',
+      maxHeight: '71vh'
+    })
+    this.dialogRef.disableClose = true;
   }
 }
 

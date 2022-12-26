@@ -356,5 +356,15 @@ describe('AppServiceService', () => {
     expect(service.deleteParameterReference(referenceId)).toBeTruthy();
   })
 
+  it("should create questions", () => {
+    let questionRequest = {questionText: "new", parameter:1}
+    expect(service.saveMasterQuestion(questionRequest)).toBeTruthy()
+  });
+
+  it("should update questions", () => {
+    let questionRequest = {questionId:1,questionText: "new", parameter:1}
+    let questionId = 1
+    expect(service.updateMasterQuestion(questionId,questionRequest)).toBeTruthy()
+  });
 });
 
