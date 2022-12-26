@@ -38,6 +38,7 @@
   padding-left: 15px;
   padding-right: 21px;
   opacity: 1;
+  word-break: break-word;
 }
 
 .question-content {
