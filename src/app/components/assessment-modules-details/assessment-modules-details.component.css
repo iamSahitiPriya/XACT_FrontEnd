@@ -191,6 +191,7 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 .mat-expansion-panel-header.mat-expanded {
   height: 50px !important;
+  text-align: initial;
 }
 
 ::ng-deep .mat-ink-bar {
