@@ -9,22 +9,20 @@
     </div>
   <div class="userQuestionAnswers" *ngIf="showAccordion">
     <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
-
-      <div *ngIf="questionEditFlagNumber === userQuestion.questionId ">
-        <form>
+      <div  class="edit-question" *ngIf="questionEditFlagNumber === userQuestion.questionId ">
+        <div class="question-user">
           <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}     </span>
-
-      <mat-form-field class="questionArea" appearance="outline" id="testForm1">
-      <textarea matInput id="testForm{{userQuestion.questionId}}"
+          <mat-form-field class="questionArea" appearance="outline" id="testForm1" style="width: 97%;">
+          <textarea matInput id="testForm{{userQuestion.questionId}}"
                 name="userQuestion{{userQuestion.questionId}}"
                 cdkTextareaAutosize
                 class="textArea1"
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="1"
+                cdkAutosizeMaxRows="3"
                 [(ngModel)]=userQuestion.question
-                maxlength="3000"></textarea>
+                maxlength="2000"></textarea>
     </mat-form-field>
-        </form>
+        </div>
 
      <div class="questionEditFunctions">
       <button class="saveQuestionIcon"><mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="{{updateHoverText}}">done</mat-icon>  </button>   <span>&nbsp;&nbsp;</span>
@@ -33,13 +31,13 @@
         <br>
       </div>
 
-      <div *ngIf="questionEditFlagNumber !== userQuestion.questionId">
-    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}
+      <div  class="user-questions" *ngIf="questionEditFlagNumber !== userQuestion.questionId">
+    <div class="question-content user-question">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}</div>
 
       <div class="questionFunctions" >
        <button class="questionFunctionButton"><mat-icon  (click)="editQuestionFlag(userQuestion.questionId)" matTooltip="{{editHoverText}}">edit</mat-icon> </button>   <span>&nbsp;&nbsp;</span>
         <button class="questionFunctionButton"><mat-icon (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
-      </div></span>
+      </div>
       </div>
 
 
@@ -52,18 +50,18 @@
   </div>
 
 <div class="question" *ngIf="createQuestionFlag === true" >
-  <form>
+  <div class="question-user">
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}}  </span>
-    <mat-form-field class="questionArea" appearance="outline" id="testForm">
+    <mat-form-field class="questionArea" appearance="outline" id="testForm" style="width: 95%;">
       <textarea matInput
                 cdkTextareaAutosize
                 class="textArea1"
                 cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="1"
+                cdkAutosizeMaxRows="3"
                 [(ngModel)]="questionText"
-                maxlength="3000"></textarea>
+                maxlength="2000"></textarea>
     </mat-form-field>
-  </form>
+  </div>
 
   <div class="questionCreateFunctions">
   <button class="saveQuestionIcon"> <mat-icon id="saveQuestion" (click)="saveQuestion()" matTooltip="{{saveHoverText}}">done</mat-icon> </button>

@@ -54,7 +54,7 @@ html, body {
   background-color: transparent;
   box-shadow: none;
   margin-bottom: 15px;
-  text-align: center;
+  text-align: initial;
   scroll-behavior: auto;
 }
 

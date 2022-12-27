@@ -41,11 +41,27 @@
   word-break: break-word;
 }
 
+.user-questions, .question-user, .edit-question {
+  display: flex;
+  flex-direction: row;
+}
+
+.question-user {
+  width: 95%;
+}
+
+.question-content.user-question {
+  text-align: justify;
+  width: 93%;
+}
+
 .question-content {
   font-size: 18px;
-  font-weight: bolder;
+  font-weight: bolder !important;
   font-family: 'Inter', sans-serif;
   color: #000000;
+  align-self: auto;
+  margin-top: 1%;
 }
 
 .button1:hover {
@@ -64,20 +80,19 @@
  padding-bottom:7px !important;
  }
 .userQuestionAnswers{
-  background-color: #E8EDEE;
+  background-color: #F7F7F7;
   width: 98%;
   padding-top: 28px;
 }
 .questionFunctions{
   display: flex;
-  justify-content: flex-end;
-  margin-top: -25px;
-  margin-bottom: -7px;
+  align-items: flex-start;
+  padding-left: 1%;
+  margin-top:11px;
 }
 .questionEditFunctions{
   display: flex;
-  justify-content: flex-end;
-  margin-top: -66px;
+  align-items: flex-start;
 }
 textarea.mat-input-element.cdk-textarea-autosize {
   color: black !important ;
@@ -100,3 +115,4 @@ textarea.mat-input-element.cdk-textarea-autosize {
   border: none;
   background-color: transparent;
 }
+
