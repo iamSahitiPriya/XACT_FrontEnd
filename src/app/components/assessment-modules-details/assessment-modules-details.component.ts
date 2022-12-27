@@ -58,6 +58,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigate(module: ModuleStructure) {
+    console.log("Called ", module.moduleId);
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
   }
@@ -87,14 +88,24 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     })
     valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
-      if (this.category.userAssessmentCategories !== undefined && this.category.userAssessmentCategories.length > 0 ) {
+      if (this.category.userAssessmentCategories !== undefined && this.category.userAssessmentCategories.length > 0) {
         this.category.userAssessmentCategories = this.category.userAssessmentCategories.sort((category1, category2) => Number(category2.active) - Number(category1.active))
-        let index = this.category.userAssessmentCategories.findIndex(category => category.active)
-          this.category.userAssessmentCategories[index].modules?.forEach(eachModule => {
-            if(eachModule.active) {
-              let moduleIndex = this.category.userAssessmentCategories[index].modules.findIndex(module => module.moduleId === eachModule.moduleId)
-              return this.navigate(this.category.userAssessmentCategories[index].modules[moduleIndex]) }
-            })
+
+        let index = this.category.userAssessmentCategories.findIndex(category => category.active);
+        let selectedCategory = this.category.userAssessmentCategories[index];
+        console.log(index, selectedCategory)
+        let moduleIndex = selectedCategory.modules.findIndex(module => module.active);
+
+        let iteration = 1;
+        while (moduleIndex < 0 && iteration < this.category.userAssessmentCategories.length) {
+          iteration++;
+          index  = this.category.userAssessmentCategories.findIndex((category,currentIndex) => category.active && currentIndex>index);
+          selectedCategory = this.category.userAssessmentCategories[index];
+          moduleIndex = selectedCategory.modules.findIndex(module => module.active);
+        }
+        if (moduleIndex > -1) {
+          this.navigate(selectedCategory.modules[moduleIndex]);
+        }
       }
     })
   }
@@ -110,12 +121,12 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  isCategoryDisplayed(category: CategoryStructure) : boolean {
+  isCategoryDisplayed(category: CategoryStructure): boolean {
     let isDisplayed = false
     category.modules?.forEach(module => {
-    if(module.active && category.active)
-      isDisplayed = true
+      if (module.active && category.active)
+        isDisplayed = true
     })
-   return isDisplayed
+    return isDisplayed
   }
 }
