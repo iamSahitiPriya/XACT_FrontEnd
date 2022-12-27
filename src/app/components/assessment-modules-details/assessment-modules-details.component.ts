@@ -58,7 +58,6 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigate(module: ModuleStructure) {
-    console.log("Called ", module.moduleId);
     this.moduleSelected = module.moduleId;
     this.topics = module.topics;
   }
@@ -93,7 +92,6 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
 
         let index = this.category.userAssessmentCategories.findIndex(category => category.active);
         let selectedCategory = this.category.userAssessmentCategories[index];
-        console.log(index, selectedCategory)
         let moduleIndex = selectedCategory.modules.findIndex(module => module.active);
 
         let iteration = 1;
