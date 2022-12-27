@@ -14,6 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Question} from "../../../types/Admin/question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
 import {QuestionResponse} from "../../../types/Admin/questionResponse";
+import {ParameterStructure} from "../../../types/parameterStructure";
 
 @Component({
   selector: 'app-admin-question',
@@ -53,6 +54,7 @@ export class AdminQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.questionArray = []
+    this.unsavedChanges = []
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryResponse = data
@@ -104,7 +106,7 @@ export class AdminQuestionComponent implements OnInit {
     this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data : QuestionStructure) => {
         question.isEdit = false
-        this.questionArray = []
+        question.questionId = data.questionId
         this.sendToStore(data)
         this.ngOnInit()
       }, error: _error => {
@@ -138,6 +140,7 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse  = this.getQuestionRequestWithId(question)
+    console.log(questionRequest)
     this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data : QuestionStructure) => {
         question.isEdit = false
@@ -152,7 +155,7 @@ export class AdminQuestionComponent implements OnInit {
   private getQuestionRequestWithId(question : Question | QuestionStructure) : QuestionResponse {
     return {
       questionText: question.questionText,
-      parameter: question.parameter,
+      parameter: this.parameter.parameterId,
       questionId : question.questionId
     }
   }
@@ -160,13 +163,23 @@ export class AdminQuestionComponent implements OnInit {
   getQuestionRequest(question: Question) : QuestionRequest{
     return {
       questionText: question.questionText,
-      parameter: question.parameter
+      parameter: this.parameter.parameterId
     }
   }
 
   private sendToStore(data: QuestionStructure) {
-    let question: any = this.getQuestionRequestWithId(data)
-    this.getQuestionsFromParameter()?.push(question)
+    let question: QuestionResponse = this.getQuestionRequestWithId(data)
+    let questions = this.getQuestionsFromParameter()
+    if(questions === undefined) {
+      let parameter : ParameterStructure | undefined = this.getParameter()
+      if (parameter) {
+        parameter['questions'] = []
+        parameter['questions'].push(question)
+      }
+
+    }
+    else
+      questions?.push(question)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
 
@@ -196,10 +209,16 @@ export class AdminQuestionComponent implements OnInit {
 
   }
 
-  isInputValid(question: any) : boolean {
+  isInputValid(question: string) : boolean {
     let newQuestion : string = question;
     if(newQuestion.length !== 0) newQuestion = newQuestion.trim()
     return (newQuestion.length === 0)
+  }
+
+  private getParameter() : ParameterStructure | undefined{
+    return this.categoryResponse.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics
+      .find(topic => topic.topicId === this.topic)?.parameters
+      .find(parameter => parameter.parameterId === this.parameter.parameterId)
   }
 }
 
