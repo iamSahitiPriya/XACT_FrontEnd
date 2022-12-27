@@ -14,6 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Question} from "../../../types/Admin/question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
 import {QuestionResponse} from "../../../types/Admin/questionResponse";
+import {ParameterStructure} from "../../../types/parameterStructure";
 
 @Component({
   selector: 'app-admin-question',
@@ -170,9 +171,12 @@ export class AdminQuestionComponent implements OnInit {
     let question: QuestionResponse = this.getQuestionRequestWithId(data)
     let questions = this.getQuestionsFromParameter()
     if(questions === undefined) {
-      let parameter : any = this.getParameter()
-      parameter['questions'] = []
-      parameter['questions'].push(question)
+      let parameter : ParameterStructure | undefined = this.getParameter()
+      if (parameter) {
+        parameter['questions'] = []
+        parameter['questions'].push(question)
+      }
+
     }
     else
       questions?.push(question)
@@ -205,13 +209,13 @@ export class AdminQuestionComponent implements OnInit {
 
   }
 
-  isInputValid(question: any) : boolean {
+  isInputValid(question: string) : boolean {
     let newQuestion : string = question;
     if(newQuestion.length !== 0) newQuestion = newQuestion.trim()
     return (newQuestion.length === 0)
   }
 
-  private getParameter() {
+  private getParameter() : ParameterStructure | undefined{
     return this.categoryResponse.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics
       .find(topic => topic.topicId === this.topic)?.parameters
       .find(parameter => parameter.parameterId === this.parameter.parameterId)
