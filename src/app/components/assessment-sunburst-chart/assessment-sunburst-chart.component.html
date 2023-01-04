@@ -5,7 +5,8 @@
 <div class="row menu-bar">
   <div class="col-md-3">
     <mat-toolbar>
-      <button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button [routerLink]="['/assessment',assessmentId]">
+      <button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button
+              [routerLink]="['/assessment',assessmentId]">
         <mat-icon class="mat-icon-custom">keyboard_backspace</mat-icon>
       </button>
       <div *ngIf="data"><span class="name">{{data.name}}</span></div>
@@ -29,12 +30,13 @@
       <mat-form-field appearance="fill">
         <mat-label>Select Color Theme</mat-label>
         <mat-select id="theme-select" [(ngModel)]="selectedValue" (selectionChange)="onThemeChange()">
-          <mat-option *ngFor="let color of colorList" [value]="color.value" >
+          <mat-option *ngFor="let color of colorList" [value]="color.value">
             {{color.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button accesskey="c" id="downloadButton" class="downloadButton" mat-icon-button color="primary" aria-label="Download chart"
+      <button accesskey="c" id="downloadButton" class="downloadButton" mat-icon-button color="primary"
+              aria-label="Download chart"
               [matTooltip]=downloadActionTooltip
               (click)="downloadImage()">
         <mat-icon>save_alt</mat-icon>
@@ -44,7 +46,22 @@
       <div class="dashboard">
         <div class="sunBurst">
           <div id="chart"></div>
-          <div id="sequence"></div>
+          <div id="sequence">
+            <div *ngFor="let sequence of sequenceArray">
+              <mat-card id="trail" class="trail">
+                <mat-card-content>
+                    <div class="sequenceName">{{sequence.data.name}}</div>
+                    <div class="rating" *ngIf="sequence.data.value || sequence.data.rating">
+                      <mat-icon class="star-icon">star</mat-icon>
+                      <span class="rating-value" *ngIf="sequence.data.value">{{sequence.data.value}}</span>
+                      <span class="rating-value" *ngIf="sequence.data.rating">{{sequence.data.rating}}</span>
+                    </div>
+                </mat-card-content>
+
+              </mat-card>
+              <br><br>
+            </div>
+          </div>
         </div>
       </div>
       <div class="rating"></div>

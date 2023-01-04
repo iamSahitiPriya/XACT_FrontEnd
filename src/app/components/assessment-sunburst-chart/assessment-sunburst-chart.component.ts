@@ -13,6 +13,7 @@ import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
+import {EnterElement} from "d3";
 
 
 interface ColorScheme {
@@ -27,8 +28,7 @@ interface ColorScheme {
 })
 
 
-
-export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
+export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
   @ViewChild('screen') screen: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
@@ -41,6 +41,8 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   data: ReportDataStructure;
   selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
+  sequenceArray: any[]
+  averageScoreUptoSelected:number = 0
 
 
   colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
@@ -50,7 +52,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     {value: d3.interpolateWarm, viewValue: 'Warm Theme'},
     {value: d3.interpolateBlues, viewValue: 'All Blue'},
     {value: d3.interpolateSpectral, viewValue: 'Spectral Colors'},
-    {value:"ThreatTheme",viewValue: 'Show Threats'}
+    {value: "ThreatTheme", viewValue: 'Show Threats'}
   ];
 
   ngOnInit() {
@@ -157,8 +159,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .attr("transform", (d: any) => labelTransform(d.current))
       .text((d: any) => d.data.name)
       .style("font", "7px Inter")
-      .call(this.wrap, 75,0.0004, 0.23);
-
+      .call(this.wrap, 75, 0.0004, 0.23);
 
 
     vis.append("circle")
@@ -216,10 +217,11 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   }
 
   onMouseleave(_d: any) {
-    d3.select("#trail")
-      .style("visibility", "hidden");
+    // d3.select("#sequence")
+    //   .style("visibility", "hidden");
     d3.selectAll("path")
       .style("opacity", 1)
+    this.sequenceArray = []
   }
 
 
@@ -237,7 +239,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
-      .attr("height", 850)
+      .attr("height", 870)
       .attr("id", "trail")
       .attr("fill", <string>color("1"))
       .attr("fill-opacity", 0.6);
@@ -281,8 +283,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     entering.append("polygon")
       .attr("points", this.breadcrumbFigure)
 
-    entering.
-    append("svg:text")
+    entering.append("svg:text")
       .attr("x", (breadCrumbPoints.w + breadCrumbPoints.t) / 2)
       .attr("y", breadCrumbPoints.h / 1.7)
       .attr("dy", "0.98em")
@@ -291,7 +292,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .attr("fill-opacity", 1)
       .text(this.getDataName)
       .style("font", "15px Inter")
-      .call(this.wrap, 300,0.8,0);
+      .call(this.wrap, 300, 0.8, 0);
 
     g.exit().remove();
 
@@ -328,7 +329,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
     return "translate(" + 0 + "," + d.depth * (breadCrumbPoints.d) + ")";
   }
 
-  wrap(content: any, width: any,lineHeight:any, adjustPadding:any) {
+  wrap(content: any, width: any, lineHeight: any, adjustPadding: any) {
 
     content.each(function (this: any) {
       var text = d3.select(<any>this),
@@ -340,11 +341,11 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
         x = text.attr("x"),
         dy = parseFloat(text.attr("dy")),
         dyAdjust = 0;
-      if(words.length>3) {
+      if (words.length > 3) {
         dyAdjust = words.length / 1.95;
       }
       dy = dy - (adjustPadding * dyAdjust)
-      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id",lineNumber);
+      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
 
       while (word = words.pop()) {
         line.push(word);
@@ -367,7 +368,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   onThemeChange() {
     if (this.selectedValue == "ThreatTheme") {
       d3.select("#trail")
-        .attr("fill", "orange")
+        .style("background", "orange")
 
       d3.selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
@@ -375,7 +376,7 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
       let breadCrumbColor = <string>color("1")
       d3.select("#trail")
-        .attr("fill", breadCrumbColor)
+        .style("background", breadCrumbColor)
       d3.selectAll("path")
         .attr("fill", (d: any) => {
           while (d.depth > 1) d = d.parent;
@@ -405,17 +406,19 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
   }
 
   OnMouseOver = (_event: any, d: any) => {
-    let percentageText = 0;
+    this.averageScoreUptoSelected = 0;
     if (!d.data.rating || d.data.value == 0) {
-      percentageText = d.data.value;
+      this.averageScoreUptoSelected = d.data.value;
     } else {
-      percentageText = d.data.rating;
+      this.averageScoreUptoSelected = d.data.rating;
     }
-    var sequenceArray = this.getAncestors(d);
-    this.updateBreadcrumbs(sequenceArray, percentageText);
+    let sequenceArray = this.getAncestors(d);
+    this.sequenceArray = this.getAncestors(d);
+    // this.updateBreadcrumbs(sequenceArray, percentageText);
     d3.selectAll("path")
       .style("opacity", 0.3);
-
+    d3.select("#sequence")
+      .style("visibility", "visible");
     d3.select("#chart").select("#container").selectAll("path")
       .filter(function (node: any) {
         return (sequenceArray.indexOf(node) >= 0);
@@ -423,11 +426,11 @@ export class AssessmentSunburstChartComponent implements OnInit,OnDestroy {
       .style("opacity", 1);
   }
 
-  downloadImage(){
+  downloadImage() {
     html2canvas(this.screen.nativeElement).then(canvas => {
       this.canvas.nativeElement.src = canvas.toDataURL();
       this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = this.data.name+'-sunburst-chart.png';
+      this.downloadLink.nativeElement.download = this.data.name + '-sunburst-chart.png';
       this.downloadLink.nativeElement.click();
     });
   }

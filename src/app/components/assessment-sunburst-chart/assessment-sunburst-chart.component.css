@@ -82,3 +82,37 @@
   vertical-align: unset !important;
   line-height: unset !important;
 }
+.rating{
+  width: 24px;
+  height: 34px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 6px #00000029;
+  border-radius: 4px;
+  opacity: 1;
+  float:right;
+  margin-top: -28px;
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.trail{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 4px;
+}
+.star-icon{
+  transform: scale(0.5);
+  color: #CEB14F;
+}
+.rating-value{
+  margin-top: -6px;
+  font: normal normal 12px/15px Inter;
+  font-weight: bolder;
+  letter-spacing: 0.74px;
+  color: #000000;
+}
+.sequenceName{
+  width: 83%;
+  text-overflow: ellipsis;
+}
