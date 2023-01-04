@@ -107,11 +107,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.paginator.pageIndex = 0
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
-      if (typeof data[sortHeaderId] === 'string') {
-        return data[sortHeaderId].toLocaleLowerCase();
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
       }
-      return data[sortHeaderId];
+      return tableData[sortHeaderId];
     };
     this.dataSource.sort = this.sort;
   }
