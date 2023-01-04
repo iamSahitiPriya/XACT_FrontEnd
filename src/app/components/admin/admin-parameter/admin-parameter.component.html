@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-md-9">
-  <app-search [dataSource]="dataSource" [columns]="['4','categoryName','moduleName','topicName','parameterName']" class="admin-searchBar"></app-search>
+    <app-search [dataSource]="dataSource" [columns]="['4','categoryName','moduleName','topicName','parameterName']"
+                class="admin-searchBar"></app-search>
   </div>
   <div class="col-md-3 parameterButtonColumn">
     <button mat-flat-button class="parameterButton1" (click)="addParameterRow()">
@@ -9,19 +10,21 @@
   </div>
 </div>
 <div class="mat-elevation-z8 parameter">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows  matSort aria-describedby="parameter" class="parameterTable">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort aria-describedby="parameter"
+         class="parameterTable">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
       <td class="parameter" mat-cell *matCellDef="let row">
-      <span *ngIf="!(row.isEdit || selectedParameter === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
+      <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId)"
+            [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
           <span class="circle"></span>
         {{row.categoryName}}</span>
-        <span *ngIf="row.isEdit || selectedParameter===row">
+        <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
           <mat-form-field appearance="outline" class="dropDown">
                         <mat-label>{{categoryLabel}}</mat-label>
         <mat-select [(ngModel)]="row.categoryName" required (selectionChange)="shortlistModules(row)">
           <mat-option *ngFor="let category of categoryList"
-                      [value]="category.categoryName"  [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
+                      [value]="category.categoryName" [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
             {{category.categoryName}}
           </mat-option>
         </mat-select>
@@ -34,7 +37,7 @@
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
-        <div [@detailExpand]="row.isEdit === true || row === selectedParameter ? 'expanded' : 'collapsed'"
+        <div [@detailExpand]="row.isEdit === true || selectedParameter?.parameterId === row.parameterId ? 'expanded' : 'collapsed'"
              class="parameterComments">
           <mat-form-field appearance="outline" class="parameterCommentTextArea">
             <textarea matInput placeholder="Comments"
@@ -56,11 +59,12 @@
               <span *ngIf="!(row.isEdit || selectedParameter === row)">
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
-        <span *ngIf="row.isEdit || selectedParameter===row">
+        <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
           <mat-form-field appearance="outline" class="dropDown">
             <mat-label>{{moduleLabel}}</mat-label>
         <mat-select [(ngModel)]="row.moduleName" required (selectionChange)="shortListTopics(row.moduleName)">
-          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName" [disabled]="moduleList[0].moduleName===moduleNotFoundMessage"
+          <mat-option *ngFor="let module of moduleList" [value]="module.moduleName"
+                      [disabled]="moduleList[0].moduleName===moduleNotFoundMessage"
                       [ngStyle]="{'color': module.active ? '52575d' : '#B3B8BD' }">
             {{module.moduleName}}
           </mat-option>
@@ -78,11 +82,12 @@
        <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
 
-        <span *ngIf="row.isEdit || selectedParameter===row">
+        <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
           <mat-form-field appearance="outline" class="dropDown">
             <mat-label>{{topicLabel}}</mat-label>
         <mat-select [(ngModel)]="row.topicName" class="topicSelector" required>
-          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName" [disabled]="topicList[0].topicName===topicNotFoundMessage"
+          <mat-option *ngFor="let topic of topicList" [value]="topic.topicName"
+                      [disabled]="topicList[0].topicName===topicNotFoundMessage"
                       [ngStyle]="{'color': topic.active ? '52575d' : '#B3B8BD' }">
             {{topic.topicName}}
           </mat-option>
@@ -99,7 +104,7 @@
       <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
         {{row.parameterName}}
         </span>
-        <span *ngIf="row.isEdit || selectedParameter===row">
+        <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
           <mat-form-field appearance="outline" class="inputTextParameter">
             <mat-label>{{parameterInput}}</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
@@ -114,24 +119,25 @@
     <ng-container matColumnDef="updatedAt">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt">{{date}}</th>
       <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right':isEditable ? '0%' : '1%' }">
-      {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
+        {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="active"> {{active}}</th>
       <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-left':isEditable ? '1%' : '0%' }">
-       <mat-slide-toggle [(ngModel)]="row.active"
-                          [disabled]="!(selectedParameter === row || row.isEdit)"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="row.active"
+                          [disabled]="!(selectedParameter?.parameterId === row.parameterId || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
     <ng-container matColumnDef="edit">
       <th class="parameter" mat-header-cell *matHeaderCellDef>{{action}}</th>
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
-        <span *ngIf="!(row.isEdit || selectedParameter === row)">
+        <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId)">
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameterRow(row)">Edit</button>
         </span>
-        <span *ngIf="selectedParameter===row && row.parameterId !== -1">
+        <span *ngIf="selectedParameter?.parameterId === row.parameterId && row.parameterId !== -1">
         <button mat-flat-button class="update" aria-label="expand row"
-                (click)="updateParameterRow(row)" [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">
+                (click)="updateParameterRow(row)"
+                [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">
           <span class="text">Update</span></button>
         </span>
         <span *ngIf="row.isEdit">
@@ -143,40 +149,43 @@
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row">
-              <button class="closeParameterButton" (click)="cancelChanges(row)" *ngIf="selectedParameter===row && row.parameterId !== -1"><mat-icon>cancel</mat-icon></button>
-              <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
-                <mat-icon id="deleteParameter">delete</mat-icon>
-              </button>
+        <button class="closeParameterButton" (click)="cancelChanges(row)"
+                *ngIf="selectedParameter?.parameterId === row.parameterId && row.parameterId !== -1">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
+          <mat-icon id="deleteParameter">delete</mat-icon>
+        </button>
         <div class="parameter-reference">
-              <button *ngIf="!(selectedParameter === row)"
-                      (click)="openParameterReference(reference,row)">
-                <mat-icon>playlist_add</mat-icon>
-              </button>
-      </div>
-<ng-template #reference>
-  <app-admin-parameter-reference [parameter]="row"
-                                 [topic]="findTopicId(row)"
-                                 [module]="findModuleId(row)"
-                                 [category]="findCategoryId(row)">
+          <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
+                  (click)="openParameterReference(reference,row)">
+            <mat-icon>playlist_add</mat-icon>
+          </button>
+        </div>
+        <ng-template #reference>
+          <app-admin-parameter-reference [parameter]="row"
+                                         [topic]="findTopicId(row)"
+                                         [module]="findModuleId(row)"
+                                         [category]="findCategoryId(row)">
 
-  </app-admin-parameter-reference>
-</ng-template>
+          </app-admin-parameter-reference>
+        </ng-template>
       </td>
     </ng-container>
     <ng-container matColumnDef="addQuestion">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
         <div class="parameter-reference">
-          <button *ngIf="!(selectedParameter === row)"
+          <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                   (click)="openQuestions(questions)">
             <mat-icon>question_answer</mat-icon>
           </button>
         </div>
         <ng-template #questions>
-            <app-admin-question [parameter]="row"
-                                [topic]="findTopicId(row)"
-                                [module]="findModuleId(row)"
-                                [category]="findCategoryId(row)"></app-admin-question>
+          <app-admin-question [parameter]="row"
+                              [topic]="findTopicId(row)"
+                              [module]="findModuleId(row)"
+                              [category]="findCategoryId(row)"></app-admin-question>
         </ng-template>
       </td>
     </ng-container>

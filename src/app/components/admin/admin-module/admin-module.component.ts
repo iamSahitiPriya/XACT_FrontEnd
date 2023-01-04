@@ -94,6 +94,12 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       this.dataSourceArray = [...this.dataSource.data]
       this.paginator.pageIndex = 0
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+        if (typeof data[sortHeaderId] === 'string') {
+          return data[sortHeaderId].toLocaleLowerCase();
+        }
+        return data[sortHeaderId];
+      };
       this.dataSource.sort = this.sort;
     })
   }
@@ -101,23 +107,15 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   private getModules(eachCategory: CategoryResponse) {
     eachCategory.modules?.forEach(eachModule => {
         let module: ModuleData = {
-          moduleId: -1,
-          moduleName: "",
-          categoryName: "",
-          categoryId: -1,
-          active: true,
-          categoryStatus: true,
-          updatedAt: -1,
-          comments: ""
+          moduleId: eachModule.moduleId,
+          moduleName: eachModule.moduleName,
+          categoryName: eachCategory.categoryName,
+          categoryId: eachCategory.categoryId,
+          active: eachModule.active,
+          categoryStatus: eachCategory.active,
+          updatedAt: eachModule.updatedAt,
+          comments: eachModule.comments
         }
-        module.moduleId = eachModule.moduleId;
-        module.moduleName = eachModule.moduleName;
-        module.active = eachModule.active;
-        module.categoryName = eachCategory.categoryName;
-        module.updatedAt = eachModule.updatedAt;
-        module.comments = eachModule.comments;
-        module.categoryStatus = eachCategory.active;
-        module.categoryId = eachCategory.categoryId;
         this.moduleStructure.push(module);
       }
     )
@@ -225,7 +223,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   saveModule(row: any) {
     let moduleRequest = this.getModuleRequest(row);
     if(this.isModuleUnique) {
-      this.appService.saveModule(moduleRequest).subscribe({
+      this.appService.saveModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             let data = this.dataSource.data
             row.isEdit = false

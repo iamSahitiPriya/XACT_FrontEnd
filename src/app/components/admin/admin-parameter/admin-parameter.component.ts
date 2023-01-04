@@ -97,6 +97,12 @@ export class AdminParameterComponent implements OnInit {
         this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
         this.paginator.pageIndex = 0
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+          if (typeof data[sortHeaderId] === 'string') {
+            return data[sortHeaderId].toLocaleLowerCase();
+          }
+          return data[sortHeaderId];
+        };
         this.dataSource.sort = this.sort;
       }
     })
@@ -154,35 +160,21 @@ export class AdminParameterComponent implements OnInit {
       });
       this.topicAndParameter.set(eachTopic.topicId, parameters);
       let parameter: ParameterData = {
-        categoryId: -1,
-        categoryName: "",
-        categoryStatus: false,
-        moduleId: -1,
-        moduleName: "",
-        moduleStatus: false,
-        topicId: -1,
-        topicName: "",
-        topicStatus: false,
-        active: false,
-        updatedAt: 123,
-        comments: "",
-        parameterId: 0,
-        parameterName: ''
+        categoryId: eachCategory.categoryId,
+        categoryName: eachCategory.categoryName,
+        categoryStatus: eachCategory.active,
+        moduleId: eachModule.moduleId,
+        moduleName: eachModule.moduleName,
+        moduleStatus: eachModule.active,
+        topicId: eachTopic.topicId,
+        topicName: eachTopic.topicName,
+        topicStatus: eachTopic.active,
+        active: eachParameter.active,
+        updatedAt: eachParameter.updatedAt,
+        comments: eachParameter.comments,
+        parameterId: eachParameter.parameterId,
+        parameterName: eachParameter.parameterName
       }
-      parameter.categoryId = eachCategory.categoryId
-      parameter.categoryName = eachCategory.categoryName
-      parameter.categoryStatus = eachCategory.active
-      parameter.moduleId = eachModule.moduleId
-      parameter.moduleName = eachModule.moduleName
-      parameter.moduleStatus = eachModule.active
-      parameter.topicId = eachTopic.topicId
-      parameter.topicStatus = eachTopic.active
-      parameter.parameterId = eachParameter.parameterId
-      parameter.parameterName = eachParameter.parameterName
-      parameter.active = eachParameter.active
-      parameter.topicName = eachTopic.topicName
-      parameter.updatedAt = eachParameter.updatedAt
-      parameter.comments = eachParameter.comments
       this.parameterData.push(parameter)
     })
   }
