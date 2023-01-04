@@ -86,12 +86,12 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryList=[]
+    this.categoryList = []
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryData = data
         data.forEach(eachCategory => {
-             this.fetchModules(eachCategory);
+          this.fetchModules(eachCategory);
         })
         this.sortData();
         this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
@@ -195,7 +195,9 @@ export class AdminParameterComponent implements OnInit {
       active: false,
       updatedAt: Date.now(),
       comments: "",
-      isEdit: true
+      isEdit: true,
+      openReferences: false,
+      openQuestions: false
     }
     this.moduleList = []
     this.topicList = []
@@ -399,6 +401,7 @@ export class AdminParameterComponent implements OnInit {
 
   async openParameterReference(reference: any, row: any) {
     if (this.isParameterReference(row)) {
+      row.openReferences = true;
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
         height: '66vh',
@@ -433,7 +436,8 @@ export class AdminParameterComponent implements OnInit {
     return flag
   }
 
-  openQuestions(questions:any) {
+  openQuestions(questions: any, row: any) {
+    row.openQuestions = true;
     this.dialogRef = this.dialog.open(questions, {
       width: '62vw',
       height: '66vh',
