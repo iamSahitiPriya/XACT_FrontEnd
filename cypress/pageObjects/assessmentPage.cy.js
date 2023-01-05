@@ -11,6 +11,9 @@ class assessmentPage {
   static reOpenhAssessmentButton() {
       return cy.get('#reopenAssessment')
     }
+  static configureOption() {
+        return cy.get('#createAssessment')
+      }
 
     static yesButtonInPopup() {
           return cy.get('.mat-dialog-actions > .mat-focus-indicator')
@@ -58,11 +61,11 @@ class assessmentPage {
 
 
   static parameter(index){
-    return cy.get(':nth-child('+index+') > #questionContainer > .parameter')
+    return cy.get(':nth-child('+index+') > :nth-child(1) > #questionContainer > .parameter')
   }
 
   static threeDots(){
-    return cy.get('.menuIcon')
+    return cy.get('#menu-button')
   }
 
   static notesForQuestions(index){
@@ -149,7 +152,8 @@ class assessmentPage {
   }
 
   static questions(index1,index2,index3){
-    return cy.get(':nth-child('+index1+') > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
+    //cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > :nth-child(2) > .question-content')
+    return cy.get(':nth-child('+index1+') > :nth-child(1) > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
   }
 
   static assignmentMaturityScoreDescription(index){
@@ -157,12 +161,12 @@ class assessmentPage {
   }
 
   static parameterMaturityScore(index,parameterIndex){
-    return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .rating')
+    return cy.get(':nth-child('+parameterIndex+') > :nth-child(4) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .rating')
   }
 
-  static parameterMaturityScoreDesc(parameterIndex,index){
+  static parameterMaturityScoreDesc(index2,index){
 
-    return cy.get(' :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+    return cy.get(' :nth-child('+index2+') > :nth-child(1) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
   // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
 
   }

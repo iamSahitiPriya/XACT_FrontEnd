@@ -2,7 +2,7 @@ import landingPage from "../pageObjects/landingPage.cy";
 import commonFunctions from "../pageObjects/commonFunction.cy";
 import assessmentPage from "../pageObjects/assessmentPage.cy";
 
-describe('validating functionality of login page of xAct application', () => {
+describe('Renaming Manage option to Configure', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {
     cy.window().then(win => win.location.hash = "/foo/bar")

@@ -105,6 +105,12 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     this.dataSourceArray = [...this.dataSource.data]
     this.paginator.pageIndex = 0
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
+      }
+      return tableData[sortHeaderId];
+    };
     this.dataSource.sort = this.sort;
   }
 
