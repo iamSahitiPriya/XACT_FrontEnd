@@ -48,23 +48,26 @@
           <div id="chart"></div>
           <div id="sequence">
             <div *ngFor="let sequence of sequenceArray">
-              <mat-card id="trail" class="trail">
+              <mat-card id="trail1" class="trail">
                 <mat-card-content>
                     <div class="sequenceName">{{sequence.data.name}}</div>
-                    <div class="rating" *ngIf="sequence.data.value || sequence.data.rating">
+                  <div *ngIf="sequence.data.value || sequence.data.rating">
+                    <div class="rating">
                       <mat-icon class="star-icon">star</mat-icon>
                       <span class="rating-value" *ngIf="sequence.data.value">{{sequence.data.value}}</span>
                       <span class="rating-value" *ngIf="sequence.data.rating">{{sequence.data.rating}}</span>
                     </div>
+                  </div>
                 </mat-card-content>
-
               </mat-card>
-              <br><br>
+              <br>
+              <span><mat-icon class="down_arrow" id="downArrow">keyboard_arrow_down</mat-icon></span>
+              <br>
             </div>
           </div>
         </div>
       </div>
-      <div class="rating"></div>
+      <div></div>
     </div>
   </mat-card-content>
 </mat-card>

@@ -38,6 +38,7 @@
   display: grid;
   margin-top: 90px;
   padding-left: 20px;
+  height: fit-content;
 }
 .sunBurst{
   width: 75%;
@@ -115,4 +116,13 @@
 .sequenceName{
   width: 83%;
   text-overflow: ellipsis;
+}
+.down-arrow-span{
+  margin-left: -35px;
+}
+.down_arrow{
+  transform: scale(1.5);
+  margin-left: -11px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  color:#6774AE
 }

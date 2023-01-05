@@ -186,7 +186,7 @@ describe('AssessmentSunburstChartComponent', () => {
 
   })
   it("should update breadCrumbs", () => {
-    jest.spyOn(component,'updateBreadcrumbs');
+    jest.spyOn(component,'updateSelectedAverageScore');
     let mockedNodeArray = [{
       name:"ass1",rating:3,children:[{
         name:"ass2",rating:2,children:[{
@@ -196,7 +196,7 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]
     }]
-    component.updateBreadcrumbs(mockedNodeArray,2)
+    component.updateSelectedAverageScore(mockedNodeArray,2)
   })
   it("should fill color as green if average rating is more than 3", () => {
     jest.spyOn(component, 'fillThreatColorsInChart');

@@ -42,7 +42,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
-  averageScoreUptoSelected:number = 0
+  averageScoreUptoSelected: number = 0
 
 
   colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
@@ -217,8 +217,8 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   }
 
   onMouseleave(_d: any) {
-    // d3.select("#sequence")
-    //   .style("visibility", "hidden");
+    d3.select("#sequence")
+      .style("visibility", "hidden");
     d3.selectAll("path")
       .style("opacity", 1)
     this.sequenceArray = []
@@ -239,75 +239,51 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
-      .attr("height", 870)
       .attr("id", "trail")
-      .attr("fill", <string>color("1"))
       .attr("fill-opacity", 0.6);
+
+    var defs = trail.append("defs")
+    var gradient = defs.append("linearGradient")
+      .attr("id", "gradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "100%")
+      .attr("spreadMethod", "pad");
+
+    gradient
+      .append("stop")
+      .attr("offset", "55%")
+      .attr("stop-color",<string>color("1"))
+
+    gradient
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "white")
+
+
 
     trail.append("svg:circle")
       .attr("id", "endlabel")
+      .attr("fill", "url(#gradient)")
+      .style("filter", "drop-shadow(0px 3px 6px rgba(0,0,0,0.5))")
     trail.append("svg:text")
       .attr("id", "ratingText")
+
   }
 
-  breadcrumbFigure(_d: any, i: any) {
-    let breadCrumbPoints = {
-      s: 20, t: 10, d: 105, w: 310, h: 80
-    };
-    var points = [];
-    points.push("0,0");
-    if (i > 0) {
-      points.push((breadCrumbPoints.w / 2) + "," + breadCrumbPoints.h / 3);
-    }
-    points.push(breadCrumbPoints.w + ",0");
-    points.push(breadCrumbPoints.w + "," + breadCrumbPoints.h);
-    points.push(breadCrumbPoints.w / 2 + "," + (<number>breadCrumbPoints.h + 40));
-    points.push("0," + breadCrumbPoints.h);
-
-    return points.join(" ");
-  }
-
-  updateBreadcrumbs = (nodeArray: any, percentageString: any) => {
-    let breadCrumbPoints = {
-      s: 30, t: 10, d: 105, w: 310, h: 80
-    };
-    var g = d3.select("#trail")
-      .selectAll("g")
-      .data(nodeArray, function (d: any) {
-        return d.data.name + d.depth;
-      })
-
-    var entering = g.enter().append("svg:g")
-      .attr("transform", this.getBreadCrumbTranslation)
-
-    entering.append("polygon")
-      .attr("points", this.breadcrumbFigure)
-
-    entering.append("svg:text")
-      .attr("x", (breadCrumbPoints.w + breadCrumbPoints.t) / 2)
-      .attr("y", breadCrumbPoints.h / 1.7)
-      .attr("dy", "0.98em")
-      .attr("text-anchor", "middle")
-      .attr("fill", "black")
-      .attr("fill-opacity", 1)
-      .text(this.getDataName)
-      .style("font", "15px Inter")
-      .call(this.wrap, 300, 0.8, 0);
-
-    g.exit().remove();
-
+  updateSelectedAverageScore = (percentageString: any) => {
 
     d3.select("#trail").select("#endlabel")
       .attr("r", 30)
-      .attr("fill", this.fillRatingCircle(percentageString))
-      .attr("cx", (breadCrumbPoints.w / 2) + 5)
+      .attr("cx", 140)
       .attr("fill-opacity", 1)
-      .attr("cy", (nodeArray.length + 0.4) * (breadCrumbPoints.h + breadCrumbPoints.s))
+      .attr("cy", 30)
 
 
     d3.select("#trail").select("#ratingText")
-      .attr("x", (breadCrumbPoints.w / 2))
-      .attr("y", (nodeArray.length + 0.45) * (breadCrumbPoints.h + breadCrumbPoints.s))
+      .attr("x", 135)
+      .attr("y", 36)
       .attr("fill", "white")
       .attr("fill-opacity", 1)
       .style("font", "20px Inter")
@@ -320,13 +296,6 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
   getDataName(d: any) {
     return d.data.name
-  }
-
-  getBreadCrumbTranslation(d: any) {
-    let breadCrumbPoints = {
-      s: 20, t: 10, d: 105, w: 310, h: 80
-    };
-    return "translate(" + 0 + "," + d.depth * (breadCrumbPoints.d) + ")";
   }
 
   wrap(content: any, width: any, lineHeight: any, adjustPadding: any) {
@@ -367,16 +336,22 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
   onThemeChange() {
     if (this.selectedValue == "ThreatTheme") {
-      d3.select("#trail")
-        .style("background", "orange")
+      d3.select("#gradient").select("stop")
+        .attr("stop-color", "orange")
+      d3.selectAll("#downArrow")
+        .style("color","orange")
 
       d3.selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
     } else {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
       let breadCrumbColor = <string>color("1")
-      d3.select("#trail")
-        .style("background", breadCrumbColor)
+      d3.select("#gradient").select("stop")
+        .attr("stop-color", breadCrumbColor);
+      d3.select("#trail").select("#endlabel")
+        .attr("fill", "url(#gradient)")
+      d3.selectAll("#downArrow")
+        .style("color",breadCrumbColor)
       d3.selectAll("path")
         .attr("fill", (d: any) => {
           while (d.depth > 1) d = d.parent;
@@ -414,7 +389,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     }
     let sequenceArray = this.getAncestors(d);
     this.sequenceArray = this.getAncestors(d);
-    // this.updateBreadcrumbs(sequenceArray, percentageText);
+    this.updateSelectedAverageScore(this.averageScoreUptoSelected);
     d3.selectAll("path")
       .style("opacity", 0.3);
     d3.select("#sequence")
