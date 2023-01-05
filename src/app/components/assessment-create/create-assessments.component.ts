@@ -37,7 +37,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
-  private MAX_USERS: Number = 15;
+  private MAX_USERS: number = 15;
   createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
