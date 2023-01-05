@@ -69,7 +69,8 @@ export const data_local =
       USER_EMAIL: {
         TITLE: "Email",
         PLACEHOLDER: "abc@thoughtworks.com",
-        ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address"
+        ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address",
+        LIMIT_REACHED: "Maximum users limit reached : "
       }
     },
     ASSESSMENT_MENU: {

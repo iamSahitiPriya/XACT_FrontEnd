@@ -41,14 +41,14 @@
     <mat-expansion-panel [expanded]="isFirst" *ngIf="isCategoryDisplayed(category)">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <span [matTooltip]="category.categoryName" [matTooltipPosition]="'below'">{{category.categoryName}}</span>
+          <span [matTooltip]="category.categoryName" [matTooltipPosition]="'right'">{{category.categoryName}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="categoryModules" *ngIf="category">
         <div *ngFor="let module of category.modules">
         <mat-card  (click)="navigate(module);tabs.selectedIndex=0"  *ngIf="module.active" class="moduleCard"
                     [ngClass]="{'moduleCard-active':moduleSelected === module.moduleId}">
-            <span [matTooltip]="module.moduleName" [matTooltipPosition]="'below'" >{{module.moduleName}}</span>
+            <span [matTooltip]="module.moduleName" [matTooltipPosition]="'right'" >{{module.moduleName}}</span>
           </mat-card>
           </div>
       </div>

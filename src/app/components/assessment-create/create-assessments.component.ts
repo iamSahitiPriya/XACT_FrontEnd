@@ -37,6 +37,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
+  private MAX_USERS: Number = 15;
   createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
@@ -251,12 +252,16 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     value = value.filter(ele => ele !== '')
     for (const eachEmail in value) {
       if (!this.emails.includes(value[eachEmail]) && value[eachEmail].search(this.re) != -1) {
-        this.emails.push(value[eachEmail]);
+        if (this.emails.length >= this.MAX_USERS) {
+          this.showError(data_local.ASSESSMENT.USER_EMAIL.LIMIT_REACHED + this.MAX_USERS);
+        } else
+          this.emails.push(value[eachEmail]);
       } else {
         invalidEmails.push(value[eachEmail]);
       }
     }
     this.emailTextField = invalidEmails.join(",");
+
   }
 
   remove(email: string): void {

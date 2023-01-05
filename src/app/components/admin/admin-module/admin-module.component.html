@@ -44,7 +44,7 @@
         <div [@detailExpand]="row.isEdit === true || row === selectedModule ? 'expanded' : 'collapsed'"
              class="comments">
           <mat-form-field appearance="outline" class="commentsArea">
-            <textarea matInput placeholder="Comments"
+            <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
@@ -52,6 +52,7 @@
                       maxlength="1000">
 
             </textarea>
+            <mat-hint align="end">{{input.value.length}}/1000</mat-hint>
           </mat-form-field>
         </div>
       </td>

@@ -23,7 +23,7 @@
 
 p {
   word-wrap: break-word;
-  width: 1244px;
+  width: 95%;
 }
 
 .spacer {
@@ -74,7 +74,7 @@ p {
 }
 
 .topicScoring {
-  width: 95%;
+  width: 97%;
 }
 
 .rating-active {
@@ -100,7 +100,7 @@ p {
 }
 
 .button1:hover {
-  background-color: #00000024;
+  background-color: #45a0ac1d;
 }
 
 .mat-card:not([class*=mat-elevation-z]) {

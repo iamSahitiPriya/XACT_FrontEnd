@@ -9,7 +9,7 @@
     <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation">
       <div *ngIf="parameterLevelRecommendation"></div>
       <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
-      <textarea id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
+      <textarea #input id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
                 name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
                 #recommendationElement
                 [(ngModel)]="parameterLevelRecommendation.recommendation"
@@ -19,6 +19,8 @@
                 maxlength="5000"
                 (keyup)="saveParticularParameterText($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
+      <mat-hint align="end">{{input.value.length}}/5000</mat-hint>
+
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
