@@ -57,7 +57,7 @@
     <ng-container matColumnDef="moduleName">
       <th class="parameter" *matHeaderCellDef mat-sort-header="moduleName">{{moduleLabel}}</th>
       <td class="parameter" *matCellDef="let row">
-              <span *ngIf="!(row.isEdit || selectedParameter === row)">
+              <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId )">
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
@@ -79,7 +79,7 @@
     </ng-container>
     <ng-container matColumnDef="topicName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topicLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
        <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
 
@@ -102,7 +102,7 @@
     </ng-container>
     <ng-container matColumnDef="parameterName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="parameterName">{{parameterLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">

@@ -446,5 +446,6 @@ export class AdminParameterComponent implements OnInit {
     })
     this.dialogRef.disableClose = true;
   }
+
 }
 
