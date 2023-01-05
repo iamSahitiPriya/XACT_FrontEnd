@@ -8,7 +8,7 @@
       <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
         <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
-        <textarea id="recommendationElement_topic{{recommendation.recommendationId}}"
+        <textarea #input id="recommendationElement_topic{{recommendation.recommendationId}}"
                   name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                   [(ngModel)]="recommendation.recommendation"
                   cdkTextareaAutosize
@@ -17,6 +17,8 @@
                   maxlength="5000"
                   (keyup)="saveParticularTopicRecommendationText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
+        <mat-hint align="end">{{input.value.length}}/5000</mat-hint>
+
         <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">

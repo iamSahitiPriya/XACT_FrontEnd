@@ -860,7 +860,7 @@ describe('AdminParameterComponent', () => {
   it("should open question dialog box", () => {
     jest.spyOn(matDialog, "open")
 
-    component.openQuestions("")
+    component.openQuestions("",row)
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
 

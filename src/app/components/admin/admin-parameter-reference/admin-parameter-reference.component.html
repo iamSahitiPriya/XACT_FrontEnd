@@ -40,7 +40,7 @@
 
       <div class="referenceInput">
         <mat-form-field appearance="outline" class="reference-input">
-        <textarea matInput
+        <textarea #input matInput
                   name="reference{{reference.referenceId}}"
                   id="reference{{reference.reference}}"
                   [(ngModel)]="reference.reference"
@@ -51,6 +51,7 @@
                   cdkAutosizeMaxRows="7"
                   maxlength="10000">
         </textarea>
+          <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
         </mat-form-field>
       </div>
 

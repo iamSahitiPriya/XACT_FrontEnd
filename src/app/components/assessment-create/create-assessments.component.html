@@ -9,16 +9,16 @@
     <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{manageAssessmentTitle}}</h1>
     <button [matTooltip]=closeToolTip type="button" id="close" mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
-      </button>
+    </button>
 
     <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="assessmentName" >
+      <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
-        <mat-select  (selectionChange)="purposeChange($event.value)"  required formControlName="selected">
+        <mat-select (selectionChange)="purposeChange($event.value)" required formControlName="selected">
           <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
         </mat-select>
         <mat-error *ngIf="form['selected'].hasError('required')">
-         {{mandatoryFieldText}}
+          {{mandatoryFieldText}}
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="assessmentName">
@@ -61,7 +61,7 @@
       </mat-form-field>
       <br>
 
-      <mat-form-field appearance="outline" class="organizationName" [class.spinner]= "orgListLoader">
+      <mat-form-field appearance="outline" class="organizationName" [class.spinner]="orgListLoader">
         <mat-label>{{organisationNameTitle}} *</mat-label>
         <input type="text"
                [placeholder]=organisationNamePlaceholder
@@ -71,10 +71,12 @@
                required
                formControlName="organizationNameValidator"
                (focus)="onOrganisationValueChange()"
-               (input) ="onOrganisationValueChange()"
+               (input)="onOrganisationValueChange()"
                [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOrganisationName(assessment.organisationName)" >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="accounts[0]===organisationValidationText">
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="selectOrganisationName(assessment.organisationName)">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                      [disabled]="accounts[0]===organisationValidationText">
             {{option}}
           </mat-option>
         </mat-autocomplete>
@@ -86,12 +88,12 @@
       </mat-form-field>
       <br>
 
-      <mat-form-field appearance="outline" class="industry" >
+      <mat-form-field appearance="outline" class="industry">
         <mat-label>{{organisationIndustryTitle}} *</mat-label>
         <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator"
                [placeholder]=organisationIndustryPlaceholder
                required
-               maxlength="50" >
+               maxlength="50">
         <mat-error *ngIf="form['industryValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>
@@ -121,7 +123,8 @@
                  [matChipInputAddOnBlur]="addOnBlur"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  (matChipInputTokenEnd)="add($event)"
-                 [(ngModel)]="emailTextField">
+                 [(ngModel)]="emailTextField"
+          >
         </mat-chip-list>
       </mat-form-field>
       <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">

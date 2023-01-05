@@ -43,7 +43,7 @@
         <div [@detailExpand]="row === selectedTopic ? 'expanded' : 'collapsed'"
              class="topicComments">
           <mat-form-field appearance="outline" class="topicCommentTextArea">
-            <textarea matInput placeholder="Comments"
+            <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
@@ -51,6 +51,7 @@
                       maxlength="1000">
 
             </textarea>
+            <mat-hint align="end">{{input.value.length}}/1000</mat-hint>
           </mat-form-field>
         </div>
       </td>
@@ -153,5 +154,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[25,50,100,500]" aria-label="Select page of users"></mat-paginator>
 </div>

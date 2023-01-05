@@ -6,7 +6,7 @@
   <form>
     <mat-form-field class="textArea" appearance="outline" id="testForm">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
-      <textarea matInput name="textarea{{questionNumber}}"
+      <textarea matInput #input name="textarea{{questionNumber}}"
                 id="assessmentAnswer{{questionNumber}}"
                 [(ngModel)]="answerInput"
                 cdkTextareaAutosize
@@ -16,6 +16,7 @@
                 maxlength="10000"
                 (keyup)="saveParticularAnswer($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
+      <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">

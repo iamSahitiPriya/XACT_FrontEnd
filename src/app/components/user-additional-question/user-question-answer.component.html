@@ -13,7 +13,7 @@
         <div class="question-user">
           <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}     </span>
           <mat-form-field class="questionArea" appearance="outline" id="testForm1" style="width: 97%;">
-          <textarea matInput id="testForm{{userQuestion.questionId}}"
+          <textarea #input matInput id="testForm{{userQuestion.questionId}}"
                 name="userQuestion{{userQuestion.questionId}}"
                 cdkTextareaAutosize
                 class="textArea1"
@@ -21,7 +21,9 @@
                 cdkAutosizeMaxRows="3"
                 [(ngModel)]=userQuestion.question
                 maxlength="2000"></textarea>
-    </mat-form-field>
+            <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
+
+          </mat-form-field>
         </div>
 
      <div class="questionEditFunctions">
@@ -53,13 +55,15 @@
   <div class="question-user">
     <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}}  </span>
     <mat-form-field class="questionArea" appearance="outline" id="testForm" style="width: 95%;">
-      <textarea matInput
+      <textarea #input matInput
                 cdkTextareaAutosize
                 class="textArea1"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="3"
                 [(ngModel)]="questionText"
                 maxlength="2000"></textarea>
+      <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
+
     </mat-form-field>
   </div>
 

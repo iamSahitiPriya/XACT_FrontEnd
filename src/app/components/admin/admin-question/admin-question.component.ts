@@ -140,7 +140,6 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse  = this.getQuestionRequestWithId(question)
-    console.log(questionRequest)
     this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data : QuestionStructure) => {
         question.isEdit = false

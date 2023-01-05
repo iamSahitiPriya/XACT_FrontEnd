@@ -37,10 +37,11 @@
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
-        <div [@detailExpand]="row.isEdit === true || selectedParameter?.parameterId === row.parameterId ? 'expanded' : 'collapsed'"
-             class="parameterComments">
+        <div
+          [@detailExpand]="(row.isEdit === true || selectedParameter?.parameterId === row.parameterId) ? 'expanded' : 'collapsed'"
+          class="parameterComments">
           <mat-form-field appearance="outline" class="parameterCommentTextArea">
-            <textarea matInput placeholder="Comments"
+            <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
@@ -48,6 +49,7 @@
                       maxlength="1000"
                       style="margin-bottom: 3px">
             </textarea>
+            <mat-hint align="end">{{input.value.length}}/1000</mat-hint>
           </mat-form-field>
           <br><br>
         </div>
@@ -56,7 +58,7 @@
     <ng-container matColumnDef="moduleName">
       <th class="parameter" *matHeaderCellDef mat-sort-header="moduleName">{{moduleLabel}}</th>
       <td class="parameter" *matCellDef="let row">
-              <span *ngIf="!(row.isEdit || selectedParameter === row)">
+              <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId )">
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
         <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
@@ -78,7 +80,7 @@
     </ng-container>
     <ng-container matColumnDef="topicName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topicLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
        <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
 
@@ -101,7 +103,7 @@
     </ng-container>
     <ng-container matColumnDef="parameterName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="parameterName">{{parameterLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter === row)">
+      <td class="parameter" mat-cell *matCellDef="let row"> <span *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
         {{row.parameterName}}
         </span>
         <span *ngIf="row.isEdit || selectedParameter?.parameterId === row.parameterId">
@@ -163,12 +165,14 @@
           </button>
         </div>
         <ng-template #reference>
-          <app-admin-parameter-reference [parameter]="row"
-                                         [topic]="findTopicId(row)"
-                                         [module]="findModuleId(row)"
-                                         [category]="findCategoryId(row)">
+          <ng-container *ngIf="row.openReferences">
+            <app-admin-parameter-reference [parameter]="row"
+                                           [topic]="findTopicId(row)"
+                                           [module]="findModuleId(row)"
+                                           [category]="findCategoryId(row)">
 
-          </app-admin-parameter-reference>
+            </app-admin-parameter-reference>
+          </ng-container>
         </ng-template>
       </td>
     </ng-container>
@@ -177,15 +181,17 @@
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
         <div class="parameter-reference">
           <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
-                  (click)="openQuestions(questions)">
+                  (click)="openQuestions(questions,row)">
             <mat-icon>question_answer</mat-icon>
           </button>
         </div>
         <ng-template #questions>
-          <app-admin-question [parameter]="row"
-                              [topic]="findTopicId(row)"
-                              [module]="findModuleId(row)"
-                              [category]="findCategoryId(row)"></app-admin-question>
+          <ng-container *ngIf="row.openQuestions">
+            <app-admin-question [parameter]="row"
+                                [topic]="findTopicId(row)"
+                                [module]="findModuleId(row)"
+                                [category]="findCategoryId(row)"></app-admin-question>
+          </ng-container>
         </ng-template>
       </td>
     </ng-container>
@@ -199,7 +205,7 @@
       <td class="mat-cell" colspan="12" class="noData">{{dataNotFound}}</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100,150,200]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[25,50,100,500,1000]" aria-label="Select page of users"></mat-paginator>
 </div>
 
 

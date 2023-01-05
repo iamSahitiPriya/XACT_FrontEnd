@@ -275,7 +275,7 @@ div.expansion_color:nth-of-type(5n + 1) {
   line-height: unset !important;
 }
 ::ng-deep .expansion_color .mat-expansion-panel-header-title {
-  display: inline-block;
+  display: inline;
   width: 12rem;
   white-space: nowrap;
   overflow: hidden;
