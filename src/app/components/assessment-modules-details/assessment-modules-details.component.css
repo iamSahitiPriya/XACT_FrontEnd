@@ -282,7 +282,7 @@ div.expansion_color:nth-of-type(5n + 1) {
   text-overflow: ellipsis;
 }
 
-::ng-deep .moduleCard .mat-card {
+.mat-card {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
