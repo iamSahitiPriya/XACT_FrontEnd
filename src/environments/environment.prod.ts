@@ -58,5 +58,7 @@ export const environment = {
   SAVE_MODULE_URI: "/v1/admin/modules",
   SAVE_PARAMETER_URI: "/v1/admin/parameters",
   UPDATE_QUESTION:"/v1/admin/questions",
-  SAVE_QUESTION:"/v1/admin/questions"
+  SAVE_QUESTION:"/v1/admin/questions",
+  SUMMARY_DATA:"/v1/reports/summary"
+
 };

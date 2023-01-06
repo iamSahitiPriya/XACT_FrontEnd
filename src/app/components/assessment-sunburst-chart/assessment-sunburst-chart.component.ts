@@ -14,6 +14,7 @@ import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
+import {SummaryResponse} from "../../types/summaryResponse";
 
 
 interface ColorScheme {
@@ -39,6 +40,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   assessmentId: number;
   data: ReportDataStructure;
+  summaryData: SummaryResponse;
   selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
@@ -61,10 +63,18 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
+    this.getSummaryData();
     this.getDataAndSunBurstChart();
   }
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>) {
+
+  }
+
+  getSummaryData(){
+    this.appService.getSummaryData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.summaryData = data;
+    })
 
   }
 

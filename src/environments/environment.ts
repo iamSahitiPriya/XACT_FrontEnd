@@ -58,7 +58,8 @@ export const environment = {
   DELETE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
   UPDATE_PARAMETER_REFERENCE_URI: "/v1/admin/parameterReferences",
   UPDATE_QUESTION:"/v1/admin/questions",
-  SAVE_QUESTION:"/v1/admin/questions"
+  SAVE_QUESTION:"/v1/admin/questions",
+  SUMMARY_DATA:"/v1/reports/summary"
 }
 
 

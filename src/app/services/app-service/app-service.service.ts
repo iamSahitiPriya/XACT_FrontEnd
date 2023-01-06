@@ -26,6 +26,7 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
+import {SummaryResponse} from "../../types/summaryResponse";
 
 
 @Injectable({
@@ -244,7 +245,9 @@ export class AppServiceService {
   saveMasterQuestion(questionRequest: any){
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
-
+  getSummaryData(assessmentId:number){
+    return this.http.get<SummaryResponse>(environment.BaseURI+environment.SUMMARY_DATA+"/"+assessmentId)
+  }
 }
 
 
