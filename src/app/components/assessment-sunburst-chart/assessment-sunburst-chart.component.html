@@ -9,21 +9,25 @@
               [routerLink]="['/assessment',assessmentId]">
         <mat-icon class="mat-icon-custom">keyboard_backspace</mat-icon>
       </button>
-      <div *ngIf="data"><span class="name">{{data.name}}</span></div>
+      <div *ngIf="data"><span class="name">{{data.name}} - {{pageTitle}}</span></div>
       <span class="module-spacer"></span>
     </mat-toolbar>
-  </div>
-
-  <div class="col-md-6 align-self-center">
-    <div class="heading">
-      {{pageTitle}}
-    </div>
   </div>
 </div>
 
 <mat-divider></mat-divider>
+<br><br>
+<div class="row">
+  <div class="col-md-9 definition">
+    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2">
 
-<mat-card>
+  </div>
+</div>
+<mat-card class="chart-card">
   <mat-card-content>
     <div class="colorTheme">
 
@@ -50,7 +54,7 @@
             <div *ngFor="let sequence of sequenceArray">
               <mat-card id="trail1" class="trail">
                 <mat-card-content>
-                    <div class="sequenceName">{{sequence.data.name}}</div>
+                  <div class="sequenceName">{{sequence.data.name}}</div>
                   <div *ngIf="sequence.data.value || sequence.data.rating">
                     <div class="rating">
                       <mat-icon class="star-icon">star</mat-icon>
@@ -61,7 +65,7 @@
                 </mat-card-content>
               </mat-card>
               <br>
-              <span><mat-icon class="down_arrow" id="downArrow">keyboard_arrow_down</mat-icon></span>
+              <span id="downArrow-span"><mat-icon class="down_arrow" id="downArrow">keyboard_arrow_down</mat-icon></span>
               <br>
             </div>
           </div>

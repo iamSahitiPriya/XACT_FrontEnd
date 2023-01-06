@@ -153,7 +153,7 @@ export const data_local =
     },
     LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
     SUMMARY_REPORT: {
-      TITLE: "Assessment Summary",
+      TITLE: "Summary",
       TOOLTIP: "Click to View Chart Summary",
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
     },

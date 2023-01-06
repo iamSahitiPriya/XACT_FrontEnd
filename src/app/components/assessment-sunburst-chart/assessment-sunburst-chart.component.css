@@ -1,10 +1,9 @@
-
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
- @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.heading{
+.heading {
   display: flex;
   justify-content: center;
   padding-top: 5px;
@@ -14,7 +13,7 @@
   font-size: 22px;
 }
 
-.colorTheme{
+.colorTheme {
   float: right;
   justify-content: center;
   margin-right: 40px;
@@ -29,25 +28,27 @@
   font-size: 22px;
 }
 
-#chart{
+#chart {
   width: 70%;
 }
 
-#sequence{
+#sequence {
   width: 320px;
   display: grid;
   margin-top: 90px;
   padding-left: 20px;
   height: fit-content;
 }
-.sunBurst{
-  width: 75%;
+
+.sunBurst {
+  width: 99%;
   height: 750px;
   margin-top: -75px;
   text-align: center;
   display: inline-flex;
 }
-.dashboard{
+
+.dashboard {
   display: flex;
   width: 98%;
   height: 95%;
@@ -58,13 +59,16 @@
   display: inline-block;
   position: absolute;
 }
-.mat-toolbar{
+
+.mat-toolbar {
   background-color: transparent;
 }
+
 .module-spacer {
   flex: 1 1 auto;
 }
-.downloadButton{
+
+.downloadButton {
   display: inline;
   margin-left: 20px;
 }
@@ -79,50 +83,66 @@
   border-radius: 50%;
   border-width: 1px;
 }
+
 .mat-icon-custom {
   vertical-align: unset !important;
   line-height: unset !important;
 }
-.rating{
+
+.rating {
   width: 24px;
   height: 34px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 6px #00000029;
   border-radius: 4px;
   opacity: 1;
-  float:right;
+  float: right;
   margin-top: -28px;
   display: flex;
   align-content: flex-start;
   flex-wrap: wrap;
   justify-content: center;
 }
-.trail{
+
+.trail {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 4px;
 }
-.star-icon{
+
+.star-icon {
   transform: scale(0.5);
   color: #CEB14F;
 }
-.rating-value{
+
+.rating-value {
   margin-top: -6px;
   font: normal normal 12px/15px Inter;
   font-weight: bolder;
   letter-spacing: 0.74px;
   color: #000000;
 }
-.sequenceName{
+
+.sequenceName {
   width: 83%;
   text-overflow: ellipsis;
 }
-.down-arrow-span{
+
+.down-arrow-span {
   margin-left: -35px;
 }
-.down_arrow{
+
+.down_arrow {
   transform: scale(1.5);
   margin-left: -11px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-  color:#6774AE
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.chart-card{
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 5%;
+}
+.definition{
+  padding-left: 10%;
 }

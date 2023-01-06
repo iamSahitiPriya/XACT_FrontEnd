@@ -4,6 +4,7 @@
 
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
+import {ScaleOrdinal} from 'd3';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ActivatedRoute} from "@angular/router";
 import * as fromActions from "../../actions/assessment-data.actions";
@@ -13,7 +14,6 @@ import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
-import {EnterElement} from "d3";
 
 
 interface ColorScheme {
@@ -43,6 +43,8 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
   averageScoreUptoSelected: number = 0
+  color:ScaleOrdinal<string, unknown>
+  arrowColor:any = ""
 
 
   colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
@@ -84,10 +86,12 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     }
 
     let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, data.children.length + 11).reverse());
+    this.color = color
+    this.arrowColor = <string>this.color("1")
 
     let width = 800;
     let breadCrumbId = document.getElementById("sequence")
-    this.initializeBreadcrumbTrail(breadCrumbId, color)
+    this.initializeBreadcrumbTrail(breadCrumbId, this.color)
 
     let radius = width / 10.5
 
@@ -129,7 +133,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
       .enter().append("path")
       .attr("fill", (d: any) => {
         while (d.depth > 1) d = d.parent;
-        return <string>color(d.data.name);
+        return <string>this.color(d.data.name);
       })
       .attr("fill-opacity", (d: any) => arcVisible(d.current) ? (((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7) : 0)
       .attr("d", (d: any) => {
@@ -217,8 +221,8 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   }
 
   onMouseleave(_d: any) {
-    d3.select("#sequence")
-      .style("visibility", "hidden");
+    // d3.select("#sequence")
+    //   .style("visibility", "hidden");
     d3.selectAll("path")
       .style("opacity", 1)
     this.sequenceArray = []
@@ -254,7 +258,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     gradient
       .append("stop")
       .attr("offset", "55%")
-      .attr("stop-color",<string>color("1"))
+      .attr("stop-color",<string>this.color("1"))
 
     gradient
       .append("stop")
@@ -265,6 +269,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
     trail.append("svg:circle")
       .attr("id", "endlabel")
+      .attr("class","endlabel")
       .attr("fill", "url(#gradient)")
       .style("filter", "drop-shadow(0px 3px 6px rgba(0,0,0,0.5))")
     trail.append("svg:text")
@@ -273,7 +278,6 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedAverageScore = (percentageString: any) => {
-
     d3.select("#trail").select("#endlabel")
       .attr("r", 30)
       .attr("cx", 140)
@@ -291,6 +295,8 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
     d3.select("#trail")
       .style("visibility", "");
+    d3.selectAll("#downArrow")
+      .style("color",this.arrowColor)
 
   }
 
@@ -336,6 +342,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
   onThemeChange() {
     if (this.selectedValue == "ThreatTheme") {
+      this.arrowColor = "orange"
       d3.select("#gradient").select("stop")
         .attr("stop-color", "orange")
       d3.selectAll("#downArrow")
@@ -345,7 +352,9 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
         .attr("fill", this.fillThreatColorsInChart)
     } else {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
-      let breadCrumbColor = <string>color("1")
+      this.color = color
+      this.arrowColor = <string>this.color("1")
+      let breadCrumbColor = <string>this.color("1")
       d3.select("#gradient").select("stop")
         .attr("stop-color", breadCrumbColor);
       d3.select("#trail").select("#endlabel")
@@ -355,7 +364,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
       d3.selectAll("path")
         .attr("fill", (d: any) => {
           while (d.depth > 1) d = d.parent;
-          return <string>color(d.data.name);
+          return <string>this.color(d.data.name);
         })
     }
   }
@@ -389,6 +398,8 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     }
     let sequenceArray = this.getAncestors(d);
     this.sequenceArray = this.getAncestors(d);
+    d3.select("#downArrow-span").selectAll("#downArrow")
+      .style("color",this.arrowColor)
     this.updateSelectedAverageScore(this.averageScoreUptoSelected);
     d3.selectAll("path")
       .style("opacity", 0.3);
