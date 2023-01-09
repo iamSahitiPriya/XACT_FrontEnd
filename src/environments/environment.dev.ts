@@ -11,7 +11,6 @@ export const environment = {
   REDIRECT_URI: "https://dev.xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  CATEGORY_URI: "/v1/assessment-master-data",
   SAVE_ASSESSMENT_URI: "/v1/assessments/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/assessments/",
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",
@@ -28,7 +27,7 @@ export const environment = {
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
   IDLE_TIMEOUT: 60,  //in sec
   TIMEOUT: 600, // 10 min
-  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
+  ALL_CATEGORY_URI: "/v1/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
