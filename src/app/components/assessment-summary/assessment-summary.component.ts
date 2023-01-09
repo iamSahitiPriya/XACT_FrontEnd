@@ -25,7 +25,7 @@ interface ColorScheme {
 @Component({
   selector: 'app-assessment-sunburst-chart',
   templateUrl: './assessment-sunburst-chart.component.html',
-  styleUrls: ['./assessment-sunburst-chart.component.css']
+  styleUrls: ['./assessment-summary.component.css']
 })
 
 

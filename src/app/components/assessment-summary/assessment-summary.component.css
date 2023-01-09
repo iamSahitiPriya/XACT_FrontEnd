@@ -149,9 +149,10 @@
 .dataValue{
   -moz-border-radius: 50%;
   border-radius: 50%;
-  padding: 5px;
+  padding: 2px 5px;
   border: 1px solid #000;
   font: normal normal normal 15px/16px Inter;
+  margin-left: 14px;
 }
 /*  border-radius: 50%;*/
 /*  padding: 4px;*/
@@ -162,5 +163,5 @@
 /*  font: normal normal normal 14px/16px Inter;}*/
 
 .assessedData{
-  padding-left: 7%;
+  padding-left: 4%;
 }

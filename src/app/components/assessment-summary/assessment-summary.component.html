@@ -19,16 +19,22 @@
 <br><br>
 <div class="row">
   <div class="col-md-9 definition">
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
+      kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
   </div>
-
-  <div class="col-md-9 definition" *ngIf="summaryData">
-    Categories Assessed  <span class="dataValue">{{summaryData.categoryAssessed}}</span>
-    <span class="assessedData">Modules Assessed  </span>  <span class="dataValue">{{summaryData.moduleAssessed}}</span>
-    <span class="assessedData">Topics Assessed  </span>  <span class="dataValue">{{summaryData.topicAssessed}}</span>
-    <span class="assessedData">Parameters Assessed  </span>  <span class="dataValue">{{summaryData.parameterAssessed}}</span>
-    <span class="assessedData">Questions Assessed  </span>  <span class="dataValue">{{summaryData.questionAssessed}}</span>
-
+  <div class="row"></div>
+  <br>
+  <div class="row definition" *ngIf="summaryData">
+    <div class="col-md-9">
+      Categories Assessed <span class="dataValue">{{summaryData.categoryAssessed}}</span>
+      <span class="assessedData">Modules Assessed  </span> <span class="dataValue">{{summaryData.moduleAssessed}}</span>
+      <span class="assessedData">Topics Assessed  </span> <span class="dataValue">{{summaryData.topicAssessed}}</span>
+      <span class="assessedData">Parameters Assessed  </span> <span
+      class="dataValue">{{summaryData.parameterAssessed}}</span>
+      <span class="assessedData">Questions Assessed  </span> <span
+      class="dataValue">{{summaryData.questionAssessed}}</span>
+    </div>
   </div>
 </div>
 <div class="row">
@@ -74,7 +80,8 @@
                 </mat-card-content>
               </mat-card>
               <br>
-              <span id="downArrow-span"><mat-icon class="down_arrow" id="downArrow">keyboard_arrow_down</mat-icon></span>
+              <span id="downArrow-span"><mat-icon class="down_arrow"
+                                                  id="downArrow">keyboard_arrow_down</mat-icon></span>
               <br>
             </div>
           </div>

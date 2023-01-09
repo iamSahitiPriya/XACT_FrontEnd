@@ -195,8 +195,8 @@ export class UserQuestionAnswerComponent implements OnInit {
           this.cloneAnswerResponse.userQuestionResponseList[index].question = userQuestionResponse.question
         }
       } else {
-        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
         this.userQuestionList.push(userQuestionResponse)
+        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
       }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
