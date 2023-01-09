@@ -50,6 +50,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
+
   averageScoreUptoSelected: number = 0
   color:ScaleOrdinal<string, unknown>
   arrowColor:any = ""
@@ -141,7 +142,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("transform", `translate(290,425)`);
 
     d3.select("#container").on("mouseleave", this.onMouseleave);
-
 
     const path = vis.append("g")
       .selectAll("path")
@@ -237,8 +237,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   onMouseleave(_d: any) {
-    // d3.select("#sequence")
-    //   .style("visibility", "hidden");
+    d3.select("#sequence")
+      .style("visibility", "hidden");
     d3.selectAll("path")
       .style("opacity", 1)
     this.sequenceArray = []
@@ -281,8 +281,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("offset", "100%")
       .attr("stop-color", "white")
 
-
-
     trail.append("svg:circle")
       .attr("id", "endlabel")
       .attr("class","endlabel")
@@ -291,19 +289,23 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     trail.append("svg:text")
       .attr("id", "ratingText")
 
+
+
   }
 
   updateSelectedAverageScore = (percentageString: any) => {
+
+
     d3.select("#trail").select("#endlabel")
       .attr("r", 30)
-      .attr("cx", 140)
+      .attr("cx", 143)
       .attr("fill-opacity", 1)
-      .attr("cy", 30)
+      .attr("cy", 40)
 
 
     d3.select("#trail").select("#ratingText")
-      .attr("x", 135)
-      .attr("y", 36)
+      .attr("x", 137)
+      .attr("y", 45)
       .attr("fill", "white")
       .attr("fill-opacity", 1)
       .style("font", "20px Inter")
@@ -311,8 +313,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     d3.select("#trail")
       .style("visibility", "");
-    d3.selectAll("#downArrow")
-      .style("color",this.arrowColor)
+
 
   }
 
@@ -361,8 +362,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       this.arrowColor = "orange"
       d3.select("#gradient").select("stop")
         .attr("stop-color", "orange")
-      d3.selectAll("#downArrow")
-        .style("color","orange")
+
 
       d3.selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
@@ -371,12 +371,12 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       this.color = color
       this.arrowColor = <string>this.color("1")
       let breadCrumbColor = <string>this.color("1")
+
       d3.select("#gradient").select("stop")
         .attr("stop-color", breadCrumbColor);
       d3.select("#trail").select("#endlabel")
         .attr("fill", "url(#gradient)")
-      d3.selectAll("#downArrow")
-        .style("color",breadCrumbColor)
+
       d3.selectAll("path")
         .attr("fill", (d: any) => {
           while (d.depth > 1) d = d.parent;
@@ -412,10 +412,12 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     } else {
       this.averageScoreUptoSelected = d.data.rating;
     }
+
     let sequenceArray = this.getAncestors(d);
+    console.log(sequenceArray);
     this.sequenceArray = this.getAncestors(d);
-    d3.select("#downArrow-span").selectAll("#downArrow")
-      .style("color",this.arrowColor)
+
+
     this.updateSelectedAverageScore(this.averageScoreUptoSelected);
     d3.selectAll("path")
       .style("opacity", 0.3);
