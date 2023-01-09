@@ -17,29 +17,39 @@
 
 <mat-divider></mat-divider>
 <br><br>
-<div class="row">
-  <div class="col-md-9 definition">
-    <p>{{instructionPanel}}</p>
-  </div>
-  <div class="row"></div>
-  <br>
-  <div class="row definition" *ngIf="summaryData">
-    <div class="col-md-9">
-      {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span>
-      <span class="assessedData">{{moduleAssessed}}  </span> <span class="dataValue">{{summaryData.moduleAssessed}}</span>
-      <span class="assessedData">{{topicAssessed}}  </span> <span class="dataValue">{{summaryData.topicAssessed}}</span>
-      <span class="assessedData">{{parameterAssessed}}  </span> <span
-      class="dataValue">{{summaryData.parameterAssessed}}</span>
-      <span class="assessedData">{{questionAssessed}}  </span> <span
-      class="dataValue">{{summaryData.questionAssessed}}</span>
+<div class="gauge">
+  <div>
+    <div class="definition">
+      <p>{{instructionPanel}}</p>
+    </div>
+    <div class="row definition" *ngIf="summaryData">
+      <div class="col-md-12">
+        {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span>
+        <span class="assessedData">{{moduleAssessed}}  </span> <span
+        class="dataValue">{{summaryData.moduleAssessed}}</span>
+        <span class="assessedData">{{topicAssessed}}  </span> <span class="dataValue">{{summaryData.topicAssessed}}</span>
+        <span class="assessedData">{{parameterAssessed}}  </span> <span
+        class="dataValue">{{summaryData.parameterAssessed}}</span>
+        <span class="assessedData">{{questionAssessed}}  </span> <span
+        class="dataValue">{{summaryData.questionAssessed}}</span>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-2">
-
+  <div class="gauge-chart">
+    <ngx-charts-gauge *ngIf="categorySummary.length>0"
+                      [view]="view"
+                      [results]="categorySummary"
+                      [max]="5"
+                      [textValue]="assessmentAverageRating"
+                      [startAngle]="270"
+                      [angleSpan]="180"
+                      [bigSegments]="2"
+    >
+    </ngx-charts-gauge>
   </div>
 </div>
+<div class="row"></div>
+<br>
 <mat-card class="chart-card">
   <mat-card-content>
     <div class="colorTheme">

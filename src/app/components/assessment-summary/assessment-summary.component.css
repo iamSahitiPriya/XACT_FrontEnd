@@ -154,14 +154,17 @@
   font: normal normal normal 15px/16px Inter;
   margin-left: 14px;
 }
-/*  border-radius: 50%;*/
-/*  padding: 4px;*/
-/*  background: #fff;*/
-/*  border: 0.8px solid #000;*/
-/*  color: #000;*/
-/*  text-align: center;*/
-/*  font: normal normal normal 14px/16px Inter;}*/
+
+.gauge{
+  display: flex;
+}
 
 .assessedData{
   padding-left: 4%;
+}
+.gauge-chart{
+  /*height: 0px !important;*/
+  margin-top: -49px;
+  height: 195px;
+  font-size: 20px;
 }

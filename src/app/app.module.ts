@@ -98,6 +98,7 @@ import {
   AdminParameterReferenceComponent
 } from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
 import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -289,6 +290,7 @@ export const appRoutes: Routes = [
     MatCheckboxModule,
     Ng2SearchPipeModule,
     MatAutocompleteModule,
+    NgxChartsModule,
   ],
 
   exports: [

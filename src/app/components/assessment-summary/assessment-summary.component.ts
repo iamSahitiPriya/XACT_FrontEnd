@@ -15,6 +15,7 @@ import {data_local} from "../../messages";
 import {Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
 import {SummaryResponse} from "../../types/summaryResponse";
+import {LegendPosition} from "@swimlane/ngx-charts";
 
 
 interface ColorScheme {
@@ -50,11 +51,17 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   selectedValue: any = d3.interpolateSpectral;
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
-
   averageScoreUptoSelected: number = 0
-  color:ScaleOrdinal<string, unknown>
-  arrowColor:any = ""
-
+  color: ScaleOrdinal<string, unknown>
+  arrowColor: any = ""
+  categorySummary: any[] = []
+  view: [number, number] = [500, 400];
+  legend: boolean = true;
+  legendPosition: LegendPosition = LegendPosition.Right;
+  colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+  };
+  assessmentAverageRating: string;
 
   colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
     {value: d3.interpolateReds, viewValue: 'All Red'},
@@ -78,7 +85,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   }
 
-  getSummaryData(){
+  getSummaryData() {
     this.appService.getSummaryData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.summaryData = data;
     })
@@ -88,6 +95,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   getDataAndSunBurstChart() {
     this.appService.getReportData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.data = data;
+      this.setCategorySummary(this.data);
       this.drawSunBurstChart(this.data);
     })
   }
@@ -274,16 +282,17 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     gradient
       .append("stop")
       .attr("offset", "55%")
-      .attr("stop-color",<string>this.color("1"))
+      .attr("stop-color", <string>this.color("1"))
 
     gradient
       .append("stop")
       .attr("offset", "100%")
       .attr("stop-color", "white")
 
+
     trail.append("svg:circle")
       .attr("id", "endlabel")
-      .attr("class","endlabel")
+      .attr("class", "endlabel")
       .attr("fill", "url(#gradient)")
       .style("filter", "drop-shadow(0px 3px 6px rgba(0,0,0,0.5))")
     trail.append("svg:text")
@@ -416,8 +425,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     let sequenceArray = this.getAncestors(d);
     console.log(sequenceArray);
     this.sequenceArray = this.getAncestors(d);
-
-
     this.updateSelectedAverageScore(this.averageScoreUptoSelected);
     d3.selectAll("path")
       .style("opacity", 0.3);
@@ -444,4 +451,21 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private setCategorySummary(data: ReportDataStructure) {
+    data.children.forEach(eachCategory => {
+      if (eachCategory.rating != 0) {
+        this.categorySummary.push({name: eachCategory.name, value: eachCategory.rating})
+      }
+    })
+    this.calculateAssessmentRating()
+  }
+
+
+  private calculateAssessmentRating() {
+    let sum = 0
+    this.categorySummary.forEach(eachCategory => {
+      sum += eachCategory.value;
+    })
+    this.assessmentAverageRating = String((sum / this.categorySummary.length).toFixed(1))
+  }
 }
