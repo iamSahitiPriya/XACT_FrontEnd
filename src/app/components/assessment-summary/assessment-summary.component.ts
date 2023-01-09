@@ -24,12 +24,12 @@ interface ColorScheme {
 
 @Component({
   selector: 'app-assessment-sunburst-chart',
-  templateUrl: './assessment-sunburst-chart.component.html',
+  templateUrl: './assessment-summary.component.html',
   styleUrls: ['./assessment-summary.component.css']
 })
 
 
-export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
+export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   @ViewChild('screen') screen: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
@@ -38,6 +38,12 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
   pageTitle = data_local.SUMMARY_REPORT.TITLE;
   downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
+  instructionPanel = data_local.SUMMARY_REPORT.INSTRUCTION
+  moduleAssessed = data_local.SUMMARY_REPORT.MODULE_ASSESSED;
+  categoryAssessed = data_local.SUMMARY_REPORT.CATEGORY_ASSESSED;
+  topicAssessed = data_local.SUMMARY_REPORT.TOPIC_ASSESSED;
+  parameterAssessed = data_local.SUMMARY_REPORT.PARAMETER_ASSESSED;
+  questionAssessed = data_local.SUMMARY_REPORT.QUESTION_ASSESSED;
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;
@@ -101,7 +107,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
 
     let width = 800;
     let breadCrumbId = document.getElementById("sequence")
-    this.initializeBreadcrumbTrail(breadCrumbId, this.color)
+    this.initializeBreadcrumbTrail(breadCrumbId)
 
     let radius = width / 10.5
 
@@ -249,7 +255,7 @@ export class AssessmentSunburstChartComponent implements OnInit, OnDestroy {
     return path;
   }
 
-  initializeBreadcrumbTrail(_id: any, color: any) {
+  initializeBreadcrumbTrail(_id: any) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")

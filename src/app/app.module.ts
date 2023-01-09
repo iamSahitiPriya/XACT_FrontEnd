@@ -67,8 +67,8 @@ import {
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
 import {
-  AssessmentSunburstChartComponent
-} from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
+  AssessmentSummaryComponent
+} from './components/assessment-summary/assessment-summary.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {
   TopicLevelRecommendationComponent
@@ -125,7 +125,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'assessment/:assessmentId/charts',
-    component: AssessmentSunburstChartComponent,
+    component: AssessmentSummaryComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
@@ -183,7 +183,7 @@ export const appRoutes: Routes = [
     TopicLevelRecommendationComponent,
     ParameterLevelRecommendationComponent,
     AdminConsoleComponent,
-    AssessmentSunburstChartComponent,
+    AssessmentSummaryComponent,
     AdminCategoryComponent,
     AdminModuleComponent,
     NotificationSnackbarComponent,

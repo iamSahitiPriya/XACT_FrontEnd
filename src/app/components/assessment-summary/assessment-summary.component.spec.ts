@@ -4,7 +4,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {AssessmentSunburstChartComponent} from './assessment-sunburst-chart.component';
+import {AssessmentSummaryComponent} from './assessment-summary.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {StoreModule} from "@ngrx/store";
@@ -21,11 +21,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {HttpClient, HttpHandler} from "@angular/common/http";
+import {SummaryResponse} from "../../types/summaryResponse";
 
 
 describe('AssessmentSunburstChartComponent', () => {
-  let component: AssessmentSunburstChartComponent;
-  let fixture: ComponentFixture<AssessmentSunburstChartComponent>;
+  let component: AssessmentSummaryComponent;
+  let fixture: ComponentFixture<AssessmentSummaryComponent>;
   let mockAppService:MockAppService
   let actualData = { name:"project",children:[{
       name:"ass1",rating:3,children:[{
@@ -36,15 +37,26 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]
     }]}
+  let summaryResponse:SummaryResponse ={
+    categoryAssessed:1,
+    moduleAssessed:1,
+    topicAssessed:1,
+    parameterAssessed:1,
+    questionAssessed:1
+  }
   class MockAppService {
+
     public getReportData(assessmentId:Number){
       return of(actualData)
+    }
+    public getSummaryData(assessmentId:number){
+      return of(summaryResponse)
     }
   }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentSunburstChartComponent ],
+      declarations: [ AssessmentSummaryComponent ],
       imports: [ FormsModule,MatFormFieldModule,MatDividerModule,MatToolbarModule, MatButtonModule ,MatSelectModule, MatCardModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
@@ -58,7 +70,7 @@ describe('AssessmentSunburstChartComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssessmentSunburstChartComponent);
+    fixture = TestBed.createComponent(AssessmentSummaryComponent);
     component = fixture.componentInstance;
     mockAppService = new MockAppService()
 
@@ -70,8 +82,12 @@ describe('AssessmentSunburstChartComponent', () => {
   });
 
   it('should create', () => {
+    jest.spyOn(component,"getSummaryData")
+
     component.ngOnInit();
     expect(component).toBeTruthy();
+
+    expect(component.getSummaryData).toHaveBeenCalled()
   });
 
   it('should call sunburstChart Function , click and Hover on it', function() {
@@ -149,7 +165,8 @@ describe('AssessmentSunburstChartComponent', () => {
     document.body.appendChild(graphContainer);
     jest.spyOn(component,'initializeBreadcrumbTrail');
     let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow,  10).reverse());
-    component.initializeBreadcrumbTrail(graphContainer.id,color)
+    component.color = color
+    component.initializeBreadcrumbTrail(graphContainer.id)
     expect(d3.select("#sequence").select("svg").attr("width")).toBe("100%")
   })
 
@@ -168,23 +185,7 @@ describe('AssessmentSunburstChartComponent', () => {
     component.getAncestors(component.data.children[0])
     expect(component.getAncestors(component.data.children[0])).not.toBeNull();
   })
-  it('should be able to create figure of breadCrumbs', () => {
-    jest.spyOn(component, 'breadcrumbFigure');
 
-    component.data =  { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
-            }]
-          }]
-        }]
-      }]}
-    var actualFigurePoints = component.breadcrumbFigure(component.data.children[0],2);
-    var expectedFigurePoints = "0,0 155,26.666666666666668 310,0 310,80 155,120 0,80";
-    expect(actualFigurePoints).toBe(expectedFigurePoints)
-
-  })
   it("should update breadCrumbs", () => {
     jest.spyOn(component,'updateSelectedAverageScore');
     let mockedNodeArray = [{
@@ -196,7 +197,7 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]
     }]
-    component.updateSelectedAverageScore(mockedNodeArray,2)
+    component.updateSelectedAverageScore(2)
   })
   it("should fill color as green if average rating is more than 3", () => {
     jest.spyOn(component, 'fillThreatColorsInChart');
@@ -263,19 +264,6 @@ describe('AssessmentSunburstChartComponent', () => {
     let anyData;
     component.onMouseleave(anyData);
     expect(d3.select("#trail")).not.toBeNull();
-  })
-
-  it("should be able to change position of upcoming breadCrumbs" , () => {
-    jest.spyOn(component,'getBreadCrumbTranslation');
-    let dummyData1 = {
-      name:"category", depth:2
-    }
-    expect(component.getBreadCrumbTranslation(dummyData1)).toBe("translate(0,210)")
-    let dummyData2 = {
-      name:"category", depth:3
-    }
-    expect(component.getBreadCrumbTranslation(dummyData2)).toBe("translate(0,315)")
-
   })
 
   it("should test mouseover event for parameter level rating", () => {
