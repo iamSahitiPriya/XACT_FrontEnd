@@ -11,7 +11,6 @@ export const environment = {
   REDIRECT_URI: "http://localhost:4200/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  CATEGORY_URI: "/v1/assessment-master-data",
   SAVE_ASSESSMENT_URI: "/v1/assessments/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/assessments/",
   ASSESSMENT_STATUS_FINISH_URI: "/statuses/finish",
@@ -28,7 +27,7 @@ export const environment = {
   ASSESSMENT_ADMIN_REPORT_URI: "/v1/reports/admin",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/deleteRecommendation",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/deleteParameterRecommendation",
-  ALL_CATEGORY_URI: "/v1/assessment-master-data/categories",
+  ALL_CATEGORY_URI: "/v1/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   UPDATE_CATEGORY_URI: "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
