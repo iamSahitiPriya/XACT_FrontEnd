@@ -57,7 +57,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   categorySummary: any[] = []
   view: [number, number] = [400, 400];
   legend: boolean = true;
-  legendPosition: LegendPosition = LegendPosition.Right;
+  legendPosition: LegendPosition = LegendPosition.Below;
   colorScheme = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
@@ -371,9 +371,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       this.arrowColor = "orange"
       d3.select("#gradient").select("stop")
         .attr("stop-color", "orange")
-
-
-      d3.selectAll("path")
+      d3.select("#chart").select("#container").selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
     } else {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
@@ -386,7 +384,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       d3.select("#trail").select("#endlabel")
         .attr("fill", "url(#gradient)")
 
-      d3.selectAll("path")
+      d3.select("#chart").select("#container").selectAll("path")
         .attr("fill", (d: any) => {
           while (d.depth > 1) d = d.parent;
           return <string>this.color(d.data.name);
