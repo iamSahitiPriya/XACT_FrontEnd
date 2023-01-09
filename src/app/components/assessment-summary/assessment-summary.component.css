@@ -163,8 +163,8 @@
   padding-left: 4%;
 }
 .gauge-chart{
-  /*height: 0px !important;*/
-  margin-top: -49px;
-  height: 195px;
+  margin-right: 65px;
+  margin-top: -85px;
+  height: 205px;
   font-size: 20px;
 }

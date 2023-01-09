@@ -55,7 +55,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   color: ScaleOrdinal<string, unknown>
   arrowColor: any = ""
   categorySummary: any[] = []
-  view: [number, number] = [500, 400];
+  view: [number, number] = [400, 400];
   legend: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Right;
   colorScheme = {
@@ -423,10 +423,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
 
     let sequenceArray = this.getAncestors(d);
-    console.log(sequenceArray);
     this.sequenceArray = this.getAncestors(d);
     this.updateSelectedAverageScore(this.averageScoreUptoSelected);
-    d3.selectAll("path")
+    d3.select("#chart").select("#container").selectAll("path")
       .style("opacity", 0.3);
     d3.select("#sequence")
       .style("visibility", "visible");

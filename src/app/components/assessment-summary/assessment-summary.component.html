@@ -22,6 +22,7 @@
     <div class="definition">
       <p>{{instructionPanel}}</p>
     </div>
+    <br>
     <div class="row definition" *ngIf="summaryData">
       <div class="col-md-12">
         {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span>
@@ -35,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="gauge-chart">
+  <div class="gauge-chart" id="gauge-chart-div">
     <ngx-charts-gauge *ngIf="categorySummary.length>0"
                       [view]="view"
                       [results]="categorySummary"
@@ -43,12 +44,12 @@
                       [textValue]="assessmentAverageRating"
                       [startAngle]="270"
                       [angleSpan]="180"
-                      [bigSegments]="2"
+                      [bigSegments]="5"
+                      [customColors]="colorScheme"
     >
     </ngx-charts-gauge>
   </div>
 </div>
-<div class="row"></div>
 <br>
 <mat-card class="chart-card">
   <mat-card-content>
