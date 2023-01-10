@@ -32,7 +32,7 @@ export const environment = {
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
-  REPORT_DATA_URI: "/v1/reports/summary/charts/sunburst",
+  REPORT_DATA_URI: "/charts/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
