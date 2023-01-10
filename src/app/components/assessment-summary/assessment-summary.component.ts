@@ -45,6 +45,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   topicAssessed = data_local.SUMMARY_REPORT.TOPIC_ASSESSED;
   parameterAssessed = data_local.SUMMARY_REPORT.PARAMETER_ASSESSED;
   questionAssessed = data_local.SUMMARY_REPORT.QUESTION_ASSESSED;
+  noDataAvailableText = data_local.SUMMARY_REPORT.NO_DATA_AVAILABLE;
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;
@@ -96,7 +97,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.appService.getReportData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.data = data;
       this.setCategorySummary(this.data);
-      this.drawSunBurstChart(this.data);
+      if (this.categorySummary.length > 0)
+        this.drawSunBurstChart(this.data);
     })
   }
 
@@ -134,7 +136,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     const root = partition(this.data);
 
     root.each((d: any) => d.current = d);
-
+    console.log(data)
     const svg = d3.select("#chart")
       .attr("width", width)
       .append("svg")
@@ -299,7 +301,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("id", "ratingText")
 
 
-
   }
 
   updateSelectedAverageScore = (percentageString: any) => {
@@ -347,7 +348,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       }
       dy = dy - (adjustPadding * dyAdjust)
       let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
-
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));

@@ -71,6 +71,7 @@
 .downloadButton {
   display: inline;
   margin-left: 20px;
+  margin-right: -30px;
 }
 
 #download {
@@ -141,7 +142,7 @@
   width: 82%;
   height: 33%;
   margin-left: 9%;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 .definition{
   padding-left: 10%;
@@ -171,4 +172,8 @@
 
 .noDataHeading{
   text-align: center;
+}
+
+.noDataCard{
+  box-shadow: none;
 }
