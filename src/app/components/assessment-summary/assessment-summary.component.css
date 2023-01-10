@@ -127,6 +127,7 @@
 .sequenceName {
   width: 83%;
   text-overflow: ellipsis;
+  text-transform: capitalize;
 }
 
 .down-arrow-span {

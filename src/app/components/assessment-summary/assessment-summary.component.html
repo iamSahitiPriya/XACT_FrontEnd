@@ -32,7 +32,7 @@
         class="dataValue">{{summaryData.topicAssessed}}</span>
         <span class="assessedData">{{parameterAssessed}}  </span> <span
         class="dataValue">{{summaryData.parameterAssessed}}</span>
-        <span class="assessedData">{{questionAssessed}}  </span> <span
+        <span class="assessedData">{{questionAnswered}}  </span> <span
         class="dataValue">{{summaryData.questionAssessed}}</span>
       </div>
     </div>
@@ -85,7 +85,7 @@
                       <div class="rating">
                         <mat-icon class="star-icon">star</mat-icon>
                         <span class="rating-value" *ngIf="sequence.data.value">{{sequence.data.value}}</span>
-                        <span class="rating-value" *ngIf="sequence.data.rating">{{sequence.data.rating}}</span>
+                        <span class="rating-value" *ngIf="sequence.data.rating">{{sequence.data.rating| number: '1.0-0'}}</span>
                       </div>
                     </div>
                   </mat-card-content>

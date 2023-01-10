@@ -20,7 +20,8 @@ import {LegendPosition} from "@swimlane/ngx-charts";
 
 interface ColorScheme {
   value?: any,
-  viewValue: string
+  viewValue: string,
+  textColor:string
 }
 
 @Component({
@@ -44,7 +45,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   categoryAssessed = data_local.SUMMARY_REPORT.CATEGORY_ASSESSED;
   topicAssessed = data_local.SUMMARY_REPORT.TOPIC_ASSESSED;
   parameterAssessed = data_local.SUMMARY_REPORT.PARAMETER_ASSESSED;
-  questionAssessed = data_local.SUMMARY_REPORT.QUESTION_ASSESSED;
+  questionAnswered = data_local.SUMMARY_REPORT.QUESTION_ANSWERED;
   noDataAvailableText = data_local.SUMMARY_REPORT.NO_DATA_AVAILABLE;
   assessmentId: number;
   data: ReportDataStructure;
@@ -64,14 +65,14 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   };
   assessmentAverageRating: string;
 
-  colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme'},
-    {value: d3.interpolateReds, viewValue: 'All Red'},
-    {value: d3.interpolateRdPu, viewValue: 'Purple Red'},
-    {value: d3.interpolatePurples, viewValue: 'All Purple'},
-    {value: d3.interpolateWarm, viewValue: 'Warm Theme'},
-    {value: d3.interpolateBlues, viewValue: 'All Blue'},
-    {value: d3.interpolateSpectral, viewValue: 'Spectral Colors'},
-    {value: "ThreatTheme", viewValue: 'Show Threats'}
+  colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme',textColor:'white'},
+    {value: d3.interpolateReds, viewValue: 'All Red',textColor:'white'},
+    {value: d3.interpolateRdPu, viewValue: 'Purple Red',textColor:'white'},
+    {value: d3.interpolatePurples, viewValue: 'All Purple',textColor:'white'},
+    {value: d3.interpolateWarm, viewValue: 'Warm Theme',textColor:'black'},
+    {value: d3.interpolateBlues, viewValue: 'All Blue',textColor:'white'},
+    {value: d3.interpolateSpectral, viewValue: 'Spectral Colors',textColor:'white'},
+    {value: "ThreatTheme", viewValue: 'Show Threats',textColor:'white'}
   ];
 
   ngOnInit() {
@@ -172,10 +173,11 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     path.append("title")
       .text((d: any) => d.data.name)
-      .style("font", "21px");
+      .style("font", "100px");
 
 
     const label = vis.append("g")
+      .attr("id","chartTextGroup")
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
       .style("user-select", "none")
@@ -187,7 +189,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("fill-opacity", (d: any) => +labelVisible(d.current))
       .attr("transform", (d: any) => labelTransform(d.current))
       .text((d: any) => d.data.name)
-      .style("font", "7px Inter")
+      .style("font", "9px Inter")
+      .attr("fill","white")
       .call(this.wrap, 75, 0.0004, 0.23);
 
 
@@ -303,8 +306,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedAverageScore = (percentageString: any) => {
-
-
+    let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;
+    if (textColor === undefined)
+      textColor = "white"
     d3.select("#trail").select("#endlabel")
       .attr("r", 30)
       .attr("cx", 143)
@@ -315,7 +319,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     d3.select("#trail").select("#ratingText")
       .attr("x", 137)
       .attr("y", 45)
-      .attr("fill", "white")
+      .attr("fill", textColor)
       .attr("fill-opacity", 1)
       .style("font", "20px Inter")
       .text(parseInt(percentageString));
@@ -366,12 +370,19 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
 
   onThemeChange() {
+    let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;
+    if(textColor === undefined)
+      textColor = "white";
+    d3.select("#chart").select("#container").selectAll("#chartTextGroup")
+      .selectAll("text").attr("fill",textColor)
+
     if (this.selectedValue == "ThreatTheme") {
       this.arrowColor = "orange"
       d3.select("#gradient").select("stop")
         .attr("stop-color", "orange")
       d3.select("#chart").select("#container").selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
+
     } else {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
       this.color = color
