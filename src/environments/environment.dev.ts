@@ -34,6 +34,7 @@ export const environment = {
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
   REPORT_DATA_URI:"/v1/reports/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
+  USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
   CREATE_UPDATE_DELETE_USER_QUESTION_URI:"/v1/assessments",
   SAVE_TOPIC_URI :"/v1/admin/topics",
@@ -53,7 +54,6 @@ export const environment = {
       sessionStorage: 'sessionStorage'
     }
   },
-  USER_ASSESSMENT_MODULE_URI: "/modules",
   SAVE_MODULE_URI: "/v1/admin/modules",
   SAVE_PARAMETER_URI: "/v1/admin/parameters",
   UPDATE_QUESTION:"/v1/admin/questions",
