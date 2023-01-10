@@ -136,7 +136,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     const root = partition(this.data);
 
     root.each((d: any) => d.current = d);
-    console.log(data)
     const svg = d3.select("#chart")
       .attr("width", width)
       .append("svg")
