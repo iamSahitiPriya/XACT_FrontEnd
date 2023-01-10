@@ -55,7 +55,7 @@ export class AppServiceService {
 
 
   public saveAssessment(assessmentAnswer: SaveRequest) {
-    const assessmentURI = template(environment.SAVE_ASSESSMENT_URI, {assessmentId: assessmentAnswer.assessmentId})
+    const assessmentURI = this.formatURI(environment.SAVE_ASSESSMENT_URI, {assessmentId: assessmentAnswer.assessmentId})
     return this.http.post(environment.BaseURI + assessmentURI, assessmentAnswer.topicRequest)
   }
 
@@ -81,7 +81,7 @@ export class AppServiceService {
 
 
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = template(environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI, {
+    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI, {
       assessmentId: topicLevelRecommendationText.assessmentId,
       topicId: topicLevelRecommendationText.topicId
     })
@@ -90,7 +90,7 @@ export class AppServiceService {
 
 
   saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = template(environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI, {
+    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI, {
       assessmentId: topicLevelRecommendationText.assessmentId,
       topicId: topicLevelRecommendationText.topicId,
     })
@@ -98,7 +98,7 @@ export class AppServiceService {
   }
 
   deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number): Observable<any> {
-    const topicRecommendationURI = template(environment.DELETE_TOPIC_RECOMMENDATION_URI, {
+    const topicRecommendationURI = this.formatURI(environment.DELETE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       topicId: topicId,
       recommendationId: recommendationId
@@ -107,7 +107,7 @@ export class AppServiceService {
   }
 
   saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
-    const paramRecommendationURI = template(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
+    const paramRecommendationURI = this.formatURI(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
       assessmentId: parameterLevelRecommendationText.assessmentId,
       parameterId: parameterLevelRecommendationText.parameterId
     });
@@ -115,7 +115,7 @@ export class AppServiceService {
   }
 
   deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number): Observable<any> {
-    const parameterRecommendationURI = template(environment.DELETE_PARAMETER_RECOMMENDATION_URI, {
+    const parameterRecommendationURI = this.formatURI(environment.DELETE_PARAMETER_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       parameterId: parameterId,
       recommendationId: recommendationId
@@ -124,7 +124,7 @@ export class AppServiceService {
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    const topicRatingURI = template(environment.SAVE_TOPIC_RATING_URI, {
+    const topicRatingURI = this.formatURI(environment.SAVE_TOPIC_RATING_URI, {
       assessmentId: topicRating.assessmentId,
       topicId: topicRating.topicId
     })
@@ -132,7 +132,7 @@ export class AppServiceService {
   }
 
   saveParameterRating(parameterRating: ParameterRating) {
-    const parameterRatingURI = template(environment.SAVE_PARAMETER_RATING_URI, {
+    const parameterRatingURI = this.formatURI(environment.SAVE_PARAMETER_RATING_URI, {
       assessmentId: parameterRating.assessmentId,
       parameterId: parameterRating.parameterId
     })
@@ -264,6 +264,10 @@ export class AppServiceService {
 
   saveMasterQuestion(questionRequest: any) {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
+  }
+
+  formatURI(URI: string, data: Readonly<unknown>) {
+    return template(URI, data);
   }
 
 }
