@@ -26,6 +26,7 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
+import template from "string-placeholder";
 
 
 @Injectable({
@@ -41,8 +42,7 @@ export class AppServiceService {
   }
 
   public addAssessments(assessmentData: AssessmentRequest): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData, {'headers': headers})
+    return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData)
   }
 
   public getCategories(assessmentId: number): Observable<UserCategoryResponse> {
@@ -55,8 +55,8 @@ export class AppServiceService {
 
 
   public saveAssessment(assessmentAnswer: SaveRequest) {
-    const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.SAVE_ASSESSMENT_URI + "/" + assessmentAnswer.assessmentId, assessmentAnswer.topicRequest, {'headers': headers})
+    const assessmentURI = template(environment.SAVE_ASSESSMENT_URI, {assessmentId: assessmentAnswer.assessmentId})
+    return this.http.post(environment.BaseURI + assessmentURI, assessmentAnswer.topicRequest)
   }
 
   generateReport(assessmentId: number) {
@@ -76,45 +76,67 @@ export class AppServiceService {
   }
 
   saveNotes(assessmentId: number, answerRequest: AnswerRequest) {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentId + "/" + "answers" + "/" + answerRequest.questionId, answerRequest, {'headers': headers})
+    return this.http.patch(environment.BaseURI + environment.SAVE_ASSESSMENT_ANSWER_URI + "/" + assessmentId + "/" + "answers" + "/" + answerRequest.questionId, answerRequest)
   }
 
 
   saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
+    const topicRecommendationURI = template(environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI, {
+      assessmentId: topicLevelRecommendationText.assessmentId,
+      topicId: topicLevelRecommendationText.topicId
+    })
+    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
   }
 
 
   saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI + "/" + topicLevelRecommendationText.assessmentId + "/" + topicLevelRecommendationText.topicId, topicLevelRecommendationText.topicLevelRecommendation, {'headers': headers})
+    const topicRecommendationURI = template(environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI, {
+      assessmentId: topicLevelRecommendationText.assessmentId,
+      topicId: topicLevelRecommendationText.topicId,
+    })
+    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
   }
 
   deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_RECOMMENDATION_URI + "/" + assessmentId + "/" + topicId + "/" + recommendationId, {'headers': headers});
+    const topicRecommendationURI = template(environment.DELETE_TOPIC_RECOMMENDATION_URI, {
+      assessmentId: assessmentId,
+      topicId: topicId,
+      recommendationId: recommendationId
+    })
+    return this.http.delete(environment.BaseURI + topicRecommendationURI);
   }
 
   saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RECOMMENDATION_URI + "/" + parameterLevelRecommendationText.assessmentId + "/" + parameterLevelRecommendationText.parameterId, parameterLevelRecommendationText.parameterLevelRecommendation, {'headers': headers})
+    const paramRecommendationURI = template(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
+      assessmentId: parameterLevelRecommendationText.assessmentId,
+      parameterId: parameterLevelRecommendationText.parameterId
+    });
+    return this.http.patch(environment.BaseURI + paramRecommendationURI, parameterLevelRecommendationText.parameterLevelRecommendation)
   }
 
   deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.delete(environment.BaseURI + environment.DELETE_PARAMETER_RECOMMENDATION_URI + "/" + assessmentId + "/" + parameterId + "/" + recommendationId, {'headers': headers});
+    const parameterRecommendationURI = template(environment.DELETE_PARAMETER_RECOMMENDATION_URI, {
+      assessmentId: assessmentId,
+      parameterId: parameterId,
+      recommendationId: recommendationId
+    })
+    return this.http.delete(environment.BaseURI + parameterRecommendationURI);
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_TOPIC_RATING_URI + "/" + topicRating.assessmentId + "/" + topicRating.topicId, topicRating.rating, {'headers': headers})
+    const topicRatingURI = template(environment.SAVE_TOPIC_RATING_URI, {
+      assessmentId: topicRating.assessmentId,
+      topicId: topicRating.topicId
+    })
+    return this.http.patch(environment.BaseURI + topicRatingURI, topicRating.rating)
   }
 
   saveParameterRating(parameterRating: ParameterRating) {
-    const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.SAVE_PARAMETER_RATING_URI + "/" + parameterRating.assessmentId + "/" + parameterRating.parameterId, parameterRating.rating, {'headers': headers})
+    const parameterRatingURI = template(environment.SAVE_PARAMETER_RATING_URI, {
+      assessmentId: parameterRating.assessmentId,
+      parameterId: parameterRating.parameterId
+    })
+    return this.http.patch(environment.BaseURI + parameterRatingURI, parameterRating.rating)
   }
 
   updateAssessment(assessmentId: number, assessmentData: AssessmentRequest): Observable<AssessmentStructure> {
@@ -131,8 +153,7 @@ export class AppServiceService {
 
 
   getAdminAssessment(adminAssessmentRequest: AdminAssessmentRequest): Observable<AdminAssessmentResponse> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.startDate + "/" + adminAssessmentRequest.endDate, {'headers': headers});
+    return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.startDate + "/" + adminAssessmentRequest.endDate);
   }
 
   getAllCategories(): Observable<CategoryResponse[]> {
@@ -197,8 +218,7 @@ export class AppServiceService {
   }
 
   deleteUserQuestion(assessmentId: number, questionId: number): Observable<any> {
-    const headers = {'content-type': 'application/json'}
-    return this.http.delete(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + questionId, {'headers': headers})
+    return this.http.delete(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + questionId)
   }
 
   deleteAssessment(assessmentId: number): Observable<any> {
@@ -241,7 +261,8 @@ export class AppServiceService {
     return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
 
   }
-  saveMasterQuestion(questionRequest: any){
+
+  saveMasterQuestion(questionRequest: any) {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
 
