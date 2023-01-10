@@ -127,7 +127,7 @@ export class AppServiceService {
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
-    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/" + assessmentId);
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId + environment.REPORT_DATA_URI );
   }
 
 
