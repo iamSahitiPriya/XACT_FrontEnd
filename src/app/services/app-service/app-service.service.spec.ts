@@ -17,6 +17,8 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
+import template from "string-placeholder";
+import {OKTA_CONFIG} from "@okta/okta-angular";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -25,15 +27,17 @@ describe('AppServiceService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        HttpClientTestingModule,
+        HttpClientTestingModule
       ],
       providers: [
-        AppServiceService,
+        AppServiceService
       ]
     });
+    jest.spyOn(AppServiceService.prototype,'formatURI').mockImplementation(() => "some URI");;
     service = TestBed.inject(AppServiceService);
-
   });
+
+
 
   it('should be created', () => {
     expect(service).toBeTruthy();

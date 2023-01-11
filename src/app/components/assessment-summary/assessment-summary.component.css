@@ -118,7 +118,8 @@
 
 .rating-value {
   margin-top: -6px;
-  font: normal normal 12px/15px Inter;
+  font-size: 12px;
+  font-family: "Inter", sans-serif;
   font-weight: bolder;
   letter-spacing: 0.74px;
   color: #000000;
@@ -153,7 +154,9 @@
   border-radius: 50%;
   padding: 2px 5px;
   border: 1px solid #000;
-  font: normal normal normal 15px/16px Inter;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+  font-weight: normal;
   margin-left: 14px;
 }
 
