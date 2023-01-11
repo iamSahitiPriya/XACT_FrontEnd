@@ -173,7 +173,6 @@ export const data_local =
       EDIT: "Edit",
       SAVE: "Save",
       UPDATE: "Update",
-      ERROR: "No Special Characters allowed",
       DUPLICATE_ERROR_MESSAGE: "Duplicate names are not allowed",
       CATEGORY_SELECTION_LABEL:"Select category",
       MODULE_SELECTION_LABEL:"Select Module",

@@ -109,7 +109,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   saveQuestion() {
     this.userQuestionRequest.question = this.questionText;
-    if (this.userQuestionRequest.question.length > 0) {
+    if (this.userQuestionRequest.question.trimStart().length > 0) {
       this.appService.saveUserQuestion(this.userQuestionRequest, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             assessmentData.push(this.userQuestionRequest);
@@ -165,8 +165,8 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   updateQuestion(userQuestion: UserQuestionResponse) {
-    this.questionEditFlagNumber = 0;
-    if (userQuestion.question.length > 0) {
+    if (userQuestion.question.trimStart().length > 0) {
+      this.questionEditFlagNumber = 0;
       this.appService.updateUserQuestion(userQuestion, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             this.createQuestionFlag = false;
