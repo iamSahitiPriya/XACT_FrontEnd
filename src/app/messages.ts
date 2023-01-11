@@ -164,7 +164,8 @@ export const data_local =
       TOPIC_ASSESSED: "Topics Assessed",
       PARAMETER_ASSESSED: "Parameters Assessed",
       QUESTION_ANSWERED: "Questions Answered",
-      NO_DATA_AVAILABLE: "No rating data available to display the chart"
+      NO_DATA_AVAILABLE: "No rating data available to display the chart",
+      COLOUR_THEME_HEADING: "Select Color Theme"
     },
     ADMIN: {
       MODULE_NOT_FOUND : "No modules available",

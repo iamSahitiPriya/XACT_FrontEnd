@@ -47,6 +47,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   parameterAssessed = data_local.SUMMARY_REPORT.PARAMETER_ASSESSED;
   questionAnswered = data_local.SUMMARY_REPORT.QUESTION_ANSWERED;
   noDataAvailableText = data_local.SUMMARY_REPORT.NO_DATA_AVAILABLE;
+  colorThemeHeading = data_local.SUMMARY_REPORT.COLOUR_THEME_HEADING;
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;

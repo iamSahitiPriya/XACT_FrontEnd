@@ -89,6 +89,17 @@ describe('AssessmentSunburstChartComponent', () => {
     component = fixture.componentInstance;
     mockAppService = new MockAppService()
     elRef = TestBed.get(ElementRef)
+    component.data = {
+      name: "project", children: [{
+        name: "ass1", rating: 3, children: [{
+          name: "ass2", rating: 2, children: [{
+            name: "ass3", rating: 3, children: [{
+              name: "ass3", value: 1
+            }]
+          }]
+        }]
+      }]
+    }
     fixture.detectChanges()
 
 
@@ -110,17 +121,6 @@ describe('AssessmentSunburstChartComponent', () => {
     component.categorySummary = [{
       name: "hello", value: 2
     }]
-    component.data = {
-      name: "project", children: [{
-        name: "ass1", rating: 3, children: [{
-          name: "ass2", rating: 2, children: [{
-            name: "ass3", rating: 3, children: [{
-              name: "This is at parameter level Assessment", value: 1
-            }]
-          }]
-        }]
-      }]
-    }
     component.ngOnInit()
     jest.spyOn(component, 'drawSunBurstChart');
     Object.defineProperty(global.SVGElement.prototype, 'getComputedTextLength', {
@@ -147,18 +147,6 @@ describe('AssessmentSunburstChartComponent', () => {
   it('should change theme of chart onClick', () => {
     jest.spyOn(component, 'onThemeChange');
     component.selectedValue = d3.interpolatePurples;
-
-    component.data = {
-      name: "project", children: [{
-        name: "ass1", rating: 3, children: [{
-          name: "ass2", rating: 2, children: [{
-            name: "ass3", rating: 3, children: [{
-              name: "ass3", value: 1
-            }]
-          }]
-        }]
-      }]
-    }
     component.selectedValue = d3.interpolateSpectral;
     component.onThemeChange()
     expect(component.selectedValue).toBe(d3.interpolateSpectral)
@@ -167,18 +155,6 @@ describe('AssessmentSunburstChartComponent', () => {
   it('should change theme to threat display', () => {
     jest.spyOn(component, 'onThemeChange');
     component.selectedValue = d3.interpolatePurples;
-
-    component.data = {
-      name: "project", children: [{
-        name: "ass1", rating: 3, children: [{
-          name: "ass2", rating: 2, children: [{
-            name: "ass3", rating: 3, children: [{
-              name: "ass3", value: 1
-            }]
-          }]
-        }]
-      }]
-    }
     component.selectedValue = 'ThreatTheme';
     component.onThemeChange()
     expect(component.selectedValue).toBe("ThreatTheme");
@@ -198,17 +174,6 @@ describe('AssessmentSunburstChartComponent', () => {
   it('should get Ancestors of data selected', () => {
     jest.spyOn(component, 'getAncestors');
 
-    component.data = {
-      name: "project", children: [{
-        name: "ass1", rating: 3, children: [{
-          name: "ass2", rating: 2, children: [{
-            name: "ass3", rating: 3, children: [{
-              name: "ass3", value: 1
-            }]
-          }]
-        }]
-      }]
-    }
     component.getAncestors(component.data.children[0])
     expect(component.getAncestors(component.data.children[0])).not.toBeNull();
   })

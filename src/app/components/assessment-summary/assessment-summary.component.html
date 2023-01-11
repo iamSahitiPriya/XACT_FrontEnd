@@ -58,7 +58,7 @@
       <span class="noDataHeading" *ngIf="categorySummary.length === 0"><h1>{{noDataAvailableText}}</h1></span>
       <div class="colorTheme" *ngIf="categorySummary.length > 0">
         <mat-form-field appearance="fill">
-          <mat-label>Select Color Theme</mat-label>
+          <mat-label>{{colorThemeHeading}}</mat-label>
           <mat-select id="theme-select" [(ngModel)]="selectedValue" (selectionChange)="onThemeChange()">
             <mat-option *ngFor="let color of colorList" [value]="color.value">
               {{color.viewValue}}
