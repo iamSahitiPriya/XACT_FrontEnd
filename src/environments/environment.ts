@@ -11,7 +11,6 @@ export const environment = {
   REDIRECT_URI: "http://localhost:4200/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  SAVE_ASSESSMENT_URI: "/v1/assessments/${assessmentId}/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/",
   ASSESSMENT_STATUS_FINISH_URI: "/finish",
   ASSESSMENT_STATUS_OPEN_URI: "/open",

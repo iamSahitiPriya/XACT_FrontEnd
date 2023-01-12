@@ -38,17 +38,13 @@ import {AssessmentModulesComponent} from './components/assessment-modules/assess
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {
-  AssessmentModulesDetailsComponent
-} from './components/assessment-modules-details/assessment-modules-details.component';
+import {AssessmentModulesDetailsComponent} from './components/assessment-modules-details/assessment-modules-details.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
 import {AssessmentQuestionComponent} from './components/assessment-parameter-questions/assessment-question.component';
-import {
-  TopicLevelAssessmentComponent
-} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
+import {TopicLevelAssessmentComponent} from './components/assessment-rating-and-recommendation/topic-level-assessment.component';
 import {CommonModule} from '@angular/common';
 import {PopupConfirmationComponent} from './components/popup-confirmation/popup-confirmation.component';
 import {NgHttpLoaderModule} from 'ng-http-loader';
@@ -61,21 +57,13 @@ import {reducers} from "./reducers/reducers";
 import {ErrorComponentComponent} from './components/error-component/error-component.component';
 import {ProgressComponentComponent} from './components/progress-component/progress-component.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {
-  AssessmentAverageRatingComponent
-} from './components/assessment-average-rating/assessment-average-rating.component';
+import {AssessmentAverageRatingComponent} from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
-import {
-  AssessmentSummaryComponent
-} from './components/assessment-summary/assessment-summary.component';
+import {AssessmentSummaryComponent} from './components/assessment-summary/assessment-summary.component';
 import {MatRadioModule} from "@angular/material/radio";
-import {
-  TopicLevelRecommendationComponent
-} from './components/topic-level-recommendation/topic-level-recommendation.component';
-import {
-  ParameterLevelRecommendationComponent
-} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
+import {TopicLevelRecommendationComponent} from './components/topic-level-recommendation/topic-level-recommendation.component';
+import {ParameterLevelRecommendationComponent} from './components/parameter-level-recommendation/parameter-level-recommendation.component';
 import {AdminConsoleComponent} from './components/admin/admin-console/admin-console.component';
 import {AdminCategoryComponent} from './components/admin/admin-category/admin-category.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -89,14 +77,12 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { UserQuestionAnswerComponent } from './components/user-additional-question/user-question-answer.component';
+import {UserQuestionAnswerComponent} from './components/user-additional-question/user-question-answer.component';
 import {AdminParameterComponent} from './components/admin/admin-parameter/admin-parameter.component';
 import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
 import {AdminReferenceComponent} from './components/admin/admin-topic-reference/admin-reference.component';
-import {
-  AdminParameterReferenceComponent
-} from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
+import {AdminParameterReferenceComponent} from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
 import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 

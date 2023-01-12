@@ -120,10 +120,6 @@ export const data_local =
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"
     },
-    SAVE_ASSESSMENT_BUTTON: {
-      TITLE: "Save",
-      TOOLTIP: "Click to save"
-    },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
       RETRY_TEXT: "Retry"

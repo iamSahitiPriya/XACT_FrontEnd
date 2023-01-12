@@ -8,7 +8,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
-import {SaveRequest} from "../../types/saveRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
@@ -52,12 +51,6 @@ export class AppServiceService {
 
   public getOnlySelectedCategories(assessmentId: number): Observable<UserCategoryResponse> {
     return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + "/categories")
-  }
-
-
-  public saveAssessment(assessmentAnswer: SaveRequest) {
-    const assessmentURI = this.formatURI(environment.SAVE_ASSESSMENT_URI, {assessmentId: assessmentAnswer.assessmentId})
-    return this.http.post(environment.BaseURI + assessmentURI, assessmentAnswer.topicRequest)
   }
 
   generateReport(assessmentId: number) {
