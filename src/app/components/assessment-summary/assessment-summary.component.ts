@@ -143,7 +143,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
-      .attr('viewBox', '0 0 ' + 580 + ' ' + 850)
+      .attr('viewBox', '0 0 ' + 580 + ' ' + 900)
       .style("font", "10px sans-serif")
       .classed("svg-content-responsive", true);
 
