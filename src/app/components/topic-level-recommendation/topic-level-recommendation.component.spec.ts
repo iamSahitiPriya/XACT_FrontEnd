@@ -27,15 +27,7 @@ import {MatIconModule} from "@angular/material/icon";
 
 
 class MockAppService {
-  saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
-    if (topicLevelRecommendationText.topicId === 0) {
-      return of(topicLevelRecommendationText)
-    } else {
-      return throwError("Error!")
-    }
-  }
-
-  saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
+  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
     if (topicLevelRecommendationText.topicId === 0) {
       return of(topicLevelRecommendationText)
     } else {
@@ -131,7 +123,7 @@ describe('RecommendationComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveTopicRecommendationText(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
       expect(data).toBe(topicLevelRecommendationText)
     })
@@ -190,7 +182,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
@@ -252,7 +244,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
     })
     expect(component.topicLevelRecommendationResponse.impact).toBe("LOW");
@@ -318,7 +310,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
     })
     expect(component.topicLevelRecommendationResponse.effort).toBe("HIGH");
@@ -449,7 +441,7 @@ describe('RecommendationComponent', () => {
     await new Promise((r) => setTimeout(r, 2000));
 
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe((data) => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe((data) => {
       expect(data).toBeUndefined()
     }, error => {
       expect(component.showError).toHaveBeenCalled()

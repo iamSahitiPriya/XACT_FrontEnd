@@ -132,24 +132,8 @@ describe('AppServiceService', () => {
 
         }
     }
-    expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
+    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
   });
-
-  it("should update particular topic Recommendation fields", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
-      assessmentId: 1, topicId: 1,
-      topicLevelRecommendation:
-        {
-          recommendationId: 1,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-    }
-    expect(service.saveTopicRecommendationFields(dummyTopicRecommendation)).toBeTruthy()
-  });
-
 
   it("should delete topic recommendation", () => {
     let assessmentId = 1;

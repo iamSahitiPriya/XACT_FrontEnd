@@ -81,19 +81,10 @@ export class AppServiceService {
   }
 
 
-  saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI, {
+  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
+    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: topicLevelRecommendationText.assessmentId,
       topicId: topicLevelRecommendationText.topicId
-    })
-    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
-  }
-
-
-  saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI, {
-      assessmentId: topicLevelRecommendationText.assessmentId,
-      topicId: topicLevelRecommendationText.topicId,
     })
     return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
   }
