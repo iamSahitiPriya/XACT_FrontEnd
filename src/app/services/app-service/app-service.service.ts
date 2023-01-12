@@ -27,6 +27,8 @@ import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
 import template from "string-placeholder";
+import {SummaryResponse} from "../../types/summaryResponse";
+import {SseClient} from "ngx-sse-client";
 
 
 @Injectable({
@@ -34,7 +36,7 @@ import template from "string-placeholder";
 })
 export class AppServiceService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private sseClient : SseClient) {
   }
 
   public getAssessments(): Observable<AssessmentStructure[]> {
@@ -148,7 +150,7 @@ export class AppServiceService {
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
-    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/" + assessmentId);
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId + environment.REPORT_DATA_URI);
   }
 
 
@@ -270,6 +272,25 @@ export class AppServiceService {
     return template(URI, data);
   }
 
+  getSummaryData(assessmentId: number) {
+    const summaryDataURI = this.formatURI(environment.SUMMARY_DATA, {
+      assessmentId: assessmentId
+    })
+    return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
+  }
+
+  getActivity(topicId : number, assessmentId : number) {
+    const activityDataURI = this.formatURI(environment.ACTIVITY_LOGS_URI, {
+      assessmentId : assessmentId,
+      topicId : topicId
+    })
+    return this.sseClient.stream(environment.BaseURI +  activityDataURI, {
+      keepAlive: true,
+      reconnectionDelay: 30_000,
+      responseType: 'text'
+    })
+
+  }
 }
 
 

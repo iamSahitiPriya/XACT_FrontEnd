@@ -11,6 +11,7 @@ import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 
@@ -41,6 +42,9 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   @Input()
   parameterName: string
+
+  @Input()
+  activityRecords : ActivityLogResponse[]
 
   questionText: string;
   assessmentStatus: string;
@@ -195,8 +199,8 @@ export class UserQuestionAnswerComponent implements OnInit {
           this.cloneAnswerResponse.userQuestionResponseList[index].question = userQuestionResponse.question
         }
       } else {
-        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
         this.userQuestionList.push(userQuestionResponse)
+        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
       }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList

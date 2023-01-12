@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -21,6 +21,7 @@ import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -56,6 +57,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   @Input()
   question: string
 
+  @Input()
+  activityRecords : ActivityLogResponse[]
+
   textarea: number = 0;
 
   questionId: number;
@@ -74,6 +78,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
+  userEmail: string;
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -101,6 +106,18 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
         this.assessmentStatus = data.assessmentStatus
       }
     })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if( this.activityRecords.length > 0) {
+      for (let record of this.activityRecords) {
+        if (record.identifier === this.questionNumber && this.type === record.activityType) {
+          this.answerInput = record.inputText
+          this.userEmail=record.userName
+        }
+      }
+    }
+    else this.userEmail =""
   }
 
   showError(message: string) {

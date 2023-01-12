@@ -370,5 +370,10 @@ describe('AppServiceService', () => {
     let questionId = 1
     expect(service.updateMasterQuestion(questionId,questionRequest)).toBeTruthy()
   });
+
+  it("should get summary data", () => {
+    let assessmentId = 1
+    expect(service.getSummaryData(assessmentId)).toBeTruthy()
+  });
 });
 

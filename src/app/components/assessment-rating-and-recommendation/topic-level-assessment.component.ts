@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -25,6 +25,9 @@ import {data_local} from "../../messages";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import {OktaAuth} from "@okta/okta-auth-js";
 
 export const saveAssessmentData = [{}]
 
@@ -70,8 +73,15 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
+  private activities : ActivityLogResponse [] = []
+  questionActivityRecord : ActivityLogResponse [] = []
+  userQuestionActivityRecord : ActivityLogResponse [] = []
+  topicRecommendationActivityRecord : ActivityLogResponse [] = []
+  parameterRecommendationActivityRecord : ActivityLogResponse [] = []
+  private userEmail: string | undefined;
 
-  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>) {
+
+  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>,@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
@@ -93,6 +103,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         this.assessmentStatus = this.answerResponse.assessmentStatus
       }
     })
+    this.getActivities()
     this.getAssessment()
     this.updateAverageRating()
   }
@@ -362,4 +373,30 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private getActivities() {
+    this.appService.getActivity(this.topicInput.topicId,this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((data : string | undefined) => {
+      if(data !== undefined) {
+        this.activities = JSON.parse(data);
+        this.getUserName()
+        this.activities = this.activities.filter(activity => activity.userName !== this.userEmail)
+        this.filterActivityRecords()
+        if(this.activities.length === 0) this.clearActivityRecords()
+      }
+    })
+  }
+
+  private async getUserName() : Promise<void> {
+    this.userEmail =  (await this.oktaAuth.getUser()).preferred_username;
+  }
+
+  private filterActivityRecords() {
+    this.questionActivityRecord = this.activities.filter(activity => activity.activityType === "DEFAULT")
+    this.userQuestionActivityRecord = this.activities.filter(activity => activity.activityType === "ADDITIONAL")
+    this.topicRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "TOPIC_RECOMMENDATION")
+    this.parameterRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "PARAMETER_RECOMMENDATION")
+  }
+
+  private clearActivityRecords() {
+    this.parameterRecommendationActivityRecord = this.topicRecommendationActivityRecord = this.questionActivityRecord = this.userQuestionActivityRecord = []
+  }
 }

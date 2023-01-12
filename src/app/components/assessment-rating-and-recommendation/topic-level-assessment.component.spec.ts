@@ -29,6 +29,8 @@ import {AssessmentAverageRatingComponent} from "../assessment-average-rating/ass
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
+import {OKTA_AUTH} from "@okta/okta-angular";
+import oktaAuth from "@okta/okta-auth-js";
 
 class MockAppService {
 
@@ -86,7 +88,9 @@ describe('TopicLevelAssessmentComponent', () => {
     })
     await TestBed.configureTestingModule({
       declarations: [TopicLevelAssessmentComponent, TopicLevelRatingComponent, AssessmentQuestionComponent, AssessmentModulesDetailsComponent, ParameterLevelRatingComponent, AssessmentAverageRatingComponent],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, {provide: debounce, useValue: debouncedFunc}
+      providers: [{provide: AppServiceService, useClass: MockAppService},
+        {provide: debounce, useValue: debouncedFunc},
+        {provide: OKTA_AUTH, useValue: oktaAuth},
       ],
       imports: [MatFormFieldModule, MatCardModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, CommonModule, MatSnackBarModule,
         StoreModule.forRoot(reducers)]

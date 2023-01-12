@@ -22,6 +22,7 @@ import {data_local} from "../../messages";
 import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 let RECOMMENDATION_MAX_LIMIT = 10;
 
@@ -69,6 +70,9 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
 
   @Input()
   parameterList: ParameterRequest[];
+
+  @Input()
+  activityRecords : ActivityLogResponse[]
 
   saveCount = 0;
   recommendationCount: number = 0;
