@@ -12,7 +12,6 @@ import {of} from "rxjs";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
-import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
@@ -51,10 +50,6 @@ class MockAppService {
     }
     return of(mockAssessmentStructure)
 
-  }
-
-  saveAssessment(saveRequest: SaveRequest) {
-    return of(saveRequest);
   }
 }
 
