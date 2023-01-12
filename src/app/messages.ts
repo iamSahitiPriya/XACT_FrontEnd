@@ -116,6 +116,8 @@ export const data_local =
     ASSESSMENT_MODULE: {
       TITLE: "Modules",
       SAVE: "Click to save modules",
+      CATEGORY_CONTENT : "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
+      CATEGORY : "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"

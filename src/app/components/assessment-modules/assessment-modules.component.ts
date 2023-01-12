@@ -49,6 +49,8 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentState: string;
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
   type: any;
+  content: string = data_local.ASSESSMENT_MODULE.CATEGORY_CONTENT;
+  categoryTitle : string = data_local.ASSESSMENT_MODULE.CATEGORY
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
     this.assessmentResponse = this.store.select((storeMap) => storeMap.assessmentState.assessments)
