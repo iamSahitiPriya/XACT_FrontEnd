@@ -150,7 +150,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     const vis = svg.append("svg:g")
       .attr("id", "container")
-      .attr("transform", `translate(290,425)`);
+      .attr("transform", `translate(290,480)`);
 
     d3.select("#container").on("mouseleave", this.onMouseleave);
 
@@ -275,30 +275,10 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("id", "trail")
       .attr("fill-opacity", 0.6);
 
-    var defs = trail.append("defs")
-    var gradient = defs.append("linearGradient")
-      .attr("id", "gradient")
-      .attr("x1", "0%")
-      .attr("y1", "0%")
-      .attr("x2", "100%")
-      .attr("y2", "100%")
-      .attr("spreadMethod", "pad");
-
-    gradient
-      .append("stop")
-      .attr("offset", "55%")
-      .attr("stop-color", <string>this.color("1"))
-
-    gradient
-      .append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "white")
-
-
     trail.append("svg:circle")
       .attr("id", "endlabel")
       .attr("class", "endlabel")
-      .attr("fill", "url(#gradient)")
+      .attr("fill", this.arrowColor)
       .style("filter", "drop-shadow(0px 3px 6px rgba(0,0,0,0.5))")
     trail.append("svg:text")
       .attr("id", "ratingText")
@@ -379,8 +359,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     if (this.selectedValue == "ThreatTheme") {
       this.arrowColor = "orange"
-      d3.select("#gradient").select("stop")
-        .attr("stop-color", "orange")
+      d3.select("#trail").select("#endlabel")
+        .attr("fill", this.arrowColor)
       d3.select("#chart").select("#container").selectAll("path")
         .attr("fill", this.fillThreatColorsInChart)
 
@@ -388,12 +368,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, this.data.children.length + 11).reverse());
       this.color = color
       this.arrowColor = <string>this.color("1")
-      let breadCrumbColor = <string>this.color("1")
 
-      d3.select("#gradient").select("stop")
-        .attr("stop-color", breadCrumbColor);
       d3.select("#trail").select("#endlabel")
-        .attr("fill", "url(#gradient)")
+        .attr("fill", this.arrowColor)
 
       d3.select("#chart").select("#container").selectAll("path")
         .attr("fill", (d: any) => {
