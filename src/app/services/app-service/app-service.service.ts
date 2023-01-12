@@ -26,8 +26,8 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
-import template from "string-placeholder";
 import {SummaryResponse} from "../../types/summaryResponse";
+import template from "string-placeholder";
 
 
 @Injectable({

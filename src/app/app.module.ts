@@ -99,6 +99,7 @@ import {
 } from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
 import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {MtxPopoverModule} from "@ng-matero/extensions/popover";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -291,6 +292,7 @@ export const appRoutes: Routes = [
     Ng2SearchPipeModule,
     MatAutocompleteModule,
     NgxChartsModule,
+    MtxPopoverModule,
   ],
 
   exports: [

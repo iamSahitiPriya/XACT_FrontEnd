@@ -26,7 +26,6 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {debounce} from "lodash";
 import {AssessmentAverageRatingComponent} from "../assessment-average-rating/assessment-average-rating.component";
-import {AssessmentStructure} from "../../types/assessmentStructure";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 

@@ -102,17 +102,19 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    let questionRequest : QuestionRequest = this.getQuestionRequest(question)
-    this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data : QuestionStructure) => {
-        question.isEdit = false
-        question.questionId = data.questionId
-        this.sendToStore(data)
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError(this.dataNotSaved);
-      }
-    })
+    if (question.questionText.trimStart().length>0) {
+      let questionRequest : QuestionRequest = this.getQuestionRequest(question)
+      this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (data: QuestionStructure) => {
+          question.isEdit = false
+          question.questionId = data.questionId
+          this.sendToStore(data)
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError(this.dataNotSaved);
+        }
+      })
+    }
   }
 
   deleteUnsavedQuestion() {

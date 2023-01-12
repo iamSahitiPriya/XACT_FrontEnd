@@ -16,7 +16,6 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of, throwError} from "rxjs";
-import {AssessmentNotes} from "../../types/assessmentNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {AnswerRequest} from "../../types/answerRequest";
 
