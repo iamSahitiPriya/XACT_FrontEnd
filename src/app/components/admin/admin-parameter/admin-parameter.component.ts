@@ -192,7 +192,7 @@ export class AdminParameterComponent implements OnInit {
       topicStatus: false,
       parameterId: -1,
       parameterName: "",
-      active: false,
+      active: true,
       updatedAt: Date.now(),
       comments: "",
       isEdit: true,
