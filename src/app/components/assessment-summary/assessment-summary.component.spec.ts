@@ -4,7 +4,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {AssessmentSunburstChartComponent} from './assessment-sunburst-chart.component';
+import {AssessmentSummaryComponent} from './assessment-summary.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {StoreModule} from "@ngrx/store";
@@ -21,123 +21,140 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {HttpClient, HttpHandler} from "@angular/common/http";
+import {SummaryResponse} from "../../types/summaryResponse";
+import {ElementRef} from "@angular/core";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 
 describe('AssessmentSunburstChartComponent', () => {
-  let component: AssessmentSunburstChartComponent;
-  let fixture: ComponentFixture<AssessmentSunburstChartComponent>;
-  let mockAppService:MockAppService
-  let actualData = { name:"project",children:[{
-      name:"ass1",rating:3,children:[{
-        name:"ass2",rating:2,children:[{
-          name:"ass3",rating:3,children:[{
-            name:"ass3",value:1
+  let component: AssessmentSummaryComponent;
+  let fixture: ComponentFixture<AssessmentSummaryComponent>;
+  let mockAppService: MockAppService
+  let elRef: ElementRef
+  let actualData = {
+    name: "project", children: [{
+      name: "ass1", rating: 3, children: [{
+        name: "ass2", rating: 2, children: [{
+          name: "ass3", rating: 3, children: [{
+            name: "ass3", value: 1
           }]
         }]
       }]
-    }]}
+    }]
+  }
+  let summaryResponse: SummaryResponse = {
+    categoryAssessed: 1,
+    moduleAssessed: 1,
+    topicAssessed: 1,
+    parameterAssessed: 1,
+    questionAssessed: 1
+  }
+
   class MockAppService {
-    public getReportData(assessmentId:Number){
+
+    public getReportData(assessmentId: Number) {
       return of(actualData)
     }
+
+    public getSummaryData(assessmentId: number) {
+      return of(summaryResponse)
+    }
+  }
+
+  class MockElementRef implements ElementRef {
+    nativeElement = {};
   }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentSunburstChartComponent ],
-      imports: [ FormsModule,MatFormFieldModule,MatDividerModule,MatToolbarModule, MatButtonModule ,MatSelectModule, MatCardModule, MatIconModule,HttpClientTestingModule , RouterTestingModule, StoreModule.forRoot(reducers)],
+      declarations: [AssessmentSummaryComponent],
+      imports: [FormsModule, MatFormFieldModule, MatDividerModule, MatToolbarModule, NoopAnimationsModule, MatButtonModule, MatSelectModule, MatCardModule, MatIconModule, HttpClientTestingModule, MatTooltipModule, NgxChartsModule, RouterTestingModule, StoreModule.forRoot(reducers)],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
           provide: AppServiceService,
           useClass: MockAppService
-        },
+        }, {
+          provide: ElementRef, useValue: new MockElementRef()
+        }
       ]
     })
 
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssessmentSunburstChartComponent);
+    fixture = TestBed.createComponent(AssessmentSummaryComponent);
     component = fixture.componentInstance;
     mockAppService = new MockAppService()
-
+    elRef = TestBed.get(ElementRef)
+    component.data = {
+      name: "project", children: [{
+        name: "ass1", rating: 3, children: [{
+          name: "ass2", rating: 2, children: [{
+            name: "ass3", rating: 3, children: [{
+              name: "ass3", value: 1
+            }]
+          }]
+        }]
+      }]
+    }
+    fixture.detectChanges()
 
 
   });
-  afterEach(function() {
+  afterEach(function () {
     d3.selectAll('svg').remove();
   });
 
   it('should create', () => {
+    jest.spyOn(component, "getSummaryData")
+
     component.ngOnInit();
     expect(component).toBeTruthy();
+
+    expect(component.getSummaryData).toHaveBeenCalled()
   });
 
-  it('should call sunburstChart Function , click and Hover on it', function() {
-    component.data =  { name:"project",children:[{
-            name:"ass1",rating:3,children:[{
-              name:"ass2",rating:2,children:[{
-                name:"ass3",rating:3,children:[{
-                  name:"This is at parameter level Assessment",value:1
-                  }]
-                }]
-              }]
-            }]}
+  it('should call sunburstChart Function , click and Hover on it', function () {
+    component.categorySummary = [{
+      name: "hello", value: 2
+    }]
+    component.ngOnInit()
     jest.spyOn(component, 'drawSunBurstChart');
     Object.defineProperty(global.SVGElement.prototype, 'getComputedTextLength', {
       writable: true,
       value: jest.fn().mockReturnValue(100),
     });
-    component.drawSunBurstChart(component.data);
-    expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("100%");
+    expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("400");
 
     expect(fixture.nativeElement.querySelector("circle").dispatchEvent(new Event('click'))).toBe(true);
 
 
     let node = {
       data: {
-        name:"ass3",rating:3,children:[{
-          name:"ass3",value:1
+        name: "ass3", rating: 3, children: [{
+          name: "ass3", value: 1
         }]
       }
     }
 
-    component.OnMouseOver(onmouseover,node);
+    component.OnMouseOver(onmouseover, node);
     expect(d3.select("#sequence").text()).not.toBeNull();
   })
 
-  it('should change theme of chart onClick', () =>{
+  it('should change theme of chart onClick', () => {
     jest.spyOn(component, 'onThemeChange');
     component.selectedValue = d3.interpolatePurples;
-
-    component.data =  { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
-            }]
-          }]
-        }]
-      }]}
     component.selectedValue = d3.interpolateSpectral;
     component.onThemeChange()
     expect(component.selectedValue).toBe(d3.interpolateSpectral)
   })
 
-  it('should change theme to threat display' ,() => {
+  it('should change theme to threat display', () => {
     jest.spyOn(component, 'onThemeChange');
     component.selectedValue = d3.interpolatePurples;
-
-    component.data =  { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
-            }]
-          }]
-        }]
-      }]}
     component.selectedValue = 'ThreatTheme';
     component.onThemeChange()
     expect(component.selectedValue).toBe("ThreatTheme");
@@ -147,63 +164,39 @@ describe('AssessmentSunburstChartComponent', () => {
     let graphContainer = document.createElement("div");
     graphContainer.id = "sequence";
     document.body.appendChild(graphContainer);
-    jest.spyOn(component,'initializeBreadcrumbTrail');
-    let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow,  10).reverse());
-    component.initializeBreadcrumbTrail(graphContainer.id,color)
+    jest.spyOn(component, 'initializeBreadcrumbTrail');
+    let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 10).reverse());
+    component.color = color
+    component.initializeBreadcrumbTrail(graphContainer.id)
     expect(d3.select("#sequence").select("svg").attr("width")).toBe("100%")
   })
 
   it('should get Ancestors of data selected', () => {
     jest.spyOn(component, 'getAncestors');
 
-    component.data =  { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
-            }]
-          }]
-        }]
-      }]}
     component.getAncestors(component.data.children[0])
     expect(component.getAncestors(component.data.children[0])).not.toBeNull();
   })
-  it('should be able to create figure of breadCrumbs', () => {
-    jest.spyOn(component, 'breadcrumbFigure');
 
-    component.data =  { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
-            }]
-          }]
-        }]
-      }]}
-    var actualFigurePoints = component.breadcrumbFigure(component.data.children[0],2);
-    var expectedFigurePoints = "0,0 155,26.666666666666668 310,0 310,80 155,120 0,80";
-    expect(actualFigurePoints).toBe(expectedFigurePoints)
-
-  })
   it("should update breadCrumbs", () => {
-    jest.spyOn(component,'updateBreadcrumbs');
+    jest.spyOn(component, 'updateSelectedAverageScore');
     let mockedNodeArray = [{
-      name:"ass1",rating:3,children:[{
-        name:"ass2",rating:2,children:[{
-          name:"ass3",rating:3,children:[{
-            name:"ass3",value:1
+      name: "ass1", rating: 3, children: [{
+        name: "ass2", rating: 2, children: [{
+          name: "ass3", rating: 3, children: [{
+            name: "ass3", value: 1
           }]
         }]
       }]
     }]
-    component.updateBreadcrumbs(mockedNodeArray,2)
+    component.updateSelectedAverageScore(2)
   })
   it("should fill color as green if average rating is more than 3", () => {
     jest.spyOn(component, 'fillThreatColorsInChart');
 
     let node = {
-      data:{
-        name:"ass1",rating:4
+      data: {
+        name: "ass1", rating: 4
       }
     }
     expect(component.fillThreatColorsInChart(node)).toBe("green");
@@ -212,8 +205,8 @@ describe('AssessmentSunburstChartComponent', () => {
     jest.spyOn(component, 'fillThreatColorsInChart');
 
     let node = {
-      data:{
-        name:"ass1",rating:1
+      data: {
+        name: "ass1", rating: 1
       }
     }
     expect(component.fillThreatColorsInChart(node)).toBe("red");
@@ -223,8 +216,8 @@ describe('AssessmentSunburstChartComponent', () => {
     jest.spyOn(component, 'fillThreatColorsInChart');
 
     let node = {
-      data:{
-        name:"ass1",rating:3
+      data: {
+        name: "ass1", rating: 3
       }
     }
     expect(component.fillThreatColorsInChart(node)).toBe("orange");
@@ -234,7 +227,7 @@ describe('AssessmentSunburstChartComponent', () => {
   it("should fill rating color as green if rating is more than 3", () => {
     jest.spyOn(component, 'fillRatingCircle');
 
-    let rating =4;
+    let rating = 4;
     expect(component.fillRatingCircle(rating)).toBe("green");
   })
 
@@ -253,57 +246,48 @@ describe('AssessmentSunburstChartComponent', () => {
   })
   it("should return name of particular element of data from structure", () => {
     jest.spyOn(component, 'getDataName');
-    let dummyData= {data:{
-      name:"category1",rating:3
-      }}
+    let dummyData = {
+      data: {
+        name: "category1", rating: 3
+      }
+    }
     expect(component.getDataName(dummyData)).toBe("category1")
   })
   it("should check MouseLeave Functionality", () => {
-    jest.spyOn(component,'onMouseleave');
+    jest.spyOn(component, 'onMouseleave');
     let anyData;
     component.onMouseleave(anyData);
     expect(d3.select("#trail")).not.toBeNull();
   })
 
-  it("should be able to change position of upcoming breadCrumbs" , () => {
-    jest.spyOn(component,'getBreadCrumbTranslation');
-    let dummyData1 = {
-      name:"category", depth:2
-    }
-    expect(component.getBreadCrumbTranslation(dummyData1)).toBe("translate(0,210)")
-    let dummyData2 = {
-      name:"category", depth:3
-    }
-    expect(component.getBreadCrumbTranslation(dummyData2)).toBe("translate(0,315)")
-
-  })
-
   it("should test mouseover event for parameter level rating", () => {
-    jest.spyOn(component,'OnMouseOver');
+    jest.spyOn(component, 'OnMouseOver');
     let node = {
       data: {
         name: "ass3", value: 1
       }
     }
 
-    component.OnMouseOver(onmouseover,node);
+    component.OnMouseOver(onmouseover, node);
     expect(d3.select("#sequence").text()).not.toBeNull();
 
   })
 
   it("should fetch the answers from the ngrx store", () => {
-    let chartData = { name:"project",children:[{
-        name:"ass1",rating:3,children:[{
-          name:"ass2",rating:2,children:[{
-            name:"ass3",rating:3,children:[{
-              name:"ass3",value:1
+    let chartData = {
+      name: "project", children: [{
+        name: "ass1", rating: 3, children: [{
+          name: "ass2", rating: 2, children: [{
+            name: "ass3", rating: 3, children: [{
+              name: "ass3", value: 1
             }]
           }]
         }]
-      }]}
+      }]
+    }
     component.getDataAndSunBurstChart();
-    jest.spyOn(component,'drawSunBurstChart')
-    mockAppService.getReportData(1).subscribe((data) =>{
+    jest.spyOn(component, 'drawSunBurstChart')
+    mockAppService.getReportData(1).subscribe((data) => {
       expect(data).toBe(chartData)
       expect(component.drawSunBurstChart).toBeCalled();
     })
@@ -311,9 +295,12 @@ describe('AssessmentSunburstChartComponent', () => {
 
 
   it("should call download image function", () => {
-    jest.spyOn(component,'downloadImage');
-    const button = fixture.nativeElement.querySelector("#downloadButton");
-    button.click();
+    component.categorySummary = [{
+      name: "hello", value: 2
+    }]
+    let button = fixture.nativeElement.querySelector("#downloadButton")
+    jest.spyOn(component, 'downloadImage');
+    button.click()
     expect(component.downloadImage).toBeCalled();
   })
 

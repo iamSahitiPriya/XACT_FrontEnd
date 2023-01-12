@@ -27,6 +27,7 @@ import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
 import template from "string-placeholder";
+import {SummaryResponse} from "../../types/summaryResponse";
 
 
 @Injectable({
@@ -148,7 +149,7 @@ export class AppServiceService {
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
-    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.REPORT_DATA_URI + "/" + assessmentId);
+    return this.http.get<ReportDataStructure>(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId + environment.REPORT_DATA_URI);
   }
 
 
@@ -270,6 +271,12 @@ export class AppServiceService {
     return template(URI, data);
   }
 
+  getSummaryData(assessmentId: number) {
+    const summaryDataURI = this.formatURI(environment.SUMMARY_DATA, {
+      assessmentId: assessmentId
+    })
+    return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
+  }
 }
 
 

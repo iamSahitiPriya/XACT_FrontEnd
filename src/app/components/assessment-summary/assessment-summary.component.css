@@ -1,0 +1,183 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.heading {
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  text-transform: capitalize;
+  letter-spacing: normal;
+  color: #043D4E;
+  font-size: 22px;
+}
+
+.colorTheme {
+  float: right;
+  justify-content: center;
+  margin-right: 40px;
+}
+
+.name {
+  padding-top: 5px;
+  text-transform: capitalize;
+  letter-spacing: normal;
+  color: #043D4E;
+  margin-left: 1em;
+  font-size: 22px;
+}
+
+#chart {
+  width: 70%;
+}
+
+#sequence {
+  width: 320px;
+  display: grid;
+  margin-top: 90px;
+  padding-left: 20px;
+  height: fit-content;
+}
+
+.sunBurst {
+  width: 99%;
+  height: 750px;
+  margin-top: -75px;
+  text-align: center;
+  display: inline-flex;
+}
+
+.dashboard {
+  display: flex;
+  width: 98%;
+  height: 95%;
+  justify-content: flex-end;
+}
+
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+}
+
+.mat-toolbar {
+  background-color: transparent;
+}
+
+.module-spacer {
+  flex: 1 1 auto;
+}
+
+.downloadButton {
+  display: inline;
+  margin-left: 20px;
+  margin-right: -30px;
+}
+
+#download {
+  display: none;
+}
+
+.backIcon {
+  color: #043D4E;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 1px;
+}
+
+.mat-icon-custom {
+  vertical-align: unset !important;
+  line-height: unset !important;
+}
+
+.rating {
+  width: 24px;
+  height: 34px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 6px #00000029;
+  border-radius: 4px;
+  opacity: 1;
+  float: right;
+  margin-top: -28px;
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.trail {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 4px;
+}
+
+.star-icon {
+  transform: scale(0.5);
+  color: #CEB14F;
+}
+
+.rating-value {
+  margin-top: -6px;
+  font-size: 12px;
+  font-family: "Inter", sans-serif;
+  font-weight: bolder;
+  letter-spacing: 0.74px;
+  color: #000000;
+}
+
+.sequenceName {
+  width: 83%;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.down-arrow-span {
+  margin-left: -35px;
+}
+
+.down_arrow {
+  transform: scale(1.5);
+  margin-left: -11px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.chart-card{
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+}
+.definition{
+  padding-left: 10%;
+}
+.dataValue{
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  padding: 2px 5px;
+  border: 1px solid #000;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+  font-weight: normal;
+  margin-left: 14px;
+}
+
+.gauge{
+  display: flex;
+}
+
+.assessedData{
+  padding-left: 4%;
+}
+.gauge-chart{
+  margin-right: 65px;
+  margin-top: -85px;
+  height: 205px;
+  font-size: 20px;
+}
+
+.noDataHeading{
+  text-align: center;
+}
+
+.noDataCard{
+  box-shadow: none;
+}

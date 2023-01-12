@@ -35,7 +35,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit', 'action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
-  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
+  commonErrorFieldText = data_local.ADMIN.ERROR;
   isModuleAdded: boolean = false;
   module: ModuleData;
   isEditable: boolean;
