@@ -36,6 +36,7 @@
     "@ng-matero/extensions": "^14.0.0",
     "@ngrx/effects": "^14.3.2",
     "@ngrx/store": "^14.3.2",
+    "@ngrx/store-devtools": "^14.3.2",
     "@okta/okta-angular": "^6.0.0",
     "@okta/okta-auth-js": "^6.3.0",
     "@popperjs/core": "^2.10.2",
