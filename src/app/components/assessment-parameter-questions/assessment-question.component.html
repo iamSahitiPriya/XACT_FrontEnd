@@ -16,7 +16,7 @@
                 maxlength="10000"
                 [matTooltip]="userEmail"
                 (keyup)="userEmail.length === 0 && saveParticularAnswer($event)"
-                [readonly] = "userEmail.length>0"
+                [ngClass]="{'changeBgColor':userEmail.length>0}"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
       <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
       <div class = spinParent>

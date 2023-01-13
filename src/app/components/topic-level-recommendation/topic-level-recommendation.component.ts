@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,6 +19,7 @@ import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommenda
 import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 800;
@@ -47,6 +48,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
 
   form: UntypedFormGroup;
   autoSave:string
+  @Input()
+  activityRecords:ActivityLogResponse[]
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
@@ -69,6 +72,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
   recommendationId: number;
+  userEmail: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -119,6 +123,17 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
       }
     })
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if( this.activityRecords.length > 0) {
+      for (let record of this.activityRecords) {
+        if (record.identifier === this.recommendation.recommendationId) {
+          this.recommendation.recommendation = record.inputText
+          this.userEmail=record.userName
+        }
+      }
+    }
+    else this.userEmail =""
   }
 
   saveParticularTopicRecommendationText(_$event: KeyboardEvent) {

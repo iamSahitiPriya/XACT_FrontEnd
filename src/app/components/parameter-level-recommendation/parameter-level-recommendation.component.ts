@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,6 +19,7 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 let DEBOUNCE_TIME = 800;
 
@@ -47,6 +48,9 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   @Input()
   parameterIndex: number;
 
+  @Input()
+  activityRecord:ActivityLogResponse[]
+
   form: UntypedFormGroup;
   autoSave : string;
   recommendationId:number
@@ -70,6 +74,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   private cloneParameterLevelRecommendationResponse: AssessmentStructure;
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
+  userEmail: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -118,6 +123,18 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
       }
     })
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if( this.activityRecord.length > 0) {
+      for (let record of this.activityRecord) {
+        console.log(record)
+        if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
+          this.parameterLevelRecommendation.recommendation = record.inputText
+          this.userEmail=record.userName
+        }
+      }
+    }
+    else this.userEmail =""
   }
 
   saveParticularParameterText(_$event: KeyboardEvent) {

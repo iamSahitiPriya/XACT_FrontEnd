@@ -15,7 +15,9 @@
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxlength="5000"
-                  (keyup)="saveParticularTopicRecommendationText($event)"
+                  [readonly] = "userEmail.length>0"
+                  [matTooltip]="userEmail"
+                  (keyup)="userEmail.length ===0 && saveParticularTopicRecommendationText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
         <mat-hint align="end">{{input.value.length}}/5000</mat-hint>
 
