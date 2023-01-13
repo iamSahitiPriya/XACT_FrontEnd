@@ -116,13 +116,11 @@ export const data_local =
     ASSESSMENT_MODULE: {
       TITLE: "Modules",
       SAVE: "Click to save modules",
+      CATEGORY_CONTENT : "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
+      CATEGORY : "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"
-    },
-    SAVE_ASSESSMENT_BUTTON: {
-      TITLE: "Save",
-      TOOLTIP: "Click to save"
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",

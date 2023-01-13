@@ -6,6 +6,9 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use 'node_modules/@ng-matero/extensions/index' as mtx;
+
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -36,4 +39,5 @@ $XAct_Frontend_App-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($XAct_Frontend_App-theme);
+@include mtx.all-component-themes($XAct_Frontend_App-theme);
 

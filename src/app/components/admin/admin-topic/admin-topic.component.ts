@@ -41,7 +41,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
-  commonErrorFieldText = data_local.ADMIN.ERROR;
+  commonErrorFieldText =data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

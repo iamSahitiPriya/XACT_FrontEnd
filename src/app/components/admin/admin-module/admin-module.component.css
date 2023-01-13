@@ -117,7 +117,9 @@ div.buttonColumn {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
   opacity: 1;
+  margin-top:10px;
 }
+
 
 .delete {
   min-width: 0px;
@@ -239,4 +241,11 @@ tr.eachRow {
   padding-top: 17px;
   word-break: break-word;
   padding-left: 45%;
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #45A0AC !important;
 }

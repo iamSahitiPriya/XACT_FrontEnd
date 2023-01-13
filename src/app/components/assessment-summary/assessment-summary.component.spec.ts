@@ -299,7 +299,7 @@ describe('AssessmentSunburstChartComponent', () => {
       name: "hello", value: 2
     }]
     let button = fixture.nativeElement.querySelector("#downloadButton")
-    jest.spyOn(component, 'downloadImage');
+    jest.spyOn(component, 'downloadImage').mockImplementation();
     button.click()
     expect(component.downloadImage).toBeCalled();
   })

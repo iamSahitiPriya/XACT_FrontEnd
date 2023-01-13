@@ -8,7 +8,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {AssessmentRequest} from "../../types/assessmentRequest";
-import {SaveRequest} from "../../types/saveRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
@@ -26,8 +25,8 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {ParameterReference} from "../../types/parameterReference";
 import {QuestionStructure} from "../../types/questionStructure";
-import template from "string-placeholder";
 import {SummaryResponse} from "../../types/summaryResponse";
+import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
 
 
@@ -55,12 +54,6 @@ export class AppServiceService {
     return this.http.get<UserCategoryResponse>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId + "/categories")
   }
 
-
-  public saveAssessment(assessmentAnswer: SaveRequest) {
-    const assessmentURI = this.formatURI(environment.SAVE_ASSESSMENT_URI, {assessmentId: assessmentAnswer.assessmentId})
-    return this.http.post(environment.BaseURI + assessmentURI, assessmentAnswer.topicRequest)
-  }
-
   generateReport(assessmentId: number) {
     return this.http.get(environment.BaseURI + environment.ASSESSMENT_REPORT_URI + assessmentId, {responseType: 'blob'})
   }
@@ -82,19 +75,10 @@ export class AppServiceService {
   }
 
 
-  saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_TEXT_URI, {
+  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
+    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: topicLevelRecommendationText.assessmentId,
       topicId: topicLevelRecommendationText.topicId
-    })
-    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
-  }
-
-
-  saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
-    const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_FIELD_URI, {
-      assessmentId: topicLevelRecommendationText.assessmentId,
-      topicId: topicLevelRecommendationText.topicId,
     })
     return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
   }

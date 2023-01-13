@@ -8,7 +8,6 @@ import {TestBed} from '@angular/core/testing';
 import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
-import {SaveRequest} from "../../types/saveRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
@@ -17,8 +16,6 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
-import template from "string-placeholder";
-import {OKTA_CONFIG} from "@okta/okta-angular";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -65,31 +62,6 @@ describe('AppServiceService', () => {
     expect(service.getCategories(assessmentId)).toBeTruthy()
   });
 
-  it("should save assessment", () => {
-    let AssessmentRequest: SaveRequest =
-      {
-        assessmentId: 123,
-        topicRequest: {
-          parameterLevel: [],
-          topicRatingAndRecommendation: {
-            topicId: 1,
-            rating: 1,
-            topicLevelRecommendation: [
-              {
-                recommendation: "some text",
-                impact: "HIGH",
-                effort: "LOW",
-                deliveryHorizon: "some text"
-              }
-            ],
-          }
-        },
-
-
-      };
-    expect(service.saveAssessment(AssessmentRequest)).toBeTruthy()
-  });
-
   it("should generate report", () => {
     expect(service.generateReport(123)).toBeTruthy()
   });
@@ -134,24 +106,8 @@ describe('AppServiceService', () => {
 
         }
     }
-    expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
+    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
   });
-
-  it("should update particular topic Recommendation fields", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
-      assessmentId: 1, topicId: 1,
-      topicLevelRecommendation:
-        {
-          recommendationId: 1,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-    }
-    expect(service.saveTopicRecommendationFields(dummyTopicRecommendation)).toBeTruthy()
-  });
-
 
   it("should delete topic recommendation", () => {
     let assessmentId = 1;

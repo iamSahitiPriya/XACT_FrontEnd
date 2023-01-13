@@ -29,8 +29,9 @@
         </div>
 
         <div *ngIf="parameter.questions">
-          <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
-            [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
+          <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
+                                    [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"
+                                    [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                     [parameterIndex]="i"
@@ -79,13 +80,6 @@
       ></app-topic-level-rating>
     </div>
 
-
-    <div>
-      <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
-              mat-raised-button
-              (click)="save()">{{saveButtonText}}
-      </button>
-    </div>
   </div>
   <div class="averageMaturityScore">
     <div class="parameterScoring">
