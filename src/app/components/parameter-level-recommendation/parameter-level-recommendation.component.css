@@ -111,6 +111,10 @@
   margin-bottom: 3px;
 }
 
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rebeccapurple !important;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }

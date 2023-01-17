@@ -120,7 +120,8 @@ export const data_local =
       CATEGORY : "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
-      LABEL: "Notes"
+      LABEL: "Notes",
+      ANSWER_FIELD_LIMIT : 10000
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -251,7 +252,8 @@ export const data_local =
         IMPACT_3: "Low",
         DH_1: "Now",
         DH_2: "Next",
-        DH_3: "Later"
+        DH_3: "Later",
+        LIMIT : 5000
       },
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR:"Data cannot be saved",

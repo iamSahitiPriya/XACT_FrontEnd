@@ -63,6 +63,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   Next = data_local.RECOMMENDATION_TEXT.DH_2;
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
+  maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
 
   assessmentStatus: string;
   topicRecommendationResponse1: Observable<AssessmentStructure>;
@@ -135,6 +136,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     }
     else this.userEmail =""
   }
+
 
   saveParticularTopicRecommendationText(_$event: KeyboardEvent) {
 

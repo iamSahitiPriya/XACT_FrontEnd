@@ -53,6 +53,10 @@ class MockAppService {
     return of(mockAssessmentStructure)
 
   }
+
+  public getActivity(topicId : number, assessmentId : number) {
+    return of(null)
+  }
 }
 
 

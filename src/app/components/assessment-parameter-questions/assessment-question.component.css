@@ -47,6 +47,9 @@ textArea.mat-input-element {
   margin-left: -20px;
   margin-bottom: 3px;
 }
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rebeccapurple !important;
+}
 
 /* Safari */
 @-webkit-keyframes spin {
@@ -76,8 +79,6 @@ textArea.mat-input-element {
     font-size: 14px;
   }
   }
-.changeBgColor{
-  background-color: red;
-}
+
 
 

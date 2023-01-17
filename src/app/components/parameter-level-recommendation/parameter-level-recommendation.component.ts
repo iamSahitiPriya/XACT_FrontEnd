@@ -67,6 +67,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   Next = data_local.RECOMMENDATION_TEXT.DH_2;
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
+  maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
 
   assessmentStatus: string;
   parameterRecommendationResponse1: Observable<AssessmentStructure>;

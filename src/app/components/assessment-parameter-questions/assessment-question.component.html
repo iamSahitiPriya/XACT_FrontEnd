@@ -3,7 +3,7 @@
   -->
 
 <div *ngIf="questionNumber">
-  <form>
+  <form  [ngClass]="{'text-border':userEmail.length>0}">
     <mat-form-field class="textArea" appearance="outline" id="testForm">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
       <textarea matInput #input name="textarea{{questionNumber}}"
@@ -16,13 +16,15 @@
                 maxlength="10000"
                 [matTooltip]="userEmail"
                 (keyup)="userEmail.length === 0 && saveParticularAnswer($event)"
-                [ngClass]="{'changeBgColor':userEmail.length>0}"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
-      <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
+      <mat-hint *ngIf="userEmail.length === 0; else outputLength" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+      <ng-template #outputLength>
+        <mat-hint  align="end" style="font-style: italic;">Someone is typing...</mat-hint>
+      </ng-template>
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="questionId === questionNumber"></span>
+          <span class="loader" *ngIf="questionId === questionNumber || userEmail.length > 0"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>

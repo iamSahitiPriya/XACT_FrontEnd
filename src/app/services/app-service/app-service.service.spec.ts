@@ -331,5 +331,10 @@ describe('AppServiceService', () => {
     let assessmentId = 1
     expect(service.getSummaryData(assessmentId)).toBeTruthy()
   });
+
+  it("should get activity records", () => {
+    let topicId = 1, assessmentId = 1;
+    expect(service.getActivity(topicId,assessmentId)).toBeTruthy()
+  })
 });
 

@@ -71,6 +71,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
+  maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT ;
+
 
 
   private cloneAnswerResponse: AssessmentStructure;
@@ -99,6 +101,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
+
   ngOnInit() {
     this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
@@ -111,7 +114,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if( this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
-        if (record.identifier === this.questionNumber && this.type === record.activityType) {
+        console.log(this.type)
+        if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
           this.answerInput = record.inputText
           this.userEmail=record.userName
         }
