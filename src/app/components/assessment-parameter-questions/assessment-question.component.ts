@@ -111,10 +111,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if( this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
-        console.log(this.type)
         if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
           this.answerInput = record.inputText
           this.userEmail=record.userName

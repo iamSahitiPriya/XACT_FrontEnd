@@ -125,7 +125,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     })
 
   }
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if( this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.recommendation.recommendationId) {

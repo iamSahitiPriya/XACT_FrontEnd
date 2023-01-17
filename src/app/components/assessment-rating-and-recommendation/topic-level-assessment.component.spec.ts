@@ -29,6 +29,7 @@ import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 class MockAppService {
 
@@ -55,7 +56,7 @@ class MockAppService {
   }
 
   public getActivity(topicId : number, assessmentId : number) {
-    return of(null)
+      return of([]);
   }
 }
 
@@ -490,8 +491,9 @@ describe('TopicLevelAssessmentComponent', () => {
       topicId: 1,
       topicName: "",
       parameters: [{parameterId: 1, parameterName: "hello", topic: 1,active:false,updatedAt:0,comments:"", references: [], questions: [],userQuestions:[]}],
-      module: 1
+      module: 1,active:true,updatedAt:123
     }
+    component.assessmentId = 1
     component.ngOnInit()
     expect(component.getParameterWithRatingAndRecommendationRequest).toHaveBeenCalled()
 
@@ -534,6 +536,37 @@ describe('TopicLevelAssessmentComponent', () => {
     jest.spyOn(component,'updateAverageRating')
     component.updateAverageRating();
     expect(component.averageRating.rating).toBe(0)
+  })
+
+  it("should return user question request body", () => {
+    component.topicInput = {topicId:1,topicName:"name",module:1,parameters:[],updatedAt:123,active:true,references:[]};
+    component.assessmentId = 5;
+    component.ngOnInit()
+    let userQuestionRequest : UserQuestionSaveRequest = {questionId:1,question:"text",parameterId:1,answer:"text"}
+
+    userQuestionRequest = component.getUserQuestions(2,2,"sometext","sometext")
+
+    expect(userQuestionRequest.questionId).toBe(2)
+  })
+
+  it("should filter activity records based on type", () => {
+    component.activities = [
+      {identifier:1,activityType:"DEFAULT_QUESTION",inputText:"text",userName:"abc@thoughtworks.com"},
+      {identifier:1,activityType:"ADDITIONAL_QUESTION",inputText:"text",userName:"def@thoughtworks.com"},
+      {identifier:1,activityType:"TOPIC_RECOMMENDATION",inputText:"text",userName:"XYZ@thoughtworks.com"},
+      {identifier:1,activityType:"PARAMETER_RECOMMENDATION",inputText:"text",userName:"xyz@thoughtworks.com"},
+    ]
+
+    component.filterActivityRecords()
+
+    expect(component.parameterRecommendationActivityRecord.length).toBe(1)
+    expect(component.questionActivityRecord.length).toBe(1)
+  })
+
+  it("should clear activity record arrays where there is no activity", () => {
+    component.clearActivityRecords()
+
+    expect(component.parameterRecommendationActivityRecord.length).toBe(0)
   })
 });
 

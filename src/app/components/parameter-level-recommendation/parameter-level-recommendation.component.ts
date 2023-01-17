@@ -125,7 +125,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     })
 
   }
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if( this.activityRecord.length > 0) {
       for (let record of this.activityRecord) {
         console.log(record)

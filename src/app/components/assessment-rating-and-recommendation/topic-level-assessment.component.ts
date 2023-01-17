@@ -62,7 +62,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   };
 
   private destroy$: Subject<void> = new Subject<void>();
-  private activities : ActivityLogResponse [] = []
+  activities : ActivityLogResponse [] = []
   questionActivityRecord : ActivityLogResponse [] = []
   userQuestionActivityRecord : ActivityLogResponse [] = []
   topicRecommendationActivityRecord : ActivityLogResponse [] = []
@@ -295,14 +295,14 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     })
   }
 
-  private filterActivityRecords() {
+   filterActivityRecords() {
     this.questionActivityRecord = this.activities.filter(activity => activity.activityType === "DEFAULT_QUESTION")
     this.userQuestionActivityRecord = this.activities.filter(activity => activity.activityType === "ADDITIONAL_QUESTION")
     this.topicRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "TOPIC_RECOMMENDATION")
     this.parameterRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "PARAMETER_RECOMMENDATION")
   }
 
-  private clearActivityRecords() {
+  clearActivityRecords() {
     this.parameterRecommendationActivityRecord = this.topicRecommendationActivityRecord = this.questionActivityRecord = this.userQuestionActivityRecord = []
   }
 }
