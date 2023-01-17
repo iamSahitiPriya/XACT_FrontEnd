@@ -11,13 +11,14 @@ import {AppStates} from "../../reducers/app.states";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {PopupConfirmationComponent} from "../popup-confirmation/popup-confirmation.component";
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-assessment-header',
   templateUrl: './assessment-header.component.html',
   styleUrls: ['./assessment-header.component.css']
 })
-export class AssessmentHeaderComponent implements OnInit, OnDestroy{
+export class AssessmentHeaderComponent implements OnInit, OnDestroy {
 
   savedAnswer: string
   createAssessmentForm: UntypedFormGroup;
@@ -28,7 +29,7 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
   assessmentId: number
 
   @ViewChild('assessmentMenuComponent')
-  assessmentMenuComponent:AssessmentMenuComponent;
+  assessmentMenuComponent: AssessmentMenuComponent;
 
   answerResponse1: Observable<AssessmentStructure>;
   private cloneAssessment: AssessmentStructure;
@@ -44,7 +45,7 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
   assessmentHeader: string = "assessmentHeader";
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private router: Router) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
@@ -53,6 +54,8 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
         this.cloneAssessment = Object.assign({}, this.assessment)
         this.cloneAssessment.assessmentStatus = _data.assessmentStatus
         this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
+        this.router.navigateByUrl("assessment/" + this.assessmentId + "/charts");
+
       }
     )
   }
@@ -82,7 +85,6 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy{
     this.cloneAssessment.assessmentStatus = assessmentStatus
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
   }
-
 
 
   ngOnInit(): void {

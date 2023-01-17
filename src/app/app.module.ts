@@ -86,6 +86,8 @@ import {AdminParameterReferenceComponent} from './components/admin/admin-paramet
 import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MtxPopoverModule} from "@ng-matero/extensions/popover";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {environment} from "../environments/environment";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -279,6 +281,7 @@ export const appRoutes: Routes = [
     MatAutocompleteModule,
     NgxChartsModule,
     MtxPopoverModule,
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
 
   exports: [
