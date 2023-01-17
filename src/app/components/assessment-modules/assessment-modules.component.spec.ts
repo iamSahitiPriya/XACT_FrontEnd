@@ -26,6 +26,7 @@ import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ActivatedRoute, convertToParamMap} from "@angular/router";
+import {MtxPopoverModule} from "@ng-matero/extensions/popover";
 
 
 class MockAppService {
@@ -103,7 +104,7 @@ describe('AssessmentModulesComponent', () => {
     };
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent, Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, MatTooltipModule, MatSnackBarModule,
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, MatTooltipModule, MatSnackBarModule,MtxPopoverModule,
         StoreModule.forRoot(reducers),
         NoopAnimationsModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule,
         RouterTestingModule.withRoutes([

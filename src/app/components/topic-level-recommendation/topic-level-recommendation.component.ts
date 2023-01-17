@@ -125,32 +125,38 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
 
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
-    this.setRecommendationsFields();
-    this.setTopicLevelRecommendationResponse();
-    this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
-    this.autoSave = "Auto Saved"
-    this.recommendationId = 1
-    this.appService.saveTopicRecommendationText(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
-        this.autoSave = ""
-        this.recommendationId = -1
-        this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
-        this.sendRecommendation(this.topicLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved");
-      }
-    })
-
+    if(this.setRecommendationsFields() !== null) {
+    this.setTopicLevelRecommendationResponse()
+      this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
+      this.autoSave = "Auto Saved"
+      this.recommendationId = 1
+      this.appService.saveTopicRecommendation(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
+          this.autoSave = ""
+          this.recommendationId = -1
+          this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
+          this.sendRecommendation(this.topicLevelRecommendationResponse)
+          this.updateDataSavedStatus()
+        }, error: _error => {
+          this.showError("Data cannot be saved");
+        }
+      })
+    }
   }
 
-  private setRecommendationsFields() {
-    this.recommendations.recommendationId = this.recommendation.recommendationId;
-    this.recommendations.recommendation = this.recommendation.recommendation;
-    this.recommendations.effort = this.recommendation.effort;
-    this.recommendations.impact = this.recommendation.impact;
-    this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
+  private setRecommendationsFields() : TopicLevelRecommendation | null{
+    if(this.recommendation.recommendationId === undefined && this.recommendation.recommendation === "" && this.recommendation.effort === "" && this.recommendation.impact === "" && this.recommendation.deliveryHorizon === "") {
+      return null;
+    }
+    else {
+      this.recommendations.recommendationId = this.recommendation.recommendationId;
+      this.recommendations.recommendation = this.recommendation.recommendation;
+      this.recommendations.effort = this.recommendation.effort;
+      this.recommendations.impact = this.recommendation.impact;
+      this.recommendations.deliveryHorizon = this.recommendation.deliveryHorizon;
+    }
+    return this.recommendation
   }
 
   private setTopicLevelRecommendationResponse() {
@@ -222,7 +228,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     this.topicLevelRecommendationText.topicId = this.topicId;
     this.setRecommendationsFields()
     this.setTopicLevelRecommendationResponse()
-    this.appService.saveTopicRecommendationFields(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
+    this.appService.saveTopicRecommendation(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()

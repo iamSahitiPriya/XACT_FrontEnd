@@ -116,13 +116,11 @@ export const data_local =
     ASSESSMENT_MODULE: {
       TITLE: "Modules",
       SAVE: "Click to save modules",
+      CATEGORY_CONTENT : "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
+      CATEGORY : "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"
-    },
-    SAVE_ASSESSMENT_BUTTON: {
-      TITLE: "Save",
-      TOOLTIP: "Click to save"
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -153,9 +151,19 @@ export const data_local =
     },
     LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
     SUMMARY_REPORT: {
-      TITLE: "Assessment Summary",
+      TITLE: "Summary",
       TOOLTIP: "Click to View Chart Summary",
-      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
+      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)",
+      INSTRUCTION: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\n" +
+        "      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita\n" +
+        "      kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+      MODULE_ASSESSED: "Modules Assessed",
+      CATEGORY_ASSESSED: "Categories Assessed",
+      TOPIC_ASSESSED: "Topics Assessed",
+      PARAMETER_ASSESSED: "Parameters Assessed",
+      QUESTION_ANSWERED: "Questions Answered",
+      NO_DATA_AVAILABLE: "No rating data available to display the chart",
+      COLOUR_THEME_HEADING: "Select Color Theme"
     },
     ADMIN: {
       MODULE_NOT_FOUND : "No modules available",

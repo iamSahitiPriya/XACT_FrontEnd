@@ -11,13 +11,11 @@ export const environment = {
   REDIRECT_URI: "https://qa.xact.thoughtworks.net/login/callback",
   OKTA_TESTING_DISABLEHTTPSCHECK: false,
   ASSESSMENT_URI: "/v1/assessments",
-  SAVE_ASSESSMENT_URI: "/v1/assessments/${assessmentId}/notes",
   ASSESSMENT_REPORT_URI: "/v1/reports/",
   ASSESSMENT_STATUS_FINISH_URI: "/finish",
   ASSESSMENT_STATUS_OPEN_URI: "/open",
   SAVE_ASSESSMENT_ANSWER_URI: "/v1/assessments",
-  SAVE_TOPIC_RECOMMENDATION_TEXT_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/recommendations-text",
-  SAVE_TOPIC_RECOMMENDATION_FIELD_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/recommendations-fields",
+  SAVE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/recommendations",
   SAVE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/recommendations",
   SAVE_TOPIC_RATING_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/ratings",
   SAVE_PARAMETER_RATING_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/ratings",
@@ -32,7 +30,7 @@ export const environment = {
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
   ASSESSMENT_ADMIN_REPORT_URI:"/v1/reports/admin",
   UPDATE_CATEGORY_URI : "/v1/admin/categories",
-  REPORT_DATA_URI:"/v1/reports/sunburst",
+  REPORT_DATA_URI: "/charts/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
@@ -57,5 +55,6 @@ export const environment = {
   SAVE_MODULE_URI: "/v1/admin/modules",
   SAVE_PARAMETER_URI: "/v1/admin/parameters",
   UPDATE_QUESTION:"/v1/admin/questions",
-  SAVE_QUESTION:"/v1/admin/questions"
+  SAVE_QUESTION:"/v1/admin/questions",
+  SUMMARY_DATA:"/v1/reports/${assessmentId}/summary"
 };

@@ -50,7 +50,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   AssessmentStructure: AssessmentStructure;
   dataSourceArray: CategoryData[]
   isCategoryAdded: boolean = false;
-  category: CategoryData
+  category: CategoryData | undefined;
   selectedCategory: CategoryData | null;
   isEditable: boolean;
   dataToDisplayed: CategoryData[]
@@ -64,7 +64,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   categoryLabel = data_local.ADMIN.CATEGORY_NAME
-  moduleLabel= data_local.ADMIN.MODULE_NAME
+  moduleLabel = data_local.ADMIN.MODULE_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
 
@@ -79,20 +79,16 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
+      console.log("master data : ", data)
       this.categories = data
       data.forEach((eachCategory) => {
         let category: CategoryData = {
-          categoryId: -1,
-          categoryName: "",
-          active: true,
-          updatedAt: -1,
-          comments: ""
+          categoryId: eachCategory.categoryId,
+          categoryName: eachCategory.categoryName,
+          active: eachCategory.active,
+          updatedAt: eachCategory.updatedAt,
+          comments: eachCategory.comments
         }
-        category.categoryId = eachCategory.categoryId;
-        category.categoryName = eachCategory.categoryName;
-        category.active = eachCategory.active;
-        category.updatedAt = eachCategory.updatedAt;
-        category.comments = eachCategory.comments;
         this.categoryData.push(category)
       })
       this.sortCategory();
@@ -102,6 +98,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   private sortCategory() {
     this.categoryData.sort((category1, category2) => category2.updatedAt - category1.updatedAt)
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
+
     this.dataSourceArray = [...this.dataSource.data]
     this.paginator.pageIndex = 0
     this.dataSource.paginator = this.paginator;
@@ -174,14 +171,14 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  private isUniqueCategory(categoryName : string) : boolean {
+  private isUniqueCategory(categoryName: string): boolean {
     let index = this.categories.findIndex((category: any) => category.categoryName.toLowerCase().replace(/\s/g, '') === categoryName.toLowerCase().replace(/\s/g, ''));
     return index === -1;
   }
 
   private getCategoryRequest(value: any) {
     if (this.isUniqueCategory(value.categoryName)) {
-     return  this.setCategoryRequest(value)
+      return this.setCategoryRequest(value)
     } else {
       this.showError(this.duplicateErrorMessage)
       return null
@@ -191,7 +188,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   editCategory(row: any) {
     this.resetUnsavedChanges(row)
     this.deleteRow()
-    this.selectedCategory = this.selectedCategory === row ? null : row
+    this.selectedCategory = this.selectedCategory?.categoryId === row.categoryId ? null : row
     this.isEditable = true;
     this.category = Object.assign({}, row)
     return this.selectedCategory;
@@ -199,22 +196,26 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   private resetUnsavedChanges(row: any) {
     if (this.category !== undefined && this.category.categoryId !== row.categoryId) {
-      let data = this.dataSource.data
-      let index = data.findIndex(category => category.categoryId === this.category.categoryId)
-      if (index !== -1) {
-        data.splice(index, 1, this.category)
-        this.dataSource.data = data
-      }
+      this.updateDatasource(this.category);
+    }
+  }
+
+  private updateDatasource(previousCategory: CategoryData) {
+    let data = this.dataSource.data
+    let index = data.findIndex(category => category.categoryId === previousCategory.categoryId)
+    if (index !== -1) {
+      data.splice(index, 1, previousCategory)
+      this.dataSource.data = data
     }
   }
 
   updateCategory(row: any) {
     let categoryRequest: any | null = this.setCategoryRequest(row);
-    if (this.category.categoryName.toLowerCase().replace(/\s/g, '')  !== row.categoryName.toLowerCase().replace(/\s/g, '') ) {
-      categoryRequest= this.getCategoryRequest(row);
+    if (this.category?.categoryName.toLowerCase().replace(/\s/g, '') !== row.categoryName.toLowerCase().replace(/\s/g, '')) {
+      categoryRequest = this.getCategoryRequest(row);
     }
-    if(categoryRequest !== null) {
-      categoryRequest['categoryId']=row.categoryId
+    if (categoryRequest !== null) {
+      categoryRequest['categoryId'] = row.categoryId
       this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false;
@@ -222,6 +223,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
           this.table.renderRows()
           this.showNotification(this.updateSuccessMessage, 2000)
           this.categoryData = []
+          this.category = undefined;
           this.updateToStore(_data)
           this.ngOnInit()
         }, error: _error => {
@@ -241,10 +243,10 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   cancelChanges(row: any) {
-    row.categoryName = this.category.categoryName
-    row.active = this.category.active
-    row.updatedAt = this.category.updatedAt
-    row.comments = this.category.comments
+    row.categoryName = this.category?.categoryName
+    row.active = this.category?.active
+    row.updatedAt = this.category?.updatedAt
+    row.comments = this.category?.comments
     this.selectedCategory = this.selectedCategory === row ? null : row
     return row;
   }
@@ -268,7 +270,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   private setCategoryRequest(row: any) {
-     return {
+    return {
       "categoryName": row.categoryName,
       "active": row.active,
       "comments": row.comments

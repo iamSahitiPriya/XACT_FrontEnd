@@ -12,7 +12,6 @@ import {of} from "rxjs";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
-import {SaveRequest} from "../../types/saveRequest";
 import {AssessmentModulesDetailsComponent} from "../assessment-modules-details/assessment-modules-details.component";
 import {ParameterLevelRatingComponent} from "../parameter-level-rating/parameter-level-rating.component";
 import {CommonModule} from "@angular/common";
@@ -26,7 +25,6 @@ import {reducers} from "../../reducers/reducers";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {debounce} from "lodash";
 import {AssessmentAverageRatingComponent} from "../assessment-average-rating/assessment-average-rating.component";
-import {AssessmentStructure} from "../../types/assessmentStructure";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 
@@ -52,10 +50,6 @@ class MockAppService {
     }
     return of(mockAssessmentStructure)
 
-  }
-
-  saveAssessment(saveRequest: SaveRequest) {
-    return of(saveRequest);
   }
 }
 
@@ -112,60 +106,6 @@ describe('TopicLevelAssessmentComponent', () => {
   it('should create', () => {
     // @ts-ignore
     expect(component).toBeTruthy();
-  });
-
-  it('should save answers and reload the page', () => {
-    component.assessmentId = 123;
-    component.topicRequest = {
-      parameterLevel: [{
-        answerRequest: [{questionId: 1, answer: ""}],
-        userQuestionRequestList:[{questionId:1,parameterId:1,question:"new",answer:"new"}],
-
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
-      }], topicRatingAndRecommendation: {
-        topicId: 1, rating: 3, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }
-    }
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc",
-      organisationName: "",
-      assessmentStatus: "",
-      assessmentPurpose: "",
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      assessmentState: "inProgress",
-      users: [],
-      updatedAt: 0,
-      owner:true,
-      answerResponseList: [{questionId: 0, answer: "some answer"}],
-      userQuestionResponseList:[{questionId:1,question:"new",answer:"new",parameterId:1}],
-
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
-    }
-    component.save();
-    reloadFn()
-    expect(window.location.reload).toHaveBeenCalled()
   });
 
   it('should able to receive rating', () => {
@@ -501,48 +441,6 @@ describe('TopicLevelAssessmentComponent', () => {
       assessments: undefined
     }
     expect(fromReducer.assessmentReducer({}, {type: "[ASSESSMENT STRUCTURE] Get assessment"})).toStrictEqual(dummyResponse)
-  });
-  it("should dispatch data to the store", () => {
-    component.topicRequest = {
-      parameterLevel: [{
-        answerRequest: [{questionId: 1, answer: ""}],
-        userQuestionRequestList:[],
-
-        parameterRatingAndRecommendation: {parameterId: 0, rating: 1, parameterLevelRecommendation: [{}]}
-      }], topicRatingAndRecommendation: {topicId: 1, rating: 3, topicLevelRecommendation: []}
-    }
-    component.topicInput = {
-      active: false, updatedAt: 0,
-      topicId: 0,
-      topicName: "",
-      parameters: [{parameterId: 0, parameterName: "", topic: 1, active: false, updatedAt: 0, comments: "", questions: [], userQuestions:[],references: []}],
-      references: [],
-      module: 1
-    }
-    component.save()
-    expect(component.answerResponse).toBe(undefined)
-    let expectedAnswer = {
-      "answerResponseList": [{"answer": "answer1", "questionId": 1}],
-      "assessmentId": 5,
-      "assessmentName": "abc1",
-      "assessmentStatus": "Active",
-      "assessments": undefined,
-      "domain": "",
-      "industry": "",
-      "organisationName": "Thoughtworks",
-      "parameterRatingAndRecommendation": [{"parameterId": 1, "rating": "2", "recommendation": ""}],
-      "teamSize": 0,
-      "topicRatingAndRecommendation": [{"rating": "1", "recommendation": "", "topicId": 0}],
-      "updatedAt": 1654664982698,
-      "users": [],
-      "userQuestionResponseList":[]
-    }
-    expect(fromReducer.assessmentReducer(expectedAnswer, {type: "Assessment Updated data"})).toStrictEqual(expectedAnswer)
-  });
-  it("should handle errors", () => {
-    component.save()
-    let expectedErrorHandler = {errorMessage: undefined}
-    expect(fromReducer.assessmentReducer({}, {type: "Error message"})).toStrictEqual(expectedErrorHandler)
   });
   it("should call paramater response when topic reference is null", () => {
     component.answerResponse1 = of({
