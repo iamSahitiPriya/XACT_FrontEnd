@@ -37,7 +37,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('downloadLink') downloadLink: ElementRef;
 
-  pageTitle = data_local.SUMMARY_REPORT.TITLE;
   downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   instructionPanel = data_local.SUMMARY_REPORT.INSTRUCTION
