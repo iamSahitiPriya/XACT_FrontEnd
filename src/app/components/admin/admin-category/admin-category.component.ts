@@ -79,7 +79,6 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
-      console.log("master data : ", data)
       this.categories = data
       data.forEach((eachCategory) => {
         let category: CategoryData = {
