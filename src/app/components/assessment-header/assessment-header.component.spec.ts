@@ -141,18 +141,21 @@ describe('AssessmentHeaderComponent', () => {
     })
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Active";
-    jest.spyOn(component, 'confirmFinishAssessmentAction');
+    jest.spyOn(component, 'confirmFinishAssessmentAction').mockImplementation();
     jest.spyOn(matDialog, 'open')
     jest.spyOn(component, 'finishAssessment')
+    jest.spyOn(component.router, 'navigate')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
+    component.assessmentId = mockAssessment.assessmentId;
     fixture.detectChanges();
     component.assessmentId = 123
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
     tick();
     expect(component.confirmFinishAssessmentAction).toHaveBeenCalled();
+
     flush()
     flushMicrotasks();
     discardPeriodicTasks();

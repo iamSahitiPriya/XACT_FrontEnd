@@ -30,7 +30,7 @@ describe('AppServiceService', () => {
         AppServiceService
       ]
     });
-    jest.spyOn(AppServiceService.prototype,'formatURI').mockImplementation(() => "some URI");;
+    jest.spyOn(AppServiceService.prototype,'formatURI').mockImplementation(() => "some URI");
     service = TestBed.inject(AppServiceService);
   });
 

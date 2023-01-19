@@ -36,7 +36,7 @@ export class AdminParameterComponent implements OnInit {
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference', 'addQuestion'];
-  commonErrorFieldText = data_local.ADMIN.ERROR;
+  commonErrorFieldText =data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -192,7 +192,7 @@ export class AdminParameterComponent implements OnInit {
       topicStatus: false,
       parameterId: -1,
       parameterName: "",
-      active: false,
+      active: true,
       updatedAt: Date.now(),
       comments: "",
       isEdit: true,

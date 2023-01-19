@@ -183,7 +183,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       moduleStatus: false,
       topicId: -1,
       topicName: "",
-      active: false,
+      active: true,
       updatedAt: Date.now(),
       comments: "",
       isEdit: true,
