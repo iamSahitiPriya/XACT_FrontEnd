@@ -22,7 +22,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
-
+import { interval } from 'rxjs'
 export const assessmentData = [{}]
 export let loading = false
 
@@ -32,7 +32,10 @@ let DEBOUNCE_TIME = 600;
 @Component({
   selector: 'app-assessment-question',
   templateUrl: './assessment-question.component.html',
-  styleUrls: ['./assessment-question.component.css']
+  styleUrls: ['./assessment-question.component.css'],
+  animations: [
+
+  ]
 })
 
 
@@ -65,13 +68,14 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   questionId: number;
   autoSave: string;
 
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
-  maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT ;
+  maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
 
 
 
@@ -81,6 +85,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
   userEmail: string;
+  activateSpinner: boolean = false;
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -117,6 +122,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
         if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
           this.answerInput = record.inputText
           this.userEmail=record.userName
+          this.activateSpinner =  !this.activateSpinner
         }
       }
     }

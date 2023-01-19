@@ -73,6 +73,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
   recommendationId: number;
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
   userEmail: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {

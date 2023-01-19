@@ -80,6 +80,10 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
   questionType: string = data_local.QUESTION_TYPE_TEXT.DEFAULT_TYPE;
+  questionTypeText:string = data_local.ACTIVITY_TYPE.DEFAULT_QUESTION_TYPE
+  additionalQuestion:string = data_local.ACTIVITY_TYPE.ADDITIONAL_QUESTION_TYPE
+  topicRecommendation:string = data_local.ACTIVITY_TYPE.TOPIC_RECOMMENDATION;
+  parameterRecommendation: string = data_local.ACTIVITY_TYPE.PARAMETER_RECOMMENDATION;
 
 
   ngOnInit(): void {
@@ -296,10 +300,10 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   }
 
    filterActivityRecords() {
-    this.questionActivityRecord = this.activities.filter(activity => activity.activityType === "DEFAULT_QUESTION")
-    this.userQuestionActivityRecord = this.activities.filter(activity => activity.activityType === "ADDITIONAL_QUESTION")
-    this.topicRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "TOPIC_RECOMMENDATION")
-    this.parameterRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === "PARAMETER_RECOMMENDATION")
+    this.questionActivityRecord = this.activities.filter(activity => activity.activityType === this.questionTypeText )
+    this.userQuestionActivityRecord = this.activities.filter(activity => activity.activityType === this.additionalQuestion)
+    this.topicRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === this.topicRecommendation )
+    this.parameterRecommendationActivityRecord = this.activities.filter(activity => activity.activityType === this.parameterRecommendation)
   }
 
   clearActivityRecords() {

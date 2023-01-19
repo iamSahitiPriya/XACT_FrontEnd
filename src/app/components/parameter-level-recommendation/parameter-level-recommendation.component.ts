@@ -76,6 +76,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
   userEmail: string;
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -128,7 +129,6 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   ngOnChanges(): void {
     if( this.activityRecord.length > 0) {
       for (let record of this.activityRecord) {
-        console.log(record)
         if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
           this.parameterLevelRecommendation.recommendation = record.inputText
           this.userEmail=record.userName

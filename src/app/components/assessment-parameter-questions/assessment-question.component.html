@@ -4,7 +4,7 @@
 
 <div *ngIf="questionNumber">
   <form  [ngClass]="{'text-border':userEmail.length>0}">
-    <mat-form-field class="textArea" appearance="outline" id="testForm">
+    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="userEmail" [matTooltipPosition]="'above'" >
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
       <textarea matInput #input name="textarea{{questionNumber}}"
                 id="assessmentAnswer{{questionNumber}}"
@@ -14,17 +14,16 @@
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="10"
                 maxlength="10000"
-                [matTooltip]="userEmail"
                 (keyup)="userEmail.length === 0 && saveParticularAnswer($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
       <mat-hint *ngIf="userEmail.length === 0; else outputLength" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
       <ng-template #outputLength>
-        <mat-hint  align="end" style="font-style: italic;">Someone is typing...</mat-hint>
+        <mat-hint  align="end" style="font-style: italic;">{{typingText}}</mat-hint>
       </ng-template>
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="questionId === questionNumber || userEmail.length > 0"></span>
+          <span *ngIf="questionId === questionNumber || (userEmail.length > 0 && this.activateSpinner)" class="loader"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>

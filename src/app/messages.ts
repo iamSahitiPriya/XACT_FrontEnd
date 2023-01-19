@@ -71,7 +71,8 @@ export const data_local =
         PLACEHOLDER: "abc@thoughtworks.com",
         ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address",
         LIMIT_REACHED: "Maximum users limit reached : "
-      }
+      },
+      TYPING_TEXT: "Someone is typing..."
     },
     ASSESSMENT_MENU: {
       GENERATE_REPORT: {
@@ -273,6 +274,13 @@ export const data_local =
     },
     QUESTION_TYPE_TEXT : {
       DEFAULT_TYPE:"DEFAULT",
-      ADDITIONAL_TYPE:"ADDITIONAL"
+      ADDITIONAL_TYPE:"ADDITIONAL",
+    },
+    ACTIVITY_TYPE: {
+      DEFAULT_QUESTION_TYPE:"DEFAULT_QUESTION",
+      ADDITIONAL_QUESTION_TYPE:"ADDITIONAL_QUESTION",
+      TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
+      PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
+
     }
   }
