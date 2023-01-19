@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -22,7 +22,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
-import { interval } from 'rxjs'
+
 export const assessmentData = [{}]
 export let loading = false
 

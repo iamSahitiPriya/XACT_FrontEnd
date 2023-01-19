@@ -29,7 +29,6 @@ import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import oktaAuth from "@okta/okta-auth-js";
-import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 class MockAppService {
 
