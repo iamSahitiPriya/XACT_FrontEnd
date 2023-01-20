@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -28,7 +28,7 @@ let DEBOUNCE_TIME = 800;
   templateUrl: './parameter-level-recommendation.component.html',
   styleUrls: ['./parameter-level-recommendation.component.css']
 })
-export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy {
+export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
   parameterLevelRecommendation: ParameterLevelRecommendation

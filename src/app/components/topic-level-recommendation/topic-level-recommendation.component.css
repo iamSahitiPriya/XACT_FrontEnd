@@ -115,6 +115,10 @@ textArea.mat-input-element {
   margin-bottom: 3px;
 }
 
+.type-message {
+  font-style: italic;
+}
+
 ::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
   color: rebeccapurple !important;
 }

@@ -23,7 +23,7 @@
                                      [parameterId]="parameter.parameterId"
                                      [assessmentId]="assessmentId"
                                      [type]="questionType"
-                                     [activityRecords] = "questionActivityRecord"
+                                     [activityRecords] = "activityRecord.question"
             ></app-assessment-question>
           </div>
         </div>
@@ -37,7 +37,7 @@
                                     [parameterIndex]="i"
                                     [parameterName]="parameter.parameterName"
                                     [questionIndex]="parameter.questions.length"
-                                     [activityRecords] = "userQuestionActivityRecord"
+                                     [activityRecords] = "activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
 
@@ -49,7 +49,7 @@
                                      [parameterIndex]="i"
                                      [parameterName]="parameter.parameterName"
                                      [questionIndex]="0"
-                                     [activityRecords] = "userQuestionActivityRecord"
+                                     [activityRecords] = "activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
 
@@ -62,7 +62,7 @@
                                       [assessmentId]="assessmentId"
                                       [parameterName]="parameter.parameterName"
                                       [parameterList]="topicRequest.parameterLevel"
-                                      [activityRecords] = "parameterRecommendationActivityRecord"
+                                      [activityRecords] = "activityRecord.parameterRecommendation"
           ></app-parameter-level-rating>
         </div>
 
@@ -76,7 +76,7 @@
                               [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
                               [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
                               [topicName]="topicInput.topicName"
-                              [activityRecords] = "topicRecommendationActivityRecord"
+                              [activityRecords] = "activityRecord.topicRecommendation"
       ></app-topic-level-rating>
     </div>
 

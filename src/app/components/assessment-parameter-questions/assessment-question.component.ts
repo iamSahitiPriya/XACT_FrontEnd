@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -39,7 +39,7 @@ let DEBOUNCE_TIME = 600;
 })
 
 
-export class AssessmentQuestionComponent implements OnInit, OnDestroy {
+export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges {
 
   assessmentStatus: string;
   @Input()

@@ -558,14 +558,14 @@ describe('TopicLevelAssessmentComponent', () => {
 
     component.filterActivityRecords()
 
-    expect(component.parameterRecommendationActivityRecord.length).toBe(1)
-    expect(component.questionActivityRecord.length).toBe(1)
+    expect(component.activityRecord.parameterRecommendation.length).toBe(1)
+    expect(component.activityRecord.question.length).toBe(1)
   })
 
   it("should clear activity record arrays where there is no activity", () => {
     component.clearActivityRecords()
 
-    expect(component.parameterRecommendationActivityRecord.length).toBe(0)
+    expect(component.activityRecord.parameterRecommendation.length).toBe(0)
   })
 });
 
