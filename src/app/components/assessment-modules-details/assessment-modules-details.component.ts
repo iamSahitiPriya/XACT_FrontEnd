@@ -93,14 +93,6 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
         let index = this.category.userAssessmentCategories.findIndex(category => category.active);
         let selectedCategory = this.category.userAssessmentCategories[index];
         let moduleIndex = selectedCategory.modules.findIndex(module => module.active);
-
-        let iteration = 1;
-        while (moduleIndex < 0 && iteration < this.category.userAssessmentCategories.length) {
-          iteration++;
-          index  = this.category.userAssessmentCategories.findIndex((category,currentIndex) => category.active && currentIndex>index);
-          selectedCategory = this.category.userAssessmentCategories[index];
-          moduleIndex = selectedCategory.modules.findIndex(module => module.active);
-        }
         if (moduleIndex > -1) {
           this.navigate(selectedCategory.modules[moduleIndex]);
         }
@@ -119,12 +111,4 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  isCategoryDisplayed(category: CategoryStructure): boolean {
-    let isDisplayed = false
-    category.modules?.forEach(module => {
-      if (module.active && category.active)
-        isDisplayed = true
-    })
-    return isDisplayed
-  }
 }
