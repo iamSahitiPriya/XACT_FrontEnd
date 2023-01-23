@@ -86,6 +86,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   answerResponse: AssessmentStructure
   userEmail: string;
   activateSpinner: boolean = false;
+  isSaving:boolean
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -152,10 +153,11 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   saveNotes(answerRequest: AnswerRequest, assessmentId: number) {
+    this.isSaving = true
     this.appService.saveNotes(assessmentId, answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(answerRequest);
-        this.questionId = -1
+        this.isSaving = false
         this.autoSave = ""
         if (this.type === this.additionalTypeQuestion) {
           this.userQuestionResponse.parameterId = this.parameterId

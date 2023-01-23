@@ -68,7 +68,7 @@ describe('AssessmentQuestionComponent', () => {
   it('should create', () => {
     component.answerInput = "My answer"
     fixture.detectChanges();
-    //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
+
   });
   it('should auto save the data whenever the value is changes for Default questions', async () => {
     component.assessmentId = 5

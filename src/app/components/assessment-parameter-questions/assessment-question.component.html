@@ -23,7 +23,7 @@
       <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span *ngIf="questionId === questionNumber || (userEmail.length > 0 && this.activateSpinner)" class="loader"></span>
+          <span *ngIf="this.isSaving || (userEmail.length > 0 && this.activateSpinner)" class="loader"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
