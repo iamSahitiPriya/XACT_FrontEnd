@@ -48,6 +48,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
 
   form: UntypedFormGroup;
   autoSave:string
+  isSaving:boolean
+
   @Input()
   activityRecords:ActivityLogResponse[]
 
@@ -147,12 +149,12 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     this.setTopicLevelRecommendationResponse()
       this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
       this.autoSave = "Auto Saved"
-      this.recommendationId = 1
+      this.isSaving = true
       this.appService.saveTopicRecommendation(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
           this.autoSave = ""
-          this.recommendationId = -1
+          this.isSaving = false
           this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
           this.sendRecommendation(this.topicLevelRecommendationResponse)
           this.updateDataSavedStatus()

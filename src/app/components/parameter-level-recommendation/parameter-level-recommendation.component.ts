@@ -53,7 +53,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
 
   form: UntypedFormGroup;
   autoSave : string;
-  recommendationId:number
+  isSaving:boolean
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
@@ -145,12 +145,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
       this.setParameterLevelRecommendationResponseFields();
       this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
       this.autoSave = "Auto Saved"
-      this.recommendationId = 1
+      this.isSaving = true
       this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.autoSave = ""
           this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
-          this.recommendationId = -1
+          this.isSaving = false
           this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
           this.sendRecommendation(this.parameterLevelRecommendationResponse)
           this.updateDataSavedStatus()

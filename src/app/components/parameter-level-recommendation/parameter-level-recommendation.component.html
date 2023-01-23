@@ -27,7 +27,7 @@
         <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="recommendationId === 1 || userEmail.length > 0"></span>
+          <span class="loader" *ngIf="isSaving || userEmail.length > 0"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
