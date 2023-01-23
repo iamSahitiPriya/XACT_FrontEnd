@@ -125,10 +125,11 @@
   color: #000000;
 }
 
-.sequenceName {
-  width: 83%;
-  text-overflow: ellipsis;
+.sequence-name {
+  width: 245px;
   text-transform: capitalize;
+  word-break: break-word;
+  text-align: center;
 }
 
 .down-arrow-span {

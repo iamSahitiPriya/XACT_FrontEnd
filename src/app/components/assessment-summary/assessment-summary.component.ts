@@ -318,7 +318,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     content.each(function (this: any) {
       var text = d3.select(<any>this),
-        words = text.text().split(/\s+/).reverse(),
+        wordList = text.text().split(/\s+/),
         word,
         line: any = [],
         lineNumber = 0,
@@ -326,12 +326,23 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         x = text.attr("x"),
         dy = parseFloat(text.attr("dy")),
         dyAdjust = 0;
-      if (words.length > 3) {
-        dyAdjust = words.length / 1.95;
+      if(wordList.length>=4){
+        wordList = text.text().split(/\s+/,3)
+        wordList.push("...")
       }
+      let wrappedWords =[];
+      for (var i = 0; i < wordList.length; i++) {
+        var word1 = wordList[i];
+        if (word1.length > 20) {
+          word1 = word1.substring(0, 20) + "...";
+        }
+        wrappedWords.push(word1);
+      }
+      wrappedWords.reverse();
+
       dy = dy - (adjustPadding * dyAdjust)
       let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
-      while (word = words.pop()) {
+      while (word = wrappedWords.pop() ) {
         line.push(word);
         tspan.text(line.join(" "));
         dy = parseFloat(text.attr("dy"));
@@ -343,8 +354,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
           tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 0.85 + "em").text(word);
         }
       }
-
-
     });
   }
 
