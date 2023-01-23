@@ -16,12 +16,16 @@ import {Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
 import {SummaryResponse} from "../../types/summaryResponse";
 import {LegendPosition} from "@swimlane/ngx-charts";
+import {CategoryModulesRating} from "../../types/categoryModulesRating";
+import {ModulesOverAllRating} from "../../types/modulesOverAllRating";
+import {ModuleRatingTypes} from "../../types/moduleRatingTypes";
+import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme";
 
 
 interface ColorScheme {
-  value?: any,
+  value?: ((value: number) => string) | string,
   viewValue: string,
-  textColor:string
+  textColor: string
 }
 
 @Component({
@@ -47,6 +51,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   questionAnswered = data_local.SUMMARY_REPORT.QUESTION_ANSWERED;
   noDataAvailableText = data_local.SUMMARY_REPORT.NO_DATA_AVAILABLE;
   colorThemeHeading = data_local.SUMMARY_REPORT.COLOUR_THEME_HEADING;
+  stackedBarChartTitle = data_local.OVERALL_CHART_TEXT.CHART_TITLE;
+  targetRatingTitle = data_local.OVERALL_CHART_TEXT.TARGET_RATING_TITLE;
+  currentRatingTitle = data_local.OVERALL_CHART_TEXT.CURRENT_RATING_TITLE
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;
@@ -60,20 +67,62 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   view: [number, number] = [400, 400];
   legend: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Below;
-  colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
   assessmentAverageRating: string;
+  categoryModulesOverAllRatings: CategoryModulesRating[] = []
+  stackedBarChartWidth: number = 600;
+  stackedBarChartHeightMultiplier: number = 22.5;
+  moduleCardHeightOffset: number = 55;
+  moduleChartHeightOffset: number = 20;
 
-  colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme',textColor:'white'},
-    {value: d3.interpolateReds, viewValue: 'All Red',textColor:'white'},
-    {value: d3.interpolateRdPu, viewValue: 'Purple Red',textColor:'white'},
-    {value: d3.interpolatePurples, viewValue: 'All Purple',textColor:'white'},
-    {value: d3.interpolateWarm, viewValue: 'Warm Theme',textColor:'black'},
-    {value: d3.interpolateBlues, viewValue: 'All Blue',textColor:'white'},
-    {value: d3.interpolateSpectral, viewValue: 'Spectral Colors',textColor:'white'},
-    {value: "ThreatTheme", viewValue: 'Show Threats',textColor:'white'}
+
+  stackedBarChartColorSchemes: StackedBarChartColorScheme[][] = [
+    [
+      {name: this.currentRatingTitle, value: '#634F7D'},
+      {name: this.targetRatingTitle, value: '#B9B2CE'},],
+    [
+      {name: this.currentRatingTitle, value: '#F15F79'},
+      {name: this.targetRatingTitle, value: '#F0ADBA'},],
+    [
+      {name: this.currentRatingTitle, value: '#6B9F78'},
+      {name: this.targetRatingTitle, value: '#A8CCB1'},],
+    [
+      {name: this.currentRatingTitle, value: '#CC850A'},
+      {name: this.targetRatingTitle, value: '#DEBD91'},],
+    [
+      {name: this.currentRatingTitle, value: '#003D4F'},
+      {name: this.targetRatingTitle, value: '#A5B8BE'},],
+    [
+      {name: this.currentRatingTitle, value: '#47A1AD'},
+      {name: this.targetRatingTitle, value: '#BBD6DD'},],
+    [
+      {name: this.currentRatingTitle, value: '#9A2D40'},
+      {name: this.targetRatingTitle, value: '#F15F79'},],
+    [
+      {name: this.currentRatingTitle, value: '#1D3650'},
+      {name: this.targetRatingTitle, value: '#003D4F'},],
+    [
+      {name: this.currentRatingTitle, value: '#7A4F06'},
+      {name: this.targetRatingTitle, value: '#BE873E'},],
+    [
+      {name: this.currentRatingTitle, value: '#3E6044'},
+      {name: this.targetRatingTitle, value: '#6B9F78'},],
+    [
+      {name: this.currentRatingTitle, value: '#005E7A'},
+      {name: this.targetRatingTitle, value: '#5D9EAA'},],
+
   ];
+  stackedBarChartXAxisLabels = [1, 2, 3, 4, 5];
+
+  colorList: ColorScheme[] = [{value: d3.interpolateRainbow, viewValue: 'Rainbow Theme', textColor: 'white'},
+    {value: d3.interpolateReds, viewValue: 'All Red', textColor: 'white'},
+    {value: d3.interpolateRdPu, viewValue: 'Purple Red', textColor: 'white'},
+    {value: d3.interpolatePurples, viewValue: 'All Purple', textColor: 'white'},
+    {value: d3.interpolateWarm, viewValue: 'Warm Theme', textColor: 'black'},
+    {value: d3.interpolateBlues, viewValue: 'All Blue', textColor: 'white'},
+    {value: d3.interpolateSpectral, viewValue: 'Spectral Colors', textColor: 'white'},
+    {value: "ThreatTheme", viewValue: 'Show Threats', textColor: 'white'}
+  ];
+
 
   ngOnInit() {
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
@@ -98,6 +147,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.appService.getReportData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.data = data;
       this.setCategorySummary(this.data);
+      this.setModulesOverAllRatingsData(this.data);
       if (this.categorySummary.length > 0)
         this.drawSunBurstChart(this.data);
     })
@@ -177,7 +227,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
 
     const label = vis.append("g")
-      .attr("id","chartTextGroup")
+      .attr("id", "chartTextGroup")
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
       .style("user-select", "none")
@@ -190,7 +240,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("transform", (d: any) => labelTransform(d.current))
       .text((d: any) => d.data.name)
       .style("font", "9px Inter")
-      .attr("fill","white")
+      .attr("fill", "white")
       .call(this.wrap, 75, 0.0004, 0.23);
 
 
@@ -351,10 +401,10 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   onThemeChange() {
     let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;
-    if(textColor === undefined)
+    if (textColor === undefined)
       textColor = "white";
     d3.select("#chart").select("#container").selectAll("#chartTextGroup")
-      .selectAll("text").attr("fill",textColor)
+      .selectAll("text").attr("fill", textColor)
 
     if (this.selectedValue == "ThreatTheme") {
       this.arrowColor = "orange"
@@ -451,5 +501,35 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       sum += eachCategory.value;
     })
     this.assessmentAverageRating = String((sum / this.categorySummary.length).toFixed(1))
+  }
+
+  private setModulesOverAllRatingsData(data: ReportDataStructure) {
+    data.children.forEach(eachCategory => {
+      if (eachCategory.rating && eachCategory.rating != 0) {
+        let modulesOverAllRatings: ModulesOverAllRating[] = []
+        eachCategory.children?.forEach(eachModule => {
+          if (eachModule.rating > 0) {
+            let moduleRatings: ModuleRatingTypes[] = [
+              {
+                name: this.currentRatingTitle,
+                value: Math.floor(eachModule.rating)
+              }, {
+                name: this.targetRatingTitle,
+                value: 5 - Math.floor(eachModule.rating)
+              },
+            ]
+            let modulesOverAllRating: ModulesOverAllRating = {
+              name: eachModule.name, series: moduleRatings
+            }
+            modulesOverAllRatings.push(modulesOverAllRating);
+          }
+        })
+        let categoryModulesRating: CategoryModulesRating = {
+          categoryName: eachCategory.name, modulesOverAllRatings: modulesOverAllRatings
+        }
+        this.categoryModulesOverAllRatings.push(categoryModulesRating);
+      }
+    })
+
   }
 }
