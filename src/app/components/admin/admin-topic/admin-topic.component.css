@@ -143,12 +143,10 @@ td.topic:last-of-type {
 
 .topicCommentTextArea {
   width: 99%;
-  height: 60px;
   font-size: 16px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
   opacity: 1;
-  margin-top:11px;
 }
 
 td.expandedCommentsData {
