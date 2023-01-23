@@ -276,4 +276,12 @@ describe('AdminQuestionComponent', () => {
     expect(component.isInputValid).toHaveBeenCalled()
     expect(result).toBeFalsy()
   });
+
+  it("should remove unsaved question from the array", () => {
+    component.questionArray = [{questionId:1},{questionId:-1}]
+
+    component.deleteUnsavedQuestion()
+
+    expect(component.questionArray.length).toBe(1)
+  });
 });
