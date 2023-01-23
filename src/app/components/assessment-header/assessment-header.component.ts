@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {Observable, Subject, takeUntil} from "rxjs";
@@ -45,7 +45,7 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy {
   assessmentUpdateStatus = data_local.ASSESSMENT_MENU.LAST_SAVE_STATUS_TEXT;
   assessmentHeader: string = "assessmentHeader";
 
-  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private router: Router) {
+  constructor(private appService: AppServiceService, private dialog: MatDialog, private snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private ngZone: NgZone, public router: Router) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
@@ -54,8 +54,10 @@ export class AssessmentHeaderComponent implements OnInit, OnDestroy {
         this.cloneAssessment = Object.assign({}, this.assessment)
         this.cloneAssessment.assessmentStatus = _data.assessmentStatus
         this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessment}))
-        this.router.navigateByUrl("assessment/" + this.assessmentId + "/charts");
-
+        const summaryUrl = "assessment/" + this.assessmentId + "/charts";
+        this.ngZone.run(() => {
+          this.router.navigateByUrl(summaryUrl);
+        });
       }
     )
   }
