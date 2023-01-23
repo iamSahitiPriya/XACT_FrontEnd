@@ -37,7 +37,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText =data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
-  module: ModuleData;
+  module: ModuleData | undefined;
   isEditable: boolean;
   categoryDetails: any[] = [];
   isModuleUnique = true;
@@ -152,7 +152,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   updateModule(row: any) {
     let moduleRequest = this.setModuleRequest(row);
-    if (this.module.moduleName.toLowerCase().replace(/\s/g, '')  !== row.moduleName.toLowerCase().replace(/\s/g, '') ) {
+    if (this.module?.moduleName.toLowerCase().replace(/\s/g, '')  !== row.moduleName.toLowerCase().replace(/\s/g, '') ) {
       moduleRequest= this.getModuleRequest(row);
     }
     if(this.isModuleUnique) {
@@ -165,6 +165,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
           this.updateModuleDataToStore(_data)
           this.showNotification("Your changes have been successfully updated.", 2000)
           this.moduleStructure = []
+          this.module = undefined
           this.ngOnInit()
         }, error: _error => {
           this.showError(this.serverErrorMessage);
@@ -174,21 +175,36 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   cancelChanges(row: any) {
-    row.categoryName = this.module.categoryName
-    row.moduleName = this.module.moduleName
-    row.active = this.module.active
-    row.updatedAt = this.module.updatedAt
-    row.comments = this.module.comments
+    row.categoryName = this.module?.categoryName
+    row.moduleName = this.module?.moduleName
+    row.active = this.module?.active
+    row.updatedAt = this.module?.updatedAt
+    row.comments = this.module?.comments
     this.selectedModule = this.selectedModule === row ? null : row
     return row;
   }
 
   editRow(row: any) {
+    this.resetUnsavedChanges(row)
     this.deleteAddedModuleRow()
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
     this.module = Object.assign({}, row)
     return this.selectedModule;
+  }
+
+  private resetUnsavedChanges(row : any) {
+    if(this.module !== undefined && this.module.moduleId !== row.moduleId)
+      this.updateDataSource(this.module)
+  }
+
+  private updateDataSource(previousModule : ModuleData) {
+    let data = this.dataSource.data
+    let index = data.findIndex(module => module.moduleId === previousModule.moduleId)
+    if (index !== -1) {
+      data.splice(index, 1, previousModule)
+      this.dataSource.data = data
+    }
 
   }
 
@@ -267,8 +283,8 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
 private updateModuleDataToStore(_data: any)
 {
-  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
-  let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
+  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId).modules
+  let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module?.moduleId)
   if (index !== -1) {
     let fetchedModules = modules?.at(index);
     _data['topics'] = fetchedModules.topics;
@@ -305,4 +321,5 @@ sendDataToStore(_data: any)
       "comments": row.comments
     }
   }
+
 }
