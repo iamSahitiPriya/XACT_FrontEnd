@@ -48,7 +48,7 @@ export class AdminParameterComponent implements OnInit {
   categoryList: any[] = []
   moduleList: any[] = []
   parameter: ParameterData
-  unSavedParameter: ParameterData
+  unSavedParameter: ParameterData | undefined;
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -216,12 +216,12 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private resetRow(row: any) {
-    row.categoryName = this.unSavedParameter.categoryName
-    row.moduleName = this.unSavedParameter.moduleName
-    row.parameterName = this.unSavedParameter.parameterName
-    row.active = this.unSavedParameter.active
-    row.updatedAt = this.unSavedParameter.updatedAt
-    row.comments = this.unSavedParameter.comments
+    row.categoryName = this.unSavedParameter?.categoryName
+    row.moduleName = this.unSavedParameter?.moduleName
+    row.parameterName = this.unSavedParameter?.parameterName
+    row.active = this.unSavedParameter?.active
+    row.updatedAt = this.unSavedParameter?.updatedAt
+    row.comments = this.unSavedParameter?.comments
   }
 
 
@@ -294,9 +294,9 @@ export class AdminParameterComponent implements OnInit {
   }
 
   resetUnsavedChanges(row: any) {
-    if (this.unSavedParameter !== undefined && this.unSavedParameter.parameterId !== row.parameterId) {
+    if (this.unSavedParameter !== undefined && this.unSavedParameter?.parameterId !== row.parameterId) {
       let data = this.dataSource.data
-      let index = data.findIndex(parameter => parameter.parameterId === this.unSavedParameter.parameterId)
+      let index = data.findIndex(parameter => parameter.parameterId === this.unSavedParameter?.parameterId)
       if (index !== -1) {
         data.splice(index, 1, this.unSavedParameter)
         this.dataSource.data = data
@@ -307,7 +307,7 @@ export class AdminParameterComponent implements OnInit {
   updateParameterRow(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterRequest = this.setParameterRequest(selectedTopicId, row);
-    if (this.unSavedParameter.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
+    if (this.unSavedParameter?.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
       parameterRequest = this.getParameterRequest(row);
     }
     if (this.isParameterUnique) {
@@ -316,6 +316,7 @@ export class AdminParameterComponent implements OnInit {
           row.isEdit = false;
           this.selectedParameter = null;
           this.updateToStore(_data)
+          this.unSavedParameter=undefined;
           this.table.renderRows()
           this.showNotification("Your changes have been successfully updated.", 2000)
           this.parameterData = []
@@ -371,9 +372,9 @@ export class AdminParameterComponent implements OnInit {
 
 
   private updateToStore(_data: any) {
-    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter.topicId)?.parameters
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter?.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter?.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter?.topicId)?.parameters
 
-    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter.parameterId)
+    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
     if (parameterIndex !== -1) {
       let fetchedParameter: any = parameters?.at(parameterIndex)
       _data["questions"] = fetchedParameter.questions
