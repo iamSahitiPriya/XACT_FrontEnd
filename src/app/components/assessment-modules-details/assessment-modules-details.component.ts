@@ -17,7 +17,6 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {CategoryStructure} from "../../types/categoryStructure";
 
 let categories: UserCategoryResponse = {
   assessmentCategories: []

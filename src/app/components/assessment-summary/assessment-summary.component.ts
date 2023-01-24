@@ -362,36 +362,23 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   wrap(content: any, width: any, lineHeight: any, adjustPadding: any) {
 
     content.each(function (this: any) {
-      var text = d3.select(<any>this),
+      let text = d3.select(<any>this),
         wordList = text.text().split(/\s+/),
         word,
         line: any = [],
         lineNumber = 0,
         y = text.attr("y"),
         x = text.attr("x"),
-        dy = parseFloat(text.attr("dy")),
-        dyAdjust = 0;
-      if(wordList.length>=3){
-        wordList = text.text().split(/\s+/,2)
-        wordList.push("...")
-      }
-      let wrappedWords =[];
-      for (var i = 0; i < wordList.length; i++) {
-        var word1 = wordList[i];
-        if (word1.length > 10) {
-          word1 = word1.substring(0, 10) + "...";
-        }
-        wrappedWords.push(word1);
-      }
-      wrappedWords.reverse();
+        dy = parseFloat(text.attr("dy"));
+      let wrappedWords = AssessmentSummaryComponent.modifyDisplayText(wordList);
 
-      dy = dy - (adjustPadding * dyAdjust)
+      dy = dy - (adjustPadding)
       let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
-      while (word = wrappedWords.pop() ) {
+      while (word = wrappedWords.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
         dy = parseFloat(text.attr("dy"));
-        var len = tspan.node()?.getComputedTextLength();
+        let len = tspan.node()?.getComputedTextLength();
         if (<any>len > width) {
           line.pop();
           tspan.text(line.join(" "));
@@ -402,6 +389,18 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  private static modifyDisplayText(wordList: string[]) : string[] {
+    let maximumDisplayWords = 3;
+    if (wordList.length >= maximumDisplayWords) {
+      wordList = wordList.slice(0, 2)
+      wordList.push("...")
+    }
+    let wrappedWords = [];
+    let maximumDisplayWordLength=10;
+    wrappedWords=wordList.map(eachWord => eachWord.length > maximumDisplayWordLength ? eachWord.substring(0,maximumDisplayWordLength)+ "..."  : eachWord)
+    return wrappedWords.reverse();
+  }
 
   onThemeChange() {
     let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;

@@ -34,7 +34,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {ActivatedRoute, convertToParamMap} from "@angular/router";
-import {CategoryResponse} from "../../types/categoryResponse";
 
 const mockCategory: UserCategoryResponse = {
   assessmentCategories: [
