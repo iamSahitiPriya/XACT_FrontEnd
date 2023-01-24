@@ -98,13 +98,18 @@
   border-radius: 4px;
   opacity: 1;
   float: right;
-  margin-top: -28px;
   display: flex;
   align-content: flex-start;
   flex-wrap: wrap;
   justify-content: center;
 }
 
+.sequence-card{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+}
 .trail {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
@@ -126,7 +131,7 @@
 }
 
 .sequence-name {
-  width: 245px;
+  width:87%;
   text-transform: capitalize;
   word-break: break-word;
   text-align: center;
@@ -144,7 +149,7 @@
 
 .chart-card {
   width: 82%;
-  height: 33%;
+  height: 830px;
   margin-left: 9%;
   margin-top: 2%;
 }
@@ -299,3 +304,4 @@
   align-items: flex-start;
   margin-left: 9%;
 }
+

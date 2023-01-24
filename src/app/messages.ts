@@ -275,7 +275,7 @@ export const data_local =
     },
     OVERALL_CHART_TEXT: {
       CHART_TITLE: "Current Maturity and Gaps",
-      TARGET_RATING_TITLE: "Target Rating",
+      TARGET_RATING_TITLE: "Target Rating Gap",
       CURRENT_RATING_TITLE: "Current Rating"
     }
   }
