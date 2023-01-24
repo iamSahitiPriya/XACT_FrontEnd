@@ -35,7 +35,6 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   assessmentName: string
   category: UserCategoryResponse
-  categoryIconMapping: Map<number, string> = new Map<number, string>()
   private destroy$: Subject<void> = new Subject<void>();
   assessmentId: number;
   catRequest: any | undefined

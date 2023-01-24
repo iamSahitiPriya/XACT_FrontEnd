@@ -476,4 +476,22 @@ describe('RecommendationComponent', () => {
       expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
     }
   });
+
+  it("should set user email when other user is working on the particular recommendation", () => {
+    component.activityRecords = [{identifier:1,activityType:"TOPIC_RECOMMENDATION",inputText:"some text",userName:"abc@thoughtworks.com"}]
+    component.recommendation = {recommendationId:1,recommendation:"hello"}
+
+    component.ngOnChanges()
+
+    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.recommendation.recommendation).toBe("some text")
+  })
+
+  it("should empty user email when the record is empty", () => {
+    component.activityRecords = []
+
+    component.ngOnChanges()
+
+    expect(component.userEmail.length).toBe(0)
+  })
 });

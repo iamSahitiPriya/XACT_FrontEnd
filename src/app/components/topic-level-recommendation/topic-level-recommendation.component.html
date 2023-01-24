@@ -4,7 +4,7 @@
 
 <mat-card class="recommendation" [ngStyle]="{'background-color': index%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="parent">
-    <div class="recommendation-text">
+    <div class="recommendation-text" [ngClass]="{'text-border':userEmail.length > 0}" >
       <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
         <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
@@ -15,14 +15,18 @@
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxlength="5000"
-                  (keyup)="saveParticularTopicRecommendationText($event)"
+                  [readonly] = "userEmail.length>0"
+                  [matTooltip]="userEmail"
+                  (keyup)="userEmail.length ===0 && saveParticularTopicRecommendationText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
-        <mat-hint align="end">{{input.value.length}}/5000</mat-hint>
-
+        <mat-hint *ngIf="userEmail.length === 0; else text" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+        <ng-template #text>
+          <mat-hint class="type-message" align="end">{{typingText}}</mat-hint>
+        </ng-template>
         <div class = spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="recommendationId === 1"></span>
+          <span class="loader" *ngIf="isSaving || userEmail.length > 0"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>

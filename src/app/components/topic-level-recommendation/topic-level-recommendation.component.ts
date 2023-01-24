@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,6 +19,7 @@ import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommenda
 import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 800;
@@ -28,7 +29,7 @@ let DEBOUNCE_TIME = 800;
   templateUrl: './topic-level-recommendation.component.html',
   styleUrls: ['./topic-level-recommendation.component.css']
 })
-export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
+export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
   recommendation: TopicLevelRecommendation
@@ -47,6 +48,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
 
   form: UntypedFormGroup;
   autoSave:string
+  isSaving:boolean
+
+  @Input()
+  activityRecords:ActivityLogResponse[]
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
@@ -60,6 +65,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   Next = data_local.RECOMMENDATION_TEXT.DH_2;
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
+  maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
 
   assessmentStatus: string;
   topicRecommendationResponse1: Observable<AssessmentStructure>;
@@ -69,6 +75,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
   recommendationId: number;
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
+  userEmail: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -120,6 +128,18 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     })
 
   }
+  ngOnChanges(): void {
+    if( this.activityRecords.length > 0) {
+      for (let record of this.activityRecords) {
+        if (record.identifier === this.recommendation.recommendationId) {
+          this.recommendation.recommendation = record.inputText
+          this.userEmail=record.userName
+        }
+      }
+    }
+    else this.userEmail =""
+  }
+
 
   saveParticularTopicRecommendationText(_$event: KeyboardEvent) {
 
@@ -129,12 +149,12 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy {
     this.setTopicLevelRecommendationResponse()
       this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
       this.autoSave = "Auto Saved"
-      this.recommendationId = 1
+      this.isSaving = true
       this.appService.saveTopicRecommendation(this.topicLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.topicLevelRecommendationResponse.recommendationId = _data.recommendationId;
           this.autoSave = ""
-          this.recommendationId = -1
+          this.isSaving = false
           this.recommendation.recommendationId = this.topicLevelRecommendationResponse.recommendationId;
           this.sendRecommendation(this.topicLevelRecommendationResponse)
           this.updateDataSavedStatus()

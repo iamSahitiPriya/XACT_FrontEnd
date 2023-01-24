@@ -21,6 +21,7 @@ import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const saveAssessmentData = [{}]
 
@@ -37,6 +38,13 @@ export class parameterRequest {
     this.userQuestionRequest = userQuestionRequestList;
     this.parameterRatingAndRecommendation = parameterRatingAndRecommendation
   }
+}
+
+export interface ActivityRecord {
+  question: ActivityLogResponse[];
+  userQuestion: ActivityLogResponse[];
+  topicRecommendation: ActivityLogResponse[];
+  parameterRecommendation: ActivityLogResponse[];
 }
 
 let parameterRequests: parameterRequest[];
@@ -60,9 +68,14 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     topicRatingAndRecommendation: topicRatingAndRecommendation
   };
 
-  private cloneAnswerResponse: AssessmentStructure;
-  private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
+  activities: ActivityLogResponse [] = []
+  activityRecord: ActivityRecord = {
+    question: [],
+    userQuestion: [],
+    topicRecommendation: [],
+    parameterRecommendation: []
+  }
 
   constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -76,6 +89,10 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;
   questionType: string = data_local.QUESTION_TYPE_TEXT.DEFAULT_TYPE;
+  questionTypeText: string = data_local.ACTIVITY_TYPE.DEFAULT_QUESTION_TYPE
+  additionalQuestion: string = data_local.ACTIVITY_TYPE.ADDITIONAL_QUESTION_TYPE
+  topicRecommendation: string = data_local.ACTIVITY_TYPE.TOPIC_RECOMMENDATION;
+  parameterRecommendation: string = data_local.ACTIVITY_TYPE.PARAMETER_RECOMMENDATION;
 
 
   ngOnInit(): void {
@@ -86,6 +103,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         this.assessmentStatus = this.answerResponse.assessmentStatus
       }
     })
+    this.getActivities()
     this.topicParameterValidation()
     this.updateAverageRating()
   }
@@ -280,4 +298,24 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private getActivities() {
+    this.appService.getActivity(this.topicInput.topicId, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((data: string | undefined) => {
+      if (data !== undefined) {
+        this.activities = JSON.parse(data);
+        this.filterActivityRecords()
+        if (this.activities.length === 0) this.clearActivityRecords()
+      }
+    })
+  }
+
+  filterActivityRecords() {
+    this.activityRecord.question = this.activities.filter(activity => activity.activityType === this.questionTypeText)
+    this.activityRecord.userQuestion = this.activities.filter(activity => activity.activityType === this.additionalQuestion)
+    this.activityRecord.topicRecommendation = this.activities.filter(activity => activity.activityType === this.topicRecommendation)
+    this.activityRecord.parameterRecommendation = this.activities.filter(activity => activity.activityType === this.parameterRecommendation)
+  }
+
+  clearActivityRecords() {
+    this.activityRecord.question = this.activityRecord.userQuestion = this.activityRecord.topicRecommendation = this.activityRecord.parameterRecommendation = []
+  }
 }

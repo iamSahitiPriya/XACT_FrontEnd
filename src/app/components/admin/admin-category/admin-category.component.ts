@@ -96,7 +96,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     })
   }
 
-  private sortCategory() {
+  sortCategory() {
     this.categoryData.sort((category1, category2) => category2.updatedAt - category1.updatedAt)
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
 
