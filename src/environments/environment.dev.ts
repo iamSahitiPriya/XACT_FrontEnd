@@ -57,5 +57,5 @@ export const environment = {
   UPDATE_QUESTION:"/v1/admin/questions",
   SAVE_QUESTION:"/v1/admin/questions",
   SUMMARY_DATA:"/v1/reports/${assessmentId}/summary",
-  ACTIVITY_LOGS_URI: "/v1/assessment/${assessmentId}/topic/${topicId}/activity",
+  ACTIVITY_LOGS_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/activities",
 };
