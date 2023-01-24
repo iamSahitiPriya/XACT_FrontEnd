@@ -57,7 +57,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;
-  selectedValue: any = d3.interpolateSpectral;
+  selectedValue: any = "ThreatTheme";
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
   averageScoreUptoSelected: number = 0
@@ -163,15 +163,13 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         (root);
     }
 
-    let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, data.children.length + 11).reverse());
-    this.color = color
-    this.arrowColor = <string>this.color("1")
+    this.arrowColor = "orange"
 
     let width = 800;
     let breadCrumbId = document.getElementById("sequence")
     this.initializeBreadcrumbTrail(breadCrumbId)
 
-    let radius = width / 10.5
+    let radius = width / 9.5
 
     let arc = d3.arc()
       .startAngle((d: any) => {
@@ -207,10 +205,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .selectAll("path")
       .data(root.descendants().slice(1))
       .enter().append("path")
-      .attr("fill", (d: any) => {
-        while (d.depth > 1) d = d.parent;
-        return <string>this.color(d.data.name);
-      })
+      .attr("fill", this.fillThreatColorsInChart)
       .attr("fill-opacity", (d: any) => arcVisible(d.current) ? (((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7) : 0)
       .attr("d", (d: any) => {
         return <any>arc(d.current);
@@ -285,7 +280,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
 
     function labelVisible(d: any) {
-      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.07;
+      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.04;
     }
 
     function labelTransform(d: any) {
@@ -376,15 +371,15 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         x = text.attr("x"),
         dy = parseFloat(text.attr("dy")),
         dyAdjust = 0;
-      if(wordList.length>=4){
-        wordList = text.text().split(/\s+/,3)
+      if(wordList.length>=3){
+        wordList = text.text().split(/\s+/,2)
         wordList.push("...")
       }
       let wrappedWords =[];
       for (var i = 0; i < wordList.length; i++) {
         var word1 = wordList[i];
-        if (word1.length > 20) {
-          word1 = word1.substring(0, 20) + "...";
+        if (word1.length > 10) {
+          word1 = word1.substring(0, 10) + "...";
         }
         wrappedWords.push(word1);
       }
