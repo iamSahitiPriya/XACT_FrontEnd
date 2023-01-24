@@ -116,8 +116,8 @@ export const data_local =
     ASSESSMENT_MODULE: {
       TITLE: "Modules",
       SAVE: "Click to save modules",
-      CATEGORY_CONTENT : "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
-      CATEGORY : "Category",
+      CATEGORY_CONTENT: "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
+      CATEGORY: "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes"
@@ -166,53 +166,53 @@ export const data_local =
       COLOUR_THEME_HEADING: "Select Color Theme"
     },
     ADMIN: {
-      MODULE_NOT_FOUND : "No modules available",
+      MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",
       SERVER_ERROR_MESSAGE: "Some error occurred",
       UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
       INPUT_ERROR_MESSAGE: "Please fill the field",
       CATEGORY_NAME: "Category",
-      MODULE_NAME:"Module",
-      TOPIC_NAME:"Topic",
-      PARAMETER_NAME:"Parameter",
-      DATE:"Date",
-      ACTIVE:"Active",
-      ACTION:"Action",
+      MODULE_NAME: "Module",
+      TOPIC_NAME: "Topic",
+      PARAMETER_NAME: "Parameter",
+      DATE: "Date",
+      ACTIVE: "Active",
+      ACTION: "Action",
       EDIT: "Edit",
       SAVE: "Save",
       UPDATE: "Update",
       DUPLICATE_ERROR_MESSAGE: "Duplicate names are not allowed",
-      CATEGORY_SELECTION_LABEL:"Select category",
-      MODULE_SELECTION_LABEL:"Select Module",
+      CATEGORY_SELECTION_LABEL: "Select category",
+      MODULE_SELECTION_LABEL: "Select Module",
       CATEGORY: {
         SELECT_CATEGORY: "Select Category",
         ADD_CATEGORY: "Add Category"
 
-        },
-        MODULE: {
-          ADD_MODULE:"Add Module",
-          SELECT_MODULE: "Select Module",
-          MODULE_INPUT_TEXT:"Enter Module Name",
-        },
-        TOPIC: {
-          ADD_TOPIC: "Add Topic",
-          ENTER_TOPIC: "Enter topic name",
-        },
-      PARAMETER:{
-        TOPIC_SELECTION_LABEL:"Select Topic",
-        PARAMETER_INPUT_TEXT:"Enter Parameter Name",
-        TOPIC_NOT_FOUND:"Topic Not Found",
       },
-        REFERENCES: {
-          HEADER: "References - ",
-          SCORE_CARD : "Maturity Reference Score Card",
-          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
-          PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!",
-          TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
-          DATA_NOT_SAVED : "Data cannot be saved",
-          DUPLICATE_RATING_ERROR_MESSAGE : "No duplicate ratings are allowed",
-          DUPLICATE_REFERENCE_ERROR_MESSAGE : "No duplicate references are allowed",
-        },
+      MODULE: {
+        ADD_MODULE: "Add Module",
+        SELECT_MODULE: "Select Module",
+        MODULE_INPUT_TEXT: "Enter Module Name",
+      },
+      TOPIC: {
+        ADD_TOPIC: "Add Topic",
+        ENTER_TOPIC: "Enter topic name",
+      },
+      PARAMETER: {
+        TOPIC_SELECTION_LABEL: "Select Topic",
+        PARAMETER_INPUT_TEXT: "Enter Parameter Name",
+        TOPIC_NOT_FOUND: "Topic Not Found",
+      },
+      REFERENCES: {
+        HEADER: "References - ",
+        SCORE_CARD: "Maturity Reference Score Card",
+        ADD_REFERENCE_BUTTON: "Add Maturity Reference",
+        PARAMETER_REFERENCE_MESSAGE: "References can't be added because Parameter Level References already exists!",
+        TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
+        DATA_NOT_SAVED: "Data cannot be saved",
+        DUPLICATE_RATING_ERROR_MESSAGE: "No duplicate ratings are allowed",
+        DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
+      },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",
         TOTAL_ACTIVE: "Assessments in Progress",
@@ -226,51 +226,56 @@ export const data_local =
         TOTAL_SUBTEXT: "Total:",
         CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
       },
-      QUESTION : {
-        ADD_QUESTION : " Add Question",
-        QUESTIONS : "Questions",
-        QUESTION : "Question",
-        REQUIRED_FIELD : "This field is required"
+      QUESTION: {
+        ADD_QUESTION: " Add Question",
+        QUESTIONS: "Questions",
+        QUESTION: "Question",
+        REQUIRED_FIELD: "This field is required"
 
       },
-      },
-      DROPDOWN_OPTION_TEXT: {
-        LAST_WEEK: "Last 7 Days",
-        LAST_MONTH: "Last 30 Days",
-        LAST_QUARTER: "Last 90 Days",
-        LAST_YEAR: "Last 365 Days"
-      },
-      RECOMMENDATION_TEXT: {
-        IMPACT_LABEL: "Impact",
-        EFFORT: "Effort",
-        DELIVERY_HORIZON: "Delivery Horizon",
-        DELETE: "Delete",
-        IMPACT_1: "High",
-        IMPACT_2: "Medium",
-        IMPACT_3: "Low",
-        DH_1: "Now",
-        DH_2: "Next",
-        DH_3: "Later"
-      },
-    SHOW_ERROR_MESSAGE: {
-      POPUP_ERROR:"Data cannot be saved",
-      MENU_ERROR:"Error occurred while saving the data"
     },
-    ADDITIONAL_QUESTIONS:{
-      HEADING:"Additional Questions -",
-      ADD_QUESTION_TEXT:"Add a New Question",
-      QUESTION_FUNCTIONALITY_MESSAGE:{
-        EDIT:"Edit",
-        UPDATE:"Update",
-        SAVE:"Save",
-        DELETE:"Delete"
+    DROPDOWN_OPTION_TEXT: {
+      LAST_WEEK: "Last 7 Days",
+      LAST_MONTH: "Last 30 Days",
+      LAST_QUARTER: "Last 90 Days",
+      LAST_YEAR: "Last 365 Days"
+    },
+    RECOMMENDATION_TEXT: {
+      IMPACT_LABEL: "Impact",
+      EFFORT: "Effort",
+      DELIVERY_HORIZON: "Delivery Horizon",
+      DELETE: "Delete",
+      IMPACT_1: "High",
+      IMPACT_2: "Medium",
+      IMPACT_3: "Low",
+      DH_1: "Now",
+      DH_2: "Next",
+      DH_3: "Later"
+    },
+    SHOW_ERROR_MESSAGE: {
+      POPUP_ERROR: "Data cannot be saved",
+      MENU_ERROR: "Error occurred while saving the data"
+    },
+    ADDITIONAL_QUESTIONS: {
+      HEADING: "Additional Questions -",
+      ADD_QUESTION_TEXT: "Add a New Question",
+      QUESTION_FUNCTIONALITY_MESSAGE: {
+        EDIT: "Edit",
+        UPDATE: "Update",
+        SAVE: "Save",
+        DELETE: "Delete"
       }
     },
     AUTO_SAVE: {
-      AUTO_SAVE_MESSAGE:"Auto Saved"
+      AUTO_SAVE_MESSAGE: "Auto Saved"
     },
-    QUESTION_TYPE_TEXT : {
-      DEFAULT_TYPE:"DEFAULT",
-      ADDITIONAL_TYPE:"ADDITIONAL"
+    QUESTION_TYPE_TEXT: {
+      DEFAULT_TYPE: "DEFAULT",
+      ADDITIONAL_TYPE: "ADDITIONAL"
+    },
+    OVERALL_CHART_TEXT: {
+      CHART_TITLE: "Current Maturity and Gaps",
+      TARGET_RATING_TITLE: "Target Rating",
+      CURRENT_RATING_TITLE: "Current Rating"
     }
   }

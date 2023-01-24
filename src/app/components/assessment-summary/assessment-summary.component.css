@@ -136,21 +136,42 @@
   margin-left: -35px;
 }
 
-.down_arrow {
+.down-arrow {
   transform: scale(1.5);
   margin-left: -11px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
-.chart-card{
+
+.chart-card {
   width: 82%;
   height: 33%;
   margin-left: 9%;
   margin-top: 2%;
 }
-.definition{
+
+.module-overall-rating-card {
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+  display: flex;
+}
+
+.module-overall-rating-chart {
+  width: 90%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.definition {
   padding-left: 10%;
 }
-.dataValue{
+
+.dataValue {
   -moz-border-radius: 50%;
   border-radius: 50%;
   padding: 2px 5px;
@@ -161,24 +182,120 @@
   margin-left: 14px;
 }
 
-.gauge{
+.gauge {
   display: flex;
 }
 
-.assessedData{
+.assessedData {
   padding-left: 4%;
 }
-.gauge-chart{
+
+.gauge-chart {
   margin-right: 65px;
   margin-top: -85px;
   height: 205px;
   font-size: 20px;
 }
 
-.noDataHeading{
+.noDataHeading {
   text-align: center;
 }
 
-.noDataCard{
+.noDataCard {
   box-shadow: none;
+}
+
+.category-title-card {
+  width: 300px;
+  color: #45A0AC;
+}
+
+.module-ratings-bar-chart {
+  padding-top: 15px;
+}
+
+.category-title {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 225px;
+  text-transform: capitalize;
+  font-size: 18px;
+  border-radius: 4px;
+  font-weight: 500;
+
+}
+
+.module-title {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 228px;
+}
+
+.module-card {
+  display: block;
+  padding-top: 16px;
+}
+
+.x-label {
+  margin-left: 54%;
+  margin-bottom: -30px;
+}
+
+.score {
+  margin-right: 100px;
+}
+
+.legend {
+  display: flex;
+  width: 43%;
+  align-items: flex-start;
+  padding-bottom: 5%;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  padding-left: 5%;
+
+}
+
+.legend-title {
+  display: grid;
+  padding-top: 25px;
+}
+
+.module {
+  padding-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 180px;
+}
+
+.legend-palette {
+  width: 130px;
+  height: 18px;
+  margin-top: 7px;
+  border-radius: 6px;
+}
+
+.module-overall-rating-chart-title {
+  background-color: #45A0AC1D;
+  height: 50px;
+  width: 82%;
+  color: #043D4E;
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+  margin-top: 55px;
+  align-items: flex-start;
+  margin-left: 9%;
 }
