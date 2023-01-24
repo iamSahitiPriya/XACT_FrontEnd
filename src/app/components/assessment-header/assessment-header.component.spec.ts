@@ -31,6 +31,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
 
 
 class MockDialog {
@@ -92,11 +93,13 @@ describe('AssessmentHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentHeaderComponent,PopupConfirmationComponent,AssessmentMenuComponent ],
+      declarations: [ AssessmentHeaderComponent,PopupConfirmationComponent,AssessmentMenuComponent, AssessmentSummaryComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
-        StoreModule.forRoot(reducers)],
+        StoreModule.forRoot(reducers), RouterTestingModule.withRoutes(
+          [{path: 'assessment/123/charts', component: AssessmentSummaryComponent}]
+        )],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: MatDialog, useClass: MockDialog}],
@@ -147,6 +150,7 @@ describe('AssessmentHeaderComponent', () => {
     component.ngOnInit()
     component.assessmentId = mockAssessment.assessmentId;
     fixture.detectChanges();
+    component.assessmentId = 123
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
     tick();

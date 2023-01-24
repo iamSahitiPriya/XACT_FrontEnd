@@ -112,6 +112,14 @@
   margin-bottom: 3px;
 }
 
+.type-message {
+  font-style: italic;
+}
+
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #633294 !important;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }

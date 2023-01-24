@@ -20,6 +20,7 @@ import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommenda
 import {data_local} from "src/app/messages"
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const topicRatingData = [{}]
 
@@ -65,6 +66,9 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   @Input()
   topicName: string
+
+  @Input()
+  activityRecords : ActivityLogResponse[]
 
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent

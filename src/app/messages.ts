@@ -71,7 +71,8 @@ export const data_local =
         PLACEHOLDER: "abc@thoughtworks.com",
         ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address",
         LIMIT_REACHED: "Maximum users limit reached : "
-      }
+      },
+      TYPING_TEXT: "Someone is typing..."
     },
     ASSESSMENT_MENU: {
       GENERATE_REPORT: {
@@ -120,7 +121,8 @@ export const data_local =
       CATEGORY: "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
-      LABEL: "Notes"
+      LABEL: "Notes",
+      ANSWER_FIELD_LIMIT : 10000
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -250,7 +252,8 @@ export const data_local =
       IMPACT_3: "Low",
       DH_1: "Now",
       DH_2: "Next",
-      DH_3: "Later"
+      DH_3: "Later",
+      LIMIT: 5000
     },
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR: "Data cannot be saved",
@@ -277,5 +280,12 @@ export const data_local =
       CHART_TITLE: "Current Maturity and Gaps",
       TARGET_RATING_TITLE: "Target Rating",
       CURRENT_RATING_TITLE: "Current Rating"
+    },
+    ACTIVITY_TYPE: {
+      DEFAULT_QUESTION_TYPE:"DEFAULT_QUESTION",
+      ADDITIONAL_QUESTION_TYPE:"ADDITIONAL_QUESTION",
+      TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
+      PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
+
     }
   }

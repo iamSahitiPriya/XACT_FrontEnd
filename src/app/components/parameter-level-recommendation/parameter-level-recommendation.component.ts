@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,6 +19,7 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 let DEBOUNCE_TIME = 800;
 
@@ -27,7 +28,7 @@ let DEBOUNCE_TIME = 800;
   templateUrl: './parameter-level-recommendation.component.html',
   styleUrls: ['./parameter-level-recommendation.component.css']
 })
-export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy {
+export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
   parameterLevelRecommendation: ParameterLevelRecommendation
@@ -47,9 +48,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   @Input()
   parameterIndex: number;
 
+  @Input()
+  activityRecord:ActivityLogResponse[]
+
   form: UntypedFormGroup;
   autoSave : string;
-  recommendationId:number
+  isSaving:boolean
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
@@ -63,6 +67,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   Next = data_local.RECOMMENDATION_TEXT.DH_2;
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
+  maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
 
   assessmentStatus: string;
   parameterRecommendationResponse1: Observable<AssessmentStructure>;
@@ -70,6 +75,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   private cloneParameterLevelRecommendationResponse: AssessmentStructure;
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
+  userEmail: string;
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -119,6 +126,17 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     })
 
   }
+  ngOnChanges(): void {
+    if( this.activityRecord.length > 0) {
+      for (let record of this.activityRecord) {
+        if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
+          this.parameterLevelRecommendation.recommendation = record.inputText
+          this.userEmail=record.userName
+        }
+      }
+    }
+    else this.userEmail =""
+  }
 
   saveParticularParameterText(_$event: KeyboardEvent) {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
@@ -127,12 +145,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
       this.setParameterLevelRecommendationResponseFields();
       this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
       this.autoSave = "Auto Saved"
-      this.recommendationId = 1
+      this.isSaving = true
       this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.autoSave = ""
           this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
-          this.recommendationId = -1
+          this.isSaving = false
           this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
           this.sendRecommendation(this.parameterLevelRecommendationResponse)
           this.updateDataSavedStatus()

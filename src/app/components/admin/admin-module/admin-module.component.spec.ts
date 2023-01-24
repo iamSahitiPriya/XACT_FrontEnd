@@ -68,7 +68,10 @@ class MockAppService {
     }
   }
   public updateModule(moduleRequest:any):Observable<any>{
-    return of(this.moduleRequest)
+    if(moduleRequest.comments !== "comments to be edited")
+      return of(this.moduleRequest)
+    else
+      return throwError("Error")
   }
 
 
@@ -314,5 +317,86 @@ describe('AdminModuleComponent', () => {
     })
     expect(component.isModuleUnique).toBeFalsy()
   });
+
+  it("should change the value to lower case while sorting the module table for string valued columns", () => {
+    component.moduleStructure = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "MODULE1",
+      "moduleId" : 1,
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }, {
+      "categoryName": "category2",
+      "categoryId": 2,
+      "categoryStatus" : true,
+      "moduleName": "module2",
+      "moduleId" : 2,
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortModule()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.moduleStructure[0],'moduleName');
+
+    expect(expectedResponse).toBe("module1")
+  });
+
+  it("should return the same value while sorting the module table for other column types than string", () => {
+    component.moduleStructure = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "MODULE1",
+      "moduleId" : 1,
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }, {
+      "categoryName": "category2",
+      "categoryId": 2,
+      "categoryStatus" : true,
+      "moduleName": "module2",
+      "moduleId" : 2,
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortModule()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.moduleStructure[0],'active');
+
+    expect(expectedResponse).toBe(true)
+  });
+
+  it("should throw error when there is a problem while updating module", () => {
+    jest.spyOn(component,"showError")
+    component.ngOnInit()
+    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2"}]
+    component.module = { "categoryName": "category1", "categoryId": 1, "categoryStatus" : true, "moduleName": "MODULE1", "moduleId" : 1, "comments": "comments", "updatedAt": 1022022, "active": true}
+    let row = {"categoryName": "category2", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
+
+    component.updateModule(row)
+
+    expect(component.showError).toHaveBeenCalled()
+  });
+
+  it("should thrRow error when there is a problem while saving module", () => {
+    jest.spyOn(component,"showError")
+    component.ngOnInit()
+    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2"}]
+    component.module = { "categoryName": "category1", "categoryId": 1, "categoryStatus" : true, "moduleName": "MODULE1", "moduleId" : 1, "comments": "comments", "updatedAt": 1022022, "active": true}
+    let row = {"categoryName": "category2", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
+
+    component.saveModule(row)
+
+    expect(component.showError).toHaveBeenCalled()
+  });
+
 });
 

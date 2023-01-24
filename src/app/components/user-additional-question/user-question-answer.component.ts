@@ -11,6 +11,7 @@ import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 
@@ -41,6 +42,9 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   @Input()
   parameterName: string
+
+  @Input()
+  activityRecords : ActivityLogResponse[]
 
   questionText: string;
   assessmentStatus: string;

@@ -12,7 +12,6 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
-
 class MockAppService {
   response = {
     questionId: 1,
@@ -33,8 +32,12 @@ class MockAppService {
   saveMasterQuestion(questionRequest: any) {
     if (questionRequest.questionText === "This is a question text") {
       return of(this.response)
-    } else
+    } else if(questionRequest.questionText === "This is a question text2"){
+      this.response.parameter = 5
+      return of(this.response)
+    }else {
       return throwError("Error!")
+    }
   }
 }
 
@@ -56,6 +59,7 @@ describe('AdminQuestionComponent', () => {
     component = fixture.componentInstance;
     mockAppService = new MockAppService();
     fixture.detectChanges();
+    // @ts-ignore
     component.masterData = of([{
       "categoryId": 1,
       "categoryName": "category1",
@@ -88,6 +92,16 @@ describe('AdminQuestionComponent', () => {
               "questionText": "This is a question",
               "parameter": 1
             }],
+            "userQuestions" : [],
+            "references": [],
+          },{
+            "parameterId": 5,
+            "parameterName": "parameter",
+            "topic": 1,
+            "updatedAt": 1234,
+            "comments": "",
+            "active": true,
+            "questions": undefined,
             "userQuestions" : [],
             "references": [],
           }],
@@ -192,9 +206,14 @@ describe('AdminQuestionComponent', () => {
   it("should able to save questions", () => {
     jest.spyOn(component, 'saveQuestion')
     let row = {questionId: -1, questionText: "This is a question text", parameter: 1, isEdit: true}
+    let row2 = {questionId: -1, questionText: "This is a question text2", parameter: 5, isEdit: true}
+
 
     component.ngOnInit()
     component.saveQuestion(row)
+
+    component.parameter = {parameterId:5}
+    component.saveQuestion(row2)
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
       expect(data).toBeDefined()
@@ -254,6 +273,13 @@ describe('AdminQuestionComponent', () => {
 
     expect(component.isInputValid).toHaveBeenCalled()
     expect(result).toBeFalsy()
+  });
 
+  it("should remove unsaved question from the array", () => {
+    component.questionArray = [{questionId:1},{questionId:-1}]
+
+    component.deleteUnsavedQuestion()
+
+    expect(component.questionArray.length).toBe(1)
   });
 });
