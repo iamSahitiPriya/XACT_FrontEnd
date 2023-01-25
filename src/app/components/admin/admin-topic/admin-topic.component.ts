@@ -29,7 +29,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '100%'})),
+      state('expanded', style({height: '100px'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -378,8 +378,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       ?.topics
     let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
-      let fetchedTopic: any = topic?.slice(topicIndex,topicIndex+1)[0]
-      console.log(fetchedTopic.parameters)
+      let fetchedTopic: any = topic?.at(topicIndex)
       _data['parameters'] = fetchedTopic.parameters
       _data['references'] = fetchedTopic.references
       topic?.splice(topicIndex, 1)

@@ -299,13 +299,15 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   }
 
   private getActivities() {
-    this.appService.getActivity(this.topicInput.topicId, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((data: string | undefined) => {
-      if (data !== undefined) {
-        this.activities = JSON.parse(data);
-        this.filterActivityRecords()
-        if (this.activities.length === 0) this.clearActivityRecords()
-      }
-    })
+    if(this.assessmentStatus !== 'Completed') {
+      this.appService.getActivity(this.topicInput.topicId, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((data: string | undefined) => {
+        if (data !== undefined) {
+          this.activities = JSON.parse(data);
+          this.filterActivityRecords()
+          if (this.activities.length === 0) this.clearActivityRecords()
+        }
+      })
+    }
   }
 
   filterActivityRecords() {
