@@ -169,7 +169,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     let breadCrumbId = document.getElementById("sequence")
     this.initializeBreadcrumbTrail(breadCrumbId)
 
-    let radius = 85
+    let radius = 84
 
     let arc = d3.arc()
       .startAngle((d: any) => {
@@ -362,7 +362,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return d.data.name
   }
 
-  wrap(content: any, width: any, lineHeight: any, adjustPadding: any) {
+  wrap(content: any, width: number, lineHeight: number, adjustPadding: number) {
 
     content.each(function (this: any) {
       let text = d3.select(<any>this),
