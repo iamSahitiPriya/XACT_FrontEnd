@@ -33,9 +33,7 @@ let DEBOUNCE_TIME = 600;
   selector: 'app-assessment-question',
   templateUrl: './assessment-question.component.html',
   styleUrls: ['./assessment-question.component.css'],
-  animations: [
-
-  ]
+  animations: []
 })
 
 
@@ -61,7 +59,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   question: string
 
   @Input()
-  activityRecords : ActivityLogResponse[]
+  activityRecords: ActivityLogResponse[]
 
   textarea: number = 0;
 
@@ -78,15 +76,15 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
 
 
-
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
   userEmail: string;
+  firstName: string;
   activateSpinner: boolean = false;
-  isSaving:boolean
+  isSaving: boolean
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -107,7 +105,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   private destroy$: Subject<void> = new Subject<void>();
 
 
-
   ngOnInit() {
     this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
@@ -118,16 +115,19 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(): void {
-    if( this.activityRecords.length > 0) {
+    if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
           this.answerInput = record.inputText
-          this.userEmail=record.userName
-          this.activateSpinner =  !this.activateSpinner
+          this.userEmail = record.email
+          this.firstName = record.firstName
+          this.activateSpinner = !this.activateSpinner
         }
       }
+    } else {
+      this.userEmail = "";
+      this.firstName = ""
     }
-    else this.userEmail =""
   }
 
   showError(message: string) {

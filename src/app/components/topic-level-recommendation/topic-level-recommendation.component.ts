@@ -47,11 +47,11 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   index: number;
 
   form: UntypedFormGroup;
-  autoSave:string
-  isSaving:boolean
+  autoSave: string
+  isSaving: boolean
 
   @Input()
-  activityRecords:ActivityLogResponse[]
+  activityRecords: ActivityLogResponse[]
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
@@ -77,6 +77,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   recommendationId: number;
   typingText = data_local.ASSESSMENT.TYPING_TEXT;
   userEmail: string;
+  firstName: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -111,10 +112,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"},panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -128,16 +129,20 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     })
 
   }
+
   ngOnChanges(): void {
-    if( this.activityRecords.length > 0) {
+    if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.recommendation.recommendationId) {
           this.recommendation.recommendation = record.inputText
-          this.userEmail=record.userName
+          this.userEmail = record.email
+          this.firstName = record.firstName
         }
       }
+    } else {
+      this.userEmail = ""
+      this.firstName = ""
     }
-    else this.userEmail =""
   }
 
 
@@ -145,8 +150,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
 
     this.topicLevelRecommendationText.assessmentId = this.assessmentId;
     this.topicLevelRecommendationText.topicId = this.topicId;
-    if(this.setRecommendationsFields() !== null) {
-    this.setTopicLevelRecommendationResponse()
+    if (this.setRecommendationsFields() !== null) {
+      this.setTopicLevelRecommendationResponse()
       this.topicLevelRecommendationText.topicLevelRecommendation = this.recommendations;
       this.autoSave = "Auto Saved"
       this.isSaving = true
@@ -165,11 +170,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     }
   }
 
-  private setRecommendationsFields() : TopicLevelRecommendation | null{
-    if(this.recommendation.recommendationId === undefined && this.recommendation.recommendation === "" && this.recommendation.effort === "" && this.recommendation.impact === "" && this.recommendation.deliveryHorizon === "") {
+  private setRecommendationsFields(): TopicLevelRecommendation | null {
+    if (this.recommendation.recommendationId === undefined && this.recommendation.recommendation === "" && this.recommendation.effort === "" && this.recommendation.impact === "" && this.recommendation.deliveryHorizon === "") {
       return null;
-    }
-    else {
+    } else {
       this.recommendations.recommendationId = this.recommendation.recommendationId;
       this.recommendations.recommendation = this.recommendation.recommendation;
       this.recommendations.effort = this.recommendation.effort;
@@ -264,8 +268,8 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     if (this.topicRecommendationArray != undefined) {
       index = this.topicRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.topicRecommendationArray?.splice(index,1);
-        this.deleteRecommendationTemplate(recommendation,index);
+        this.topicRecommendationArray?.splice(index, 1);
+        this.deleteRecommendationTemplate(recommendation, index);
       }
     }
 
@@ -275,11 +279,11 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     return recommendationId === undefined;
   }
 
-  deleteRecommendationTemplate(recommendation: TopicLevelRecommendation,index:number) {
+  deleteRecommendationTemplate(recommendation: TopicLevelRecommendation, index: number) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
         error: _error => {
-          this.topicRecommendationArray?.splice(index,1,recommendation);
+          this.topicRecommendationArray?.splice(index, 1, recommendation);
           this.showError("Data cannot be deleted");
         }
       })

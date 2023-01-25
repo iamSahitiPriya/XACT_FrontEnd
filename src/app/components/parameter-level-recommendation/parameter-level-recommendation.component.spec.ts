@@ -654,7 +654,7 @@ describe('ParameterRecommendationComponent', () => {
   });
 
   it("should set user email when other user is working on the particular parameter recommendation", () => {
-    component.activityRecord = [{identifier:1,activityType:"PARAMETER_RECOMMENDATION",inputText:"some text",userName:"abc@thoughtworks.com"}]
+    component.activityRecord = [{identifier:1,activityType:"PARAMETER_RECOMMENDATION",inputText:"some text",email:"abc@thoughtworks.com",firstName:"abc"}]
     component.parameterLevelRecommendation = {recommendationId:1,recommendation:"hello"}
 
     component.ngOnChanges()

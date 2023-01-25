@@ -21,6 +21,7 @@ export const environment = {
   SAVE_PARAMETER_RATING_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/ratings",
   VERSION: appPackage && appPackage.version,
   ROLE_URI:"/v1/users/roles",
+  LOGIN_URI: "/v1/users/login",
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/recommendations/${recommendationId}",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/recommendations/${recommendationId}",
   IDLE_TIMEOUT: 60,  //in sec

@@ -35,7 +35,7 @@ import {SseClient} from "ngx-sse-client";
 })
 export class AppServiceService {
 
-  constructor(private http: HttpClient,private sseClient : SseClient) {
+  constructor(private http: HttpClient, private sseClient: SseClient) {
   }
 
   public getAssessments(): Observable<AssessmentStructure[]> {
@@ -131,6 +131,10 @@ export class AppServiceService {
 
   getUserRole() {
     return this.http.get(environment.BaseURI + environment.ROLE_URI);
+  }
+
+  login() {
+    this.http.get(environment.BaseURI + environment.LOGIN_URI).subscribe();
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
@@ -263,12 +267,12 @@ export class AppServiceService {
     return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
   }
 
-  getActivity(topicId : number, assessmentId : number) {
+  getActivity(topicId: number, assessmentId: number) {
     const activityDataURI = this.formatURI(environment.ACTIVITY_LOGS_URI, {
-      assessmentId : assessmentId,
-      topicId : topicId
+      assessmentId: assessmentId,
+      topicId: topicId
     })
-    return this.sseClient.stream(environment.BaseURI +  activityDataURI, {
+    return this.sseClient.stream(environment.BaseURI + activityDataURI, {
       keepAlive: true,
       reconnectionDelay: 30_000,
       responseType: 'text'

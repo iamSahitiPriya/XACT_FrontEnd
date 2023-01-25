@@ -308,7 +308,7 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it("should set user email when other user is working on the particular question", () => {
-    component.activityRecords = [{identifier:1,activityType:"DEFAULT_QUESTION",inputText:"some text",userName:"abc@thoughtworks.com"}]
+    component.activityRecords = [{identifier:1,activityType:"DEFAULT_QUESTION",inputText:"some text",email:"abc@thoughtworks.com",firstName:"abc"}]
     component.type = "DEFAULT"
     component.questionNumber = 1
     component.answerInput = "abcdef"

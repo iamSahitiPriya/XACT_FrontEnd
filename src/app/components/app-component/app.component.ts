@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.appService.login();
     this.userRole = this.appService.getUserRole();
   }
 }

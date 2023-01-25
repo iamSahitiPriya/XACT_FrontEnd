@@ -622,10 +622,10 @@ describe('TopicLevelAssessmentComponent', () => {
 
   it("should filter activity records based on type", () => {
     component.activities = [
-      {identifier: 1, activityType: "DEFAULT_QUESTION", inputText: "text", userName: "abc@thoughtworks.com"},
-      {identifier: 1, activityType: "ADDITIONAL_QUESTION", inputText: "text", userName: "def@thoughtworks.com"},
-      {identifier: 1, activityType: "TOPIC_RECOMMENDATION", inputText: "text", userName: "XYZ@thoughtworks.com"},
-      {identifier: 1, activityType: "PARAMETER_RECOMMENDATION", inputText: "text", userName: "xyz@thoughtworks.com"},
+      {identifier: 1, activityType: "DEFAULT_QUESTION", inputText: "text", email: "abc@thoughtworks.com",firstName:"abc"},
+      {identifier: 1, activityType: "ADDITIONAL_QUESTION", inputText: "text", email: "def@thoughtworks.com",firstName:"abc"},
+      {identifier: 1, activityType: "TOPIC_RECOMMENDATION", inputText: "text", email: "XYZ@thoughtworks.com",firstName:"abc"},
+      {identifier: 1, activityType: "PARAMETER_RECOMMENDATION", inputText: "text", email: "xyz@thoughtworks.com",firstName:"abc"},
     ]
 
     component.filterActivityRecords()
