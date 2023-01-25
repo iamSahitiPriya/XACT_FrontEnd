@@ -18,7 +18,7 @@
                   cdkAutosizeMaxRows="2"
                   maxlength="5000"
                   [readonly]="userEmail.length>0"
-                  (keyup)="userEmail.length === 0 && saveParticularParameterText($event)"
+                  (keyup)="saveParticularParameterText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
         <mat-hint *ngIf="userEmail.length === 0; else text" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
         <ng-template #text>

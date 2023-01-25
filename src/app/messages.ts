@@ -188,7 +188,8 @@ export const data_local =
       MODULE_SELECTION_LABEL: "Select Module",
       CATEGORY: {
         SELECT_CATEGORY: "Select Category",
-        ADD_CATEGORY: "Add Category"
+        ADD_CATEGORY: "Add Category",
+        PLACEHOLDER: "Enter Category name"
 
       },
       MODULE: {
