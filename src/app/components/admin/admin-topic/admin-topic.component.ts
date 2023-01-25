@@ -378,7 +378,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       ?.topics
     let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
-      let fetchedTopic: any = topic?.at(topicIndex)
+      let fetchedTopic: any = topic?.slice(topicIndex,topicIndex+1)[0]
+      console.log(fetchedTopic.parameters)
       _data['parameters'] = fetchedTopic.parameters
       _data['references'] = fetchedTopic.references
       topic?.splice(topicIndex, 1)

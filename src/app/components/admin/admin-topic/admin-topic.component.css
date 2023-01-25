@@ -141,7 +141,7 @@ td.topic:last-of-type {
   overflow: hidden;
 }
 
-.topicCommentTextArea {
+.topic-comment-textarea {
   width: 99%;
   font-size: 16px;
   background: #FFFFFF 0% 0% no-repeat padding-box;

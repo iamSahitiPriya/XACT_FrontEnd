@@ -40,7 +40,7 @@
         <div
           [@detailExpand]="(row.isEdit === true || selectedParameter?.parameterId === row.parameterId) ? 'expanded' : 'collapsed'"
           class="parameterComments">
-          <mat-form-field appearance="outline" class="parameterCommentTextArea">
+          <mat-form-field appearance="outline" class="parameter-comment-textarea">
             <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize

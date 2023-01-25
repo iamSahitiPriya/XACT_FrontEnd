@@ -164,7 +164,7 @@ td.parameter:nth-child(6){
   overflow: hidden;
 }
 
-.parameterCommentTextArea {
+.parameter-comment-textarea {
   width: 99%;
   font-size: 16px;
   margin-top:11px;
