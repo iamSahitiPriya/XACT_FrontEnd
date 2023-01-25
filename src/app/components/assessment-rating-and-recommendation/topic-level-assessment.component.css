@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 
-.topicQuestions {
+.topic-questions {
   height: 70vh;
   overflow: auto;
   margin-right: -6px;
@@ -93,7 +93,7 @@
   .assessmentDetailsDisplay{
     width: 100%;
   }
-  .topicQuestions{
+  .topic-questions{
     margin-right: -4px;
   }
   .question-content{

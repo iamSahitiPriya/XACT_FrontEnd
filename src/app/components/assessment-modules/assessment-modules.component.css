@@ -170,13 +170,13 @@ h2 {
   cursor: pointer;
 }
 
-.inActiveModule{
+.inActive-module{
   pointer-events: none;
   opacity:65%;
   color:#6F7071;
 }
 
-.inActiveCategory{
+.inActive-category{
   pointer-events: none;
   opacity:65%;
   background-color: #F7F7F7;

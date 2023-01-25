@@ -169,7 +169,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     let breadCrumbId = document.getElementById("sequence")
     this.initializeBreadcrumbTrail(breadCrumbId)
 
-    let radius = width / 9.5
+    let radius = 85
 
     let arc = d3.arc()
       .startAngle((d: any) => {
@@ -280,7 +280,10 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
 
     function labelVisible(d: any) {
-      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.04;
+      let maxLevel=5;
+      let minLevel=1;
+      let minDisplayArea=0.04;
+      return d.y1 <= maxLevel && d.y0 >= minLevel && (d.y1 - d.y0) * (d.x1 - d.x0) > minDisplayArea;
     }
 
     function labelTransform(d: any) {
