@@ -380,7 +380,8 @@ export class AdminParameterComponent implements OnInit {
 
     let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
     if (parameterIndex !== -1) {
-      let fetchedParameter: any = parameters?.at(parameterIndex)
+      let fetchedParameter: any = parameters?.slice(parameterIndex,parameterIndex+1)[0]
+
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
       parameters.splice(parameterIndex, 1)
