@@ -57,7 +57,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   assessmentId: number;
   data: ReportDataStructure;
   summaryData: SummaryResponse;
-  selectedValue: any = d3.interpolateSpectral;
+  selectedValue: any = "ThreatTheme";
   private destroy$: Subject<void> = new Subject<void>();
   sequenceArray: any[]
   averageScoreUptoSelected: number = 0
@@ -163,15 +163,13 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         (root);
     }
 
-    let color = d3.scaleOrdinal(d3.quantize(this.selectedValue, data.children.length + 11).reverse());
-    this.color = color
-    this.arrowColor = <string>this.color("1")
+    this.arrowColor = "orange"
 
     let width = 800;
     let breadCrumbId = document.getElementById("sequence")
     this.initializeBreadcrumbTrail(breadCrumbId)
 
-    let radius = width / 10.5
+    let radius = 84
 
     let arc = d3.arc()
       .startAngle((d: any) => {
@@ -207,10 +205,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .selectAll("path")
       .data(root.descendants().slice(1))
       .enter().append("path")
-      .attr("fill", (d: any) => {
-        while (d.depth > 1) d = d.parent;
-        return <string>this.color(d.data.name);
-      })
+      .attr("fill", this.fillThreatColorsInChart)
       .attr("fill-opacity", (d: any) => arcVisible(d.current) ? (((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7) : 0)
       .attr("d", (d: any) => {
         return <any>arc(d.current);
@@ -285,7 +280,10 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
 
     function labelVisible(d: any) {
-      return d.y1 <= 5 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.07;
+      let maxLevel=5;
+      let minLevel=1;
+      let minDisplayArea=0.04;
+      return d.y1 <= maxLevel && d.y0 >= minLevel && (d.y1 - d.y0) * (d.x1 - d.x0) > minDisplayArea;
     }
 
     function labelTransform(d: any) {
@@ -364,28 +362,26 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return d.data.name
   }
 
-  wrap(content: any, width: any, lineHeight: any, adjustPadding: any) {
+  wrap(content: any, width: number, lineHeight: number, adjustPadding: number) {
 
     content.each(function (this: any) {
-      var text = d3.select(<any>this),
-        words = text.text().split(/\s+/).reverse(),
+      let text = d3.select(<any>this),
+        wordList = text.text().split(/\s+/),
         word,
         line: any = [],
         lineNumber = 0,
         y = text.attr("y"),
         x = text.attr("x"),
-        dy = parseFloat(text.attr("dy")),
-        dyAdjust = 0;
-      if (words.length > 3) {
-        dyAdjust = words.length / 1.95;
-      }
-      dy = dy - (adjustPadding * dyAdjust)
+        dy = parseFloat(text.attr("dy"));
+      let wrappedWords = AssessmentSummaryComponent.modifyDisplayText(wordList);
+
+      dy = dy - (adjustPadding)
       let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("id", lineNumber);
-      while (word = words.pop()) {
+      while (word = wrappedWords.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
         dy = parseFloat(text.attr("dy"));
-        var len = tspan.node()?.getComputedTextLength();
+        let len = tspan.node()?.getComputedTextLength();
         if (<any>len > width) {
           line.pop();
           tspan.text(line.join(" "));
@@ -393,11 +389,21 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
           tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", lineNumber++ * lineHeight + dy + 0.85 + "em").text(word);
         }
       }
-
-
     });
   }
 
+
+  private static modifyDisplayText(wordList: string[]) : string[] {
+    let maximumDisplayWords = 3;
+    if (wordList.length >= maximumDisplayWords) {
+      wordList = wordList.slice(0, 2)
+      wordList.push("...")
+    }
+    let wrappedWords = [];
+    let maximumDisplayWordLength=10;
+    wrappedWords=wordList.map(eachWord => eachWord.length > maximumDisplayWordLength ? eachWord.substring(0,maximumDisplayWordLength)+ "..."  : eachWord)
+    return wrappedWords.reverse();
+  }
 
   onThemeChange() {
     let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;

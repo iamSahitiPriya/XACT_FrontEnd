@@ -78,8 +78,8 @@
           <div id="sequence">
             <div *ngFor="let sequence of sequenceArray;index as i">
               <mat-card class="trail" id="trail1">
-                <mat-card-content>
-                  <div class="sequenceName">{{sequence.data.name}}</div>
+                <mat-card-content class="sequence-card">
+                  <div class="sequence-name">{{sequence.data.name}}</div>
                   <div *ngIf="sequence.data.value || sequence.data.rating">
                     <div class="rating">
                       <mat-icon class="star-icon">star</mat-icon>
