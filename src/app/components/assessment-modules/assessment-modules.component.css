@@ -170,13 +170,18 @@ h2 {
   cursor: pointer;
 }
 
-.active{
+.inActive-module{
+  pointer-events: none;
+  opacity:65%;
+  color:#6F7071;
+}
+
+.inActive-category{
   pointer-events: none;
   opacity:65%;
   background-color: #F7F7F7;
   color:#6F7071;
 }
-
 .mat-icon-custom {
   vertical-align: unset !important;
   line-height: unset !important;

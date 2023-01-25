@@ -4,9 +4,8 @@
 
 <div class="assessmentDetailsDisplay">
 
-  <div class="topicQuestions" *ngIf="topicInput">
+  <div class="topic-questions" *ngIf="topicInput">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-      <div *ngIf="parameter.active">
         <div id="questionContainer">
           <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
           </div>
@@ -66,7 +65,6 @@
           ></app-parameter-level-rating>
         </div>
 
-      </div>
     </div>
 
     <div *ngIf="topicInput.references">
