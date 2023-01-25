@@ -67,6 +67,8 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   moduleLabel = data_local.ADMIN.MODULE_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
+  categoryNamePlaceholder = data_local.ADMIN.CATEGORY.PLACEHOLDER;
+  pattern: string = '\'^[a-zA-Z0-9-()._-]+(\\\\s+[a-zA-Z0-9-()._-]+)*$\'';
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {
@@ -94,7 +96,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     })
   }
 
-  private sortCategory() {
+  sortCategory() {
     this.categoryData.sort((category1, category2) => category2.updatedAt - category1.updatedAt)
     this.dataSource = new MatTableDataSource<CategoryData>(this.categoryData)
 

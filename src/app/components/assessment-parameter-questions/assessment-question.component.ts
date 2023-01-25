@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -21,6 +21,7 @@ import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -31,11 +32,14 @@ let DEBOUNCE_TIME = 600;
 @Component({
   selector: 'app-assessment-question',
   templateUrl: './assessment-question.component.html',
-  styleUrls: ['./assessment-question.component.css']
+  styleUrls: ['./assessment-question.component.css'],
+  animations: [
+
+  ]
 })
 
 
-export class AssessmentQuestionComponent implements OnInit, OnDestroy {
+export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges {
 
   assessmentStatus: string;
   @Input()
@@ -56,17 +60,23 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   @Input()
   question: string
 
+  @Input()
+  activityRecords : ActivityLogResponse[]
+
   textarea: number = 0;
 
   questionId: number;
   autoSave: string;
 
+  typingText = data_local.ASSESSMENT.TYPING_TEXT;
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
+  maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
+
 
 
   private cloneAnswerResponse: AssessmentStructure;
@@ -74,6 +84,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
+  userEmail: string;
+  activateSpinner: boolean = false;
+  isSaving:boolean
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -94,6 +107,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
 
+
   ngOnInit() {
     this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
@@ -101,6 +115,19 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
         this.assessmentStatus = data.assessmentStatus
       }
     })
+  }
+
+  ngOnChanges(): void {
+    if( this.activityRecords.length > 0) {
+      for (let record of this.activityRecords) {
+        if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
+          this.answerInput = record.inputText
+          this.userEmail=record.userName
+          this.activateSpinner =  !this.activateSpinner
+        }
+      }
+    }
+    else this.userEmail =""
   }
 
   showError(message: string) {
@@ -126,10 +153,11 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   }
 
   saveNotes(answerRequest: AnswerRequest, assessmentId: number) {
+    this.isSaving = true
     this.appService.saveNotes(assessmentId, answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(answerRequest);
-        this.questionId = -1
+        this.isSaving = false
         this.autoSave = ""
         if (this.type === this.additionalTypeQuestion) {
           this.userQuestionResponse.parameterId = this.parameterId

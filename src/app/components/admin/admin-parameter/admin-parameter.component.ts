@@ -26,7 +26,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '100px'})),
+      state('expanded', style({height: '100%'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -94,18 +94,22 @@ export class AdminParameterComponent implements OnInit {
           this.fetchModules(eachCategory);
         })
         this.sortData();
-        this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
-        this.paginator.pageIndex = 0
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
-          if (typeof tableData[sortHeaderId] === 'string') {
-            return tableData[sortHeaderId].toLocaleLowerCase();
-          }
-          return tableData[sortHeaderId];
-        };
-        this.dataSource.sort = this.sort;
+        this.sortParameter();
       }
     })
+  }
+
+  sortParameter() {
+    this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
+      }
+      return tableData[sortHeaderId];
+    };
+    this.dataSource.sort = this.sort;
   }
 
   private sortData() {
@@ -376,7 +380,8 @@ export class AdminParameterComponent implements OnInit {
 
     let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
     if (parameterIndex !== -1) {
-      let fetchedParameter: any = parameters?.at(parameterIndex)
+      let fetchedParameter: any = parameters?.slice(parameterIndex,parameterIndex+1)[0]
+
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
       parameters.splice(parameterIndex, 1)

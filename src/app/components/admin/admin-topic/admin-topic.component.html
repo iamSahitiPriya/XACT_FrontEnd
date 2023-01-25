@@ -42,7 +42,7 @@
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
         <div [@detailExpand]="row === selectedTopic ? 'expanded' : 'collapsed'"
              class="topicComments">
-          <mat-form-field appearance="outline" class="topicCommentTextArea">
+          <mat-form-field appearance="outline" class="topic-comment-textarea">
             <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize

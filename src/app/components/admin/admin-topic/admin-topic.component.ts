@@ -101,7 +101,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
   }
 
-  private sortTopic() {
+   sortTopic() {
     this.topicData = this.topicData.sort((topic1, topic2) => topic2.updatedAt - topic1.updatedAt);
     this.categoryList.sort((category1, category2) => Number(category2.active) - Number(category1.active))
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
@@ -378,7 +378,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       ?.topics
     let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
-      let fetchedTopic: any = topic?.at(topicIndex)
+      let fetchedTopic: any = topic?.slice(topicIndex,topicIndex+1)[0]
       _data['parameters'] = fetchedTopic.parameters
       _data['references'] = fetchedTopic.references
       topic?.splice(topicIndex, 1)

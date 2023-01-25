@@ -68,7 +68,7 @@ describe('AssessmentQuestionComponent', () => {
   it('should create', () => {
     component.answerInput = "My answer"
     fixture.detectChanges();
-    //expect(fixture.nativeElement.querySelector("#assessmentAnswer123").innerText).toBe("My answer");
+
   });
   it('should auto save the data whenever the value is changes for Default questions', async () => {
     component.assessmentId = 5
@@ -306,4 +306,23 @@ describe('AssessmentQuestionComponent', () => {
     component.showError(message)
     expect(component.showError).toHaveBeenCalled()
   });
+
+  it("should set user email when other user is working on the particular question", () => {
+    component.activityRecords = [{identifier:1,activityType:"DEFAULT_QUESTION",inputText:"some text",userName:"abc@thoughtworks.com"}]
+    component.type = "DEFAULT"
+    component.questionNumber = 1
+    component.answerInput = "abcdef"
+
+    component.ngOnChanges()
+
+    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.answerInput).toBe("some text")
+  })
+  it("should empty user email when the record is empty", () => {
+    component.activityRecords = []
+
+    component.ngOnChanges()
+
+    expect(component.userEmail.length).toBe(0)
+  })
 });

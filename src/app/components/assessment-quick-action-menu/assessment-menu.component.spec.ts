@@ -16,7 +16,7 @@ import {AssessmentMenuComponent} from './assessment-menu.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatIconModule} from "@angular/material/icon";
-import {of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -38,7 +38,7 @@ import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.
 class MockDialog {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(1),
       componentInstance: jest.fn()
     }
   }
@@ -55,7 +55,7 @@ describe('AssessmentMenuComponent', () => {
   let matDialog: any;
   let dom;
   let button;
-
+  let mockAppService:MockAppService
   let component: AssessmentMenuComponent;
   let fixture: ComponentFixture<AssessmentMenuComponent>;
 
@@ -66,6 +66,13 @@ describe('AssessmentMenuComponent', () => {
 
     getTemplate(){
       return of(new Blob());
+    }
+    deleteAssessment(assessmentId:number){
+      if(assessmentId === 1) {
+        return of(assessmentId)
+      }else{
+        return throwError("Error!")
+      }
     }
 
   }
@@ -92,6 +99,7 @@ describe('AssessmentMenuComponent', () => {
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
     matDialog = fixture.debugElement.injector.get(MatDialog)
+    mockAppService = new MockAppService();
     fixture.autoDetectChanges();
 
   });
@@ -104,21 +112,21 @@ describe('AssessmentMenuComponent', () => {
     component.assessment = {
       assessmentPurpose: "",
       assessmentId: 1,
-          assessmentName: "abc",
-          organisationName: "xyz",
-          assessmentStatus: "Completed",
-          updatedAt: 0,
-          assessmentState:"inProgress",
-          domain: "TW",
-          industry: "IT",
-          teamSize: 2,
-          users: [],
-          owner:true,
-          answerResponseList: [],
-          parameterRatingAndRecommendation: [],
-          topicRatingAndRecommendation: [],
+      assessmentName: "abc",
+      organisationName: "xyz",
+      assessmentStatus: "Completed",
+      updatedAt: 0,
+      assessmentState:"inProgress",
+      domain: "TW",
+      industry: "IT",
+      teamSize: 2,
+      users: [],
+      owner:true,
+      answerResponseList: [],
+      parameterRatingAndRecommendation: [],
+      topicRatingAndRecommendation: [],
       userQuestionResponseList:[]
-        }
+    }
     jest.spyOn(component, 'getTemplate');
     jest.spyOn(component, 'generateReport');
     jest.spyOn(component,'isAssessmentTable')
@@ -221,12 +229,25 @@ describe('AssessmentMenuComponent', () => {
     button.click();
     let deleteButton = dom.parentNode.querySelector('#delete-assessment');
     deleteButton.click();
+    component.deleteAssessment(1)
+    mockAppService.deleteAssessment(1).subscribe(_data =>{
+      expect(_data).toBe(1)
+    })
+
     expect(component.deleteAssessment).toHaveBeenCalled();
     tick();
     flush()
     flushMicrotasks();
     discardPeriodicTasks();
   }));
+
+  it("should throw error when unable to delete assessment", () => {
+    jest.spyOn(component,"deleteAssessment")
+
+    component.deleteAssessment(2);
+
+    expect(component.deleteAssessment).toHaveBeenCalled()
+  });
 
 });
 

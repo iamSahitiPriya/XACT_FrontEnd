@@ -25,7 +25,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '100px'})),
+      state('expanded', style({height: '100%'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -35,9 +35,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit', 'action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
-  commonErrorFieldText =data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
+  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   isModuleAdded: boolean = false;
-  module: ModuleData;
+  module: ModuleData | undefined;
   isEditable: boolean;
   categoryDetails: any[] = [];
   isModuleUnique = true;
@@ -53,15 +53,15 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   categoryLabel = data_local.ADMIN.CATEGORY_NAME
-  moduleLabel= data_local.ADMIN.MODULE_NAME
+  moduleLabel = data_local.ADMIN.MODULE_NAME
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
-  addModule =data_local.ADMIN.MODULE.ADD_MODULE
+  addModule = data_local.ADMIN.MODULE.ADD_MODULE
 
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(MatTable) table: MatTable<ModuleData>
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}  ) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   dataSourceArray: ModuleData[];
   dataToDisplayed: ModuleData[];
@@ -81,27 +81,30 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.categoryDetails=[]
+    this.categoryDetails = []
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.categoryDetails = data
       data?.forEach((eachCategory) => {
-           this.getModules(eachCategory);
-        }
-      )
-      this.moduleStructure.sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt));
-      this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
-      this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
-      this.dataSourceArray = [...this.dataSource.data]
-      this.paginator.pageIndex = 0
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
-        if (typeof tableData[sortHeaderId] === 'string') {
-          return tableData[sortHeaderId].toLocaleLowerCase();
-        }
-        return tableData[sortHeaderId];
-      };
-      this.dataSource.sort = this.sort;
+        this.getModules(eachCategory);
+      })
+      this.sortModule();
     })
+  }
+
+  sortModule() {
+    this.moduleStructure.sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt));
+    this.categoryDetails?.sort((a, b) => Number(b.active) - Number(a.active))
+    this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
+    this.dataSourceArray = [...this.dataSource.data]
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
+      }
+      return tableData[sortHeaderId];
+    };
+    this.dataSource.sort = this.sort;
   }
 
   private getModules(eachCategory: CategoryResponse) {
@@ -152,43 +155,62 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   updateModule(row: any) {
     let moduleRequest = this.setModuleRequest(row);
-    if (this.module.moduleName.toLowerCase().replace(/\s/g, '')  !== row.moduleName.toLowerCase().replace(/\s/g, '') ) {
-      moduleRequest= this.getModuleRequest(row);
-    }
-    if(this.isModuleUnique) {
-      moduleRequest['moduleId']=row.moduleId
-      this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          row.isEdit = false;
-          this.selectedModule = null;
-          this.table.renderRows()
-          this.updateModuleDataToStore(_data)
-          this.showNotification("Your changes have been successfully updated.", 2000)
-          this.moduleStructure = []
-          this.ngOnInit()
-        }, error: _error => {
-          this.showError(this.serverErrorMessage);
-        }
-      })
+    if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
+      moduleRequest = this.getModuleRequest(row);
+      if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
+        moduleRequest = this.getModuleRequest(row);
+      }
+      if (this.isModuleUnique) {
+        moduleRequest['moduleId'] = row.moduleId
+        this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            row.isEdit = false;
+            this.selectedModule = null;
+            this.table.renderRows()
+            this.updateModuleDataToStore(_data)
+            this.showNotification("Your changes have been successfully updated.", 2000)
+            this.moduleStructure = []
+            this.module = undefined
+            this.ngOnInit()
+          }, error: _error => {
+            this.showError(this.serverErrorMessage);
+          }
+        })
+      }
     }
   }
 
   cancelChanges(row: any) {
-    row.categoryName = this.module.categoryName
-    row.moduleName = this.module.moduleName
-    row.active = this.module.active
-    row.updatedAt = this.module.updatedAt
-    row.comments = this.module.comments
+    row.categoryName = this.module?.categoryName
+    row.moduleName = this.module?.moduleName
+    row.active = this.module?.active
+    row.updatedAt = this.module?.updatedAt
+    row.comments = this.module?.comments
     this.selectedModule = this.selectedModule === row ? null : row
     return row;
   }
 
   editRow(row: any) {
+    this.resetUnsavedChanges(row)
     this.deleteAddedModuleRow()
     this.selectedModule = this.selectedModule === row ? null : row
     this.isEditable = true;
     this.module = Object.assign({}, row)
     return this.selectedModule;
+  }
+
+  private resetUnsavedChanges(row : any) {
+    if(this.module !== undefined && this.module.moduleId !== row.moduleId)
+      this.updateDataSource(this.module)
+  }
+
+  private updateDataSource(previousModule : ModuleData) {
+    let data = this.dataSource.data
+    let index = data.findIndex(module => module.moduleId === previousModule.moduleId)
+    if (index !== -1) {
+      data.splice(index, 1, previousModule)
+      this.dataSource.data = data
+    }
 
   }
 
@@ -222,7 +244,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   saveModule(row: any) {
     let moduleRequest = this.getModuleRequest(row);
-    if(this.isModuleUnique) {
+    if (this.isModuleUnique) {
       this.appService.saveModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             let data = this.dataSource.data
@@ -247,7 +269,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
     let moduleArray = this.categoryDetails.find(category => category.categoryName === row.categoryName).modules
     let index = moduleArray?.findIndex((module: any) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
-    let moduleRequest :any;
+    let moduleRequest: any;
     if (index === -1 || index === undefined) {
       this.isModuleUnique = true;
       moduleRequest = {
@@ -262,47 +284,47 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       return null
     }
 
-  return  moduleRequest;
-}
+    return moduleRequest;
+  }
 
 private updateModuleDataToStore(_data: any)
 {
-  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module.categoryId).modules
-  let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module.moduleId)
+  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId).modules
+  let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module?.moduleId)
   if (index !== -1) {
-    let fetchedModules = modules?.at(index);
-    _data['topics'] = fetchedModules.topics;
+    let fetchedModule: any = modules?.slice(index,index+1)[0]
+    _data['topics'] = fetchedModule.topics;
     modules?.splice(index, 1)
     this.sendDataToStore(_data)
   }
 
-}
-
-sendDataToStore(_data: any)
-{
-  let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
-  let module = {
-    moduleId: _data.moduleId,
-    moduleName: _data.moduleName,
-    category: _data.categoryId,
-    active: _data.active,
-    updatedAt: Date.now(),
-    comments: _data.comments,
-    topics: _data.topics ? _data.topics : []
   }
-  modules?.push(module)
-  this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))
-}
+
+  sendDataToStore(_data: any) {
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
+    let module = {
+      moduleId: _data.moduleId,
+      moduleName: _data.moduleName,
+      category: _data.categoryId,
+      active: _data.active,
+      updatedAt: Date.now(),
+      comments: _data.comments,
+      topics: _data.topics ? _data.topics : []
+    }
+    modules?.push(module)
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))
+  }
 
   private setModuleRequest(row: any) {
-    this.isModuleUnique=true;
+    this.isModuleUnique = true;
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
-    return  {
-      "moduleId":row.moduleId,
+    return {
+      "moduleId": row.moduleId,
       "moduleName": row.moduleName,
       "category": selectedCategoryId,
       "active": row.active,
       "comments": row.comments
     }
   }
+
 }
