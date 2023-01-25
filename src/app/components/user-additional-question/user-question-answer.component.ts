@@ -80,7 +80,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
 

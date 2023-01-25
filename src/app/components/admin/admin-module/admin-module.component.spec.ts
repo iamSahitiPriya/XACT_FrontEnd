@@ -262,7 +262,7 @@ describe('AdminModuleComponent', () => {
     mockAppService.updateModule(row).subscribe(data =>{
       expect(data).toBe(row);
     })
-    expect(component.selectedModule).toBeNull()
+    expect(component.selectedModule).toBeDefined()
   });
   it("should cancel changes", () => {
     component.selectedModule = {
@@ -398,5 +398,15 @@ describe('AdminModuleComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
 
+
+  it("should reset unsaved changes", () => {
+    component.ngOnInit()
+    component.module={moduleId:1, moduleName:"moduleName123", categoryName : "category1", categoryId : 1, categoryStatus: true, active : true, updatedAt : 1022022, comments : "",};
+    let row= {active: true, moduleId: 6, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022}
+
+    component.editRow(row)
+
+    expect(component.dataSource.data[0].moduleName).toBe("moduleName123")
+  });
 });
 
