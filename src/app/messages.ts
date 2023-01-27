@@ -44,8 +44,12 @@ export const data_local =
         TITLE: "Assessment Name",
         PLACEHOLDER: "Enter Assessment Name",
         PURPOSE: {
-          TITLE: "Purpose Of Assessment",
+          TITLE: "Assessment Request Type",
         }
+      },
+      ASSESSMENT_DESCRIPTION:{
+        TITLE: "Purpose of Assessment",
+        PLACEHOLDER: "Enter Purpose of Assessment",
       },
       ASSESSMENT_DOMAIN: {
         TITLE: "Domain of Target",

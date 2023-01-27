@@ -55,6 +55,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
   purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
+  descriptionOfAssessmentTitle=data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.TITLE;
+  descriptionOfAssessmentPlaceholder=data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.PLACEHOLDER;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   organisationValidationText = data_local.ASSESSMENT.ORGANISATION_VALIDATOR_MESSAGE;
@@ -116,6 +118,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         selected: ['', Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
+        assessmentDescriptionValidator:['',Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
@@ -206,6 +209,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       assessmentName: this.assessment.assessmentName,
       organisationName: this.assessment.organisationName,
       assessmentPurpose: this.assessment.assessmentPurpose,
+      assessmentDescription:this.assessment.assessmentDescription.trim(),
       domain: this.assessment.domain,
       industry: this.assessment.industry,
       teamSize: this.assessment.teamSize,

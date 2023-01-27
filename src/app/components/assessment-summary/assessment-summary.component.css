@@ -173,7 +173,8 @@
 }
 
 .definition {
-  padding-left: 10%;
+  padding-left: 15%;
+  width:175%;
 }
 
 .dataValue {
@@ -200,6 +201,7 @@
   margin-top: -85px;
   height: 205px;
   font-size: 20px;
+  margin-left:27%;
 }
 
 .noDataHeading {

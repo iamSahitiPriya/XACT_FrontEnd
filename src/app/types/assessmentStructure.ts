@@ -11,6 +11,7 @@ export interface AssessmentStructure {
   "assessmentId": number,
   "assessmentName": string,
   "assessmentPurpose":string,
+  "assessmentDescription": string;
   "organisationName": string,
   "assessmentStatus": string,
   "domain": string,
