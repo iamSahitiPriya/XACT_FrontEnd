@@ -79,6 +79,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
+  assessmentDescriptionMaxLimit=data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.LIMIT;
+  blankSpaceErrorText=data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.BLANK_SPACE_ERROR_TEXT;
   purposeOfAssessment = [{
     value: 'Internal Assessment'
   }, {value: 'Client Assessment'}, {value: 'Just Exploring'}]
@@ -186,17 +188,17 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   updateAssessment() {
     if (this.createAssessmentForm.valid) {
       const assessmentRequest = this.getAssessmentRequest();
-      this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          this.loading = false
-          this.closePopUp();
-        },
-        error: (_error) => {
-          this.loading = false
-          this.showError("Server error.");
-        }
-      })
-    } else {
+        this.appService.updateAssessment(this.assessment.assessmentId, assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            this.loading = false
+            this.closePopUp();
+          },
+          error: (_error) => {
+            this.loading = false
+            this.showError("Server error.");
+          }
+        })
+    }else {
       this.showError("Please fill in all the required fields correctly ");
     }
   }
@@ -209,7 +211,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       assessmentName: this.assessment.assessmentName,
       organisationName: this.assessment.organisationName,
       assessmentPurpose: this.assessment.assessmentPurpose,
-      assessmentDescription:this.assessment.assessmentDescription.trim(),
+      assessmentDescription:this.assessment.assessmentDescription,
       domain: this.assessment.domain,
       industry: this.assessment.industry,
       teamSize: this.assessment.teamSize,
@@ -231,6 +233,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.assessment.industry = this.assessmentCopy.industry;
     this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
     this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+    this.assessment.assessmentDescription=this.assessmentCopy.assessmentDescription;
     this.assessment.domain = this.assessmentCopy.domain;
     this.assessment.industry = this.assessmentCopy.industry;
     this.assessment.teamSize = this.assessmentCopy.teamSize;

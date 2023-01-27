@@ -48,8 +48,10 @@ export const data_local =
         }
       },
       ASSESSMENT_DESCRIPTION:{
-        TITLE: "Purpose of Assessment",
-        PLACEHOLDER: "Enter Purpose of Assessment",
+        TITLE: "Description for Assessment",
+        PLACEHOLDER: "Enter Description of Assessment",
+        LIMIT:200,
+        BLANK_SPACE_ERROR_TEXT: "No blank spaces are allowed"
       },
       ASSESSMENT_DOMAIN: {
         TITLE: "Domain of Target",
