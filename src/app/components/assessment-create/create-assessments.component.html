@@ -38,19 +38,19 @@
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
         <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=descriptionOfAssessmentPlaceholder required
-               [(ngModel)]="assessment.assessmentDescription" pattern="/^\s*$/"
+               [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxLength="200"
                   ></textarea>
-        <mat-hint  align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
         <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('pattern')">
           {{blankSpaceErrorText}}
         </mat-error>
+        <mat-hint  align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="domain">
