@@ -98,6 +98,7 @@ describe('UserQuestionAnswerComponent', () => {
       assessmentName: "",
       assessmentPurpose: "",
       assessmentState: "",
+      assessmentDescription: "",
       assessmentStatus: "",
       domain: "",
       industry: "",
@@ -191,6 +192,7 @@ describe('UserQuestionAnswerComponent', () => {
       assessmentPurpose: "",
       assessmentState: "",
       assessmentStatus: "",
+      assessmentDescription: "",
       domain: "",
       industry: "",
       organisationName: "",
@@ -220,6 +222,7 @@ describe('UserQuestionAnswerComponent', () => {
       assessmentPurpose: "",
       assessmentState: "",
       assessmentStatus: "",
+      assessmentDescription: "",
       domain: "",
       industry: "",
       organisationName: "",
@@ -261,6 +264,7 @@ describe('UserQuestionAnswerComponent', () => {
       assessmentPurpose: "",
       assessmentState: "",
       assessmentStatus: "",
+      assessmentDescription: "",
       domain: "",
       industry: "",
       organisationName: "",
@@ -295,7 +299,7 @@ describe('UserQuestionAnswerComponent', () => {
   });
   it("should toggle accordian", () => {
 
-    const newEvent = new MouseEvent('dxcontextmenu', { bubbles: true })
+    const newEvent = new MouseEvent('dxcontextmenu', {bubbles: true})
 
     component.changeAccordionState(newEvent);
 

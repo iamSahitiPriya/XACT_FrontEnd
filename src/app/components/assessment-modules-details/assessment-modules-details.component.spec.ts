@@ -193,6 +193,7 @@ describe('AssessmentModulesDetailsComponent', () => {
       assessmentPurpose: "Client",
       organisationName: "New",
       assessmentStatus: "Active",
+      assessmentDescription: "description",
       domain: "new",
       industry: "new",
       assessmentState: "inProgress",
