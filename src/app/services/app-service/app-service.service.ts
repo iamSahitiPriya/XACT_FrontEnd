@@ -134,7 +134,7 @@ export class AppServiceService {
   }
 
   login() {
-    this.http.get(environment.BaseURI + environment.LOGIN_URI).subscribe();
+     this.http.get(environment.BaseURI + environment.LOGIN_URI).subscribe();
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
