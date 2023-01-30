@@ -12,6 +12,9 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {RouterModule} from "@angular/router";
 import {MatIconModule} from '@angular/material/icon';
 import {of} from 'rxjs';
+import {AppServiceService} from "../../services/app-service/app-service.service";
+import {HttpClientModule} from "@angular/common/http";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 
 describe('HeaderComponent', () => {
@@ -25,8 +28,9 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent, SearchComponent, CreateAssessmentsComponent],
 
-      imports: [MatMenuModule, RouterTestingModule, RouterModule,MatIconModule],
+      imports: [MatMenuModule, RouterTestingModule, RouterModule,MatIconModule,HttpClientTestingModule],
       providers: [
+        AppServiceService,
         {provide: OKTA_AUTH, useValue: oktaAuth},
 
       ]

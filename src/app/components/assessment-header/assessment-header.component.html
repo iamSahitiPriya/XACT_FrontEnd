@@ -7,16 +7,16 @@
     <div class="dataStatus">
       {{ assessmentUpdateStatus + (this.assessment.updatedAt | date:'medium')}}
     </div>
-    <button [matTooltip]=generateReportToolTip id="generate-report" type="button" mat-stroked-button
+    <button [matTooltip]=generateReportToolTip [matTooltipPosition]="'above'" id="generate-report" type="button" mat-stroked-button
             (click)="assessmentMenu.generateReport();assessmentMenu.getTemplate();" class="btn-report">
       {{generateReportTitle}}
     </button>
-    <button [matTooltip]=finishAssessmentToolTip *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment"
+    <button [matTooltip]=finishAssessmentToolTip [matTooltipPosition]="'above'" *ngIf="assessment.assessmentStatus==='Active'" id="finishAssessment"
             type="button" mat-stroked-button
             class="btn-finish" (click)="confirmFinishAssessmentAction()">
       {{finishAssessmentTitle}}
     </button>
-    <button [matTooltip]=reopenAssessmentToolTip *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment"
+    <button [matTooltip]=reopenAssessmentToolTip [matTooltipPosition]="'above'" *ngIf="assessment.assessmentStatus==='Completed'" id="reopenAssessment"
             type="button" mat-stroked-button
             class="btn-reopen" (click)="reopenAssessment()">
       {{reopenAssessmentTitle}}
