@@ -13,6 +13,11 @@ class landingPage {
   static userName() {
     return cy.get('.dropdown-toggle')
   }
+
+  static adminPortalLink() {
+    return cy.get('.mat-list-icon > .li-text')
+  }
+
   static Search(value) {
     return cy.get('#search')
   }
@@ -36,6 +41,9 @@ class landingPage {
   static  purposeOfAssessment(){
     return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper')
   }
+  static  pageNationDropDown(){
+    return cy.get('.mat-paginator-page-size-label')
+  }
 
   static  purposeOfAssessment2(){
     return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
@@ -51,10 +59,6 @@ class landingPage {
   static OrganisationName() {
     return cy.get('.organizationName')
   }
-  static OrganisationSuggestion() {
-    return cy.get('.mat-option-text')
-  }
-
   static Domain() {
     return cy.get('.domain')
   }
@@ -191,6 +195,9 @@ class landingPage {
     return cy.get('.mat-chip')
   }
 
+  static OrganisationSuggestion() {
+    return cy.get('.mat-option-text')
+  }
   //placeholders
   static AssessmentPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Assessment Name\']')
@@ -210,7 +217,7 @@ class landingPage {
 
 
   //reusable functions
-  static AssessmentpopupFields(AssessmentName,OrgName,Domain,Industry,TeamSize,EmailId){
+  static AssessmentpopupFields(AssessmentName,OrgName,Domain,TeamSize,EmailId){
     expect(landingPage.AssessmentPopup()).to.exist;
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.AssessmentName().should('be.visible')
@@ -222,8 +229,6 @@ class landingPage {
     landingPage.OrganisationSuggestion().click({ multiple: true })
     landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
-    landingPage.Industry().should('be.visible')
-    landingPage.Industry().type(Industry)
     landingPage.teamSizeField().should('be.visible')
     landingPage.teamSizeField().type(TeamSize)
     landingPage.email().type(EmailId)
@@ -311,3 +316,5 @@ class landingPage {
 }
 
 export default landingPage
+
+

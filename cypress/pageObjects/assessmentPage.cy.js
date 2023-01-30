@@ -14,6 +14,9 @@ class assessmentPage {
   static configureOption() {
         return cy.get('#createAssessment')
       }
+ static modules(categoryIndex,moduleIndex) {
+        return cy.get('.side-bar>.expansion_color:nth-child('+categoryIndex+')>mat-expansion-panel>.mat-expansion-panel-content>.mat-expansion-panel-body>.category-modules> :nth-child('+moduleIndex+') > .mat-card')
+      }
 
     static yesButtonInPopup() {
           return cy.get('.mat-dialog-actions > .mat-focus-indicator')
@@ -61,7 +64,7 @@ class assessmentPage {
 
 
   static parameter(index){
-    return cy.get(':nth-child('+index+') > :nth-child(1) > #questionContainer > .parameter')
+    return cy.get(':nth-child('+index+') > #questionContainer > .parameter')
   }
 
   static threeDots(){
@@ -153,7 +156,7 @@ class assessmentPage {
 
   static questions(index1,index2,index3){
     //cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > :nth-child(2) > .question-content')
-    return cy.get(':nth-child('+index1+') > :nth-child(1) > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
+    return cy.get(':nth-child('+index1+') > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
   }
 
   static assignmentMaturityScoreDescription(index){
@@ -166,8 +169,8 @@ class assessmentPage {
 
   static parameterMaturityScoreDesc(index2,index){
 
-    return cy.get(' :nth-child('+index2+') > :nth-child(1) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
-  // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
+    return cy.get(' :nth-child('+index2+')  > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+  // cy.get(':nth-child(2) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child(3) > .mat-toolbar > .reference')
 
   }
 static editBox(){
@@ -187,35 +190,9 @@ static editBox(){
     }
   }
 
-  static selectRating(element){
-    element.click()
-    //if(assessmentPage.activeRating())
-
-  }
 
 
-  static excelDownload(filePath){
-    const xlsx = require("node-xlsx").default;
-    const fs = require("fs");
-    const path = require("path");
 
-    module.exports = (on, config) => {
-      // `on` is used to hook into various events Cypress emits
-      on("task", {
-        parseXlsx({ filePath }) {
-          return new Promise((resolve, reject) => {
-            try {
-              const jsonData = xlsx.parse(fs.readFileSync(filePath));
-              resolve(jsonData);
-            } catch (e) {
-              reject(e);
-            }
-          });
-        }
-      });
-    };
-
-  }
 
 }
 

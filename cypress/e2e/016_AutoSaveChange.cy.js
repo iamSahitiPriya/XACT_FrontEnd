@@ -1,3 +1,4 @@
+
 import landingPage from "../pageObjects/landingPage.cy";
 import commonFunctions from "../pageObjects/commonFunction.cy";
 import assessmentPage from "../pageObjects/assessmentPage.cy";
@@ -17,21 +18,22 @@ describe('Auto save displayed at the bottom right corner of the textbox where we
     commonFunctions.elementIsVisible(assessmentPage.autoSaveMessage(1,1),'auto save message is visible')
   })
 
- it('tc002 User should be able to see auto save message in bottom of the recommendations box', () => {
+  it('tc002 User should be able to see auto save message in bottom of the recommendations box', () => {
     commonFunctions.clickElement(landingPage.assessmentNameInGrid(1),'User is navigated to the selected assessment')
-   assessmentPage.topicRecomendation().scrollIntoView()
+    assessmentPage.topicRecomendation().scrollIntoView()
     commonFunctions.typeInElement(assessmentPage.topicRecomendation(),'software Engineering')
     cy.wait(500)
     commonFunctions.elementIsVisible(assessmentPage.autoSaveMessageRecomendationsTab(),'auto save message is visible')
   })
 
   it('tc003 User should not be able to see auto save message if maturity score is provided by the user', () => {
-      commonFunctions.clickElement(landingPage.assessmentNameInGrid(1),'User is navigated to the selected assessment')
-     assessmentPage.computedMaturityScoreRating(6).scrollIntoView()
-      commonFunctions.clickElement(assessmentPage.computedMaturityScoreRating(6),'Maturity score is selected')
-      cy.wait(500)
-      commonFunctions.elementIsNotVisible(assessmentPage.autoSaveMessageRecomendationsTab(),'auto save message is not visible')
-    })
+    commonFunctions.clickElement(landingPage.assessmentNameInGrid(1),'User is navigated to the selected assessment')
+    assessmentPage.computedMaturityScoreRating(6).scrollIntoView()
+    commonFunctions.clickElement(assessmentPage.computedMaturityScoreRating(6),'Maturity score is selected')
+    cy.wait(500)
+    commonFunctions.elementIsNotVisible(assessmentPage.autoSaveMessageRecomendationsTab(),'auto save message is not visible')
+  })
 
 
 })
+
