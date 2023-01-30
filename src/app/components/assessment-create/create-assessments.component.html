@@ -38,7 +38,7 @@
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
         <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=descriptionOfAssessmentPlaceholder required
-               [(ngModel)]="assessment.assessmentDescription" pattern="(?! ).*[^ ]"
+               [(ngModel)]="assessment.assessmentDescription" pattern="/^\s*$/"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
