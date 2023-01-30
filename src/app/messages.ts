@@ -39,7 +39,7 @@ export const data_local =
       },
       MANDATORY_FIELD_TEXT: "Mandatory field",
       ORGANISATION_VALIDATOR_MESSAGE: "Organisation not Found",
-      ERROR_MESSAGE_TEXT: "No Special Characters allowed except hyphen and underscore",
+      ERROR_MESSAGE_TEXT: "Only special characters allowed are [ _ & . , : - ]",
       ASSESSMENT_NAME: {
         TITLE: "Assessment Name",
         PLACEHOLDER: "Enter Assessment Name",

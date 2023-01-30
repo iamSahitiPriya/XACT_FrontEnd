@@ -110,8 +110,8 @@
           <mat-form-field appearance="outline" class="inputTextParameter">
             <mat-label>{{parameterInput}}</mat-label>
           <input matInput #parameterName placeholder="Enter Parameter name" [(ngModel)]="row.parameterName"
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
-          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+                 pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$" style="padding-bottom: 20px">
+          <mat-error *ngIf="!parameterName.value.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
             </mat-form-field>
@@ -139,12 +139,12 @@
         <span *ngIf="selectedParameter?.parameterId === row.parameterId && row.parameterId !== -1">
         <button mat-flat-button class="update" aria-label="expand row"
                 (click)="updateParameterRow(row)"
-                [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">
+                [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$'))">
           <span class="text">Update</span></button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveParameterButton" type="submit" (click)="saveParameterRow(row)"
-                  [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$'))">Save</button>
+                  [disabled]="((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !row.parameterName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$'))">Save</button>
         </span>
       </td>
     </ng-container>

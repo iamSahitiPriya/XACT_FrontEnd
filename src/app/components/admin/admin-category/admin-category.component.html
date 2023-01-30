@@ -24,7 +24,7 @@
           <mat-form-field appearance="outline" class="input">
             <mat-label>{{categoryNamePlaceholder}}</mat-label>
             <input matInput #categoryName [(ngModel)]="row.categoryName"
-                   pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$"/>
+                   pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$"/>
             <mat-error *ngIf="!categoryName.value.match(pattern)">
                       {{commonErrorFieldText}}
         </mat-error>
@@ -72,11 +72,11 @@
         <span *ngIf="selectedCategory?.categoryId===row.categoryId && row.categoryId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
                 (click)="updateCategory(row)"
-                [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">Update</button>
+                [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">Update</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveCategory(row)"
-                  [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{save}}</button>
+                  [disabled]="!row.categoryName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{save}}</button>
         </span>
       </td>
     </ng-container>

@@ -68,7 +68,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   addCategory = data_local.ADMIN.CATEGORY.ADD_CATEGORY
   categoryNamePlaceholder = data_local.ADMIN.CATEGORY.PLACEHOLDER;
-  pattern: string = '\'^[a-zA-Z0-9-()._-]+(\\\\s+[a-zA-Z0-9-()._-]+)*$\'';
+  pattern: string = "^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$";
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>) {

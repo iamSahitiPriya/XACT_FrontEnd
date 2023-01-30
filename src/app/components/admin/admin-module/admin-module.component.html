@@ -68,8 +68,8 @@
         <mat-form-field appearance="outline" class="inputModule">
             <mat-label>Enter Module Name </mat-label>
           <input matInput #moduleName placeholder="Enter Module name" [(ngModel)]="row.moduleName"
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
-          <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+                 pattern="^^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$" style="padding-bottom: 20px">
+          <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
             </mat-form-field>
@@ -97,11 +97,11 @@
         <span *ngIf="selectedModule===row && row.moduleId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
                 (click)="updateModule(row)"
-                [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{update}}</button>
+                [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveModule(row)"
-                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{save}}</button>
+                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{save}}</button>
         </span>
       </td>
     </ng-container>
