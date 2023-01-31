@@ -12,7 +12,7 @@
     </button>
 
     <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="assessmentName">
+      <mat-form-field appearance="outline" class="assessment-purpose">
         <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
         <mat-select (selectionChange)="purposeChange($event.value)" required formControlName="selected">
           <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
@@ -35,10 +35,10 @@
         </mat-error>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="outline" class="assessmentName">
+      <mat-form-field appearance="outline" class="assessment-description">
         <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
-        <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=descriptionOfAssessmentPlaceholder required
-               [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
+        <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=assessmentDescriptionPlaceholder required
+                  [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"

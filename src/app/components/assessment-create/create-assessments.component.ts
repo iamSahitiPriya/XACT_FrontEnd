@@ -56,7 +56,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
   purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
   descriptionOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.TITLE;
-  descriptionOfAssessmentPlaceholder = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.PLACEHOLDER;
+  assessmentDescriptionPlaceholder = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.PLACEHOLDER;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   organisationValidationText = data_local.ASSESSMENT.ORGANISATION_VALIDATOR_MESSAGE;
@@ -81,6 +81,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
   assessmentDescriptionMaxLimit = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.LIMIT;
   blankSpaceErrorText = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.BLANK_SPACE_ERROR_TEXT;
+  fillAllFieldsErrorMessage: string = data_local.ASSESSMENT.FILL_ALL_FIELDS_ERROR_MESSAGE;
+  serverErrorMessage: string = data_local.ASSESSMENT.SERVER_ERROR_MESSAGE;
+
   blankSpace: boolean = false;
   purposeOfAssessment = [{
     value: 'Internal Assessment'
@@ -149,13 +152,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError("Server Error.");
+          this.showError(this.serverErrorMessage);
         }
       })
     } else {
       this.blankSpace = true
-      this.showError("Please fill in all the required fields correctly.");
-      console.log(this.blankSpace)
+      this.showError(this.fillAllFieldsErrorMessage);
 
     }
   }
@@ -200,11 +202,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError("Server error.");
+          this.showError(this.serverErrorMessage);
         }
       })
     } else {
-      this.showError("Please fill in all the required fields correctly ");
+      this.showError(this.fillAllFieldsErrorMessage);
     }
   }
 
