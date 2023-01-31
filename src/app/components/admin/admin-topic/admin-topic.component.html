@@ -89,8 +89,8 @@
           <mat-form-field appearance="outline" class="topicInput">
             <mat-label>{{enterTopic}}</mat-label>
           <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName" required
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+                 pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$">
+          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
             </mat-form-field>

@@ -157,7 +157,7 @@ describe('AssessmentQuestionComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
       userQuestionResponseList: [{questionId: 1, question: "new question?", parameterId: 1, answer: ""}]
     })
-    component.answerInput = "hello"
+    component.answerInput ="hello"
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
@@ -317,7 +317,7 @@ describe('AssessmentQuestionComponent', () => {
       activityType: "DEFAULT_QUESTION",
       inputText: "some text",
       email: "abc@thoughtworks.com",
-      firstName: "abc"
+      fullName: "abc"
     }]
     component.type = "DEFAULT"
     component.questionNumber = 1

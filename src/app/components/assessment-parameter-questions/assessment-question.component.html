@@ -18,7 +18,7 @@
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
       <mat-hint *ngIf="userEmail.length === 0; else outputLength" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
       <ng-template #outputLength>
-        <mat-hint class="type-message" align="end">{{firstName+typingText}}</mat-hint>
+        <mat-hint class="type-message" align="end">{{fullName}}<img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
       </ng-template>
       <div class = spinParent>
       <span class="autoSaveMessage">

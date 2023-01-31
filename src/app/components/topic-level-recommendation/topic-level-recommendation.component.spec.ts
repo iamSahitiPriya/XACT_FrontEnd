@@ -483,14 +483,8 @@ describe('RecommendationComponent', () => {
   });
 
   it("should set user email when other user is working on the particular recommendation", () => {
-    component.activityRecords = [{
-      identifier: 1,
-      activityType: "TOPIC_RECOMMENDATION",
-      inputText: "some text",
-      email: "abc@thoughtworks.com",
-      firstName: "abc"
-    }]
-    component.recommendation = {recommendationId: 1, recommendation: "hello"}
+    component.activityRecords = [{identifier:1,activityType:"TOPIC_RECOMMENDATION",inputText:"some text",email:"abc@thoughtworks.com",fullName:"abc"}]
+    component.recommendation = {recommendationId:1,recommendation:"hello"}
 
     component.ngOnChanges()
 
