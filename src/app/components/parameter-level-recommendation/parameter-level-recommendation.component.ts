@@ -76,7 +76,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
   userEmail: string;
-  firstName: string;
+  fullName: string;
   typingText = data_local.ASSESSMENT.TYPING_TEXT;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
@@ -133,13 +133,13 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
         if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
           this.parameterLevelRecommendation.recommendation = record.inputText
           this.userEmail=record.email
-          this.firstName=record.firstName
+          this.fullName=record.fullName
         }
       }
     }
     else {
       this.userEmail = ""
-      this.firstName = ""
+      this.fullName = ""
     }
   }
 

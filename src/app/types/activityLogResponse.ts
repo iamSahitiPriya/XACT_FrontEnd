@@ -7,6 +7,6 @@ export interface ActivityLogResponse {
   activityType : string
   inputText : string
   email : string
-  firstName : string
+  fullName : string
 }
 

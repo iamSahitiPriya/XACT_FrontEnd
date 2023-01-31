@@ -82,7 +82,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
   userEmail: string;
-  firstName: string;
+  fullName: string;
   activateSpinner: boolean = false;
   isSaving: boolean
 
@@ -120,13 +120,13 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
         if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
           this.answerInput = record.inputText
           this.userEmail = record.email
-          this.firstName = record.firstName
+          this.fullName = record.fullName
           this.activateSpinner = !this.activateSpinner
         }
       }
     } else {
       this.userEmail = "";
-      this.firstName = ""
+      this.fullName = ""
     }
   }
 

@@ -77,7 +77,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   recommendationId: number;
   typingText = data_local.ASSESSMENT.TYPING_TEXT;
   userEmail: string;
-  firstName: string;
+  fullName: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -136,12 +136,12 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
         if (record.identifier === this.recommendation.recommendationId) {
           this.recommendation.recommendation = record.inputText
           this.userEmail = record.email
-          this.firstName = record.firstName
+          this.fullName = record.fullName
         }
       }
     } else {
       this.userEmail = ""
-      this.firstName = ""
+      this.fullName = ""
     }
   }
 
