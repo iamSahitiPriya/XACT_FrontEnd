@@ -100,6 +100,7 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MtxPopoverModule} from "@ng-matero/extensions/popover";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
+import { RoadmapBubbleChartComponent } from './components/roadmap-bubble-chart/roadmap-bubble-chart.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -196,6 +197,7 @@ export const appRoutes: Routes = [
     AdminReferenceComponent,
     AdminParameterReferenceComponent,
     AdminQuestionComponent,
+    RoadmapBubbleChartComponent,
   ],
 
   imports: [
