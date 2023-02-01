@@ -74,7 +74,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
   maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
-
+  latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", firstName: "", identifier: 0, inputText: ""}
 
   private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
@@ -115,18 +115,23 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(): void {
+    this.latestActivityRecord.identifier = -1
     if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
+          this.latestActivityRecord = {
+            activityType: record.activityType,
+            email: record.email,
+            fullName: record.fullName,
+            identifier: record.identifier,
+            inputText: "",
+          }
           this.answerInput = record.inputText
-          this.userEmail = record.email
-          this.fullName = record.fullName
           this.activateSpinner = !this.activateSpinner
         }
       }
     } else {
-      this.userEmail = "";
-      this.fullName = ""
+      this.latestActivityRecord = {activityType: "", email: "", fullName: "", identifier: -1, inputText: ""}
     }
   }
 

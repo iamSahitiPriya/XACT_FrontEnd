@@ -3,8 +3,9 @@
   -->
 
 <div *ngIf="questionNumber">
-  <form  [ngClass]="{'text-border':userEmail.length>0}">
-    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="userEmail" [matTooltipPosition]="'above'" >
+  <form [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===questionNumber}">
+    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="userEmail"
+                    [matTooltipPosition]="'above'">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
       <textarea matInput #input name="textarea{{questionNumber}}"
                 id="assessmentAnswer{{questionNumber}}"
@@ -16,14 +17,16 @@
                 maxlength="10000"
                 (keyup)="saveParticularAnswer($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
-      <mat-hint *ngIf="userEmail.length === 0; else outputLength" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+      <mat-hint *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==questionNumber; else outputLength"
+                align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
       <ng-template #outputLength>
-        <mat-hint class="type-message" align="end">{{fullName}}<img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
+        <mat-hint class="type-message" align="end">{{latestActivityRecord.fullName }}<img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
       </ng-template>
-      <div class = spinParent>
+      <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span *ngIf="this.isSaving || (userEmail.length > 0 && this.activateSpinner)" class="loader"></span>
+          <span *ngIf="this.isSaving || (latestActivityRecord.email.length > 0 && this.activateSpinner && latestActivityRecord.identifier===questionNumber)"
+                class="loader"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
