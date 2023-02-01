@@ -12,7 +12,7 @@
     </button>
 
     <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="assessmentName">
+      <mat-form-field appearance="outline" class="assessment-purpose">
         <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
         <mat-select (selectionChange)="purposeChange($event.value)" required formControlName="selected">
           <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
@@ -21,6 +21,7 @@
           {{mandatoryFieldText}}
         </mat-error>
       </mat-form-field>
+    <br>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{assessmentNameTitle}} *</mat-label>
         <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
@@ -34,7 +35,24 @@
         </mat-error>
       </mat-form-field>
       <br>
-
+      <mat-form-field appearance="outline" class="assessment-description">
+        <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
+        <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=assessmentDescriptionPlaceholder required
+                  [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="2"
+                  maxLength="200"
+                  ></textarea>
+        <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('required')">
+          {{mandatoryFieldText}}
+        </mat-error>
+        <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('pattern')">
+          {{blankSpaceErrorText}}
+        </mat-error>
+        <mat-hint  align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
+      </mat-form-field>
+      <br>
       <mat-form-field appearance="outline" class="domain">
         <mat-label>{{assessmentDomainTitle}} *</mat-label>
         <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"

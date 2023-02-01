@@ -30,10 +30,9 @@ describe('AppServiceService', () => {
         AppServiceService
       ]
     });
-    jest.spyOn(AppServiceService.prototype,'formatURI').mockImplementation(() => "some URI");
+    jest.spyOn(AppServiceService.prototype, 'formatURI').mockImplementation(() => "some URI");
     service = TestBed.inject(AppServiceService);
   });
-
 
 
   it('should be created', () => {
@@ -48,6 +47,7 @@ describe('AppServiceService', () => {
         assessmentName: "abcdef",
         organisationName: "Rel23",
         assessmentPurpose: "Client Request",
+        assessmentDescription: "description",
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
@@ -83,6 +83,7 @@ describe('AppServiceService', () => {
       assessmentName: "",
       domain: "",
       organisationName: "",
+      assessmentDescription: "",
       assessmentPurpose: "",
       industry: "",
       teamSize: 0,
@@ -317,14 +318,14 @@ describe('AppServiceService', () => {
   })
 
   it("should create questions", () => {
-    let questionRequest = {questionText: "new", parameter:1}
+    let questionRequest = {questionText: "new", parameter: 1}
     expect(service.saveMasterQuestion(questionRequest)).toBeTruthy()
   });
 
   it("should update questions", () => {
-    let questionRequest = {questionId:1,questionText: "new", parameter:1}
+    let questionRequest = {questionId: 1, questionText: "new", parameter: 1}
     let questionId = 1
-    expect(service.updateMasterQuestion(questionId,questionRequest)).toBeTruthy()
+    expect(service.updateMasterQuestion(questionId, questionRequest)).toBeTruthy()
   });
 
   it("should get summary data", () => {
@@ -334,7 +335,7 @@ describe('AppServiceService', () => {
 
   it("should get activity records", () => {
     let topicId = 1, assessmentId = 1;
-    expect(service.getActivity(topicId,assessmentId)).toBeTruthy()
+    expect(service.getActivity(topicId, assessmentId)).toBeTruthy()
   })
 });
 

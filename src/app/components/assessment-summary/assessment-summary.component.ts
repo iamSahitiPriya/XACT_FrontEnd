@@ -2,17 +2,17 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, Optional, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 import {ScaleOrdinal} from 'd3';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ActivatedRoute} from "@angular/router";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
-import {AssessmentState} from "../../reducers/app.states";
+import {AppStates, AssessmentState} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import html2canvas from "html2canvas";
 import {SummaryResponse} from "../../types/summaryResponse";
 import {LegendPosition} from "@swimlane/ngx-charts";
@@ -20,6 +20,7 @@ import {CategoryModulesRating} from "../../types/categoryModulesRating";
 import {ModulesOverAllRating} from "../../types/modulesOverAllRating";
 import {ModuleRatingTypes} from "../../types/moduleRatingTypes";
 import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme";
+import {AssessmentStructure} from "../../types/assessmentStructure";
 
 
 interface ColorScheme {
@@ -55,6 +56,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   targetRatingTitle = data_local.OVERALL_CHART_TEXT.TARGET_RATING_TITLE;
   currentRatingTitle = data_local.OVERALL_CHART_TEXT.CURRENT_RATING_TITLE
   assessmentId: number;
+  assessmentDescription:string;
+  assessmentData :Observable<AssessmentStructure>
   data: ReportDataStructure;
   summaryData: SummaryResponse;
   selectedValue: any = "ThreatTheme";
@@ -123,8 +126,16 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     {value: "ThreatTheme", viewValue: 'Show Threats', textColor: 'white'}
   ];
 
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, @Optional() private store: Store<AppStates>) {
+    this.assessmentData = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+  }
 
   ngOnInit() {
+    this.assessmentData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data !== undefined) {
+       this.assessmentDescription=data.assessmentDescription
+      }
+    })
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
@@ -132,9 +143,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.getDataAndSunBurstChart();
   }
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AssessmentState>) {
 
-  }
 
   getSummaryData() {
     this.appService.getSummaryData(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {

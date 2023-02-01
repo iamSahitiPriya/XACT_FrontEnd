@@ -76,12 +76,13 @@ h2 {
 
 }
 
-.assessmentName, .industry, .organizationName {
+.assessment-purpose, .assessment-description, .assessmentName, .industry, .organizationName {
   width: 100%;
   height: 50%;
 }
 
 .domain {
+  padding-top:13px;
   width: 70%;
   height: 50%;
 }
@@ -102,9 +103,6 @@ h2 {
   width: 30%;
 }
 
-/*.mat-column-name {*/
-/*  padding-left: 50px;*/
-/*}*/
 
 .mat-dialog-content {
   display: block;

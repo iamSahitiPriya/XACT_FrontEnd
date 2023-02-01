@@ -166,29 +166,29 @@ describe('AssessmentModulesComponent', () => {
     expect(component.navigate).toHaveBeenCalled()
   });
 
-    it("should update user selected module", () => {
-      component.assessmentId = 1
-      let moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
-      component.category = {
-        assessmentCategories: [],
-        userAssessmentCategories: []
-      }
-      window.history.pushState({type: 'table'}, '', '/');
+  it("should update user selected module", () => {
+    component.assessmentId = 1
+    let moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
+    component.category = {
+      assessmentCategories: [],
+      userAssessmentCategories: []
+    }
+    window.history.pushState({type: 'table'}, '', '/');
 
-      jest.spyOn(component, "navigate")
+    jest.spyOn(component, "navigate")
 
-      component.moduleRequest = moduleRequest
-      component.saveUserModule()
-      component.navigate()
+    component.moduleRequest = moduleRequest
+    component.saveUserModule()
+    component.navigate()
 
-      router.navigateByUrl('assessment/' + component.assessmentId)
+    router.navigateByUrl('assessment/' + component.assessmentId)
 
-      expect(router.url).toBe('/')
-      mockAppService.updateUserModules().subscribe(data => {
-        expect(data).toBe(moduleRequest)
-      })
-      expect(component.navigate).toHaveBeenCalled()
-    });
+    expect(router.url).toBe('/')
+    mockAppService.updateUserModules().subscribe(data => {
+      expect(data).toBe(moduleRequest)
+    })
+    expect(component.navigate).toHaveBeenCalled()
+  });
 
   it("should navigate to previous page", () => {
     component.assessmentId = 1
@@ -265,6 +265,7 @@ describe('AssessmentModulesComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentDescription: "description",
       assessmentPurpose: "",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
@@ -298,18 +299,18 @@ describe('AssessmentModulesComponent', () => {
     expect(component.assessmentId).toBe(1)
   });
 
-    it("should navigate back to previous page on clicking back button", () => {
-      window.history.pushState({type: 'url'}, '', '/');
-      jest.spyOn(component, 'navigateBack');
+  it("should navigate back to previous page on clicking back button", () => {
+    window.history.pushState({type: 'url'}, '', '/');
+    jest.spyOn(component, 'navigateBack');
 
-      const button = fixture.nativeElement.querySelector("#backButton");
-      component.navigateBack()
-      button.click()
-      router.navigateByUrl('/')
+    const button = fixture.nativeElement.querySelector("#backButton");
+    component.navigateBack()
+    button.click()
+    router.navigateByUrl('/')
 
-      expect(router.url).toBe('/')
-      expect(component.navigateBack).toBeCalled();
-    })
+    expect(router.url).toBe('/')
+    expect(component.navigateBack).toBeCalled();
+  })
 
   it("should navigate back to previous page", () => {
     window.history.pushState({type: ''}, '', '/');

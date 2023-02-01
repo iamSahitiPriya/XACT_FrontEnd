@@ -62,7 +62,40 @@ class MockAppService {
 
 let parameter: { parameterId: number; references: any[]; questions: { questionId: number; parameter: number; questionText: string }[]; userQuestions: { questionId: number; question: string; answer: string }[]; topic: number; parameterName: string, active: false, updatedAt: 0, comments: "" }
 jest.useFakeTimers();
+const answerResponse = {
+  assessmentId: 5,
+  assessmentName: "abc1",
+  assessmentPurpose: "Client Request",
+  organisationName: "Thoughtworks",
+  assessmentDescription: "description",
+  assessmentStatus: "Active",
+  updatedAt: 1654664982698,
+  domain: "",
+  assessmentState: "inProgress",
+  industry: "",
+  teamSize: 0,
+  users: [],
+  owner: true,
+  answerResponseList: [
+    {
+      questionId: 1,
+      answer: "answer1"
+    }],
 
+  topicRatingAndRecommendation: [{
+    topicId: 0, rating: 1, topicLevelRecommendation: [
+      {
+        recommendationId: 1,
+        recommendation: "some text",
+        impact: "HIGH",
+        effect: "LOW",
+        deliveryHorizon: "some more text"
+      }
+    ]
+  }],
+  parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
+  userQuestionResponseList: []
+}
 describe('TopicLevelAssessmentComponent', () => {
   let func: jest.Mock;
   let debouncedFunc: Function;
@@ -114,6 +147,7 @@ describe('TopicLevelAssessmentComponent', () => {
       organisationName: "",
       assessmentPurpose: "",
       assessmentStatus: "",
+      assessmentDescription: "",
       domain: "",
       assessmentState: "inProgress",
       industry: "",
@@ -186,34 +220,7 @@ describe('TopicLevelAssessmentComponent', () => {
       userQuestions: [],
       references: []
     }
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc",
-      organisationName: "",
-      assessmentPurpose: "",
-      assessmentStatus: "",
-      updatedAt: 0,
-      domain: "",
-      assessmentState: "inProgress",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      answerResponseList: [{questionId: 0, answer: "some answer"}],
-      userQuestionResponseList: [],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
-    }
+    component.answerResponse = answerResponse
     expect(component.getParameterWithRatingAndRecommendationRequest(parameter)).toBeTruthy()
 
   });
@@ -239,24 +246,7 @@ describe('TopicLevelAssessmentComponent', () => {
       references: [],
       module: 1
     }
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc",
-      organisationName: "",
-      assessmentPurpose: "",
-      assessmentStatus: "",
-      domain: "",
-      assessmentState: "inProgress",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      updatedAt: 0,
-      owner: true,
-      answerResponseList: [{questionId: 0, answer: "some answer"}],
-      topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList: []
-    }
+    component.answerResponse = answerResponse
     expect(component.ngOnInit()).toBe(undefined)
   });
   it("should call parameterRequest class", () => {
@@ -269,29 +259,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentPurpose: "Client Request",
-      assessmentStatus: "Active",
-      domain: "",
-      industry: "",
-      assessmentState: "inProgress",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      updatedAt: 1654664982698,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        },],
-      topicRatingAndRecommendation: [],
-
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList: []
-    }
+    component.answerResponse = answerResponse
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
     expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
   });
@@ -312,6 +280,7 @@ describe('TopicLevelAssessmentComponent', () => {
       assessmentName: "",
       assessmentPurpose: "",
       assessmentState: "",
+      assessmentDescription: "",
       assessmentStatus: "",
       domain: "",
       industry: "",
@@ -351,6 +320,7 @@ describe('TopicLevelAssessmentComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       assessmentState: "inProgress",
@@ -376,7 +346,7 @@ describe('TopicLevelAssessmentComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList: []
+      userQuestionResponseList: [],
     })
     const dummyAnswerResponse = {
       assessmentId: 5,
@@ -384,6 +354,7 @@ describe('TopicLevelAssessmentComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       assessmentState: "inProgress",
       domain: "",
@@ -422,38 +393,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(component.answerResponse).toStrictEqual(dummyAnswerResponse)
   });
   it("should calculate average rating", () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentPurpose: "Client Request",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      assessmentState: "inProgress",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList: []
-    }
+    component.answerResponse = answerResponse
     component.topicRequest = {
       parameterLevel: [{
         answerRequest: [{questionId: 1, answer: ""}],
@@ -487,39 +427,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(fromReducer.assessmentReducer({}, {type: "[ASSESSMENT STRUCTURE] Get assessment"})).toStrictEqual(dummyResponse)
   });
   it("should call paramater response when topic reference is null", () => {
-    component.answerResponse1 = of({
-      assessmentId: 5,
-      assessmentName: "abc1",
-      assessmentPurpose: "Client Request",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      updatedAt: 1654664982698,
-      domain: "",
-      assessmentState: "inProgress",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effect: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList: []
-    })
+    component.answerResponse1 = of()
     jest.spyOn(component, "getParameterWithRatingAndRecommendationRequest")
     // @ts-ignore
     component.topicInput = {

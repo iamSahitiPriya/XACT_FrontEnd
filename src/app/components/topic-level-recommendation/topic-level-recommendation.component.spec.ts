@@ -35,8 +35,8 @@ class MockAppService {
     }
   }
 
-  deleteTopicRecommendation(assessmentId : number, topicId : number , recommendationId : number) {
-    if(recommendationId !== 0)
+  deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number) {
+    if (recommendationId !== 0)
       return of(true)
     else
       return throwError("Error!")
@@ -74,13 +74,14 @@ describe('RecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       domain: "",
       industry: "",
       teamSize: 0,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -98,7 +99,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -137,14 +138,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -162,7 +164,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -196,14 +198,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -221,7 +224,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
@@ -257,13 +260,14 @@ describe('RecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -281,7 +285,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.assessmentId = 1
     component.topicId = 0
@@ -332,9 +336,9 @@ describe('RecommendationComponent', () => {
     component.topicRecommendationArray?.push(recommendation);
 
     component.ngOnInit()
-    jest.spyOn(component,'deleteTemplate')
+    jest.spyOn(component, 'deleteTemplate')
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,'deleteRecommendationTemplate')
+    jest.spyOn(component, 'deleteRecommendationTemplate')
 
     expect(component.topicRecommendationArray.length).toBe(0);
   })
@@ -350,12 +354,12 @@ describe('RecommendationComponent', () => {
 
     component.ngOnInit()
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,'deleteRecommendationTemplate')
-    jest.spyOn(component,'showError')
-    component.deleteRecommendationTemplate(recommendation,0)
+    jest.spyOn(component, 'deleteRecommendationTemplate')
+    jest.spyOn(component, 'showError')
+    component.deleteRecommendationTemplate(recommendation, 0)
 
 
-    mockAppService.deleteTopicRecommendation(1,1,0).subscribe(() => {
+    mockAppService.deleteTopicRecommendation(1, 1, 0).subscribe(() => {
     }, error => {
       expect(component.showError).toHaveBeenCalled()
     })
@@ -395,14 +399,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -420,7 +425,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let topicLevelRecommendationText = {
