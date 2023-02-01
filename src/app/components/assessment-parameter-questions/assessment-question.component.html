@@ -4,7 +4,7 @@
 
 <div *ngIf="questionNumber">
   <form [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===questionNumber}">
-    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="userEmail"
+    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="latestActivityRecord.email"
                     [matTooltipPosition]="'above'">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
       <textarea matInput #input name="textarea{{questionNumber}}"
@@ -20,7 +20,7 @@
       <mat-hint *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==questionNumber; else outputLength"
                 align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
       <ng-template #outputLength>
-        <mat-hint class="type-message" align="end">{{latestActivityRecord.fullName }}<img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
+        <mat-hint class="type-message" align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
       </ng-template>
       <div class=spinParent>
       <span class="autoSaveMessage">
