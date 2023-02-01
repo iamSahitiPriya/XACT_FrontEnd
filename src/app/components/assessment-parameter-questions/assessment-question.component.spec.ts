@@ -325,7 +325,7 @@ describe('AssessmentQuestionComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
     expect(component.answerInput).toBe("some text")
   })
   it("should empty user email when the record is empty", () => {
@@ -333,6 +333,6 @@ describe('AssessmentQuestionComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail.length).toBe(0)
+    expect(component.latestActivityRecord.email.length).toBe(0)
   })
 });
