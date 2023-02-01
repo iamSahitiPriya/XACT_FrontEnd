@@ -116,7 +116,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(): void {
-    let questionType = this.type +"_QUESTION";
+    let questionType = this.type + "_QUESTION";
     this.latestActivityRecord.identifier = -1
     if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
@@ -235,5 +235,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isActivityFound() {
+    return this.latestActivityRecord.email.length > 0 && this.latestActivityRecord.identifier === this.questionNumber;
   }
 }

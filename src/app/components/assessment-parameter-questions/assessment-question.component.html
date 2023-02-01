@@ -4,7 +4,7 @@
 
 <div *ngIf="questionNumber">
   <form [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===questionNumber}">
-    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="latestActivityRecord.email"
+    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()"
                     [matTooltipPosition]="'above'">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
       <textarea matInput #input name="textarea{{questionNumber}}"
