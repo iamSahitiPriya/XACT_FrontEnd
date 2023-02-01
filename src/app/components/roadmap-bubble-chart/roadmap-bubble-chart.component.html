@@ -1,14 +1,15 @@
-<ngx-charts-bubble-chart
+<div *ngIf="recommendationResponse">
+  <ngx-charts-bubble-chart
   [view]=[1800,800]
-  [results]="multi"
+  [results]="recommendation"
   [xAxis]="showXAxis"
   [yAxis]="showYAxis"
   [legend]="showLegend"
   [showXAxisLabel]="true"
   [showYAxisLabel]="true"
   [autoScale]="false"
-  [minRadius]="5"
-  [maxRadius]="10"
+  [minRadius]="20"
+  [maxRadius]="30"
   [xAxisLabel]="xAxisLabel"
   [yAxisLabel]="yAxisLabel"
   [xAxisTickFormatting]=xAxisTickFormatting
@@ -21,3 +22,4 @@
   [xScaleMin]="0"
   [xScaleMax]="3">
 </ngx-charts-bubble-chart>
+</div>

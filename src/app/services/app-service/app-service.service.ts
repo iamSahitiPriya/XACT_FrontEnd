@@ -28,6 +28,7 @@ import {QuestionStructure} from "../../types/questionStructure";
 import {SummaryResponse} from "../../types/summaryResponse";
 import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
+import {RecommendationResponse} from "../../types/recommendationsResponse";
 
 
 @Injectable({
@@ -265,6 +266,13 @@ export class AppServiceService {
       assessmentId: assessmentId
     })
     return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
+  }
+
+  getAllRecommendations(assessmentId : number) {
+    const recommendationsURI = this.formatURI(environment.RECOMMENDATIONS_URI, {
+      assessmentId: assessmentId
+    })
+    return this.http.get<RecommendationResponse>(environment.BaseURI + recommendationsURI)
   }
 
   getActivity(topicId: number, assessmentId: number) {
