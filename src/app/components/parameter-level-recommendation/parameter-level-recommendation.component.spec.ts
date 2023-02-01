@@ -665,7 +665,7 @@ describe('ParameterRecommendationComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
     expect(component.parameterLevelRecommendation.recommendation).toBe("some text")
   })
 

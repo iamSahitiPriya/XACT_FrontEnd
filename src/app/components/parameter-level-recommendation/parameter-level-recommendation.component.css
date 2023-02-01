@@ -158,7 +158,17 @@
   border-right-style: none !important;
   border-top-color: #FFFFFF !important;
 }
+.username{
+  margin-right:7px
+}
 
+.edit-icon {
+  height: 24px;
+  width: 40px;
+}
+.type-message {
+  font-style: italic;
+}
 
 
 

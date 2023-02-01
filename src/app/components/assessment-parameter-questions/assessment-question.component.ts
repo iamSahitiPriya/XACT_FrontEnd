@@ -66,7 +66,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   questionId: number;
   autoSave: string;
 
-  typingText = data_local.ASSESSMENT.TYPING_TEXT;
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
@@ -82,8 +81,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
-  userEmail: string;
-  fullName: string;
   activateSpinner: boolean = false;
   isSaving: boolean
 
