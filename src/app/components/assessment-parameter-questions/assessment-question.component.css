@@ -48,10 +48,6 @@ textArea.mat-input-element {
   margin-bottom: 3px;
 }
 
-.type-message {
-  font-style: italic;
-}
-
 ::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #633294 !important;
   -webkit-animation: 4s normal bgcolorchange;
@@ -140,5 +136,7 @@ textArea.mat-input-element {
 
 
 .username{
-  margin-right:7px
+  margin-right:7px;
+  font-style: italic;
+
 }

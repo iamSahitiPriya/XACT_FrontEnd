@@ -23,7 +23,7 @@
         *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==questionNumber; else outputLength"
         align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
       <ng-template #outputLength>
-        <mat-hint class="type-message" align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img
+        <mat-hint align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img
           alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
       </ng-template>
       <div class=spinParent>
