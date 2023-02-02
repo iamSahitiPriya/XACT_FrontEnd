@@ -1,0 +1,42 @@
+.bubble-chart{
+  display: flex;
+  justify-content: space-evenly;}
+.y-labels{
+  width: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+.chart{
+  width: 90%;
+}
+.y-label-text{
+  padding-top: 110px;
+  padding-bottom: 110px;
+  transform: rotate(270deg);
+  font-size: 16px;
+
+}
+.y-label-title{
+  display: flex;
+  align-items: center;
+  transform: rotate(270deg);
+  font-size: 22px;
+}
+
+.x-label-text{
+  padding-right: 195px;
+  padding-left: 195px;
+  font-size: 16px;
+}
+.chart-x-axis-wrap{
+  height: 70%;
+  display: grid;
+}
+.x-label-title{
+  padding-left: 44%;
+  padding-top: 1%;
+  font-size: 22px;
+}
+.x-label-ticks{
+  display: flex;
+}

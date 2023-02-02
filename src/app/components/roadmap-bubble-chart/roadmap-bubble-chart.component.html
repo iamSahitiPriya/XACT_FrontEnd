@@ -1,6 +1,17 @@
-<div *ngIf="recommendationResponse">
+<div *ngIf="recommendationResponse" class="bubble-chart">
+  <div class="y-labels">
+    <div class="y-label-title">Impact</div>
+    <div class="y-label-ticks">
+    <div class="y-label-text">High</div>
+    <div class="y-label-text">Medium</div>
+    <div class="y-label-text">Low</div>
+    </div>
+  </div>
+
+  <div class="chart-x-axis-wrap">
+  <div class="chart">
   <ngx-charts-bubble-chart
-  [view]=[1800,800]
+  [view]=[1200,750]
   [results]="recommendation"
   [xAxis]="showXAxis"
   [yAxis]="showYAxis"
@@ -10,16 +21,25 @@
   [autoScale]="false"
   [minRadius]="20"
   [maxRadius]="30"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [xAxisTickFormatting]=xAxisTickFormatting
-  [yAxisTickFormatting]=yAxisTickFormatting
+  [xAxisTickFormatting]=tickFormat
+  [yAxisTickFormatting]=tickFormat
+  [tooltipDisabled]="true"
   [xAxisTicks] = [0,1,2,3]
   [yAxisTicks] = [0,1,2,3]
-
   [yScaleMin]="0"
   [yScaleMax]="3"
   [xScaleMin]="0"
-  [xScaleMax]="3">
+  [xScaleMax]="3"
+  (mouseover)="getText()">
 </ngx-charts-bubble-chart>
+  </div>
+  <div class="x-labels">
+    <div class="x-label-ticks">
+      <div class="x-label-text">Now</div>
+      <div class="x-label-text">Next</div>
+      <div class="x-label-text">Later</div>
+    </div>
+    <div class="x-label-title">Delivery Horizon</div>
+  </div>
+  </div>
 </div>

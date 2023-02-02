@@ -1,9 +1,12 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentChecked, AfterViewChecked, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
 import {RecommendationResponse} from "../../types/recommendationsResponse";
 import {BubbleChartStructure} from "../../types/bubbleChartStructure";
 import {BubbleStructure} from "../../types/BubbleStructure";
+import * as d3 from 'd3';
+import {LegendPosition} from "@swimlane/ngx-charts";
+
 
 @Component({
   selector: 'app-roadmap-bubble-chart',
@@ -19,6 +22,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
 
   recommendation: BubbleChartStructure [] = []
 
+  contentLoaded: number = 0
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService) {
@@ -35,73 +39,19 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     })
   }
 
-
-  multi: BubbleChartStructure [] = [
-    {
-      name: "Bags",
-      series: [
-        {
-          name: "2000",
-          x: 2.2,
-          y: 2.3,
-          r: 55
-        }]
-    },
-    {
-      name: "HELLO",
-      series: [
-        {
-          name: "2010",
-          x: 1.7,
-          y: 2.9,
-          r: 59
-        }]
-    },
-    {
-      name: "NDB",
-      series: [
-        {
-          name: "2009",
-          x: 1.5,
-          y: 1.3,
-          r: 60
-        }]
-    }
-  ];
-
-
-  // options
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = true;
+  showLegend = false;
   showXAxisLabel = true;
   xAxisLabel = "Delivery Horizon";
   showYAxisLabel = true;
   yAxisLabel = "Impact";
   xAxisTicks = [0, 1, 2, 3];
   yAxisTicks = [0, 1, 2, 3];
-
-  xAxisTickFormatting(value: any): any {
-    if (value > 0 && value <= 1)
-      return "NOW";
-    else if (value > 1 && value <= 2)
-      return "NEXT";
-    else if (value > 2 && value <= 3)
-      return "LATER";
-    else
-      return " ";
-  }
-
-  yAxisTickFormatting(value: any): any {
-    if (value > 0 && value <= 1)
-      return "LOW";
-    else if (value > 1 && value <= 2)
-      return "MEDIUM";
-    else if (value > 2 && value <= 3)
-      return "HIGH";
-    else
-      return " ";
+  xTicks =" "
+  tickFormat(){
+    return ""
   }
 
 
@@ -110,7 +60,6 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     recommendationResponse.categoryRecommendations?.forEach(eachCategoryRecommendations => {
       let count = 0
       let bubbles: BubbleStructure [] = []
-      console.log("recommendations", eachCategoryRecommendations.recommendations)
       let length: number = eachCategoryRecommendations?.recommendations?.length
       eachCategoryRecommendations.recommendations?.forEach(eachRecommendation => {
         count += 1
@@ -120,18 +69,14 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
           y: this.calculateYPosition(eachRecommendation.impact, count, length, categoryLength),
           r: this.calculateRadius(eachRecommendation.effort)
         }
-        console.log("bubble", bubble)
         bubbles.push(bubble)
       })
-      console.log("bubbles", bubbles)
       let chartCategoryRecommendations: BubbleChartStructure = {
         name: eachCategoryRecommendations.categoryName,
         series: bubbles
       };
       this.recommendation.push(chartCategoryRecommendations)
     })
-    console.log("display", this.recommendation)
-    console.log("multi", this.multi)
   }
 
   ngOnDestroy(): void {
@@ -168,4 +113,24 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
       return 28;
     return 0;
   }
+
+  getText() {
+    let count = 0;
+    d3.select("ngx-charts-bubble-chart")
+      .select("svg").select("g").selectAll(".circle")
+      .attr("fill","red")
+      .append("svg:text").text(() => count = count+1).attr("x",0).attr("y",5).attr("text-anchor","middle")
+      .attr("fill", "white")
+      .attr("fill-opacity", 1)
+      .style("font", "18px Inter")
+  }
+  // ngAfterContentChecked() {
+  //   console.log(this.contentLoaded)
+  //   if(this.contentLoaded < 3) {
+  //     console.log("called")
+  //     this.getText();
+  //     this.contentLoaded += 1;
+  //   }
+  // }
+
 }
