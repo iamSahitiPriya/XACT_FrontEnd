@@ -26,7 +26,7 @@
         <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="isSaving || (latestActivityRecord.email.length > 0 && activateSpinner && latestActivityRecord.identifier===parameterLevelRecommendation.recommendationId)"></span>
+          <span class="loader" *ngIf="isSaving"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
