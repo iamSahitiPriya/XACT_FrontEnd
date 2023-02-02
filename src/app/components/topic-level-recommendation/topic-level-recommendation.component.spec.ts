@@ -488,7 +488,7 @@ describe('RecommendationComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
     expect(component.recommendation.recommendation).toBe("some text")
   })
 
@@ -497,6 +497,6 @@ describe('RecommendationComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail.length).toBe(0)
+    expect(component.latestActivityRecord.email.length).toBe(0)
   })
 });

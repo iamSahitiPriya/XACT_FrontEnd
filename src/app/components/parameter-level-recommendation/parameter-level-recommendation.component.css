@@ -112,10 +112,6 @@
   margin-bottom: 3px;
 }
 
-.type-message {
-  font-style: italic;
-}
-
 ::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #633294 !important;
 }
@@ -157,6 +153,16 @@
   border-left-style: none !important;
   border-right-style: none !important;
   border-top-color: #FFFFFF !important;
+}
+.username{
+  margin-right:7px;
+  font-style: italic;
+
+}
+
+.edit-icon {
+  height: 24px;
+  width: 40px;
 }
 
 

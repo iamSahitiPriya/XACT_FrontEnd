@@ -78,7 +78,6 @@ export const data_local =
         ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address",
         LIMIT_REACHED: "Maximum users limit reached : "
       },
-      TYPING_TEXT: " is typing...",
       FILL_ALL_FIELDS_ERROR_MESSAGE: "Please fill in all the required fields correctly",
       SERVER_ERROR_MESSAGE: "Server Error."
     },
