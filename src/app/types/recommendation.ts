@@ -7,5 +7,7 @@ export interface Recommendation {
   deliveryHorizon : string;
   impact : string;
   effort : string;
+  categoryName : string;
+  updatedAt : number;
 }
 

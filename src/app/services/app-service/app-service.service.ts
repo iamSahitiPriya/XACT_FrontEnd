@@ -29,6 +29,7 @@ import {SummaryResponse} from "../../types/summaryResponse";
 import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
 import {RecommendationResponse} from "../../types/recommendationsResponse";
+import {Recommendation} from "../../types/recommendation";
 
 
 @Injectable({
@@ -272,7 +273,7 @@ export class AppServiceService {
     const recommendationsURI = this.formatURI(environment.RECOMMENDATIONS_URI, {
       assessmentId: assessmentId
     })
-    return this.http.get<RecommendationResponse>(environment.BaseURI + recommendationsURI)
+    return this.http.get<Recommendation []>(environment.BaseURI + recommendationsURI)
   }
 
   getActivity(topicId: number, assessmentId: number) {
