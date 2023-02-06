@@ -40,3 +40,17 @@
 .x-label-ticks{
   display: flex;
 }
+.recommendation-table-card{
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+
+}
+.roadmap-card{
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+  display: flex;
+}

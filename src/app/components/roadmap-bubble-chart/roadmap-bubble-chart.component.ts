@@ -6,6 +6,7 @@ import {BubbleStructure} from "../../types/BubbleStructure";
 import * as d3 from 'd3';
 import {Recommendation} from "../../types/recommendation";
 import {log} from "util";
+import {Color, ScaleType} from "@swimlane/ngx-charts";
 
 
 @Component({
@@ -24,6 +25,10 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
 
   private symbol : string[] = ["PLUS","MINUS"]
   private  positions : any[] = []
+
+  colorScheme : Color = {
+    name:'Software Engineering' , domain: ["#634F7D","#F15F79","#6B9F78"],selectable:true, group:ScaleType.Linear
+  }
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -57,18 +62,26 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
 
 
   private mapBubbleChartRecommendations(recommendationResponse: Recommendation []) {
+    let count = 0;
+    let delHorizon = recommendationResponse[0].deliveryHorizon
+    let impact = recommendationResponse[0].impact
     recommendationResponse?.forEach(eachRecommendation => {
       let bubbles: BubbleStructure [] = []
-      let position : any =  this.calculatePosition(eachRecommendation)
+      if(delHorizon !== eachRecommendation.deliveryHorizon || impact !==eachRecommendation.impact){
+        delHorizon = eachRecommendation.deliveryHorizon;
+        impact = eachRecommendation.impact
+        count =0;
+      }
+      // let position : any =  this.calculatePosition(eachRecommendation)
         let bubble: BubbleStructure = {
           name: eachRecommendation.recommendation,
-          x: position.x,
-          y: position.y,
+          x: this.calculateXPosition(eachRecommendation.deliveryHorizon,count),
+          y: this.calculateYPosition(eachRecommendation.impact,count,recommendationResponse.length),
           r: this.calculateRadius(eachRecommendation.effort)
         }
-      console.log("x",position.x, " y", position.y, eachRecommendation.deliveryHorizon, eachRecommendation.impact, eachRecommendation.effort)
-
-        bubbles.push(bubble)
+      console.log(count,"x",this.calculateXPosition(eachRecommendation.deliveryHorizon,count), " y", this.calculateYPosition(eachRecommendation.impact,count,recommendationResponse.length), eachRecommendation.deliveryHorizon, eachRecommendation.impact, eachRecommendation.effort)
+      count++;
+      bubbles.push(bubble)
       let chartCategoryRecommendations: BubbleChartStructure = {
         name: eachRecommendation.categoryName,
         series: bubbles
@@ -82,25 +95,44 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private calculateXPosition(recommendation: Recommendation): number {
-    if (recommendation.deliveryHorizon === "NOW")
-      return this.calculateValue(0,1,(0+1)/2);
-    else if (recommendation.deliveryHorizon === "NEXT")
-      return this.calculateValue(1,2,(1+2)/2);
-    else if (recommendation.deliveryHorizon === "LATER")
-      return this.calculateValue(2,3,(2+3)/2);
+  private calculateXPosition(deliveryHorizon: string, count: number): number {
+    if (deliveryHorizon === "NOW")
+      return count * (0.3/(count+1)) + (count * 0.08) + 0.12;
+    else if (deliveryHorizon === "NEXT")
+      return count * (0.3/(count+1)) + (count * 0.08) + 1.12;
+    else if (deliveryHorizon === "LATER")
+      return count * (0.3/(count+1)) + (count * 0.08) + 2.12;
     return 0;
   }
 
-  private calculateYPosition(recommendation : Recommendation): number {
-    if (recommendation.impact === "LOW")
-      return this.calculateValue(0,1,(0+1)/2);
-    else if (recommendation.impact === "MEDIUM")
-      return this.calculateValue(1,2,(1+2)/2);
-    else if (recommendation.impact === "HIGH")
-      return this.calculateValue(2,3,(2+3)/2);
+  private calculateYPosition(impact: string, count: number, length: number): number {
+    if (impact === "LOW")
+      return (length - count + 1) * 0.06 + 0.12;
+    else if (impact === "MEDIUM")
+      return (length - count + 1) * 0.03 + 1.12;
+    else if (impact === "HIGH")
+      return (length - count + 1) * 0.03 + 2.12;
     return 0;
   }
+  // private calculateXPosition(recommendation: Recommendation): number {
+  //   if (recommendation.deliveryHorizon === "NOW")
+  //     return this.calculateValue(0,1,(0+1)/2);
+  //   else if (recommendation.deliveryHorizon === "NEXT")
+  //     return this.calculateValue(1,2,(1+2)/2);
+  //   else if (recommendation.deliveryHorizon === "LATER")
+  //     return this.calculateValue(2,3,(2+3)/2);
+  //   return 0;
+  // }
+  //
+  // private calculateYPosition(recommendation : Recommendation): number {
+  //   if (recommendation.impact === "LOW")
+  //     return this.calculateValue(0,1,(0+1)/2);
+  //   else if (recommendation.impact === "MEDIUM")
+  //     return this.calculateValue(1,2,(1+2)/2);
+  //   else if (recommendation.impact === "HIGH")
+  //     return this.calculateValue(2,3,(2+3)/2);
+  //   return 0;
+  // }
 
   private calculateValue(min: number, max: number, mid: number) : number {
     let position : number = 0.0;
@@ -117,21 +149,21 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     return position;
   }
 
-  private calculatePosition(recommendation: Recommendation) : any{
-    // console.log(recommendation.deliveryHorizon, recommendation.impact)
-    let x = this.calculateXPosition(recommendation)
-    let y = this.calculateYPosition(recommendation)
-    let position : any = {x,y}
-    let isPositionPresent = this.positions.find(eachPosition => eachPosition.x === position.x && eachPosition.y === position.y)
-    while(isPositionPresent !== undefined || this.isInteger(position) || !this.isNumberInRange(position)) {
-      x = this.calculateXPosition(recommendation)
-      y = this.calculateYPosition(recommendation)
-      position = {x,y}
-    }
-    this.positions.push(position)
-
-    return position;
-    }
+  // private calculatePosition(recommendation: Recommendation) : any{
+  //   // console.log(recommendation.deliveryHorizon, recommendation.impact)
+  //   let x = this.calculateXPosition(recommendation)
+  //   let y = this.calculateYPosition(recommendation)
+  //   let position : any = {x,y}
+  //   let isPositionPresent = this.positions.find(eachPosition => eachPosition.x === position.x && eachPosition.y === position.y)
+  //   while(isPositionPresent !== undefined || this.isInteger(position) || !this.isNumberInRange(position)) {
+  //     x = this.calculateXPosition(recommendation)
+  //     y = this.calculateYPosition(recommendation)
+  //     position = {x,y}
+  //   }
+  //   this.positions.push(position)
+  //
+  //   return position;
+  //   }
 
     private isInteger(position : any) : boolean {
     return Number.isInteger(position.x) || Number.isInteger(position.y);
@@ -171,5 +203,6 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   //     this.contentLoaded += 1;
   //   }
   // }
+
 
 }

@@ -1,3 +1,6 @@
+<div class="roadmap-chart">
+  <mat-card class="roadmap-card ">
+    <mat-card-content>
 <div *ngIf="recommendationResponse" class="bubble-chart">
   <div class="y-labels">
     <div class="y-label-title">Impact</div>
@@ -13,6 +16,7 @@
   <ngx-charts-bubble-chart
   [view]=[1200,750]
   [results]="recommendation"
+  [scheme]="colorScheme"
   [xAxis]="showXAxis"
   [yAxis]="showYAxis"
   [legend]="showLegend"
@@ -43,3 +47,11 @@
   </div>
   </div>
 </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-card class="recommendation-table-card" *ngIf="recommendationResponse">
+<app-recommendation-table [recommendations]="recommendationResponse"></app-recommendation-table>
+</mat-card>
