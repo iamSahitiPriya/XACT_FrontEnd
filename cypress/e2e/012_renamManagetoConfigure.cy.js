@@ -34,3 +34,4 @@ describe('Renaming Manage option to Configure', () => {
 
 
 })
+

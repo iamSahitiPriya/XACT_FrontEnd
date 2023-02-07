@@ -9,15 +9,18 @@ class assessmentPage {
   }
 
   static reOpenhAssessmentButton() {
-      return cy.get('#reopenAssessment')
-    }
+    return cy.get('#reopenAssessment')
+  }
   static configureOption() {
-        return cy.get('#createAssessment')
-      }
+    return cy.get('#createAssessment')
+  }
+  static modules(categoryIndex,moduleIndex) {
+    return cy.get('.side-bar>.expansion_color:nth-child('+categoryIndex+')>mat-expansion-panel>.mat-expansion-panel-content>.mat-expansion-panel-body>.category-modules> :nth-child('+moduleIndex+') > .mat-card')
+  }
 
-    static yesButtonInPopup() {
-          return cy.get('.mat-dialog-actions > .mat-focus-indicator')
-        }
+  static yesButtonInPopup() {
+    return cy.get('.mat-dialog-actions > .mat-focus-indicator')
+  }
 
   static generateReportButton(){
     return cy.get('#generate-report')
@@ -56,12 +59,12 @@ class assessmentPage {
   // }
 
   static computedMaturityScoreRating(index){
-      return cy.get(':nth-child('+index+') > .mat-toolbar > .rating')
-    }
+    return cy.get(':nth-child('+index+') > .mat-toolbar > .rating')
+  }
 
 
   static parameter(index){
-    return cy.get(':nth-child('+index+') > :nth-child(1) > #questionContainer > .parameter')
+    return cy.get(':nth-child('+index+') > #questionContainer > .parameter')
   }
 
   static threeDots(){
@@ -76,8 +79,8 @@ class assessmentPage {
     return cy.get('#recommendationElement_topic'+index)
   }
   static topicRecomendation(){
-      return cy.get('#recommendationElement_topic')
-    }
+    return cy.get('#recommendationElement_topic')
+  }
 
   static maturityScoreHeader(){
     return cy.get('.topicScoring > .mat-card')
@@ -90,10 +93,10 @@ class assessmentPage {
   static assessmentMaturityScoreRating(index){
     return cy.get('.topicScoring > :nth-child('+index+') > .mat-toolbar > .rating')
   }
- static autoSaveMessage(parameterIndex,fieldIndex){
+  static autoSaveMessage(parameterIndex,fieldIndex){
     return cy.get(':nth-child('+parameterIndex+') > :nth-child(2) > :nth-child('+fieldIndex+') > app-assessment-question.ng-star-inserted > :nth-child(1) > form.ng-untouched > #testForm > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix > .spinParent >.autoSaveMessage')
   }
- static autoSaveMessageRecomendationsTab(){
+  static autoSaveMessageRecomendationsTab(){
     return cy.get('.recommendation-text > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix > .spinParent>.autoSaveMessage')
   }
 
@@ -102,12 +105,12 @@ class assessmentPage {
   }
 
   static parameterMaturityScore(parameterIndex,parameterRatingIndex){
-      return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
-    }
+    return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
+  }
 
-    static parameterMaturityScoreHeader(index){
+  static parameterMaturityScoreHeader(index){
     return cy.get(':nth-child('+index+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > .mat-card')
-    }
+  }
   static parameterRecommendation(index){
     return cy.get('#recommendationElement_param'+index)
   }
@@ -148,12 +151,12 @@ class assessmentPage {
   }
 
   static computedMaturityScoreHeader(){
-   return cy.get('.maturityScore')
+    return cy.get('.maturityScore')
   }
 
   static questions(index1,index2,index3){
     //cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > :nth-child(2) > .question-content')
-    return cy.get(':nth-child('+index1+') > :nth-child(1) > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
+    return cy.get(':nth-child('+index1+') > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
   }
 
   static assignmentMaturityScoreDescription(index){
@@ -166,13 +169,13 @@ class assessmentPage {
 
   static parameterMaturityScoreDesc(index2,index){
 
-    return cy.get(' :nth-child('+index2+') > :nth-child(1) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
-  // :nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference
+    return cy.get(' :nth-child('+index2+')  > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
+    // cy.get(':nth-child(2) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child(3) > .mat-toolbar > .reference')
 
   }
-static editBox(){
+  static editBox(){
     return cy.get('textarea')
-}
+  }
   static activeRating(){
     return cy.get('.rating-active')
   }
@@ -187,36 +190,11 @@ static editBox(){
     }
   }
 
-  static selectRating(element){
-    element.click()
-    //if(assessmentPage.activeRating())
-
-  }
 
 
-  static excelDownload(filePath){
-    const xlsx = require("node-xlsx").default;
-    const fs = require("fs");
-    const path = require("path");
 
-    module.exports = (on, config) => {
-      // `on` is used to hook into various events Cypress emits
-      on("task", {
-        parseXlsx({ filePath }) {
-          return new Promise((resolve, reject) => {
-            try {
-              const jsonData = xlsx.parse(fs.readFileSync(filePath));
-              resolve(jsonData);
-            } catch (e) {
-              reject(e);
-            }
-          });
-        }
-      });
-    };
-
-  }
 
 }
 
 export default assessmentPage
+

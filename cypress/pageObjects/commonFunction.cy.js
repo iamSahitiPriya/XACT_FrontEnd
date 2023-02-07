@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
 
 import landingPage from "./landingPage.cy";
 import assessmentPage from "./assessmentPage.cy";
@@ -68,7 +71,7 @@ class commonFunction{
     }
   }
 
-   static elementIsNotVisible(element,message){
+  static elementIsNotVisible(element,message){
     if(element.should('not.be.visible')){
       cy.log(message)
       assert.isOk(element+' is not visible for test')
@@ -88,29 +91,29 @@ class commonFunction{
   }
 
   static containsText(element,text,message){
-    // if(element.should('contain',text)){
-    //   cy.log(message)
-    //   assert.isOk(element+' contains '+text)
-    // }else {
-    //   assert.fail(false, element+' does not contain '+text)
-    // }
-
-    try{
-      element.should('contain',text)
+    if(element.should('contain',text)){
       cy.log(message)
-    }catch (e) {
+      assert.isOk(element+' contains '+text)
+    }else {
       assert.fail(false, element+' does not contain '+text)
     }
+
+    // try{
+    //   element.should('contain',text)
+    //   cy.log(message)
+    // }catch (e) {
+    //   assert.fail(false, element+' does not contain '+text)
+    // }
   }
   static valueOfElement(element,text,message){
 
-      try{
-        element.should('have.value',text)
-        cy.log(message)
-      }catch (e) {
-        assert.fail(false, element+' does not have '+text+' as value')
-      }
+    try{
+      element.should('have.value',text)
+      cy.log(message)
+    }catch (e) {
+      assert.fail(false, element+' does not have '+text+' as value')
     }
+  }
 
   static CloseOrReopenAssessment(){
     cy.wait(1000)
@@ -146,3 +149,6 @@ class commonFunction{
 
 
 export default commonFunction
+
+
+

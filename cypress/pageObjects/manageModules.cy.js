@@ -4,34 +4,39 @@ import numberDefault from "lodash-es/number.default";
 
 class manageModules {
 
-    iInactiveCards=0
-    iTotalCards=0
+  iInactiveCards=0
+  iTotalCards=0
 
   static ModuleHeader(index) {
     return cy.get(':nth-child('+index+') > :nth-child(1) > .categoryCard > .mat-card-title-group > div > .mat-card-title')
   }
   static moduleCheckBox(index){
-    return cy.get(':nth-child('+index+') > :nth-child(1) > .categoryCard >div>mat-checkbox>label >.mat-checkbox-inner-container')
+    return cy.get('.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout')
   }
   static topicList(index){
     return cy.get(':nth-child(2) > :nth-child(1) > .moduleCards > .row > :nth-child('+index+') > .moduleText')
   }
- static moduleHeader(){
+  static moduleHeader(){
     return cy.get('.moduleHeading')
   }
-static saveButton(){
-    return cy.get('.saveButtonRow > .mat-focus-indicator')
+  static saveButton(){
+    return cy.get(':nth-child(2) > .mat-focus-indicator')
   }
+  static activeCards(){
+    return '.assessmentCards'
+  }
+
+
 
 
   static selectModule(module){
 
-     let iInactiveCards=0
-     let  iTotalCards=0
+    let iInactiveCards=0
+    let  iTotalCards=0
 //this.iTotalCards= cy.get('.categoryCard').its('length')
-   cy.get('.categoryCard').its('length').then((totalCards) => {
-     iTotalCards = totalCards
-     cy.log(iTotalCards)
+    cy.get('.categoryCard').its('length').then((totalCards) => {
+      iTotalCards = totalCards
+      cy.log(iTotalCards)
     })
 
     cy.get('.categoryCard.active').its('length').then((inactiveCards) => {
@@ -39,7 +44,7 @@ static saveButton(){
       cy.log(iInactiveCards)
     })
 
-cy.wait(2000)
+    cy.wait(2000)
     cy.log(iTotalCards-iInactiveCards)
     cy.log(iTotalCards)
     // for (let iModuleCount = 1; iModuleCount < cars.length; iModuleCount++) {
@@ -71,7 +76,7 @@ cy.wait(2000)
     //     console.log('test')
     //      break
 
-    }
+  }
 
 
 }

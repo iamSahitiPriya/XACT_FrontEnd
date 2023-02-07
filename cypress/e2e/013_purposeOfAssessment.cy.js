@@ -48,7 +48,7 @@ describe('Validating purpose of assessment', () => {
 
   it('tc005 Validating placeholder of purpose of assessment dropdown', () => {
     landingPage.clickCreateAssessment()
-    commonFunctions.containsText(landingPage.purposeOfAssessment2(),'Purpose Of Assessment','Purpose of assessment placeholder is verified')
+    commonFunctions.containsText(landingPage.purposeOfAssessment2(),'Assessment Request Type','Purpose of assessment placeholder is verified')
   })
 
   it('tc006 Assessment shouldnot be created when purpose of assessment is not selected',()=>{

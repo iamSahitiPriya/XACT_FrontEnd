@@ -1,3 +1,4 @@
+
 import landingPage from "../pageObjects/landingPage.cy";
 import commonFunctions from '../pageObjects/commonFunction.cy'
 
@@ -26,7 +27,7 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(3),'Just exploring t option is clicked')
-    landingPage.AssessmentpopupFields('latestassessment','Infinity International','Domain','Industry','22','test@thoughtworks.com')
+    landingPage.AssessmentpopupFields('latestassessment','Infinity International','Description of the assessment','Domain','22','test@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
   })
 
@@ -67,7 +68,7 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.searchBox().click()
     landingPage.searchBox().clear()
     landingPage.searchBox().type('Hi Hello')
-   // landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
+    // landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
   })
   it('tc006 searching a non existing assessment',()=>{
     landingPage.searchBox().type('!!!!!')
@@ -144,3 +145,5 @@ describe('validating creating Assessment grid and search functionality', () => {
 
 
 })
+
+
