@@ -22,7 +22,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
       }
     })
 
-
     cy.fixture('ArchitecturalStyle').then((testData) => {
       assessmentPage.topicTab(1).should('have.class', 'mat-ripple mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted')
       assessmentPage.parameter(1).should('be.visible').contains(testData[0].ArchitecturalStyleParameters[0])

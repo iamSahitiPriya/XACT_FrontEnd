@@ -103,7 +103,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
 
-
   it('tc008 Saving the assessment without filling few mandatory fields',()=>{
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
