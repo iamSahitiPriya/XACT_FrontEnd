@@ -181,7 +181,6 @@ describe('validating Quality Assurance Module', () => {
   //     assessmentPage.editBox().should('have.length', '27')
   //   })
   //})
-
 })
 
 

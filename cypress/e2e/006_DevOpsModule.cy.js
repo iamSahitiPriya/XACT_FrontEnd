@@ -9,6 +9,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     cy.wait(500)
   })
 
+
   // Architectural style parameter
   it('tc001 Continuous Integration and Deployment topic validation', () => {
     landingPage.assessmentNameInGrid(1).click()

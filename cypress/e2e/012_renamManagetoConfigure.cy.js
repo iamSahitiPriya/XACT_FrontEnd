@@ -10,6 +10,7 @@ describe('Renaming Manage option to Configure', () => {
     cy.visit('/')
   })
 
+
   it('tc001 Validating whether Manage option is renamed as configure', () => {
     commonFunctions.clickOnElement(landingPage.assessmentNameInGrid(1),'Assessment is opened')
     commonFunctions.clickOnElement(assessmentPage.threeDots(),'three dots option is clicked')
