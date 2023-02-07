@@ -12,9 +12,9 @@
   </div>
 
   <div class="chart-x-axis-wrap">
-  <div class="chart">
+  <div class="chart" #bubblechart>
   <ngx-charts-bubble-chart
-  [view]=[1100,600]
+  [view]=[bubblechart.offsetWidth,600]
   [results]="recommendation"
   [scheme]= "colorScheme"
   [xAxis]="showXAxis"
@@ -59,6 +59,7 @@
     </mat-card-content>
   </mat-card>
 </div>
+
 
 <mat-card class="recommendation-table-card" *ngIf="recommendationResponse">
 <app-recommendation-table

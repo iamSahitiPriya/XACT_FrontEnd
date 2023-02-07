@@ -1,12 +1,14 @@
 .bubble-chart{
   display: flex;
-  justify-content: space-evenly;}
+  justify-content: space-evenly;
+}
 .y-labels{
   width: 1%;
   display: flex;
   justify-content: space-between;
 }
 .chart{
+  width: 70vw;
   padding-left: 3%;
 }
 .y-label-text{
