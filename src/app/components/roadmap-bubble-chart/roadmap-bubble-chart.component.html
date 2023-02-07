@@ -16,7 +16,7 @@
   <ngx-charts-bubble-chart
   [view]=[1200,750]
   [results]="recommendation"
-  [scheme]="colorScheme"
+  [scheme]= "colorScheme"
   [xAxis]="showXAxis"
   [yAxis]="showYAxis"
   [legend]="showLegend"
@@ -47,11 +47,19 @@
   </div>
   </div>
 </div>
-
+      <div class="legend">{{'Category'}}
+      <div class="category-legend" *ngFor="let category of categoryColor | keyvalue">
+        <div class="legend-circle" [style.background-color]="category.value"></div>
+        <div class="legend-text">{{category.key}}</div>
+      </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
 
 <mat-card class="recommendation-table-card" *ngIf="recommendationResponse">
-<app-recommendation-table [recommendations]="recommendationResponse"></app-recommendation-table>
+<app-recommendation-table
+  [recommendations]="recommendationResponse"
+  [colorScheme]="categoryColor"
+></app-recommendation-table>
 </mat-card>

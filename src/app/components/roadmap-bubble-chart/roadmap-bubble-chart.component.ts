@@ -5,7 +5,6 @@ import {BubbleChartStructure} from "../../types/bubbleChartStructure";
 import {BubbleStructure} from "../../types/BubbleStructure";
 import * as d3 from 'd3';
 import {Recommendation} from "../../types/recommendation";
-import {log} from "util";
 import {Color, ScaleType} from "@swimlane/ngx-charts";
 
 
@@ -26,9 +25,13 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   private symbol : string[] = ["PLUS","MINUS"]
   private  positions : any[] = []
 
-  colorScheme : Color = {
-    name:'Software Engineering' , domain: ["#634F7D","#F15F79","#6B9F78"],selectable:true, group:ScaleType.Linear
-  }
+
+  colorScheme : Color = {name:'Color' , domain: ["#634F7D","#F15F79","#6B9F78","#CC850A","#003D4F","#47A1AD","#9A2D40","#1D3650","#7A4F06","#3E6044","#005E7A"]
+,selectable:true, group:ScaleType.Linear}
+
+  index : number = 0
+
+  categoryColor = new Map();
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -48,7 +51,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = true;
+  showLegend = false;
   showXAxisLabel = true;
   xAxisLabel = "Delivery Horizon";
   showYAxisLabel = true;
@@ -82,6 +85,8 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
       console.log(count,"x",this.calculateXPosition(eachRecommendation.deliveryHorizon,count), " y", this.calculateYPosition(eachRecommendation.impact,count,recommendationResponse.length), eachRecommendation.deliveryHorizon, eachRecommendation.impact, eachRecommendation.effort)
       count++;
       bubbles.push(bubble)
+      if(!this.categoryColor.has(eachRecommendation.categoryName))
+        this.categoryColor.set(eachRecommendation.categoryName,this.colorScheme.domain[this.categoryColor.size%this.colorScheme.domain.length])
       let chartCategoryRecommendations: BubbleChartStructure = {
         name: eachRecommendation.categoryName,
         series: bubbles
