@@ -12,6 +12,7 @@ describe('validating functionality of login page of xAct application', () => {
     cy.clearLocalStorage()
     cy.clearCookies()
     cy.visit('/')
+
     loginPage.authContainer().should('be.visible')
     loginPage.oktaHeader().should('be.visible')
     loginPage.userId().should('be.visible')
