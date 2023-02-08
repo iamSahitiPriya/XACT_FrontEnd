@@ -19,12 +19,12 @@ th {
 
 }
 
-th.category, td.category {
+th.category-legend, td.category-legend {
   border-bottom-style: none;
   text-align: center;
 }
 
-td.category {
+td.category-legend {
   text-align: left;
   font-weight: normal;
   font-size: 16px;
@@ -56,7 +56,7 @@ td.category {
   margin-right: 3px;
 }
 
-td.category:last-of-type {
+td.category-legend:last-of-type {
   padding-right: 0px !important;
   text-align: center;
 }
@@ -104,7 +104,7 @@ div.buttonColumn {
   color: #4ba1ac;
 }
 
-div.category {
+div.category-legend {
   margin-top: 16px;
   box-shadow: 0px 5px 25px #52575d1a;
 }
@@ -168,7 +168,7 @@ div.category {
   margin-top: 8px;
 }
 
-td.category:nth-child(4) {
+td.category-legend:nth-child(4) {
   text-align: center;
 }
 

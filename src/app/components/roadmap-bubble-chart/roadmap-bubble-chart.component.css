@@ -1,4 +1,4 @@
-.bubble-chart{
+.roadmap-chart{
   display: flex;
   justify-content: space-evenly;
 }
@@ -30,7 +30,7 @@
   padding-left: 195px;
   font-size: 16px;
 }
-.chart-x-axis-wrap{
+.chart-and-x-axis{
   height: 70%;
   display: grid;
 }
@@ -57,7 +57,7 @@
   display: flex;
 }
 
-.legend {
+.legend-details {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -88,17 +88,39 @@
   opacity: 1;
   padding-left: 5px;
 }
-.bubble-legend{
+.legend{
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 1%;
 }
-.title{
+.legend-title{
   font-size: 24px;
   font-weight: bold;
   font-family: "Inter", sans-serif;
   font-style: normal;
   padding-left: 12%;
   padding-right: 4%;
+}
+.recommendations-roadmap-title {
+  background-color: #45A0AC1D;
+  height: 50px;
+  width: 82%;
+  color: #043D4E;
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+  margin-top: 55px;
+  align-items: flex-start;
+  margin-left: 9%;
+}
+.no-recommendation-message{
+  padding-left: 37%;
+  font-size: 18px;
+  font-family: Inter, sans-serif;
+  font-style: normal;
 }

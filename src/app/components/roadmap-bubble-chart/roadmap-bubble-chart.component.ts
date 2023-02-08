@@ -6,7 +6,17 @@ import {BubbleStructure} from "../../types/BubbleStructure";
 import * as d3 from 'd3';
 import {Recommendation} from "../../types/recommendation";
 import {Color, ScaleType} from "@swimlane/ngx-charts";
+import {data_local} from "../../messages";
 
+const NOW_THRESHOLD_VALUE = 0.099;
+const NEXT_THRESHOLD_VALUE = 1.099;
+const LATER_THRESHOLD_VALUE = 2.099;
+const LOW_IMPACT_LIMIT = 1;
+const MEDIUM_IMPACT_LIMIT = 2;
+const HIGH_IMPACT_LIMIT = 3;
+const LOW_EFFORT_RADIUS = 20;
+const MEDIUM_EFFORT_RADIUS = 24;
+const HIGH_EFFORT_RADIUS = 28;
 
 @Component({
   selector: 'app-roadmap-bubble-chart',
@@ -18,35 +28,9 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   @Input()
   assessmentId: number
 
-  recommendationResponse: Recommendation [] | undefined;
+  recommendationResponse: Recommendation [] = [];
 
-  recommendation: BubbleChartStructure [] = []
-
-  private symbol : string[] = ["PLUS","MINUS"]
-  private  positions : any[] = []
-
-
-  colorScheme : Color = {name:'Color' , domain: ["#634F7D","#F15F79","#6B9F78","#CC850A","#003D4F","#47A1AD","#9A2D40","#1D3650","#7A4F06","#3E6044","#005E7A"]
-,selectable:true, group:ScaleType.Linear}
-
-  index : number = 0
-
-  categoryColor = new Map();
-
-  private destroy$: Subject<void> = new Subject<void>();
-
-  constructor(private appService: AppServiceService) {
-  }
-
-
-  ngOnInit(): void {
-    this.appService.getAllRecommendations(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.recommendationResponse = _data
-        this.mapBubbleChartRecommendations(this.recommendationResponse)
-      }
-    })
-  }
+  recommendations: BubbleChartStructure [] = []
 
   showXAxis = true;
   showYAxis = true;
@@ -58,148 +42,150 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   yAxisLabel = "Impact";
   xAxisTicks = [0, 1, 2, 3];
   yAxisTicks = [0, 1, 2, 3];
-  xTicks =" "
-  tickFormat(){
+  xTicks = " "
+  autoScale: boolean = false;
+  minBubbleRadius: number = 20;
+  maxBubbleRadius: number = 30;
+  showYAxisTicks: number[] = [0, 1, 2, 3];
+  showXAxisTicks: number[] = [0, 1, 2, 3];
+  yScaleMin: number = 0;
+  yScaleMax: number = 3;
+  xScaleMin: number = 0;
+  xScaleMax: number = 3;
+
+  lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3.toUpperCase();
+  mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2.toUpperCase();
+  highImpact = data_local.RECOMMENDATION_TEXT.IMPACT_1.toUpperCase();
+
+  lowEffort = data_local.RECOMMENDATION_TEXT.EFFORT_3.toUpperCase();
+  mediumEffort = data_local.RECOMMENDATION_TEXT.EFFORT_2.toUpperCase();
+  highEffort = data_local.RECOMMENDATION_TEXT.EFFORT_1.toUpperCase();
+
+  tickFormat() {
     return ""
   }
 
+  colorScheme: Color = {
+    name: 'Color',
+    domain: ["#634F7D", "#F15F79", "#6B9F78", "#CC850A", "#003D4F", "#47A1AD", "#9A2D40", "#1D3650", "#7A4F06", "#3E6044", "#005E7A"],
+    selectable: true,
+    group: ScaleType.Linear
+  }
 
-  private mapBubbleChartRecommendations(recommendationResponse: Recommendation []) {
-    let count = 0;
-    let delHorizon = recommendationResponse[0].deliveryHorizon
-    let impact = recommendationResponse[0].impact
-    recommendationResponse?.forEach(eachRecommendation => {
-      let bubbles: BubbleStructure [] = []
-      if(delHorizon !== eachRecommendation.deliveryHorizon || impact !==eachRecommendation.impact){
-        delHorizon = eachRecommendation.deliveryHorizon;
-        impact = eachRecommendation.impact
-        count =0;
+  categoryColor = new Map();
+
+  private destroy$: Subject<void> = new Subject<void>();
+
+  constructor(private appService: AppServiceService) {
+  }
+
+  ngOnInit(): void {
+    this.getRecommendations();
+  }
+
+
+  private getRecommendations() {
+    this.appService.getAllRecommendations(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_data) => {
+        this.recommendationResponse = _data
+        this.mapRoadmapRecommendations(this.recommendationResponse)
       }
-      // let position : any =  this.calculatePosition(eachRecommendation)
-        let bubble: BubbleStructure = {
-          name: eachRecommendation.recommendation,
-          x: this.calculateXPosition(eachRecommendation.deliveryHorizon,count),
-          y: this.calculateYPosition(eachRecommendation.impact,count,recommendationResponse.length),
-          r: this.calculateRadius(eachRecommendation.effort)
-        }
-      console.log(count,"x",this.calculateXPosition(eachRecommendation.deliveryHorizon,count), " y", this.calculateYPosition(eachRecommendation.impact,count,recommendationResponse.length), eachRecommendation.deliveryHorizon, eachRecommendation.impact, eachRecommendation.effort)
-      count++;
-      bubbles.push(bubble)
-      if(!this.categoryColor.has(eachRecommendation.categoryName))
-        this.categoryColor.set(eachRecommendation.categoryName,this.colorScheme.domain[this.categoryColor.size%this.colorScheme.domain.length])
-      let chartCategoryRecommendations: BubbleChartStructure = {
-        name: eachRecommendation.categoryName,
-        series: bubbles
-      };
-      this.recommendation.push(chartCategoryRecommendations)
     })
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private mapRoadmapRecommendations(recommendationResponse: Recommendation []) {
+    let count = 0;
+    let delHorizon = ""
+    let impact = ""
+    recommendationResponse?.forEach(eachRecommendation => {
+        let recommendationSeries: BubbleStructure [] = []
+        if (delHorizon !== eachRecommendation.deliveryHorizon || impact !== eachRecommendation.impact) {
+          delHorizon = eachRecommendation.deliveryHorizon;
+          impact = eachRecommendation.impact
+          count = 0;
+        }
+        let recommendationBubble = this.recommendationBubble(eachRecommendation, count);
+        count++;
+        recommendationSeries.push(recommendationBubble)
+        this.setCategoryColor(eachRecommendation);
+        this.addRoadmapRecommendationSeries(eachRecommendation, recommendationSeries);
+      }
+    )
   }
 
-  private calculateXPosition(deliveryHorizon: string, count: number): number {
+  private addRoadmapRecommendationSeries(eachRecommendation: Recommendation, recommendationSeries: BubbleStructure[]) {
+    let categoryRecommendation: BubbleChartStructure = {
+      name: eachRecommendation.categoryName,
+      series: recommendationSeries
+    };
+    this.recommendations.push(categoryRecommendation)
+  }
+
+  private recommendationBubble(eachRecommendation: Recommendation, count: number) {
+    let recommendationBubble: BubbleStructure = {
+      name: eachRecommendation.recommendation,
+      x: this.xPosition(eachRecommendation.deliveryHorizon, count),
+      y: this.yPosition(eachRecommendation.impact, count),
+      r: this.radius(eachRecommendation.effort)
+    }
+    return recommendationBubble;
+  }
+
+  private setCategoryColor(eachRecommendation: Recommendation) {
+    if (!this.categoryColor.has(eachRecommendation.categoryName))
+      this.categoryColor.set(eachRecommendation.categoryName, this.colorScheme.domain[this.categoryColor.size % this.colorScheme.domain.length])
+  }
+
+
+  private xPosition = (deliveryHorizon: string, count: number): number => {
+    const maxRecommendation = 6;
+    const bubbleSeparator = 0.15;
+    let xCoordinate = bubbleSeparator * (count % maxRecommendation);
     if (deliveryHorizon === "NOW")
-      return count * (0.3/(count+1)) + (count * 0.08) + 0.12;
+      xCoordinate += NOW_THRESHOLD_VALUE
     else if (deliveryHorizon === "NEXT")
-      return count * (0.3/(count+1)) + (count * 0.08) + 1.12;
+      xCoordinate += NEXT_THRESHOLD_VALUE
     else if (deliveryHorizon === "LATER")
-      return count * (0.3/(count+1)) + (count * 0.08) + 2.12;
-    return 0;
-  }
+      xCoordinate += LATER_THRESHOLD_VALUE;
+    return xCoordinate;
+  };
 
-  private calculateYPosition(impact: string, count: number, length: number): number {
-    if (impact === "LOW")
-      return (length - count + 1) * 0.06 + 0.12;
-    else if (impact === "MEDIUM")
-      return (length - count + 1) * 0.03 + 1.12;
-    else if (impact === "HIGH")
-      return (length - count + 1) * 0.03 + 2.12;
-    return 0;
-  }
-  // private calculateXPosition(recommendation: Recommendation): number {
-  //   if (recommendation.deliveryHorizon === "NOW")
-  //     return this.calculateValue(0,1,(0+1)/2);
-  //   else if (recommendation.deliveryHorizon === "NEXT")
-  //     return this.calculateValue(1,2,(1+2)/2);
-  //   else if (recommendation.deliveryHorizon === "LATER")
-  //     return this.calculateValue(2,3,(2+3)/2);
-  //   return 0;
-  // }
-  //
-  // private calculateYPosition(recommendation : Recommendation): number {
-  //   if (recommendation.impact === "LOW")
-  //     return this.calculateValue(0,1,(0+1)/2);
-  //   else if (recommendation.impact === "MEDIUM")
-  //     return this.calculateValue(1,2,(1+2)/2);
-  //   else if (recommendation.impact === "HIGH")
-  //     return this.calculateValue(2,3,(2+3)/2);
-  //   return 0;
-  // }
-
-  private calculateValue(min: number, max: number, mid: number) : number {
-    let position : number = 0.0;
-    let randomIndex = Math.floor(Math.random() * this.symbol.length);
-    if(this.symbol[randomIndex] === "PLUS") {
-      position = Number(((Math.random() * ((max - 0.25) - mid) + mid) + (Math.random() * (0.30 - 0.2) + 0.2)).toFixed(1));
-      // console.log("plus",position, min, max, mid)
-    }
-    if(this.symbol[randomIndex] === "MINUS") {
-      position = Number(((Math.random() * (mid - (min + 0.25)) + (min + 0.25))-(Math.random() * (0.30 - 0.2) + 0.2)).toFixed(1));
-      // console.log("minus",position,min, max, mid)
-    }
-
-    return position;
-  }
-
-  // private calculatePosition(recommendation: Recommendation) : any{
-  //   // console.log(recommendation.deliveryHorizon, recommendation.impact)
-  //   let x = this.calculateXPosition(recommendation)
-  //   let y = this.calculateYPosition(recommendation)
-  //   let position : any = {x,y}
-  //   let isPositionPresent = this.positions.find(eachPosition => eachPosition.x === position.x && eachPosition.y === position.y)
-  //   while(isPositionPresent !== undefined || this.isInteger(position) || !this.isNumberInRange(position)) {
-  //     x = this.calculateXPosition(recommendation)
-  //     y = this.calculateYPosition(recommendation)
-  //     position = {x,y}
-  //   }
-  //   this.positions.push(position)
-  //
-  //   return position;
-  //   }
-
-    private isInteger(position : any) : boolean {
-    return Number.isInteger(position.x) || Number.isInteger(position.y);
-    }
-
-    private isNumberInRange(position : any) : boolean {
-    return position.x > 0 && position.x < 3 && position.y > 0 && position.y < 3;
-    }
+  private yPosition = (impact: string, count: number): number => {
+    const bubbleSeparator = 0.057;
+    const additionalGap = 0.18;
+    let yCoordinate = (bubbleSeparator * count + additionalGap)
+    if (impact === this.lowImpact)
+      yCoordinate = LOW_IMPACT_LIMIT - yCoordinate;
+    else if (impact === this.mediumImpact)
+      yCoordinate = MEDIUM_IMPACT_LIMIT - yCoordinate;
+    else if (impact === this.highImpact)
+      yCoordinate = HIGH_IMPACT_LIMIT - yCoordinate;
+    return yCoordinate;
+  };
 
 
+  private radius = (effort: string): number => {
+    let radius = 0;
+    if (effort === this.lowEffort)
+      radius = LOW_EFFORT_RADIUS;
+    else if (effort === this.mediumEffort)
+      radius = MEDIUM_EFFORT_RADIUS;
+    else if (effort === this.highEffort)
+      radius = HIGH_EFFORT_RADIUS;
+    return radius;
+  };
 
-  private calculateRadius(effort: string): number {
-    if (effort === "LOW")
-      return 20;
-    else if (effort === "MEDIUM")
-      return 24;
-    else if (effort === "HIGH")
-      return 28;
-    return 0;
-  }
-
-  getText() {
+  labelRoadmapChart() {
     let count = 0;
     d3.select("ngx-charts-bubble-chart")
       .select("svg").select("g").selectAll(".circle")
-      .attr("fill","red")
-      .append("svg:text").text(() => count = count+1).attr("x",0).attr("y",5).attr("text-anchor","middle")
+      .attr("fill", "red")
+      .append("svg:text").text(() => count = count + 1).attr("x", 0).attr("y", 5).attr("text-anchor", "middle")
       .attr("fill", "white")
       .attr("fill-opacity", 1)
       .style("font", "18px Inter")
   }
+
   // ngAfterContentChecked() {
   //   console.log(this.contentLoaded)
   //   if(this.contentLoaded < 3) {
@@ -209,5 +195,8 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

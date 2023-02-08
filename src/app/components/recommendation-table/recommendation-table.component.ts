@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BubbleChartStructure} from "../../types/bubbleChartStructure";
+import {Component, Input} from '@angular/core';
 import {Recommendation} from "../../types/recommendation";
-import {Color, index} from "d3";
 
 @Component({
   selector: 'app-recommendation-table',
@@ -17,11 +15,6 @@ export class RecommendationTableComponent {
   colorScheme :  Map<string,string>
 
   deliveryHorizon: string = "";
-  categoryName : string = ""
-  index : number = -1
-
-  constructor() { }
-
 
   isDeliveryHorizonDisplayed(recommendation:Recommendation): boolean {
     if(this.deliveryHorizon !== recommendation.deliveryHorizon){
@@ -31,7 +24,7 @@ export class RecommendationTableComponent {
     return false;
   }
 
-  colorCategory(categoryName: string) {
+  categoryColor(categoryName: string) {
     return this.colorScheme.get(categoryName)
   }
 }
