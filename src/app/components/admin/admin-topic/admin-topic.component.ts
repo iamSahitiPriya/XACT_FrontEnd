@@ -41,7 +41,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
-  commonErrorFieldText = data_local.ADMIN.ERROR;
+  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -56,7 +56,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   selectedTopic: TopicData | null;
   private isTopicAdded: boolean;
   isEditable: boolean;
-  unsavedTopic: TopicData;
+  unsavedTopic: TopicData | undefined;
 
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   duplicateError = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
@@ -94,19 +94,25 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       if (data !== undefined) {
         this.categories = data
         data.forEach(eachCategory => {
-            this.fetchModuleDetails(eachCategory);
+          this.fetchModuleDetails(eachCategory);
         })
         this.sortTopic();
       }
     })
   }
 
-  private sortTopic() {
+   sortTopic() {
     this.topicData = this.topicData.sort((topic1, topic2) => topic2.updatedAt - topic1.updatedAt);
     this.categoryList.sort((category1, category2) => Number(category2.active) - Number(category1.active))
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.paginator.pageIndex = 0
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
+      }
+      return tableData[sortHeaderId];
+    };
     this.dataSource.sort = this.sort;
   }
 
@@ -177,7 +183,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       moduleStatus: false,
       topicId: -1,
       topicName: "",
-      active: false,
+      active: true,
       updatedAt: Date.now(),
       comments: "",
       isEdit: true,
@@ -262,9 +268,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
 
   resetUnsavedChanges(row: any) {
-    if (this.unsavedTopic !== undefined && this.unsavedTopic.topicId !== row.topicId) {
+    if (this.unsavedTopic !== undefined && this.unsavedTopic?.topicId !== row.topicId) {
       let data = this.dataSource.data
-      let index = data.findIndex(topic => topic.topicId === this.unsavedTopic.topicId)
+      let index = data.findIndex(topic => topic.topicId === this.unsavedTopic?.topicId)
       if (index !== -1) {
         data.splice(index, 1, this.unsavedTopic)
         this.dataSource.data = data
@@ -274,7 +280,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   updateTopic(row: any) {
     let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
-    if (this.unsavedTopic.topicName.toLowerCase().replace(/\s/g, '') !== row.topicName.toLowerCase().replace(/\s/g, '')) {
+    if (this.unsavedTopic?.topicName.toLowerCase().replace(/\s/g, '') !== row.topicName.toLowerCase().replace(/\s/g, '')) {
       topicRequest = this.getTopicRequest(row)
     }
     if (topicRequest !== null) {
@@ -286,6 +292,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           row.updatedAt = _data.updatedAt
           this.topicData = []
           this.updateTopicToStore(_data)
+          this.unsavedTopic = undefined;
           this.ngOnInit()
           this.showNotification(this.updateSuccessMessage, 2000)
         }, error: _error => {
@@ -333,15 +340,15 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   resetTopic(row: TopicData) {
-    row.categoryName = this.unsavedTopic.categoryName
-    row.categoryId = this.unsavedTopic.categoryId
-    row.active = this.unsavedTopic.active
-    row.moduleName = this.unsavedTopic.moduleName
-    row.moduleId = this.unsavedTopic.moduleId
-    row.topicId = this.unsavedTopic.topicId
-    row.topicName = this.unsavedTopic.topicName
-    row.updatedAt = this.unsavedTopic.updatedAt
-    row.comments = this.unsavedTopic.comments
+    row.categoryName = <string>this.unsavedTopic?.categoryName
+    row.categoryId = <number>this.unsavedTopic?.categoryId
+    row.active = <boolean>this.unsavedTopic?.active
+    row.moduleName = <string>this.unsavedTopic?.moduleName
+    row.moduleId = <number>this.unsavedTopic?.moduleId
+    row.topicId = <number>this.unsavedTopic?.topicId
+    row.topicName = <string>this.unsavedTopic?.topicName
+    row.updatedAt = <number>this.unsavedTopic?.updatedAt
+    row.comments = <string>this.unsavedTopic?.comments
   }
 
   private getTopicStructure(_data: any) {
@@ -371,7 +378,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       ?.topics
     let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
     if (topicIndex !== undefined) {
-      let fetchedTopic: any = topic?.at(topicIndex)
+      let fetchedTopic: any = topic?.slice(topicIndex,topicIndex+1)[0]
       _data['parameters'] = fetchedTopic.parameters
       _data['references'] = fetchedTopic.references
       topic?.splice(topicIndex, 1)
@@ -380,7 +387,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   isInputValid(row: any) {
-    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')));
+    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')));
   }
 
   async openTopicReferences(reference: any, row: any) {

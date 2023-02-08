@@ -31,6 +31,7 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {AssessmentMenuComponent} from "../assessment-quick-action-menu/assessment-menu.component";
+import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
 
 
 class MockDialog {
@@ -50,9 +51,10 @@ class MockDialog {
 
 describe('AssessmentHeaderComponent', () => {
   let matDialog: any
-  let dialog:any
+  let dialog: any
   let component: AssessmentHeaderComponent;
   let fixture: ComponentFixture<AssessmentHeaderComponent>;
+
   class MockAppService {
     generateReport() {
       return of(new Blob());
@@ -66,19 +68,21 @@ describe('AssessmentHeaderComponent', () => {
       return of({assessmentId: 123, assessmentName: "Demo", assessmentStatus: "Active"});
     }
 
-    getTemplate(){
+    getTemplate() {
       return of(new Blob());
     }
 
   }
+
   const mockAssessment: AssessmentStructure = {
     answerResponseList: [],
     assessmentId: 123,
     assessmentName: "Mock",
     assessmentStatus: "Active",
-    assessmentPurpose:"",
+    assessmentDescription: "description",
+    assessmentPurpose: "",
     domain: "IT",
-    assessmentState:"inProgress",
+    assessmentState: "inProgress",
     industry: "Telecom",
     organisationName: "Rel",
     parameterRatingAndRecommendation: [],
@@ -86,17 +90,39 @@ describe('AssessmentHeaderComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: [],
-    userQuestionResponseList:[],
-    owner:false
+    userQuestionResponseList: [],
+    owner: false
+  }
+
+  const answerResponse: AssessmentStructure = {
+    assessmentId: 1,
+    assessmentName: "abc",
+    organisationName: "xyz",
+    assessmentStatus: "Active",
+    assessmentState: "inProgress",
+    assessmentPurpose: "Client Request",
+    assessmentDescription: "description",
+    updatedAt: 0,
+    domain: "TW",
+    industry: "IT",
+    teamSize: 2,
+    users: [],
+    owner: true,
+    answerResponseList: [],
+    parameterRatingAndRecommendation: [],
+    topicRatingAndRecommendation: [],
+    userQuestionResponseList: []
   }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssessmentHeaderComponent,PopupConfirmationComponent,AssessmentMenuComponent ],
+      declarations: [AssessmentHeaderComponent, PopupConfirmationComponent, AssessmentMenuComponent, AssessmentSummaryComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
-        StoreModule.forRoot(reducers)],
+        StoreModule.forRoot(reducers), RouterTestingModule.withRoutes(
+          [{path: 'assessment/123/charts', component: AssessmentSummaryComponent}]
+        )],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},
         {provide: MatDialog, useClass: MockDialog}],
@@ -118,37 +144,24 @@ describe('AssessmentHeaderComponent', () => {
   });
 
   it('should call finish assessment if active', fakeAsync(() => {
-    component.answerResponse1 = of({
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Active",
-      assessmentState:"inProgress",
-      assessmentPurpose:"Client Request",
-      updatedAt: 0,
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      owner:true,
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    })
+    component.answerResponse1 = of(answerResponse)
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Active";
-    jest.spyOn(component, 'confirmFinishAssessmentAction');
+    jest.spyOn(component, 'confirmFinishAssessmentAction').mockImplementation();
     jest.spyOn(matDialog, 'open')
     jest.spyOn(component, 'finishAssessment')
+    jest.spyOn(component.router, 'navigate')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     component.ngOnInit()
+    component.assessmentId = mockAssessment.assessmentId;
     fixture.detectChanges();
+    component.assessmentId = 123
     let finishAssessment = fixture.debugElement.nativeElement.querySelector("#finishAssessment");
     finishAssessment.click();
     tick();
     expect(component.confirmFinishAssessmentAction).toHaveBeenCalled();
+
     flush()
     flushMicrotasks();
     discardPeriodicTasks();
@@ -157,24 +170,8 @@ describe('AssessmentHeaderComponent', () => {
 
   it('should call reopen assessment if completed', fakeAsync(() => {
     discardPeriodicTasks()
-    component.answerResponse1 = of({
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Completed",
-      assessmentPurpose:"Client Request",
-      updatedAt: 0,
-      assessmentState:"inProgress",
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      owner:true,
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    })
+    answerResponse.assessmentStatus = "Completed"
+    component.answerResponse1 = of(answerResponse)
     component.assessment = mockAssessment;
     component.assessment.assessmentStatus = "Completed";
     jest.spyOn(component, 'reopenAssessment');
@@ -193,39 +190,7 @@ describe('AssessmentHeaderComponent', () => {
 
   it('should complete assessment', () => {
 
-    component.answerResponse1 = of({
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
-      assessmentStatus: "Completed",
-      assessmentState:"inProgress",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner:true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effect: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
-    })
+    component.answerResponse1 = of(answerResponse)
     component.ngOnInit()
     component.finishAssessment();
     expect(component.assessment.assessmentStatus).toBe("Completed");

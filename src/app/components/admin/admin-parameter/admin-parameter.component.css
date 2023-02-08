@@ -164,9 +164,8 @@ td.parameter:nth-child(6){
   overflow: hidden;
 }
 
-.parameterCommentTextArea {
+.parameter-comment-textarea {
   width: 99%;
-  height: 60px;
   font-size: 16px;
   margin-top:11px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -217,3 +216,11 @@ tr.expandedParameterRow {
   background-color: transparent;
 }
 
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #45A0AC !important;
+}

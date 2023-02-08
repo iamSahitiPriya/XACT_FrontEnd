@@ -35,23 +35,24 @@ describe('SearchComponent', () => {
   it('should call the search', () => {
     const mockData: AssessmentStructure = {
       domain: "", industry: "", teamSize: 0, users: [],
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       assessmentId: 2,
       assessmentName: "abc",
       organisationName: "org",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
-      userQuestionResponseList:[],
-      owner:false
+      userQuestionResponseList: [],
+      owner: false
 
     }
     const inputValue = document.getElementById("search") as HTMLInputElement;
     inputValue.value = "dummyValue"
-    component.columns = ['2','assessmentName','organisationName']
+    component.columns = ['2', 'assessmentName', 'organisationName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "abc")).toBeTruthy()
     expect(component.dataSource.filterPredicate(mockData, "org")).toBeTruthy()
@@ -64,16 +65,17 @@ describe('SearchComponent', () => {
       assessmentName: "abc",
       organisationName: "org",
       assessmentStatus: "Active",
-      assessmentState:"inProgress",
-      assessmentPurpose:"Client Request",
+      assessmentState: "inProgress",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1002020,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
-      userQuestionResponseList:[],
-      owner:false
+      userQuestionResponseList: [],
+      owner: false
     }
-    component.columns = ['1','assessmentName']
+    component.columns = ['1', 'assessmentName']
     component.searchAssessments()
     expect(component.dataSource.filterPredicate(mockData, "xyz")).toBeFalsy()
   });

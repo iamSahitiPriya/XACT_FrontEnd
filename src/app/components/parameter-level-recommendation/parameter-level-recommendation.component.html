@@ -5,29 +5,33 @@
 <mat-card class="parameterRecommendation"
           [ngStyle]="{'background-color': parameterIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="parameter-parent">
-    <div class="parameter-recommendation">
-    <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation">
-      <div *ngIf="parameterLevelRecommendation"></div>
-      <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
-      <textarea id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
-                name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
-                #recommendationElement
-                [(ngModel)]="parameterLevelRecommendation.recommendation"
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="2"
-                maxlength="5000"
-                (keyup)="saveParticularParameterText($event)"
-                [disabled]="assessmentStatus ==='Completed'"></textarea>
-      <div class = spinParent>
+    <div class="parameter-recommendation" [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===parameterLevelRecommendation.recommendationId}">
+      <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation" [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()">
+        <div *ngIf="parameterLevelRecommendation"></div>
+        <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
+        <textarea #input id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
+                  name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
+                  #recommendationElement
+                  [(ngModel)]="parameterLevelRecommendation.recommendation"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="2"
+                  maxlength="5000"
+                  (keyup)="saveParticularParameterText($event)"
+                  [disabled]="assessmentStatus ==='Completed'"></textarea>
+        <mat-hint *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==parameterLevelRecommendation.recommendationId; else text" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+        <ng-template #text>
+          <mat-hint align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
+        </ng-template>
+        <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="recommendationId === 1"></span>
+          <span class="loader" *ngIf="isSaving"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
-      </div>
-    </mat-form-field>
+        </div>
+      </mat-form-field>
     </div>
     <div class="parameter-other">
       <div class="impact">

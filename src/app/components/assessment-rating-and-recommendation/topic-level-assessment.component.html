@@ -4,9 +4,8 @@
 
 <div class="assessmentDetailsDisplay">
 
-  <div class="topicQuestions" *ngIf="topicInput">
+  <div class="topic-questions" *ngIf="topicInput">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-      <div *ngIf="parameter.active">
         <div id="questionContainer">
           <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
           </div>
@@ -23,18 +22,21 @@
                                      [parameterId]="parameter.parameterId"
                                      [assessmentId]="assessmentId"
                                      [type]="questionType"
+                                     [activityRecords] = "activityRecord.question"
             ></app-assessment-question>
           </div>
         </div>
 
         <div *ngIf="parameter.questions">
-          <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
-            [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
+          <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
+                                    [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"
+                                    [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                     [parameterIndex]="i"
                                     [parameterName]="parameter.parameterName"
                                     [questionIndex]="parameter.questions.length"
+                                     [activityRecords] = "activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
 
@@ -46,6 +48,7 @@
                                      [parameterIndex]="i"
                                      [parameterName]="parameter.parameterName"
                                      [questionIndex]="0"
+                                     [activityRecords] = "activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
 
@@ -58,10 +61,10 @@
                                       [assessmentId]="assessmentId"
                                       [parameterName]="parameter.parameterName"
                                       [parameterList]="topicRequest.parameterLevel"
+                                      [activityRecords] = "activityRecord.parameterRecommendation"
           ></app-parameter-level-rating>
         </div>
 
-      </div>
     </div>
 
     <div *ngIf="topicInput.references">
@@ -71,16 +74,10 @@
                               [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
                               [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
                               [topicName]="topicInput.topicName"
+                              [activityRecords] = "activityRecord.topicRecommendation"
       ></app-topic-level-rating>
     </div>
 
-
-    <div>
-      <button class="saveButton" [matTooltip]=saveButtonToolTip [disabled]="assessmentStatus ==='Completed'"
-              mat-raised-button
-              (click)="save()">{{saveButtonText}}
-      </button>
-    </div>
   </div>
   <div class="averageMaturityScore">
     <div class="parameterScoring">

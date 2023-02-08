@@ -39,6 +39,7 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
     assessmentId: -1,
     assessmentName: "",
     assessmentPurpose: "",
+    assessmentDescription:"",
     assessmentStatus: "",
     domain: "",
     assessmentState: "",

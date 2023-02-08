@@ -27,7 +27,9 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(3),'Just exploring t option is clicked')
+
     landingPage.AssessmentpopupFields('latestassessment','Infinity International','Domain','22','test@thoughtworks.com')
+
     landingPage.saveAssessmentButton().click()
   })
 

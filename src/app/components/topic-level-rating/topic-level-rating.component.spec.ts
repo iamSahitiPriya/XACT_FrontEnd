@@ -34,13 +34,47 @@ class MockAppService {
   }
 
   saveTopicRating(topicRating: TopicRating) {
-    if(topicRating.topicId === 0) {
+    if (topicRating.topicId === 0) {
       return of(topicRating)
     } else {
       return throwError("Error!")
     }
 
   }
+}
+
+const answerResponse = {
+  assessmentId: 5,
+  assessmentName: "abc1",
+  organisationName: "Thoughtworks",
+  assessmentStatus: "Active",
+  assessmentPurpose: "Client Request",
+  assessmentDescription: "description",
+  updatedAt: 1654664982698,
+  assessmentState: "inProgress",
+  domain: "",
+  industry: "",
+  teamSize: 0,
+  users: [],
+  owner: true,
+  answerResponseList: [
+    {
+      questionId: 1,
+      answer: "answer1"
+    }],
+  topicRatingAndRecommendation: [{
+    topicId: 0, rating: 1, topicLevelRecommendation: [
+      {
+        recommendationId: 1,
+        recommendation: "some text",
+        impact: "HIGH",
+        effort: "LOW",
+        deliveryHorizon: "some more text"
+      }
+    ]
+  }],
+  parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
+  , userQuestionResponseList: []
 }
 
 describe('TopicLevelRatingAndRecommendationComponent', () => {
@@ -73,38 +107,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   });
 
   it('should able to set topic rating', () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
-      updatedAt: 1654664982698,
-      assessmentState:"inProgress",
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner:true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}]
-      ,userQuestionResponseList:[]
-    }
+    component.answerResponse = answerResponse
     const topicRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -129,15 +132,16 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -155,8 +159,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
-    }
+      userQuestionResponseList: []
+    };
     const topicRatingAndRecommendation = {
       rating: 3,
       recommendation: "some text",
@@ -175,15 +179,16 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -191,7 +196,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     const topicRatingAndRecommendation = {
       rating: 2,
@@ -208,28 +213,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
   });
 
   it("should able to set topic rating if it is not defined", () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
-      assessmentStatus: "Active",
-      assessmentState:"inProgress",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner:true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [],
-      parameterRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    }
+    component.answerResponse = answerResponse
     const topicRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -305,38 +289,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
   it('should call the error whenever the problem occurs during api call', () => {
-    component.answerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      assessmentState:"inProgress",
-      assessmentPurpose:"Client Request",
-      updatedAt: 1654664982698,
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner:true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
-          {
-            recommendationId: 1,
-            recommendation: "some text",
-            impact: "HIGH",
-            effort: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
-    }
+    component.answerResponse = answerResponse;
     const topicRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -349,7 +302,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.topicRatingAndRecommendation = topicRatingAndRecommendation;
     component.topicId = 1
     component.assessmentStatus = "Active"
-    jest.spyOn(component,"showError")
+    jest.spyOn(component, "showError")
     component.setRating(3)
     expect(component.showError).toHaveBeenCalled();
 

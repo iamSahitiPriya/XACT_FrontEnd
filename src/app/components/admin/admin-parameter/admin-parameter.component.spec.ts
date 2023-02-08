@@ -860,14 +860,60 @@ describe('AdminParameterComponent', () => {
   it("should open question dialog box", () => {
     jest.spyOn(matDialog, "open")
 
-    component.openQuestions("")
+    component.openQuestions("",row)
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
-
   });
 
+  it("should change the value to lower case while sorting the parameter table for string valued columns", () => {
+    component.parameterData = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "MODULE1",
+      "moduleId" : 1,
+      "moduleStatus":true,
+      "topicId" : 1,
+      "topicName" : "topic1",
+      "topicStatus" : true,
+      "parameterId" : 1,
+      "parameterName" : "PARAMETER1",
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
 
+    component.sortParameter()
 
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.parameterData[0],'parameterName');
+
+    expect(expectedResponse).toBe("parameter1")
+  });
+
+  it("should return the same value while sorting the parameter table for other column types than string", () => {
+    component.parameterData = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "MODULE1",
+      "moduleId" : 1,
+      "moduleStatus":true,
+      "topicId" : 1,
+      "topicName" : "topic1",
+      "topicStatus" : true,
+      "parameterId" : 1,
+      "parameterName" : "PARAMETER1",
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortParameter()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.parameterData[0],'active');
+
+    expect(expectedResponse).toBe(true)
+  });
 
 });
 

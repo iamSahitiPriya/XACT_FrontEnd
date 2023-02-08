@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
@@ -21,6 +21,7 @@ import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {AnswerRequest} from "../../types/answerRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 export let loading = false
@@ -31,11 +32,12 @@ let DEBOUNCE_TIME = 600;
 @Component({
   selector: 'app-assessment-question',
   templateUrl: './assessment-question.component.html',
-  styleUrls: ['./assessment-question.component.css']
+  styleUrls: ['./assessment-question.component.css'],
+  animations: []
 })
 
 
-export class AssessmentQuestionComponent implements OnInit, OnDestroy {
+export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges {
 
   assessmentStatus: string;
   @Input()
@@ -56,6 +58,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   @Input()
   question: string
 
+  @Input()
+  activityRecords: ActivityLogResponse[]
+
   textarea: number = 0;
 
   questionId: number;
@@ -67,6 +72,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
+  maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
+  latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
 
 
   private cloneAnswerResponse: AssessmentStructure;
@@ -74,6 +81,8 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
+  activateSpinner: boolean = false;
+  isSaving: boolean
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -103,6 +112,28 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngOnChanges(): void {
+    let questionType = this.type + "_QUESTION";
+    this.latestActivityRecord.identifier = -1
+    if (this.activityRecords.length > 0) {
+      for (let record of this.activityRecords) {
+        if (record.identifier === this.questionNumber && questionType === record.activityType) {
+          this.latestActivityRecord = {
+            activityType: record.activityType,
+            email: record.email,
+            fullName: record.fullName,
+            identifier: record.identifier,
+            inputText: "",
+          }
+          this.answerInput = record.inputText
+          this.activateSpinner = !this.activateSpinner
+        }
+      }
+    } else {
+      this.latestActivityRecord = {activityType: "", email: "", fullName: "", identifier: -1, inputText: ""}
+    }
+  }
+
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
@@ -126,10 +157,11 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   }
 
   saveNotes(answerRequest: AnswerRequest, assessmentId: number) {
+    this.isSaving = true
     this.appService.saveNotes(assessmentId, answerRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         assessmentData.push(answerRequest);
-        this.questionId = -1
+        this.isSaving = false
         this.autoSave = ""
         if (this.type === this.additionalTypeQuestion) {
           this.userQuestionResponse.parameterId = this.parameterId
@@ -200,5 +232,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isActivityFound() {
+    return this.latestActivityRecord.email.length > 0 && this.latestActivityRecord.identifier === this.questionNumber;
   }
 }

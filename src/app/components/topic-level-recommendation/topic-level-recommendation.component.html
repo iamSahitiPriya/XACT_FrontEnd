@@ -4,11 +4,13 @@
 
 <mat-card class="recommendation" [ngStyle]="{'background-color': index%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="parent">
-    <div class="recommendation-text">
-      <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation">
+    <div class="recommendation-text"
+         [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===recommendation.recommendationId}">
+      <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation" [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()"
+      >
         <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
-        <textarea id="recommendationElement_topic{{recommendation.recommendationId}}"
+        <textarea #input id="recommendationElement_topic{{recommendation.recommendationId}}"
                   name="recommendationText_topic{{recommendation.recommendationId}}" matInput
                   [(ngModel)]="recommendation.recommendation"
                   cdkTextareaAutosize
@@ -17,10 +19,19 @@
                   maxlength="5000"
                   (keyup)="saveParticularTopicRecommendationText($event)"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
-        <div class = spinParent>
+        <mat-hint
+          *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==recommendation.recommendationId; else text"
+          align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+        <ng-template #text>
+          <mat-hint align="end"><span
+            class="username">{{latestActivityRecord.fullName }}</span><img alt="typing" class="edit-icon"
+                                                                           src="/assets/typing6.gif"/></mat-hint>
+        </ng-template>
+        <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="recommendationId === 1"></span>
+          <span class="loader"
+                *ngIf="isSaving"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>
@@ -75,7 +86,8 @@
         </div>
       </div>
       <div class="delete-button">
-        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'" >
+        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText"
+                [disabled]="assessmentStatus ==='Completed'">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">{{Delete}}</span>
         </button>

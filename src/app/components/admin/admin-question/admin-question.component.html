@@ -1,5 +1,5 @@
 <mat-card-header class="question-header">
-  <div class="question-heading">{{questions}} - {{parameter && parameter.parameterName}}</div>
+  <div class="question-heading">{{parameter && parameter.parameterName}}</div>
   <div class="question-close">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="question_close-icon">close</mat-icon>
@@ -22,15 +22,16 @@
         <div class="col-md-9 questionText">
            <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
              <mat-label>{{questionText}}</mat-label>
-              <input matInput required
+              <input #input matInput required
                      name="question{{question.questionId}}"
                      id="question{{question.questionId}}"
                      [(ngModel)]="question.questionText"
                      class="input-field"
-                     maxlength="10000">
+                     maxlength="2000">
              <mat-error>
                 {{requiredField}}
              </mat-error>
+             <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
           </mat-form-field>
           <p *ngIf="question.isEdit===false">{{index + 1}}. {{question.questionText}}</p>
         </div>

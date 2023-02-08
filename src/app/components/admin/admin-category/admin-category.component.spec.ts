@@ -48,8 +48,11 @@ class MockAppService {
     return of(this.category);
   }
 
-  public saveCategory(categoryRequest: Observable<any>): Observable<any> {
-    return of(categoryRequest)
+  public saveCategory(categoryRequest: any): Observable<any> {
+    if(categoryRequest.comments !== "comment to be added")
+      return of(categoryRequest)
+    else
+      return throwError("Error!")
 
   }
   public updateCategory(categoryRequest:any):Observable<any>{
@@ -103,6 +106,7 @@ describe('AdminCategoryComponent', () => {
       "updatedAt": 1022022,
       "active": true
     }])
+
   });
 
   it('should create', () => {
@@ -145,16 +149,28 @@ describe('AdminCategoryComponent', () => {
   it("should save categories", () => {
     component.ngOnInit()
     component.isEditable = true
-    let categoryRequest = of({
+    let row = {
       "categoryName": "value1",
       "active": false,
       "comments": "value.comments"
-    })
+    }
     component.saveCategory(row)
-    mockAppService.saveCategory(categoryRequest).subscribe(data => {
-      expect(data).toBe(categoryRequest)
-    })
+
     expect(component.isEditable).toBeFalsy();
+  });
+
+  it("should throw error when there is a problem while saving category", () => {
+    jest.spyOn(component,"showError")
+    component.ngOnInit()
+    component.isEditable = true
+    let row = {
+      "categoryName": "value2",
+      "active": false,
+      "comments": "comment to be added" }
+
+    component.saveCategory(row)
+
+    expect(component.showError).toHaveBeenCalled()
   });
   it("should select category on clicking edit", () => {
     component.selectedCategory = null
@@ -254,5 +270,49 @@ describe('AdminCategoryComponent', () => {
       component.updateToStore(category)
       expect(component.updateToStore).toHaveBeenCalled()
     });
+
+  it("should change the value to lower case while sorting the table for string valued columns", () => {
+    component.categoryData = [{
+      "categoryName": "CATEGORY1",
+      "comments": "comments",
+      "categoryId": 1,
+      "updatedAt": 1022022,
+      "active": true
+    }, {
+      "categoryName": "category2",
+      "comments": "comments",
+      "categoryId": 2,
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortCategory()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.categoryData[0],'categoryName');
+
+    expect(expectedResponse).toBe("category1")
+  });
+
+  it("should return the same value while sorting the table for other column types than string", () => {
+    component.categoryData = [{
+      "categoryName": "CATEGORY1",
+      "comments": "comments",
+      "categoryId": 1,
+      "updatedAt": 1022022,
+      "active": true
+    }, {
+      "categoryName": "category2",
+      "comments": "comments",
+      "categoryId": 2,
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortCategory()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.categoryData[0],'active');
+
+    expect(expectedResponse).toBe(true)
+  });
 
   });
