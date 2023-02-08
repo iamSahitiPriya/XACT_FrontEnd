@@ -1,15 +1,20 @@
+<div class="topic-overall-rating-chart-title">Detailed Findings</div>
 <div *ngFor="let chartData of data">
-  <h2>{{chartData.moduleName}}</h2>
-  <div>
-    <div style="display: block; height: 50%; width: 47%">
-      <canvas
-        baseChart
-        [data]="chartData.data"
-        [options]="radarChartOptions"
-        [type]="radarChartType"
-      >
-      </canvas>
-    </div>
-  </div>
+  <div class="topic-overall-rating-chart-heading"><h2>{{chartData.moduleName}}</h2></div>
+  <mat-card class="topic-overall-rating-card">
+    <mat-card-content>
+      <div>
+        <div style="display: block; height: 50%; width: 45%">
+          <canvas
+            baseChart
+            [data]="chartData.data"
+            [options]="radarChartOptions"
+            [type]="radarChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 

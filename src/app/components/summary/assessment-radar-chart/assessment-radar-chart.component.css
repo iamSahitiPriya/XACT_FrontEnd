@@ -1,0 +1,37 @@
+.topic-overall-rating-chart-title {
+  background-color: #45A0AC1D;
+  height: 50px;
+  width: 82%;
+  color: #043D4E;
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+  margin-top: 55px;
+  align-items: flex-start;
+  margin-left: 9%;
+}
+.topic-overall-rating-card {
+  width: 82%;
+  height: 33%;
+  margin-left: 9%;
+  margin-top: 2%;
+}
+.topic-overall-rating-chart-heading{
+  height: 50px;
+  width: 82%;
+  color: #043D4E;
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: initial;
+  padding-top: 15px;
+  padding-left: 18px;
+  margin-top: 55px;
+  align-items: flex-start;
+  margin-left: 9%;
+}
