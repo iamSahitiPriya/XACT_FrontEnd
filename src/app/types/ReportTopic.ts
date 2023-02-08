@@ -7,6 +7,6 @@ import {ReportParameter} from "./ReportParameter";
 export interface ReportTopic {
   "name": string,
   "rating"?: number,
-  "values"?:number,
+  "value"?:number,
   "children"?:ReportParameter[]
 }
