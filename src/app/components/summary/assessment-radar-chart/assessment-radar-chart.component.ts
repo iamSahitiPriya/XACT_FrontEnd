@@ -1,21 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReportDataStructure} from "../../../types/ReportDataStructure";
 import {ChartConfiguration, ChartData, ChartType} from 'chart.js';
-import {
-  getInteractiveElementAXObjectSchemas
-} from "@angular-eslint/eslint-plugin-template/dist/eslint-plugin-template/src/utils/is-interactive-element/get-interactive-element-ax-object-schemas";
 
-interface RadarDataset {
+interface RadarChartProperty {
   data: number[],
   fill: boolean,
   label: string,
   borderColor: string,
-  borderWidth: number
+  borderWidth: number,
+  backgroundColor:string
 }
 
 interface RadarChart {
   labels: string[],
-  datasets: RadarDataset[]
+  datasets: RadarChartProperty[]
 }
 
 interface RadarChartModuleData {
@@ -39,8 +37,11 @@ export class AssessmentRadarChartComponent implements OnInit {
   public radarChartOptions: ChartConfiguration['options']= {
     elements: {
       line: {
-        tension: 0.1
-      }
+        tension: 0.1,
+      },
+      point:{
+        radius : 2,
+      },
     },
     scales: {
       r: {
@@ -77,23 +78,24 @@ export class AssessmentRadarChartComponent implements OnInit {
                 moduleName: eachModule.name,
                 data: {labels: [], datasets: []}
               }
-              let dataset: RadarDataset = {
+              let dataset: RadarChartProperty = {
+                backgroundColor: 'red',
                 data: [],
                 fill: false,
                 label: "Current Score",
-                borderColor: "#387AC4",
+                borderColor: 'red',
                 borderWidth: 1
               }
-              let targetDataset: RadarDataset = {
+              let targetDataset: RadarChartProperty = {
+                backgroundColor: 'green',
                 data: [],
                 fill: false,
                 label: "Target Score",
-                borderColor: "#1D3650",
+                borderColor: 'green',
                 borderWidth: 1
               }
               eachModule?.children?.forEach(eachTopic => {
-                radarChartModuleData.data.labels?.push(eachTopic.name)
-                this.modifyTopicName(eachTopic.name)
+                radarChartModuleData.data.labels?.push(eachTopic.name.length>15 ? eachTopic.name.substring(0,15)+ "..."   :eachTopic.name)
                 if (eachTopic.rating !== undefined) {
                   dataset.data.push(eachTopic.value ? eachTopic.value : eachTopic.rating)
                   targetDataset.data.push(5)
@@ -110,22 +112,4 @@ export class AssessmentRadarChartComponent implements OnInit {
     )
   }
 
-  modifyTopicName(name: string){
-   let  wordList = name.split(/\s+/);
-    if(wordList.length > 3){
-      wordList = wordList.slice(0, 2)
-      wordList.push("...")
-    }
-    }
-  private static modifyDisplayText(wordList: string[]) : string[] {
-    let maximumDisplayWords = 3;
-    if (wordList.length >= maximumDisplayWords) {
-      wordList = wordList.slice(0, 2)
-      wordList.push("...")
-    }
-    let wrappedWords = [];
-    let maximumDisplayWordLength=10;
-    wrappedWords=wordList.map(eachWord => eachWord.length > maximumDisplayWordLength ? eachWord.substring(0,maximumDisplayWordLength)+ "..."  : eachWord)
-    return wrappedWords.reverse();
-  }
 }
