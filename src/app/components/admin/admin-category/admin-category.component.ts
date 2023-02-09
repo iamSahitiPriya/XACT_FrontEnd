@@ -18,7 +18,10 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions"
+import {CategoryRequest} from "../../../types/Admin/categoryRequest";
 
+
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-admin-category',
@@ -145,13 +148,13 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   showError(message: string) {
     this._snackbar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: NOTIFICATION_DURATION,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
   }
 
-  saveCategory(value: any) {
+  saveCategory(value: CategoryData) {
     let categoryRequest = this.getCategoryRequest(value)
     if (categoryRequest !== null) {
       this.appService.saveCategory(categoryRequest).pipe(takeUntil(this.destroy$)).subscribe({
@@ -173,11 +176,11 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   private isUniqueCategory(categoryName: string): boolean {
-    let index = this.categories.findIndex((category: any) => category.categoryName.toLowerCase().replace(/\s/g, '') === categoryName.toLowerCase().replace(/\s/g, ''));
+    let index = this.categories.findIndex((category: CategoryData) => category.categoryName.toLowerCase().replace(/\s/g, '') === categoryName.toLowerCase().replace(/\s/g, ''));
     return index === -1;
   }
 
-  private getCategoryRequest(value: any) {
+  private getCategoryRequest(value: CategoryData) {
     if (this.isUniqueCategory(value.categoryName)) {
       return this.setCategoryRequest(value)
     } else {
@@ -186,7 +189,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  editCategory(row: any) {
+  editCategory(row: CategoryData) {
     this.resetUnsavedChanges(row)
     this.deleteRow()
     this.selectedCategory = this.selectedCategory?.categoryId === row.categoryId ? null : row
@@ -195,7 +198,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     return this.selectedCategory;
   }
 
-  private resetUnsavedChanges(row: any) {
+  private resetUnsavedChanges(row: CategoryData) {
     if (this.category !== undefined && this.category.categoryId !== row.categoryId) {
       this.updateDatasource(this.category);
     }
@@ -210,19 +213,19 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateCategory(row: any) {
-    let categoryRequest: any | null = this.setCategoryRequest(row);
+  updateCategory(row: CategoryData) {
+    let categoryRequest: CategoryRequest | null = this.setCategoryRequest(row);
     if (this.category?.categoryName.toLowerCase().replace(/\s/g, '') !== row.categoryName.toLowerCase().replace(/\s/g, '')) {
       categoryRequest = this.getCategoryRequest(row);
     }
     if (categoryRequest !== null) {
-      categoryRequest['categoryId'] = row.categoryId
+      categoryRequest.categoryId = row.categoryId
       this.appService.updateCategory(row).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false;
           this.selectedCategory = null;
           this.table.renderRows()
-          this.showNotification(this.updateSuccessMessage, 2000)
+          this.showNotification(this.updateSuccessMessage, NOTIFICATION_DURATION)
           this.categoryData = []
           this.category = undefined;
           this.updateToStore(_data)
@@ -243,22 +246,24 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  cancelChanges(row: any) {
-    row.categoryName = this.category?.categoryName
-    row.active = this.category?.active
-    row.updatedAt = this.category?.updatedAt
-    row.comments = this.category?.comments
+  cancelChanges(row: CategoryData) {
+    if(this.category) {
+      row.categoryName = this.category.categoryName
+      row.active = this.category.active
+      row.updatedAt = this.category.updatedAt
+      row.comments = this.category.comments
+    }
     this.selectedCategory = this.selectedCategory === row ? null : row
     return row;
   }
 
-  private sendDataToStore(value: any) {
-    value['modules'] = []
+  private sendDataToStore(value: CategoryResponse) {
+    value.modules = []
     this.categories.push(value)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  updateToStore(_data: any) {
+  updateToStore(_data: CategoryResponse) {
     let category = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
     if (category !== undefined) {
       category.categoryName = _data.categoryName
@@ -270,11 +275,12 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   }
 
-  private setCategoryRequest(row: any) {
-    return {
-      "categoryName": row.categoryName,
-      "active": row.active,
-      "comments": row.comments
-    };
+  private setCategoryRequest(row: CategoryData) : CategoryRequest {
+    let categoryRequest : CategoryRequest = {
+      categoryName : row.categoryName,
+      active : row.active,
+      comments : row.comments
+    }
+    return categoryRequest;
   }
 }

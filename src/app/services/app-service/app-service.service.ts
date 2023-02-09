@@ -28,6 +28,12 @@ import {QuestionStructure} from "../../types/questionStructure";
 import {SummaryResponse} from "../../types/summaryResponse";
 import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
+import {CategoryRequest} from "../../types/Admin/categoryRequest";
+import {ModuleRequest} from "../../types/Admin/moduleRequest";
+import {ModuleStructure} from "../../types/moduleStructure";
+import {ModuleResponse} from "../../types/Admin/moduleResponse";
+import {TopicRequest} from "../../types/Admin/topicRequest";
+import {TopicResponse} from "../../types/Admin/topicResponse";
 
 
 @Injectable({
@@ -151,28 +157,28 @@ export class AppServiceService {
   }
 
 
-  saveCategory(categoryRequest: any) {
-    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+  saveCategory(categoryRequest: CategoryRequest) : Observable<CategoryResponse> {
+    return this.http.post<CategoryResponse>(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
 
   saveParameter(parameterRequest: any) {
     return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
   }
 
-  saveModule(moduleRequest: any) {
-    return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI, moduleRequest)
+  saveModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+    return this.http.post<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI, moduleRequest)
   }
 
-  updateCategory(categoryRequest: any) {
-    return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId, categoryRequest);
+  updateCategory(categoryRequest: any) : Observable<CategoryResponse> {
+    return this.http.put<CategoryResponse>(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId, categoryRequest);
   }
 
   updateParameter(parameterRequest: any, parameterId: number) {
     return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId, parameterRequest)
   }
 
-  updateModule(moduleRequest: any) {
-    return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI + "/" + moduleRequest.moduleId, moduleRequest);
+  updateModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+    return this.http.put<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI + "/" + moduleRequest.moduleId, moduleRequest);
   }
 
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
@@ -215,8 +221,8 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
   }
 
-  saveTopic(topicRequest: any): any {
-    return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  saveTopic(topicRequest: TopicRequest): Observable<TopicResponse> {
+    return this.http.post<TopicResponse>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
   }
 
   updateTopic(topicRequest: any, topicId: number) {

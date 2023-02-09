@@ -1,10 +1,11 @@
 import {ModuleResponse} from "./moduleResponse";
 
 export interface TopicResponse{
-  module:ModuleResponse
+  moduleId:number
   topicId:number,
   topicName:string,
   updatedAt:number,
   active:boolean,
   comments:string
+  categoryId : number
 }

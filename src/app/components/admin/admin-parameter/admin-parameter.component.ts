@@ -17,6 +17,8 @@ import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CategoryRequest} from "../../../types/Admin/categoryRequest";
+import {ModuleRequest} from "../../../types/Admin/moduleRequest";
 
 
 @Component({
@@ -45,8 +47,8 @@ export class AdminParameterComponent implements OnInit {
   dataToDisplayed: ParameterData[]
   private destroy$: Subject<void> = new Subject<void>();
   masterData: Observable<CategoryResponse[]>
-  categoryList: any[] = []
-  moduleList: any[] = []
+  categoryList: CategoryRequest[] = []
+  moduleList: ModuleRequest[] = []
   parameter: ParameterData
   unSavedParameter: ParameterData | undefined;
   selectedParameter: ParameterData | null;
@@ -76,6 +78,7 @@ export class AdminParameterComponent implements OnInit {
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+  num : number = 0
 
 
   constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
@@ -139,7 +142,7 @@ export class AdminParameterComponent implements OnInit {
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
     let topic: any[] = [];
     this.moduleList.push({
-      moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active
+      moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active,category:eachCategory.categoryId
     })
     eachModule.topics?.forEach(eachTopic => {
       this.topicAndParameter.set(eachTopic.topicId, [])
@@ -288,9 +291,9 @@ export class AdminParameterComponent implements OnInit {
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
     row.isEdit = false;
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
-    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === row.moduleName).moduleId
+    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === row.moduleName)?.moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
     this.unSavedParameter = cloneDeep(row)
     this.parameter = Object.assign({}, row)
@@ -318,8 +321,9 @@ export class AdminParameterComponent implements OnInit {
       this.appService.updateParameter(parameterRequest, row.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false;
+          console.log("update category", this.categoryData)
           this.selectedParameter = null;
-          this.updateToStore(_data)
+          // this.updateToStore(_data)
           this.unSavedParameter=undefined;
           this.table.renderRows()
           this.showNotification("Your changes have been successfully updated.", 2000)
@@ -356,17 +360,17 @@ export class AdminParameterComponent implements OnInit {
   shortlistModules(row: any) {
     row.moduleName = ''
     row.topicName = ''
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
     this.topicList = []
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
-      this.moduleList = [{moduleName: this.moduleNotFoundMessage}]
+      this.moduleList = [{moduleName: this.moduleNotFoundMessage,moduleId:-1,category:-1,active:false}]
     }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
 
   shortListTopics(moduleName: string) {
-    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === moduleName).moduleId
+    let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === moduleName)?.moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
     if (this.topicList.length === 0) {
       this.topicList = [{topicName: this.topicNotFoundMessage}]
@@ -376,6 +380,7 @@ export class AdminParameterComponent implements OnInit {
 
 
   private updateToStore(_data: any) {
+    console.log("before",this.categoryData, this.num)
     let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter?.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter?.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter?.topicId)?.parameters
 
     let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
@@ -385,6 +390,9 @@ export class AdminParameterComponent implements OnInit {
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
       parameters.splice(parameterIndex, 1)
+      console.log(_data, this.categoryData)
+      this.num += 1
+      console.log(this.num)
       this.sendToStore(_data)
     }
   }
@@ -419,8 +427,9 @@ export class AdminParameterComponent implements OnInit {
       this.showError(this.topicReferenceMessage)
   }
 
-  findCategoryId(row: any) {
-    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId
+  findCategoryId(row: any) : number {
+    let categoryId =  this.categoryList.find(category => category.categoryName === row.categoryName)?.categoryId
+    return categoryId ? categoryId : -1
   }
 
   findModuleId(row: any) {

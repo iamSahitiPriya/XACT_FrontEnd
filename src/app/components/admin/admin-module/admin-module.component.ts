@@ -17,6 +17,12 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
+import {ModuleRequest} from "../../../types/Admin/moduleRequest";
+import {ModuleStructure} from "../../../types/moduleStructure";
+import {ModuleResponse} from "../../../types/Admin/moduleResponse";
+import {TopicStructure} from "../../../types/topicStructure";
+
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-admin-module',
@@ -39,7 +45,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   isModuleAdded: boolean = false;
   module: ModuleData | undefined;
   isEditable: boolean;
-  categoryDetails: any[] = [];
+  categoryDetails: CategoryResponse[] = [];
   isModuleUnique = true;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   masterData: Observable<CategoryResponse[]>;
@@ -127,14 +133,14 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: NOTIFICATION_DURATION,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
   }
 
   addModuleRow() {
-    let newModule = {
+    let newModule: ModuleData = {
       moduleId: -1,
       categoryName: '',
       categoryId: 0,
@@ -153,20 +159,20 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     this.isModuleAdded = true
   }
 
-  updateModule(row: any) {
+  updateModule(row: ModuleData) {
     let moduleRequest = this.setModuleRequest(row);
     if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
       moduleRequest = this.getModuleRequest(row);
     }
-    if (this.isModuleUnique) {
-      moduleRequest['moduleId'] = row.moduleId
+    if (this.isModuleUnique && moduleRequest !== null) {
+      moduleRequest.moduleId = row.moduleId
       this.appService.updateModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           row.isEdit = false;
           this.selectedModule = null;
           this.table.renderRows()
-          this.updateModuleDataToStore(_data)
-          this.showNotification("Your changes have been successfully updated.", 2000)
+          this.sendDataToStore(_data)
+          this.showNotification(this.updateSuccessMessage, NOTIFICATION_DURATION)
           this.moduleStructure = []
           this.module = undefined
           this.ngOnInit()
@@ -177,17 +183,19 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     }
   }
 
-  cancelChanges(row: any) {
-    row.categoryName = this.module?.categoryName
-    row.moduleName = this.module?.moduleName
-    row.active = this.module?.active
-    row.updatedAt = this.module?.updatedAt
-    row.comments = this.module?.comments
+  cancelChanges(row: ModuleData) {
+    if (this.module) {
+      row.categoryName = this.module.categoryName
+      row.moduleName = this.module.moduleName
+      row.active = this.module.active
+      row.updatedAt = this.module.updatedAt
+      row.comments = this.module.comments
+    }
     this.selectedModule = this.selectedModule === row ? null : row
     return row;
   }
 
-  editRow(row: any) {
+  editRow(row: ModuleData) {
     this.resetUnsavedChanges(row)
     this.deleteAddedModuleRow()
     this.selectedModule = this.selectedModule === row ? null : row
@@ -196,7 +204,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     return this.selectedModule;
   }
 
-  private resetUnsavedChanges(row: any) {
+  private resetUnsavedChanges(row: ModuleData) {
     if (this.module !== undefined && this.module.moduleId !== row.moduleId)
       this.updateDataSource(this.module)
   }
@@ -239,9 +247,9 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     this.table.renderRows()
   }
 
-  saveModule(row: any) {
+  saveModule(row: ModuleData) {
     let moduleRequest = this.getModuleRequest(row);
-    if (this.isModuleUnique) {
+    if (this.isModuleUnique && moduleRequest !== null) {
       this.appService.saveModule(moduleRequest).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             let data = this.dataSource.data
@@ -262,18 +270,18 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getModuleRequest(row: any) {
-    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
-    let moduleArray = this.categoryDetails.find(category => category.categoryName === row.categoryName).modules
-    let index = moduleArray?.findIndex((module: any) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
-    let moduleRequest: any;
-    if (index === -1 || index === undefined) {
+  private getModuleRequest(row: ModuleData) {
+    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName)?.categoryId;
+    let moduleArray: ModuleStructure[] | undefined = this.categoryDetails.find(category => category.categoryName === row.categoryName)?.modules
+    let index = moduleArray?.findIndex((module: ModuleStructure) => module.moduleName.toLowerCase().replace(/\s/g, '') === row.moduleName.toLowerCase().replace(/\s/g, ''));
+    let moduleRequest: ModuleRequest;
+    if ((index === -1 || index === undefined) && selectedCategoryId !== undefined) {
       this.isModuleUnique = true;
       moduleRequest = {
-        "moduleName": row.moduleName,
-        "category": selectedCategoryId,
-        "active": row.active,
-        "comments": row.comments
+        moduleName: row.moduleName,
+        category: selectedCategoryId,
+        active: row.active,
+        comments: row.comments
       }
     } else {
       this.isModuleUnique = false;
@@ -284,43 +292,36 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     return moduleRequest;
   }
 
-  private updateModuleDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId).modules
-    let index = modules.findIndex((eachModule: { moduleId: any; }) => eachModule.moduleId === this.module?.moduleId)
-    if (index !== -1) {
-      let fetchedModule: any = modules?.slice(index, index + 1)[0]
-      _data['topics'] = fetchedModule.topics;
-      modules?.splice(index, 1)
-      this.sendDataToStore(_data)
-    }
-
-  }
-
-  sendDataToStore(_data: any) {
-    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId).modules
-    let module = {
+  sendDataToStore(_data: ModuleResponse) {
+    let modules: ModuleStructure[] | undefined = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules
+    let topics : TopicStructure[] | undefined = modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics
+    let module: ModuleStructure = {
       moduleId: _data.moduleId,
       moduleName: _data.moduleName,
       category: _data.categoryId,
       active: _data.active,
       updatedAt: Date.now(),
       comments: _data.comments,
-      topics: _data.topics ? _data.topics : []
+      topics: topics ? topics : []
     }
     modules?.push(module)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))
   }
 
-  private setModuleRequest(row: any) {
+  private setModuleRequest(row: ModuleData): ModuleRequest | null {
     this.isModuleUnique = true;
-    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName).categoryId;
-    return {
-      "moduleId": row.moduleId,
-      "moduleName": row.moduleName,
-      "category": selectedCategoryId,
-      "active": row.active,
-      "comments": row.comments
+    let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName)?.categoryId;
+    if (selectedCategoryId) {
+      let moduleRequest: ModuleRequest = {
+        moduleId: row.moduleId,
+        moduleName: row.moduleName,
+        category: selectedCategoryId,
+        active: row.active,
+        comments: row.comments
+      }
+      return moduleRequest
     }
+    return null;
   }
 
 }

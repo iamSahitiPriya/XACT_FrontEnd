@@ -7,5 +7,6 @@ export interface CategoryData{
   categoryName:string,
   active:boolean,
   updatedAt : number,
-  comments ?: string
+  comments ?: string,
+  isEdit ?: boolean
 }

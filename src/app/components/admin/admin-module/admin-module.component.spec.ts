@@ -20,6 +20,9 @@ import {ModuleStructure} from "../../../types/moduleStructure";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
+import {ModuleRequest} from "../../../types/Admin/moduleRequest";
+import {ModuleResponse} from "../../../types/Admin/moduleResponse";
+import {ModuleData} from "../../../types/moduleData";
 
 
 class MockAppService {
@@ -48,28 +51,23 @@ class MockAppService {
       "updatedAt" : 1022022,
       "active": true
     }]
-  moduleRequest = {
-    "categoryId": 1,
-    "moduleName":"moduleName",
-    "active": false,
-    "comments": "comments",
-    "moduleId":1
-  }
 
   public getAllCategories() : Observable<CategoryResponse[]> {
     return of(this.category);
   }
-  public saveModule(moduleRequest:any):Observable<any>{
+  public saveModule(moduleRequest:ModuleRequest):Observable<ModuleResponse>{
+    let moduleResponse : ModuleResponse = {moduleId:moduleRequest.category,moduleName:moduleRequest.moduleName,comments:moduleRequest.comments,categoryId:1,active:moduleRequest.active,updatedAt:12345}
     if(moduleRequest.moduleName === "module"){
-      return of(this.moduleRequest)
+      return of(moduleResponse)
     }
     else{
       return throwError("Error!")
     }
   }
-  public updateModule(moduleRequest:any):Observable<any>{
+  public updateModule(moduleRequest:ModuleRequest):Observable<ModuleResponse>{
+    let moduleResponse : ModuleResponse = {moduleId:moduleRequest.category,moduleName:moduleRequest.moduleName,comments:moduleRequest.comments,categoryId:1,active:moduleRequest.active,updatedAt:12345}
     if(moduleRequest.comments !== "comments to be edited")
-      return of(this.moduleRequest)
+      return of(moduleResponse)
     else
       return throwError("Error")
   }
@@ -80,7 +78,7 @@ describe('AdminModuleComponent', () => {
   let component: AdminModuleComponent;
   let fixture: ComponentFixture<AdminModuleComponent>;
   let mockAppService: MockAppService
-  let row: { active: boolean; moduleId: number; categoryName: string; moduleName : string;comments: string; updatedAt: number; }
+  let row : ModuleData
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminModuleComponent,SearchComponent  ],
@@ -96,7 +94,7 @@ describe('AdminModuleComponent', () => {
     fixture.detectChanges();
     mockAppService = new MockAppService();
     row = {
-      active: true, moduleId: -1, categoryName: "category",moduleName:"module", comments: "comments", updatedAt: 1022022
+      active: true, moduleId: -1, categoryName: "category",moduleName:"module", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true
     }
     component.masterData = of([{
       "categoryId": 1,
@@ -180,12 +178,12 @@ describe('AdminModuleComponent', () => {
     expect(component.dataSource.data.length).toBe(0)
   });
   it("should save module", () => {
-    let moduleRequest = of({
-      "categoryName": "category1",
-      "moduleName":"module",
-      "active": false,
-      "comments": "comments"
-    })
+    let moduleRequest  : ModuleRequest= {
+      category: 1,
+      moduleName:"module",
+      active: false,
+      comments: "comments"
+    }
     component.categoryDetails=[{
       "modules": [],
       "categoryName" : "category1",
@@ -201,8 +199,8 @@ describe('AdminModuleComponent', () => {
       "updatedAt" : 1022022,
       "active": true
     }]
-    let row= {
-      active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
+    let row : ModuleData = {
+      active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022,categoryId:1,categoryStatus:true
     }
     jest.spyOn(component,"sendDataToStore")
     component.saveModule(row)
@@ -244,9 +242,8 @@ describe('AdminModuleComponent', () => {
       "updatedAt" : 1022022,
       "active": true
     }]
-    let row= {
-      active: true, moduleId: 1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022
-    }
+
+    let  moduleRequest : ModuleRequest = {moduleName:"module",moduleId:1,category:1,active:true}
     component.module={
       moduleId:1,
       moduleName:"module",
@@ -259,7 +256,7 @@ describe('AdminModuleComponent', () => {
     };
     component.ngOnInit();
     component.updateModule(row)
-    mockAppService.updateModule(row).subscribe(data =>{
+    mockAppService.updateModule(moduleRequest).subscribe(data =>{
       expect(data).toBe(row);
     })
     expect(component.selectedModule).toBeDefined()
@@ -297,9 +294,6 @@ describe('AdminModuleComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
   it("should throw duplicate error when module is updated with same name", () => {
-    let row= {
-      active: true, moduleId: 1, categoryName: "category1",moduleName:"module1", comments: "comments", updatedAt: 1022022
-    }
     component.module={
       moduleId:1,
       moduleName:"moduleName",
@@ -310,9 +304,12 @@ describe('AdminModuleComponent', () => {
       updatedAt : 1022022,
       comments : "",
     };
+
+    let  moduleRequest : ModuleRequest = {moduleName:"moduleName",moduleId:1,category:1,active:true}
+
     component.ngOnInit();
     component.updateModule(row)
-    mockAppService.updateModule(row).subscribe(data =>{
+    mockAppService.updateModule(moduleRequest).subscribe(data =>{
       expect(data).toBe(row);
     })
     expect(component.isModuleUnique).toBeFalsy()
@@ -377,7 +374,7 @@ describe('AdminModuleComponent', () => {
   it("should throw error when there is a problem while updating module", () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
-    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2"}]
+    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2",active:true,updatedAt:12345,modules:[]}]
     component.module = { "categoryName": "category1", "categoryId": 1, "categoryStatus" : true, "moduleName": "MODULE1", "moduleId" : 1, "comments": "comments", "updatedAt": 1022022, "active": true}
     let row = {"categoryName": "category2", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
 
@@ -389,7 +386,7 @@ describe('AdminModuleComponent', () => {
   it("should thrRow error when there is a problem while saving module", () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
-    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2"}]
+    component.categoryDetails = [{"categoryId": 2,"categoryName": "category2",active:true,updatedAt:12345,modules:[]}]
     component.module = { "categoryName": "category1", "categoryId": 1, "categoryStatus" : true, "moduleName": "MODULE1", "moduleId" : 1, "comments": "comments", "updatedAt": 1022022, "active": true}
     let row = {"categoryName": "category2", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
 
@@ -402,7 +399,6 @@ describe('AdminModuleComponent', () => {
   it("should reset unsaved changes", () => {
     component.ngOnInit()
     component.module={moduleId:1, moduleName:"moduleName123", categoryName : "category1", categoryId : 1, categoryStatus: true, active : true, updatedAt : 1022022, comments : "",};
-    let row= {active: true, moduleId: 6, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022}
 
     component.editRow(row)
 

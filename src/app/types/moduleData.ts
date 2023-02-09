@@ -7,4 +7,5 @@ export interface ModuleData{
   active : boolean;
   updatedAt : number,
   comments ?: string,
+  isEdit ?: boolean
 }

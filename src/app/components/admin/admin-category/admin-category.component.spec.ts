@@ -20,6 +20,7 @@ import {SearchComponent} from "../../search-component/search.component";
 import {MatInputModule} from "@angular/material/input";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
+import {CategoryRequest} from "../../../types/Admin/categoryRequest";
 
 class MockAppService {
   category: CategoryResponse[] =
@@ -48,16 +49,18 @@ class MockAppService {
     return of(this.category);
   }
 
-  public saveCategory(categoryRequest: any): Observable<any> {
+  public saveCategory(categoryRequest: CategoryRequest): Observable<CategoryResponse> {
+    let categoryResponse : CategoryResponse = {categoryId:1,categoryName:categoryRequest.categoryName,comments:categoryRequest.comments,active:categoryRequest.active,updatedAt:12345,modules:[]}
     if(categoryRequest.comments !== "comment to be added")
-      return of(categoryRequest)
+      return of(categoryResponse)
     else
       return throwError("Error!")
 
   }
-  public updateCategory(categoryRequest:any):Observable<any>{
+  public updateCategory(categoryRequest:CategoryData):Observable<CategoryResponse>{
+    let categoryResponse : CategoryResponse = {categoryId:categoryRequest.categoryId,categoryName:categoryRequest.categoryName,comments:categoryRequest.comments,active:categoryRequest.active,updatedAt:12345,modules:[]}
     if(categoryRequest.categoryName !="") {
-      return of(categoryRequest)
+      return of(categoryResponse)
     }
     else {
       return throwError("Error !")
@@ -149,10 +152,12 @@ describe('AdminCategoryComponent', () => {
   it("should save categories", () => {
     component.ngOnInit()
     component.isEditable = true
-    let row = {
-      "categoryName": "value1",
-      "active": false,
-      "comments": "value.comments"
+    let row : CategoryData = {
+     categoryName: "value1",
+      active: false,
+      comments: "value.comments",
+      categoryId : 1,
+      updatedAt:12345
     }
     component.saveCategory(row)
 
@@ -163,10 +168,13 @@ describe('AdminCategoryComponent', () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
     component.isEditable = true
-    let row = {
-      "categoryName": "value2",
-      "active": false,
-      "comments": "comment to be added" }
+    let row : CategoryData = {
+      categoryName: "value1",
+      active: false,
+      comments: "comment to be added",
+      categoryId : 1,
+      updatedAt:12345
+    }
 
     component.saveCategory(row)
 
@@ -246,11 +254,12 @@ describe('AdminCategoryComponent', () => {
         active: false,
         comments: "value.comments"
       })
-      let dummyCategoryReq = {
-        "categoryName": "category2",
-        "comments": "comments",
-        "categoryId": -1,
-        "active": true
+      let dummyCategoryReq : CategoryData = {
+        categoryName: "category2",
+        comments: "comments",
+        categoryId: -1,
+        active: true,
+        updatedAt:12345
       }
       jest.spyOn(component, "showError")
       component.saveCategory(dummyCategoryReq)
@@ -260,12 +269,13 @@ describe('AdminCategoryComponent', () => {
     it("should update data to store", () => {
       component.ngOnInit()
       jest.spyOn(component, 'updateToStore')
-      let category = {
+      let category : CategoryResponse = {
         active: false,
         categoryId: 2,
         categoryName: "adasdasd",
         updatedAt: 1669185488599,
-        comments: "this is a comment"
+        comments: "this is a comment",
+        modules:[]
       }
       component.updateToStore(category)
       expect(component.updateToStore).toHaveBeenCalled()
