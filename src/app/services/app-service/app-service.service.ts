@@ -28,7 +28,6 @@ import {QuestionStructure} from "../../types/questionStructure";
 import {SummaryResponse} from "../../types/summaryResponse";
 import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
-import {RecommendationResponse} from "../../types/recommendationsResponse";
 import {Recommendation} from "../../types/recommendation";
 
 

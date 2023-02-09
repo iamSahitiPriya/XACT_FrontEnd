@@ -37,9 +37,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   gradient = false;
   showLegend = false;
   showXAxisLabel = true;
-  xAxisLabel = "Delivery Horizon";
   showYAxisLabel = true;
-  yAxisLabel = "Impact";
   xAxisTicks = [0, 1, 2, 3];
   yAxisTicks = [0, 1, 2, 3];
   xTicks = " "
@@ -53,13 +51,24 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   xScaleMin: number = 0;
   xScaleMax: number = 3;
 
-  lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3.toUpperCase();
-  mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2.toUpperCase();
-  highImpact = data_local.RECOMMENDATION_TEXT.IMPACT_1.toUpperCase();
+  lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3;
+  mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2;
+  highImpact = data_local.RECOMMENDATION_TEXT.IMPACT_1;
 
-  lowEffort = data_local.RECOMMENDATION_TEXT.EFFORT_3.toUpperCase();
-  mediumEffort = data_local.RECOMMENDATION_TEXT.EFFORT_2.toUpperCase();
-  highEffort = data_local.RECOMMENDATION_TEXT.EFFORT_1.toUpperCase();
+  lowEffort = data_local.RECOMMENDATION_TEXT.EFFORT_3;
+  mediumEffort = data_local.RECOMMENDATION_TEXT.EFFORT_2;
+  highEffort = data_local.RECOMMENDATION_TEXT.EFFORT_1;
+
+  nowDeliveryHorizon = data_local.RECOMMENDATION_TEXT.DH_1;
+  nextDeliveryHorizon = data_local.RECOMMENDATION_TEXT.DH_2;
+  laterDeliveryHorizon = data_local.RECOMMENDATION_TEXT.DH_3;
+
+  roadmapTitle: string = data_local.SUMMARY_REPORT.ROADMAP_CHART.TITLE;
+  impact: string = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
+  deliveryHorizon = data_local.RECOMMENDATION_TEXT.DELIVERY_HORIZON;
+  noRecommendationMessage: string = data_local.SUMMARY_REPORT.ROADMAP_CHART.NO_RECOMMENDATION_MESSAGE;
+  recommendationTitle: string = data_local.SUMMARY_REPORT.RECOMMENDATION.TITLE;
+  category: string = data_local.SUMMARY_REPORT.ROADMAP_CHART.LEGEND_TITLE;
 
   tickFormat() {
     return ""
@@ -84,7 +93,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   }
 
 
-  private getRecommendations() {
+  getRecommendations() {
     this.appService.getAllRecommendations(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         this.recommendationResponse = _data
@@ -141,11 +150,11 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     const maxRecommendation = 6;
     const bubbleSeparator = 0.15;
     let xCoordinate = bubbleSeparator * (count % maxRecommendation);
-    if (deliveryHorizon === "NOW")
+    if (deliveryHorizon === this.nowDeliveryHorizon.toUpperCase())
       xCoordinate += NOW_THRESHOLD_VALUE
-    else if (deliveryHorizon === "NEXT")
+    else if (deliveryHorizon === this.nextDeliveryHorizon.toUpperCase())
       xCoordinate += NEXT_THRESHOLD_VALUE
-    else if (deliveryHorizon === "LATER")
+    else if (deliveryHorizon === this.laterDeliveryHorizon.toUpperCase())
       xCoordinate += LATER_THRESHOLD_VALUE;
     return xCoordinate;
   };
@@ -154,11 +163,11 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
     const bubbleSeparator = 0.057;
     const additionalGap = 0.18;
     let yCoordinate = (bubbleSeparator * count + additionalGap)
-    if (impact === this.lowImpact)
+    if (impact === this.lowImpact.toUpperCase())
       yCoordinate = LOW_IMPACT_LIMIT - yCoordinate;
-    else if (impact === this.mediumImpact)
+    else if (impact === this.mediumImpact.toUpperCase())
       yCoordinate = MEDIUM_IMPACT_LIMIT - yCoordinate;
-    else if (impact === this.highImpact)
+    else if (impact === this.highImpact.toUpperCase())
       yCoordinate = HIGH_IMPACT_LIMIT - yCoordinate;
     return yCoordinate;
   };
@@ -166,11 +175,11 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
 
   private radius = (effort: string): number => {
     let radius = 0;
-    if (effort === this.lowEffort)
+    if (effort === this.lowEffort.toUpperCase())
       radius = LOW_EFFORT_RADIUS;
-    else if (effort === this.mediumEffort)
+    else if (effort === this.mediumEffort.toUpperCase())
       radius = MEDIUM_EFFORT_RADIUS;
-    else if (effort === this.highEffort)
+    else if (effort === this.highEffort.toUpperCase())
       radius = HIGH_EFFORT_RADIUS;
     return radius;
   };
@@ -186,7 +195,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
       .style("font", "18px Inter")
   }
 
-  // ngAfterContentChecked() {
+// ngAfterContentChecked() {
   //   console.log(this.contentLoaded)
   //   if(this.contentLoaded < 3) {
   //     console.log("called")

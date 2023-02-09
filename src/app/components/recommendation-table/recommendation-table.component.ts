@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Recommendation} from "../../types/recommendation";
+import {data_local} from "../../messages";
 
 @Component({
   selector: 'app-recommendation-table',
@@ -15,6 +16,9 @@ export class RecommendationTableComponent {
   colorScheme :  Map<string,string>
 
   deliveryHorizon: string = "";
+  recommendationTitle: string = data_local.SUMMARY_REPORT.RECOMMENDATION.HEADING;
+  impact: string = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
+  effort : string = data_local.RECOMMENDATION_TEXT.EFFORT
 
   isDeliveryHorizonDisplayed(recommendation:Recommendation): boolean {
     if(this.deliveryHorizon !== recommendation.deliveryHorizon){

@@ -116,7 +116,7 @@ export const data_local =
       IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
       COMPLETE_REPORT_DOWNLOADING_MESSAGE: "Assessment report & report template are getting downloaded, Please allow multiple download option.",
       REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx",
-      GO_BACK: "Go back"
+      GO_BACK: "Go back",
     },
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
@@ -172,7 +172,17 @@ export const data_local =
       PARAMETER_ASSESSED: "Parameters Assessed",
       QUESTION_ANSWERED: "Questions Answered",
       NO_DATA_AVAILABLE: "No rating data available to display the chart",
-      COLOUR_THEME_HEADING: "Select Color Theme"
+      COLOUR_THEME_HEADING: "Select Color Theme",
+      ROADMAP_CHART : {
+        TITLE : "Investment Roadmap",
+        NO_RECOMMENDATION_MESSAGE: "No Recommendations are available to display",
+        LEGEND_TITLE: "Category"
+
+      },
+      RECOMMENDATION : {
+        TITLE : "Recommendations",
+        HEADING : "Recommendation #"
+      }
     },
     ADMIN: {
       MODULE_NOT_FOUND: "No modules available",
