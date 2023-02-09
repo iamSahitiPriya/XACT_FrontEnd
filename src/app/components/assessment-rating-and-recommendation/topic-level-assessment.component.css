@@ -5,25 +5,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 
-.topicQuestions {
+.topic-questions {
   height: 70vh;
   overflow: auto;
   margin-right: -6px;
   width: 340vh;
 }
 
-/*.col-md-8 {*/
-/*  flex: 0 0 auto;*/
-/*  width: 73.666667%;*/
-/*  padding-left: 87.8%;*/
-/*}*/
-
-/*.mat-stroked-button {*/
-/*  min-width: 88px;*/
-/*  color: #32616E;*/
-/*}*/
-
-.saveButton {
+.save-button {
   width: 87px;
   height: 33px;
   border-radius: 4px;
@@ -83,7 +72,7 @@
 .assessmentDetailsDisplay {
   display: flex;
   justify-content: space-between;
-  width: 98%;
+  width: 97%;
   height: 95%;
 }
 
@@ -93,7 +82,7 @@
   .assessmentDetailsDisplay{
     width: 100%;
   }
-  .topicQuestions{
+  .topic-questions{
     margin-right: -4px;
   }
   .question-content{

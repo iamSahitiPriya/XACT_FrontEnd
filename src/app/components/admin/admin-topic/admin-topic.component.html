@@ -42,15 +42,17 @@
       <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
         <div [@detailExpand]="row === selectedTopic ? 'expanded' : 'collapsed'"
              class="topicComments">
-          <mat-form-field appearance="outline" class="topicCommentTextArea">
-            <textarea matInput placeholder="Comments"
+          <mat-form-field appearance="outline" class="topic-comment-textarea">
+            <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
-                      maxlength="1000">
+                      maxlength="1000"
+                      style="margin-bottom: 3px">
 
             </textarea>
+            <mat-hint align="end">{{input.value.length}}/1000</mat-hint>
           </mat-form-field>
         </div>
       </td>
@@ -87,8 +89,8 @@
           <mat-form-field appearance="outline" class="topicInput">
             <mat-label>{{enterTopic}}</mat-label>
           <input matInput #categoryName placeholder="Enter topic name" [(ngModel)]="row.topicName" required
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$">
-          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+                 pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$">
+          <mat-error *ngIf="!categoryName.value.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
             </mat-form-field>
@@ -153,5 +155,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[25,50,100,500]" aria-label="Select page of users"></mat-paginator>
 </div>

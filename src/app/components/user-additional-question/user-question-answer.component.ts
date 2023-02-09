@@ -11,6 +11,7 @@ import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const assessmentData = [{}]
 
@@ -41,6 +42,9 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   @Input()
   parameterName: string
+
+  @Input()
+  activityRecords : ActivityLogResponse[]
 
   questionText: string;
   assessmentStatus: string;
@@ -76,7 +80,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.answerResponse1 = this.store.select((store) => store.assessmentState.assessments)
+    this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
 
@@ -109,7 +113,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   saveQuestion() {
     this.userQuestionRequest.question = this.questionText;
-    if (this.userQuestionRequest.question.length > 0) {
+    if (this.userQuestionRequest.question.trimStart().length > 0) {
       this.appService.saveUserQuestion(this.userQuestionRequest, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             assessmentData.push(this.userQuestionRequest);
@@ -165,8 +169,8 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   updateQuestion(userQuestion: UserQuestionResponse) {
-    this.questionEditFlagNumber = 0;
-    if (userQuestion.question.length > 0) {
+    if (userQuestion.question.trimStart().length > 0) {
+      this.questionEditFlagNumber = 0;
       this.appService.updateUserQuestion(userQuestion, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             this.createQuestionFlag = false;
@@ -195,8 +199,8 @@ export class UserQuestionAnswerComponent implements OnInit {
           this.cloneAnswerResponse.userQuestionResponseList[index].question = userQuestionResponse.question
         }
       } else {
-        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
         this.userQuestionList.push(userQuestionResponse)
+        this.cloneAnswerResponse.userQuestionResponseList.push(this.userQuestionResponse)
       }
     } else {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList

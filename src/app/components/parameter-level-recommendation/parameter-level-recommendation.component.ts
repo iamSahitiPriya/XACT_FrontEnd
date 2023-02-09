@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -19,6 +19,7 @@ import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRe
 import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 let DEBOUNCE_TIME = 800;
 
@@ -27,7 +28,7 @@ let DEBOUNCE_TIME = 800;
   templateUrl: './parameter-level-recommendation.component.html',
   styleUrls: ['./parameter-level-recommendation.component.css']
 })
-export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy {
+export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
   parameterLevelRecommendation: ParameterLevelRecommendation
@@ -47,9 +48,12 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   @Input()
   parameterIndex: number;
 
+  @Input()
+  activityRecord: ActivityLogResponse[]
+
   form: UntypedFormGroup;
-  autoSave : string;
-  recommendationId:number
+  autoSave: string;
+  isSaving: boolean
 
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT
@@ -63,6 +67,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   Next = data_local.RECOMMENDATION_TEXT.DH_2;
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
+  maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
 
   assessmentStatus: string;
   parameterRecommendationResponse1: Observable<AssessmentStructure>;
@@ -70,6 +75,9 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   private cloneParameterLevelRecommendationResponse: AssessmentStructure;
   parameterRecommendationResponse: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
+  latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
+  activateSpinner: boolean = false;
+
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -103,10 +111,10 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -120,26 +128,48 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
 
   }
 
+  ngOnChanges(): void {
+    this.latestActivityRecord.identifier = -1
+    if (this.activityRecord.length > 0) {
+      for (let record of this.activityRecord) {
+        if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
+          this.latestActivityRecord = {
+            activityType: record.activityType,
+            email: record.email,
+            fullName: record.fullName,
+            identifier: record.identifier,
+            inputText: ""
+          }
+          this.parameterLevelRecommendation.recommendation = record.inputText
+          this.activateSpinner = !this.activateSpinner
+        }
+      }
+    } else {
+      this.latestActivityRecord = {activityType: "", email: "", fullName: "", identifier: -1, inputText: ""}
+    }
+  }
+
   saveParticularParameterText(_$event: KeyboardEvent) {
     this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
     this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    this.setParameterRecommendationFields();
-    this.setParameterLevelRecommendationResponseFields();
-    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.autoSave = "Auto Saved"
-    this.recommendationId = 1
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.autoSave = ""
-        this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
-        this.recommendationId = -1
-        this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
-        this.sendRecommendation(this.parameterLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved");
-      }
-    })
+    if (this.setParameterRecommendationFields() !== null) {
+      this.setParameterLevelRecommendationResponseFields();
+      this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
+      this.autoSave = "Auto Saved"
+      this.isSaving = true
+      this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.autoSave = ""
+          this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
+          this.isSaving = false
+          this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
+          this.sendRecommendation(this.parameterLevelRecommendationResponse)
+          this.updateDataSavedStatus()
+        }, error: _error => {
+          this.showError("Data cannot be saved");
+        }
+      })
+    }
   }
 
   private setParameterLevelRecommendationResponseFields() {
@@ -153,11 +183,16 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   }
 
   private setParameterRecommendationFields() {
-    this.parameterRecommendation.recommendationId = this.parameterLevelRecommendation.recommendationId;
-    this.parameterRecommendation.recommendation = this.parameterLevelRecommendation.recommendation;
-    this.parameterRecommendation.effort = this.parameterLevelRecommendation.effort;
-    this.parameterRecommendation.impact = this.parameterLevelRecommendation.impact;
-    this.parameterRecommendation.deliveryHorizon = this.parameterLevelRecommendation.deliveryHorizon;
+    if (this.parameterLevelRecommendation.recommendationId === undefined && this.parameterLevelRecommendation.recommendation === "" && this.parameterLevelRecommendation.effort === "" && this.parameterLevelRecommendation.impact === "" && this.parameterLevelRecommendation.deliveryHorizon === "") {
+      return null;
+    } else {
+      this.parameterRecommendation.recommendationId = this.parameterLevelRecommendation.recommendationId;
+      this.parameterRecommendation.recommendation = this.parameterLevelRecommendation.recommendation;
+      this.parameterRecommendation.effort = this.parameterLevelRecommendation.effort;
+      this.parameterRecommendation.impact = this.parameterLevelRecommendation.impact;
+      this.parameterRecommendation.deliveryHorizon = this.parameterLevelRecommendation.deliveryHorizon;
+    }
+    return this.parameterLevelRecommendation
   }
 
   private sendRecommendation(parameterRecommendationResponse: ParameterRecommendationResponse) {
@@ -220,8 +255,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     if (this.parameterRecommendationArray != undefined) {
       index = this.parameterRecommendationArray.indexOf(recommendation);
       if (index !== -1) {
-        this.parameterRecommendationArray?.splice(index,1);
-        this.deleteRecommendationTemplate(recommendation,index);
+        this.parameterRecommendationArray?.splice(index, 1);
+        this.deleteRecommendationTemplate(recommendation, index);
       }
     }
 
@@ -231,11 +266,11 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
     return recommendationId === undefined;
   }
 
-  deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation,index :number) {
+  deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation, index: number) {
     if (recommendation.recommendationId != undefined) {
       this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
         error: _error => {
-          this.parameterRecommendationArray?.splice(index,1,recommendation);
+          this.parameterRecommendationArray?.splice(index, 1, recommendation);
           this.showError("Data cannot be deleted");
         }
       })
@@ -261,5 +296,9 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isActivityFound() {
+    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.parameterLevelRecommendation.recommendationId;
   }
 }

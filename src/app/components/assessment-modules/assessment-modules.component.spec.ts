@@ -25,7 +25,9 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {ActivatedRoute, convertToParamMap} from "@angular/router";
+import {ActivatedRoute, convertToParamMap, Router} from "@angular/router";
+import {MtxPopoverModule} from "@ng-matero/extensions/popover";
+import {Location} from '@angular/common';
 
 
 class MockAppService {
@@ -40,17 +42,18 @@ class MockAppService {
         updatedAt: 0,
         comments: "",
         selected: true
-      }]}, {
-        categoryId: 1,
-        categoryName: "hello", active: true,
-        allComplete: true,
-        modules: [{
-          moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
-          updatedAt: 0,
-          comments: "",
-          selected: true
-        }]
-      }],
+      }]
+    }, {
+      categoryId: 1,
+      categoryName: "hello", active: true,
+      allComplete: true,
+      modules: [{
+        moduleId: 0, moduleName: "module", topics: [], category: 0, active: true,
+        updatedAt: 0,
+        comments: "",
+        selected: true
+      }]
+    }],
     userAssessmentCategories: [{categoryId: 0, active: true, categoryName: "Hello", modules: []}]
   }
   category: UserCategoryResponse = {
@@ -91,7 +94,8 @@ describe('AssessmentModulesComponent', () => {
   let component: AssessmentModulesComponent;
   let mockAppService: MockAppService
   let fixture: ComponentFixture<AssessmentModulesComponent>;
-
+  let router: Router;
+  let location: Location
 
   beforeEach(async () => {
     const activatedRouteStub = {
@@ -103,7 +107,7 @@ describe('AssessmentModulesComponent', () => {
     };
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesComponent, Ng2SearchPipe],
-      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, MatTooltipModule, MatSnackBarModule,
+      imports: [HttpClientModule, MatIconModule, MatCardModule, MatExpansionModule, MatTooltipModule, MatSnackBarModule, MtxPopoverModule,
         StoreModule.forRoot(reducers),
         NoopAnimationsModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule,
         RouterTestingModule.withRoutes([
@@ -122,7 +126,9 @@ describe('AssessmentModulesComponent', () => {
     mockAppService = new MockAppService()
     fixture = TestBed.createComponent(AssessmentModulesComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router)
     fixture.detectChanges();
+    location = TestBed.inject(Location)
     component.category = {
       assessmentCategories: [{
         categoryId: 0, active: true,
@@ -159,20 +165,50 @@ describe('AssessmentModulesComponent', () => {
     })
     expect(component.navigate).toHaveBeenCalled()
   });
+
   it("should update user selected module", () => {
+    component.assessmentId = 1
     let moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
     component.category = {
       assessmentCategories: [],
       userAssessmentCategories: []
     }
+    window.history.pushState({type: 'table'}, '', '/');
+
     jest.spyOn(component, "navigate")
+
     component.moduleRequest = moduleRequest
     component.saveUserModule()
+    component.navigate()
+
+    router.navigateByUrl('assessment/' + component.assessmentId)
+
+    expect(router.url).toBe('/')
     mockAppService.updateUserModules().subscribe(data => {
       expect(data).toBe(moduleRequest)
     })
     expect(component.navigate).toHaveBeenCalled()
   });
+
+  it("should navigate to previous page", () => {
+    component.assessmentId = 1
+    let moduleRequest: UserAssessmentModuleRequest[] = [{moduleId: 0}, {moduleId: 1}]
+    component.category = {
+      assessmentCategories: [],
+      userAssessmentCategories: []
+    }
+    window.history.pushState({type: 'url'}, '', '/');
+
+    jest.spyOn(component, "navigate")
+
+    component.moduleRequest = moduleRequest
+    component.navigate()
+    router.navigateByUrl('/')
+
+    expect(router.url).toBe('/')
+    expect(component.navigate).toHaveBeenCalled()
+  });
+
   it("should throw error when the user selected no module", () => {
     component.category = {
       assessmentCategories: [],
@@ -229,6 +265,7 @@ describe('AssessmentModulesComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
+      assessmentDescription: "description",
       assessmentPurpose: "",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
@@ -255,18 +292,38 @@ describe('AssessmentModulesComponent', () => {
         ],
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.ngOnInit()
     expect(component.assessmentName).toBe("abc1")
     expect(component.assessmentId).toBe(1)
   });
+
   it("should navigate back to previous page on clicking back button", () => {
+    window.history.pushState({type: 'url'}, '', '/');
     jest.spyOn(component, 'navigateBack');
+
     const button = fixture.nativeElement.querySelector("#backButton");
+    component.navigateBack()
     button.click()
+    router.navigateByUrl('/')
+
+    expect(router.url).toBe('/')
     expect(component.navigateBack).toBeCalled();
   })
+
+  it("should navigate back to previous page", () => {
+    window.history.pushState({type: ''}, '', '/');
+    jest.spyOn(component, 'navigateBack');
+
+    const button = fixture.nativeElement.querySelector("#backButton");
+    component.navigateBack()
+    button.click()
+
+    expect(router.url).toBe('/')
+    expect(component.navigateBack).toBeCalled();
+  });
+
 
   it("should set allComplete to false when userAssessmentCategory is undefined", () => {
     component.ngOnInit()
@@ -330,7 +387,7 @@ describe('AssessmentModulesComponent', () => {
 
   it("should return true when selected category is not active", () => {
     component.ngOnInit();
-    component.category.assessmentCategories[0].active =false;
+    component.category.assessmentCategories[0].active = false;
 
     expect(component.isActive(component.category.assessmentCategories[0])).toBeTruthy()
   });
@@ -338,11 +395,11 @@ describe('AssessmentModulesComponent', () => {
   it("should return true when selected category has undefined modules", () => {
     component.ngOnInit();
     // @ts-ignore
-    component.category.assessmentCategories[0].modules=undefined
+    component.category.assessmentCategories[0].modules = undefined
 
     expect(component.isActive(component.category.assessmentCategories[0])).toBeTruthy()
   });
-  it("should return false when category is not selected",() => {
+  it("should return false when category is not selected", () => {
     component.ngOnInit()
 
     component.getCategoriesData(1)

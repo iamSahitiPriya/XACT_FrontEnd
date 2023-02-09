@@ -29,10 +29,9 @@ class MockAppService {
   }
 
   saveParameterRating(parameterRating: ParameterRating) {
-    if(parameterRating.parameterId === 1) {
+    if (parameterRating.parameterId === 1) {
       return of(parameterRating)
-    }
-    else {
+    } else {
       return throwError("Error!")
     }
 
@@ -74,14 +73,15 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -99,7 +99,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     }
     const parameterRatingAndRecommendation = {
       rating: 2,
@@ -128,15 +128,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -144,7 +145,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     }
     jest.spyOn(component, "setRating");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
@@ -163,14 +164,15 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       updatedAt: 1654664982698,
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -178,7 +180,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [{topicId: 0, rating: 1, topicLevelRecommendation: [{}]}],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     }
     const parameterRatingAndRecommendation = {
       rating: undefined,
@@ -201,14 +203,15 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -216,10 +219,14 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [{
+      answerRequest: [{questionId: 0, answer: ""}],
+      userQuestionRequestList: [],
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: []}
+    }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -239,15 +246,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -255,7 +263,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     }
     const parameterRatingAndRecommendation = {
       rating: 2,
@@ -333,15 +341,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -349,10 +358,14 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [{
+      answerRequest: [{questionId: 0, answer: ""}],
+      userQuestionRequestList: [],
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: []}
+    }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -372,15 +385,16 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -388,10 +402,14 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         }],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
-    component.parameterList = [ {answerRequest : [{questionId : 0, answer: ""}],userQuestionRequestList:[],parameterRatingAndRecommendation : {parameterId:1,rating : 2, parameterLevelRecommendation : []} }]
+    component.parameterList = [{
+      answerRequest: [{questionId: 0, answer: ""}],
+      userQuestionRequestList: [],
+      parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: []}
+    }]
     const parameterRatingAndRecommendation = {
       rating: 2,
       recommendation: "some text",
@@ -399,7 +417,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     }
     component.parameterId = 2
     jest.spyOn(component, "setRating");
-    jest.spyOn(component,"showError");
+    jest.spyOn(component, "showError");
     component.parameterRatingAndRecommendation = parameterRatingAndRecommendation;
     component.assessmentStatus = "Active"
     component.ngOnInit()

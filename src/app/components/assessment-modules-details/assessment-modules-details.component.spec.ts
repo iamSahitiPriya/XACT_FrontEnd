@@ -34,36 +34,36 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {ActivatedRoute, convertToParamMap} from "@angular/router";
-import {CategoryResponse} from "../../types/categoryResponse";
 
-const mockCategory : UserCategoryResponse = {assessmentCategories: [
+const mockCategory: UserCategoryResponse = {
+  assessmentCategories: [
     {
       "categoryId": 1,
       "categoryName": "My Category1",
-      "allComplete":true,
-      "active":true,
+      "allComplete": true,
+      "active": true,
       "modules": [
         {
           "moduleId": 1,
           "moduleName": "My Module",
           "category": 1,
-          "active":true,
-          "selected":true,
-          "updatedAt":10101010,
+          "active": true,
+          "selected": true,
+          "updatedAt": 10101010,
           "topics": [
             {
               "topicId": 1,
               "topicName": "My Topic",
               "module": 1,
-              "updatedAt" : 12345,
-              "active" : false,
+              "updatedAt": 12345,
+              "active": false,
               "parameters": [
                 {
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
-                  "updatedAt":12345,
-                  "active":false,
+                  "updatedAt": 12345,
+                  "active": false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -71,7 +71,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                       "parameter": 1
                     }
                   ],
-                  "userQuestions":[],
+                  "userQuestions": [],
                   "references": []
                 }
               ],
@@ -84,28 +84,28 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
     {
       "categoryId": 1,
       "categoryName": "My Category1",
-      "active":true,
+      "active": true,
       "modules": [
         {
           "moduleId": 1,
           "moduleName": "My Module",
           "category": 1,
-          "active":true,
-          "updatedAt":10101010,
+          "active": true,
+          "updatedAt": 10101010,
           "topics": [
             {
               "topicId": 1,
               "topicName": "My Topic",
               "module": 1,
-              "updatedAt" : 1234,
-              "active" : false,
+              "updatedAt": 1234,
+              "active": false,
               "parameters": [
                 {
                   "parameterId": 1,
                   "parameterName": "My Parameter",
                   "topic": 1,
-                  "updatedAt" : 1234,
-                  "active" : false,
+                  "updatedAt": 1234,
+                  "active": false,
                   "questions": [
                     {
                       "questionId": 1,
@@ -113,7 +113,7 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
                       "parameter": 1
                     }
                   ],
-                  "userQuestions":[],
+                  "userQuestions": [],
                   "references": []
                 }
               ],
@@ -123,13 +123,15 @@ const mockCategory : UserCategoryResponse = {assessmentCategories: [
         },
       ]
     }
-  ]};
+  ]
+};
 
 
 class MockAppService {
   public getCategories() {
     return of(mockCategory)
   }
+
   public getOnlySelectedCategories() {
     return of(mockCategory)
   }
@@ -149,8 +151,8 @@ describe('AssessmentModulesDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent,AssessmentHeaderComponent],
-      imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule,MatTooltipModule,
+      declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent, AssessmentHeaderComponent],
+      imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule, MatTooltipModule,
         MatCardModule, MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, MatInputModule, MatMenuModule, CommonModule, MatSnackBarModule,
         RouterTestingModule.withRoutes([
           {path: 'assessment/:assessmentId', component: AssessmentModulesDetailsComponent}
@@ -177,7 +179,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should return the categories", async() => {
+  it("should return the categories", async () => {
 
     mockAppService.getCategories().subscribe(data => {
       expect(data).toBe(mockCategory)
@@ -185,23 +187,24 @@ describe('AssessmentModulesDetailsComponent', () => {
   });
 
   it('should get the assessment data', () => {
-    component.answer=of({
+    component.answer = of({
       assessmentId: 1,
       assessmentName: "name",
-      assessmentPurpose:"Client",
+      assessmentPurpose: "Client",
       organisationName: "New",
       assessmentStatus: "Active",
+      assessmentDescription: "description",
       domain: "new",
       industry: "new",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 1,
       users: ["abc@thoughtworks.com"],
-      owner:true,
+      owner: true,
       updatedAt: 12341234,
       answerResponseList: [],
       parameterRatingAndRecommendation: [],
       topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.ngOnInit();
     expect(component.assessment.assessmentId).toBe(1)
@@ -212,12 +215,12 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.selectedIndex = 0;
     component.topics = [{
       topicId: 1,
-      topicName: "hello",updatedAt:0, active:false,
+      topicName: "hello", updatedAt: 0, active: false,
       parameters: [],
       module: 1,
       references: []
-    }, {topicId: 2, topicName: "hello",updatedAt:0, active:false, parameters: [], module: 1, references: []},
-      {topicId: 3, topicName: "hello",updatedAt:0, active:false, parameters: [], module: 1, references: []}]
+    }, {topicId: 2, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []},
+      {topicId: 3, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
@@ -228,68 +231,37 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.topics = [{
       topicId: 1,
       topicName: "hello",
-      active : false,
+      active: false,
       parameters: [],
       module: 1,
-      references: [],updatedAt:0,
-    }, {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,},
-      {topicId: 3, topicName: "hello", parameters: [], module: 1, references: [],updatedAt:0, active:false,}]
+      references: [], updatedAt: 0,
+    }, {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [], updatedAt: 0, active: false,},
+      {topicId: 3, topicName: "hello", parameters: [], module: 1, references: [], updatedAt: 0, active: false,}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
   it("should navigate to particular module", () => {
-    let dummyModule:ModuleStructure ={
+    let dummyModule: ModuleStructure = {
       active: false,
       comments: "",
       updatedAt: 0,
-      moduleId:1,moduleName:"hello",topics:[{topicId:1,topicName:"topic",module:1,parameters:[],references:[],updatedAt:0, active:false,}],category:0}
+      moduleId: 1,
+      moduleName: "hello",
+      topics: [{
+        topicId: 1,
+        topicName: "topic",
+        module: 1,
+        parameters: [],
+        references: [],
+        updatedAt: 0,
+        active: false,
+      }],
+      category: 0
+    }
     component.navigate(dummyModule)
     expect(component.moduleSelected).toBe(1)
     expect(component.topics.length).toBe(1)
   });
 
-  it("should return true when active category has atleast one active module", () => {
-    let category : CategoryResponse =  {
-      "categoryId": 1,
-      "categoryName": "My Category1",
-      "active":true,
-      "updatedAt":10101010,
-      "modules": [
-        {
-          "moduleId": 1,
-          "moduleName": "My Module",
-          "category": 1,
-          "active":true,
-          "updatedAt":10101010,
-          "topics": []}]}
-
-    jest.spyOn(component,"isCategoryDisplayed")
-
-    let status = component.isCategoryDisplayed(category)
-
-    expect(status).toBeTruthy()
-  })
-
-  it("should return false when  active category has no active module", () => {
-    let category : CategoryResponse =  {
-      "categoryId": 1,
-      "categoryName": "My Category1",
-      "active":true,
-      "updatedAt":10101010,
-      "modules": [
-        {
-          "moduleId": 1,
-          "moduleName": "My Module",
-          "category": 1,
-          "active":false,
-          "updatedAt":10101010,
-          "topics": []}]}
-
-    jest.spyOn(component,"isCategoryDisplayed")
-
-    let status = component.isCategoryDisplayed(category)
-
-    expect(status).toBeFalsy()
-  })
 
 });

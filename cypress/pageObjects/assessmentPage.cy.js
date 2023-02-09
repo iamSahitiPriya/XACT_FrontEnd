@@ -1,5 +1,5 @@
 import landingPage from "./landingPage.cy";
-import {default as xlsx} from "node-xlsx";
+//import {default as xlsx} from "node-xlsx";
 import fs from "fs";
 
 class assessmentPage {
@@ -79,7 +79,7 @@ class assessmentPage {
     return cy.get('#recommendationElement_topic'+index)
   }
   static topicRecomendation(){
-      return cy.get('#recommendationElement_topic')
+      return cy.get('.recommendation-text>mat-form-field>div>div:nth-child(1)>div:nth-child(3)>textarea')
     }
 
   static maturityScoreHeader(){
@@ -105,11 +105,12 @@ class assessmentPage {
   }
 
   static parameterMaturityScore(parameterIndex,parameterRatingIndex){
-      return cy.get(':nth-child('+parameterIndex+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
+
+      return cy.get(':nth-child('+parameterIndex+') > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+parameterRatingIndex+') > .mat-toolbar > .rating')
     }
 
     static parameterMaturityScoreHeader(index){
-    return cy.get(':nth-child('+index+') > :nth-child(3) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > .mat-card')
+    return cy.get(':nth-child('+index+') > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > .mat-card')
     }
   static parameterRecommendation(index){
     return cy.get('#recommendationElement_param'+index)
@@ -163,9 +164,7 @@ class assessmentPage {
     return cy.get(':nth-child('+index+') > .mat-toolbar > .reference')
   }
 
-  static parameterMaturityScore(index,parameterIndex){
-    return cy.get(':nth-child('+parameterIndex+') > :nth-child(4) > app-parameter-level-rating-and-recommendation.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .rating')
-  }
+
 
   static parameterMaturityScoreDesc(index2,index){
 

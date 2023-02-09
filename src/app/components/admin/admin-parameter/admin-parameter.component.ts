@@ -26,7 +26,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '100px'})),
+      state('expanded', style({height: '100%'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -36,7 +36,7 @@ export class AdminParameterComponent implements OnInit {
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference', 'addQuestion'];
-  commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
+  commonErrorFieldText =data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -48,7 +48,7 @@ export class AdminParameterComponent implements OnInit {
   categoryList: any[] = []
   moduleList: any[] = []
   parameter: ParameterData
-  unSavedParameter: ParameterData
+  unSavedParameter: ParameterData | undefined;
   selectedParameter: ParameterData | null;
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
@@ -86,20 +86,30 @@ export class AdminParameterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryList=[]
+    this.categoryList = []
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryData = data
         data.forEach(eachCategory => {
-             this.fetchModules(eachCategory);
+          this.fetchModules(eachCategory);
         })
         this.sortData();
-        this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
-        this.paginator.pageIndex = 0
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.sortParameter();
       }
     })
+  }
+
+  sortParameter() {
+    this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
+    this.paginator.pageIndex = 0
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (tableData: any, sortHeaderId: string): string => {
+      if (typeof tableData[sortHeaderId] === 'string') {
+        return tableData[sortHeaderId].toLocaleLowerCase();
+      }
+      return tableData[sortHeaderId];
+    };
+    this.dataSource.sort = this.sort;
   }
 
   private sortData() {
@@ -154,35 +164,21 @@ export class AdminParameterComponent implements OnInit {
       });
       this.topicAndParameter.set(eachTopic.topicId, parameters);
       let parameter: ParameterData = {
-        categoryId: -1,
-        categoryName: "",
-        categoryStatus: false,
-        moduleId: -1,
-        moduleName: "",
-        moduleStatus: false,
-        topicId: -1,
-        topicName: "",
-        topicStatus: false,
-        active: false,
-        updatedAt: 123,
-        comments: "",
-        parameterId: 0,
-        parameterName: ''
+        categoryId: eachCategory.categoryId,
+        categoryName: eachCategory.categoryName,
+        categoryStatus: eachCategory.active,
+        moduleId: eachModule.moduleId,
+        moduleName: eachModule.moduleName,
+        moduleStatus: eachModule.active,
+        topicId: eachTopic.topicId,
+        topicName: eachTopic.topicName,
+        topicStatus: eachTopic.active,
+        active: eachParameter.active,
+        updatedAt: eachParameter.updatedAt,
+        comments: eachParameter.comments,
+        parameterId: eachParameter.parameterId,
+        parameterName: eachParameter.parameterName
       }
-      parameter.categoryId = eachCategory.categoryId
-      parameter.categoryName = eachCategory.categoryName
-      parameter.categoryStatus = eachCategory.active
-      parameter.moduleId = eachModule.moduleId
-      parameter.moduleName = eachModule.moduleName
-      parameter.moduleStatus = eachModule.active
-      parameter.topicId = eachTopic.topicId
-      parameter.topicStatus = eachTopic.active
-      parameter.parameterId = eachParameter.parameterId
-      parameter.parameterName = eachParameter.parameterName
-      parameter.active = eachParameter.active
-      parameter.topicName = eachTopic.topicName
-      parameter.updatedAt = eachParameter.updatedAt
-      parameter.comments = eachParameter.comments
       this.parameterData.push(parameter)
     })
   }
@@ -200,10 +196,12 @@ export class AdminParameterComponent implements OnInit {
       topicStatus: false,
       parameterId: -1,
       parameterName: "",
-      active: false,
+      active: true,
       updatedAt: Date.now(),
       comments: "",
-      isEdit: true
+      isEdit: true,
+      openReferences: false,
+      openQuestions: false
     }
     this.moduleList = []
     this.topicList = []
@@ -222,12 +220,12 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private resetRow(row: any) {
-    row.categoryName = this.unSavedParameter.categoryName
-    row.moduleName = this.unSavedParameter.moduleName
-    row.parameterName = this.unSavedParameter.parameterName
-    row.active = this.unSavedParameter.active
-    row.updatedAt = this.unSavedParameter.updatedAt
-    row.comments = this.unSavedParameter.comments
+    row.categoryName = this.unSavedParameter?.categoryName
+    row.moduleName = this.unSavedParameter?.moduleName
+    row.parameterName = this.unSavedParameter?.parameterName
+    row.active = this.unSavedParameter?.active
+    row.updatedAt = this.unSavedParameter?.updatedAt
+    row.comments = this.unSavedParameter?.comments
   }
 
 
@@ -300,9 +298,9 @@ export class AdminParameterComponent implements OnInit {
   }
 
   resetUnsavedChanges(row: any) {
-    if (this.unSavedParameter !== undefined && this.unSavedParameter.parameterId !== row.parameterId) {
+    if (this.unSavedParameter !== undefined && this.unSavedParameter?.parameterId !== row.parameterId) {
       let data = this.dataSource.data
-      let index = data.findIndex(parameter => parameter.parameterId === this.unSavedParameter.parameterId)
+      let index = data.findIndex(parameter => parameter.parameterId === this.unSavedParameter?.parameterId)
       if (index !== -1) {
         data.splice(index, 1, this.unSavedParameter)
         this.dataSource.data = data
@@ -313,7 +311,7 @@ export class AdminParameterComponent implements OnInit {
   updateParameterRow(row: any) {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName).topicId
     let parameterRequest = this.setParameterRequest(selectedTopicId, row);
-    if (this.unSavedParameter.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
+    if (this.unSavedParameter?.parameterName.toLowerCase().replace(/\s/g, '') !== row.parameterName.toLowerCase().replace(/\s/g, '')) {
       parameterRequest = this.getParameterRequest(row);
     }
     if (this.isParameterUnique) {
@@ -322,6 +320,7 @@ export class AdminParameterComponent implements OnInit {
           row.isEdit = false;
           this.selectedParameter = null;
           this.updateToStore(_data)
+          this.unSavedParameter=undefined;
           this.table.renderRows()
           this.showNotification("Your changes have been successfully updated.", 2000)
           this.parameterData = []
@@ -377,11 +376,12 @@ export class AdminParameterComponent implements OnInit {
 
 
   private updateToStore(_data: any) {
-    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter.topicId)?.parameters
+    let parameters: any = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter?.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter?.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter?.topicId)?.parameters
 
-    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter.parameterId)
+    let parameterIndex = parameters?.findIndex((eachParameter: { parameterId: any; }) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
     if (parameterIndex !== -1) {
-      let fetchedParameter: any = parameters?.at(parameterIndex)
+      let fetchedParameter: any = parameters?.slice(parameterIndex,parameterIndex+1)[0]
+
       _data["questions"] = fetchedParameter.questions
       _data["references"] = fetchedParameter.references
       parameters.splice(parameterIndex, 1)
@@ -407,6 +407,7 @@ export class AdminParameterComponent implements OnInit {
 
   async openParameterReference(reference: any, row: any) {
     if (this.isParameterReference(row)) {
+      row.openReferences = true;
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
         height: '66vh',
@@ -441,7 +442,8 @@ export class AdminParameterComponent implements OnInit {
     return flag
   }
 
-  openQuestions(questions:any) {
+  openQuestions(questions: any, row: any) {
+    row.openQuestions = true;
     this.dialogRef = this.dialog.open(questions, {
       width: '62vw',
       height: '66vh',
@@ -450,5 +452,6 @@ export class AdminParameterComponent implements OnInit {
     })
     this.dialogRef.disableClose = true;
   }
+
 }
 

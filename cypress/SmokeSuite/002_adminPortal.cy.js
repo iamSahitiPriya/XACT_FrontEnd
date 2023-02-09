@@ -1,11 +1,11 @@
-import loginPage from "../../pageObjects/loginPage.cy";
-import landingPage from "../../pageObjects/landingPage.cy";
-import assessmentPage from "../../pageObjects/assessmentPage.cy";
-import commonFunctionCy from "../../pageObjects/commonFunction.cy";
-import commonFunctions from "../../pageObjects/commonFunction.cy";
-import adminPortalCy from "../../pageObjects/adminPortal.cy";
+import loginPage from "../pageObjects/loginPage.cy";
+import landingPage from "../pageObjects/landingPage.cy";
+import assessmentPage from "../pageObjects/assessmentPage.cy";
+import commonFunctionCy from "../pageObjects/commonFunction.cy";
+import commonFunctions from "../pageObjects/commonFunction.cy";
+import adminPortalCy from "../pageObjects/adminPortal.cy";
 import assert from "assert";
-import adminPortal from "../../pageObjects/adminPortal.cy";
+import adminPortal from "../pageObjects/adminPortal.cy";
 describe('Smoke suite to verify all the major functionalities of the xAct application',()=>{
 
   beforeEach ('Launching the xAct application',()=>{
@@ -53,9 +53,9 @@ describe('Smoke suite to verify all the major functionalities of the xAct applic
     adminPortal.navigateToAdmin()
     commonFunctions.clickElement(adminPortal.category(),'Admin clicks on category to navigate to navigate page')
     commonFunctions.containsText(adminPortal.addButton(),'Add Category','Admin is navigated to Category page')
-    commonFunctions.containsText(adminPortal.categoryHeader(),'Category','Category Header is visible in the table')
-    commonFunctions.containsText(adminPortal.dateHeader(),'Date','Date Header is visible in the table')
-    commonFunctions.containsText(adminPortal.activeHeader(),'Active','Active Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(1),'Category','Category Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(2),'Date','Date Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(3),'Active','Active Header is visible in the table')
     commonFunctions.containsText(adminPortal.actionHeader(),'Action','Action Header is visible in the table')
     commonFunctions.elementIsVisible(adminPortal.pagenationDropDown(),'page nation dropdown is visible')
     commonFunctions.elementIsVisible(adminPortal.pagenation(),'page nation dropdown is visible')
@@ -66,10 +66,10 @@ describe('Smoke suite to verify all the major functionalities of the xAct applic
     adminPortal.navigateToAdmin()
     commonFunctions.clickElement(adminPortal.modules(),'Admin clicks on Module to navigate to module page')
     commonFunctions.containsText(adminPortal.addButton(),'Add Module','Admin is navigated to Modules page')
-    commonFunctions.containsText(adminPortal.moduleHeader(),'Module','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.categoryHeader(),'Category','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.dateHeader(),'Date','Date Header is visible in the table')
-    commonFunctions.containsText(adminPortal.activeHeader(),'Active','Active Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(2),'Module','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(1),'Category','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(3),'Date','Date Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(4),'Active','Active Header is visible in the table')
     commonFunctions.containsText(adminPortal.actionHeader(),'Action','Action Header is visible in the table')
     commonFunctions.elementIsVisible(adminPortal.pagenationDropDown(),'page nation dropdown is visible')
     commonFunctions.elementIsVisible(adminPortal.pagenation(),'page nation dropdown is visible')
@@ -80,11 +80,11 @@ describe('Smoke suite to verify all the major functionalities of the xAct applic
     adminPortal.navigateToAdmin()
     commonFunctions.clickElement(adminPortal.topic(),'Admin clicks on category to navigate')
     commonFunctions.containsText(adminPortal.addButtonTopic(),'Add Topic','Admin is navigated to Modules page')
-    commonFunctions.containsText(adminPortal.moduleHeader(),'Module','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.categoryHeader(),'Category','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.topicHeader(),'Topic','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.dateHeader(),'Date','Date Header is visible in the table')
-    commonFunctions.containsText(adminPortal.activeHeader(),'Active','Active Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(2),'Module','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(1),'Category','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(3),'Topic','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(4),'Date','Date Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(5),'Active','Active Header is visible in the table')
     commonFunctions.containsText(adminPortal.actionHeader(),'Action','Action Header is visible in the table')
     commonFunctions.elementIsVisible(adminPortal.pagenationDropDown(),'page nation dropdown is visible')
     commonFunctions.elementIsVisible(adminPortal.pagenation(),'page nation dropdown is visible')
@@ -96,12 +96,12 @@ describe('Smoke suite to verify all the major functionalities of the xAct applic
     adminPortal.navigateToAdmin()
     commonFunctions.clickElement(adminPortal.parameter(),'Admin clicks on Parameter to navigate to parameter page')
     commonFunctions.containsText(adminPortal.addParameter(),'Add Parameter','Admin is navigated to Modules page')
-    commonFunctions.containsText(adminPortal.moduleHeader(),'Module','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.categoryHeader(),'Category','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.topicHeader(),'Topic','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.parameterHeader(),'Parameter','Module Header is visible in the table')
-    commonFunctions.containsText(adminPortal.dateHeader(),'Date','Date Header is visible in the table')
-    commonFunctions.containsText(adminPortal.activeHeader(),'Active','Active Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(2),'Module','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(1),'Category','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(3),'Topic','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(4),'Parameter','Module Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(5),'Date','Date Header is visible in the table')
+    commonFunctions.containsText(adminPortal.tableHeaders(6),'Active','Active Header is visible in the table')
     commonFunctions.containsText(adminPortal.actionHeader(),'Action','Action Header is visible in the table')
     commonFunctions.elementIsVisible(adminPortal.pagenationDropDown(),'page nation dropdown is visible')
     commonFunctions.elementIsVisible(adminPortal.pagenation(),'page nation dropdown is visible')

@@ -135,18 +135,16 @@ div.category {
 .input {
   width: 230px;
   height: 49px;
-  border: 1px solid #4BA1AC;
   border-radius: 7px;
   text-align: left;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 16px;
-  font-family: "Inter", sans-serif;
+  font-family: Inter,sans-serif;
   letter-spacing: 0;
-  color: #6F7071;
+  color: #6f7071;
   opacity: 1;
-  padding-left: 19px;
-  margin-top: 22px;
-  margin-bottom: 4px;
+  margin-top: 14px;
+  margin-bottom: 38px;
 }
 
 .commentsArea {
@@ -243,11 +241,10 @@ button.closeButton {
 }
 
 
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
 
-
-
-
-
-
-
-
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #45A0AC !important;
+}

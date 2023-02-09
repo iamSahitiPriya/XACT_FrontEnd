@@ -8,7 +8,7 @@ import exp from "constants";
 class landingPage {
 
   static xActlogo() {
-    return cy.get('#input28')
+    return cy.get('#logo')
   }
   static userName() {
     return cy.get('.dropdown-toggle')
@@ -59,8 +59,13 @@ class landingPage {
   static OrganisationName() {
     return cy.get('.organizationName')
   }
+  static description() {
+    return cy.get('.assessment-description')
+  }
+
   static Domain() {
-    return cy.get('.domain')
+    return cy.get('[formcontrolname=domainNameValidator]')
+
   }
   static Industry() {
     return cy.get('.industry')
@@ -214,19 +219,25 @@ class landingPage {
   static emailPlaceHolder(){
     return cy.get('input[placeholder=\'abc@thoughtworks.com\']')
   }
+  static tableColumns(row,column){
+    return cy.get('tr:nth-child('+row+')>td:nth-child('+column+')')
+  }
+ static statusColumn(row){
+    return cy.get(':nth-child('+row+') > .cdk-column-assessmentStatus > span')
+  }
 
 
   //reusable functions
-  static AssessmentpopupFields(AssessmentName,OrgName,Domain,TeamSize,EmailId){
+  static AssessmentpopupFields(AssessmentName,OrgName,Desc,Domain,TeamSize,EmailId){
     expect(landingPage.AssessmentPopup()).to.exist;
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.AssessmentName().should('be.visible')
     expect(landingPage.AssessmentName()).to.exist;
     cy.wait(1000)
     landingPage.AssessmentName().type(AssessmentName)
-    landingPage.OrganisationName().should('be.visible')
-    landingPage.OrganisationName().clear().type(OrgName)
+    landingPage.OrganisationName().should('be.visible').clear().type(OrgName)
     landingPage.OrganisationSuggestion().click({ multiple: true })
+    landingPage.description().should('be.visible').clear().type(Desc)
     landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
     landingPage.teamSizeField().should('be.visible')

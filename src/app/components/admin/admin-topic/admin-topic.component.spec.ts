@@ -679,4 +679,48 @@ describe('AdminTopicComponent', () => {
     expect(component.isEditable).toBeTruthy()
     expect(row.isEdit).toBeFalsy()
   })
+
+  it("should change the value to lower case while sorting the topic table for string valued columns", () => {
+    component.topicData = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "module1",
+      "moduleId" : 1,
+      "moduleStatus":true,
+      "topicId" : 1,
+      "topicName" : "TOPIC1",
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortTopic()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'topicName');
+
+    expect(expectedResponse).toBe("topic1")
+  });
+
+  it("should return the same value while sorting the topic table for other column types than string", () => {
+    component.topicData = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "MODULE1",
+      "moduleId" : 1,
+      "moduleStatus":true,
+      "topicId" : 1,
+      "topicName" : "topic1",
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.sortTopic()
+
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'active');
+
+    expect(expectedResponse).toBe(true)
+  });
 });

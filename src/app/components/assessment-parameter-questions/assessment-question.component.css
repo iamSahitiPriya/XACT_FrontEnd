@@ -25,7 +25,6 @@ textArea.mat-input-element {
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
-  background-color: white !important;
 }
 
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
@@ -38,28 +37,64 @@ textArea.mat-input-element {
   border-top: 2px solid #45A0AC;
   width: 16px;
   height: 16px;
-  -webkit-animation: spin 1s linear infinite; /* Safari */
+  -webkit-animation: spin 1s linear 3s; /* Safari */
   animation: spin 1s linear infinite;
-  position:absolute;
+  position: absolute;
   margin-left: -23px;
 }
-.spinClass{
+
+.spinClass {
   margin-left: -20px;
   margin-bottom: 3px;
 }
 
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #633294 !important;
+  -webkit-animation: 4s normal bgcolorchange;
+  animation: 4s normal bgcolorchange;
+
+}
+
+@-webkit-keyframes bgcolorchange {
+  80% {
+    background-color: #eee2fa;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+@keyframes bgcolorchange {
+  0% {
+    background-color: #eee2fa;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
-.spinParent{
+
+.spinParent {
   display: flex;
   justify-content: flex-end;
 }
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .autoSaveMessage {
@@ -75,6 +110,33 @@ textArea.mat-input-element {
   .textArea {
     font-size: 14px;
   }
-  }
+}
+
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border: 3px solid #633294 !important;
+  border-right-style: none !important;
+}
+
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border: 3px solid #633294 !important;
+  border-left-style: none !important;
+}
+
+::ng-deep .text-border .mat-form-field-appearance-outline .mat-form-field-outline-gap {
+  border: 3px solid #633294 !important;
+  border-left-style: none !important;
+  border-right-style: none !important;
+  border-top-color: #FFFFFF !important;
+}
+
+.edit-icon {
+  height: 24px;
+  width: 40px;
+}
 
 
+.username{
+  margin-right:7px;
+  font-style: italic;
+
+}

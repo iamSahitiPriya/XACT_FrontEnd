@@ -1,9 +1,7 @@
 /*
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
-/*
- * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
- */
+
 
 import landingPage from "./landingPage.cy";
 import assessmentPage from "./assessmentPage.cy";
@@ -12,13 +10,21 @@ class commonFunction{
 
   static clickOnElement(webElementLocation){
     //let element = cy.get(webElementLocation)
-    webElementLocation.click({ force: true })
+    webElementLocation
+      .click({ force: true })
   }
 
   static clickElement(webElementLocation,message){
     //let element = cy.get(webElementLocation)
-    webElementLocation.click({ force: true })
+    webElementLocation.should('be.visible')
+      .click({ force: true })
     cy.log(message)
+  }
+
+  static type(webElementLocation,value,message) {
+    webElementLocation.should('be.visible')
+      .clear().type(value)
+   cy.log(message)
   }
 
   static typeInElement(webElementLocation,value) {

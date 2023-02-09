@@ -44,14 +44,15 @@
         <div [@detailExpand]="row.isEdit === true || row === selectedModule ? 'expanded' : 'collapsed'"
              class="comments">
           <mat-form-field appearance="outline" class="commentsArea">
-            <textarea matInput placeholder="Comments"
+            <textarea #input matInput placeholder="Comments"
                       [(ngModel)]="row.comments"
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="2"
-                      maxlength="1000">
-
+                      maxlength="1000"
+                      style="margin-bottom: 3px">
             </textarea>
+            <mat-hint align="end">{{input.value.length}}/1000</mat-hint>
           </mat-form-field>
         </div>
       </td>
@@ -67,8 +68,8 @@
         <mat-form-field appearance="outline" class="inputModule">
             <mat-label>Enter Module Name </mat-label>
           <input matInput #moduleName placeholder="Enter Module name" [(ngModel)]="row.moduleName"
-                 pattern="^[a-zA-Z0-9-()._-]+(\s+[a-zA-Z0-9-()._-]+)*$" style="padding-bottom: 20px">
-          <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">
+                 pattern="^^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$" style="padding-bottom: 20px">
+          <mat-error *ngIf="!moduleName.value.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">
           {{commonErrorFieldText}}
         </mat-error>
             </mat-form-field>
@@ -96,11 +97,11 @@
         <span *ngIf="selectedModule===row && row.moduleId !== -1">
         <button mat-flat-button class="updateButton" aria-label="expand row"
                 (click)="updateModule(row)"
-                [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{update}}</button>
+                [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{update}}</button>
         </span>
         <span *ngIf="row.isEdit">
           <button mat-flat-button class="saveButton" type="submit" (click)="saveModule(row)"
-                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._-]+(\\s+[a-zA-Z0-9-()._-]+)*$')">{{save}}</button>
+                  [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{save}}</button>
         </span>
       </td>
     </ng-container>
@@ -131,6 +132,6 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 200]" aria-label="Select page of users"></mat-paginator>
 
 </div>

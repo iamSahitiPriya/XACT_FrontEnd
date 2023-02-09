@@ -27,7 +27,7 @@ import {MatIconModule} from "@angular/material/icon";
 
 
 class MockAppService {
-  saveTopicRecommendationText(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
+  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
     if (topicLevelRecommendationText.topicId === 0) {
       return of(topicLevelRecommendationText)
     } else {
@@ -35,16 +35,8 @@ class MockAppService {
     }
   }
 
-  saveTopicRecommendationFields(topicLevelRecommendationText: TopicLevelRecommendationTextRequest) {
-    if (topicLevelRecommendationText.topicId === 0) {
-      return of(topicLevelRecommendationText)
-    } else {
-      return throwError("Error!")
-    }
-  }
-
-  deleteTopicRecommendation(assessmentId : number, topicId : number , recommendationId : number) {
-    if(recommendationId !== 0)
+  deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number) {
+    if (recommendationId !== 0)
       return of(true)
     else
       return throwError("Error!")
@@ -82,13 +74,14 @@ describe('RecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       domain: "",
       industry: "",
       teamSize: 0,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -106,7 +99,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -131,7 +124,7 @@ describe('RecommendationComponent', () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveTopicRecommendationText(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
       expect(data).toBe(topicLevelRecommendationText)
     })
@@ -145,14 +138,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -170,7 +164,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     let topicLevelRecommendationText = {
       assessmentId: 0, topicId: 0, topicLevelRecommendation: {recommendation: ""}
@@ -190,7 +184,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
       expect(component.updateDataSavedStatus).toHaveBeenCalled()
     })
@@ -204,14 +198,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -229,7 +224,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let topicLevelRecommendationText: TopicLevelRecommendationTextRequest = {
@@ -252,7 +247,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
     })
     expect(component.topicLevelRecommendationResponse.impact).toBe("LOW");
@@ -265,13 +260,14 @@ describe('RecommendationComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       domain: "",
       industry: "",
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -289,7 +285,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.assessmentId = 1
     component.topicId = 0
@@ -318,7 +314,7 @@ describe('RecommendationComponent', () => {
     component.ngOnInit()
     component.inputChange();
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe(data => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe(data => {
       expect(data).toBe(topicLevelRecommendationText)
     })
     expect(component.topicLevelRecommendationResponse.effort).toBe("HIGH");
@@ -340,9 +336,9 @@ describe('RecommendationComponent', () => {
     component.topicRecommendationArray?.push(recommendation);
 
     component.ngOnInit()
-    jest.spyOn(component,'deleteTemplate')
+    jest.spyOn(component, 'deleteTemplate')
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,'deleteRecommendationTemplate')
+    jest.spyOn(component, 'deleteRecommendationTemplate')
 
     expect(component.topicRecommendationArray.length).toBe(0);
   })
@@ -358,12 +354,12 @@ describe('RecommendationComponent', () => {
 
     component.ngOnInit()
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,'deleteRecommendationTemplate')
-    jest.spyOn(component,'showError')
-    component.deleteRecommendationTemplate(recommendation,0)
+    jest.spyOn(component, 'deleteRecommendationTemplate')
+    jest.spyOn(component, 'showError')
+    component.deleteRecommendationTemplate(recommendation, 0)
 
 
-    mockAppService.deleteTopicRecommendation(1,1,0).subscribe(() => {
+    mockAppService.deleteTopicRecommendation(1, 1, 0).subscribe(() => {
     }, error => {
       expect(component.showError).toHaveBeenCalled()
     })
@@ -403,14 +399,15 @@ describe('RecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -428,7 +425,7 @@ describe('RecommendationComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let topicLevelRecommendationText = {
@@ -449,7 +446,7 @@ describe('RecommendationComponent', () => {
     await new Promise((r) => setTimeout(r, 2000));
 
 
-    mockAppService.saveTopicRecommendationFields(topicLevelRecommendationText).subscribe((data) => {
+    mockAppService.saveTopicRecommendation(topicLevelRecommendationText).subscribe((data) => {
       expect(data).toBeUndefined()
     }, error => {
       expect(component.showError).toHaveBeenCalled()
@@ -484,4 +481,22 @@ describe('RecommendationComponent', () => {
       expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
     }
   });
+
+  it("should set user email when other user is working on the particular recommendation", () => {
+    component.activityRecords = [{identifier:1,activityType:"TOPIC_RECOMMENDATION",inputText:"some text",email:"abc@thoughtworks.com",fullName:"abc"}]
+    component.recommendation = {recommendationId:1,recommendation:"hello"}
+
+    component.ngOnChanges()
+
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
+    expect(component.recommendation.recommendation).toBe("some text")
+  })
+
+  it("should empty user email when the record is empty", () => {
+    component.activityRecords = []
+
+    component.ngOnChanges()
+
+    expect(component.latestActivityRecord.email.length).toBe(0)
+  })
 });

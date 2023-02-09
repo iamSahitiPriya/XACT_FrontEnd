@@ -141,9 +141,8 @@ td.topic:last-of-type {
   overflow: hidden;
 }
 
-.topicCommentTextArea {
+.topic-comment-textarea {
   width: 99%;
-  height: 60px;
   font-size: 16px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
@@ -221,4 +220,12 @@ td.topic:nth-child(2){
 }
 td.topic:nth-child(4){
   width:20%;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
+  color: #45A0AC !important;
 }

@@ -3,10 +3,13 @@
   -->
 
 <div *ngIf="questionNumber">
-  <form>
-    <mat-form-field class="textArea" appearance="outline" id="testForm">
+  <form
+    [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===questionNumber}">
+    <mat-form-field class="textArea" appearance="outline" id="testForm" [matTooltip]="latestActivityRecord.email"
+                    [matTooltipDisabled]="!isActivityFound()"
+                    [matTooltipPosition]="'above'">
       <mat-label>{{questionLabel}} {{inputWarningLabel}}</mat-label>
-      <textarea matInput name="textarea{{questionNumber}}"
+      <textarea matInput #input name="textarea{{questionNumber}}"
                 id="assessmentAnswer{{questionNumber}}"
                 [(ngModel)]="answerInput"
                 cdkTextareaAutosize
@@ -16,10 +19,18 @@
                 maxlength="10000"
                 (keyup)="saveParticularAnswer($event)"
                 [disabled]="assessmentStatus ==='Completed'"></textarea>
-      <div class = spinParent>
+      <mat-hint
+        *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==questionNumber; else outputLength"
+        align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+      <ng-template #outputLength>
+        <mat-hint align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img
+          alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
+      </ng-template>
+      <div class=spinParent>
       <span class="autoSaveMessage">
         <span class="spinClass">
-          <span class="loader" *ngIf="questionId === questionNumber"></span>
+          <span *ngIf="this.isSaving"
+                class="loader"></span>
         </span>
         <span>{{autoSave}}</span>
       </span>

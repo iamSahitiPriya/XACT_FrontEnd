@@ -39,13 +39,19 @@ export const data_local =
       },
       MANDATORY_FIELD_TEXT: "Mandatory field",
       ORGANISATION_VALIDATOR_MESSAGE: "Organisation not Found",
-      ERROR_MESSAGE_TEXT: "No Special Characters allowed except hyphen and underscore",
+      ERROR_MESSAGE_TEXT: "Only special characters allowed are [ _ & . , : - ]",
       ASSESSMENT_NAME: {
         TITLE: "Assessment Name",
         PLACEHOLDER: "Enter Assessment Name",
         PURPOSE: {
-          TITLE: "Purpose Of Assessment",
+          TITLE: "Assessment Request Type",
         }
+      },
+      ASSESSMENT_DESCRIPTION:{
+        TITLE: "Description for Assessment",
+        PLACEHOLDER: "Enter Description of Assessment",
+        LIMIT:200,
+        BLANK_SPACE_ERROR_TEXT: "No blank spaces are allowed"
       },
       ASSESSMENT_DOMAIN: {
         TITLE: "Domain of Target",
@@ -69,8 +75,11 @@ export const data_local =
       USER_EMAIL: {
         TITLE: "Email",
         PLACEHOLDER: "abc@thoughtworks.com",
-        ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address"
-      }
+        ERROR_MESSAGE: "Valid list of comma separated thoughtworks.com email address",
+        LIMIT_REACHED: "Maximum users limit reached : "
+      },
+      FILL_ALL_FIELDS_ERROR_MESSAGE: "Please fill in all the required fields correctly",
+      SERVER_ERROR_MESSAGE: "Server Error."
     },
     ASSESSMENT_MENU: {
       GENERATE_REPORT: {
@@ -115,13 +124,12 @@ export const data_local =
     ASSESSMENT_MODULE: {
       TITLE: "Modules",
       SAVE: "Click to save modules",
+      CATEGORY_CONTENT: "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
+      CATEGORY: "Category",
     },
     ASSESSMENT_QUESTION_FIELD: {
-      LABEL: "Notes"
-    },
-    SAVE_ASSESSMENT_BUTTON: {
-      TITLE: "Save",
-      TOOLTIP: "Click to save"
+      LABEL: "Notes",
+      ANSWER_FIELD_LIMIT : 10000
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -152,59 +160,69 @@ export const data_local =
     },
     LEGAL_WARNING_MSG_FOR_INPUT: " (Never enter passwords or other confidential information in your notes or recommendations)",
     SUMMARY_REPORT: {
-      TITLE: "Assessment Summary",
+      TITLE: "Summary",
       TOOLTIP: "Click to View Chart Summary",
-      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)"
+      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)",
+      INSTRUCTION: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\n" +
+        "      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita\n" +
+        "      kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+      MODULE_ASSESSED: "Modules Assessed",
+      CATEGORY_ASSESSED: "Categories Assessed",
+      TOPIC_ASSESSED: "Topics Assessed",
+      PARAMETER_ASSESSED: "Parameters Assessed",
+      QUESTION_ANSWERED: "Questions Answered",
+      NO_DATA_AVAILABLE: "No rating data available to display the chart",
+      COLOUR_THEME_HEADING: "Select Color Theme"
     },
     ADMIN: {
-      MODULE_NOT_FOUND : "No modules available",
+      MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",
       SERVER_ERROR_MESSAGE: "Some error occurred",
       UPDATE_SUCCESSFUL_MESSAGE: "Your changes have been successfully updated.",
       INPUT_ERROR_MESSAGE: "Please fill the field",
       CATEGORY_NAME: "Category",
-      MODULE_NAME:"Module",
-      TOPIC_NAME:"Topic",
-      PARAMETER_NAME:"Parameter",
-      DATE:"Date",
-      ACTIVE:"Active",
-      ACTION:"Action",
+      MODULE_NAME: "Module",
+      TOPIC_NAME: "Topic",
+      PARAMETER_NAME: "Parameter",
+      DATE: "Date",
+      ACTIVE: "Active",
+      ACTION: "Action",
       EDIT: "Edit",
       SAVE: "Save",
       UPDATE: "Update",
-      ERROR: "No Special Characters allowed",
       DUPLICATE_ERROR_MESSAGE: "Duplicate names are not allowed",
-      CATEGORY_SELECTION_LABEL:"Select category",
-      MODULE_SELECTION_LABEL:"Select Module",
+      CATEGORY_SELECTION_LABEL: "Select category",
+      MODULE_SELECTION_LABEL: "Select Module",
       CATEGORY: {
         SELECT_CATEGORY: "Select Category",
-        ADD_CATEGORY: "Add Category"
+        ADD_CATEGORY: "Add Category",
+        PLACEHOLDER: "Enter Category name"
 
-        },
-        MODULE: {
-          ADD_MODULE:"Add Module",
-          SELECT_MODULE: "Select Module",
-          MODULE_INPUT_TEXT:"Enter Module Name",
-        },
-        TOPIC: {
-          ADD_TOPIC: "Add Topic",
-          ENTER_TOPIC: "Enter topic name",
-        },
-      PARAMETER:{
-        TOPIC_SELECTION_LABEL:"Select Topic",
-        PARAMETER_INPUT_TEXT:"Enter Parameter Name",
-        TOPIC_NOT_FOUND:"Topic Not Found",
       },
-        REFERENCES: {
-          HEADER: "References - ",
-          SCORE_CARD : "Maturity Reference Score Card",
-          ADD_REFERENCE_BUTTON : "Add Maturity Reference",
-          PARAMETER_REFERENCE_MESSAGE : "References can't be added because Parameter Level References already exists!",
-          TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
-          DATA_NOT_SAVED : "Data cannot be saved",
-          DUPLICATE_RATING_ERROR_MESSAGE : "No duplicate ratings are allowed",
-          DUPLICATE_REFERENCE_ERROR_MESSAGE : "No duplicate references are allowed",
-        },
+      MODULE: {
+        ADD_MODULE: "Add Module",
+        SELECT_MODULE: "Select Module",
+        MODULE_INPUT_TEXT: "Enter Module Name",
+      },
+      TOPIC: {
+        ADD_TOPIC: "Add Topic",
+        ENTER_TOPIC: "Enter topic name",
+      },
+      PARAMETER: {
+        TOPIC_SELECTION_LABEL: "Select Topic",
+        PARAMETER_INPUT_TEXT: "Enter Parameter Name",
+        TOPIC_NOT_FOUND: "Topic Not Found",
+      },
+      REFERENCES: {
+        HEADER: "References - ",
+        SCORE_CARD: "Maturity Reference Score Card",
+        ADD_REFERENCE_BUTTON: "Add Maturity Reference",
+        PARAMETER_REFERENCE_MESSAGE: "References can't be added because Parameter Level References already exists!",
+        TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
+        DATA_NOT_SAVED: "Data cannot be saved",
+        DUPLICATE_RATING_ERROR_MESSAGE: "No duplicate ratings are allowed",
+        DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
+      },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",
         TOTAL_ACTIVE: "Assessments in Progress",
@@ -218,51 +236,64 @@ export const data_local =
         TOTAL_SUBTEXT: "Total:",
         CUSTOM_DATE_ERROR_MESSAGE: "Select a date range within 2 years"
       },
-      QUESTION : {
-        ADD_QUESTION : " Add Question",
-        QUESTIONS : "Questions",
-        QUESTION : "Question",
-        REQUIRED_FIELD : "This field is required"
+      QUESTION: {
+        ADD_QUESTION: " Add Question",
+        QUESTIONS: "Questions",
+        QUESTION: "Question",
+        REQUIRED_FIELD: "This field is required"
 
       },
-      },
-      DROPDOWN_OPTION_TEXT: {
-        LAST_WEEK: "Last 7 Days",
-        LAST_MONTH: "Last 30 Days",
-        LAST_QUARTER: "Last 90 Days",
-        LAST_YEAR: "Last 365 Days"
-      },
-      RECOMMENDATION_TEXT: {
-        IMPACT_LABEL: "Impact",
-        EFFORT: "Effort",
-        DELIVERY_HORIZON: "Delivery Horizon",
-        DELETE: "Delete",
-        IMPACT_1: "High",
-        IMPACT_2: "Medium",
-        IMPACT_3: "Low",
-        DH_1: "Now",
-        DH_2: "Next",
-        DH_3: "Later"
-      },
-    SHOW_ERROR_MESSAGE: {
-      POPUP_ERROR:"Data cannot be saved",
-      MENU_ERROR:"Error occurred while saving the data"
     },
-    ADDITIONAL_QUESTIONS:{
-      HEADING:"Additional Questions -",
-      ADD_QUESTION_TEXT:"Add a New Question",
-      QUESTION_FUNCTIONALITY_MESSAGE:{
-        EDIT:"Edit",
-        UPDATE:"Update",
-        SAVE:"Save",
-        DELETE:"Delete"
+    DROPDOWN_OPTION_TEXT: {
+      LAST_WEEK: "Last 7 Days",
+      LAST_MONTH: "Last 30 Days",
+      LAST_QUARTER: "Last 90 Days",
+      LAST_YEAR: "Last 365 Days"
+    },
+    RECOMMENDATION_TEXT: {
+      IMPACT_LABEL: "Impact",
+      EFFORT: "Effort",
+      DELIVERY_HORIZON: "Delivery Horizon",
+      DELETE: "Delete",
+      IMPACT_1: "High",
+      IMPACT_2: "Medium",
+      IMPACT_3: "Low",
+      DH_1: "Now",
+      DH_2: "Next",
+      DH_3: "Later",
+      LIMIT: 5000
+    },
+    SHOW_ERROR_MESSAGE: {
+      POPUP_ERROR: "Data cannot be saved",
+      MENU_ERROR: "Error occurred while saving the data"
+    },
+    ADDITIONAL_QUESTIONS: {
+      HEADING: "Additional Questions -",
+      ADD_QUESTION_TEXT: "Add a New Question",
+      QUESTION_FUNCTIONALITY_MESSAGE: {
+        EDIT: "Edit",
+        UPDATE: "Update",
+        SAVE: "Save",
+        DELETE: "Delete"
       }
     },
     AUTO_SAVE: {
-      AUTO_SAVE_MESSAGE:"Auto Saved"
+      AUTO_SAVE_MESSAGE: "Auto Saved"
     },
-    QUESTION_TYPE_TEXT : {
-      DEFAULT_TYPE:"DEFAULT",
-      ADDITIONAL_TYPE:"ADDITIONAL"
+    QUESTION_TYPE_TEXT: {
+      DEFAULT_TYPE: "DEFAULT",
+      ADDITIONAL_TYPE: "ADDITIONAL"
+    },
+    OVERALL_CHART_TEXT: {
+      CHART_TITLE: "Current Maturity and Gaps",
+      TARGET_RATING_TITLE: "Target Rating Gap",
+      CURRENT_RATING_TITLE: "Current Rating"
+    },
+    ACTIVITY_TYPE: {
+      DEFAULT_QUESTION_TYPE:"DEFAULT_QUESTION",
+      ADDITIONAL_QUESTION_TYPE:"ADDITIONAL_QUESTION",
+      TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
+      PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
+
     }
   }

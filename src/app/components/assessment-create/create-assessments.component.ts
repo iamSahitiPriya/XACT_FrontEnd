@@ -37,6 +37,7 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 
 export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
+  private MAX_USERS: number = 15;
   createAssessmentForm: UntypedFormGroup;
   columnName = ["name", "delete"];
   loggedInUserEmail: string;
@@ -54,6 +55,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   assessmentNameTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.TITLE;
   purposeOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_NAME.PURPOSE.TITLE;
+  descriptionOfAssessmentTitle = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.TITLE;
+  assessmentDescriptionPlaceholder = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.PLACEHOLDER;
   assessmentNamePlaceholder = data_local.ASSESSMENT.ASSESSMENT_NAME.PLACEHOLDER;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   organisationValidationText = data_local.ASSESSMENT.ORGANISATION_VALIDATOR_MESSAGE;
@@ -76,6 +79,12 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   createAssessmentButtonText = data_local.ASSESSMENT.CREATE.BUTTON_TEXT;
   manageAssessmentToolTip = data_local.ASSESSMENT.MANAGE.TOOLTIP;
   manageAssessmentButtonText = data_local.ASSESSMENT.MANAGE.BUTTON_TEXT;
+  assessmentDescriptionMaxLimit = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.LIMIT;
+  blankSpaceErrorText = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.BLANK_SPACE_ERROR_TEXT;
+  fillAllFieldsErrorMessage: string = data_local.ASSESSMENT.FILL_ALL_FIELDS_ERROR_MESSAGE;
+  serverErrorMessage: string = data_local.ASSESSMENT.SERVER_ERROR_MESSAGE;
+
+  blankSpace: boolean = false;
   purposeOfAssessment = [{
     value: 'Internal Assessment'
   }, {value: 'Client Assessment'}, {value: 'Just Exploring'}]
@@ -115,6 +124,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         selected: ['', Validators.required],
         assessmentNameValidator: ['', Validators.required],
         organizationNameValidator: ['', Validators.required],
+        assessmentDescriptionValidator: ['', Validators.required],
         domainNameValidator: ['', Validators.required],
         industryValidator: ['', Validators.required],
         teamSizeValidator: ['', Validators.required],
@@ -133,6 +143,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
 
   saveAssessment() {
     if (this.createAssessmentForm.valid) {
+      this.blankSpace = false
       const assessmentRequest = this.getAssessmentRequest()
       this.appService.addAssessments(assessmentRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -141,11 +152,13 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError("Server Error.");
+          this.showError(this.serverErrorMessage);
         }
       })
     } else {
-      this.showError("Please fill in all the required fields correctly.");
+      this.blankSpace = true
+      this.showError(this.fillAllFieldsErrorMessage);
+
     }
   }
 
@@ -189,11 +202,11 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
         },
         error: (_error) => {
           this.loading = false
-          this.showError("Server error.");
+          this.showError(this.serverErrorMessage);
         }
       })
     } else {
-      this.showError("Please fill in all the required fields correctly ");
+      this.showError(this.fillAllFieldsErrorMessage);
     }
   }
 
@@ -205,6 +218,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       assessmentName: this.assessment.assessmentName,
       organisationName: this.assessment.organisationName,
       assessmentPurpose: this.assessment.assessmentPurpose,
+      assessmentDescription: this.assessment.assessmentDescription.trim(),
       domain: this.assessment.domain,
       industry: this.assessment.industry,
       teamSize: this.assessment.teamSize,
@@ -226,6 +240,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.assessment.industry = this.assessmentCopy.industry;
     this.assessment.assessmentPurpose = this.assessmentCopy.assessmentPurpose;
     this.assessment.assessmentName = this.assessmentCopy.assessmentName;
+    this.assessment.assessmentDescription = this.assessmentCopy.assessmentDescription;
     this.assessment.domain = this.assessmentCopy.domain;
     this.assessment.industry = this.assessmentCopy.industry;
     this.assessment.teamSize = this.assessmentCopy.teamSize;
@@ -251,12 +266,16 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     value = value.filter(ele => ele !== '')
     for (const eachEmail in value) {
       if (!this.emails.includes(value[eachEmail]) && value[eachEmail].search(this.re) != -1) {
-        this.emails.push(value[eachEmail]);
+        if (this.emails.length >= this.MAX_USERS) {
+          this.showError(data_local.ASSESSMENT.USER_EMAIL.LIMIT_REACHED + this.MAX_USERS);
+        } else
+          this.emails.push(value[eachEmail]);
       } else {
         invalidEmails.push(value[eachEmail]);
       }
     }
     this.emailTextField = invalidEmails.join(",");
+
   }
 
   remove(email: string): void {

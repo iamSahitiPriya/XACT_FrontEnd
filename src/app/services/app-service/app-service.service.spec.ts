@@ -8,7 +8,6 @@ import {TestBed} from '@angular/core/testing';
 import {AppServiceService} from './app-service.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
-import {SaveRequest} from "../../types/saveRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
 import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
@@ -25,15 +24,16 @@ describe('AppServiceService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        HttpClientTestingModule,
+        HttpClientTestingModule
       ],
       providers: [
-        AppServiceService,
+        AppServiceService
       ]
     });
+    jest.spyOn(AppServiceService.prototype, 'formatURI').mockImplementation(() => "some URI");
     service = TestBed.inject(AppServiceService);
-
   });
+
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -47,6 +47,7 @@ describe('AppServiceService', () => {
         assessmentName: "abcdef",
         organisationName: "Rel23",
         assessmentPurpose: "Client Request",
+        assessmentDescription: "description",
         domain: "Telecom",
         industry: "phone",
         teamSize: 10,
@@ -59,31 +60,6 @@ describe('AppServiceService', () => {
   it("should get categories", () => {
     let assessmentId = 0
     expect(service.getCategories(assessmentId)).toBeTruthy()
-  });
-
-  it("should save assessment", () => {
-    let AssessmentRequest: SaveRequest =
-      {
-        assessmentId: 123,
-        topicRequest: {
-          parameterLevel: [],
-          topicRatingAndRecommendation: {
-            topicId: 1,
-            rating: 1,
-            topicLevelRecommendation: [
-              {
-                recommendation: "some text",
-                impact: "HIGH",
-                effort: "LOW",
-                deliveryHorizon: "some text"
-              }
-            ],
-          }
-        },
-
-
-      };
-    expect(service.saveAssessment(AssessmentRequest)).toBeTruthy()
   });
 
   it("should generate report", () => {
@@ -107,6 +83,7 @@ describe('AppServiceService', () => {
       assessmentName: "",
       domain: "",
       organisationName: "",
+      assessmentDescription: "",
       assessmentPurpose: "",
       industry: "",
       teamSize: 0,
@@ -130,24 +107,8 @@ describe('AppServiceService', () => {
 
         }
     }
-    expect(service.saveTopicRecommendationText(dummyTopicRecommendation)).toBeTruthy()
+    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
   });
-
-  it("should update particular topic Recommendation fields", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
-      assessmentId: 1, topicId: 1,
-      topicLevelRecommendation:
-        {
-          recommendationId: 1,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-    }
-    expect(service.saveTopicRecommendationFields(dummyTopicRecommendation)).toBeTruthy()
-  });
-
 
   it("should delete topic recommendation", () => {
     let assessmentId = 1;
@@ -357,14 +318,24 @@ describe('AppServiceService', () => {
   })
 
   it("should create questions", () => {
-    let questionRequest = {questionText: "new", parameter:1}
+    let questionRequest = {questionText: "new", parameter: 1}
     expect(service.saveMasterQuestion(questionRequest)).toBeTruthy()
   });
 
   it("should update questions", () => {
-    let questionRequest = {questionId:1,questionText: "new", parameter:1}
+    let questionRequest = {questionId: 1, questionText: "new", parameter: 1}
     let questionId = 1
-    expect(service.updateMasterQuestion(questionId,questionRequest)).toBeTruthy()
+    expect(service.updateMasterQuestion(questionId, questionRequest)).toBeTruthy()
   });
+
+  it("should get summary data", () => {
+    let assessmentId = 1
+    expect(service.getSummaryData(assessmentId)).toBeTruthy()
+  });
+
+  it("should get activity records", () => {
+    let topicId = 1, assessmentId = 1;
+    expect(service.getActivity(topicId, assessmentId)).toBeTruthy()
+  })
 });
 

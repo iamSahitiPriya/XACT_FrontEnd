@@ -66,9 +66,7 @@ import {
 } from './components/assessment-average-rating/assessment-average-rating.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSortModule} from "@angular/material/sort";
-import {
-  AssessmentSunburstChartComponent
-} from './components/assessment-sunburst-chart/assessment-sunburst-chart.component';
+import {AssessmentSummaryComponent} from './components/assessment-summary/assessment-summary.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {
   TopicLevelRecommendationComponent
@@ -89,7 +87,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {AssessmentHeaderComponent} from './components/assessment-header/assessment-header.component';
 import {AdminModuleComponent} from "./components/admin/admin-module/admin-module.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import { UserQuestionAnswerComponent } from './components/user-additional-question/user-question-answer.component';
+import {UserQuestionAnswerComponent} from './components/user-additional-question/user-question-answer.component';
 import {AdminParameterComponent} from './components/admin/admin-parameter/admin-parameter.component';
 import {AdminTopicComponent} from './components/admin/admin-topic/admin-topic.component';
 
@@ -98,6 +96,10 @@ import {
   AdminParameterReferenceComponent
 } from './components/admin/admin-parameter-reference/admin-parameter-reference.component';
 import {AdminQuestionComponent} from './components/admin/admin-question/admin-question.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {MtxPopoverModule} from "@ng-matero/extensions/popover";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {environment} from "../environments/environment";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -125,7 +127,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'assessment/:assessmentId/charts',
-    component: AssessmentSunburstChartComponent,
+    component: AssessmentSummaryComponent,
     pathMatch: 'full',
     canActivate: [OktaAuthGuard]
   },
@@ -183,7 +185,7 @@ export const appRoutes: Routes = [
     TopicLevelRecommendationComponent,
     ParameterLevelRecommendationComponent,
     AdminConsoleComponent,
-    AssessmentSunburstChartComponent,
+    AssessmentSummaryComponent,
     AdminCategoryComponent,
     AdminModuleComponent,
     NotificationSnackbarComponent,
@@ -289,6 +291,9 @@ export const appRoutes: Routes = [
     MatCheckboxModule,
     Ng2SearchPipeModule,
     MatAutocompleteModule,
+    NgxChartsModule,
+    MtxPopoverModule,
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
 
   exports: [

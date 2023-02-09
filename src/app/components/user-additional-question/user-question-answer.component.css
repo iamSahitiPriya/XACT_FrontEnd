@@ -1,7 +1,7 @@
 .additionalQuestionHeading {
   background-color: #45A0AC1D;
   height: 50px;
-  width: 98%;
+  width: 97%;
   color: #043D4E;
   font-size: 20px;
   font-weight: bold;
@@ -24,7 +24,7 @@
 }
 
 .addQuestion {
-  width: 98%;
+  width: 97%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
   background: linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, grey 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(grey 50%, rgba(255, 255, 255, 0) 0%);
@@ -36,7 +36,6 @@
 
 .question {
   padding-left: 15px;
-  padding-right: 21px;
   opacity: 1;
   word-break: break-word;
 }
@@ -44,10 +43,11 @@
 .user-questions, .question-user, .edit-question {
   display: flex;
   flex-direction: row;
+  padding-right: 1%;
 }
 
 .question-user {
-  width: 95%;
+  width: 97%;
 }
 
 .question-content.user-question {
@@ -65,7 +65,7 @@
 }
 
 .button1:hover {
-  background-color: #00000024;
+  background-color: #45a0ac1d;
 }
 .questionArea {
   display: -webkit-inline-flex;
@@ -76,12 +76,10 @@
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper{
   width: 100% !important;
 }
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
- padding-bottom:7px !important;
- }
+
 .userQuestionAnswers{
-  background-color: #F7F7F7;
-  width: 98%;
+  background-color: #f9f9f9db;
+  width: 97%;
   padding-top: 28px;
 }
 .questionFunctions{

@@ -21,34 +21,26 @@ describe('Validating purpose of assessment', () => {
     commonFunctions.elementIsVisible(landingPage.purposeOfAssessment(),'purpose of Assessment dropdown is visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment().click(),'purpose of element is visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    //commonFunctions.containsText(landingPage.purposeOfAssessment(),'','Client request option is selected in purpose of assessment dropdown')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(2),'Internal Request option is clicked')
-    //commonFunctions.containsText(landingPage.purposeOfAssessment(),'Internal Request','Internal request option is selected in purpose of assessment dropdown')
   })
 
   it('tc003 Verifying whether purpose of assessment dropdown is displayed in configure assessment popup', () => {
     commonFunctions.clickOnElement(landingPage.optionsButton(),'Quick link option is clicked')
     commonFunctions.clickOnElement(landingPage.configureOption(),'configure assessment option is clicked')
-    // commonFunctions.elementIsVisible(landingPage.AssessmentPopup(),'configure Assessment popup is visible')
-    // commonFunctions.elementIsVisible(landingPage.purposeOfAssessment(),'purpose of Assessment dropdown is visible')
   })
 
 
   it('tc004 Validating whether Manage option is renamed as configure in quick link', () => {
     commonFunctions.clickOnElement(landingPage.optionsButton(),'Quick link option is clicked')
     commonFunctions.clickOnElement(landingPage.configureOption(),'configure assessment option is clicked')
-    // commonFunctions.elementIsVisible(landingPage.AssessmentPopup(),'configure Assessment popup is visible')
-    // commonFunctions.elementIsVisible(landingPage.purposeOfAssessment(),'purpose of Assessment dropdown is visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    //commonFunctions.containsText(landingPage.purposeOfAssessment(),'','Client request option is selected in purpose of assessment dropdown')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(2),'Internal Request option is clicked')
-    //commonFunctions.containsText(landingPage.purposeOfAssessment(),'Internal Request','Internal request option is selected in purpose of assessment dropdown')
   })
 
   it('tc005 Validating placeholder of purpose of assessment dropdown', () => {
     landingPage.clickCreateAssessment()
-    commonFunctions.containsText(landingPage.purposeOfAssessment2(),'Purpose Of Assessment','Purpose of assessment placeholder is verified')
+    commonFunctions.containsText(landingPage.purposeOfAssessment2(),'Assessment Request Type','Purpose of assessment placeholder is verified')
   })
 
   it('tc006 Assessment shouldnot be created when purpose of assessment is not selected',()=>{
