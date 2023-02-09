@@ -22,7 +22,6 @@
   text-align: left;
   font-size: 15px;
   font-weight: lighter;
-  /*font-weight: 300;*/
   font-family: Inter, sans-serif;
   letter-spacing: 0;
   color: #383838;
@@ -49,7 +48,10 @@
 
 }
 .delivery-horizon{
-  font: normal normal bold 40px/48px Bitter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: Bitter, serif;
 }
 .table-row{
   padding-top: 1%;
