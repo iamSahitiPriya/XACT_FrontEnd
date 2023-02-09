@@ -34,11 +34,10 @@ describe('AssessmentQuestionComponent', () => {
   }
 
   class MockAppService {
-    public saveNotes(assessmentId:number , assessmentNotes: AnswerRequest) {
-      if(assessmentId != 1){
+    public saveNotes(assessmentId: number, assessmentNotes: AnswerRequest) {
+      if (assessmentId != 1) {
         return of(assessmentNotes)
-      }
-      else {
+      } else {
         return throwError("Error!")
       }
     }
@@ -79,12 +78,13 @@ describe('AssessmentQuestionComponent', () => {
       assessmentState: "inProgress",
       assessmentStatus: "Active",
       assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -102,9 +102,9 @@ describe('AssessmentQuestionComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
-    component.answerInput ="hello"
+    component.answerInput = "hello"
 
     const keyEventData = {isTrusted: true, code: 'KeyA'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
@@ -112,11 +112,11 @@ describe('AssessmentQuestionComponent', () => {
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
     let assessmentNotes: AnswerRequest = {
-      questionId: 1, answer:"" , type: "DEFAULT"
+      questionId: 1, answer: "", type: "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
+    mockAppService.saveNotes(2, assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
     expect(component.answerRequest.answer).toBe("hello")
@@ -131,12 +131,13 @@ describe('AssessmentQuestionComponent', () => {
       assessmentState: "inProgress",
       assessmentStatus: "Active",
       assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -154,7 +155,7 @@ describe('AssessmentQuestionComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[{questionId:1,question:"new question?",parameterId:1,answer:""}]
+      userQuestionResponseList: [{questionId: 1, question: "new question?", parameterId: 1, answer: ""}]
     })
     component.answerInput ="hello"
 
@@ -165,11 +166,11 @@ describe('AssessmentQuestionComponent', () => {
     component.type = "ADDITIONAL"
     component.saveParticularAnswer(keyEvent);
     let assessmentNotes: AnswerRequest = {
-      questionId: 1, answer:"" , type: "ADDITIONAL"
+      questionId: 1, answer: "", type: "ADDITIONAL"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
+    mockAppService.saveNotes(2, assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
     expect(component.answerRequest.answer).toBe("hello")
@@ -184,12 +185,13 @@ describe('AssessmentQuestionComponent', () => {
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
       assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -207,7 +209,7 @@ describe('AssessmentQuestionComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.answerInput = "hello"
 
@@ -217,11 +219,11 @@ describe('AssessmentQuestionComponent', () => {
     component.ngOnInit()
     component.saveParticularAnswer(keyEvent);
     let assessmentNotes: AnswerRequest = {
-       questionId: 1, answer:"",type: "DEFAULT"
+      questionId: 1, answer: "", type: "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(2,assessmentNotes).subscribe(data => {
+    mockAppService.saveNotes(2, assessmentNotes).subscribe(data => {
       expect(data).toBe(assessmentNotes)
     })
   });
@@ -233,13 +235,14 @@ describe('AssessmentQuestionComponent', () => {
       organisationName: "Thoughtworks",
       assessmentPurpose: "Client Request",
       assessmentStatus: "Active",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [],
 
       topicRatingAndRecommendation: [{
@@ -254,7 +257,7 @@ describe('AssessmentQuestionComponent', () => {
         ]
       }],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.answerInput = "hello"
     component.questionNumber = 1;
@@ -267,33 +270,34 @@ describe('AssessmentQuestionComponent', () => {
     component.answerResponse.answerResponseList = undefined
     component.saveParticularAnswer(keyEvent);
     let answerRequest: AnswerRequest = {
-      questionId: 0, answer: "" , type : "DEFAULT"
+      questionId: 0, answer: "", type: "DEFAULT"
     };
     await new Promise((r) => setTimeout(r, 2000));
 
-    mockAppService.saveNotes(2,answerRequest).subscribe(data => {
+    mockAppService.saveNotes(2, answerRequest).subscribe(data => {
       expect(data).toBe(answerRequest)
       expect(component.answerResponse.answerResponseList.length).toBe(1)
     })
   });
   it("should throw error when notes cannot be saved", async () => {
-    jest.spyOn(component,'showError')
+    jest.spyOn(component, 'showError')
     component.showError("message")
     expect(component.showError).toHaveBeenCalled()
   });
 
   it("should not save answer and throw error", () => {
-    let answerRequest : AnswerRequest = {
-     answer: "error text", questionId: 0, type: "DEFAULT"
+    let answerRequest: AnswerRequest = {
+      answer: "error text", questionId: 0, type: "DEFAULT"
 
     }
-    jest.spyOn(component,'saveNotes')
-    component.saveNotes(answerRequest,1)
-    jest.spyOn(component,"showError")
+    jest.spyOn(component, 'saveNotes')
+    component.saveNotes(answerRequest, 1)
+    jest.spyOn(component, "showError")
 
 
-    mockAppService.saveNotes(1,answerRequest).subscribe(data => {
-        expect(data).toBeUndefined()},
+    mockAppService.saveNotes(1, answerRequest).subscribe(data => {
+        expect(data).toBeUndefined()
+      },
       error => {
         expect(component.showError).toHaveBeenCalled()
         expect(error).toBe(new Error("Error!"))
@@ -308,14 +312,20 @@ describe('AssessmentQuestionComponent', () => {
   });
 
   it("should set user email when other user is working on the particular question", () => {
-    component.activityRecords = [{identifier:1,activityType:"DEFAULT_QUESTION",inputText:"some text",email:"abc@thoughtworks.com",fullName:"abc"}]
+    component.activityRecords = [{
+      identifier: 1,
+      activityType: "DEFAULT_QUESTION",
+      inputText: "some text",
+      email: "abc@thoughtworks.com",
+      fullName: "abc"
+    }]
     component.type = "DEFAULT"
     component.questionNumber = 1
     component.answerInput = "abcdef"
 
     component.ngOnChanges()
 
-    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
     expect(component.answerInput).toBe("some text")
   })
   it("should empty user email when the record is empty", () => {
@@ -323,6 +333,6 @@ describe('AssessmentQuestionComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail.length).toBe(0)
+    expect(component.latestActivityRecord.email.length).toBe(0)
   })
 });

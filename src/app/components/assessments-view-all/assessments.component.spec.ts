@@ -32,42 +32,44 @@ let ASSESSMENT_DATA: AssessmentStructure [] = [
     "assessmentId": 1,
     "assessmentName": "xact",
     "organisationName": "abc",
+    "assessmentDescription": "description",
     "assessmentStatus": "ACTIVE",
-    "assessmentPurpose":"Client Request",
+    "assessmentPurpose": "Client Request",
     "updatedAt": 1649836702001,
-    assessmentState:"inProgress",
+    assessmentState: "inProgress",
     "domain": "TW",
     "industry": "IT",
     "teamSize": 2,
     "users": [],
-    "owner":true,
+    "owner": true,
     "answerResponseList": [],
     "parameterRatingAndRecommendation": [],
     "topicRatingAndRecommendation": [],
-    "userQuestionResponseList":[]
-
+    "userQuestionResponseList": []
 
 
   },
   {
     "assessmentId": 2,
     "assessmentName": "xact-1",
-    "assessmentState":"inProgress",
+    "assessmentState": "inProgress",
+    "assessmentDescription": "description",
     "organisationName": "abc",
     "assessmentStatus": "ACTIVE",
-    "assessmentPurpose":"Client Request",
+    "assessmentPurpose": "Client Request",
     "updatedAt": 1649836702001,
     "domain": "TW",
     "industry": "IT",
     "teamSize": 2,
     "users": [],
-    "owner":true,
+    "owner": true,
     "answerResponseList": [],
     "parameterRatingAndRecommendation": [],
     "topicRatingAndRecommendation": [],
-    "userQuestionResponseList":[]
+    "userQuestionResponseList": []
   }
 ]
+
 class MockAppService {
 
   public getAssessments(): Observable<AssessmentStructure[]> {
@@ -97,7 +99,7 @@ describe('AssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentsComponent, SearchComponent, CreateAssessmentsComponent, AssessmentMenuComponent],
       imports: [MatFormFieldModule, MatIconModule, MatInputModule, RouterTestingModule, MatPaginatorModule,
-        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule,MatMenuModule,
+        BrowserAnimationsModule, MatTableModule, MatSnackBarModule, RouterModule, MatCardModule, FormsModule, MatMenuModule,
         RouterTestingModule.withRoutes([{
           path: "assessmentModule", component: AssessmentModulesComponent
         }]), MatTooltipModule],
@@ -133,37 +135,39 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "assessmentPurpose":"Client Request",
+        "assessmentDescription": "description",
+        "assessmentPurpose": "Client Request",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
         "teamSize": 2,
         "users": [],
-        "owner":true,
-        "assessmentState":"inProgress",
+        "owner": true,
+        "assessmentState": "inProgress",
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
-        "userQuestionResponseList":[]
+        "userQuestionResponseList": []
       },
 
       {
         "assessmentId": 2,
-        "assessmentState":"inProgress",
+        "assessmentState": "inProgress",
         "assessmentName": "xact-1",
         "organisationName": "abc",
-        "assessmentPurpose":"Client Request",
+        "assessmentPurpose": "Client Request",
+        "assessmentDescription": "description",
         "assessmentStatus": "ACTIVE",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
         "teamSize": 2,
         "users": [],
-        "owner":true,
+        "owner": true,
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
-        "userQuestionResponseList":[]
+        "userQuestionResponseList": []
       }
 
     ]
@@ -174,36 +178,38 @@ describe('AssessmentsComponent', () => {
         "assessmentName": "xact",
         "organisationName": "abc",
         "assessmentStatus": "ACTIVE",
-        "assessmentPurpose":"Client Request",
+        "assessmentPurpose": "Client Request",
+        "assessmentDescription": "description",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
         "teamSize": 2,
         "users": [],
-        "owner":true,
-        "assessmentState":"inProgress",
+        "owner": true,
+        "assessmentState": "inProgress",
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
-        "userQuestionResponseList":[]
+        "userQuestionResponseList": []
       },
       {
         "assessmentId": 2,
-        "assessmentState":"inProgress",
+        "assessmentState": "inProgress",
         "assessmentName": "xact-1",
         "organisationName": "abc",
-        "assessmentPurpose":"Client Request",
+        "assessmentPurpose": "Client Request",
+        "assessmentDescription": "description",
         "assessmentStatus": "Completed",
         "updatedAt": 1649836702001,
         "domain": "TW",
         "industry": "IT",
         "teamSize": 2,
         "users": [],
-        "owner":true,
+        "owner": true,
         "answerResponseList": [],
         "parameterRatingAndRecommendation": [],
         "topicRatingAndRecommendation": [],
-        "userQuestionResponseList":[]
+        "userQuestionResponseList": []
       }
 
     ]
@@ -215,10 +221,10 @@ describe('AssessmentsComponent', () => {
     mockAppService.getAssessments().subscribe((data) => {
       expect(data).toBe(assData);
     })
-      ASSESSMENT_DATA[1].assessmentStatus = "Completed";
-      component.ngOnInit();
-      mockAppService.getAssessments().subscribe((data) => {
-        expect(data).toBe(assData1);
+    ASSESSMENT_DATA[1].assessmentStatus = "Completed";
+    component.ngOnInit();
+    mockAppService.getAssessments().subscribe((data) => {
+      expect(data).toBe(assData1);
     })
   });
   it("should open assessment", () => {
@@ -228,7 +234,7 @@ describe('AssessmentsComponent', () => {
     expect(matDialog.open).toHaveBeenCalled()
   });
 
-  it('should be able to navigate to assessment module selection page on first time click',() => {
+  it('should be able to navigate to assessment module selection page on first time click', () => {
     jest.spyOn(component, 'navigation');
     const button = fixture.nativeElement.querySelector("#assessmentRow");
     button.click();
@@ -236,7 +242,7 @@ describe('AssessmentsComponent', () => {
 
   });
 
-  it('should be able to navigate to assessment  page on click',() => {
+  it('should be able to navigate to assessment  page on click', () => {
     jest.spyOn(component, 'navigation');
     ASSESSMENT_DATA[0].assessmentState = "Complete";
     const button = fixture.nativeElement.querySelector("#assessmentRow");

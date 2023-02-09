@@ -154,6 +154,7 @@ describe('CreateAssessmentsComponent', () => {
     assessmentName: "",
     assessmentStatus: "",
     assessmentPurpose: "",
+    assessmentDescription: "",
     domain: "",
     industry: "",
     organisationName: "",
@@ -162,8 +163,8 @@ describe('CreateAssessmentsComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: [],
-    userQuestionResponseList:[],
-    owner:false
+    userQuestionResponseList: [],
+    owner: false
   }
 
   const mockAssessment: AssessmentStructure = {
@@ -173,6 +174,7 @@ describe('CreateAssessmentsComponent', () => {
     assessmentName: "Mock",
     assessmentStatus: "Active",
     assessmentPurpose: "Client Request",
+    assessmentDescription: "description",
     domain: "IT",
     industry: "Telecom",
     organisationName: "Rel",
@@ -181,13 +183,25 @@ describe('CreateAssessmentsComponent', () => {
     topicRatingAndRecommendation: [],
     updatedAt: 0,
     users: ["abc@thoughtworks.com"],
-    userQuestionResponseList:[],
-    owner:true
+    userQuestionResponseList: [],
+    owner: true
   }
+  const assessmentRequest: AssessmentRequest = {
+    assessmentName: "abc",
+    assessmentPurpose: "Client Request",
+    assessmentDescription: "description",
+    organisationName: "abc",
+    domain: "123",
+    industry: "hello",
+    teamSize: 12,
+    users: []
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  const assessmentData =
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
 
 
   it('should close the popup', () => {
@@ -201,33 +215,11 @@ describe('CreateAssessmentsComponent', () => {
 
 
   it('should save assessment and make the window reload', () => {
-    let mockAssessment1 = {
-      answerResponseList: [],
-      assessmentId: 1,
-      assessmentStatus: "Active",
-      assessmentPurpose: "Client Request",
-      assessmentName: 'xact',
-      organisationName: 'abc',
-      domain: 'abc',
-      industry: 'abc',
-      assessmentState: "inProgress",
-      teamSize: 12,
-      users: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      updatedAt: 0,
-      userQuestionResponseList:[],
 
-      owner:true
-    }
-    component.assessment = mockAssessment1
+    component.assessment = mockAssessment
 
-    component.assessmentCopy = mockAssessment1;
-    const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", assessmentPurpose: "Client Request", organisationName: "abc",
-      domain: "abc", industry: "abc", teamSize: 12, users: []
-
-    };
+    component.assessmentCopy = mockAssessment;
+    const assessmentDataPayload = assessmentRequest;
     const assessmentData =
       {
         assessmentName: 'xact',
@@ -237,10 +229,11 @@ describe('CreateAssessmentsComponent', () => {
         teamSize: 12,
         users: []
       }
-    component.emails=["abc@thoughtworks.com"]
+    component.emails = ["abc@thoughtworks.com"]
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['assessmentDescriptionValidator'].setValue("description")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
@@ -264,19 +257,12 @@ describe('CreateAssessmentsComponent', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
 
-    const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "abc",
-      assessmentPurpose: "Client Request",
-      organisationName: "abc",
-      domain: "123",
-      industry: "hello",
-      teamSize: 12,
-      users: []
-    };
+    const assessmentDataPayload = assessmentRequest
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['assessmentDescriptionValidator'].setValue("description")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
@@ -294,10 +280,7 @@ describe('CreateAssessmentsComponent', () => {
   it('should update assessment', () => {
     component.assessment = mockAssessment;
     component.assessmentCopy = mockAssessment;
-    const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
-      domain: "abc", industry: "abc", teamSize: 12, users: []
-    };
+    const assessmentDataPayload = assessmentRequest;
     const assessmentData =
       {
         "assessmentId": 45,
@@ -310,12 +293,13 @@ describe('CreateAssessmentsComponent', () => {
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['assessmentDescriptionValidator'].setValue("description")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.updateAssessment()
-    mockAppService.updateAssessment(45,assessmentDataPayload).subscribe(data => {
+    mockAppService.updateAssessment(45, assessmentDataPayload).subscribe(data => {
       expect(component.loading).toBe(false)
     })
     expect(component).toBeTruthy()
@@ -327,31 +311,30 @@ describe('CreateAssessmentsComponent', () => {
 
   it('should not update assessment and throw error', () => {
     component.assessment = mockAssessment;
-    component.assessment.assessmentName="xact"
+    component.assessment.assessmentName = "xact"
     component.assessmentCopy = mockAssessment;
     const assessmentDataPayload: AssessmentRequest = {
-      assessmentName: "xact", organisationName: "abc", assessmentPurpose: "Client Request",
-      domain: "abc", industry: "abc", teamSize: 12, users: []
+      assessmentName: "xact",
+      organisationName: "abc",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
+      domain: "abc",
+      industry: "abc",
+      teamSize: 12,
+      users: []
     };
-    const assessmentData =
-      {
-        "assessmentId": 45,
-        "assessmentName": "xact",
-        "assessmentPurpose": "Client Request",
-        "organisationName": "abc",
-        "assessmentStatus": "Active",
-        "updatedAt": 1650886511968
-      }
+
     component.createAssessmentForm.controls['selected'].setValue("client request")
     component.createAssessmentForm.controls['assessmentNameValidator'].setValue("xact")
     component.createAssessmentForm.controls['organizationNameValidator'].setValue("abc")
+    component.createAssessmentForm.controls['assessmentDescriptionValidator'].setValue("description")
     component.createAssessmentForm.controls['domainNameValidator'].setValue("abc")
     component.createAssessmentForm.controls['industryValidator'].setValue("xyz")
     component.createAssessmentForm.controls['teamSizeValidator'].setValue(12)
     expect(component.createAssessmentForm.valid).toBeTruthy()
     component.updateAssessment()
-    jest.spyOn(component,"showError")
-    mockAppService.updateAssessment(4,assessmentDataPayload).subscribe(data => {
+    jest.spyOn(component, "showError")
+    mockAppService.updateAssessment(4, assessmentDataPayload).subscribe(data => {
       expect(component.showError).toBeCalled()
     })
     expect(component).toBeTruthy()
@@ -415,7 +398,7 @@ describe('CreateAssessmentsComponent', () => {
     ];
     component.assessment.organisationName = "abc"
     jest.spyOn(component, 'onOrganisationValueChange');
-    jest.spyOn(component,'filterOptions')
+    jest.spyOn(component, 'filterOptions')
     component.onOrganisationValueChange();
 
     expect(component.onOrganisationValueChange).toHaveBeenCalled();
@@ -436,7 +419,7 @@ describe('CreateAssessmentsComponent', () => {
     jest.spyOn(component, 'onOrganisationValueChange');
     component.onOrganisationValueChange();
 
-    component.assessment.organisationName="abc"
+    component.assessment.organisationName = "abc"
 
     mockAppService.getOrganizationName(component.assessment.organisationName).subscribe(data => {
       component.options.accounts = data;
@@ -477,22 +460,22 @@ describe('CreateAssessmentsComponent', () => {
   })
 
   it("should be able to filter among the options based on input", () => {
-    component.assessment.organisationName ="new Name"
-    jest.spyOn(component,'onOrganisationValueChange')
+    component.assessment.organisationName = "new Name"
+    jest.spyOn(component, 'onOrganisationValueChange')
     component.onOrganisationValueChange();
 
-    jest.spyOn(component,'filterOrganisationName')
+    jest.spyOn(component, 'filterOrganisationName')
     component.filterOrganisationName(component.assessment.organisationName)
 
     expect(component.filterOrganisationName).toHaveBeenCalled();
   });
 
   it("should able to filter when input doesn't match with any organization name", () => {
-    component.assessment.organisationName="Equity name"
-    jest.spyOn(component,'onOrganisationValueChange')
+    component.assessment.organisationName = "Equity name"
+    jest.spyOn(component, 'onOrganisationValueChange')
     component.onOrganisationValueChange();
 
-    jest.spyOn(component,'filterOptions')
+    jest.spyOn(component, 'filterOptions')
     component.filterOptions();
 
     expect(component.filterOptions).toHaveBeenCalled();
@@ -501,7 +484,7 @@ describe('CreateAssessmentsComponent', () => {
 
   it("should be able to fetch okta user details", () => {
     component.assessment = mockAssessment;
-    jest.spyOn(component,"ngOnInit");
+    jest.spyOn(component, "ngOnInit");
     component.ngOnInit();
     expect(component.oktaAuth.getUser).toHaveBeenCalled()
   })

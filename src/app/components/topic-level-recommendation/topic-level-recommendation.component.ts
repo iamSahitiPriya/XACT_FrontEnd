@@ -75,9 +75,9 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   topicRecommendationIndex: number | undefined
   component: { assessmentId: number; assessmentName: string; organisationName: string; assessmentStatus: string; updatedAt: number; domain: string; industry: string; teamSize: number; users: never[]; answerResponseList: { questionId: number; answer: string; }[]; parameterRatingAndRecommendation: never[]; };
   recommendationId: number;
-  typingText = data_local.ASSESSMENT.TYPING_TEXT;
-  userEmail: string;
-  fullName: string;
+  latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
+  activateSpinner: boolean = false;
+
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.topicRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -131,17 +131,24 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   }
 
   ngOnChanges(): void {
+    this.latestActivityRecord.identifier = -1
     if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.recommendation.recommendationId) {
           this.recommendation.recommendation = record.inputText
-          this.userEmail = record.email
-          this.fullName = record.fullName
+          this.latestActivityRecord = {
+            activityType: record.activityType,
+            email: record.email,
+            fullName: record.fullName,
+            identifier: record.identifier,
+            inputText: ""
+          }
+          this.activateSpinner = !this.activateSpinner
+
         }
       }
     } else {
-      this.userEmail = ""
-      this.fullName = ""
+      this.latestActivityRecord = {activityType: "", email: "", fullName: "", identifier: -1, inputText: ""}
     }
   }
 
@@ -293,6 +300,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isActivityFound() {
+    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.recommendation.recommendationId;
   }
 
 

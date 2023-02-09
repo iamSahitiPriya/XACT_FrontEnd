@@ -66,7 +66,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   questionId: number;
   autoSave: string;
 
-  typingText = data_local.ASSESSMENT.TYPING_TEXT;
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
@@ -74,6 +73,7 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   autoSaveMessage = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE;
   additionalTypeQuestion = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
   maxLimit: number = data_local.ASSESSMENT_QUESTION_FIELD.ANSWER_FIELD_LIMIT;
+  latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
 
 
   private cloneAnswerResponse: AssessmentStructure;
@@ -81,8 +81,6 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
 
   answerResponse1: Observable<AssessmentStructure>
   answerResponse: AssessmentStructure
-  userEmail: string;
-  fullName: string;
   activateSpinner: boolean = false;
   isSaving: boolean
 
@@ -115,18 +113,24 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(): void {
+    let questionType = this.type + "_QUESTION";
+    this.latestActivityRecord.identifier = -1
     if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
-        if (record.identifier === this.questionNumber && this.type + "_QUESTION" === record.activityType) {
+        if (record.identifier === this.questionNumber && questionType === record.activityType) {
+          this.latestActivityRecord = {
+            activityType: record.activityType,
+            email: record.email,
+            fullName: record.fullName,
+            identifier: record.identifier,
+            inputText: "",
+          }
           this.answerInput = record.inputText
-          this.userEmail = record.email
-          this.fullName = record.fullName
           this.activateSpinner = !this.activateSpinner
         }
       }
     } else {
-      this.userEmail = "";
-      this.fullName = ""
+      this.latestActivityRecord = {activityType: "", email: "", fullName: "", identifier: -1, inputText: ""}
     }
   }
 
@@ -228,5 +232,9 @@ export class AssessmentQuestionComponent implements OnInit, OnDestroy, OnChanges
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isActivityFound() {
+    return this.latestActivityRecord.email.length > 0 && this.latestActivityRecord.identifier === this.questionNumber;
   }
 }

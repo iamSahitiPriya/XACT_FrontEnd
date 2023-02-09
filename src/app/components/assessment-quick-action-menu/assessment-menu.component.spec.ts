@@ -55,7 +55,7 @@ describe('AssessmentMenuComponent', () => {
   let matDialog: any;
   let dom;
   let button;
-  let mockAppService:MockAppService
+  let mockAppService: MockAppService
   let component: AssessmentMenuComponent;
   let fixture: ComponentFixture<AssessmentMenuComponent>;
 
@@ -64,23 +64,43 @@ describe('AssessmentMenuComponent', () => {
       return of(new Blob());
     }
 
-    getTemplate(){
+    getTemplate() {
       return of(new Blob());
     }
-    deleteAssessment(assessmentId:number){
-      if(assessmentId === 1) {
+
+    deleteAssessment(assessmentId: number) {
+      if (assessmentId === 1) {
         return of(assessmentId)
-      }else{
+      } else {
         return throwError("Error!")
       }
     }
 
   }
 
+  const assessmentData = {
+    assessmentPurpose: "",
+    assessmentId: 1,
+    assessmentName: "abc",
+    organisationName: "xyz",
+    assessmentStatus: "Completed",
+    assessmentDescription: "description",
+    updatedAt: 0,
+    assessmentState: "inProgress",
+    domain: "TW",
+    industry: "IT",
+    teamSize: 2,
+    users: [],
+    owner: true,
+    answerResponseList: [],
+    parameterRatingAndRecommendation: [],
+    topicRatingAndRecommendation: [],
+    userQuestionResponseList: []
+  }
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      declarations: [AssessmentMenuComponent, PopupConfirmationComponent,AssessmentHeaderComponent],
+      declarations: [AssessmentMenuComponent, PopupConfirmationComponent, AssessmentHeaderComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
         MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule,
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatMenuModule, MatTooltipModule,
@@ -109,35 +129,18 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report & template on click for Completed Assessment', fakeAsync(() => {
-    component.assessment = {
-      assessmentPurpose: "",
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Completed",
-      updatedAt: 0,
-      assessmentState:"inProgress",
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      owner:true,
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    }
+    component.assessment = assessmentData;
     jest.spyOn(component, 'getTemplate');
     jest.spyOn(component, 'generateReport');
-    jest.spyOn(component,'isAssessmentTable')
+    jest.spyOn(component, 'isAssessmentTable')
     global.URL.createObjectURL = jest.fn();
     global.URL.revokeObjectURL = jest.fn();
     dom = fixture.debugElement.nativeElement;
-    component.type="assessmentTable";
+    component.type = "assessmentTable";
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
-    let t : any;
+    let t: any;
     const menu = dom.parentNode.querySelector('#generate-menu');
     menu.click();
     tick();
@@ -164,29 +167,13 @@ describe('AssessmentMenuComponent', () => {
   });
 
   it('should call generate report & template on click for InComplete Assessment', fakeAsync(() => {
-    component.assessment = {
-      assessmentPurpose: "",
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Active",
-      updatedAt: 0,
-      assessmentState:"inProgress",
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      owner:true,
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    }
+    component.assessment = assessmentData;
+    component.assessment.assessmentStatus = "Active";
     jest.spyOn(component, 'generateReport');
-    jest.spyOn(component,'isAssessmentTable')
+    jest.spyOn(component, 'isAssessmentTable')
     global.URL.createObjectURL = jest.fn();
     dom = fixture.debugElement.nativeElement;
-    component.type="assessmentTable";
+    component.type = "assessmentTable";
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
@@ -201,25 +188,9 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it('should call delete assessment for InComplete Assessment', fakeAsync(() => {
-    component.assessment = {
-      assessmentPurpose: "",
-      assessmentId: 1,
-      assessmentName: "abc",
-      organisationName: "xyz",
-      assessmentStatus: "Active",
-      updatedAt: 0,
-      assessmentState:"inProgress",
-      domain: "TW",
-      industry: "IT",
-      teamSize: 2,
-      users: [],
-      owner:true,
-      answerResponseList: [],
-      parameterRatingAndRecommendation: [],
-      topicRatingAndRecommendation: [],
-      userQuestionResponseList:[]
-    }
-    component.type="assessmentTable";
+    component.assessment = assessmentData;
+    component.assessment.assessmentStatus = "Active"
+    component.type = "assessmentTable";
 
     jest.spyOn(component, 'deleteAssessment');
     global.URL.createObjectURL = jest.fn();
@@ -230,10 +201,9 @@ describe('AssessmentMenuComponent', () => {
     let deleteButton = dom.parentNode.querySelector('#delete-assessment');
     deleteButton.click();
     component.deleteAssessment(1)
-    mockAppService.deleteAssessment(1).subscribe(_data =>{
+    mockAppService.deleteAssessment(1).subscribe(_data => {
       expect(_data).toBe(1)
     })
-
     expect(component.deleteAssessment).toHaveBeenCalled();
     tick();
     flush()
@@ -242,7 +212,7 @@ describe('AssessmentMenuComponent', () => {
   }));
 
   it("should throw error when unable to delete assessment", () => {
-    jest.spyOn(component,"deleteAssessment")
+    jest.spyOn(component, "deleteAssessment")
 
     component.deleteAssessment(2);
 

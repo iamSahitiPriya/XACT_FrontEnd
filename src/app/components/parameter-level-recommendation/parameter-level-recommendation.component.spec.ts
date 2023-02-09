@@ -35,11 +35,11 @@ class MockAppService {
     }
   }
 
-  deleteParameterRecommendation(assessmentId : number, parameterId : number, recommendationId : number) {
-    if(recommendationId !== 0) {
+  deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number) {
+    if (recommendationId !== 0) {
       return of(true)
     }
-      return throwError("Error")
+    return throwError("Error")
   }
 }
 
@@ -74,14 +74,15 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -109,7 +110,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     let parameterLevelRecommendationText = {
       assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
@@ -148,14 +149,15 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -183,7 +185,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }]
-      ,userQuestionResponseList:[]
+      , userQuestionResponseList: []
     })
     let parameterLevelRecommendationText = {
       assessmentId: 0, parameterId: 0, parameterLevelRecommendation: {recommendation: ""}
@@ -220,14 +222,15 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentState:"inProgress",
-      assessmentPurpose:"Client Request",
+      assessmentState: "inProgress",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -255,7 +258,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest = {
@@ -296,14 +299,15 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -331,7 +335,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
     component.assessmentId = 1
     component.parameterId = 0
@@ -376,13 +380,13 @@ describe('ParameterRecommendationComponent', () => {
     }
     let parameterArray: ParameterLevelRecommendation[];
     parameterArray = [];
-    component.parameterRecommendationArray =  parameterArray;
+    component.parameterRecommendationArray = parameterArray;
     component.parameterRecommendationArray?.push(recommendation);
 
     component.ngOnInit()
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,"deleteRecommendationTemplate")
-    component.deleteRecommendationTemplate(recommendation,0)
+    jest.spyOn(component, "deleteRecommendationTemplate")
+    component.deleteRecommendationTemplate(recommendation, 0)
 
     expect(component.parameterRecommendationArray.length).toBe(0);
   })
@@ -398,11 +402,11 @@ describe('ParameterRecommendationComponent', () => {
 
     component.ngOnInit()
     component.deleteTemplate(recommendation);
-    jest.spyOn(component,"deleteRecommendationTemplate")
-    jest.spyOn(component,"showError")
-    component.deleteRecommendationTemplate(recommendation,0)
+    jest.spyOn(component, "deleteRecommendationTemplate")
+    jest.spyOn(component, "showError")
+    component.deleteRecommendationTemplate(recommendation, 0)
 
-    mockAppService.deleteParameterRecommendation(1,1,0).subscribe(() => {
+    mockAppService.deleteParameterRecommendation(1, 1, 0).subscribe(() => {
     }, error => {
       expect(component.showError).toHaveBeenCalled()
     })
@@ -441,14 +445,15 @@ describe('ParameterRecommendationComponent', () => {
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
       assessmentStatus: "Active",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -476,7 +481,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     })
 
     let parameterLevelRecommendationText = {
@@ -545,15 +550,16 @@ describe('ParameterRecommendationComponent', () => {
       assessmentId: 1,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
-      assessmentPurpose:"Client Request",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
       assessmentStatus: "Active",
       updatedAt: 1654664982698,
-      assessmentState:"inProgress",
+      assessmentState: "inProgress",
       domain: "",
       industry: "",
       teamSize: 0,
       users: [],
-      owner:true,
+      owner: true,
       answerResponseList: [
         {
           questionId: 1,
@@ -581,7 +587,7 @@ describe('ParameterRecommendationComponent', () => {
           }
         ]
       }],
-      userQuestionResponseList:[]
+      userQuestionResponseList: []
     }
     component.parameterRecommendation = {
       recommendationId: undefined,
@@ -659,7 +665,7 @@ describe('ParameterRecommendationComponent', () => {
 
     component.ngOnChanges()
 
-    expect(component.userEmail).toBe("abc@thoughtworks.com")
+    expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
     expect(component.parameterLevelRecommendation.recommendation).toBe("some text")
   })
 
