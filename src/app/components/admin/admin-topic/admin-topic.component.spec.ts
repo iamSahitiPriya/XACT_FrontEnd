@@ -23,7 +23,6 @@ import {TopicData} from "../../../types/topicData";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {TopicRequest} from "../../../types/Admin/topicRequest";
 
 class MockAppService {
   topic: TopicStructure = {

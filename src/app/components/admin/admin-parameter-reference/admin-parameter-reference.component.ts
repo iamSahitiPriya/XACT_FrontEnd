@@ -13,7 +13,6 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {Rating} from "../../../types/Admin/rating";
 import {ParameterData} from "../../../types/ParameterData";
-import {ParameterStructure} from "../../../types/parameterStructure";
 
 const NOTIFICATION_DURATION = 2000;
 

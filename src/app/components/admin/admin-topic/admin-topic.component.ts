@@ -25,9 +25,7 @@ import {CategoryRequest} from "../../../types/Admin/categoryRequest";
 import {ModuleRequest} from "../../../types/Admin/moduleRequest";
 import {TopicRequest} from "../../../types/Admin/topicRequest";
 import {TopicResponse} from "../../../types/Admin/topicResponse";
-import {ParameterStructure} from "../../../types/parameterStructure";
 import {TopicStructure} from "../../../types/topicStructure";
-import {TopicReference} from "../../../types/topicReference";
 
 const NOTIFICATION_DURATION = 2000;
 

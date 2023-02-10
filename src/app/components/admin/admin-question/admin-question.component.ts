@@ -177,10 +177,9 @@ export class AdminQuestionComponent implements OnInit {
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
       if (parameter) {
-        parameter.questions ? parameter.questions : []
+        parameter.questions = []
         parameter.questions.push(question)
       }
-
     } else
       questions?.push(question)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
