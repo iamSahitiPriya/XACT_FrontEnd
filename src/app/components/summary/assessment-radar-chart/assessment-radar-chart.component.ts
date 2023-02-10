@@ -33,11 +33,6 @@ export class AssessmentRadarChartComponent implements OnInit {
     plugins: {
       tooltip: {
         displayColors:false,
-        callbacks: {
-          title: (context) => {
-            return context[0].label
-          }
-        },
       }
     },
     elements: {
@@ -55,17 +50,22 @@ export class AssessmentRadarChartComponent implements OnInit {
         },
         pointLabels:{
           callback:(label,index) =>{
-            return label.length > 15 ? label.substring(0, 15) + "..." : label
+            return this.getFormattedLabel(label)
           }
         },
         grid: {
           circular: true,
         },
-        min: 0, max: 5
+        min :0,max:5
       }
     },
     responsive: true,
   };
+
+  public getFormattedLabel(label: string) {
+    let maxDisplayWordLength=15;
+    return label.length > maxDisplayWordLength ? label.substring(0, maxDisplayWordLength) + "..." : label;
+  }
 
   @Input()
   summaryData: ReportDataStructure
