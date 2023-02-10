@@ -1,3 +1,5 @@
+import {TopicStructure} from "../topicStructure";
+
 export interface ModuleResponse{
   categoryId: number,
   moduleId:number,
@@ -5,4 +7,5 @@ export interface ModuleResponse{
   comments ?:string,
   updatedAt:number,
   active:boolean,
+  topics ?: TopicStructure[]
 }

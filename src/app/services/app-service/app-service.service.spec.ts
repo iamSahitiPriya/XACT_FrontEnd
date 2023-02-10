@@ -187,6 +187,7 @@ describe('AppServiceService', () => {
       "categoryId": 1,
       "moduleName": "module",
       "active": true,
+      "category":1
     }
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   });
@@ -196,6 +197,7 @@ describe('AppServiceService', () => {
       "categoryId": 1,
       "moduleName": "module",
       "active": true,
+      "category" : 1
     }
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   });
@@ -244,11 +246,11 @@ describe('AppServiceService', () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   })
   it("should save module", () => {
-    let moduleRequest = {moduleName: "module", active: true, comments: ""}
+    let moduleRequest = {moduleName: "module", active: true, comments: "",category: 1}
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   })
   it("should update module", () => {
-    let moduleRequest = {moduleName: "module", active: true, comments: ""}
+    let moduleRequest = {moduleName: "module", active: true, comments: "",category:1}
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   })
 
@@ -282,11 +284,11 @@ describe('AppServiceService', () => {
     expect(service.deleteAssessment(1)).toBeTruthy();
   });
   it("should save parameter", () => {
-    let parameterRequest = {parameterName: "parameter", active: true, comments: ""}
+    let parameterRequest = {parameterName: "parameter", active: true, comments: "",topic:1}
     expect(service.saveParameter(parameterRequest)).toBeTruthy();
   })
   it("should update parameter", () => {
-    let parameterRequest = {parameterName: "parameter", active: true, comments: ""}
+    let parameterRequest = {parameterName: "parameter", active: true, comments: "",topic:2}
     let parameterId = 1
     expect(service.updateParameter(parameterRequest, parameterId)).toBeTruthy();
   })

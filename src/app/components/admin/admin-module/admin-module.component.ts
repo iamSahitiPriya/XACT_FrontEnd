@@ -48,7 +48,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   categoryDetails: CategoryResponse[] = [];
   isModuleUnique = true;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
-  masterData: Observable<CategoryResponse[]>;
+  masterData : Observable<CategoryResponse[]>
   duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
@@ -171,7 +171,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
           row.isEdit = false;
           this.selectedModule = null;
           this.table.renderRows()
-          this.sendDataToStore(_data)
+          this.updateModuleDataToStore(_data)
           this.showNotification(this.updateSuccessMessage, NOTIFICATION_DURATION)
           this.moduleStructure = []
           this.module = undefined
@@ -292,17 +292,27 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     return moduleRequest;
   }
 
+  private updateModuleDataToStore(_data: ModuleResponse) {
+    let modules : ModuleStructure[] | undefined = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId)?.modules
+    let index : number | undefined = modules?.findIndex((eachModule) => eachModule.moduleId === this.module?.moduleId)
+    if (index !== -1 && index !== undefined) {
+      let fetchedModule: ModuleStructure | undefined = modules?.slice(index, index + 1)[0]
+      _data.topics = fetchedModule?.topics;
+      modules?.splice(index, 1)
+      this.sendDataToStore(_data)
+    }
+  }
+
   sendDataToStore(_data: ModuleResponse) {
-    let modules: ModuleStructure[] | undefined = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules
-    let topics : TopicStructure[] | undefined = modules?.find(eachModule => eachModule.moduleId === _data.moduleId)?.topics
-    let module: ModuleStructure = {
+    let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules
+    let module :ModuleStructure = {
       moduleId: _data.moduleId,
       moduleName: _data.moduleName,
       category: _data.categoryId,
       active: _data.active,
       updatedAt: Date.now(),
       comments: _data.comments,
-      topics: topics ? topics : []
+      topics: _data.topics ? _data.topics : []
     }
     modules?.push(module)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))

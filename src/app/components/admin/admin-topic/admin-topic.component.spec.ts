@@ -23,6 +23,7 @@ import {TopicData} from "../../../types/topicData";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {TopicRequest} from "../../../types/Admin/topicRequest";
 
 class MockAppService {
   topic: TopicStructure = {
@@ -93,7 +94,7 @@ class MockAppService {
 
   }
 
-  getAllCategories(): Observable<any> {
+  getAllCategories(): Observable<CategoryResponse[]> {
     return of(this.data)
   }
 
@@ -105,7 +106,7 @@ class MockAppService {
     }
   }
 
-  updateTopic(row: any, topicId: number) {
+  updateTopic(row: TopicData, topicId: number) {
     if (topicId === 1) {
       return of(this.row)
     } else {
@@ -249,11 +250,8 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "showError")
     component.ngOnInit()
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true}, {
-      moduleId: 2,
-      moduleName: "module2",
-      active: true
-    }]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
+      {moduleId: 2, moduleName: "module2", active: true,category:2}]
 
     component.saveTopic(row)
 
@@ -261,7 +259,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should update topic", () => {
-    let topicRequest = {comments: "comment", module: 1, topicName: "new topic", active: true}
+    let topicRequest : TopicData = {comments: "comment", moduleId: 1, topicName: "new topic", active: true,categoryName:"name",categoryId:1,categoryStatus:true,moduleName:"name",moduleStatus:false,updatedAt:12345,topicId:1}
 
 
     mockAppService.updateTopic(topicRequest, -1).subscribe((data) => {
@@ -288,11 +286,8 @@ describe('AdminTopicComponent', () => {
     }
     jest.spyOn(component, "showError")
     component.ngOnInit()
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true}, {
-      moduleId: 2,
-      moduleName: "module2",
-      active: true
-    }]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
+      {moduleId: 2, moduleName: "module2", active: true,category:2}]
     component.unsavedTopic = row
 
 
@@ -354,11 +349,8 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "isTopicUnique")
     jest.spyOn(component, "setTopicRequest")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true}, {
-      moduleId: 2,
-      moduleName: "module2",
-      active: true
-    }]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:3},
+      {moduleId: 2, moduleName: "module2", active: true,category:4}]
     component.isEditable = true
     component.ngOnInit()
     component.saveTopic(row)
@@ -389,11 +381,8 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "isTopicUnique")
     jest.spyOn(component, "showError")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true}, {
-      moduleId: 2,
-      moduleName: "module2",
-      active: true
-    }]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:5},
+      {moduleId: 2, moduleName: "module2", active: true,category:7}]
     component.isEditable = true
     component.ngOnInit()
     component.saveTopic(row)
@@ -435,11 +424,8 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "updateTopic")
     jest.spyOn(component, "getTopicRequest")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true}, {
-      moduleId: 2,
-      moduleName: "module2",
-      active: true
-    }]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:8},
+      {moduleId: 2, moduleName: "module2", active: true,category:4}]
     component.isEditable = true
     component.unsavedTopic = row1
 
@@ -645,7 +631,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return category id of the selected row", () => {
-    let row = {categoryName:"category1"}
+    let row: TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", updatedAt: 0}
 
     jest.spyOn(component,"findCategoryId")
     component.ngOnInit()
@@ -654,7 +640,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return module id of the selected row", () => {
-    let row = {moduleName:"module1",categoryName:"category1"}
+    let row: TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", updatedAt: 0}
 
     jest.spyOn(component,"findModuleId")
     component.ngOnInit()
@@ -663,14 +649,14 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return true if the inputs are not valid",() => {
-    let row = {moduleName:"",categoryName:"",topicName:""}
+    let row: TopicData = {active: false, categoryId: 1, categoryName: "", categoryStatus: false, comments: "", moduleId: 1, moduleName: "", moduleStatus: false, topicId: 1, topicName: "", updatedAt: 0}
 
     expect(component.isInputValid(row)).toBeTruthy()
   })
 
   it("should set isEdit to false and isEditable to true when the user clicks on edit button",() => {
     component.ngOnInit()
-    let row = {moduleName:"module1",categoryName:"category1",topicName:"topic1",isEdit:true,active:false,topicId:1}
+    let row : TopicData = {moduleName:"module1",categoryName:"category1",topicName:"topic1",isEdit:true,active:false,topicId:1,categoryId:1,categoryStatus:false,moduleId:1,moduleStatus:true,updatedAt:12345}
     component.unsavedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
     component.selectedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
 

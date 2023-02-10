@@ -3,8 +3,9 @@
  */
 
 export interface ParameterReference {
-  referenceId: number,
+  referenceId ?: number,
   parameter: number,
   rating: number,
   reference: string
+  isEdit ?: boolean
 }

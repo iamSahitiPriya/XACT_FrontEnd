@@ -13,4 +13,7 @@ export interface ParameterData{
   active:boolean,
   updatedAt : number,
   comments ?: string
+  isEdit ?: boolean
+  openReferences ?: boolean,
+  openQuestions ?: boolean
 }

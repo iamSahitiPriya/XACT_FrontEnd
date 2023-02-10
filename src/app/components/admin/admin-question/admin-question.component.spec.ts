@@ -135,7 +135,7 @@ describe('AdminQuestionComponent', () => {
       "modules": []
     }
     ])
-    component.parameter = {parameterId: 1, parameterName: ''}
+    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: 1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
     component.topic = 1
     component.module = 1
     component.category = 1
@@ -208,11 +208,9 @@ describe('AdminQuestionComponent', () => {
     let row = {questionId: -1, questionText: "This is a question text", parameter: 1, isEdit: true}
     let row2 = {questionId: -1, questionText: "This is a question text2", parameter: 5, isEdit: true}
 
-
     component.ngOnInit()
     component.saveQuestion(row)
-
-    component.parameter = {parameterId:5}
+    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
     component.saveQuestion(row2)
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
@@ -276,7 +274,7 @@ describe('AdminQuestionComponent', () => {
   });
 
   it("should remove unsaved question from the array", () => {
-    component.questionArray = [{questionId:1},{questionId:-1}]
+    component.questionArray = [{questionId:1,questionText:"question",parameter:1},{questionId:-1,questionText:"question1",parameter:1}]
 
     component.deleteUnsavedQuestion()
 

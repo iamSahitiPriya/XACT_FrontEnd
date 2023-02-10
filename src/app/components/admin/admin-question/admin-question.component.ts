@@ -15,6 +15,9 @@ import {Question} from "../../../types/Admin/question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
 import {QuestionResponse} from "../../../types/Admin/questionResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
+import {ParameterData} from "../../../types/ParameterData";
+
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-admin-question',
@@ -22,10 +25,10 @@ import {ParameterStructure} from "../../../types/parameterStructure";
   styleUrls: ['./admin-question.component.css']
 })
 export class AdminQuestionComponent implements OnInit {
-  @Input() topic: any;
+  @Input() topic: number;
   @Input() category: number
   @Input() module: number
-  @Input() parameter: any
+  @Input() parameter: ParameterData
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   header = data_local.ADMIN.REFERENCES.HEADER
@@ -41,10 +44,10 @@ export class AdminQuestionComponent implements OnInit {
   requiredField = data_local.ADMIN.QUESTION.REQUIRED_FIELD
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
-  questionArray: QuestionStructure[] | undefined | any
+  questionArray: Question[] | undefined
   masterData: Observable<CategoryResponse[]>
   categoryResponse: CategoryResponse[]
-  unsavedChanges: QuestionStructure[] | undefined | any
+  unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -75,7 +78,7 @@ export class AdminQuestionComponent implements OnInit {
     this.questionArray?.unshift(newQuestion)
   }
 
-  getQuestionsFromParameter() {
+  getQuestionsFromParameter(): QuestionStructure[] | undefined {
     return this.categoryResponse.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics
       .find(topic => topic.topicId === this.topic)?.parameters
       .find(parameter => parameter.parameterId === this.parameter.parameterId)?.questions
@@ -94,7 +97,7 @@ export class AdminQuestionComponent implements OnInit {
     let questions = this.getQuestionsFromParameter()
     if (questions !== undefined) {
       questions?.forEach(question => {
-        let eachQuestion: any = question
+        let eachQuestion: Question = question
         eachQuestion.isEdit = false
         this.questionArray?.unshift(eachQuestion)
       })
@@ -105,7 +108,7 @@ export class AdminQuestionComponent implements OnInit {
     if (question.questionText.trimStart().length > 0) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (data: QuestionStructure) => {
+        next: (data) => {
           question.isEdit = false
           question.questionId = data.questionId
           this.sendToStore(data)
@@ -134,7 +137,7 @@ export class AdminQuestionComponent implements OnInit {
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: NOTIFICATION_DURATION,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
@@ -143,7 +146,7 @@ export class AdminQuestionComponent implements OnInit {
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionRequestWithId(question)
     this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data: QuestionStructure) => {
+      next: (_data) => {
         question.isEdit = false
         this.questionArray = []
         this.ngOnInit()
@@ -174,8 +177,8 @@ export class AdminQuestionComponent implements OnInit {
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
       if (parameter) {
-        parameter['questions'] = []
-        parameter['questions'].push(question)
+        parameter.questions ? parameter.questions : []
+        parameter.questions.push(question)
       }
 
     } else
@@ -184,10 +187,10 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   resetPreviousChanges() {
-    this.questionArray?.forEach((eachQuestion: { isEdit: boolean; questionId: number; questionText: string; }) => {
+    this.questionArray?.forEach((eachQuestion) => {
       if (!eachQuestion.isEdit) {
-        let value = this.unsavedChanges?.find((eachUnsavedQuestion: { questionId: number; }) => eachQuestion.questionId === eachUnsavedQuestion.questionId)
-        eachQuestion.questionText = value.questionText
+        let question = this.unsavedChanges?.find((eachUnsavedQuestion: { questionId: number; }) => eachQuestion.questionId === eachUnsavedQuestion.questionId)
+        if (question) eachQuestion.questionText = question?.questionText
       }
     })
   }

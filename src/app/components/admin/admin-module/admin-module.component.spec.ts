@@ -94,7 +94,7 @@ describe('AdminModuleComponent', () => {
     fixture.detectChanges();
     mockAppService = new MockAppService();
     row = {
-      active: true, moduleId: -1, categoryName: "category",moduleName:"module", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true
+      active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true
     }
     component.masterData = of([{
       "categoryId": 1,
@@ -217,6 +217,7 @@ describe('AdminModuleComponent', () => {
     expect(component.selectedModule).toBe(row)
   });
   it("should update module on click of update", () => {
+    component.ngOnInit();
     component.selectedModule= {
       active: false,
       categoryName: "newCategory",
@@ -227,26 +228,11 @@ describe('AdminModuleComponent', () => {
       moduleName: "ModuleName",
       updatedAt: 0
     }
-    component.categoryDetails=[{
-      "modules": [],
-      "categoryName" : "category1",
-      "comments" : "comments",
-      "categoryId" : 1,
-      "updatedAt" : 1022022,
-      "active": true
-    },{
-      "modules":[],
-      "categoryName" : "category2",
-      "comments" : "comments",
-      "categoryId" : 2,
-      "updatedAt" : 1022022,
-      "active": true
-    }]
 
-    let  moduleRequest : ModuleRequest = {moduleName:"module",moduleId:1,category:1,active:true}
+    let  moduleRequest : ModuleRequest = {moduleName:"module1",moduleId:1,category:1,active:true}
     component.module={
       moduleId:1,
-      moduleName:"module",
+      moduleName:"module123",
       categoryName : "category1",
       categoryId : 1,
       categoryStatus: true,
@@ -254,11 +240,39 @@ describe('AdminModuleComponent', () => {
       updatedAt : 1022022,
       comments : "",
     };
-    component.ngOnInit();
+
     component.updateModule(row)
     mockAppService.updateModule(moduleRequest).subscribe(data =>{
       expect(data).toBe(row);
     })
+    expect(component.selectedModule).toBeDefined()
+  });
+  it("should return null when the category is not present", () => {
+    component.ngOnInit();
+    component.selectedModule= {
+      active: false,
+      categoryName: "newCategory",
+      categoryStatus: false,
+      comments: "Comments",
+      categoryId:-1,
+      moduleId: 0,
+      moduleName: "ModuleName",
+      updatedAt: 0
+    }
+    component.module={
+      moduleId:1,
+      moduleName:"module123",
+      categoryName : "category1",
+      categoryId : 1,
+      categoryStatus: true,
+      active : true,
+      updatedAt : 1022022,
+      comments : "",
+    };
+    let row = {active: true, moduleId: -1, categoryName: "category123",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true}
+
+    component.updateModule(row)
+
     expect(component.selectedModule).toBeDefined()
   });
   it("should cancel changes", () => {
@@ -305,6 +319,7 @@ describe('AdminModuleComponent', () => {
       comments : "",
     };
 
+    let row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module1", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true}
     let  moduleRequest : ModuleRequest = {moduleName:"moduleName",moduleId:1,category:1,active:true}
 
     component.ngOnInit();
@@ -395,7 +410,6 @@ describe('AdminModuleComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
 
-
   it("should reset unsaved changes", () => {
     component.ngOnInit()
     component.module={moduleId:1, moduleName:"moduleName123", categoryName : "category1", categoryId : 1, categoryStatus: true, active : true, updatedAt : 1022022, comments : "",};
@@ -404,5 +418,6 @@ describe('AdminModuleComponent', () => {
 
     expect(component.dataSource.data[0].moduleName).toBe("moduleName123")
   });
+
 });
 

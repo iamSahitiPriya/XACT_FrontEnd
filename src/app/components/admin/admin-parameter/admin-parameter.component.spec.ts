@@ -18,6 +18,7 @@ import {reducers} from "../../../reducers/reducers";
 import {ParameterData} from 'src/app/types/ParameterData';
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {ParameterRequest} from "../../../types/Admin/parameterRequest";
 
 class MockAppService {
   parameterRequest : ParameterData = {
@@ -118,7 +119,7 @@ class MockAppService {
   }
 
 
-  saveParameter(parameterRequest : any) {
+  saveParameter(parameterRequest : ParameterRequest) {
     if(parameterRequest.parameterName === "parameterName") {
       return of(parameterRequest) }
     else {
@@ -126,7 +127,7 @@ class MockAppService {
     }
   }
 
-  updateParameter(row : any, parameterId : number) {
+  updateParameter(row : ParameterData, parameterId : number) {
     if(parameterId === -1) {
       return of(this.parameterResponse) }
     else {
@@ -154,9 +155,8 @@ describe('AdminParameterComponent', () => {
   let fixture: ComponentFixture<AdminParameterComponent>;
   let mockAppService: MockAppService
   let matDialog : any
-  let row: { categoryId: number, categoryName: string, categoryStatus: boolean, moduleId: number, moduleName: string, moduleStatus: boolean, topicId: number, topicName: string, topicStatus: boolean, parameterId: number, parameterName: string, active: boolean, updatedAt: number, comments: string }
-  let parameter: { categoryId: number, categoryName: string, categoryStatus: boolean, moduleId: number, moduleName: string, moduleStatus: boolean, topicId: number, topicName: string, topicStatus: boolean, parameterId: number, parameterName: string, active: boolean, updatedAt: number, comments: string }
-
+  let row: ParameterData
+  let parameter: ParameterData
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminParameterComponent, SearchComponent],
@@ -205,6 +205,7 @@ describe('AdminParameterComponent', () => {
       topicStatus: false,
       updatedAt: 0
     }
+    // @ts-ignore
     component.masterData = of([{
       "categoryId": 1,
       "categoryName": "category1",
@@ -244,7 +245,6 @@ describe('AdminParameterComponent', () => {
           "updatedAt": 45678,
           "comments": "",
           "active": false,
-          "parameters": [],
           "references": []
         }]
       },
@@ -306,22 +306,9 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should save parameter", () => {
-    let parameterRequest = of({
-      "topic": 1,
-      "parameterName":"newParameter",
-      "active": false,
-      "comments": "comments"
-    })
 
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true, "module":1},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":5}]
 
     let rowToBeSaved = {
       categoryId: 1,
@@ -346,8 +333,9 @@ describe('AdminParameterComponent', () => {
     jest.spyOn(component,"ngOnInit")
     component.ngOnInit();
     component.saveParameterRow(rowToBeSaved)
+    let parameterRequest : ParameterRequest = {parameterName:"name",active:false,topic:1}
 
-    mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
+    mockAppService.saveParameter(parameterRequest).subscribe(data =>{
       expect(data).toBe(parameterRequest)
     })
 
@@ -356,22 +344,16 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should not save parameter if name is not unique", () => {
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true,"module":1},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":1}]
 
+    let parameterRequest : ParameterRequest = {parameterName:"name",topic:1,active:true}
     component.isParameterUnique = true
     component.ngOnInit();
     jest.spyOn(component, "saveParameterRow")
     component.saveParameterRow(row)
 
-    mockAppService.saveParameter(row).subscribe(data =>{
+    mockAppService.saveParameter(parameterRequest).subscribe(data =>{
       expect(data).toBe(throwError("Error!"))
     })
 
@@ -380,15 +362,8 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should throw error when problem occurs while saving parameter when request is undefined", () => {
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true,"module":1},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":2}]
 
     let rowToBeSaved = {
       categoryId: 1,
@@ -407,13 +382,15 @@ describe('AdminParameterComponent', () => {
       comments: "",
     }
 
+    let parameterRequest : ParameterRequest = {parameterName:"name",active:true,topic:2}
+
     component.isParameterUnique = true
 
     jest.spyOn(component, "saveParameterRow")
     component.ngOnInit()
     component.saveParameterRow(rowToBeSaved)
 
-    mockAppService.saveParameter(rowToBeSaved).subscribe(data =>{
+    mockAppService.saveParameter(parameterRequest).subscribe(data =>{
       expect(data).toBe(undefined)
     })
 
@@ -521,15 +498,8 @@ describe('AdminParameterComponent', () => {
 
 
   it("should shortlist topic when module gets selected", () => {
-    component.moduleList = [{
-      "moduleId": 1,
-      "moduleName": "module1",
-      "active": true,
-    }, {
-      "moduleId": 2,
-      "moduleName": "module2",
-      "active": false
-    }]
+    component.moduleList = [{"moduleId": 1, "moduleName": "module1", "active": true,"category":1},
+      {"moduleId": 2, "moduleName": "module2", "active": false,"category":3}]
     component.ngOnInit();
 
     jest.spyOn(component, "shortListTopics")
@@ -542,15 +512,8 @@ describe('AdminParameterComponent', () => {
   it("should not shortlist topic when topicList is undefined", () => {
     component.ngOnInit();
 
-    component.moduleList = [{
-      "moduleId": 1,
-      "moduleName": "module1",
-      "active": true,
-    }, {
-      "moduleId": 2,
-      "moduleName": "module2",
-      "active": false
-    }]
+    component.moduleList = [{"moduleId": 1, "moduleName": "module1", "active": true,"category":1},
+      {"moduleId": 2, "moduleName": "module2", "active": false,"category":8}]
 
     jest.spyOn(component, "shortListTopics")
     component.shortListTopics("module2")
@@ -560,15 +523,8 @@ describe('AdminParameterComponent', () => {
   })
 
   it("should update parameter on click of update", () => {
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true,"module":1},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":6}]
 
     component.unSavedParameter = row
 
@@ -596,15 +552,8 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should update parameter when parameter name is changed", () => {
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true,"module":4},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":4}]
 
     component.unSavedParameter = row
 
@@ -632,15 +581,8 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should throw error while trying to update parameter with undefined request ", () => {
-    component.topicList = [{
-      "topicId": 1,
-      "topicName": "topic1",
-      "active": true,
-    }, {
-      "topicId": 2,
-      "topicName": "topic2",
-      "active": false
-    }]
+    component.topicList = [{"topicId": 1, "topicName": "topic1", "active": true,"module":2},
+      {"topicId": 2, "topicName": "topic2", "active": false,"module":2}]
 
     component.unSavedParameter = row
 
@@ -831,8 +773,7 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should return category id of the selected row", () => {
-    let row = {categoryName:"category1"}
-
+    let row = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter1", active: false, updatedAt: Date.now(), comments: "",}
     jest.spyOn(component,"findCategoryId")
     component.ngOnInit()
 
@@ -840,7 +781,7 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should return module id of the selected row", () => {
-    let row = {moduleName:"module1",categoryName:"category1"}
+    let row = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter1", active: false, updatedAt: Date.now(), comments: "",}
 
     jest.spyOn(component,"findModuleId")
     component.ngOnInit()
@@ -849,7 +790,7 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should return topic id of the selected row", () => {
-    let row = {topicName: "topic1", moduleName:"module1",categoryName:"category1"}
+    let row = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter1", active: false, updatedAt: Date.now(), comments: "",}
 
     jest.spyOn(component,"findTopicId")
     component.ngOnInit()
@@ -914,7 +855,6 @@ describe('AdminParameterComponent', () => {
 
     expect(expectedResponse).toBe(true)
   });
-
 });
 
 

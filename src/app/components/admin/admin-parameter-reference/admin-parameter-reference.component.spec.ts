@@ -14,21 +14,21 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {ParameterReference} from "../../../types/parameterReference";
 
 class MockAppService {
-  saveParameterReference(reference : any) {
+  saveParameterReference(reference : ParameterReference) {
     if(reference.reference === "new")
       return of(reference)
     else
       return throwError("Error!")
   }
 
-  updateParameterReference(referenceId:number,reference : any) {
+  updateParameterReference(referenceId:number,reference : ParameterReference) {
     if(reference.referenceId === 1)
       return of(reference)
     else
       return throwError("Error!")
   }
 
-  deleteParameterReference(referenceId : any) {
+  deleteParameterReference(referenceId : number) {
     if(referenceId === 1)
       return of(referenceId)
     else
@@ -120,6 +120,7 @@ describe('AdminParameterReferenceComponent', () => {
       "modules": []
     }
     ])
+    component.parameterId = 1
   })
 
   it('should create', () => {
@@ -145,14 +146,14 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should save parameter reference", () => {
 
-    let reference = {referenceId:-1,reference:"new",rating:1}
+    let reference : ParameterReference = {referenceId:-1,reference:"new",rating:1,parameter:2}
 
     component.ngOnInit()
-    component.unsavedReferences = [{referenceId:1,reference:"new reference",rating:4,parameter:1}]
-
     jest.spyOn(component,"setReferenceRequest")
     jest.spyOn(component,"sendReferenceToStore")
+    component.unsavedReferences = [{referenceId:1,reference:"new reference",rating:4,parameter:1}]
     component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus:true,parameterId:1,parameterName:"parameter1", active: false, updatedAt: Date.now(), comments: "", isEdit: true,}
+    component.parameterId = 1
 
     component.saveParameterReference(reference)
 
@@ -161,7 +162,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should call show error method when there is an error while saving parameter reference", () => {
 
-    component.referenceToSend = {referenceId:-1,reference:"new reference",rating:1}
+    component.referenceToSend = {referenceId:-1,reference:"new reference",rating:1,parameter:7}
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
 
     jest.spyOn(component,"setReferenceRequest")
@@ -176,7 +177,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should update parameter reference", () => {
 
-    let reference = {referenceId:1,reference:"new",rating:1,isEdit:true}
+    let reference = {referenceId:1,reference:"new",rating:1,isEdit:true,parameter:9}
 
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
 
@@ -191,7 +192,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should call show error method when there is an error while updating parameter reference", () => {
 
-    component.referenceToSend = {referenceId:2,reference:"new",rating:1,isEdit:true}
+    component.referenceToSend = {referenceId:2,reference:"new",rating:1,isEdit:true,parameter:6}
     component.unsavedReferences = [{referenceId:2,reference:"new",rating:4,parameter:1}]
 
     jest.spyOn(component,"setReferenceRequest")
@@ -205,7 +206,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should  call delete parameter reference", () => {
 
-    let reference = {referenceId:1,reference:"new",rating:1,isEdit:true}
+    let reference = {referenceId:1,reference:"new",rating:1,isEdit:true,parameter:4}
 
     component.ngOnInit()
     component.parameterReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
@@ -221,7 +222,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should delete unsaved parameter reference", () => {
 
-    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true}
+    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true,parameter:8}
 
     component.parameterReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
 
@@ -300,7 +301,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should throw error when rating is not unique in parameter references", () => {
 
-    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true}
+    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true,parameter:9}
 
 
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:1,parameter:1}]
@@ -317,7 +318,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should throw error when parameter reference is not unique", () => {
 
-    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true}
+    let reference = {referenceId:-1,reference:"new",rating:1,isEdit:true,parameter:3}
 
 
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
@@ -566,7 +567,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should return true if the input is not valid", () => {
 
-    let reference = {referenceId:-1,reference:"",rating:1,isEdit:true}
+    let reference = {referenceId:-1,reference:"",rating:1,isEdit:true,parameter:4}
 
     expect(component.isInputValid(reference)).toBeTruthy()
   });
@@ -581,7 +582,7 @@ describe('AdminParameterReferenceComponent', () => {
   });
 
   it("should cancel changes", () => {
-    let reference = {referenceId:1,reference:"",rating:1,isEdit:true}
+    let reference = {referenceId:1,reference:"",rating:1,isEdit:true,parameter:6}
     component.unsavedChanges = {referenceId:1,reference:"new reference",rating:4,parameter:1}
 
     component.cancelChanges(reference)
@@ -598,7 +599,7 @@ describe('AdminParameterReferenceComponent', () => {
 
   it("should change the selected parameter reference when add maturity reference is clicked while updating another reference",() => {
     component.parameterReferences = [{referenceId:1,reference:"reference",rating:1,parameter:1},{referenceId:2,reference:"reference2",rating:2,parameter:1}]
-    component.selectedReference = {isEdit : true,reference:"new reference"}
+    component.selectedReference = {isEdit : true,reference:"new reference",parameter:1,rating:3}
     component.unsavedChanges = {referenceId:1,reference:"reference",rating:1,parameter:1}
 
     component.addMaturityReference()
@@ -607,8 +608,8 @@ describe('AdminParameterReferenceComponent', () => {
   })
 
   it("should set isEdit to true when the user clicks on edit button of particular parameter reference",() => {
-    component.selectedReference = {isEdit : true,reference:"new reference"}
-    let reference = {referenceId:1,reference:"reference",isEdit:false,rating:1}
+    component.selectedReference = {isEdit : true,reference:"new reference",parameter:1,rating:3}
+    let reference = {referenceId:1,reference:"reference",isEdit:false,rating:1,parameter:2}
 
     component.setIsEdit(reference)
 
