@@ -1,6 +1,6 @@
 <div *ngFor="let recommendation of recommendations; let index = index" class="recommendation-table">
 <div *ngIf="isDeliveryHorizonDisplayed(recommendation)" class="delivery-horizon">
-  {{deliveryHorizon}}
+  {{deliveryHorizonTitle}} - <b>{{deliveryHorizon}}</b>
 </div>
 
 <div class="table-row">
@@ -13,8 +13,8 @@
       <div class="table-row-heading">
         <div class="recommendation-title"><mat-icon class="flag-icon">flag</mat-icon> <div class="recommendation-title-text">{{recommendationTitle}}{{index+1}}</div> </div>
         <div class="recommendation-detail">
-          <div>{{impact}} {{recommendation.impact}}</div>
-          <div>{{effort}} {{recommendation.effort}}</div>
+          <div class="recommendation-impact">{{impact}} <b>{{recommendation.impact}}</b> </div>
+          <div class="recommendation-effort">{{effort}} <b>{{recommendation.effort}}</b> </div>
         </div>
       </div>
       <mat-card-content class="recommendation-description">

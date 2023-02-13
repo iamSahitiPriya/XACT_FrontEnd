@@ -47,8 +47,9 @@
   height: 33%;
   margin-left: 9%;
   margin-top: 2%;
-
+  padding-top: 0 !important;
 }
+
 .roadmap-card{
   width: 82%;
   height: 33%;

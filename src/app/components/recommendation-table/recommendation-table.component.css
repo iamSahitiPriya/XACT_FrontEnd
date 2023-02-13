@@ -7,7 +7,7 @@
 .category{
   border-color: #6b9f78;
   background-color: #6b9f78;
-  border-radius: 0 150px 0 0;
+  border-radius: 10px 150px 0 0;
   width: 275px;
   height: 35px;
   font-size: 16px;
@@ -21,15 +21,13 @@
   justify-content: space-between;
   text-align: left;
   font-size: 15px;
-  font-weight: lighter;
-  font-family: Inter, sans-serif;
   letter-spacing: 0;
   color: #383838;
   opacity: 1;
 }
 .recommendation-detail{
   display: flex;
-  width: 15%;
+  width: 20%;
   justify-content: space-between;
 }
 .flag-icon{
@@ -49,9 +47,10 @@
 }
 .delivery-horizon{
   font-style: normal;
-  font-weight: bold;
-  font-size: 40px;
-  font-family: Bitter, serif;
+  font-size: 28px;
+  font-family: Inter, serif;
+  padding-bottom: 1%;
+  padding-top: 2%;
 }
 .table-row{
   padding-top: 1%;
@@ -63,5 +62,8 @@
 }
 .recommendation-title-text{
   padding-left: 5%;
+  opacity: 0.8;
 }
-
+.recommendation-impact , .recommendation-effort {
+  width: 50%;
+}

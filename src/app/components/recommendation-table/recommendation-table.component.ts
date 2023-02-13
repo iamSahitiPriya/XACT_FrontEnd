@@ -19,6 +19,7 @@ export class RecommendationTableComponent {
   recommendationTitle: string = data_local.SUMMARY_REPORT.RECOMMENDATION.HEADING;
   impact: string = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
   effort : string = data_local.RECOMMENDATION_TEXT.EFFORT
+  deliveryHorizonTitle :string = data_local.RECOMMENDATION_TEXT.DELIVERY_HORIZON
 
   isDeliveryHorizonDisplayed(recommendation:Recommendation): boolean {
     if(this.deliveryHorizon !== recommendation.deliveryHorizon){
