@@ -5,11 +5,6 @@
 import {Component, Input} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../messages";
-import {CategoryData} from "../../types/category";
-import {ModuleData} from "../../types/moduleData";
-import {ParameterData} from "../../types/ParameterData";
-import {TopicData} from "../../types/topicData";
-import {AssessmentStructure} from "../../types/assessmentStructure";
 
 
 @Component({
