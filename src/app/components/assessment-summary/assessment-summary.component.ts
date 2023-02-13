@@ -21,6 +21,12 @@ import {ModulesOverAllRating} from "../../types/modulesOverAllRating";
 import {ModuleRatingTypes} from "../../types/moduleRatingTypes";
 import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme";
 import {AssessmentStructure} from "../../types/assessmentStructure";
+import {SunburstSequence} from "../../types/sunburstSequence";
+import {ReportCategory} from "../../types/ReportCategory";
+import {ReportModule} from "../../types/ReportModule";
+import {ReportTopic} from "../../types/ReportTopic";
+import {ReportParameter} from "../../types/ReportParameter";
+import {SunburstSequenceChild} from "../../types/sunburstSequenceChild";
 
 
 interface ColorScheme {
@@ -67,7 +73,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   summaryData: SummaryResponse;
   selectedValue: any = "ThreatTheme";
   private destroy$: Subject<void> = new Subject<void>();
-  sequenceArray: any[]
+  sunburstSequenceArray: SunburstSequence[]
   averageScoreUptoSelected: number = 0
   color: ScaleOrdinal<string, unknown>
   arrowColor: string = ""
@@ -163,18 +169,18 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       this.setCategorySummary(this.data);
       this.setModulesOverAllRatingsData(this.data);
       if (this.categorySummary.length > 0)
-        this.drawSunBurstChart(this.data);
+        this.drawSunBurstChart();
     })
   }
 
-  drawSunBurstChart(data: ReportDataStructure) {
-    let partition = (data: any) => {
-      const root = d3.hierarchy(data)
-        .sum(d => d.value)
+  drawSunBurstChart() {
+    let partition = (data: ReportDataStructure) => {
+      const hierarchyNode = d3.hierarchy(data)
+        .sum((d:any) => d.value)
         .sort((a: any, b: any) => b.value - a.value);
       return d3.partition()
-        .size([2 * Math.PI, root.height + 1])
-        (root);
+        .size([2 * Math.PI, hierarchyNode.height + 1])
+        (hierarchyNode);
     }
 
     this.arrowColor = "orange"
@@ -198,7 +204,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     const root = partition(this.data);
 
-    root.each((d: any) => d.current = d);
+    root.each((d: any) => {
+      d.current = d
+    });
     const svg = d3.select("#chart")
       .attr("width", width)
       .append("svg")
@@ -260,7 +268,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("pointer-events", "all")
       .on("click", clicked)
 
-    function clicked(_event: any, p: any) {
+    function clicked(_event: MouseEvent, p: any ) {
       d3.select("#chart").select("#container").select("circle").datum(p.parent || root);
 
       root.each((d: any) => d.target = {
@@ -315,11 +323,11 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .style("visibility", "hidden");
     d3.selectAll("path")
       .style("opacity", 1)
-    this.sequenceArray = []
+    this.sunburstSequenceArray = []
   }
 
 
-  getAncestors(node: any) {
+  getAncestors(node: SunburstSequence) {
     var path = [];
     var current = node;
     while (current) {
@@ -329,7 +337,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return path;
   }
 
-  initializeBreadcrumbTrail(_id: any) {
+  initializeBreadcrumbTrail(_id: HTMLElement | null) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
@@ -347,7 +355,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   }
 
-  updateSelectedAverageScore = (percentageString: any) => {
+  updateSelectedAverageScore = (selectedAverageScore: number) => {
     let textColor = this.colorList.find(color => color.value === this.selectedValue)?.textColor;
     if (textColor === undefined)
       textColor = "white"
@@ -364,7 +372,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("fill", textColor)
       .attr("fill-opacity", 1)
       .style("font", "20px Inter")
-      .text(parseInt(percentageString));
+      .text(parseInt(String(selectedAverageScore)));
 
     d3.select("#trail")
       .style("visibility", "");
@@ -372,7 +380,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   }
 
-  getDataName(d: any) {
+  getDataName(d: SunburstSequence) {
     return d.data.name
   }
 
@@ -382,7 +390,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       let text = d3.select(<any>this),
         wordList = text.text().split(/\s+/),
         word,
-        line: any = [],
+        line: string[] = [],
         lineNumber = 0,
         y = text.attr("y"),
         x = text.attr("x"),
@@ -396,7 +404,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         tspan.text(line.join(" "));
         dy = parseFloat(text.attr("dy"));
         let len = tspan.node()?.getComputedTextLength();
-        if (<any>len > width) {
+        if (<number>len > width) {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
@@ -459,17 +467,17 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
   }
 
-  fillRatingCircle(percentageString: any) {
-    if (parseInt(percentageString) > 3) {
+  fillRatingCircle(selectedAverageScore: string) {
+    if (parseInt(selectedAverageScore) > 3) {
       return "green"
-    } else if (parseInt(percentageString) == 3) {
+    } else if (parseInt(selectedAverageScore) == 3) {
       return "orange"
     } else {
       return "red"
     }
   }
 
-  OnMouseOver = (_event: any, d: any) => {
+  OnMouseOver = (_event: MouseEvent, d: any) => {
     this.averageScoreUptoSelected = 0;
     if (!d.data.rating || d.data.value == 0) {
       this.averageScoreUptoSelected = d.data.value;
@@ -477,8 +485,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       this.averageScoreUptoSelected = d.data.rating;
     }
 
-    let sequenceArray = this.getAncestors(d);
-    this.sequenceArray = this.getAncestors(d);
+    let sunburstSequenceArray = this.getAncestors(d);
+    this.sunburstSequenceArray = this.getAncestors(d);
     this.updateSelectedAverageScore(this.averageScoreUptoSelected);
     d3.select("#chart").select("#container").selectAll("path")
       .style("opacity", 0.3);
@@ -486,7 +494,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .style("visibility", "visible");
     d3.select("#chart").select("#container").selectAll("path")
       .filter(function (node: any) {
-        return (sequenceArray.indexOf(node) >= 0);
+        return (sunburstSequenceArray.indexOf(node) >= 0);
       })
       .style("opacity", 1);
   }
