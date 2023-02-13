@@ -88,19 +88,19 @@ export class AssessmentRadarChartComponent implements OnInit {
                 data: {labels: [], datasets: []}
               }
               let currentData: RadarChartProperty = {
-                backgroundColor: 'red',
+                backgroundColor: '#F15F79',
                 data: [],
                 fill: false,
                 label: "Current Score",
-                borderColor: 'red',
+                borderColor: '#F15F79',
                 borderWidth: 1
               }
               let targetData: RadarChartProperty = {
-                backgroundColor: 'green',
+                backgroundColor: '#6D9D79',
                 data: [],
                 fill: false,
                 label: "Target Score",
-                borderColor: 'green',
+                borderColor: '#6D9D79',
                 borderWidth: 1
               }
               eachModule?.children?.forEach(eachTopic => {
