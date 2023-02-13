@@ -29,6 +29,11 @@ interface ColorScheme {
   textColor: string
 }
 
+interface GaugeChartStructure {
+  name : string,
+  value : number | undefined
+}
+
 @Component({
   selector: 'app-assessment-sunburst-chart',
   templateUrl: './assessment-summary.component.html',
@@ -65,8 +70,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   sequenceArray: any[]
   averageScoreUptoSelected: number = 0
   color: ScaleOrdinal<string, unknown>
-  arrowColor: any = ""
-  categorySummary: any[] = []
+  arrowColor: string = ""
+  categorySummary: GaugeChartStructure[] = []
   view: [number, number] = [400, 400];
   legend: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Below;
@@ -513,7 +518,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   private calculateAssessmentRating() {
     let sum = 0
     this.categorySummary.forEach(eachCategory => {
-      sum += eachCategory.value;
+      if(eachCategory.value) sum += eachCategory.value;
     })
     this.assessmentAverageRating = String((sum / this.categorySummary.length).toFixed(1))
   }

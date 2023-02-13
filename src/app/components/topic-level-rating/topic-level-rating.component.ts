@@ -186,8 +186,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   }
 
 
-  addTemplate(topicLevelRecommendation: any) {
-    if (topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+  addTemplate(topicLevelRecommendation: TopicLevelRecommendation[] | undefined) {
+    if (topicLevelRecommendation && topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
       this.recommendationSample = {
         recommendationId: undefined,
         recommendation: "",

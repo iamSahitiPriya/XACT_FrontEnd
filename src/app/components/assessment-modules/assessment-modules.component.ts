@@ -16,6 +16,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Location} from '@angular/common';
+import {AssessmentCategoryStructure} from "../../types/AssessmentCategoryStructure";
 
 
 let categories: UserCategoryResponse = {
@@ -37,7 +38,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   category: UserCategoryResponse
   private destroy$: Subject<void> = new Subject<void>();
   assessmentId: number;
-  catRequest: any | undefined
+  categoryRequest: AssessmentCategoryStructure | undefined
   moduleRequest: UserAssessmentModuleRequest[] = []
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
@@ -47,7 +48,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentResponse: Observable<AssessmentStructure>
   assessmentState: string;
   saveText = data_local.ASSESSMENT_MODULE.SAVE;
-  type: any;
+  type: string;
   content: string = data_local.ASSESSMENT_MODULE.CATEGORY_CONTENT;
   categoryTitle : string = data_local.ASSESSMENT_MODULE.CATEGORY
 
@@ -177,9 +178,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   setModuleSelectedStatus(categoryId: number, checked: boolean) {
-    this.catRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
-    this.catRequest.allComplete = checked
-    this.catRequest.modules?.forEach((module: { moduleId: number; active: boolean; selected: boolean; }) => {
+    this.categoryRequest = this.category.assessmentCategories.find(category => category.categoryId == categoryId)
+    if(this.categoryRequest) this.categoryRequest.allComplete = checked
+    this.categoryRequest?.modules?.forEach((module: { moduleId: number; active: boolean; selected: boolean; }) => {
       this.getModule(module.moduleId, checked, checked, categoryId, true, module.active)
       module.selected = checked
       if (!module.active)
@@ -201,9 +202,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   }
 
   isCategoryIntermediate(categoryId: number) {
-    let category = this.category.assessmentCategories.find(eachCategory => eachCategory.categoryId === categoryId)
+    let category : AssessmentCategoryStructure | undefined = this.category.assessmentCategories.find(eachCategory => eachCategory.categoryId === categoryId)
     if (category !== undefined)
-      return category.modules?.filter((module: { selected: any; }) => module.selected).length > 0 && !category.allComplete
+      return category.modules?.filter((module) => module.selected).length > 0 && !category.allComplete
     else
       return false
   }
@@ -234,13 +235,13 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     }
   }
 
-  isActive(category: any) {
-    if (category.active === false)
+  isActive(category: AssessmentCategoryStructure) {
+    if (!category.active)
       return true
     else if (category.modules === undefined)
       return true
     else
-      return category.modules?.every((module: { active: any; }) => module.active === false)
+      return category.modules?.every((module) => module.active === false)
   }
 
 }
