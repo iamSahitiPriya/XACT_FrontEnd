@@ -13,7 +13,6 @@ import {RouterModule} from "@angular/router";
 import {MatIconModule} from '@angular/material/icon';
 import {of} from 'rxjs';
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {HttpClientModule} from "@angular/common/http";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 

@@ -9,7 +9,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {ActivatedRoute} from "@angular/router";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
-import {AppStates, AssessmentState} from "../../reducers/app.states";
+import {AppStates} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
