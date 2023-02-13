@@ -518,7 +518,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   private setModulesOverAllRatingsData(data: ReportDataStructure) {
     data.children.forEach(eachCategory => {
-      if (eachCategory.rating && eachCategory.rating != 0) {
+      if (eachCategory.rating != 0) {
         let modulesOverAllRatings: ModulesOverAllRating[] = []
         eachCategory.children?.forEach(eachModule => {
           if (eachModule.rating > 0) {

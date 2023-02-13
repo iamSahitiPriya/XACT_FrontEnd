@@ -55,7 +55,7 @@ export class AssessmentRadarChartComponent implements OnInit {
           stepSize: 1
         },
         pointLabels: {
-          callback: (label, index) => {
+          callback: (label) => {
             return this.getFormattedLabel(label)
           }
         },
@@ -76,8 +76,6 @@ export class AssessmentRadarChartComponent implements OnInit {
   @Input()
   summaryData: ReportDataStructure
 
-  constructor() {
-  }
 
   ngOnInit(): void {
     this.formatDataForRadarChart()

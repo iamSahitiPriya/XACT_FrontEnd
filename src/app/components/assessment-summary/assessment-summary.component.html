@@ -107,7 +107,7 @@
   <img #canvas alt="chart-image">
   <a #downloadLink></a>
 </div>
-<div *ngIf="data">
+<div *ngIf="data && categorySummary.length>0">
   <div class="module-overall-rating-chart-title">{{stackedBarChartTitle}}
   </div>
   <mat-card class="module-overall-rating-card">
@@ -118,7 +118,8 @@
         </div>
         <div class="module-overall-rating-chart">
           <div class="category-title-card">
-            <div class="category-title" [style.height.px]="stackedBarChartHeightMultiplier * categoryModules.modulesOverAllRatings.length + moduleCardHeightOffset"
+            <div class="category-title"
+                 [style.height.px]="stackedBarChartHeightMultiplier * categoryModules.modulesOverAllRatings.length + moduleCardHeightOffset"
                  [style.background-color]="stackedBarChartColorSchemes[i][0].value">{{categoryModules.categoryName}}
             </div>
           </div>
@@ -128,7 +129,7 @@
             </div>
           </div>
           <div>
-            <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart"  #reference>
+            <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart" #reference>
               <ngx-charts-bar-horizontal-stacked
                 [view]="[reference.offsetWidth ,(categoryModules.modulesOverAllRatings.length) * stackedBarChartHeightMultiplier + moduleChartHeightOffset]"
                 [results]="categoryModules.modulesOverAllRatings"
