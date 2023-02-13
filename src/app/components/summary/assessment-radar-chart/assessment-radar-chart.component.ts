@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReportDataStructure} from "../../../types/ReportDataStructure";
 import {ChartConfiguration, ChartData, ChartType} from 'chart.js';
+import {data_local} from "../../../messages";
 
 interface RadarChartProperty {
   data: number[],
@@ -28,11 +29,16 @@ interface RadarChartData {
 })
 export class AssessmentRadarChartComponent implements OnInit {
   radarChartData: RadarChartData[] = [];
+  currentDataColor: string = '#F15F79';
+  targetDataColor: string = '#6D9D79';
+  targetScoreLabel: string = data_local.RADAR_CHART.TARGET_SCORE_LABEL;
+  currentScoreLabel: string = data_local.RADAR_CHART.CURRENT_SCORE_LABEL;
+  chartTitle: string = data_local.RADAR_CHART.CHART_TITLE;
   public radarChartType: ChartType = 'radar';
   public radarChartConfiguration: ChartConfiguration['options'] = {
     plugins: {
       tooltip: {
-        displayColors:false,
+        displayColors: false,
       }
     },
     elements: {
@@ -48,22 +54,22 @@ export class AssessmentRadarChartComponent implements OnInit {
         ticks: {
           stepSize: 1
         },
-        pointLabels:{
-          callback:(label,index) =>{
+        pointLabels: {
+          callback: (label, index) => {
             return this.getFormattedLabel(label)
           }
         },
         grid: {
           circular: true,
         },
-        min :0,max:5
+        min: 0, max: 5
       }
     },
     responsive: true,
   };
 
   public getFormattedLabel(label: string) {
-    let maxDisplayWordLength=15;
+    let maxDisplayWordLength = 15;
     return label.length > maxDisplayWordLength ? label.substring(0, maxDisplayWordLength) + "..." : label;
   }
 
@@ -88,19 +94,19 @@ export class AssessmentRadarChartComponent implements OnInit {
                 data: {labels: [], datasets: []}
               }
               let currentData: RadarChartProperty = {
-                backgroundColor: '#F15F79',
+                backgroundColor: this.currentDataColor,
                 data: [],
                 fill: false,
-                label: "Current Score",
-                borderColor: '#F15F79',
+                label: this.currentScoreLabel,
+                borderColor: this.currentDataColor,
                 borderWidth: 1
               }
               let targetData: RadarChartProperty = {
-                backgroundColor: '#6D9D79',
+                backgroundColor: this.targetDataColor,
                 data: [],
                 fill: false,
-                label: "Target Score",
-                borderColor: '#6D9D79',
+                label: this.targetScoreLabel,
+                borderColor: this.targetDataColor,
                 borderWidth: 1
               }
               eachModule?.children?.forEach(eachTopic => {
