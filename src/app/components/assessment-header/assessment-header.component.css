@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 .btn-report {
-  width: 13.125em;
+  width: 15em;
   height: 2.8125em;
   text-align: center;
   line-height: 1em;
@@ -25,7 +25,7 @@
 }
 
 .btn-finish {
-  width: 13.125em;
+  width: 15em;
   height: 2.8125em;
   /* UI Properties */
   background: #6D9D79 0% 0% no-repeat padding-box;
@@ -44,7 +44,7 @@
 }
 
 .btn-reopen {
-  width: 13.125em;
+  width: 15em;
   height: 2.8125em;
   /* UI Properties */
   background: #4BA1AC 0% 0% no-repeat padding-box;
