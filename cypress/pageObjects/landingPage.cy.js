@@ -8,11 +8,16 @@ import exp from "constants";
 class landingPage {
 
   static xActlogo() {
-    return cy.get('#input28')
+    return cy.get('#logo')
   }
   static userName() {
     return cy.get('.dropdown-toggle')
   }
+
+  static adminPortalLink() {
+    return cy.get('.mat-list-icon > .li-text')
+  }
+
   static Search(value) {
     return cy.get('#search')
   }
@@ -36,6 +41,9 @@ class landingPage {
   static  purposeOfAssessment(){
     return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper')
   }
+  static  pageNationDropDown(){
+    return cy.get('.mat-paginator-page-size-label')
+  }
 
   static  purposeOfAssessment2(){
     return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
@@ -51,12 +59,13 @@ class landingPage {
   static OrganisationName() {
     return cy.get('.organizationName')
   }
-  static OrganisationSuggestion() {
-    return cy.get('.mat-option-text')
+  static description() {
+    return cy.get('.assessment-description')
   }
 
   static Domain() {
-    return cy.get('.domain')
+    return cy.get('[formcontrolname=domainNameValidator]')
+
   }
   static Industry() {
     return cy.get('.industry')
@@ -191,6 +200,9 @@ class landingPage {
     return cy.get('.mat-chip')
   }
 
+  static OrganisationSuggestion() {
+    return cy.get('.mat-option-text')
+  }
   //placeholders
   static AssessmentPlaceHolder(){
     return cy.get('input[placeholder=\'Enter Assessment Name\']')
@@ -207,23 +219,27 @@ class landingPage {
   static emailPlaceHolder(){
     return cy.get('input[placeholder=\'abc@thoughtworks.com\']')
   }
+  static tableColumns(row,column){
+    return cy.get('tr:nth-child('+row+')>td:nth-child('+column+')')
+  }
+ static statusColumn(row){
+    return cy.get(':nth-child('+row+') > .cdk-column-assessmentStatus > span')
+  }
 
 
   //reusable functions
-  static AssessmentpopupFields(AssessmentName,OrgName,Domain,Industry,TeamSize,EmailId){
+  static AssessmentpopupFields(AssessmentName,OrgName,Desc,Domain,TeamSize,EmailId){
     expect(landingPage.AssessmentPopup()).to.exist;
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.AssessmentName().should('be.visible')
     expect(landingPage.AssessmentName()).to.exist;
     cy.wait(1000)
     landingPage.AssessmentName().type(AssessmentName)
-    landingPage.OrganisationName().should('be.visible')
-    landingPage.OrganisationName().clear().type(OrgName)
+    landingPage.OrganisationName().should('be.visible').clear().type(OrgName)
     landingPage.OrganisationSuggestion().click({ multiple: true })
+    landingPage.description().should('be.visible').clear().type(Desc)
     landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
-    landingPage.Industry().should('be.visible')
-    landingPage.Industry().type(Industry)
     landingPage.teamSizeField().should('be.visible')
     landingPage.teamSizeField().type(TeamSize)
     landingPage.email().type(EmailId)
@@ -311,3 +327,5 @@ class landingPage {
 }
 
 export default landingPage
+
+
