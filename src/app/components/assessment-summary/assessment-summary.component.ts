@@ -23,10 +23,6 @@ import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {SunburstSequence} from "../../types/sunburstSequence";
 import {ReportCategory} from "../../types/ReportCategory";
-import {ReportModule} from "../../types/ReportModule";
-import {ReportTopic} from "../../types/ReportTopic";
-import {ReportParameter} from "../../types/ReportParameter";
-import {SunburstSequenceChild} from "../../types/sunburstSequenceChild";
 
 
 interface ColorScheme {
@@ -228,7 +224,11 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .data(root.descendants().slice(1))
       .enter().append("path")
       .attr("fill", this.fillThreatColorsInChart)
-      .attr("fill-opacity", (d: any) => arcVisible(d.current) ? (((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7) : 0)
+      .attr("fill-opacity", (d: any) => {
+        if(arcVisible(d.current))
+          return ((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7
+        else
+          return 0 })
       .attr("d", (d: any) => {
         return <any>arc(d.current);
       })
@@ -278,8 +278,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
         y1: Math.max(0, d.y1 - p.depth)
       });
 
-      const t = d3.select("#chart").select("#container").transition().duration(750);
-      path.transition(<any>t)
+      const transition = d3.select("#chart").select("#container").transition().duration(750);
+      path.transition(<any>transition)
         .tween("data", (d: any) => {
           const i = d3.interpolate(d.current, d.target);
           return (t: any) => d.current = i(t);
@@ -292,7 +292,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
       label.filter(function (d: any) {
         return +<any>this.getAttribute("fill-opacity") || <any>labelVisible(d.target)
-      }).transition(<any>t)
+      }).transition(<any>transition)
         .attr("fill-opacity", (d: any) => +labelVisible(d.target))
         .attrTween("transform", (d: any) => () => labelTransform(d.current));
     }
@@ -327,7 +327,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   }
 
 
-  getAncestors(node: SunburstSequence) {
+  getAncestors(node: any) {
     var path = [];
     var current = node;
     while (current) {
@@ -337,7 +337,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return path;
   }
 
-  initializeBreadcrumbTrail(_id: HTMLElement | null) {
+  initializeBreadcrumbTrail(_id: HTMLElement | null | string) {
     var trail = d3.select("#sequence")
       .append("svg")
       .attr("width", "100%")
@@ -467,17 +467,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
   }
 
-  fillRatingCircle(selectedAverageScore: string) {
-    if (parseInt(selectedAverageScore) > 3) {
-      return "green"
-    } else if (parseInt(selectedAverageScore) == 3) {
-      return "orange"
-    } else {
-      return "red"
-    }
-  }
-
-  OnMouseOver = (_event: MouseEvent, d: any) => {
+  OnMouseOver = (_event: ((this: Window, ev: MouseEvent) => any) | null, d: any) => {
     this.averageScoreUptoSelected = 0;
     if (!d.data.rating || d.data.value == 0) {
       this.averageScoreUptoSelected = d.data.value;
