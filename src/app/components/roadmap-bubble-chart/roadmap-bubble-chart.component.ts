@@ -50,6 +50,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   yScaleMax: number = 3;
   xScaleMin: number = 0;
   xScaleMax: number = 3;
+  height: number = 600;
 
   lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3;
   mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2;
