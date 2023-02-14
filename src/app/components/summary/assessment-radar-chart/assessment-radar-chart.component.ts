@@ -67,6 +67,9 @@ export class AssessmentRadarChartComponent implements OnInit {
     },
     responsive: true,
   };
+  private chartBorderWidth: number = 1;
+  private targetScore: number = 5;
+  private isAreaFilled: boolean = false;
 
   public getFormattedLabel(label: string) {
     let maxDisplayWordLength = 15;
@@ -94,24 +97,24 @@ export class AssessmentRadarChartComponent implements OnInit {
               let currentData: RadarChartProperty = {
                 backgroundColor: this.currentDataColor,
                 data: [],
-                fill: false,
+                fill: this.isAreaFilled,
                 label: this.currentScoreLabel,
                 borderColor: this.currentDataColor,
-                borderWidth: 1
+                borderWidth: this.chartBorderWidth
               }
               let targetData: RadarChartProperty = {
                 backgroundColor: this.targetDataColor,
                 data: [],
-                fill: false,
+                fill: this.isAreaFilled,
                 label: this.targetScoreLabel,
                 borderColor: this.targetDataColor,
-                borderWidth: 1
+                borderWidth: this.chartBorderWidth
               }
               eachModule?.children?.forEach(eachTopic => {
                 radarChartModuleData.data.labels?.push(eachTopic.name)
                 if (eachTopic.rating !== undefined) {
                   currentData.data.push(eachTopic.value ? eachTopic.value : eachTopic.rating)
-                  targetData.data.push(5)
+                  targetData.data.push(this.targetScore)
                 }
               })
               radarChartModuleData.data.datasets.push(currentData)

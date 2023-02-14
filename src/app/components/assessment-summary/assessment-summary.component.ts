@@ -545,4 +545,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     })
 
   }
+  getHeight(moduleLength:number){
+    return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleCardHeightOffset
+  }
 }
