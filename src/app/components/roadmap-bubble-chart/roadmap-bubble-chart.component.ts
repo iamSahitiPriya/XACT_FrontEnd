@@ -1,13 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {AfterContentChecked, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
 import {BubbleChartStructure} from "../../types/bubbleChartStructure";
