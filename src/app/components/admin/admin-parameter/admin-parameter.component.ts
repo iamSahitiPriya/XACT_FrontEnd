@@ -263,8 +263,8 @@ export class AdminParameterComponent implements OnInit {
 
   private getParameterRequest(row: ParameterData): ParameterRequest | null {
     let selectedTopicId = this.topicList.find(topic => topic.topicName === row.topicName)?.topicId
-    let parameterArray : ParameterRequest[] = this.topicAndParameter.get(selectedTopicId)
-    let index = parameterArray.findIndex((parameter) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
+    let parameterArray : ParameterRequest[] = this.topicAndParameter?.get(selectedTopicId)
+    let index = parameterArray?.findIndex((parameter) => parameter.parameterName.toLowerCase().replace(/\s/g, '') === row.parameterName.toLowerCase().replace(/\s/g, ''));
     if (index === -1 && selectedTopicId !== undefined) {
       return this.setParameterRequest(selectedTopicId, row);
     } else {

@@ -218,7 +218,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   }
 
-  deleteAddedModuleRow() {
+  private deleteAddedModuleRow() {
     let data = this.dataSource.data
     let index = data.findIndex(module => module.moduleId === -1)
     if (index !== -1) {

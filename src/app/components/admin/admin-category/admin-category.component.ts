@@ -182,7 +182,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   private getCategoryRequest(value: CategoryData) {
     if (this.isUniqueCategory(value.categoryName)) {
-      return this.setCategoryRequest(value)
+      return this.categoryRequest(value)
     } else {
       this.showError(this.duplicateErrorMessage)
       return null
@@ -214,7 +214,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
   }
 
   updateCategory(row: CategoryData) {
-    let categoryRequest: CategoryRequest | null = this.setCategoryRequest(row);
+    let categoryRequest: CategoryRequest | null = this.categoryRequest(row);
     if (this.category?.categoryName.toLowerCase().replace(/\s/g, '') !== row.categoryName.toLowerCase().replace(/\s/g, '')) {
       categoryRequest = this.getCategoryRequest(row);
     }
@@ -275,7 +275,7 @@ export class AdminCategoryComponent implements OnInit, OnDestroy {
 
   }
 
-  private setCategoryRequest(row: CategoryData) : CategoryRequest {
+  private categoryRequest(row: CategoryData) : CategoryRequest {
     let categoryRequest : CategoryRequest = {
       categoryName : row.categoryName,
       active : row.active,

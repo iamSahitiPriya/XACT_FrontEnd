@@ -110,6 +110,31 @@ describe('AdminCategoryComponent', () => {
       "active": true
     }])
 
+    let categoryData : CategoryData = {
+      categoryName: "value1",
+      active: false,
+      comments: "value.comments",
+      categoryId : 1,
+      updatedAt:12345
+    }
+
+    component.categoryData = [{
+      "categoryName": "category1",
+      "comments": "comments",
+      "categoryId": 1,
+      "updatedAt": 1022022,
+      "active": true
+    }, {
+      "categoryName": "category2",
+      "comments": "comments",
+      "categoryId": 2,
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
+    component.category ={
+      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
+    }
   });
 
   it('should create', () => {
@@ -129,9 +154,6 @@ describe('AdminCategoryComponent', () => {
     expect(component.categoryData[0].categoryName).toBe("category1");
   });
   it("should add a row to the table", () => {
-    component.categoryData = [{
-      active: true, categoryId: -1, categoryName: "category", comments: "comments", updatedAt: 1022022
-    }]
     component.paginator.pageSize = 5
     component.paginator.pageIndex = 0
 
@@ -144,21 +166,17 @@ describe('AdminCategoryComponent', () => {
   });
   it("should delete row from the table on clicking the bin button", () => {
     component.ngOnInit()
+    component.dataSource.data = [{ active: true, categoryId: -1, categoryName: "category", comments: "comments", updatedAt: 1022022}]
     component.deleteRow()
 
-    expect(component.dataSource.data.length).toBe(2)
+    expect(component.selectedCategory).toBeNull()
+    expect(component.dataSource.data.length).toBe(0)
   });
 
   it("should save categories", () => {
     component.ngOnInit()
     component.isEditable = true
-    let row : CategoryData = {
-     categoryName: "value1",
-      active: false,
-      comments: "value.comments",
-      categoryId : 1,
-      updatedAt:12345
-    }
+
     component.saveCategory(row)
 
     expect(component.isEditable).toBeFalsy();
@@ -183,9 +201,6 @@ describe('AdminCategoryComponent', () => {
   it("should select category on clicking edit", () => {
     component.selectedCategory = null
     component.isEditable = false
-    component.category = {
-      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
-    }
     component.dataSource.data = [{
       active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
     }]
@@ -197,9 +212,7 @@ describe('AdminCategoryComponent', () => {
   });
   it("should update category on click of update", () => {
     component.selectedCategory = row
-    component.category ={
-      active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
-    }
+
     component.updateCategory(row)
 
     mockAppService.updateCategory(row).subscribe(data => {
@@ -211,9 +224,7 @@ describe('AdminCategoryComponent', () => {
     it('should not update category and throw error on click of update', () => {
       component.selectedCategory = row
       jest.spyOn(component, 'updateCategory')
-      component.category ={
-        active: true, categoryId: 1, categoryName: "category", comments: "comments", updatedAt: 1022022
-      }
+
       let data = {active: true, categoryId: -1, categoryName: "", comments: "comments", updatedAt: 1022022}
       component.updateCategory(data)
 
@@ -230,14 +241,9 @@ describe('AdminCategoryComponent', () => {
 
     it("should cancel changes", () => {
       component.selectedCategory = row;
-      component.category = {
-        active: true,
-        categoryId: -1,
-        categoryName: "category",
-        comments: "comments",
-        updatedAt: 1022022
-      }
+
       component.cancelChanges(row);
+
       expect(component.selectedCategory).toBe(null)
     });
     it("should show error", () => {
@@ -249,11 +255,6 @@ describe('AdminCategoryComponent', () => {
     it("should throw error if the category is already present", () => {
       component.ngOnInit()
       component.isEditable = true
-      let categoryRequest = of({
-        categoryName: "value1",
-        active: false,
-        comments: "value.comments"
-      })
       let dummyCategoryReq : CategoryData = {
         categoryName: "category2",
         comments: "comments",
@@ -282,19 +283,6 @@ describe('AdminCategoryComponent', () => {
     });
 
   it("should change the value to lower case while sorting the table for string valued columns", () => {
-    component.categoryData = [{
-      "categoryName": "CATEGORY1",
-      "comments": "comments",
-      "categoryId": 1,
-      "updatedAt": 1022022,
-      "active": true
-    }, {
-      "categoryName": "category2",
-      "comments": "comments",
-      "categoryId": 2,
-      "updatedAt": 1022022,
-      "active": true
-    }]
 
     component.sortCategory()
 
@@ -304,20 +292,6 @@ describe('AdminCategoryComponent', () => {
   });
 
   it("should return the same value while sorting the table for other column types than string", () => {
-    component.categoryData = [{
-      "categoryName": "CATEGORY1",
-      "comments": "comments",
-      "categoryId": 1,
-      "updatedAt": 1022022,
-      "active": true
-    }, {
-      "categoryName": "category2",
-      "comments": "comments",
-      "categoryId": 2,
-      "updatedAt": 1022022,
-      "active": true
-    }]
-
     component.sortCategory()
 
     let expectedResponse = component.dataSource.sortingDataAccessor(component.categoryData[0],'active');
