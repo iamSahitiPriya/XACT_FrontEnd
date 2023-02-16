@@ -392,7 +392,6 @@ export class AdminParameterComponent implements OnInit {
 
   private updateToStore(_data: ParameterResponse) {
     let parameters: ParameterStructure[] | undefined = this.categoryData.find(eachCategory => eachCategory.categoryId === this.unSavedParameter?.categoryId)?.modules?.find(eachModule => eachModule.moduleId === this.unSavedParameter?.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === this.unSavedParameter?.topicId)?.parameters
-
     let parameterIndex = parameters?.findIndex((eachParameter) => eachParameter.parameterId === this.unSavedParameter?.parameterId)
     if (parameterIndex !== -1 && parameterIndex !== undefined) {
       let fetchedParameter: ParameterStructure | undefined = parameters?.slice(parameterIndex,parameterIndex+1)[0]

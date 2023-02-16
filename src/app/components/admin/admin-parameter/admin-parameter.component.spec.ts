@@ -564,7 +564,9 @@ describe('AdminParameterComponent', () => {
   });
 
   it("should update parameter when parameter name is changed", () => {
+
     component.unSavedParameter = row
+    component.unSavedParameter.parameterId = 1
 
     component.ngOnInit()
     component.updateParameterRow(rowToBeSaved)

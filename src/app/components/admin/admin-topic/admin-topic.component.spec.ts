@@ -132,8 +132,8 @@ describe('AdminTopicComponent', () => {
   let fixture: ComponentFixture<AdminTopicComponent>;
   let mockAppService: MockAppService
   let matDialog : any
-  let row: { categoryId: number, categoryName: string, categoryStatus: boolean, moduleId: number, moduleName: string, moduleStatus: boolean, topicId: number, topicName: string, active: boolean, updatedAt: number, comments: string, isEdit: boolean }
-
+  let topicRequest: TopicData
+  let row: TopicData
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminTopicComponent, SearchComponent],
@@ -207,6 +207,28 @@ describe('AdminTopicComponent', () => {
     }
     ])
 
+    topicRequest  = {comments: "comment", moduleId: 1, topicName: "new topic", active: true,categoryName:"name",categoryId:1,categoryStatus:true,moduleName:"name",moduleStatus:false,updatedAt:12345,topicId:1}
+
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
+      {moduleId: 2, moduleName: "module2", active: true,category:2}]
+
+    component.unsavedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
+    component.selectedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
+
+    component.topicData = [{
+      "categoryName": "category1",
+      "categoryId": 1,
+      "categoryStatus" : true,
+      "moduleName": "module1",
+      "moduleId" : 1,
+      "moduleStatus":true,
+      "topicId" : 1,
+      "topicName" : "topic2",
+      "comments": "comments",
+      "updatedAt": 1022022,
+      "active": true
+    }]
+
   });
 
   it('should create', () => {
@@ -219,7 +241,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should save topic", () => {
-
     mockAppService.saveTopic(row).subscribe((data) => {
       expect(component.sendToStore(data)).toHaveBeenCalled()
       expect(data).toBe(row)
@@ -227,20 +248,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should throw error when saving topic", () => {
-    let row = {
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: 1,
-      topicName: "topicnew",
-      active: false,
-      updatedAt: Date.now(),
-      comments: "comment",
-      isEdit: true,
-    }
+    row.comments = "comments"
 
     jest.spyOn(component, "saveTopic")
     jest.spyOn(component, "getTopicRequest")
@@ -249,18 +257,12 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "showError")
     component.ngOnInit()
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
-      {moduleId: 2, moduleName: "module2", active: true,category:2}]
-
     component.saveTopic(row)
 
     expect(component.showError).toHaveBeenCalled()
   });
 
   it("should update topic", () => {
-    let topicRequest : TopicData = {comments: "comment", moduleId: 1, topicName: "new topic", active: true,categoryName:"name",categoryId:1,categoryStatus:true,moduleName:"name",moduleStatus:false,updatedAt:12345,topicId:1}
-
-
     mockAppService.updateTopic(topicRequest, -1).subscribe((data) => {
       expect(component.sendToStore(data)).toHaveBeenCalled()
       expect(data).toBe(topicRequest)
@@ -268,27 +270,9 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should throw error while updating topic", () => {
-    let topicRequest = {comments: "comment", module: 1, topicName: "new topic", active: true}
-    row = {
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: -1,
-      topicName: "topicnew",
-      active: false,
-      updatedAt: Date.now(),
-      comments: "",
-      isEdit: true,
-    }
     jest.spyOn(component, "showError")
     component.ngOnInit()
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
-      {moduleId: 2, moduleName: "module2", active: true,category:2}]
     component.unsavedTopic = row
-
 
     component.updateTopic(row)
 
@@ -307,104 +291,61 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should delete row from the table on clicking the bin button", () => {
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: -1,
-      topicName: "new topic",
-      updatedAt: 0
-    }
+    row.topicId = -1
     component.ngOnInit()
     component.dataSource.data.push(row)
+    expect(component.dataSource.data.length).toBe(4)
 
     component.deleteAddedTopicRow()
 
-    expect(component.dataSource.data.length).toBe(2)
+    expect(component.dataSource.data.length).toBe(3)
+    expect(component.selectedTopic).toBeNull()
   });
 
   it("should save new topics", () => {
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: -1,
-      topicName: "new topic",
-      updatedAt: 0
-    }
-
     jest.spyOn(component, "saveTopic")
     jest.spyOn(component, "getTopicRequest")
     jest.spyOn(component, "isTopicUnique")
     jest.spyOn(component, "setTopicRequest")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:3},
-      {moduleId: 2, moduleName: "module2", active: true,category:4}]
     component.isEditable = true
     component.ngOnInit()
     component.saveTopic(row)
 
-    let data = {"active": false, "comments": "", "module": 1, "topicName": "new topic"}
+    let data = {"active": false, "comments": "", "module": 1, "topicName": "topicnew"}
 
     expect(component.getTopicRequest(row)).toStrictEqual(data)
     expect(component.isEditable).toBeFalsy()
   });
 
   it("should show error when saving the topic already exists", () => {
-    let row: TopicData = {
-      active: false,
-      categoryId: 2,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 2,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: -1,
-      topicName: "topic1",
-      updatedAt: 0
-    }
+    row.comments = ""
+    row.topicName = "topic1"
 
-    jest.spyOn(component, "saveTopic")
-    jest.spyOn(component, "getTopicRequest")
+    component.isEditable = true
+    component.ngOnInit()
     jest.spyOn(component, "isTopicUnique")
     jest.spyOn(component, "showError")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:5},
-      {moduleId: 2, moduleName: "module2", active: true,category:7}]
-    component.isEditable = true
-    component.ngOnInit()
-    component.saveTopic(row)
+    component.getTopicRequest(row)
 
-    expect(component.getTopicRequest(row)).toBeNull()
+    expect(component.getTopicRequest(row)).toBe(null)
     expect(component.showError).toHaveBeenCalled()
   });
 
-  it("should update topic", () => {
+  it("should return null when the selected module is undefined", () => {
+    row.comments = ""
+    row.moduleName = "module123new"
 
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: 1,
-      topicName: "topic new",
-      updatedAt: 0
-    }
+    component.isEditable = true
+    component.ngOnInit()
+
+    component.setTopicRequest(row)
+
+    expect(component.setTopicRequest(row)).toBe(null)
+  });
+
+  it("should update topic", () => {
     let row1: TopicData = {
       active: false,
       categoryId: 1,
@@ -423,10 +364,9 @@ describe('AdminTopicComponent', () => {
     jest.spyOn(component, "updateTopic")
     jest.spyOn(component, "getTopicRequest")
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:8},
-      {moduleId: 2, moduleName: "module2", active: true,category:4}]
     component.isEditable = true
     component.unsavedTopic = row1
+    row.topicId = 1
 
     component.updateTopic(row)
 
@@ -434,7 +374,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should shortlist module according to category name", () => {
-
     component.ngOnInit()
 
     component.shortlistModule(row)
@@ -443,20 +382,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should display no modules available when no module is available in the selected category", () => {
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category3",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: -1,
-      topicName: "topic new",
-      updatedAt: 0
-    }
-
+    row.categoryName = "category4"
     component.ngOnInit()
     component.shortlistModule(row)
 
@@ -465,21 +391,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should cancel update topic", () => {
-
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: 1,
-      topicName: "topic new",
-      updatedAt: 0
-    }
-
     jest.spyOn(component, "cancelUpdate")
     jest.spyOn(component, "resetTopic")
     component.selectedTopic = null
@@ -529,20 +440,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should open reference dialog", () => {
-
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: 1,
-      topicName: "topic1",
-      updatedAt: 0
-    }
     jest.spyOn(matDialog, "open")
 
     component.openTopicReferences("",row)
@@ -552,19 +449,9 @@ describe('AdminTopicComponent', () => {
 
   it("should show error when topic has parameter level reference", () => {
     component.ngOnInit()
-    let row: TopicData = {
-      active: false,
-      categoryId: 1,
-      categoryName: "category1",
-      categoryStatus: false,
-      comments: "",
-      moduleId: 1,
-      moduleName: "module1",
-      moduleStatus: false,
-      topicId: 1,
-      topicName: "topic1",
-      updatedAt: 0
-    }
+    row.categoryName = "category1"
+    row.moduleName = "module1"
+    row.topicName = "topic1"
     component.categories = [{
       "categoryId": 1,
       "categoryName": "category1",
@@ -630,8 +517,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return category id of the selected row", () => {
-    let row: TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", updatedAt: 0}
-
     jest.spyOn(component,"findCategoryId")
     component.ngOnInit()
 
@@ -639,8 +524,6 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return module id of the selected row", () => {
-    let row: TopicData = {active: false, categoryId: 1, categoryName: "category1", categoryStatus: false, comments: "", moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", updatedAt: 0}
-
     jest.spyOn(component,"findModuleId")
     component.ngOnInit()
 
@@ -648,16 +531,14 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should return true if the inputs are not valid",() => {
-    let row: TopicData = {active: false, categoryId: 1, categoryName: "", categoryStatus: false, comments: "", moduleId: 1, moduleName: "", moduleStatus: false, topicId: 1, topicName: "", updatedAt: 0}
-
+    row.categoryName = ""
+    row.moduleName = ""
+    row.topicName = ""
     expect(component.isInputValid(row)).toBeTruthy()
   })
 
   it("should set isEdit to false and isEditable to true when the user clicks on edit button",() => {
     component.ngOnInit()
-    let row : TopicData = {moduleName:"module1",categoryName:"category1",topicName:"topic1",isEdit:true,active:false,topicId:1,categoryId:1,categoryStatus:false,moduleId:1,moduleStatus:true,updatedAt:12345}
-    component.unsavedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
-    component.selectedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
 
     component.editTopic(row)
 
@@ -666,42 +547,14 @@ describe('AdminTopicComponent', () => {
   })
 
   it("should change the value to lower case while sorting the topic table for string valued columns", () => {
-    component.topicData = [{
-      "categoryName": "category1",
-      "categoryId": 1,
-      "categoryStatus" : true,
-      "moduleName": "module1",
-      "moduleId" : 1,
-      "moduleStatus":true,
-      "topicId" : 1,
-      "topicName" : "TOPIC1",
-      "comments": "comments",
-      "updatedAt": 1022022,
-      "active": true
-    }]
-
     component.sortTopic()
 
     let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'topicName');
 
-    expect(expectedResponse).toBe("topic1")
+    expect(expectedResponse).toBe("topic2")
   });
 
   it("should return the same value while sorting the topic table for other column types than string", () => {
-    component.topicData = [{
-      "categoryName": "category1",
-      "categoryId": 1,
-      "categoryStatus" : true,
-      "moduleName": "MODULE1",
-      "moduleId" : 1,
-      "moduleStatus":true,
-      "topicId" : 1,
-      "topicName" : "topic1",
-      "comments": "comments",
-      "updatedAt": 1022022,
-      "active": true
-    }]
-
     component.sortTopic()
 
     let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'active');
