@@ -1,4 +1,13 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
 import {BubbleChartStructure} from "../../types/bubbleChartStructure";
@@ -8,22 +17,24 @@ import {Recommendation} from "../../types/recommendation";
 import {Color, ScaleType} from "@swimlane/ngx-charts";
 import {data_local} from "../../messages";
 
-const NOW_THRESHOLD_VALUE = 0.099;
-const NEXT_THRESHOLD_VALUE = 1.099;
-const LATER_THRESHOLD_VALUE = 2.099;
-const LOW_IMPACT_LIMIT = 1;
-const MEDIUM_IMPACT_LIMIT = 2;
-const HIGH_IMPACT_LIMIT = 3;
+
+const LOW_NOW_LIMIT = 0;
+const MEDIUM_NEXT_LIMIT = 1;
+const HIGH_LATER_LIMIT = 2;
 const LOW_EFFORT_RADIUS = 20;
 const MEDIUM_EFFORT_RADIUS = 24;
-const HIGH_EFFORT_RADIUS = 28;
+const HIGH_EFFORT_RADIUS = 26;
 
+interface Coordinates {
+  x : number
+  y: number
+}
 @Component({
   selector: 'app-roadmap-bubble-chart',
   templateUrl: './roadmap-bubble-chart.component.html',
   styleUrls: ['./roadmap-bubble-chart.component.css']
 })
-export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
+export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterContentChecked{
 
   @Input()
   assessmentId: number
@@ -43,7 +54,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   xTicks = " "
   autoScale: boolean = false;
   minBubbleRadius: number = 20;
-  maxBubbleRadius: number = 30;
+  maxBubbleRadius: number = 28;
   showYAxisTicks: number[] = [0, 1, 2, 3];
   showXAxisTicks: number[] = [0, 1, 2, 3];
   yScaleMin: number = 0;
@@ -51,6 +62,11 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
   xScaleMin: number = 0;
   xScaleMax: number = 3;
   height: number = 600;
+  position : Coordinates[] = [
+    {x: 0.495, y: 0.41}, {x:0.25,y:0.871}, {x: 0.699, y: 0.428}, {x: 0.7, y: 0.881}, {x: 0.095, y: 0.17},
+    {x: 0.799, y: 0.628}, {x: 0.61, y: 0.1712}, {x: 0.346, y: 0.407}, {x: 0.217, y: 0.582}, {x: 0.89, y: 0.881},
+    {x: 0.252,y: 0.169}, {x: 0.919, y: 0.438}, {x: 0.092, y: 0.855}, {x: 0.939, y: 0.151}, {x: 0.0795, y: 0.518},
+    {x: 0.577, y: 0.608}, {x: 0.434, y: 0.168}, {x: 0.39, y: 0.692}, {x: 0.772, y: 0.136}, {x: 0.498, y: 0.88} ]
 
   lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3;
   mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2;
@@ -148,28 +164,24 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
 
 
   private xPosition = (deliveryHorizon: string, count: number): number => {
-    const maxRecommendation = 6;
-    const bubbleSeparator = 0.15;
-    let xCoordinate = bubbleSeparator * (count % maxRecommendation);
+    let xCoordinate = this.position[count%this.position.length].x
     if (deliveryHorizon === this.nowDeliveryHorizon.toUpperCase())
-      xCoordinate += NOW_THRESHOLD_VALUE
+      xCoordinate += LOW_NOW_LIMIT
     else if (deliveryHorizon === this.nextDeliveryHorizon.toUpperCase())
-      xCoordinate += NEXT_THRESHOLD_VALUE
+      xCoordinate += MEDIUM_NEXT_LIMIT
     else if (deliveryHorizon === this.laterDeliveryHorizon.toUpperCase())
-      xCoordinate += LATER_THRESHOLD_VALUE;
+      xCoordinate += HIGH_LATER_LIMIT
     return xCoordinate;
   };
 
   private yPosition = (impact: string, count: number): number => {
-    const bubbleSeparator = 0.057;
-    const additionalGap = 0.18;
-    let yCoordinate = (bubbleSeparator * count + additionalGap)
+    let yCoordinate =  this.position[count%this.position.length].y
     if (impact === this.lowImpact.toUpperCase())
-      yCoordinate = LOW_IMPACT_LIMIT - yCoordinate;
+      yCoordinate += LOW_NOW_LIMIT
     else if (impact === this.mediumImpact.toUpperCase())
-      yCoordinate = MEDIUM_IMPACT_LIMIT - yCoordinate;
+      yCoordinate += MEDIUM_NEXT_LIMIT
     else if (impact === this.highImpact.toUpperCase())
-      yCoordinate = HIGH_IMPACT_LIMIT - yCoordinate;
+      yCoordinate += HIGH_LATER_LIMIT
     return yCoordinate;
   };
 
@@ -196,14 +208,10 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy {
       .style("font", "18px Inter")
   }
 
-// ngAfterContentChecked() {
-  //   console.log(this.contentLoaded)
-  //   if(this.contentLoaded < 3) {
-  //     console.log("called")
-  //     this.getText();
-  //     this.contentLoaded += 1;
-  //   }
-  // }
+  ngAfterContentChecked() {
+    this.labelRoadmapChart();
+  }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
