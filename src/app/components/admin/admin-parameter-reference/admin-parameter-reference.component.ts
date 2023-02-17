@@ -103,7 +103,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   }
 
   saveParameterReference(reference: ParameterReference) {
-    this.referenceToSend = this.setReferenceRequest(reference)
+    this.referenceToSend = this.referenceRequest(reference)
     if (this.isRatingUnique(reference) && this.isReferenceUnique(reference) && this.referenceToSend !== null) {
       this.appService.saveParameterReference(this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -120,7 +120,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   }
 
   updateParameterReference(reference:ParameterReference) {
-    this.referenceToSend = this.setReferenceRequest(reference)
+    this.referenceToSend = this.referenceRequest(reference)
     if(this.isRatingUnique(reference) && this.isReferenceUnique(reference) && reference.referenceId && this.referenceToSend !== null) {
       this.referenceToSend.referenceId = reference.referenceId
       this.appService.updateParameterReference(reference.referenceId,this.referenceToSend).pipe(takeUntil(this.destroy$)).subscribe({
@@ -176,7 +176,7 @@ export class AdminParameterReferenceComponent implements OnInit {
     return flag
     }
 
-  setReferenceRequest(reference: ParameterReference) : ParameterReference | null {
+  referenceRequest(reference: ParameterReference) : ParameterReference | null {
     if(this.parameterId) {
       this.referenceToSend = {
         reference: reference.reference.trim(),

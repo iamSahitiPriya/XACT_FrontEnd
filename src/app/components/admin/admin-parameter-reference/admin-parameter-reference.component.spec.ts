@@ -218,7 +218,7 @@ describe('AdminParameterReferenceComponent', () => {
     let reference : ParameterReference = {referenceId:-1,reference:"new",rating:1,parameter:2}
 
     component.ngOnInit()
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"sendReferenceToStore")
 
     component.saveParameterReference(reference)
@@ -231,7 +231,7 @@ describe('AdminParameterReferenceComponent', () => {
     component.referenceToSend = {referenceId:-1,reference:"new reference",rating:1,parameter:7}
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
 
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"showError")
 
     component.saveParameterReference(component.referenceToSend)
@@ -241,7 +241,7 @@ describe('AdminParameterReferenceComponent', () => {
   });
 
   it("should update parameter reference", () => {
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"updateStore")
 
     component.updateParameterReference(reference)
@@ -254,7 +254,7 @@ describe('AdminParameterReferenceComponent', () => {
     component.ngOnInit()
     component.referenceToSend = {referenceId:2,reference:"new",rating:1,isEdit:true,parameter:6}
 
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"showError")
 
     component.updateParameterReference(component.referenceToSend)
@@ -338,7 +338,7 @@ describe('AdminParameterReferenceComponent', () => {
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
     reference = {referenceId:2,reference:"new",rating:4,parameter:1}
 
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"showError")
     jest.spyOn(component,"updateParameterReference")
 
@@ -351,7 +351,7 @@ describe('AdminParameterReferenceComponent', () => {
     component.unsavedReferences = [{referenceId:1,reference:"new",rating:4,parameter:1}]
     reference =    {referenceId:2,reference:"new",rating:2,parameter:1}
 
-    jest.spyOn(component,"setReferenceRequest")
+    jest.spyOn(component,"referenceRequest")
     jest.spyOn(component,"showError")
     jest.spyOn(component,"updateParameterReference")
 
@@ -494,7 +494,7 @@ describe('AdminParameterReferenceComponent', () => {
   it("should return null when parameterId is undefined", () => {
     component.parameterId = undefined
 
-    expect(component.setReferenceRequest(reference)).toBeNull()
+    expect(component.referenceRequest(reference)).toBeNull()
   });
 
 });

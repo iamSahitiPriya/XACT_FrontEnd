@@ -159,7 +159,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   updateModule(row: ModuleData) {
-    let moduleRequest = this.setModuleRequest(row);
+    let moduleRequest = this.moduleRequest(row);
     if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
       moduleRequest = this.getModuleRequest(row);
     }
@@ -317,7 +317,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryDetails}))
   }
 
-  private setModuleRequest(row: ModuleData): ModuleRequest | null {
+  private moduleRequest(row: ModuleData): ModuleRequest | null {
     this.isModuleUnique = true;
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName)?.categoryId;
     if (selectedCategoryId) {

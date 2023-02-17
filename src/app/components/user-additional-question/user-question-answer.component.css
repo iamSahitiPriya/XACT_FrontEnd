@@ -42,7 +42,7 @@
   flex-direction: column;
 }
 
-.question-create {
+.create-question {
   display: flex;
   flex-direction: row;
 }
