@@ -107,18 +107,19 @@
   <img #canvas alt="chart-image">
   <a #downloadLink></a>
 </div>
-<div *ngIf="data">
+<div *ngIf="data && categorySummary.length>0">
   <div class="module-overall-rating-chart-title">{{stackedBarChartTitle}}
   </div>
-  <mat-card class="module-overall-rating-card ">
-    <mat-card-content>
+  <mat-card class="module-overall-rating-card">
+    <mat-card-content class="chart-content">
       <div *ngFor="let categoryModules of categoryModulesOverAllRatings ;let i=index; ">
         <div class="x-label">
           <span *ngFor="let score of stackedBarChartXAxisLabels" class="score">{{score}}</span>
         </div>
         <div class="module-overall-rating-chart">
           <div class="category-title-card">
-            <div class="category-title" [style.height.px]="stackedBarChartHeightMultiplier * categoryModules.modulesOverAllRatings.length + moduleCardHeightOffset"
+            <div class="category-title"
+                 [style.height.px]="getHeight(categoryModules.modulesOverAllRatings.length)"
                  [style.background-color]="stackedBarChartColorSchemes[i][0].value">{{categoryModules.categoryName}}
             </div>
           </div>
@@ -128,9 +129,9 @@
             </div>
           </div>
           <div>
-            <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart">
+            <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart" #reference>
               <ngx-charts-bar-horizontal-stacked
-                [view]="[stackedBarChartWidth ,(categoryModules.modulesOverAllRatings.length) * stackedBarChartHeightMultiplier + moduleChartHeightOffset]"
+                [view]="[reference.offsetWidth ,getHeight(categoryModules.modulesOverAllRatings.length)]"
                 [results]="categoryModules.modulesOverAllRatings"
                 [barPadding]="5"
                 [customColors]="stackedBarChartColorSchemes[i]">
@@ -151,4 +152,5 @@
       </div>
     </div>
   </mat-card>
+  <app-assessment-radar-chart [summaryData]="data"></app-assessment-radar-chart>
 </div>
