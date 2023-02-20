@@ -47,10 +47,10 @@ export const data_local =
           TITLE: "Assessment Request Type",
         }
       },
-      ASSESSMENT_DESCRIPTION: {
+      ASSESSMENT_DESCRIPTION:{
         TITLE: "Description for Assessment",
         PLACEHOLDER: "Enter Description of Assessment",
-        LIMIT: 200,
+        LIMIT:200,
         BLANK_SPACE_ERROR_TEXT: "No blank spaces are allowed"
       },
       ASSESSMENT_DOMAIN: {
@@ -129,7 +129,7 @@ export const data_local =
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes",
-      ANSWER_FIELD_LIMIT: 10000
+      ANSWER_FIELD_LIMIT : 10000
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -308,10 +308,22 @@ export const data_local =
       CURRENT_SCORE_LABEL: "Current Score"
     },
     ACTIVITY_TYPE: {
-      DEFAULT_QUESTION_TYPE: "DEFAULT_QUESTION",
-      ADDITIONAL_QUESTION_TYPE: "ADDITIONAL_QUESTION",
+      DEFAULT_QUESTION_TYPE:"DEFAULT_QUESTION",
+      ADDITIONAL_QUESTION_TYPE:"ADDITIONAL_QUESTION",
       TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
       PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
 
     },
+    IDLE_STATE: {
+      STATE: {
+        NOT_STARTED: "NOT_STARTED",
+        IDLE: "IDLE",
+        NOT_IDLE: "NOT_IDLE",
+        TIMED_OUT: {
+          LABEL: "TIMED_OUT",
+          PROMPT_BODY: "You have been idle for sometime, Please reload the page to continue working."
+        }
+      }
+    }
+
   }

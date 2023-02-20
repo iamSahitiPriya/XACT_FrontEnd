@@ -102,6 +102,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
 import {RoadmapBubbleChartComponent} from './components/roadmap-bubble-chart/roadmap-bubble-chart.component';
 import {RecommendationTableComponent} from './components/recommendation-table/recommendation-table.component';
+import {NgIdleModule} from "@ng-idle/core";
 import {
   AssessmentRadarChartComponent
 } from './components/summary/assessment-radar-chart/assessment-radar-chart.component';
@@ -302,6 +303,7 @@ export const appRoutes: Routes = [
     MatAutocompleteModule,
     NgxChartsModule,
     MtxPopoverModule,
+    NgIdleModule.forRoot(),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     NgChartsModule
   ],
@@ -323,8 +325,7 @@ export const appRoutes: Routes = [
     AppServiceService,
     {provide: HTTP_INTERCEPTORS, useClass: Interceptors, multi: true},
     {provide: OKTA_CONFIG, useValue: {oktaAuth}},
-    HttpClientTestingModule,
-
+    HttpClientTestingModule
   ],
   bootstrap: [AppComponent]
 })
