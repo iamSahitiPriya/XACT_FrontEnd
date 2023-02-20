@@ -1,3 +1,4 @@
+
 import landingPage from "../pageObjects/landingPage.cy";
 import commonFunctions from '../pageObjects/commonFunction.cy'
 
@@ -26,29 +27,13 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(3),'Just exploring t option is clicked')
-    landingPage.AssessmentpopupFields('latestassessment','Infinity International','Domain','Industry','22','test@thoughtworks.com')
+    landingPage.AssessmentpopupFields('latestassessment','Infinity International','Description of assessment','Domain','22','test@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
   })
 
   it('tc002 Latest Assessment should be on top of the table for all pagenation options available',()=>{
     //pagenation value 5
     landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
-    //pagenation value 10
-    // landingPage.header().click()
-    // landingPage.pagenationDropdown().click()
-    // landingPage.pagenation10().click()
-    // landingPage.assessmentGridRowCount('10')
-    // landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
-    // landingPage.header().click()
-    // landingPage.pagenationDropdown().click()
-    // landingPage.pagenation25().click()
-    // landingPage.assessmentGridRowCount('25')
-    // landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
-    // landingPage.header().click()
-    // landingPage.pagenationDropdown().click()
-    // landingPage.pagenation100().click()
-    // landingPage.assessmentGridRowCount('100')
-    // landingPage.assessmentNameInGrid(1).should('have.text',' latestassessment ')
 
   })
 
@@ -61,13 +46,14 @@ describe('validating creating Assessment grid and search functionality', () => {
   })
   it('tc004 searching an existing assessment with organisation name both upper and lower cases',()=>{
 
+
   })
   it('tc005 searching an assessment which is in other page',()=>{
     landingPage.header().click()
     landingPage.searchBox().click()
     landingPage.searchBox().clear()
     landingPage.searchBox().type('Hi Hello')
-   // landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
+    // landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
   })
   it('tc006 searching a non existing assessment',()=>{
     landingPage.searchBox().type('!!!!!')
@@ -90,7 +76,6 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.noDataMessage().should('be.visible')
     landingPage.noDataMessage().should('have.text','No Assessments Found.')
     landingPage.searchAssessment('123456789')
-    //landingPage.assessmentNameInGrid(1).should('have.text',' 123456789 ')
   })
   it('tc009 validating the page numbers beside pagenation',()=>{
 
@@ -144,3 +129,4 @@ describe('validating creating Assessment grid and search functionality', () => {
 
 
 })
+

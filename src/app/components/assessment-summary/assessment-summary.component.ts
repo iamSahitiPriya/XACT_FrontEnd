@@ -56,8 +56,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   targetRatingTitle = data_local.OVERALL_CHART_TEXT.TARGET_RATING_TITLE;
   currentRatingTitle = data_local.OVERALL_CHART_TEXT.CURRENT_RATING_TITLE
   assessmentId: number;
-  assessmentDescription:string;
-  assessmentData :Observable<AssessmentStructure>
+  assessmentDescription: string;
+  assessmentData: Observable<AssessmentStructure>
   data: ReportDataStructure;
   summaryData: SummaryResponse;
   selectedValue: any = "ThreatTheme";
@@ -72,7 +72,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   legendPosition: LegendPosition = LegendPosition.Below;
   assessmentAverageRating: string;
   categoryModulesOverAllRatings: CategoryModulesRating[] = []
-  stackedBarChartWidth: number = 600;
   stackedBarChartHeightMultiplier: number = 22.5;
   moduleCardHeightOffset: number = 55;
   moduleChartHeightOffset: number = 20;
@@ -133,7 +132,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.assessmentData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
-       this.assessmentDescription=data.assessmentDescription
+        this.assessmentDescription = data.assessmentDescription
       }
     })
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
@@ -142,7 +141,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.getSummaryData();
     this.getDataAndSunBurstChart();
   }
-
 
 
   getSummaryData() {
@@ -289,9 +287,9 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     }
 
     function labelVisible(d: any) {
-      let maxLevel=5;
-      let minLevel=1;
-      let minDisplayArea=0.04;
+      let maxLevel = 5;
+      let minLevel = 1;
+      let minDisplayArea = 0.04;
       return d.y1 <= maxLevel && d.y0 >= minLevel && (d.y1 - d.y0) * (d.x1 - d.x0) > minDisplayArea;
     }
 
@@ -402,15 +400,15 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   }
 
 
-  private static modifyDisplayText(wordList: string[]) : string[] {
+  private static modifyDisplayText(wordList: string[]): string[] {
     let maximumDisplayWords = 3;
     if (wordList.length >= maximumDisplayWords) {
       wordList = wordList.slice(0, 2)
       wordList.push("...")
     }
     let wrappedWords = [];
-    let maximumDisplayWordLength=10;
-    wrappedWords=wordList.map(eachWord => eachWord.length > maximumDisplayWordLength ? eachWord.substring(0,maximumDisplayWordLength)+ "..."  : eachWord)
+    let maximumDisplayWordLength = 10;
+    wrappedWords = wordList.map(eachWord => eachWord.length > maximumDisplayWordLength ? eachWord.substring(0, maximumDisplayWordLength) + "..." : eachWord)
     return wrappedWords.reverse();
   }
 
@@ -520,7 +518,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   private setModulesOverAllRatingsData(data: ReportDataStructure) {
     data.children.forEach(eachCategory => {
-      if (eachCategory.rating && eachCategory.rating != 0) {
+      if (eachCategory.rating != 0) {
         let modulesOverAllRatings: ModulesOverAllRating[] = []
         eachCategory.children?.forEach(eachModule => {
           if (eachModule.rating > 0) {
@@ -546,5 +544,8 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       }
     })
 
+  }
+  getHeight(moduleLength:number){
+    return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleCardHeightOffset
   }
 }

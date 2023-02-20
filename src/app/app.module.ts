@@ -102,6 +102,10 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
 import {RoadmapBubbleChartComponent} from './components/roadmap-bubble-chart/roadmap-bubble-chart.component';
 import {RecommendationTableComponent} from './components/recommendation-table/recommendation-table.component';
+import {
+  AssessmentRadarChartComponent
+} from './components/summary/assessment-radar-chart/assessment-radar-chart.component';
+import {NgChartsModule} from "ng2-charts";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -200,6 +204,7 @@ export const appRoutes: Routes = [
     AdminQuestionComponent,
     RoadmapBubbleChartComponent,
     RecommendationTableComponent,
+    AssessmentRadarChartComponent,
   ],
 
   imports: [
@@ -297,7 +302,8 @@ export const appRoutes: Routes = [
     MatAutocompleteModule,
     NgxChartsModule,
     MtxPopoverModule,
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    NgChartsModule
   ],
 
   exports: [

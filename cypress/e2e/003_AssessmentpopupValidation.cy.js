@@ -1,3 +1,4 @@
+
 import landingPage from "../pageObjects/landingPage.cy";
 import commonFunctionCy from "../pageObjects/commonFunction.cy";
 import commonFunctions from "../pageObjects/commonFunction.cy";
@@ -16,7 +17,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
     landingPage.assessmentNameInGrid(1).should('have.text',' testassignment ')
   })
@@ -42,9 +43,9 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('!@#$','!@#$','!@#$','!@#$','!@@@','jathin@thoughtworks.com')
-    landingPage.assessmentNameError().should('have.text',' No Special Characters allowed except hyphen and underscore ')
-    landingPage.domainFieldError().should('have.text',' No Special Characters allowed except hyphen and underscore ')
+    landingPage.AssessmentpopupFields('!@#$','!@#$','!@#','!@#$','!@@@','jathin@thoughtworks.com')
+    landingPage.assessmentNameError().should('have.text',' Only special characters allowed are [ _ & . , : - ] ')
+    landingPage.domainFieldError().should('have.text',' Only special characters allowed are [ _ & . , : - ] ')
     landingPage.teamSizeFieldError().should('have.text',' Mandatory number field ')
     landingPage.closeAssessmentPopup().click()
   })
@@ -55,11 +56,9 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('morethan50charactersmorethan50charatersmorethan50characters','Infinity International','morethan50charactersmorethan50charatersmorethan50characters','morethan50charactersmorethan50charatersmorethan50characters','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('morethan50charactersmorethan50charatersmorethan50characters','Infinity International','Description of the assessment','morethan50charactersmorethan50charatersmorethan50characters','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
-    //landingPage.serverError().should('be.visible')
-    // landingPage.closeAssessmentPopup().click()
-    // landingPage.assessmentNameInGrid().should('not.have.text','morethan50charactersmorethan50charatersmorethan50characters')
+
   })
 
   it('tc005 close the assessment popup with out saving the assessment',()=>{
@@ -67,7 +66,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','Description of the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.closeAssessmentPopup().click()
     landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
@@ -85,7 +84,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.Industry().click()
     landingPage.teamSizeField().click()
     landingPage.email().click()
-    //var const1=landingPage.AssessmentName().should('have.a.property','color')
   })
 
 
@@ -94,7 +92,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','Description of the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
     landingPage.AssessmentName().clear()
     landingPage.Domain().clear()
     landingPage.closeAssessmentPopup().click()
@@ -102,32 +100,17 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
 
-
   it('tc008 Saving the assessment without filling few mandatory fields',()=>{
     landingPage.createAssessment().should('be.visible')
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','donotsave the assessment','donotsave the assessment','-22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('donotsave the assessment','Infinity International','Description of the assessment','donotsave the assessment','-22','jathin@thoughtworks.com')
     landingPage.teamSizeFieldError().should('have.text',' Positive integer value allowed ')
     landingPage.closeAssessmentPopup().click()
     landingPage.assessmentNameInGrid(1).should('not.have.text','donotsave the assessment')
   })
-  //
-  // it('tc009 Error message should be disappeared when mandatory fields are populated again',()=>{
-  //   landingPage.createAssessment().should('be.visible')
-  //   landingPage.createAssessment().click()
-  //   commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
-  //   commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-  //   landingPage.AssessmentpopupFields('    ','    ','donotsave the assessment','donotsave the assessment','22','jathin@thoughtworks.com')
-  //   landingPage.assessmentNameError().should('have.text',' No Special Characters allowed except hyphen and underscore ')
-  //   landingPage.AssessmentName().clear().type('testAssessment')
-  //   landingPage.OrganisationName().clear().type('sa mint')
-  //   landingPage.OrganisationSuggestion().click()
-  //   landingPage.assessmentNameError().should('not.be.visible')
-  //   landingPage.organisationNameError().should('not.be.visible')
-  //   landingPage.closeAssessmentPopup().click()
-  // })
+
 
   it('tc010 functionality of up and down arrows in teamsize field',()=>{
     landingPage.createAssessment().click()
@@ -136,19 +119,9 @@ describe('validating creating Assessment assessment popup functionality', () => 
     //landingPage.teamSizeField().click().type('{upArrow}').type('{upArrow}')
     landingPage.teamSize().click().type(100)
     landingPage.email().click()
-    //validation
-    //landingPage.teamSize().should('have.string','100')
+
   })
 
-  // it('tc011 validating placeholders of all edit boxes',()=>{
-  //   landingPage.createAssessment().click()
-  //   landingPage.AssessmentName().should('have.text','Assessment Name * *')
-  //   landingPage.OrganisationName().should('have.text','Organisation Name * *')
-  //   landingPage.Domain().should('have.text','Domain of Target * *')
-  //   landingPage.Industry().should('have.text','Industry of Organisation * *')
-  //   landingPage.teamSizeField().should('have.text','Size of Target Team * *')
-  //   landingPage.closeAssessmentPopup().click()
-  // })
 
   it('tc012 validating placeholders after clicking in all edit boxes',()=>{
     landingPage.createAssessment().click()
@@ -166,9 +139,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.Industry().click()
     landingPage.Industry().clear()
     landingPage.industryPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Enter Industry of Organisation')
-    //landingPage.email().click()
-    //landingPage.email().clear()
-    //landingPage.emailPlaceHolder().invoke('attr', 'placeholder').should('contain', 'Valid list of comma separated thoughtworks email address')
     landingPage.closeAssessmentPopup().click()
   })
 
@@ -185,7 +155,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.saveAssessmentButton().click()
 
     landingPage.assessmentNameInGrid(1).should('have.text',' testassignment ')
@@ -195,7 +165,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com')
     cy.reload()
     landingPage.AssessmentPopup().should('not.exist')
   })
@@ -204,7 +174,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com,jathin@gmail.com')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com,jathin@gmail.com')
     landingPage.teamSize().click()
     landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks.com email address ')
   })
@@ -213,17 +183,16 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com      ')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com      ')
     landingPage.teamSize().click()
-    //landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks email address ')
-    //code for chip is formed
+
   })
 
   it('tc018 Creating assessment with special characters with email',()=>{
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','!!!!!@thoughtworks.com,')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','!!!!!@thoughtworks.com,')
     landingPage.teamSize().click()
     landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks.com email address ')
   })
@@ -232,18 +201,11 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@!!!.com,')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@!!!.com,')
     landingPage.teamSize().click()
     landingPage.emailError().should('have.text',' Valid list of comma separated thoughtworks.com email address ')
   })
-  //
-  // it('tc020 close the assessment popup without providing input',()=>{
-  //   landingPage.createAssessment().click()
-  //   landingPage.AssessmentPopup().should('be.visible')
-  //
-  //   landingPage.closeAssessmentPopup().dblclick()
-  //   landingPage.AssessmentPopup().should('not.be.visible')
-  // })
+
 
   it('tc021 enter values in the fields and clear them, then mandatory field error should be displayed',()=>{
     landingPage.createAssessmentHeader().should('be.visible')
@@ -252,7 +214,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(2),'Client Request option is clicked')
     landingPage.AssessmentPopup().should('be.visible')
-    landingPage.AssessmentpopupFields('testassignment','Infinity International','testIndustry','testDOMAIN','22','jathin@thoughtworks.com')
+    landingPage.AssessmentpopupFields('testassignment','Infinity International','Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com')
     landingPage.AssessmentName().clear()
     landingPage.OrganisationName().clear()
     landingPage.Domain().clear()
@@ -290,7 +252,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.AssessmentPopup().should('be.visible')
     landingPage.email().clear()
     landingPage.email().type('jathin@thoughtworks.com,')
-    //landingPage.emailChip().should('be.visible')
     landingPage.emailChip().contains('jathin@thoughtworks.com')
   })
 
@@ -337,7 +298,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    landingPage.AssessmentpopupFields('noemailid','Infinity International','testIndustry','testDOMAIN','22','{enter}')
+    landingPage.AssessmentpopupFields('noemailid','Infinity International','Description of the assessment','testDOMAIN','22','{enter}')
     landingPage.saveAssessmentButton().click()
     landingPage.assessmentNameInGrid(1).should('have.text',' noemailid ')
   })
@@ -349,3 +310,4 @@ describe('validating creating Assessment assessment popup functionality', () => 
 
 
 })
+
