@@ -152,10 +152,15 @@
       </div>
     </div>
   </mat-card>
+  </div>
+
+  <app-roadmap-bubble-chart
+    [assessmentId] = "assessmentId">
+  </app-roadmap-bubble-chart>
+
+<div *ngIf="data && categorySummary.length>0">
   <app-assessment-radar-chart [summaryData]="data"></app-assessment-radar-chart>
 </div>
 
-<app-roadmap-bubble-chart
-  [assessmentId] = "assessmentId">
-</app-roadmap-bubble-chart>
+
 
