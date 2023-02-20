@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
 import {OKTA_AUTH, OktaAuthStateService} from '@okta/okta-angular';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {ProgressComponentComponent} from "../progress-component/progress-component.component";
@@ -10,6 +10,9 @@ import {data_local} from "../../messages";
 import {environment} from "../../../environments/environment";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Observable} from "rxjs";
+import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -26,14 +29,57 @@ export class AppComponent implements OnInit {
   thoughtworks = data_local.COPYRIGHT_MESSAGE.THOUGHTWORKS_TAG;
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;
 
-  route: boolean = false;
+  idleState = data_local.IDLE_STATE.STATE.NOT_STARTED;
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService) {
+
+
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef,private _snackBar: MatSnackBar) {
+    // set idle parameters
+    idle.setIdle(environment.IDLE_TIMEOUT); // how long can they be inactive before considered idle, in seconds
+    idle.setTimeout(environment.TIMEOUT); // how long can they be idle before considered timed out, in seconds
+    idle.setInterrupts(DEFAULT_INTERRUPTSOURCES); // provide sources that will "interrupt" aka provide events indicating the user is active
+
+    // do something when the user becomes idle
+    idle.onIdleStart.subscribe(() => {
+      this.idleState = data_local.IDLE_STATE.STATE.IDLE;
+    });
+    // do something when the user is no longer idle
+    idle.onIdleEnd.subscribe(() => {
+      this.idleState = data_local.IDLE_STATE.STATE.NOT_IDLE;
+      console.log(`${this.idleState} ${new Date()}`)
+      cd.detectChanges(); // how do i avoid this kludge?
+    });
+
+    // do something when the user has timed out
+    idle.onTimeout.subscribe(() => {
+      this.idleState = data_local.IDLE_STATE.STATE.TIMED_OUT.LABEL;
+      timedOut();
+    });
+
+    function timedOut() {
+      _snackBar.openFromComponent(NotificationSnackbarComponent, {
+        data: {message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY, iconType: "warning_outline", notificationType: "Warning:"}, panelClass: ['error-snackBar'],
+        duration: 80000,
+        verticalPosition: "top",
+        horizontalPosition: "center"
+      })
+    }
+
+  }
+
+
+
+
+  reset() {
+    // we'll call this method when we want to start/reset the idle process
+    // reset any component state and be sure to call idle.watch()
+    this.idle.watch();
+    this.idleState = data_local.IDLE_STATE.STATE.NOT_IDLE;
   }
 
   async ngOnInit() {
-    this.userRole = this.appService.getUserRole();
+    this.reset();
+    this.userRole = await this.appService.getUserRole();
   }
-
 }
 
