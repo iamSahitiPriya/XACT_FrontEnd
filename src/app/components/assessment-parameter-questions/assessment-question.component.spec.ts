@@ -305,7 +305,7 @@ describe('AssessmentQuestionComponent', () => {
   })
 
   it("should show error", () => {
-    const message = "Data cannot be saved"
+    const message = "Data cannot be saved, Please reload the page if problem persist."
     jest.spyOn(component, "showError")
     component.showError(message)
     expect(component.showError).toHaveBeenCalled()

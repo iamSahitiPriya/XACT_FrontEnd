@@ -142,7 +142,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
         next: () => {
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved");
+          this.showError("Data cannot be saved, Please reload the page if problem persist.");
         }
       })
       this.updateAverageRating();

@@ -166,7 +166,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
           this.sendRecommendation(this.parameterLevelRecommendationResponse)
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved");
+          this.showError("Data cannot be saved, Please reload the page if problem persist.");
         }
       })
     }
@@ -288,7 +288,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
         this.sendRecommendation(this.parameterLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved");
+        this.showError("Data cannot be saved, Please reload the page if problem persist.");
       }
     })
   }

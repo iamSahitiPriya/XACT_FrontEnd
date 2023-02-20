@@ -30,7 +30,7 @@ export const environment = {
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   UPDATE_CATEGORY_URI: "/v1/admin/categories",
   IDLE_TIMEOUT: 10,  //in sec
-  TIMEOUT: 1200, // 20 min
+  TIMEOUT: 600, // 10 min
   REPORT_DATA_URI: "/charts/sunburst",
   REPORT_TEMPLATE_URI: "/v1/reports/template",
   USER_ASSESSMENT_MODULE_URI: "/modules",

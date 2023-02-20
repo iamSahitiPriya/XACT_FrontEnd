@@ -171,7 +171,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
           this.sendRecommendation(this.topicLevelRecommendationResponse)
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved");
+          this.showError("Data cannot be saved, Please reload the page if problem persist.");
         }
       })
     }
@@ -264,7 +264,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
         this.sendRecommendation(this.topicLevelRecommendationResponse)
         this.updateDataSavedStatus()
       }, error: _error => {
-        this.showError("Data cannot be saved");
+        this.showError("Data cannot be saved, Please reload the page if problem persist.");
       }
     })
   }

@@ -229,7 +229,7 @@ export const data_local =
         ADD_REFERENCE_BUTTON: "Add Maturity Reference",
         PARAMETER_REFERENCE_MESSAGE: "References can't be added because Parameter Level References already exists!",
         TOPIC_REFERENCE_MESSAGE: "References can't be added because Topic Level References already exists!",
-        DATA_NOT_SAVED: "Data cannot be saved",
+        DATA_NOT_SAVED: "Data cannot be saved, Please reload the page if problem persist.",
         DUPLICATE_RATING_ERROR_MESSAGE: "No duplicate ratings are allowed",
         DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
       },
@@ -277,7 +277,7 @@ export const data_local =
       LIMIT: 5000
     },
     SHOW_ERROR_MESSAGE: {
-      POPUP_ERROR: "Data cannot be saved",
+      POPUP_ERROR: "Data cannot be saved, Please reload the page if problem persist.",
       MENU_ERROR: "Error occurred while saving the data"
     },
     ADDITIONAL_QUESTIONS: {
