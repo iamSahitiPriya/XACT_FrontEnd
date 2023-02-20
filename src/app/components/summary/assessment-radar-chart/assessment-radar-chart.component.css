@@ -12,12 +12,17 @@
   padding-top: 15px;
   padding-left: 18px;
   margin-top: 55px;
+  width: 82%;
+  display: flex;
+  flex-direction: initial;
+  align-items: flex-start;
+  margin-left: 9%;
 }
 
 .module-name {
   height: 50px;
   color: #043d4e;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bolder;
   font-family: Inter, sans-serif;
   display: flex;
@@ -35,6 +40,8 @@
   padding-top: 15px;
   padding-left: 18px;
   margin-top: 55px;
+  margin-left: 9%;
+
 }
 
 .module-chart {
@@ -42,6 +49,9 @@
 }
 
 .over-all-card {
+  width: 82%;
+  margin-left: 9%;
+  margin-top: 2%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
