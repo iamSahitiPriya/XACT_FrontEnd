@@ -100,6 +100,8 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MtxPopoverModule} from "@ng-matero/extensions/popover";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
+import {RoadmapBubbleChartComponent} from './components/roadmap-bubble-chart/roadmap-bubble-chart.component';
+import {RecommendationTableComponent} from './components/recommendation-table/recommendation-table.component';
 import {
   AssessmentRadarChartComponent
 } from './components/summary/assessment-radar-chart/assessment-radar-chart.component';
@@ -200,6 +202,8 @@ export const appRoutes: Routes = [
     AdminReferenceComponent,
     AdminParameterReferenceComponent,
     AdminQuestionComponent,
+    RoadmapBubbleChartComponent,
+    RecommendationTableComponent,
     AssessmentRadarChartComponent,
   ],
 
