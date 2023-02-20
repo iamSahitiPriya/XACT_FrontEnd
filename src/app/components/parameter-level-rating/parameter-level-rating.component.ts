@@ -199,8 +199,8 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   }
 
 
-  addTemplate(parameterLevelRecommendation: any) {
-    if (parameterLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
+  addTemplate(parameterLevelRecommendation: ParameterLevelRecommendation[] | undefined) {
+    if (parameterLevelRecommendation && parameterLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
       this.recommendationSample = {
         recommendationId: undefined,
         recommendation: "",

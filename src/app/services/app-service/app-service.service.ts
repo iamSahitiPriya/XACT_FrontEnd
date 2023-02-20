@@ -28,6 +28,17 @@ import {QuestionStructure} from "../../types/questionStructure";
 import {SummaryResponse} from "../../types/summaryResponse";
 import template from "string-placeholder";
 import {SseClient} from "ngx-sse-client";
+import {CategoryRequest} from "../../types/Admin/categoryRequest";
+import {ModuleRequest} from "../../types/Admin/moduleRequest";
+import {ModuleResponse} from "../../types/Admin/moduleResponse";
+import {TopicRequest} from "../../types/Admin/topicRequest";
+import {TopicResponse} from "../../types/Admin/topicResponse";
+import {ParameterRequest} from "../../types/Admin/parameterRequest";
+import {ParameterResponse} from "../../types/Admin/parameterResponse";
+import {QuestionRequest} from "../../types/Admin/questionRequest";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
+import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 
 
@@ -43,7 +54,7 @@ export class AppServiceService {
     return this.http.get<AssessmentStructure[]>(environment.BaseURI + environment.ASSESSMENT_URI);
   }
 
-  public addAssessments(assessmentData: AssessmentRequest): Observable<any> {
+  public addAssessments(assessmentData: AssessmentRequest) {
     return this.http.post(environment.BaseURI + environment.ASSESSMENT_URI, assessmentData)
   }
 
@@ -76,7 +87,7 @@ export class AppServiceService {
   }
 
 
-  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<any> {
+  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<TopicLevelRecommendation> {
     const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: topicLevelRecommendationText.assessmentId,
       topicId: topicLevelRecommendationText.topicId
@@ -84,7 +95,7 @@ export class AppServiceService {
     return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
   }
 
-  deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number): Observable<any> {
+  deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number): Observable<TopicLevelRecommendation> {
     const topicRecommendationURI = this.formatURI(environment.DELETE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       topicId: topicId,
@@ -93,7 +104,7 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + topicRecommendationURI);
   }
 
-  saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<any> {
+  saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<ParameterLevelRecommendation> {
     const paramRecommendationURI = this.formatURI(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
       assessmentId: parameterLevelRecommendationText.assessmentId,
       parameterId: parameterLevelRecommendationText.parameterId
@@ -101,7 +112,7 @@ export class AppServiceService {
     return this.http.patch(environment.BaseURI + paramRecommendationURI, parameterLevelRecommendationText.parameterLevelRecommendation)
   }
 
-  deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number): Observable<any> {
+  deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number): Observable<ParameterLevelRecommendation> {
     const parameterRecommendationURI = this.formatURI(environment.DELETE_PARAMETER_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       parameterId: parameterId,
@@ -152,28 +163,28 @@ export class AppServiceService {
   }
 
 
-  saveCategory(categoryRequest: any) {
-    return this.http.post(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
+  saveCategory(categoryRequest: CategoryRequest) : Observable<CategoryResponse> {
+    return this.http.post<CategoryResponse>(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
 
-  saveParameter(parameterRequest: any) {
-    return this.http.post(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
+  saveParameter(parameterRequest: ParameterRequest) : Observable<ParameterResponse>{
+    return this.http.post<ParameterResponse>(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
   }
 
-  saveModule(moduleRequest: any) {
-    return this.http.post(environment.BaseURI + environment.SAVE_MODULE_URI, moduleRequest)
+  saveModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+    return this.http.post<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI, moduleRequest)
   }
 
-  updateCategory(categoryRequest: any) {
-    return this.http.put(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId, categoryRequest);
+  updateCategory(categoryRequest: CategoryRequest) : Observable<CategoryResponse> {
+    return this.http.put<CategoryResponse>(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId, categoryRequest);
   }
 
-  updateParameter(parameterRequest: any, parameterId: number) {
-    return this.http.put(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId, parameterRequest)
+  updateParameter(parameterRequest: ParameterRequest, parameterId: number) : Observable<ParameterResponse> {
+    return this.http.put<ParameterResponse>(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId, parameterRequest)
   }
 
-  updateModule(moduleRequest: any) {
-    return this.http.put(environment.BaseURI + environment.SAVE_MODULE_URI + "/" + moduleRequest.moduleId, moduleRequest);
+  updateModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+    return this.http.put<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI + "/" + moduleRequest.moduleId, moduleRequest);
   }
 
   generateAdminReport(adminAssessmentRequest: AdminAssessmentRequest) {
@@ -198,33 +209,33 @@ export class AppServiceService {
     return this.http.get<OrganisationResponse[]>(environment.BaseURI + environment.ACCOUNT_URI, {params: queryParams})
   }
 
-  saveUserQuestion(userQuestionRequest: UserQuestionRequest, assessmentId: number, parameterId: number): Observable<any> {
+  saveUserQuestion(userQuestionRequest: UserQuestionRequest, assessmentId: number, parameterId: number): Observable<UserQuestionResponse> {
     const headers = {'content-type': 'application/json'}
-    return this.http.post(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + parameterId + "/" + "questions", userQuestionRequest.question, {'headers': headers})
+    return this.http.post<UserQuestionResponse>(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + parameterId + "/" + "questions", userQuestionRequest.question, {'headers': headers})
   }
 
-  updateUserQuestion(userQuestion: UserQuestion, assessmentId: number): Observable<any> {
+  updateUserQuestion(userQuestion: UserQuestion, assessmentId: number): Observable<UserQuestionResponse> {
     const headers = {'content-type': 'application/json'}
-    return this.http.patch(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + userQuestion.questionId, userQuestion.question, {'headers': headers})
+    return this.http.patch<UserQuestionResponse>(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + userQuestion.questionId, userQuestion.question, {'headers': headers})
   }
 
-  deleteUserQuestion(assessmentId: number, questionId: number): Observable<any> {
-    return this.http.delete(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + questionId)
+  deleteUserQuestion(assessmentId: number, questionId: number): Observable<UserQuestionResponse> {
+    return this.http.delete<UserQuestionResponse>(environment.BaseURI + environment.CREATE_UPDATE_DELETE_USER_QUESTION_URI + "/" + assessmentId + "/" + "questions" + "/" + questionId)
   }
 
-  deleteAssessment(assessmentId: number): Observable<any> {
+  deleteAssessment(assessmentId: number) {
     return this.http.delete(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId);
   }
 
-  saveTopic(topicRequest: any): any {
-    return this.http.post<any>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
+  saveTopic(topicRequest: TopicRequest): Observable<TopicResponse> {
+    return this.http.post<TopicResponse>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
   }
 
-  updateTopic(topicRequest: any, topicId: number) {
-    return this.http.put<any>(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
+  updateTopic(topicRequest: TopicRequest, topicId: number) : Observable<TopicResponse> {
+    return this.http.put<TopicResponse>(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
   }
 
-  saveTopicReference(topicReferenceRequest: any) {
+  saveTopicReference(topicReferenceRequest: TopicReference) : Observable<TopicReference> {
     return this.http.post<TopicReference>(environment.BaseURI + environment.SAVE_TOPIC_REFERENCE_URI, topicReferenceRequest)
   }
 
@@ -232,28 +243,28 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_REFERENCE_URI + "/" + referenceId)
   }
 
-  updateTopicReference(referenceId: number, topicReferenceRequest: TopicReference) {
+  updateTopicReference(referenceId: number, topicReferenceRequest: TopicReference) : Observable<TopicReference> {
     return this.http.put<TopicReference>(environment.BaseURI + environment.UPDATE_TOPIC_REFERENCE_URI + "/" + referenceId, topicReferenceRequest)
   }
 
-  saveParameterReference(parameterReferenceRequest: any) {
+  saveParameterReference(parameterReferenceRequest: ParameterReference) : Observable<ParameterReference> {
     return this.http.post<ParameterReference>(environment.BaseURI + environment.SAVE_PARAMETER_REFERENCE_URI, parameterReferenceRequest)
   }
 
-  deleteParameterReference(referenceId: any) {
-    return this.http.delete<ParameterReference>(environment.BaseURI + environment.DELETE_PARAMETER_REFERENCE_URI + "/" + referenceId)
+  deleteParameterReference(referenceId: number) {
+    return this.http.delete(environment.BaseURI + environment.DELETE_PARAMETER_REFERENCE_URI + "/" + referenceId)
   }
 
-  updateParameterReference(referenceId: number, parameterReferenceRequest: ParameterReference) {
+  updateParameterReference(referenceId: number, parameterReferenceRequest: ParameterReference) : Observable<ParameterReference> {
     return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId, parameterReferenceRequest)
   }
 
-  updateMasterQuestion(questionId: number, questionRequest: QuestionStructure) {
+  updateMasterQuestion(questionId: number, questionRequest: QuestionStructure) : Observable<QuestionStructure> {
     return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
 
   }
 
-  saveMasterQuestion(questionRequest: any) {
+  saveMasterQuestion(questionRequest: QuestionRequest) : Observable<QuestionStructure>{
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
 

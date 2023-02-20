@@ -38,6 +38,13 @@
   padding-left: 15px;
   opacity: 1;
   word-break: break-word;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-question {
+  display: flex;
+  flex-direction: row;
 }
 
 .user-questions, .question-user, .edit-question {
@@ -104,8 +111,7 @@ textarea.mat-input-element.cdk-textarea-autosize {
 .questionCreateFunctions{
   display: flex;
   justify-content: flex-end;
-  margin-top: -66px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 .saveQuestionIcon{

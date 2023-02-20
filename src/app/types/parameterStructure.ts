@@ -14,6 +14,6 @@ export interface ParameterStructure {
   updatedAt:number,
   comments?:string,
   questions: QuestionStructure[],
-  userQuestions: UserQuestion[],
+  userQuestions ?: UserQuestion[],
   references: ParameterReference[]
 }

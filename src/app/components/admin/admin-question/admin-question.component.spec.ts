@@ -11,6 +11,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {Question} from "../../../types/Admin/question";
 
 class MockAppService {
   response = {
@@ -45,6 +46,7 @@ describe('AdminQuestionComponent', () => {
   let component: AdminQuestionComponent;
   let fixture: ComponentFixture<AdminQuestionComponent>;
   let mockAppService: MockAppService
+  let row : Question
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -135,10 +137,12 @@ describe('AdminQuestionComponent', () => {
       "modules": []
     }
     ])
-    component.parameter = {parameterId: 1, parameterName: ''}
+    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: 1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
     component.topic = 1
     component.module = 1
     component.category = 1
+    row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: false}
+
   });
 
   it('should create', () => {
@@ -167,7 +171,6 @@ describe('AdminQuestionComponent', () => {
 
   it("should enable edit on clicking the edit button", () => {
     jest.spyOn(component, 'setIsEdit')
-    let row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: false}
 
     component.ngOnInit()
     component.setIsEdit(row)
@@ -178,7 +181,6 @@ describe('AdminQuestionComponent', () => {
 
   it("should cancel changes on clicking cancel button", () => {
     jest.spyOn(component, 'cancelChanges')
-    let row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: true}
     component.unsavedQuestion = row
 
     component.ngOnInit()
@@ -191,7 +193,6 @@ describe('AdminQuestionComponent', () => {
   it("should update question with respective changes", () => {
     jest.spyOn(component, 'getQuestionRequest')
     jest.spyOn(component, 'updateQuestion')
-    let row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: true}
 
     component.ngOnInit()
     component.updateQuestion(row)
@@ -205,22 +206,35 @@ describe('AdminQuestionComponent', () => {
 
   it("should able to save questions", () => {
     jest.spyOn(component, 'saveQuestion')
-    let row = {questionId: -1, questionText: "This is a question text", parameter: 1, isEdit: true}
-    let row2 = {questionId: -1, questionText: "This is a question text2", parameter: 5, isEdit: true}
-
 
     component.ngOnInit()
     component.saveQuestion(row)
-
-    component.parameter = {parameterId:5}
-    component.saveQuestion(row2)
+    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
       expect(data).toBeDefined()
     })
 
     expect(component.saveQuestion).toHaveBeenCalled()
+  });
 
+  it("should able to save new questions for the parameter that doesn't have any questions before", () => {
+    jest.spyOn(component, 'saveQuestion')
+
+    component.ngOnInit()
+    component.parameter.parameterId = 5
+    row = {questionId: 1, questionText: "This is a question text2", parameter: 5, isEdit: false}
+    expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions).toBeUndefined()
+
+    component.saveQuestion(row)
+    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
+
+    mockAppService.saveMasterQuestion(row).subscribe(data => {
+      expect(data).toBeDefined()
+    })
+
+    expect(component.saveQuestion).toHaveBeenCalled()
+    expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions.length).toBe(1)
   });
 
   it("should throw error on unsuccessful save", () => {
@@ -276,7 +290,7 @@ describe('AdminQuestionComponent', () => {
   });
 
   it("should remove unsaved question from the array", () => {
-    component.questionArray = [{questionId:1},{questionId:-1}]
+    component.questionArray = [{questionId:1,questionText:"question",parameter:1},{questionId:-1,questionText:"question1",parameter:1}]
 
     component.deleteUnsavedQuestion()
 

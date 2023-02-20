@@ -1,10 +1,14 @@
-import {ModuleResponse} from "./moduleResponse";
+import {ParameterStructure} from "../parameterStructure";
+import {TopicReference} from "../topicReference";
 
 export interface TopicResponse{
-  module:ModuleResponse
+  moduleId:number
   topicId:number,
   topicName:string,
   updatedAt:number,
   active:boolean,
-  comments:string
+  comments?:string
+  categoryId : number
+  parameters ?: ParameterStructure[]
+  references ?: TopicReference[]
 }

@@ -26,6 +26,9 @@ import {ElementRef} from "@angular/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {SunburstSequenceData} from "../../types/sunburstSequenceData";
+import {SunburstSequenceTarget} from "../../types/sunburstSequenceTarget";
+import {SunburstSequence} from "../../types/sunburstSequence";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -223,27 +226,6 @@ describe('AssessmentSunburstChartComponent', () => {
     expect(component.fillThreatColorsInChart(node)).toBe("orange");
   })
 
-
-  it("should fill rating color as green if rating is more than 3", () => {
-    jest.spyOn(component, 'fillRatingCircle');
-
-    let rating = 4;
-    expect(component.fillRatingCircle(rating)).toBe("green");
-  })
-
-  it("should fill rating color as red if average rating is less than 3", () => {
-    jest.spyOn(component, 'fillRatingCircle');
-
-    let rating = 2
-    expect(component.fillRatingCircle(rating)).toBe("red");
-  })
-
-  it("should fill rating color as orange if  rating is equal to 3", () => {
-    jest.spyOn(component, 'fillRatingCircle');
-
-    let rating = 3
-    expect(component.fillRatingCircle(rating)).toBe("orange");
-  })
   it("should return name of particular element of data from structure", () => {
     jest.spyOn(component, 'getDataName');
     let dummyData = {
@@ -251,6 +233,7 @@ describe('AssessmentSunburstChartComponent', () => {
         name: "category1", rating: 3
       }
     }
+    // @ts-ignore
     expect(component.getDataName(dummyData)).toBe("category1")
   })
   it("should check MouseLeave Functionality", () => {

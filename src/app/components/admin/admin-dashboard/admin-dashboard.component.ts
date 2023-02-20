@@ -19,6 +19,8 @@ let MINUTES: number = 60;
 let SECONDS: number = 60;
 let MILLISECONDS: number = 1000;
 
+const NOTIFICATION_DURATION = 2000;
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -147,7 +149,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this._snackBar.open(message, action, {
       verticalPosition: 'top',
       panelClass: ['errorSnackbar'],
-      duration: 2000
+      duration: NOTIFICATION_DURATION
     })
   }
 

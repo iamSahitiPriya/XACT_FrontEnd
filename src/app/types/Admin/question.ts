@@ -6,6 +6,6 @@ export interface Question {
   questionId: number,
   questionText: string,
   parameter: number,
-  isEdit: boolean
+  isEdit ?: boolean
 }
 

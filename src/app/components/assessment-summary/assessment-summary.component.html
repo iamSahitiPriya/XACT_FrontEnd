@@ -76,7 +76,7 @@
         <div class="sunBurst">
           <div id="chart"></div>
           <div id="sequence">
-            <div *ngFor="let sequence of sequenceArray;index as i">
+            <div *ngFor="let sequence of sunburstSequenceArray;index as i">
               <mat-card class="trail" id="trail1">
                 <mat-card-content class="sequence-card">
                   <div class="sequence-name">{{sequence.data.name}}</div>
@@ -85,14 +85,14 @@
                       <mat-icon class="star-icon">star</mat-icon>
                       <span class="rating-value" *ngIf="sequence.data.value">{{sequence.data.value}}</span>
                       <span class="rating-value"
-                            *ngIf="sequence.data.rating">{{sequence.data.rating| number: '1.0-0'}}</span>
+                            *ngIf="sequence.data.rating">{{sequence.data.rating | number: '1.0-0'}}</span>
                     </div>
                   </div>
                 </mat-card-content>
               </mat-card>
               <br>
               <span id="downArrow-span"><mat-icon class="down-arrow" id="downArrow" [style.color]="arrowColor"
-                                                  *ngIf="i!==sequenceArray.length-1">keyboard_arrow_down</mat-icon>
+                                                  *ngIf="i!==sunburstSequenceArray.length-1">keyboard_arrow_down</mat-icon>
                </span>
               <br>
             </div>

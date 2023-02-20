@@ -9,5 +9,7 @@ export interface TopicData{
   topicName:string,
   active:boolean
   updatedAt : number,
-  comments ?: string
+  comments ?: string,
+  isEdit ?: boolean
+
 }

@@ -107,7 +107,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
-  showAccordion: any = true;
+  showAccordion: boolean = true;
   questionType: string = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
 
 
@@ -139,7 +139,7 @@ export class UserQuestionAnswerComponent implements OnInit {
     }
   }
 
-  editQuestionFlag(questionId: any) {
+  editQuestionFlag(questionId: number) {
     if (!this.createQuestionFlag) {
       this.questionEditFlagNumber = questionId
       this.questionEditFlag = true

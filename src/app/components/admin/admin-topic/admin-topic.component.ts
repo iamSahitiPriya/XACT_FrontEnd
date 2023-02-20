@@ -21,6 +21,13 @@ import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import {cloneDeep} from "lodash";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CategoryRequest} from "../../../types/Admin/categoryRequest";
+import {ModuleRequest} from "../../../types/Admin/moduleRequest";
+import {TopicRequest} from "../../../types/Admin/topicRequest";
+import {TopicResponse} from "../../../types/Admin/topicResponse";
+import {TopicStructure} from "../../../types/topicStructure";
+
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-admin-topic',
@@ -49,10 +56,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<TopicData>
   dataToDisplayed: TopicData[]
   private destroy$: Subject<void> = new Subject<void>();
-  categoryList: any[] = []
+  categoryList: CategoryRequest[] = []
   categoryAndModule = new Map();
   moduleAndTopic = new Map();
-  moduleList: any[] = []
+  moduleList: ModuleRequest[] = []
   selectedTopic: TopicData | null;
   private isTopicAdded: boolean;
   isEditable: boolean;
@@ -122,7 +129,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
-    let module: any [] = [];
+    let module: ModuleRequest [] = [];
     this.categoryList.push({
       categoryId: eachCategory.categoryId,
       categoryName: eachCategory.categoryName,
@@ -130,7 +137,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
     eachCategory.modules?.forEach(eachModule => {
       this.moduleAndTopic.set(eachModule.moduleId, [])
-      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active})
+      module.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active, category:eachModule.category})
       this.categoryAndModule.set(eachCategory.categoryId, module)
       if (eachModule.topics) {
         this.fetchTopics(eachModule, eachCategory);
@@ -140,7 +147,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
     eachModule.topics?.forEach(eachTopic => {
-      let topics = this.moduleAndTopic.get(eachModule.moduleId)
+      let topics : string[] = this.moduleAndTopic.get(eachModule.moduleId)
       topics.push(eachTopic.topicName)
       this.moduleAndTopic.set(eachModule.moduleId, topics)
       let topic: TopicData = {
@@ -174,7 +181,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   addTopicRow() {
     this.deleteAddedTopicRow()
     this.moduleList = []
-    let newTopic = {
+    let newTopic : TopicData = {
       categoryId: -1,
       categoryName: "",
       categoryStatus: false,
@@ -195,11 +202,11 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     this.isTopicAdded = true
   }
 
-  saveTopic(row: any) {
+  saveTopic(row: TopicData) {
     let topicSaveRequest = this.getTopicRequest(row);
     if (topicSaveRequest !== null) {
       this.appService.saveTopic(topicSaveRequest).subscribe({
-        next: (_data: any) => {
+        next: (_data) => {
           let data = this.dataSource.data
           this.isEditable = false;
           data.splice(0, 1)
@@ -211,15 +218,15 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           this.table.renderRows()
           this.sendToStore(_data)
           this.ngOnInit()
-        }, error: (_err: any) => {
+        }, error: (_err) => {
           this.showError(this.serverErrorMessage)
         }
       })
     }
   }
 
-  getTopicRequest(row: TopicData) {
-    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
+  getTopicRequest(row: TopicData) : TopicRequest | null {
+    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName)?.moduleId
     let topicArray = this.moduleAndTopic.get(selectedModuleId)
     let topicIndex = topicArray.findIndex((topic: string) => topic.toLowerCase().replace(/\s/g, '') === row.topicName.toLowerCase().replace(/\s/g, ''))
     if (this.isTopicUnique(topicIndex)) {
@@ -230,18 +237,22 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     }
   }
 
-  isTopicUnique(topicIndex: number) {
+  isTopicUnique(topicIndex: number) : boolean {
     return topicIndex === -1;
   }
 
-  setTopicRequest(row: TopicData) {
-    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName).moduleId
-    return {
-      module: selectedModuleId,
-      topicName: row.topicName,
-      active: row.active,
-      comments: row.comments,
+  setTopicRequest(row: TopicData) : TopicRequest | null {
+    let selectedModuleId = this.moduleList.find(module => module.moduleName === row.moduleName)?.moduleId
+    if(selectedModuleId) {
+      let topicRequest: TopicRequest = {
+        module: selectedModuleId,
+        topicName: row.topicName,
+        active: row.active,
+        comments: row.comments,
+      }
+      return topicRequest
     }
+    return null
   }
 
   showError(message: string) {
@@ -253,21 +264,20 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     })
   }
 
-  editTopic(row: any) {
+  editTopic(row: TopicData) {
     this.resetUnsavedChanges(row);
-
     this.deleteAddedTopicRow()
     this.selectedTopic = this.selectedTopic == row ? null : row
     this.isEditable = true
     row.isEdit = false
-    let categoryId = this.categoryList.find(category => category.categoryName == row.categoryName).categoryId
+    let categoryId = this.categoryList.find(category => category.categoryName == row.categoryName)?.categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     this.unsavedTopic = cloneDeep(row);
     return this.selectedTopic
   }
 
 
-  resetUnsavedChanges(row: any) {
+  resetUnsavedChanges(row: TopicData) {
     if (this.unsavedTopic !== undefined && this.unsavedTopic?.topicId !== row.topicId) {
       let data = this.dataSource.data
       let index = data.findIndex(topic => topic.topicId === this.unsavedTopic?.topicId)
@@ -278,8 +288,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateTopic(row: any) {
-    let topicRequest: { comments: string | undefined; module: any; topicName: string; active: boolean } | null = this.setTopicRequest(row);
+  updateTopic(row: TopicData) {
+    let topicRequest: TopicRequest | null = this.setTopicRequest(row);
     if (this.unsavedTopic?.topicName.toLowerCase().replace(/\s/g, '') !== row.topicName.toLowerCase().replace(/\s/g, '')) {
       topicRequest = this.getTopicRequest(row)
     }
@@ -294,7 +304,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           this.updateTopicToStore(_data)
           this.unsavedTopic = undefined;
           this.ngOnInit()
-          this.showNotification(this.updateSuccessMessage, 2000)
+          this.showNotification(this.updateSuccessMessage, NOTIFICATION_DURATION)
         }, error: _error => {
           this.showError(this.serverErrorMessage);
         }
@@ -315,10 +325,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
 
   shortlistModule(row: TopicData) {
     row.moduleName = ''
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName).categoryId
+    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     if (this.moduleList === undefined) {
-      this.moduleList = [{moduleName: this.moduleNotFound}]
+      this.moduleList = [{moduleName: this.moduleNotFound,moduleId:-1,active:false,category:-1}]
     }
     this.moduleList.sort((module1, module2) => Number(module2.active) - Number(module1.active))
   }
@@ -351,13 +361,15 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     row.comments = <string>this.unsavedTopic?.comments
   }
 
-  private getTopicStructure(_data: any) {
+  private getTopicStructure(_data: TopicResponse) : TopicStructure[] | undefined {
     return this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules.find(
       eachModule => eachModule.moduleId === _data.moduleId)?.topics
   }
 
-  sendToStore(_data: any) {
-    let topic = {
+  sendToStore(_data: TopicResponse) {
+    let topics : TopicStructure[] | undefined = this.getTopicStructure(_data)
+    if(topics === undefined) topics = []
+    let topic : TopicStructure = {
       topicId: _data.topicId,
       topicName: _data.topicName,
       module: _data.moduleId,
@@ -367,30 +379,29 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       parameters: _data.parameters ? _data.parameters : [],
       references: _data.references ? _data.references : []
     }
-    let topicStructure = this.getTopicStructure(_data)
-    topicStructure?.push(topic)
+    topics?.push(topic)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  private updateTopicToStore(_data: any) {
-    let topic = this.categories.find(eachCategory => eachCategory.categoryId === _data.categoryId)
-      ?.modules.find(eachModule => eachModule.moduleId === _data.moduleId)
+  private updateTopicToStore(_data: TopicResponse) {
+    let topic : TopicStructure[] | undefined = this.categories.find(eachCategory => eachCategory.categoryId === this.unsavedTopic?.categoryId)
+      ?.modules.find(eachModule => eachModule.moduleId === this.unsavedTopic?.moduleId)
       ?.topics
-    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === _data.topicId)
-    if (topicIndex !== undefined) {
-      let fetchedTopic: any = topic?.slice(topicIndex,topicIndex+1)[0]
-      _data['parameters'] = fetchedTopic.parameters
-      _data['references'] = fetchedTopic.references
+    let topicIndex = topic?.findIndex(eachTopic => eachTopic.topicId === this.unsavedTopic?.topicId)
+    if (topicIndex !== undefined && topicIndex !== -1) {
+      let fetchedTopic: TopicStructure | undefined = topic?.slice(topicIndex,topicIndex+1)[0]
+      _data.parameters = fetchedTopic?.parameters
+      _data.references = fetchedTopic?.references
       topic?.splice(topicIndex, 1)
       this.sendToStore(_data)
     }
   }
 
-  isInputValid(row: any) {
+  isInputValid(row: TopicData) : boolean {
     return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')));
   }
 
-  async openTopicReferences(reference: any, row: any) {
+  async openTopicReferences(reference: any, row: TopicData) {
     if (this.isTopicReferences(row)) {
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
@@ -403,23 +414,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       this.showError(this.parameterReferenceMessage)
   }
 
-  private isTopicReferences(row: any) {
+  private isTopicReferences(row: TopicData) {
     let flag = true;
     this.categories.find(category => category.categoryName === row.categoryName)?.modules.find(module => module.moduleName === row.moduleName)?.topics.find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
       if (parameter.references !== undefined && parameter.references.length !== 0)
         flag = false
     })
-
-
     return flag
   }
 
-  findCategoryId(row: any) {
-    return this.categoryList.find(category => category.categoryName === row.categoryName).categoryId;
+  findCategoryId(row: TopicData) : number {
+    let categoryId =  this.categoryList.find(category => category.categoryName === row.categoryName)?.categoryId;
+    return categoryId ? categoryId : -1
   }
 
-  findModuleId(row: any) {
-    let modules = this.categoryAndModule.get(this.findCategoryId(row))
-    return modules.find((module: { moduleName: any; }) => module.moduleName === row.moduleName).moduleId
+  findModuleId(row: TopicData) : number  {
+    let modules : ModuleRequest[] = this.categoryAndModule.get(this.findCategoryId(row))
+    let moduleId = modules.find(module => module.moduleName === row.moduleName)?.moduleId
+    return moduleId ? moduleId : -1
   }
 }

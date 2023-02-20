@@ -3,8 +3,9 @@
  */
 
 export interface TopicReference {
-  referenceId: number,
+  referenceId ?: number,
   topic: number,
   rating: number,
   reference: string
+  isEdit ?: boolean
 }

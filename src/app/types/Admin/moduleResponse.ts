@@ -1,10 +1,11 @@
-import {CategoryData} from "../category";
+import {TopicStructure} from "../topicStructure";
 
 export interface ModuleResponse{
-  category:CategoryData,
+  categoryId: number,
   moduleId:number,
   moduleName:string,
-  comments:string,
+  comments ?:string,
   updatedAt:number,
-  active:boolean
+  active:boolean,
+  topics ?: TopicStructure[]
 }
