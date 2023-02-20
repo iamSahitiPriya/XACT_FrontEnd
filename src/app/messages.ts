@@ -47,10 +47,10 @@ export const data_local =
           TITLE: "Assessment Request Type",
         }
       },
-      ASSESSMENT_DESCRIPTION:{
+      ASSESSMENT_DESCRIPTION: {
         TITLE: "Description for Assessment",
         PLACEHOLDER: "Enter Description of Assessment",
-        LIMIT:200,
+        LIMIT: 200,
         BLANK_SPACE_ERROR_TEXT: "No blank spaces are allowed"
       },
       ASSESSMENT_DOMAIN: {
@@ -116,7 +116,7 @@ export const data_local =
       IN_PROGRESS_REPORT_DOWNLOADING_MESSAGE: "Assessment report is getting downloaded.",
       COMPLETE_REPORT_DOWNLOADING_MESSAGE: "Assessment report & report template are getting downloaded, Please allow multiple download option.",
       REPORT_TEMPLATE_NAME: "Tech_Due_Diligence_Report_Sample.docx",
-      GO_BACK: "Go back"
+      GO_BACK: "Go back",
     },
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
@@ -129,7 +129,7 @@ export const data_local =
     },
     ASSESSMENT_QUESTION_FIELD: {
       LABEL: "Notes",
-      ANSWER_FIELD_LIMIT : 10000
+      ANSWER_FIELD_LIMIT: 10000
     },
     ERROR_MESSAGE_LINK_TEXT: {
       HOMEPAGE_LINK_TEXT: "Homepage",
@@ -172,7 +172,17 @@ export const data_local =
       PARAMETER_ASSESSED: "Parameters Assessed",
       QUESTION_ANSWERED: "Questions Answered",
       NO_DATA_AVAILABLE: "No rating data available to display the chart",
-      COLOUR_THEME_HEADING: "Select Color Theme"
+      COLOUR_THEME_HEADING: "Select Color Theme",
+      ROADMAP_CHART : {
+        TITLE : "Investment Roadmap",
+        NO_RECOMMENDATION_MESSAGE: "No Recommendations are available to display",
+        LEGEND_TITLE: "Category"
+
+      },
+      RECOMMENDATION : {
+        TITLE : "Recommendations",
+        HEADING : "Recommendation #"
+      }
     },
     ADMIN: {
       MODULE_NOT_FOUND: "No modules available",
@@ -258,6 +268,9 @@ export const data_local =
       IMPACT_1: "High",
       IMPACT_2: "Medium",
       IMPACT_3: "Low",
+      EFFORT_1:"High",
+      EFFORT_2:"Medium",
+      EFFORT_3:"Low",
       DH_1: "Now",
       DH_2: "Next",
       DH_3: "Later",
@@ -289,11 +302,16 @@ export const data_local =
       TARGET_RATING_TITLE: "Target Rating Gap",
       CURRENT_RATING_TITLE: "Current Rating"
     },
+    RADAR_CHART: {
+      CHART_TITLE: "Detailed Findings",
+      TARGET_SCORE_LABEL: "Target Score",
+      CURRENT_SCORE_LABEL: "Current Score"
+    },
     ACTIVITY_TYPE: {
-      DEFAULT_QUESTION_TYPE:"DEFAULT_QUESTION",
-      ADDITIONAL_QUESTION_TYPE:"ADDITIONAL_QUESTION",
+      DEFAULT_QUESTION_TYPE: "DEFAULT_QUESTION",
+      ADDITIONAL_QUESTION_TYPE: "ADDITIONAL_QUESTION",
       TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
       PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
 
-    }
+    },
   }

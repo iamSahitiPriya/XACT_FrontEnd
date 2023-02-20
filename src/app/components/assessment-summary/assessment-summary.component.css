@@ -104,12 +104,13 @@
   justify-content: center;
 }
 
-.sequence-card{
+.sequence-card {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
 }
+
 .trail {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
@@ -131,7 +132,7 @@
 }
 
 .sequence-name {
-  width:87%;
+  width: 87%;
   text-transform: capitalize;
   word-break: break-word;
   text-align: center;
@@ -174,7 +175,7 @@
 
 .definition {
   padding-left: 15%;
-  width:175%;
+  width: 175%;
 }
 
 .dataValue {
@@ -201,7 +202,7 @@
   margin-top: -85px;
   height: 205px;
   font-size: 20px;
-  margin-left:27%;
+  margin-left: 27%;
 }
 
 .noDataHeading {
@@ -212,12 +213,8 @@
   box-shadow: none;
 }
 
-.category-title-card {
-  width: 300px;
-  color: #45A0AC;
-}
-
 .module-ratings-bar-chart {
+  width: 35vw;
   padding-top: 15px;
 }
 
@@ -227,7 +224,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 225px;
+  width: 14vw;
   text-transform: capitalize;
   font-size: 18px;
   border-radius: 4px;
@@ -242,7 +239,7 @@
   margin-bottom: 30px;
   justify-content: flex-end;
   align-items: flex-start;
-  width: 228px;
+  margin-left: 1%;
 }
 
 .module-card {
@@ -251,17 +248,17 @@
 }
 
 .x-label {
-  margin-left: 54%;
+  margin-left: 53%;
   margin-bottom: -30px;
 }
 
 .score {
-  margin-right: 100px;
+  margin-right: 6vw;
 }
 
-.legend {
+.legend-details {
   display: flex;
-  width: 43%;
+  width: 20%;
   align-items: flex-start;
   padding-bottom: 5%;
   flex-wrap: nowrap;
@@ -280,14 +277,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 180px;
+  width: 10vw;
 }
 
 .legend-palette {
-  width: 130px;
-  height: 18px;
+  width: 8vw;
+  height: 1.5em;
   margin-top: 7px;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 .module-overall-rating-chart-title {
@@ -307,3 +304,6 @@
   margin-left: 9%;
 }
 
+.chart-content {
+  width: 90%;
+}

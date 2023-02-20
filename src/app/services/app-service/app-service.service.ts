@@ -39,6 +39,7 @@ import {QuestionRequest} from "../../types/Admin/questionRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {Recommendation} from "../../types/recommendation";
 
 
 @Injectable({
@@ -276,6 +277,13 @@ export class AppServiceService {
       assessmentId: assessmentId
     })
     return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
+  }
+
+  getAllRecommendations(assessmentId : number) {
+    const recommendationsURI = this.formatURI(environment.RECOMMENDATIONS_URI, {
+      assessmentId: assessmentId
+    })
+    return this.http.get<Recommendation []>(environment.BaseURI + recommendationsURI)
   }
 
   getActivity(topicId: number, assessmentId: number) {

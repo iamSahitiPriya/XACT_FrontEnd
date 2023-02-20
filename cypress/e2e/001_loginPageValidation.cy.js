@@ -8,6 +8,7 @@ describe('validating functionality of login page of xAct application', () => {
     cy.visit('/')
   })
 
+
   it('tc001 validating all fields in the login page',()=>{
     cy.clearLocalStorage()
     cy.clearCookies()
@@ -136,9 +137,6 @@ describe('validating functionality of login page of xAct application', () => {
     cy.visit('/')
     loginPage.xActLogin()
     loginPage.xActHomepagetitleValidation()
-    //loginPage.userNameDisplay().click()
-    //loginPage.logOut().click()
-    // cy.title().should('eq','Thoughtworks - Sign In')
   })
 
 

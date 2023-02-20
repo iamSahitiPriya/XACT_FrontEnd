@@ -16,6 +16,7 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
+import exp from "constants";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -338,6 +339,11 @@ describe('AppServiceService', () => {
   it("should get activity records", () => {
     let topicId = 1, assessmentId = 1;
     expect(service.getActivity(topicId, assessmentId)).toBeTruthy()
+  })
+
+  it("should get all the recommendations", () => {
+    let assessmentId = 1;
+    expect(service.getAllRecommendations(assessmentId)).toBeTruthy()
   })
 });
 

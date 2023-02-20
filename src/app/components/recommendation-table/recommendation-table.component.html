@@ -1,0 +1,26 @@
+<div *ngFor="let recommendation of recommendations; let index = index" class="recommendation-table">
+<div *ngIf="isDeliveryHorizonDisplayed(recommendation)" class="delivery-horizon">
+  {{deliveryHorizonTitle}} - <strong>{{deliveryHorizon}}</strong>
+</div>
+
+<div class="table-row">
+  <div>
+    <div class="category"  [style.background-color]= "categoryColor(recommendation.categoryName)" > {{recommendation.categoryName}} </div>
+  </div>
+
+  <div class="table-row-content">
+    <mat-card>
+      <div class="table-row-heading">
+        <div class="recommendation-title"><mat-icon class="flag-icon">flag</mat-icon> <div class="recommendation-title-text">{{recommendationTitle}}{{index+1}}</div> </div>
+        <div class="recommendation-detail">
+          <div class="recommendation-impact">{{impact}} <strong>{{recommendation.impact}}</strong> </div>
+          <div class="recommendation-effort">{{effort}} <strong>{{recommendation.effort}}</strong> </div>
+        </div>
+      </div>
+      <mat-card-content class="recommendation-description">
+        {{recommendation.recommendation}}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+</div>
