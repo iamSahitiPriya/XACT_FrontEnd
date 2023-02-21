@@ -47,14 +47,15 @@
   flex-direction: row;
 }
 
-.user-questions, .question-user, .edit-question {
+.user-questions, .question-user {
   display: flex;
   flex-direction: row;
   padding-right: 1%;
+  justify-content: space-around;
 }
 
 .question-user {
-  width: 97%;
+  width: 100%;
 }
 
 .question-content.user-question {
@@ -69,6 +70,7 @@
   color: #000000;
   align-self: auto;
   margin-top: 1%;
+  width: 4%;
 }
 
 .button1:hover {
@@ -76,7 +78,7 @@
 }
 .questionArea {
   display: -webkit-inline-flex;
-  width: 82%;
+  width: 84%;
   padding-right: 1%;
   padding-left: 1%;
 }
@@ -97,7 +99,7 @@
 }
 .questionEditFunctions{
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 textarea.mat-input-element.cdk-textarea-autosize {
   color: black !important ;

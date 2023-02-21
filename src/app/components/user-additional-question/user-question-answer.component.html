@@ -12,7 +12,7 @@
       <div  class="edit-question" *ngIf="questionEditFlagNumber === userQuestion.questionId ">
         <div class="question-user">
           <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}     </span>
-          <mat-form-field class="questionArea" appearance="outline" id="testForm1" style="width: 97%;">
+          <mat-form-field class="questionArea" appearance="outline" id="testForm1">
           <textarea #input matInput id="testForm{{userQuestion.questionId}}"
                 name="userQuestion{{userQuestion.questionId}}"
                 cdkTextareaAutosize
@@ -24,12 +24,13 @@
             <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
 
           </mat-form-field>
+
+          <div class="questionEditFunctions">
+            <button class="saveQuestionIcon"><mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="{{updateHoverText}}">done</mat-icon>  </button>   <span>&nbsp;&nbsp;</span>
+            <button class="questionFunctionButton"><mat-icon  (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
+          </div>
         </div>
 
-     <div class="questionEditFunctions">
-      <button class="saveQuestionIcon"><mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="{{updateHoverText}}">done</mat-icon>  </button>   <span>&nbsp;&nbsp;</span>
-       <button class="questionFunctionButton"><mat-icon  (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
-     </div>
         <br>
       </div>
 
@@ -67,13 +68,16 @@
       <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
 
     </mat-form-field>
+
+    <div class="questionCreateFunctions">
+      <button class="saveQuestionIcon"> <mat-icon id="saveQuestion" (click)="saveQuestion()" matTooltip="{{saveHoverText}}">done</mat-icon> </button>
+      <span>&nbsp;&nbsp;</span>
+      <button class="questionFunctionButton"><mat-icon  (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon> </button>
+    </div>
+
   </div>
 
-  <div class="questionCreateFunctions">
-  <button class="saveQuestionIcon"> <mat-icon id="saveQuestion" (click)="saveQuestion()" matTooltip="{{saveHoverText}}">done</mat-icon> </button>
-    <span>&nbsp;&nbsp;</span>
-    <button class="questionFunctionButton"><mat-icon  (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon> </button>
-  </div>
+
 
 </div>
 </div>
