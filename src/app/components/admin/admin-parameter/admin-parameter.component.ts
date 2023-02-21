@@ -25,7 +25,7 @@ import {ParameterResponse} from "../../../types/Admin/parameterResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
 
 
-const NOTIFICATION_DURATION = 2000;
+const NOTIFICATION_DURATION = 5000;
 
 @Component({
   selector: 'app-admin-parameter',
@@ -341,7 +341,7 @@ export class AdminParameterComponent implements OnInit {
           this.parameterData = []
           this.ngOnInit()
         }, error: _error => {
-          this.showError(this.serverErrorMessage);
+          this.showError(_error.error);
         }
       })
     }

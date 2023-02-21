@@ -144,7 +144,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
             this.updateDataSavedStatus()
 
           }, error: _error => {
-            this.showError("Data cannot be saved");
+            this.showError("Data cannot be saved, Please reload the page if problem persist.");
           }
         })
         if (this.topicRatingAndRecommendation.rating !== undefined) {
