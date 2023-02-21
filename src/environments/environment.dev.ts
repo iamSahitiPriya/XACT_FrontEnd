@@ -25,7 +25,7 @@ export const environment = {
   DELETE_TOPIC_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/recommendations/${recommendationId}",
   DELETE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/recommendations/${recommendationId}",
   IDLE_TIMEOUT: 60,  //in sec
-  TIMEOUT: 600, // 10 min
+  TIMEOUT: 900, // 15 min
   ALL_CATEGORY_URI: "/v1/categories",
   SAVE_CATEGORY_URI: "/v1/admin/categories",
   GET_ADMIN_ASSESSMENTS: "/v1/admin/assessments",
