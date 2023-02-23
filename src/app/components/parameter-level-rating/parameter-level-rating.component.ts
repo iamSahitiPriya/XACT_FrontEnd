@@ -204,9 +204,9 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
       this.recommendationSample = {
         recommendationId: undefined,
         recommendation: "",
-        impact: "",
-        effort: "",
-        deliveryHorizon: ""
+        impact: "LOW",
+        effort: "LOW",
+        deliveryHorizon: "LATER"
       };
       parameterLevelRecommendation.unshift(this.recommendationSample);
     }

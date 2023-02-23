@@ -202,9 +202,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
           parameterLevelRecommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation ? this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation : [{
             recommendationId: undefined,
             recommendation: "",
-            impact: "",
-            effort: "",
-            deliveryHorizon: ""
+            impact: "LOW",
+            effort: "LOW",
+            deliveryHorizon: "LATER"
           }]
         }
       }
@@ -217,9 +217,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
           parameterLevelRecommendation: [{
             recommendationId: undefined,
             recommendation: "",
-            impact: "",
-            effort: "",
-            deliveryHorizon: ""
+            impact: "LOW",
+            effort: "LOW",
+            deliveryHorizon: "LATER"
           }],
           parameterId: parameter.parameterId
         }
@@ -243,9 +243,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         topicLevelRecommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation : [{
           recommendationId: undefined,
           recommendation: "",
-          impact: "",
-          effort: "",
-          deliveryHorizon: ""
+          impact: "LOW",
+          effort: "LOW",
+          deliveryHorizon: "LATER"
         }],
         topicId: this.topicInput.topicId
       }
@@ -255,9 +255,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         topicLevelRecommendation: [{
           recommendationId: undefined,
           recommendation: "",
-          impact: "",
-          effort: "",
-          deliveryHorizon: ""
+          impact: "LOW",
+          effort: "LOW",
+          deliveryHorizon: "LATER"
         }],
         topicId: this.topicInput.topicId
       }
