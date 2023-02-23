@@ -303,9 +303,9 @@ describe('TopicLevelAssessmentComponent', () => {
 
       parameterRatingAndRecommendation: {
         parameterId: 1, rating: 0, parameterLevelRecommendation: [{
-          "deliveryHorizon": "",
-          "effort": "",
-          "impact": "",
+          "deliveryHorizon": "LATER",
+          "effort": "LOW",
+          "impact": "LOW",
           "recommendation": "",
           "recommendationId": undefined
         }]

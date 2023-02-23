@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
     // do something when the user is no longer idle
     idle.onIdleEnd.subscribe(() => {
       this.idleState = data_local.IDLE_STATE.STATE.NOT_IDLE;
-      console.log(`${this.idleState} ${new Date()}`)
       cd.detectChanges(); // how do i avoid this kludge?
     });
 

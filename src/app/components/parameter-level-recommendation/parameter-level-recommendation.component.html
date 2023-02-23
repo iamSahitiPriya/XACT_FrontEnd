@@ -45,7 +45,7 @@
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>
             &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
-            &nbsp;<mat-radio-button value="LOW">{{Low}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW" [checked]="true">{{Low}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -60,7 +60,7 @@
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
-            &nbsp;<mat-radio-button value="LOW">{{Low}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LOW" [checked]="true">{{Low}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -76,7 +76,7 @@
             [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="NOW">&nbsp;{{Now}}</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="NEXT">{{Next}}</mat-radio-button>
-            &nbsp;<mat-radio-button value="LATER">{{Later}}</mat-radio-button>
+            &nbsp;<mat-radio-button value="LATER" [checked]="true">{{Later}}</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>

@@ -78,9 +78,9 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   recommendationSample: TopicLevelRecommendation = {
     recommendationId: undefined,
     recommendation: "",
-    impact: "",
-    effort: "",
-    deliveryHorizon: ""
+    impact: "LOW",
+    effort: "LOW",
+    deliveryHorizon: "LATER"
 
   }
 
@@ -191,9 +191,9 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
       this.recommendationSample = {
         recommendationId: undefined,
         recommendation: "",
-        impact: "",
-        effort: "",
-        deliveryHorizon: ""
+        impact: "LOW",
+        effort: "LOW",
+        deliveryHorizon: "LATER"
       };
       topicLevelRecommendation.unshift(this.recommendationSample);
     }
