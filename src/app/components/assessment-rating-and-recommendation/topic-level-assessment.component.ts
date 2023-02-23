@@ -96,6 +96,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   topicRecommendation: string = data_local.ACTIVITY_TYPE.TOPIC_RECOMMENDATION;
   parameterRecommendation: string = data_local.ACTIVITY_TYPE.PARAMETER_RECOMMENDATION;
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
+  addRecommendation: string = data_local.RECOMMENDATION_TEXT.ADD_RECOMMENDATION;
 
 
 

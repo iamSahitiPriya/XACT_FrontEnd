@@ -80,16 +80,16 @@
       <button (click)="addTemplate()" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
         <div>
           <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
-          id="addRecommendation"> Add Recommendations</span>
+          id="addRecommendation"> {{addRecommendation}}</span>
         </div>
       </button>
       <div *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">
         <app-topic-level-recommendation
-          [index]="i"
+          [recommendationIndex]="i"
           [recommendation]="recommendation"
           [assessmentId]="assessmentId"
           [topicId]="topicInput.topicId"
-          [topicRecommendationArray]="topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation"
+          [topicRecommendations]="topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation"
           [activityRecords] = "activityRecord.topicRecommendation"
         ></app-topic-level-recommendation>
       </div>

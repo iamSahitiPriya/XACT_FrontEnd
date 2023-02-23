@@ -261,6 +261,7 @@ export const data_local =
       LAST_YEAR: "Last 365 Days"
     },
     RECOMMENDATION_TEXT: {
+      ADD_RECOMMENDATION : "Add Recommendations",
       IMPACT_LABEL: "Impact",
       EFFORT: "Effort",
       DELIVERY_HORIZON: "Delivery Horizon",

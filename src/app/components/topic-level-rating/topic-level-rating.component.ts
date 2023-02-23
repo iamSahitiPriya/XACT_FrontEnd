@@ -18,9 +18,7 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {data_local} from "src/app/messages"
-import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
-import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const topicRatingData = [{}]
 
@@ -96,10 +94,10 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 200000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 200000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -172,8 +170,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-
 
 
 }

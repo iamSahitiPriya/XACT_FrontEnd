@@ -2,12 +2,12 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<mat-card class="recommendation" [ngStyle]="{'background-color': index%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
+<mat-card class="recommendation" [ngStyle]="{'background-color': recommendationIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="parent">
     <div class="recommendation-text"
          [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===recommendation.recommendationId}">
-      <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation" [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()"
-      >
+      <mat-form-field class="textArea" appearance="outline" *ngIf="recommendation"
+                      [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()">
         <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
         <textarea #input id="recommendationElement_topic{{recommendation.recommendationId}}"
@@ -17,7 +17,7 @@
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxlength="5000"
-                  (keyup)="saveParticularTopicRecommendationText($event)"
+                  (keyup)="saveTopicRecommendation()"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
         <mat-hint
           *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==recommendation.recommendationId; else text"
@@ -46,7 +46,7 @@
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_impact"
             name="recommendationText_topic{{recommendation.recommendationId}}_impact"
-            [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="inputChange()"
+            [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="saveTopicRecommendation()"
             [value]="recommendation.impact"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>
@@ -62,7 +62,7 @@
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_effort"
             name="recommendationText_topic{{recommendation.recommendationId}}_effort"
-            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="inputChange()"
+            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="saveTopicRecommendation()"
             [value]="recommendation.effort"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>&nbsp;
@@ -79,7 +79,8 @@
           <mat-radio-group
             id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
             name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
-            [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option" (change)="inputChange()"
+            [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option"
+            (change)="saveTopicRecommendation()"
             [value]="recommendation.deliveryHorizon"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="NOW">&nbsp;{{Now}}</mat-radio-button>&nbsp;
@@ -89,7 +90,7 @@
         </div>
       </div>
       <div class="delete-button">
-        <button (click)="deleteTemplate(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText"
+        <button (click)="deleteRecommendation(recommendation)" class="deleteIcon" [matTooltip]="deleteRecommendationText"
                 [disabled]="assessmentStatus ==='Completed'">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">{{Delete}}</span>

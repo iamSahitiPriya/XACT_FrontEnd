@@ -13,7 +13,6 @@ import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
 import {CategoryResponse} from "../../types/categoryResponse";
-import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
@@ -87,12 +86,12 @@ export class AppServiceService {
   }
 
 
-  saveTopicRecommendation(topicLevelRecommendationText: TopicLevelRecommendationTextRequest): Observable<TopicLevelRecommendation> {
+  saveTopicRecommendation(assessmentId : number, topicId : number, topicLevelRecommendation: TopicLevelRecommendation): Observable<TopicLevelRecommendation> {
     const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_URI, {
-      assessmentId: topicLevelRecommendationText.assessmentId,
-      topicId: topicLevelRecommendationText.topicId
+      assessmentId: assessmentId,
+      topicId: topicId
     })
-    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendationText.topicLevelRecommendation)
+    return this.http.patch(environment.BaseURI + topicRecommendationURI, topicLevelRecommendation)
   }
 
   deleteTopicRecommendation(assessmentId: number, topicId: number, recommendationId: number): Observable<TopicLevelRecommendation> {

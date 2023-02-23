@@ -68,7 +68,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should auto save  recommendation", async () => {
-    component.topicRecommendationResponse1 = of({
+    component.assessmentData = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -110,7 +110,7 @@ describe('RecommendationComponent', () => {
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
     jest.spyOn(component, 'updateDataSavedStatus')
-    jest.spyOn(component, 'saveParticularTopicRecommendationText')
+    jest.spyOn(component, 'saveTopicRecommendation')
     component.recommendation = {
       recommendationId: 1,
       recommendation: "some more",
@@ -120,7 +120,7 @@ describe('RecommendationComponent', () => {
     }
     component.assessmentStatus = "Active"
     component.ngOnInit()
-    component.saveParticularTopicRecommendationText(keyEvent);
+    component.saveTopicRecommendation(keyEvent);
 
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -133,7 +133,7 @@ describe('RecommendationComponent', () => {
 
 
   it("should auto save delivery horizon", async () => {
-    component.topicRecommendationResponse1 = of({
+    component.assessmentData = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -193,7 +193,7 @@ describe('RecommendationComponent', () => {
 
 
   it("should auto save impact change", () => {
-    component.topicRecommendationResponse1 = of({
+    component.assessmentData = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -254,7 +254,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should auto save effort change", () => {
-    component.topicRecommendationResponse1 = of({
+    component.assessmentData = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -332,15 +332,15 @@ describe('RecommendationComponent', () => {
     topicArray = [];
     component.topicId = 0;
 
-    component.topicRecommendationArray = topicArray;
-    component.topicRecommendationArray?.push(recommendation);
+    component.topicRecommendations = topicArray;
+    component.topicRecommendations?.push(recommendation);
 
     component.ngOnInit()
-    jest.spyOn(component, 'deleteTemplate')
-    component.deleteTemplate(recommendation);
-    jest.spyOn(component, 'deleteRecommendationTemplate')
+    jest.spyOn(component, 'deleteRecommendation')
+    component.deleteRecommendation(recommendation);
+    jest.spyOn(component, 'deleteRecommendation')
 
-    expect(component.topicRecommendationArray.length).toBe(0);
+    expect(component.topicRecommendations.length).toBe(0);
   })
 
   it('should not delete recommendation and throw error', () => {
@@ -353,10 +353,10 @@ describe('RecommendationComponent', () => {
     }
 
     component.ngOnInit()
-    component.deleteTemplate(recommendation);
-    jest.spyOn(component, 'deleteRecommendationTemplate')
+    component.deleteRecommendation(recommendation);
+    jest.spyOn(component, 'deleteRecommendation')
     jest.spyOn(component, 'showError')
-    component.deleteRecommendationTemplate(recommendation, 0)
+    component.deleteRecommendation(recommendation, 0)
 
 
     mockAppService.deleteTopicRecommendation(1, 1, 0).subscribe(() => {
@@ -394,7 +394,7 @@ describe('RecommendationComponent', () => {
   });
 
   it("should throw error when problem occurs if undefined is sent", async () => {
-    component.topicRecommendationResponse1 = of({
+    component.assessmentData = of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -436,11 +436,11 @@ describe('RecommendationComponent', () => {
     const keyEventData = {isTrusted: true, code: 'Key'};
     const keyEvent = new KeyboardEvent('keyup', keyEventData);
 
-    jest.spyOn(component, 'saveParticularTopicRecommendationText')
+    jest.spyOn(component, 'saveTopicRecommendation')
     component.recommendation = {recommendationId: 1, recommendation: "", impact: "", effort: "", deliveryHorizon: ""}
     component.ngOnInit()
-    component.saveParticularTopicRecommendationText(keyEvent);
-    component.saveParticularTopicRecommendationText(keyEvent)
+    component.saveTopicRecommendation(keyEvent);
+    component.saveTopicRecommendation(keyEvent)
     component.inputChange()
 
     await new Promise((r) => setTimeout(r, 2000));
@@ -465,7 +465,7 @@ describe('RecommendationComponent', () => {
       deliveryHorizon: "text"
     }
 
-    component.topicRecommendationSample = [{
+    component.cloneTopicRecommendations = [{
       recommendationId: 1,
       recommendation: "sample text",
       impact: "LOW",
@@ -475,10 +475,10 @@ describe('RecommendationComponent', () => {
 
     component.topicRecommendationIndex = -1
 
-    component.getRecommendation(component.topicRecommendationSample, component.topicLevelRecommendationResponse)
+    component.setRecommendation(component.cloneTopicRecommendations, component.topicLevelRecommendationResponse)
 
-    if (component.topicRecommendationSample) {
-      expect(component.topicRecommendationSample[component.topicRecommendationIndex].recommendation).toBe("text");
+    if (component.cloneTopicRecommendations) {
+      expect(component.cloneTopicRecommendations[component.topicRecommendationIndex].recommendation).toBe("text");
     }
   });
 
