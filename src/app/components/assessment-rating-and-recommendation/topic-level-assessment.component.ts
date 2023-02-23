@@ -22,6 +22,7 @@ import {data_local} from "../../messages";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 export const saveAssessmentData = [{}]
 
@@ -48,6 +49,7 @@ export interface ActivityRecord {
 }
 
 let parameterRequests: parameterRequest[];
+let RECOMMENDATION_MAX_LIMIT = 20;
 
 @Component({
   selector: 'app-topic-level-assessment',
@@ -93,6 +95,8 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   additionalQuestion: string = data_local.ACTIVITY_TYPE.ADDITIONAL_QUESTION_TYPE
   topicRecommendation: string = data_local.ACTIVITY_TYPE.TOPIC_RECOMMENDATION;
   parameterRecommendation: string = data_local.ACTIVITY_TYPE.PARAMETER_RECOMMENDATION;
+  recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
+
 
 
   ngOnInit(): void {
@@ -106,6 +110,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.getActivities()
     this.topicParameterValidation()
     this.updateAverageRating()
+    this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation?.reverse()
   }
 
   private topicParameterValidation() {
@@ -319,5 +324,19 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
 
   clearActivityRecords() {
     this.activityRecord.question = this.activityRecord.userQuestion = this.activityRecord.topicRecommendation = this.activityRecord.parameterRecommendation = []
+  }
+
+  addTemplate() {
+    if (this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation &&
+      this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation.length <= RECOMMENDATION_MAX_LIMIT) {
+      let recommendation : TopicLevelRecommendation = {
+        recommendationId: undefined,
+        recommendation: "",
+        impact: "LOW",
+        effort: "LOW",
+        deliveryHorizon: "LATER"
+      };
+      this.topicRequest.topicRatingAndRecommendation.topicLevelRecommendation.unshift(recommendation);
+    }
   }
 }

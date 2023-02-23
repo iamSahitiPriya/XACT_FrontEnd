@@ -24,8 +24,6 @@ import {ActivityLogResponse} from "../../types/activityLogResponse";
 
 export const topicRatingData = [{}]
 
-let RECOMMENDATION_MAX_LIMIT = 20;
-
 @Component({
   selector: 'app-topic-level-rating',
   templateUrl: './topic-level-rating.component.html',
@@ -39,7 +37,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
-  recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
 
 
@@ -47,8 +44,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
-  @Input()
-  topicRecommendation: number;
 
   @Input()
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
@@ -67,22 +62,11 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   @Input()
   topicName: string
 
-  @Input()
-  activityRecords : ActivityLogResponse[]
-
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
   form: UntypedFormGroup;
 
-  recommendationSample: TopicLevelRecommendation = {
-    recommendationId: undefined,
-    recommendation: "",
-    impact: "LOW",
-    effort: "LOW",
-    deliveryHorizon: "LATER"
-
-  }
 
   topicLevelRecommendation: TopicRecommendation = {
     assessmentId: 0, topicId: 0, topicLevelRecommendation: []
@@ -108,7 +92,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
         this.answerResponse = data
       }
     })
-    this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse()
   }
 
   showError(message: string) {
@@ -181,22 +164,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   }
 
   private sendAverageRating(rating: number) {
-    this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
+    this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
-  }
-
-
-  addTemplate(topicLevelRecommendation: TopicLevelRecommendation[] | undefined) {
-    if (topicLevelRecommendation && topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
-      this.recommendationSample = {
-        recommendationId: undefined,
-        recommendation: "",
-        impact: "LOW",
-        effort: "LOW",
-        deliveryHorizon: "LATER"
-      };
-      topicLevelRecommendation.unshift(this.recommendationSample);
-    }
   }
 
   ngOnDestroy(): void {
