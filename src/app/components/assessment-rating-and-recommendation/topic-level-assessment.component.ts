@@ -98,8 +98,6 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
   addRecommendation: string = data_local.RECOMMENDATION_TEXT.ADD_RECOMMENDATION;
 
-
-
   ngOnInit(): void {
     this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {

@@ -262,6 +262,7 @@ export const data_local =
     },
     RECOMMENDATION_TEXT: {
       ADD_RECOMMENDATION : "Add Recommendations",
+      DELETE_RECOMMENDATION : "Delete Recommendation",
       IMPACT_LABEL: "Impact",
       EFFORT: "Effort",
       DELIVERY_HORIZON: "Delivery Horizon",
@@ -279,7 +280,8 @@ export const data_local =
     },
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR: "Data cannot be saved, Please reload the page if problem persist.",
-      MENU_ERROR: "Error occurred while saving the data"
+      MENU_ERROR: "Error occurred while saving the data",
+      DELETE_ERROR : "Data cannot be deleted"
     },
     ADDITIONAL_QUESTIONS: {
       HEADING: "Additional Questions -",

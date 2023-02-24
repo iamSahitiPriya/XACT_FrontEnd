@@ -21,6 +21,8 @@ import {ActivityLogResponse} from "../../types/activityLogResponse";
 export const topicRecommendationData = [{}]
 let DEBOUNCE_TIME = 800;
 
+const NOTIFICATION_DURATION = 2000;
+
 @Component({
   selector: 'app-topic-level-recommendation',
   templateUrl: './topic-level-recommendation.component.html',
@@ -61,7 +63,10 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
   maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
-
+  deleteRecommendationText: string = data_local.RECOMMENDATION_TEXT.DELETE_RECOMMENDATION;
+  autoSaveText : string = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE
+  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
+  deleteError : string = data_local.SHOW_ERROR_MESSAGE.DELETE_ERROR
   assessmentStatus: string;
   assessmentData: Observable<AssessmentStructure>;
   private cloneAssessmentData: AssessmentStructure;
@@ -70,7 +75,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
   activateSpinner: boolean = false;
   cloneTopicRecommendations: TopicLevelRecommendation[] | undefined;
-  deleteRecommendationText: string = "Delete Recommendation";
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
@@ -81,7 +85,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: NOTIFICATION_DURATION,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
@@ -120,7 +124,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   }
 
   saveTopicRecommendation() {
-      this.autoSave = "Auto Saved"
+      this.autoSave = this.autoSaveText
       this.isSaving = true
       this.appService.saveTopicRecommendation(this.assessmentId, this.topicId, this.recommendation).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
@@ -130,9 +134,22 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
           this.sendRecommendation(this.recommendation)
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved, Please reload the page if problem persist.");
+          this.showError(this.serverError);
         }
       })
+  }
+
+  deleteRecommendation(recommendation: TopicLevelRecommendation) {
+    let index = this.getRecommendationIndex(recommendation);
+    if (index !== -1 && recommendation.recommendationId) {
+      this.topicRecommendations?.splice(index, 1);
+      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
+        error: _error => {
+          this.topicRecommendations?.splice(index, 1, recommendation);
+          this.showError(this.deleteError);
+        }
+      })
+    }
   }
 
   private sendRecommendation(recommendation: TopicLevelRecommendation) {
@@ -191,19 +208,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   updateDataSavedStatus() {
     this.cloneAssessmentData.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
-  }
-
-  deleteRecommendation(recommendation: TopicLevelRecommendation) {
-    let index = this.getRecommendationIndex(recommendation);
-      if (index !== -1 && recommendation.recommendationId) {
-        this.topicRecommendations?.splice(index, 1);
-        this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
-          error: _error => {
-            this.topicRecommendations?.splice(index, 1, recommendation);
-            this.showError("Data cannot be deleted");
-          }
-        })
-      }
   }
 
   private getRecommendationIndex(recommendation: TopicLevelRecommendation) : number {
