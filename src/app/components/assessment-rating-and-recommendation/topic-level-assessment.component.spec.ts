@@ -564,8 +564,24 @@ describe('TopicLevelAssessmentComponent', () => {
     let userQuestionList = component.getUserQuestionList(parameter);
 
     expect(userQuestionList.length).toBe(1)
+  });
 
+  it('should able to add recommendation when add template is clicked', () => {
+    component.topicRequest.topicRatingAndRecommendation = {
+      topicId: 0, rating: 1, topicLevelRecommendation: [
+        {
+          recommendationId: undefined,
+          recommendation: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+      ]
+    };
 
+    component.addTemplate();
+
+    expect(component.topicRequest.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
   });
 });
 

@@ -10,13 +10,12 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
-import {TopicLevelRecommendationTextRequest} from "../../types/topicLevelRecommendationTextRequest";
 import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
-import exp from "constants";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -99,16 +98,9 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular topic Recommendation", () => {
-    let dummyTopicRecommendation: TopicLevelRecommendationTextRequest = {
-      assessmentId: 1, topicId: 1,
-      topicLevelRecommendation:
-        {
-          recommendationId: 1,
-          recommendation: "some text"
-
-        }
-    }
-    expect(service.saveTopicRecommendation(dummyTopicRecommendation)).toBeTruthy()
+    let dummyTopicRecommendation: TopicLevelRecommendation = {
+          recommendationId: 1, recommendation: "some text", impact : "LOW", effort: "MEDIUM", deliveryHorizon:"NOW"}
+    expect(service.saveTopicRecommendation(1,1,dummyTopicRecommendation)).toBeTruthy()
   });
 
   it("should delete topic recommendation", () => {
@@ -345,5 +337,9 @@ describe('AppServiceService', () => {
     let assessmentId = 1;
     expect(service.getAllRecommendations(assessmentId)).toBeTruthy()
   })
+
+  it("should get user role", () => {
+    expect(service.getUserRole()).toBeTruthy()
+  });
 });
 

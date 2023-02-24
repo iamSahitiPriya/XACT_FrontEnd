@@ -229,60 +229,6 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     expect(topicRatingAndRecommendation.rating).toEqual(3);
   });
 
-  it('should able to add recommendation when add template is clicked', () => {
-    component.topicRatingAndRecommendation = {
-      topicId: 0, rating: 1, topicLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
-
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
-
-    expect(component.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
-  });
-
-  it('should able to erase the recommendation sample data when add template is clicked', () => {
-    component.recommendationSample = {
-      recommendationId: undefined,
-      recommendation: "some text",
-      impact: "HIGH",
-      effort: "LOW",
-      deliveryHorizon: "some more text"
-    };
-    component.assessmentId = 2
-    component.topicId = 0
-    const keyEventData = {isTrusted: true, code: 'KeyA'};
-    jest.spyOn(component, "showError")
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation: [{}]}
-    component.ngOnInit()
-    component.topicRatingAndRecommendation = {
-      topicId: 0, rating: 1, topicLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
-
-    expect(component.recommendationSample.recommendation).toBe("");
-    expect(component.recommendationSample.deliveryHorizon).toBe("LATER");
-  });
-
   it("should call the error whenever a problem occurs", () => {
     jest.spyOn(component, "showError")
     component.showError("Error")
