@@ -152,7 +152,6 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   }
 
   sendRecommendation(recommendation: TopicLevelRecommendation) {
-    let index = 0;
     let updatedRecommendationList = [];
     let topicRecommendation: TopicRatingAndRecommendation = {
       topicId: this.topicId,
@@ -165,29 +164,29 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
         deliveryHorizon: recommendation.deliveryHorizon
       }]
     };
-    updatedRecommendationList.push(topicRecommendation);
+    updatedRecommendationList.unshift(topicRecommendation);
     if (this.cloneAssessmentData.topicRatingAndRecommendation !== undefined) {
-      this.setRecommendationForTopic(index, recommendation, topicRecommendation);
+      this.setRecommendationForTopic(recommendation, topicRecommendation);
     } else {
       this.cloneAssessmentData.topicRatingAndRecommendation = updatedRecommendationList;
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
   }
 
-  private setRecommendationForTopic(index: number, recommendation: TopicLevelRecommendation, topicRecommendation: TopicRatingAndRecommendation) {
-    index = this.cloneAssessmentData.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === this.topicId)
+  private setRecommendationForTopic(recommendation: TopicLevelRecommendation, topicRecommendation: TopicRatingAndRecommendation) {
+    let index = this.cloneAssessmentData.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === this.topicId)
     if (index !== -1) {
       this.cloneTopicRecommendations = this.cloneAssessmentData.topicRatingAndRecommendation[index].topicLevelRecommendation;
       this.setRecommendation(this.cloneTopicRecommendations, recommendation)
       topicRecommendation.rating = this.cloneAssessmentData.topicRatingAndRecommendation[index].rating;
       this.cloneAssessmentData.topicRatingAndRecommendation[index].topicLevelRecommendation = this.cloneTopicRecommendations;
     } else {
-      this.cloneAssessmentData.topicRatingAndRecommendation.push(topicRecommendation);
+      this.cloneAssessmentData.topicRatingAndRecommendation.unshift(topicRecommendation);
     }
   }
 
   setRecommendation(topicRecommendations: TopicLevelRecommendation[] | undefined, recommendation: TopicLevelRecommendation) {
-    if (topicRecommendations != undefined) {
+    if (topicRecommendations !== undefined) {
       let index = topicRecommendations.findIndex(eachRecommendation => eachRecommendation.recommendationId === recommendation.recommendationId);
       if (index !== -1) {
         topicRecommendations[index] = {
@@ -198,7 +197,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
           deliveryHorizon : recommendation.deliveryHorizon
         };
       } else {
-        topicRecommendations.push(recommendation);
+        topicRecommendations.unshift(recommendation);
       }
     }
   }

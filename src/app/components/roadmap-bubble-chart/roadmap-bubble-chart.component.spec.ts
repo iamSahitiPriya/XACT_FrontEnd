@@ -6,7 +6,6 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {Recommendation} from "../../types/recommendation";
 import {MatCardModule} from "@angular/material/card";
 import {of} from "rxjs";
-import * as d3 from 'd3';
 
 class MockAppService {
 

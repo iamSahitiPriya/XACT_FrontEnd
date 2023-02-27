@@ -13,7 +13,6 @@ import {ParameterRating} from "../../types/parameterRating";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {AdminAssessmentRequest} from "../../types/Admin/adminAssessmentRequest";
 import {CategoryResponse} from "../../types/categoryResponse";
-import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {AdminAssessmentResponse} from "../../types/Admin/adminAssessmentResponse";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
@@ -103,12 +102,12 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + topicRecommendationURI);
   }
 
-  saveParameterRecommendation(parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest): Observable<ParameterLevelRecommendation> {
+  saveParameterRecommendation(assessmentId : number, parameterId : number,recommendation: ParameterLevelRecommendation): Observable<ParameterLevelRecommendation> {
     const paramRecommendationURI = this.formatURI(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
-      assessmentId: parameterLevelRecommendationText.assessmentId,
-      parameterId: parameterLevelRecommendationText.parameterId
+      assessmentId: assessmentId,
+      parameterId: parameterId
     });
-    return this.http.patch(environment.BaseURI + paramRecommendationURI, parameterLevelRecommendationText.parameterLevelRecommendation)
+    return this.http.patch(environment.BaseURI + paramRecommendationURI, recommendation)
   }
 
   deleteParameterRecommendation(assessmentId: number, parameterId: number, recommendationId: number): Observable<ParameterLevelRecommendation> {

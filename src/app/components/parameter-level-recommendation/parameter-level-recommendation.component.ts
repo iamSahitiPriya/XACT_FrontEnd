@@ -10,18 +10,17 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
 import {debounce} from "lodash";
-import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
-import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import * as fromActions from "../../actions/assessment-data.actions";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {UntypedFormGroup} from "@angular/forms";
 import {data_local} from 'src/app/messages';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
+import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 
 let DEBOUNCE_TIME = 800;
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-parameter-level-recommendation',
@@ -31,7 +30,7 @@ let DEBOUNCE_TIME = 800;
 export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input()
-  parameterLevelRecommendation: ParameterLevelRecommendation
+  recommendation: ParameterLevelRecommendation
 
   @Input()
   assessmentId: number
@@ -43,7 +42,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   parameterId: number
 
   @Input()
-  parameterRecommendationArray: ParameterLevelRecommendation[] | undefined
+  parameterRecommendations: ParameterLevelRecommendation[] | undefined
 
   @Input()
   parameterIndex: number;
@@ -51,7 +50,6 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   @Input()
   activityRecord: ActivityLogResponse[]
 
-  form: UntypedFormGroup;
   autoSave: string;
   isSaving: boolean
 
@@ -68,61 +66,39 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
   maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
-
+  autoSaveText : string = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE
+  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   assessmentStatus: string;
-  parameterRecommendationResponse1: Observable<AssessmentStructure>;
-  private cloneParameterRecommendationResponse: AssessmentStructure;
-  private cloneParameterLevelRecommendationResponse: AssessmentStructure;
-  parameterRecommendationResponse: AssessmentStructure;
+  assessmentData: Observable<AssessmentStructure>;
+  cloneAssessmentData: AssessmentStructure;
   parameterRecommendationIndex: number | undefined
+  deleteRecommendationText: string = data_local.RECOMMENDATION_TEXT.DELETE_RECOMMENDATION
+  private destroy$: Subject<void> = new Subject<void>();
   latestActivityRecord: ActivityLogResponse = {activityType: "", email: "", fullName: "", identifier: 0, inputText: ""}
   activateSpinner: boolean = false;
+  cloneParameterRecommendations: ParameterLevelRecommendation[] | undefined;
+  private deleteError: string = data_local.SHOW_ERROR_MESSAGE.DELETE_ERROR;
 
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.parameterRecommendationResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
-    this.saveParticularParameterText = debounce(this.saveParticularParameterText, DEBOUNCE_TIME)
+    this.assessmentData = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+    this.saveParameterRecommendation = debounce(this.saveParameterRecommendation, DEBOUNCE_TIME)
   }
-
-  parameterRecommendation: ParameterLevelRecommendation = {
-    recommendationId: undefined,
-    recommendation: "",
-    impact: "",
-    effort: "",
-    deliveryHorizon: ""
-  }
-
-  parameterLevelRecommendationText: ParameterLevelRecommendationTextRequest = {
-    assessmentId: 0, parameterId: 0, parameterLevelRecommendation: this.parameterRecommendation
-  }
-  parameterLevelRecommendationResponse: ParameterRecommendationResponse = {
-    assessmentId: 0,
-    parameterId: 0,
-    recommendationId: undefined,
-    recommendation: "",
-    impact: "",
-    effort: "",
-    deliveryHorizon: ""
-  };
-
-  parameterRecommendationSample: ParameterLevelRecommendation[] | undefined;
-  deleteRecommendationText: string = "Delete Recommendation";
-  private destroy$: Subject<void> = new Subject<void>();
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
+      duration: NOTIFICATION_DURATION,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
   }
 
   ngOnInit(): void {
-    this.parameterRecommendationResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.assessmentData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentStatus = data.assessmentStatus
-        this.parameterRecommendationResponse = data
+        this.cloneAssessmentData = data
       }
     })
 
@@ -132,7 +108,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
     this.latestActivityRecord.identifier = -1
     if (this.activityRecord.length > 0) {
       for (let record of this.activityRecord) {
-        if (record.identifier === this.parameterLevelRecommendation.recommendationId) {
+        if (record.identifier === this.recommendation.recommendationId) {
           this.latestActivityRecord = {
             activityType: record.activityType,
             email: record.email,
@@ -140,7 +116,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
             identifier: record.identifier,
             inputText: ""
           }
-          this.parameterLevelRecommendation.recommendation = record.inputText
+          this.recommendation.recommendation = record.inputText
           this.activateSpinner = !this.activateSpinner
         }
       }
@@ -149,148 +125,96 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
     }
   }
 
-  saveParticularParameterText(_$event: KeyboardEvent) {
-    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    if (this.setParameterRecommendationFields() !== null) {
-      this.setParameterLevelRecommendationResponseFields();
-      this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-      this.autoSave = "Auto Saved"
+  saveParameterRecommendation() {
+      this.autoSave = this.autoSaveText
       this.isSaving = true
-      this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
+      this.appService.saveParameterRecommendation(this.assessmentId, this.parameterId,this.recommendation).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           this.autoSave = ""
-          this.parameterLevelRecommendationResponse.recommendationId = _data.recommendationId;
           this.isSaving = false
-          this.parameterLevelRecommendation.recommendationId = this.parameterLevelRecommendationResponse.recommendationId;
-          this.sendRecommendation(this.parameterLevelRecommendationResponse)
-          this.updateDataSavedStatus()
+          this.recommendation.recommendationId = _data.recommendationId;
+          this.sendRecommendation(this.recommendation)
         }, error: _error => {
-          this.showError("Data cannot be saved, Please reload the page if problem persist.");
+          this.showError(this.serverError);
+        }
+      })
+  }
+
+  deleteRecommendation(recommendation: ParameterLevelRecommendation) {
+    let index = this.getRecommendationIndex(recommendation);
+    if (index !== undefined && recommendation.recommendationId != undefined) {
+      this.parameterRecommendations?.splice(index,1)
+      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
+        error: _error => {
+          this.parameterRecommendations?.splice(index, 1, recommendation);
+          this.showError(this.deleteError);
         }
       })
     }
   }
 
-  private setParameterLevelRecommendationResponseFields() {
-    this.parameterLevelRecommendationResponse.parameterId = this.parameterId;
-    this.parameterLevelRecommendationResponse.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationResponse.recommendationId = this.parameterLevelRecommendation.recommendationId;
-    this.parameterLevelRecommendationResponse.recommendation = this.parameterLevelRecommendation.recommendation;
-    this.parameterLevelRecommendationResponse.effort = this.parameterLevelRecommendation.effort;
-    this.parameterLevelRecommendationResponse.impact = this.parameterLevelRecommendation.impact;
-    this.parameterLevelRecommendationResponse.deliveryHorizon = this.parameterLevelRecommendation.deliveryHorizon;
-  }
-
-  private setParameterRecommendationFields() {
-    if (this.parameterLevelRecommendation.recommendationId === undefined && this.parameterLevelRecommendation.recommendation === "" && this.parameterLevelRecommendation.effort === "" && this.parameterLevelRecommendation.impact === "" && this.parameterLevelRecommendation.deliveryHorizon === "") {
-      return null;
-    } else {
-      this.parameterRecommendation.recommendationId = this.parameterLevelRecommendation.recommendationId;
-      this.parameterRecommendation.recommendation = this.parameterLevelRecommendation.recommendation;
-      this.parameterRecommendation.effort = this.parameterLevelRecommendation.effort;
-      this.parameterRecommendation.impact = this.parameterLevelRecommendation.impact;
-      this.parameterRecommendation.deliveryHorizon = this.parameterLevelRecommendation.deliveryHorizon;
-    }
-    return this.parameterLevelRecommendation
-  }
-
-  private sendRecommendation(parameterRecommendationResponse: ParameterRecommendationResponse) {
-    let index = 0;
+  sendRecommendation(recommendation: ParameterLevelRecommendation) {
     let updatedRecommendationList = [];
-    this.cloneParameterRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
     let parameterRecommendation: ParameterRatingAndRecommendation = {
-      parameterId: parameterRecommendationResponse.parameterId,
+      parameterId: this.parameterId,
       rating: 0,
       parameterLevelRecommendation: [{
-        recommendationId: parameterRecommendationResponse.recommendationId,
-        recommendation: parameterRecommendationResponse.recommendation,
-        impact: parameterRecommendationResponse.impact,
-        effort: parameterRecommendationResponse.effort,
-        deliveryHorizon: parameterRecommendationResponse.deliveryHorizon
+        recommendationId: recommendation.recommendationId,
+        recommendation: recommendation.recommendation,
+        impact: recommendation.impact,
+        effort: recommendation.effort,
+        deliveryHorizon: recommendation.deliveryHorizon
       }]
     };
-    updatedRecommendationList.push(parameterRecommendation);
-    if (this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation != undefined) {
-      index = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === parameterRecommendationResponse.parameterId)
-      if (index !== -1) {
-        this.parameterRecommendationSample = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation;
-        this.getRecommendation(this.parameterRecommendationSample, parameterRecommendationResponse)
-        parameterRecommendation.rating = this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].rating;
-        this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation[index].parameterLevelRecommendation = this.parameterRecommendationSample;
-      } else {
-        this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation.push(parameterRecommendation);
-      }
+    updatedRecommendationList.unshift(parameterRecommendation);
+    if (this.cloneAssessmentData.parameterRatingAndRecommendation != undefined) {
+      this.setRecommendationForParameter(recommendation,parameterRecommendation)
     } else {
-      this.cloneParameterRecommendationResponse.parameterRatingAndRecommendation = updatedRecommendationList;
+      this.cloneAssessmentData.parameterRatingAndRecommendation = updatedRecommendationList;
     }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterRecommendationResponse}))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
 
   }
 
-  getRecommendation(parameterRecommendationSample: ParameterLevelRecommendation[] | undefined, parameterRecommendationResponse: ParameterRecommendationResponse) {
-    if (parameterRecommendationSample != undefined) {
-      this.parameterRecommendationIndex = parameterRecommendationSample.findIndex(eachRecommendation => eachRecommendation.recommendationId === parameterRecommendationResponse.recommendationId);
-      if (this.parameterRecommendationIndex !== -1) {
-        parameterRecommendationSample[this.parameterRecommendationIndex].recommendationId = parameterRecommendationResponse.recommendationId;
-        parameterRecommendationSample[this.parameterRecommendationIndex].recommendation = parameterRecommendationResponse.recommendation;
-        parameterRecommendationSample[this.parameterRecommendationIndex].impact = parameterRecommendationResponse.impact;
-        parameterRecommendationSample[this.parameterRecommendationIndex].effort = parameterRecommendationResponse.effort;
-        parameterRecommendationSample[this.parameterRecommendationIndex].deliveryHorizon = parameterRecommendationResponse.deliveryHorizon;
-      } else {
-        parameterRecommendationSample.push(parameterRecommendationResponse);
-      }
+  private setRecommendationForParameter(recommendation: ParameterLevelRecommendation, parameterRecommendation: ParameterRatingAndRecommendation) {
+    let index = this.cloneAssessmentData.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterId)
+    if (index !== -1) {
+      this.cloneParameterRecommendations = this.cloneAssessmentData.parameterRatingAndRecommendation[index].parameterLevelRecommendation;
+      this.setRecommendation(this.cloneParameterRecommendations, recommendation)
+      parameterRecommendation.rating = this.cloneAssessmentData.parameterRatingAndRecommendation[index].rating;
+      this.cloneAssessmentData.parameterRatingAndRecommendation[index].parameterLevelRecommendation = this.cloneParameterRecommendations;
+    } else {
+      this.cloneAssessmentData.parameterRatingAndRecommendation.unshift(parameterRecommendation);
     }
   }
 
-  updateDataSavedStatus() {
-    this.cloneParameterLevelRecommendationResponse = Object.assign({}, this.parameterRecommendationResponse)
-    this.cloneParameterLevelRecommendationResponse.updatedAt = Number(new Date(Date.now()))
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneParameterLevelRecommendationResponse}))
-  }
-
-
-  deleteTemplate(recommendation: ParameterLevelRecommendation) {
-    let index = -1;
-    if (this.parameterRecommendationArray != undefined) {
-      index = this.parameterRecommendationArray.indexOf(recommendation);
+  setRecommendation(parameterRecommendations: ParameterLevelRecommendation[] | undefined, recommendation: ParameterLevelRecommendation) {
+    if(parameterRecommendations !== undefined) {
+      let index = parameterRecommendations.findIndex(eachRecommendation => eachRecommendation.recommendationId === recommendation.recommendationId);
       if (index !== -1) {
-        this.parameterRecommendationArray?.splice(index, 1);
-        this.deleteRecommendationTemplate(recommendation, index);
+        parameterRecommendations[index] = {
+          recommendationId: recommendation.recommendationId,
+          recommendation: recommendation.recommendation,
+          impact: recommendation.impact,
+          effort: recommendation.effort,
+          deliveryHorizon: recommendation.deliveryHorizon
+        };
+      } else {
+        parameterRecommendations.unshift(recommendation);
       }
     }
+  }
 
+  private getRecommendationIndex(recommendation: TopicLevelRecommendation) : number {
+    let index = -1;
+    if (this.parameterRecommendations != undefined) {
+      index = this.parameterRecommendations.indexOf(recommendation);
+    }
+    return index;
   }
 
   disableFields(recommendationId: number | undefined): boolean {
     return recommendationId === undefined;
-  }
-
-  deleteRecommendationTemplate(recommendation: ParameterLevelRecommendation, index: number) {
-    if (recommendation.recommendationId != undefined) {
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
-        error: _error => {
-          this.parameterRecommendationArray?.splice(index, 1, recommendation);
-          this.showError("Data cannot be deleted");
-        }
-      })
-    }
-  }
-
-  inputChange() {
-    this.parameterLevelRecommendationText.assessmentId = this.assessmentId;
-    this.parameterLevelRecommendationText.parameterId = this.parameterId;
-    this.setParameterRecommendationFields()
-    this.setParameterLevelRecommendationResponseFields()
-    this.parameterLevelRecommendationText.parameterLevelRecommendation = this.parameterRecommendation;
-    this.appService.saveParameterRecommendation(this.parameterLevelRecommendationText).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        this.sendRecommendation(this.parameterLevelRecommendationResponse)
-        this.updateDataSavedStatus()
-      }, error: _error => {
-        this.showError("Data cannot be saved, Please reload the page if problem persist.");
-      }
-    })
   }
 
   ngOnDestroy(): void {
@@ -299,6 +223,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   }
 
   isActivityFound() {
-    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.parameterLevelRecommendation.recommendationId;
+    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.recommendation.recommendationId;
   }
+
 }

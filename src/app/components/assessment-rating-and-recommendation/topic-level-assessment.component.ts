@@ -23,6 +23,7 @@ import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 export const saveAssessmentData = [{}]
 
@@ -109,7 +110,6 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.getActivities()
     this.topicParameterValidation()
     this.updateAverageRating()
-    this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation?.reverse()
   }
 
   private topicParameterValidation() {
@@ -325,7 +325,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     this.activityRecord.question = this.activityRecord.userQuestion = this.activityRecord.topicRecommendation = this.activityRecord.parameterRecommendation = []
   }
 
-  addTemplate() {
+  addTopicRecommendationTemplate() {
     if (this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation &&
       this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation.length <= RECOMMENDATION_MAX_LIMIT) {
       let recommendation : TopicLevelRecommendation = {
@@ -336,6 +336,22 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         deliveryHorizon: "LATER"
       };
       this.topicRequest.topicRatingAndRecommendation.topicLevelRecommendation.unshift(recommendation);
+    }
+  }
+
+  addParameterRecommendationTemplate(index : number) {
+    let recommendation: ParameterLevelRecommendation = {
+      recommendationId: undefined,
+      recommendation: "",
+      impact: "LOW",
+      effort: "LOW",
+      deliveryHorizon: "LATER"
+    };
+    if (this.topicRequest.parameterLevel[index].parameterRatingAndRecommendation !== undefined) {
+      let parameterLevelRecommendation: ParameterLevelRecommendation[] | undefined = this.topicRequest.parameterLevel[index].parameterRatingAndRecommendation.parameterLevelRecommendation
+      if (parameterLevelRecommendation !== undefined && parameterLevelRecommendation.length <= RECOMMENDATION_MAX_LIMIT) {
+        this.topicRequest.parameterLevel[index]?.parameterRatingAndRecommendation?.parameterLevelRecommendation?.unshift(recommendation)
+      }
     }
   }
 }

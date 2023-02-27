@@ -18,21 +18,12 @@ import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {MatRadioModule} from "@angular/material/radio";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
 
 
 class MockAppService {
-  saveTopicRecommendation(topicRecommendation: TopicRecommendation) {
-    if (topicRecommendation.topicId === 0) {
-      return of(topicRecommendation)
-    } else {
-      return throwError("Error!")
-    }
-  }
-
   saveTopicRating(topicRating: TopicRating) {
     if (topicRating.topicId === 0) {
       return of(topicRating)

@@ -26,9 +26,6 @@ import {ElementRef} from "@angular/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
-import {SunburstSequenceData} from "../../types/sunburstSequenceData";
-import {SunburstSequenceTarget} from "../../types/sunburstSequenceTarget";
-import {SunburstSequence} from "../../types/sunburstSequence";
 
 
 describe('AssessmentSunburstChartComponent', () => {

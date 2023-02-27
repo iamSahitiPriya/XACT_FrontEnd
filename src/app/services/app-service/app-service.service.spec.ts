@@ -10,12 +10,12 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {TopicRating} from "../../types/topicRating";
 import {ParameterRating} from "../../types/parameterRating";
-import {ParameterLevelRecommendationTextRequest} from "../../types/parameterLevelRecommendationTextRequest";
 import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -116,15 +116,6 @@ describe('AppServiceService', () => {
     expect(service.saveTopicRating(dummyTopicRating)).toBeTruthy()
   });
 
-  it("should update particular parameter Recommendation", () => {
-    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
-      assessmentId: 1,
-      parameterId: 1,
-      parameterLevelRecommendation: {recommendationId: 1, recommendation: ""}
-    }
-    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
-  });
-
   it("should update particular parameter Rating", () => {
     let dummyParameterRating: ParameterRating = {assessmentId: 1, parameterId: 1, rating: 1}
     expect(service.saveParameterRating(dummyParameterRating)).toBeTruthy()
@@ -142,18 +133,16 @@ describe('AppServiceService', () => {
   });
 
   it("should update particular parameter Recommendation fields", () => {
-    let dummyParameterRecommendation: ParameterLevelRecommendationTextRequest = {
-      assessmentId: 1, parameterId: 1,
-      parameterLevelRecommendation:
-        {
+    let assessmentId = 1;
+    let parameterId = 1;
+    let dummyParameterRecommendation: ParameterLevelRecommendation = {
           recommendationId: 1,
           recommendation: "some text",
           impact: "HIGH",
           effort: "LOW",
           deliveryHorizon: "some more text"
-        }
     }
-    expect(service.saveParameterRecommendation(dummyParameterRecommendation)).toBeTruthy()
+    expect(service.saveParameterRecommendation(assessmentId,parameterId,dummyParameterRecommendation)).toBeTruthy()
   });
   it("should get all categories", () => {
     expect(service.getAllCategories()).toBeTruthy()

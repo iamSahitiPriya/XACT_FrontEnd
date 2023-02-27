@@ -129,6 +129,7 @@ describe('RecommendationComponent', () => {
 
     component.recommendation.recommendationId = -1
     jest.spyOn(component,"sendRecommendation")
+
     component.saveTopicRecommendation()
     await new Promise((r) => setTimeout(r, 800));
 
@@ -224,12 +225,12 @@ describe('RecommendationComponent', () => {
     }
   });
 
-  it('should save new topic level recommendation to the array', function () {
+  it('should save new topic level recommendation to the array', () => {
     component.recommendation.recommendationId = 2
     component.setRecommendation(component.cloneTopicRecommendations, component.recommendation)
 
     // @ts-ignore
-    expect(component.cloneTopicRecommendations[1].recommendation).toBe("text");
+    expect(component.cloneTopicRecommendations[1].recommendation).toBe("sample text");
 
   });
 

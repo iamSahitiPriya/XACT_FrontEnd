@@ -7,7 +7,6 @@ import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommenda
 import {TopicReference} from "../../types/topicReference";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
@@ -36,6 +35,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
 
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
@@ -64,11 +64,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
   form: UntypedFormGroup;
-
-
-  topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, topicLevelRecommendation: []
-  };
 
   topicLevelRating: TopicRating = {
     assessmentId: 0, topicId: 0, rating: undefined
@@ -125,7 +120,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
             this.updateDataSavedStatus()
 
           }, error: _error => {
-            this.showError("Data cannot be saved, Please reload the page if problem persist.");
+            this.showError(this.serverError);
           }
         })
         if (this.topicRatingAndRecommendation.rating !== undefined) {

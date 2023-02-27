@@ -5,23 +5,29 @@
 <mat-card class="parameterRecommendation"
           [ngStyle]="{'background-color': parameterIndex%2 !== 0 ? '#F5FAFC' : '#FFFF' }">
   <div class="parameter-parent">
-    <div class="parameter-recommendation" [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===parameterLevelRecommendation.recommendationId}">
-      <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="parameterLevelRecommendation" [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()">
-        <div *ngIf="parameterLevelRecommendation"></div>
+    <div class="parameter-recommendation"
+         [ngClass]="{'text-border':latestActivityRecord.email.length>0 && latestActivityRecord.identifier===recommendation.recommendationId}">
+      <mat-form-field class="parameterTextArea" appearance="outline" *ngIf="recommendation"
+                      [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()">
+        <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
-        <textarea #input id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}"
-                  name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}" matInput
-                  #recommendationElement
-                  [(ngModel)]="parameterLevelRecommendation.recommendation"
+        <textarea #input id="recommendationElement_parameter{{recommendation.recommendationId}}"
+                  name="recommendationText_parameter{{recommendation.recommendationId}}" matInput
+                  [(ngModel)]="recommendation.recommendation"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxlength="5000"
-                  (keyup)="saveParticularParameterText($event)"
+                  (keyup)="saveParameterRecommendation()"
                   [disabled]="assessmentStatus ==='Completed'"></textarea>
-        <mat-hint *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==parameterLevelRecommendation.recommendationId; else text" align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
+        <mat-hint
+          *ngIf="latestActivityRecord.email.length === 0 || latestActivityRecord.identifier!==recommendation.recommendationId; else text"
+          align="end">{{input.value.length}}/{{maxLimit}}</mat-hint>
         <ng-template #text>
-          <mat-hint align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img alt="typing" class="edit-icon" src="/assets/typing6.gif"/></mat-hint>
+          <mat-hint align="end"><span class="username">{{latestActivityRecord.fullName }}</span><img alt="typing"
+                                                                                                     class="edit-icon"
+                                                                                                     src="/assets/typing6.gif"/>
+          </mat-hint>
         </ng-template>
         <div class=spinParent>
       <span class="autoSaveMessage">
@@ -36,13 +42,13 @@
     <div class="parameter-other">
       <div class="impact">
         <div class="impact-text"> {{Impact}} </div>
-        <div *ngIf="parameterLevelRecommendation.impact"></div>
+        <div *ngIf="recommendation.impact"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
-            name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_impact"
-            [(ngModel)]="parameterLevelRecommendation.impact" aria-label="Select an option" (change)="inputChange()"
-            [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
+            id="recommendationElement_parameter{{recommendation.recommendationId}}_impact"
+            name="recommendationText_parameter{{recommendation.recommendationId}}_impact"
+            [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="saveParameterRecommendation()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>
             &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
             &nbsp;<mat-radio-button value="LOW" [checked]="true">{{Low}}</mat-radio-button>
@@ -51,13 +57,13 @@
       </div>
       <div class="effect">
         <div class="effort-text">{{Effort}}</div>
-        <div *ngIf="parameterLevelRecommendation.effort"></div>
+        <div *ngIf="recommendation.effort"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
-            name="recommendationText_parameter{{parameterLevelRecommendation.recommendationId}}_effort"
-            [(ngModel)]="parameterLevelRecommendation.effort" aria-label="Select an option" (change)="inputChange()"
-            [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
+            id="recommendationElement_parameter{{recommendation.recommendationId}}_effort"
+            name="recommendationText_parameter{{recommendation.recommendationId}}_effort"
+            [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="saveParameterRecommendation()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="MEDIUM">{{Medium}}</mat-radio-button>
             &nbsp;<mat-radio-button value="LOW" [checked]="true">{{Low}}</mat-radio-button>
@@ -66,14 +72,14 @@
       </div>
       <div class="deliveryHorizon">
         <div class="horizon-text">{{Delivery_Horizon}} </div>
-        <div *ngIf="parameterLevelRecommendation.deliveryHorizon"></div>
+        <div *ngIf="recommendation.deliveryHorizon"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-            name="recommendationText_topic{{parameterLevelRecommendation.recommendationId}}_deliveryHorizon"
-            [(ngModel)]="parameterLevelRecommendation.deliveryHorizon" aria-label="Select an option"
-            (change)="inputChange()"
-            [disabled]="disableFields(parameterLevelRecommendation.recommendationId) || assessmentStatus ==='Completed'">
+            id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
+            name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
+            [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option"
+            (change)="saveParameterRecommendation()"
+            [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="NOW">&nbsp;{{Now}}</mat-radio-button>&nbsp;
             &nbsp;<mat-radio-button value="NEXT">{{Next}}</mat-radio-button>
             &nbsp;<mat-radio-button value="LATER" [checked]="true">{{Later}}</mat-radio-button>
@@ -81,7 +87,7 @@
         </div>
       </div>
       <div class="delete">
-        <button (click)="deleteTemplate(parameterLevelRecommendation)" class="deleteIcon"
+        <button (click)="deleteRecommendation(recommendation)" class="deleteIcon"
                 [matTooltip]="deleteRecommendationText" [disabled]="assessmentStatus ==='Completed'">
           <mat-icon>delete</mat-icon>
           <span style="padding-top:2px;padding-left: 3px">{{Delete}}</span>

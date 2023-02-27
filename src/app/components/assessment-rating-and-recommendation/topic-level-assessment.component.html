@@ -61,8 +61,28 @@
                                       [assessmentId]="assessmentId"
                                       [parameterName]="parameter.parameterName"
                                       [parameterList]="topicRequest.parameterLevel"
-                                      [activityRecords] = "activityRecord.parameterRecommendation"
           ></app-parameter-level-rating>
+
+          <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+          <button (click)="addParameterRecommendationTemplate(i)"
+                  class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+            <div>
+              <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+              id="addParameterRecommendation"> {{addRecommendation}} </span>
+            </div>
+          </button>
+          <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation ; let i=index">
+            <app-parameter-level-recommendation
+              [parameterIndex]="i"
+              [recommendation]="recommendation"
+              [assessmentId]="assessmentId"
+              [topicId]="topicInput.topicId"
+              [parameterId]="parameter.parameterId"
+              [parameterRecommendations]="topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation"
+              [activityRecord]="activityRecord.parameterRecommendation"
+            ></app-parameter-level-recommendation>
+          </div>
+
         </div>
 
     </div>
@@ -77,10 +97,10 @@
       </app-topic-level-rating>
 
       <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-      <button (click)="addTemplate()" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+      <button (click)="addTopicRecommendationTemplate()" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
         <div>
           <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
-          id="addRecommendation"> {{addRecommendation}}</span>
+          id="addTopicRecommendation"> {{addRecommendation}}</span>
         </div>
       </button>
       <div *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">

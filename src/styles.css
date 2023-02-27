@@ -103,7 +103,7 @@ ngb-datepicker {
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
-#addRecommendation {
+#addTopicRecommendation, #addParameterRecommendation {
   color: #4ba1ac;
 }
 
