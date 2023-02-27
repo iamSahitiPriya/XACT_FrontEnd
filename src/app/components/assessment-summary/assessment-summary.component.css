@@ -25,7 +25,10 @@
   letter-spacing: normal;
   color: #043D4E;
   margin-left: 1em;
-  font-size: 22px;
+  font-size: 2em;
+  line-height: 0.9;
+  font-weight: 700;
+  font-family: 'Bitter', serif;
 }
 
 #chart {
@@ -292,9 +295,9 @@
   height: 50px;
   width: 82%;
   color: #043D4E;
-  font-size: 24px;
+  font-size: 2em;
   font-weight: bolder;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Bitter', sans-serif;
   display: flex;
   flex-direction: initial;
   padding-top: 15px;

@@ -11,7 +11,7 @@
       <app-search [dataSource]="dataSource" [columns]="['3','assessmentName','organisationName','assessmentStatus']" ></app-search>
     </div>
     <div align="end" class="col-md-2 col-sm-4">
-      <button [matTooltip]=buttonToolTip mat-raised-button (click)="openAssessment(content)"
+      <button [matTooltip]=buttonToolTip mat-raised-button (click)="openAssessment(content)" class="create-assessment-button"
               id="createAssessment">{{createAssessment}}
       </button>
       <ng-template #content>

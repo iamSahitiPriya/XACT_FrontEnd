@@ -2,15 +2,24 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 
 .header-container {
   padding-left: 5%;
   padding-right: 4%;
 }
 
-table {
+h1{
+  font-size: 3em;
+  letter-spacing: 0;
+  line-height: 1.2;
+  font-family: 'Bitter', serif;
+  font-weight:700
+}
 
+table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 15px;
@@ -56,14 +65,15 @@ td.mat-cell:last-child{
 .heading {
   padding-left: 3%;
   text-align: left;
-  letter-spacing: 0.44px;
+  letter-spacing: 0;
   color: #043D4E;
-  font-size: 1.5em;
+  font-size: 2.5em;
+  line-height: 1.2;
+  font-weight: 700;
   white-space: nowrap;
-  padding-bottom: 0.6875em;
   opacity: 1;
   margin: 6px 0 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Bitter', serif;
 }
 
 tr.mat-row {
@@ -104,13 +114,13 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   box-shadow: none;
 }
 
-.mat-raised-button {
-  background-color: #043D4E;
+.create-assessment-button.mat-raised-button {
+  background-color: #043d4e;
   color: #fff;
   height: 3.375em;
   text-transform: capitalize;
   font-size: 1.1em;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter,sans-serif;
   letter-spacing: 1.45px;
   width: 13.2em;
   text-overflow: ellipsis;
