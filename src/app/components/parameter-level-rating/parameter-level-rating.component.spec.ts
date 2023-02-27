@@ -327,7 +327,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);
 
     expect(component.recommendationSample.recommendation).toBe("");
-    expect(component.recommendationSample.deliveryHorizon).toBe("");
+    expect(component.recommendationSample.deliveryHorizon).toBe("LATER");
   });
 
   it("should call the error whenever a problem occurs", () => {
