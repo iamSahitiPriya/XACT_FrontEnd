@@ -280,7 +280,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
 
     expect(component.recommendationSample.recommendation).toBe("");
-    expect(component.recommendationSample.deliveryHorizon).toBe("");
+    expect(component.recommendationSample.deliveryHorizon).toBe("LATER");
   });
 
   it("should call the error whenever a problem occurs", () => {
