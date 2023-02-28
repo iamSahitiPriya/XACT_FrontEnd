@@ -189,13 +189,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     if (topicRecommendations !== undefined) {
       let index = topicRecommendations.findIndex(eachRecommendation => eachRecommendation.recommendationId === recommendation.recommendationId);
       if (index !== -1) {
-        topicRecommendations[index] = {
-          recommendationId : recommendation.recommendationId,
-          recommendation : recommendation.recommendation,
-          impact : recommendation.impact,
-          effort : recommendation.effort,
-          deliveryHorizon : recommendation.deliveryHorizon
-        };
+        topicRecommendations[index] = recommendation
       } else {
         topicRecommendations.unshift(recommendation);
       }

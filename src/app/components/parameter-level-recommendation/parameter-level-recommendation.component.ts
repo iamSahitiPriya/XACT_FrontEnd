@@ -192,13 +192,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
     if(parameterRecommendations !== undefined) {
       let index = parameterRecommendations.findIndex(eachRecommendation => eachRecommendation.recommendationId === recommendation.recommendationId);
       if (index !== -1) {
-        parameterRecommendations[index] = {
-          recommendationId: recommendation.recommendationId,
-          recommendation: recommendation.recommendation,
-          impact: recommendation.impact,
-          effort: recommendation.effort,
-          deliveryHorizon: recommendation.deliveryHorizon
-        };
+        parameterRecommendations[index] =recommendation;
       } else {
         parameterRecommendations.unshift(recommendation);
       }
