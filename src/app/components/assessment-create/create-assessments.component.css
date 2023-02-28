@@ -20,18 +20,9 @@
   width: 102%;
 }
 
-/*.mat-fab {*/
-/*  background-color: #043d4e;*/
-/*  border-radius: 0;*/
-/*  top: -0.5px;*/
-/*  left: -22px;*/
-/*  height: 3.275em;*/
-/*}*/
-
 .addUserEmail {
   width: 100%;
   height: 100px !important;
-  /*max-height:500px !important;*/
   color-rendering: auto;
   overflow-y: scroll !important;
   padding-bottom: 0 !important;
@@ -93,8 +84,11 @@ h2 {
   }
 }
 
-.teamSize {
+.team-size {
   width: 30%;
+}
+::ng-deep .team-size.mat-form-field-appearance-outline .mat-form-field-subscript-wrapper{
+  padding: 0 !important;
 }
 
 

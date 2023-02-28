@@ -61,7 +61,8 @@ export const data_local =
         TITLE: "Size of Target Team",
         PLACEHOLDER: "Enter Team size",
         MANDATORY_FIELD_NUMBER: "Mandatory number field",
-        ERROR_MESSAGE_NUMBER: "Positive integer value allowed"
+        ERROR_MESSAGE_NUMBER: "Positive integer value allowed",
+        TEAM_SIZE_EXCEED: "Value should not exceed 10000000"
       },
       ORGANISATION_NAME: {
         TITLE: "Organisation Name",
