@@ -12,7 +12,7 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {Observable} from "rxjs";
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         data: {message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY, iconType: "warning_outline", notificationType: "Warning:"}, panelClass: ['error-snackBar'],
         duration: 80000,
         verticalPosition: "top",
-        horizontalPosition: "center"
+        horizontalPosition: "center" as MatSnackBarHorizontalPosition
       })
     }
 
