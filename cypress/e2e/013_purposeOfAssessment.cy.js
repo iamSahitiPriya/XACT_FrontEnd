@@ -26,13 +26,13 @@ describe('Validating purpose of assessment', () => {
 
   it('tc003 Verifying whether purpose of assessment dropdown is displayed in configure assessment popup', () => {
     commonFunctions.clickOnElement(landingPage.optionsButton(),'Quick link option is clicked')
-    commonFunctions.clickOnElement(landingPage.configureOption(),'configure assessment option is clicked')
+    commonFunctions.clickOnElement(landingPage.menuOptions(1),'configure assessment option is clicked')
   })
 
 
   it('tc004 Validating whether Manage option is renamed as configure in quick link', () => {
     commonFunctions.clickOnElement(landingPage.optionsButton(),'Quick link option is clicked')
-    commonFunctions.clickOnElement(landingPage.configureOption(),'configure assessment option is clicked')
+    commonFunctions.clickOnElement(landingPage.menuOptions(1),'configure assessment option is clicked')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(2),'Internal Request option is clicked')
