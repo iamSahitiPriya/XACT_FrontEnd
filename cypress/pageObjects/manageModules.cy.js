@@ -11,12 +11,13 @@ class manageModules {
     return cy.get(':nth-child('+index+') > :nth-child(1) > .categoryCard > .mat-card-title-group > div > .mat-card-title')
   }
   static moduleCheckBox(index){
-    return cy.get('.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout')
+    return cy.get('.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout>.mat-checkbox-inner-container')
+                   //.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout
   }
   static topicList(index){
     return cy.get(':nth-child(2) > :nth-child(1) > .moduleCards > .row > :nth-child('+index+') > .moduleText')
   }
-  static moduleHeader(){
+  static ManageModulesPageHeader(){
     return cy.get('.moduleHeading')
   }
   static saveButton(){

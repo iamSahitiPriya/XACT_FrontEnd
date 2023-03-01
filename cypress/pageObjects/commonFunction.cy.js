@@ -20,11 +20,19 @@ class commonFunction{
       .click({ force: true })
     cy.log(message)
   }
+  static lengthOfElement(webElementLocation,message){
+    webElementLocation.should('have.length', 4)
+    cy.log(message)
+  }
 
   static type(webElementLocation,value,message) {
     webElementLocation.should('be.visible')
       .clear().type(value)
    cy.log(message)
+  }
+ static applicationReload() {
+    cy.reload()
+   cy.log('reloading the application')
   }
 
   static typeInElement(webElementLocation,value) {

@@ -71,6 +71,7 @@ class assessmentPage {
     return cy.get('#menu-button')
   }
 
+
   static notesForQuestions(index){
     return cy.get('#assessmentAnswer'+index)
   }

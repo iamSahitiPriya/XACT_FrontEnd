@@ -4,6 +4,7 @@
 
 /// <reference types='cypress'/>
 import exp from "constants";
+import commonFunction from "./commonFunction.cy";
 
 class landingPage {
 
@@ -13,10 +14,23 @@ class landingPage {
   static userName() {
     return cy.get('.dropdown-toggle')
   }
+  static noAssessmentFoundRow() {
+      return cy.get('.mat-cell')
+    }
 
   static adminPortalLink() {
     return cy.get('.mat-list-icon > .li-text')
   }
+  static assessmentOption(rowCount){
+    return cy.get('tr:nth-child('+rowCount+')>td:nth-child(5)>div>app-assessment-menu>div>div>button')
+  }
+
+  static menu() {
+    return cy.get('[role=menuitem]')
+  }
+  static menuFrame() {
+      return cy.get('.mat-menu-content')
+    }
 
   static Search(value) {
     return cy.get('#search')
@@ -82,9 +96,15 @@ class landingPage {
     return cy.get(':nth-child('+index+')> .cdk-column-link > .menuButton1 > app-assessment-menu > div.ng-star-inserted')
   }
 
-  static manageModules(){
+  static manageModulesOption(){
     return cy.get('.mat-menu-content > .mat-focus-indicator.mat-tooltip-trigger > span')
   }
+  static deleteAssessmentOption(){
+      return cy.get('#deleteAssessment')
+    }
+  static yesButton(){
+        return cy.get('mat-dialog-actions>button')
+      }
 
   static pagenation10(){
     return cy.get('#mat-option-1 > .mat-option-text')
@@ -156,9 +176,8 @@ class landingPage {
     return cy.get(':nth-child(1) >td:nth-child(5) > div >app-assessment-menu> div > div>button>span>mat-icon')
   }
 
-
-  static configureOption(){
-    return cy.get('#open-assessment > #createAssessment')
+  static menuOptions(index) {//index=1,2,3,4
+    return cy.get('[role=menuitem]:nth-child('+index+')>span')
   }
 
   static purposeOfAssessment(){
@@ -172,6 +191,9 @@ class landingPage {
   static assessmentNameInGrid(index){
     return cy.get(':nth-child('+index+') > .cdk-column-assessmentName > span')
   }
+  static orgNameInGrid(index){
+      return cy.get(':nth-child('+index+') > .cdk-column-organisationName > span')
+    }
 
   static assessmentStatusInGrid(index){
     return cy.get(':nth-child('+index+') > .cdk-column-assessmentStatus > span')
@@ -236,12 +258,13 @@ class landingPage {
     cy.wait(1000)
     landingPage.AssessmentName().type(AssessmentName)
     landingPage.OrganisationName().should('be.visible').clear().type(OrgName)
-    landingPage.OrganisationSuggestion().click({ multiple: true })
+    landingPage.OrganisationSuggestion().click({ force: true })
+    commonFunction.clickElement(landingPage.description(),'clicking on description edit box')
     landingPage.description().should('be.visible').clear().type(Desc)
     landingPage.Domain().should('be.visible')
     landingPage.Domain().type(Domain)
     landingPage.teamSizeField().should('be.visible')
-    landingPage.teamSizeField().type(TeamSize)
+    landingPage.teamSizeField().clear().type(TeamSize)
     landingPage.email().type(EmailId)
   }
 
@@ -319,7 +342,7 @@ class landingPage {
   }
 
   static searchAssessment(value){
-    landingPage.searchBox().click()
+    landingPage.searchBox().click({ force: true })
     landingPage.searchBox().clear()
     landingPage.searchBox().type(value)
   }
