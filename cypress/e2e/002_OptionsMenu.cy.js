@@ -62,9 +62,7 @@ describe('validating functionality of options menu of xAct application', () => {
     commonFunction.clickElement(landingPage.assessmentOption(1),'clicking on the element to see options available in the menu')
     commonFunction.clickElement(landingPage.deleteAssessmentOption(),'clicking on the delete assessment option to delete an assessment')
     commonFunction.clickElement(landingPage.yesButton(),'clicking yes button on the confirmation popup')
-   //landingPage.searchBox().type('configureAssess')
    landingPage.searchAssessment('configureAssess')
-    // commonFunction.type(landingPage.searchBox(),'configureAssess','searching for the deleted assessment')
    commonFunction.containsText(landingPage.noAssessmentFoundRow(),'No Assessments Found.','Deleted Assessment is not available in the list')
 
 

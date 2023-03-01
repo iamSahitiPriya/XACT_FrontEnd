@@ -14,12 +14,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
   //Architectural style parameter
   it('tc001 Architectural style parameter validation',()=> {
     landingPage.assessmentNameInGrid(1).click()
-    // manageModules.moduleHeader().then($moduleHeader =>{
-    //   if($moduleHeader.is(':visible')){
-    //     manageModules.moduleCheckBox(1).click()
-    //     commonFunction.clickOnElement(manageModules.saveButton())
-    //   }
-    // })
+
     cy.wait(500)
     manageModules.moduleCheckBox(1).click()
     commonFunction.clickOnElement(manageModules.saveButton())
