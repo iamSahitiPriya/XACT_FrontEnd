@@ -9,15 +9,18 @@ import assessmentPage from "./assessmentPage.cy";
 class commonFunction{
 
   static clickOnElement(webElementLocation){
-    //let element = cy.get(webElementLocation)
+
     webElementLocation
       .click({ force: true })
   }
 
   static clickElement(webElementLocation,message){
-    //let element = cy.get(webElementLocation)
     webElementLocation.should('be.visible')
       .click({ force: true })
+    cy.log(message)
+  }
+  static lengthOfElement(webElementLocation,message){
+    webElementLocation.should('have.length', 4)
     cy.log(message)
   }
 
@@ -25,6 +28,10 @@ class commonFunction{
     webElementLocation.should('be.visible')
       .clear().type(value)
    cy.log(message)
+  }
+ static applicationReload() {
+    cy.reload()
+   cy.log('reloading the application')
   }
 
   static typeInElement(webElementLocation,value) {
@@ -53,7 +60,6 @@ class commonFunction{
   static elementIsDisplayed(element){
     element.then($body => {
       if ($body.element.length() > 0) {
-        //evaluates as true if button exists at all
         element.then($header => {
           if ($header.is(element,'element is visible')){
             return element
@@ -62,7 +68,7 @@ class commonFunction{
           }
         });
       } else {
-        //you get here if the button DOESN'T EXIST
+
         assert.isNotOk(false,'element doesnot exist')
       }
     });
@@ -104,12 +110,6 @@ class commonFunction{
       assert.fail(false, element+' does not contain '+text)
     }
 
-    // try{
-    //   element.should('contain',text)
-    //   cy.log(message)
-    // }catch (e) {
-    //   assert.fail(false, element+' does not contain '+text)
-    // }
   }
   static valueOfElement(element,text,message){
 

@@ -11,11 +11,6 @@ describe('validating creating Assessment grid and search functionality', () => {
     cy.wait(500)
   })
 
-  // it('tc001 user tries to login  with valid userId and password',()=>{
-  //   loginPage.xActLogin()
-  //   loginPage.xActHomepagetitleValidation()
-  // })
-
   it('tc001 Validating contents of table and header',()=>{
     landingPage.AssessmentGrid().should('be.visible')
     landingPage.header().should('be.visible')
@@ -42,7 +37,7 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.searchBox().clear()
     landingPage.searchBox().type('Hi Hello')
     landingPage.searchAssessmentGrid(' Hi Hello ',' how are you ')
-    //landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
+
   })
   it('tc004 searching an existing assessment with organisation name both upper and lower cases',()=>{
 
@@ -53,7 +48,7 @@ describe('validating creating Assessment grid and search functionality', () => {
     landingPage.searchBox().click()
     landingPage.searchBox().clear()
     landingPage.searchBox().type('Hi Hello')
-    // landingPage.assessmentNameInGrid(1).should('have.text',' hi hello ')
+
   })
   it('tc006 searching a non existing assessment',()=>{
     landingPage.searchBox().type('!!!!!')

@@ -17,15 +17,16 @@ const MEDIUM_EFFORT_RADIUS = 24;
 const HIGH_EFFORT_RADIUS = 26;
 
 interface Coordinates {
-  x : number
+  x: number
   y: number
 }
+
 @Component({
   selector: 'app-roadmap-bubble-chart',
   templateUrl: './roadmap-bubble-chart.component.html',
   styleUrls: ['./roadmap-bubble-chart.component.css']
 })
-export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterContentChecked{
+export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   @Input()
   assessmentId: number
@@ -53,11 +54,11 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
   xScaleMin: number = 0;
   xScaleMax: number = 3;
   height: number = 600;
-  position : Coordinates[] = [
-    {x: 0.495, y: 0.41}, {x:0.25,y:0.871}, {x: 0.699, y: 0.428}, {x: 0.7, y: 0.881}, {x: 0.095, y: 0.17},
-    {x: 0.799, y: 0.628}, {x: 0.61, y: 0.1712}, {x: 0.346, y: 0.407}, {x: 0.217, y: 0.582}, {x: 0.89, y: 0.881},
-    {x: 0.252,y: 0.169}, {x: 0.919, y: 0.438}, {x: 0.092, y: 0.855}, {x: 0.939, y: 0.151}, {x: 0.0795, y: 0.518},
-    {x: 0.577, y: 0.608}, {x: 0.434, y: 0.168}, {x: 0.39, y: 0.692}, {x: 0.772, y: 0.136}, {x: 0.498, y: 0.88} ]
+  position: Coordinates[] = [
+    {x: 0.495, y: 0.41}, {x: 0.25, y: 0.86}, {x: 0.699, y: 0.428}, {x: 0.7, y: 0.86}, {x: 0.095, y: 0.17},
+    {x: 0.799, y: 0.628}, {x: 0.61, y: 0.1712}, {x: 0.346, y: 0.407}, {x: 0.217, y: 0.582}, {x: 0.89, y: 0.86},
+    {x: 0.252, y: 0.169}, {x: 0.919, y: 0.438}, {x: 0.092, y: 0.845}, {x: 0.939, y: 0.151}, {x: 0.0795, y: 0.518},
+    {x: 0.577, y: 0.608}, {x: 0.434, y: 0.168}, {x: 0.39, y: 0.692}, {x: 0.772, y: 0.136}, {x: 0.498, y: 0.86}]
 
   lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3;
   mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2;
@@ -155,7 +156,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
 
 
   private xPosition = (deliveryHorizon: string, count: number): number => {
-    let xCoordinate = this.position[count%this.position.length].x
+    let xCoordinate = this.position[count % this.position.length].x
     if (deliveryHorizon === this.nowDeliveryHorizon.toUpperCase())
       xCoordinate += LOW_NOW_LIMIT
     else if (deliveryHorizon === this.nextDeliveryHorizon.toUpperCase())
@@ -166,7 +167,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
   };
 
   private yPosition = (impact: string, count: number): number => {
-    let yCoordinate =  this.position[count%this.position.length].y
+    let yCoordinate = this.position[count % this.position.length].y
     if (impact === this.lowImpact.toUpperCase())
       yCoordinate += LOW_NOW_LIMIT
     else if (impact === this.mediumImpact.toUpperCase())

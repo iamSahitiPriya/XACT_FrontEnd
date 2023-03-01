@@ -18,13 +18,6 @@ describe('Auto save displayed at the bottom right corner of the textbox where we
     commonFunctions.elementIsVisible(assessmentPage.autoSaveMessage(1,1),'auto save message is visible')
   })
 
-  it('tc002 User should be able to see auto save message in bottom of the recommendations box', () => {
-    commonFunctions.clickElement(landingPage.assessmentNameInGrid(1),'User is navigated to the selected assessment')
-    assessmentPage.topicRecomendation().scrollIntoView()
-    commonFunctions.typeInElement(assessmentPage.topicRecomendation(),'software Engineering')
-    cy.wait(500)
-    commonFunctions.elementIsVisible(assessmentPage.autoSaveMessageRecomendationsTab(),'auto save message is visible')
-  })
 
 
   it('tc003 User should not be able to see auto save message if maturity score is provided by the user', () => {

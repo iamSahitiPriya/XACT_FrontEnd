@@ -123,7 +123,6 @@ describe('validating functionality of login page of xAct application', () => {
     loginPage.authContainer().should('be.visible')
     loginPage.oktaHeader().should('be.visible')
     loginPage.nextButton().click()
-    //commonFunctions.elementIsDisplayed(loginPage.userNameheader())
     loginPage.errorMessage().should('be.visible')
     loginPage.errorDescription().should('be.visible')
     loginPage.errorDescription().should('have.text','We found some errors. Please review the form and make corrections.')

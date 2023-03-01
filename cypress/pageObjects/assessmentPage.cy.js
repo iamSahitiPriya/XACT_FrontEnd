@@ -1,5 +1,5 @@
 import landingPage from "./landingPage.cy";
-//import {default as xlsx} from "node-xlsx";
+
 import fs from "fs";
 
 class assessmentPage {
@@ -54,9 +54,6 @@ class assessmentPage {
     return cy.get('.parameterScoring')
   }
 
-  // static computedMaturityScoreRating(){
-  //   return cy.get('app-assessment-average-rating > :nth-child(1) > :nth-child(2) > .mat-toolbar > .rating')
-  // }
 
   static computedMaturityScoreRating(index){
       return cy.get(':nth-child('+index+') > .mat-toolbar > .rating')
@@ -70,6 +67,7 @@ class assessmentPage {
   static threeDots(){
     return cy.get('#menu-button')
   }
+
 
   static notesForQuestions(index){
     return cy.get('#assessmentAnswer'+index)
@@ -120,10 +118,6 @@ class assessmentPage {
     return cy.get('mat-tab-header>.mat-tab-label-container>div>div>div:nth-of-type('+index+')')
   }
 
-  // static softwareEngineeringModules(index){
-  //   return cy.get('.sideBar>mat-expansion-panel:first-of-type>.mat-expansion-panel-content>.mat-expansion-panel-body>.categoryModules>mat-card:nth-of-type('+index+')')
-  // }
-
   static softwareEngineeringModules(index){
     return cy.get('.categoryModules > :nth-child('+index+')')
   }
@@ -156,7 +150,7 @@ class assessmentPage {
   }
 
   static questions(index1,index2,index3){
-    //cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > :nth-child(2) > .question-content')
+
     return cy.get(':nth-child('+index1+') > :nth-child('+index2+') > :nth-child('+index3+') > .question-content')
   }
 
@@ -169,7 +163,7 @@ class assessmentPage {
   static parameterMaturityScoreDesc(index2,index){
 
     return cy.get(' :nth-child('+index2+')  > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
-  // cy.get(':nth-child(2) > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child(3) > .mat-toolbar > .reference')
+
 
   }
 static editBox(){

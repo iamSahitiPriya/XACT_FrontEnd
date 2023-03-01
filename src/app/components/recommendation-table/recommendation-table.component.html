@@ -1,26 +1,28 @@
-<div *ngFor="let recommendation of recommendations; let index = index" class="recommendation-table">
-<div *ngIf="isDeliveryHorizonDisplayed(recommendation)" class="delivery-horizon">
-  {{deliveryHorizonTitle}} - <strong>{{deliveryHorizon}}</strong>
-</div>
-
-<div class="table-row">
-  <div>
-    <div class="category"  [style.background-color]= "categoryColor(recommendation.categoryName)" > {{recommendation.categoryName}} </div>
+<div *ngFor="let deliveryHorizon of tableData;" class="recommendation-table">
+  <div class="delivery-horizon" *ngIf = "deliveryHorizon.recommendations.length>0">
+    {{deliveryHorizonTitle}} - <strong>{{deliveryHorizon.deliveryHorizon}}</strong>
   </div>
 
-  <div class="table-row-content">
-    <mat-card>
-      <div class="table-row-heading">
-        <div class="recommendation-title"><mat-icon class="flag-icon">flag</mat-icon> <div class="recommendation-title-text">{{recommendationTitle}}{{index+1}}</div> </div>
-        <div class="recommendation-detail">
-          <div class="recommendation-impact">{{impact}} <strong>{{recommendation.impact}}</strong> </div>
-          <div class="recommendation-effort">{{effort}} <strong>{{recommendation.effort}}</strong> </div>
+<div *ngFor = "let data of deliveryHorizon.recommendations; let index = index">
+  <div class="table-row">
+    <div>
+      <div class="category"  [style.background-color]= "categoryColor(data.recommendation.categoryName)" > {{data.recommendation.categoryName}} </div>
+    </div>
+
+    <div class="table-row-content">
+      <mat-card>
+        <div class="table-row-heading">
+          <div class="recommendation-title"><mat-icon class="flag-icon">flag</mat-icon> <div class="recommendation-title-text">{{recommendationTitle}}{{data.recommendationCount}}</div> </div>
+          <div class="recommendation-detail">
+            <div class="recommendation-impact">{{impact}} <strong>{{data.recommendation.impact}}</strong> </div>
+            <div class="recommendation-effort">{{effort}} <strong>{{data.recommendation.effort}}</strong> </div>
+          </div>
         </div>
-      </div>
-      <mat-card-content class="recommendation-description">
-        {{recommendation.recommendation}}
-      </mat-card-content>
-    </mat-card>
+        <mat-card-content class="recommendation-description">
+          {{data.recommendation.recommendation}}
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
 </div>

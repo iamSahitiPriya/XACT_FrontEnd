@@ -116,7 +116,6 @@ describe('validating creating Assessment assessment popup functionality', () => 
     landingPage.createAssessment().click()
     commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
     commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(1),'Client Request option is clicked')
-    //landingPage.teamSizeField().click().type('{upArrow}').type('{upArrow}')
     landingPage.teamSize().click().type(100)
     landingPage.email().click()
 
