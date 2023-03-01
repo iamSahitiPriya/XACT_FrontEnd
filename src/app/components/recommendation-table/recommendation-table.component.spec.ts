@@ -3,9 +3,11 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RecommendationTableComponent} from './recommendation-table.component';
 import {Recommendation} from "../../types/recommendation";
 
+
 describe('RecommendationTableComponent', () => {
   let component: RecommendationTableComponent;
   let fixture: ComponentFixture<RecommendationTableComponent>;
+  let recommendations : Recommendation[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,26 +17,22 @@ describe('RecommendationTableComponent', () => {
 
     fixture = TestBed.createComponent(RecommendationTableComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    recommendations = [{recommendation:"Recommendation1",impact:"LOW",effort:"LOW",deliveryHorizon:"NOW",updatedAt:0,categoryName:"NEW"},
+      {recommendation:"Recommendation2",impact:"LOW",effort:"LOW",deliveryHorizon:"NEXT",updatedAt:0,categoryName:"NEW"},
+      {recommendation:"Recommendation3",impact:"LOW",effort:"LOW",deliveryHorizon:"LATER",updatedAt:0,categoryName:"NEW"}
+    ]
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should format data for Recommendation Table' , () => {
+    component.recommendations = recommendations;
+    jest.spyOn(component,"formatDataForTable");
+    component.ngOnInit();
+    expect(component.formatDataForTable).toHaveBeenCalled();
+  })
 
-  it('should return true when the delivery horizon is not displayed', () => {
-    component.deliveryHorizon = ""
-    let recommendation : Recommendation= {recommendation:"",deliveryHorizon:"NOW",impact:"LOW",effort:"MEDIUM",categoryName:"",updatedAt:12345}
-
-    expect(component.isDeliveryHorizonDisplayed(recommendation)).toBeTruthy()
-  });
-
-  it("should return false when the delivery horizon is already displayed", () => {
-    component.deliveryHorizon = "NOW"
-    let recommendation : Recommendation= {recommendation:"",deliveryHorizon:"NOW",impact:"LOW",effort:"MEDIUM",categoryName:"",updatedAt:12345}
-
-    expect(component.isDeliveryHorizonDisplayed(recommendation)).toBeFalsy()
-  });
 
   it("should return the category color", () => {
     component.colorScheme = new Map<string, string>();

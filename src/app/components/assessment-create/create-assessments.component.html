@@ -21,7 +21,7 @@
           {{mandatoryFieldText}}
         </mat-error>
       </mat-form-field>
-    <br>
+      <br>
       <mat-form-field appearance="outline" class="assessmentName">
         <mat-label>{{assessmentNameTitle}} *</mat-label>
         <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
@@ -37,20 +37,21 @@
       <br>
       <mat-form-field appearance="outline" class="assessment-description">
         <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
-        <textarea #input matInput formControlName="assessmentDescriptionValidator" [placeholder]=assessmentDescriptionPlaceholder required
+        <textarea #input matInput formControlName="assessmentDescriptionValidator"
+                  [placeholder]=assessmentDescriptionPlaceholder required
                   [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"
                   maxLength="200"
-                  ></textarea>
+        ></textarea>
         <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('required')">
           {{mandatoryFieldText}}
         </mat-error>
         <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('pattern')">
           {{blankSpaceErrorText}}
         </mat-error>
-        <mat-hint  align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
+        <mat-hint align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" class="domain">
@@ -66,7 +67,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="teamSize">
+      <mat-form-field appearance="outline" class="team-size">
         <mat-label>{{assessmentTeamTitle}} *</mat-label>
         <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
                [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
@@ -75,6 +76,9 @@
         </mat-error>
         <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
           {{numberErrorField}}
+        </mat-error>
+        <mat-error *ngIf="form['teamSizeValidator'].value>maxTeamSize">
+          {{teamSizeExceedErrorMessage}}
         </mat-error>
       </mat-form-field>
       <br>
