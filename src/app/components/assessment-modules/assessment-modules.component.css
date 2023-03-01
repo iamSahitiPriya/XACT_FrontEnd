@@ -15,6 +15,16 @@ h2 {
   color: #043D4E;
   text-transform: capitalize;
 }
+.assessment-name{
+  font-size: 2.4em;
+  line-height: 0.9;
+  font-weight: 700;
+  font-family: 'Bitter', serif;
+  padding-left: 0.5em;
+  padding-top: 5px;
+  color: #043D4E;
+  text-transform: capitalize;
+}
 
 .container-xxl {
   max-width: 2500px;
