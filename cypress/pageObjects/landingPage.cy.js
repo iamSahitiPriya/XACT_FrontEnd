@@ -85,7 +85,7 @@ class landingPage {
     return cy.get('.industry')
   }
   static teamSizeField() {
-    return cy.get('.teamSize')
+    return cy.get('input[placeholder=\'Enter Team size\']')
   }
 
   static pagenationDropdown(){
@@ -121,7 +121,7 @@ class landingPage {
   }
 
   static teamSize(){
-    return cy.get('.teamSize > .mat-form-field-wrapper > .mat-form-field-flex')
+    return cy.get('.team-size > .mat-form-field-wrapper > .mat-form-field-flex')
   }
   static email() {
     return cy.get('#userEmails')
@@ -207,7 +207,7 @@ class landingPage {
   }static industryFieldError(){
     return cy.get('.industry > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
   }static teamSizeFieldError(){
-    return cy.get('.teamSize > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.team-size > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
   }
   static serverError(){
     return cy.get('.mat-snack-bar-container')
