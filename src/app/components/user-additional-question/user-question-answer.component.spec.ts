@@ -154,10 +154,10 @@ describe('UserQuestionAnswerComponent', () => {
       })
   })
   it('should allow user to edit the question ', () => {
-    jest.spyOn(component, 'editQuestionFlag');
+    jest.spyOn(component, 'editUserQuestion');
     component.createQuestionFlag = false;
     component.questionEditFlag = false;
-    component.editQuestionFlag(1);
+    component.editUserQuestion(1);
 
     expect(component.questionEditFlag).toBe(true);
     expect(component.questionEditFlagNumber).toBe(1);
@@ -234,7 +234,7 @@ describe('UserQuestionAnswerComponent', () => {
       users: []
 
     }
-    component.updateQuestion(userQuestion);
+    component.updateQuestion();
     mockAppService.updateUserQuestion(userQuestion, 2).subscribe(data => {
       expect(data).toBe(true)
     });
@@ -246,7 +246,7 @@ describe('UserQuestionAnswerComponent', () => {
     let userQuestion: UserQuestionResponse = {
       questionId: 2, question: "new", answer: "answer", parameterId: 5
     }
-    component.updateQuestion(userQuestion);
+    component.updateQuestion();
     mockAppService.updateUserQuestion(userQuestion, 1).subscribe(data => {
         expect(data).toBeUndefined()
       },

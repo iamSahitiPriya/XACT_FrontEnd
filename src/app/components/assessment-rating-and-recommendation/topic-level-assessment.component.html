@@ -29,7 +29,6 @@
 
         <div *ngIf="parameter.questions">
           <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
-                                    [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"
                                     [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
@@ -42,7 +41,7 @@
 
         <div *ngIf="!parameter.questions">
           <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
-                                     [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
+                                     [parameterId]="parameter.parameterId"
                                      [assessmentId]="assessmentId"
                                      [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                      [parameterIndex]="i"
