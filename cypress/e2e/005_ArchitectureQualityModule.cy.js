@@ -5,7 +5,7 @@ import manageModules from "../pageObjects/manageModules.cy";
 import 'cypress-if'
 
 
-describe('validating creating Assessment assessment popup functionality', () => {
+describe('validating architechture quality module functionality', () => {
   beforeEach('User should get navigated to Okta by launching the url', () => {
     cy.visit('/')
     cy.wait(500)

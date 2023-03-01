@@ -67,7 +67,7 @@ class landingPage {
   }
 
   static AssessmentName() {
-    //return cy.get('.assessmentName',{ timeout: 10000 })
+
     return cy.get('[formcontrolname=assessmentNameValidator]')
   }
   static OrganisationName() {
@@ -89,7 +89,7 @@ class landingPage {
   }
 
   static pagenationDropdown(){
-    //return cy.get('.mat-paginator-page-size > .mat-form-field > .mat-form-field-wrapper')
+
     return cy.get('.mat-paginator-page-size > .mat-form-field')
   }
   static optionsMenu(index){
@@ -287,11 +287,10 @@ class landingPage {
 
 
   static assessmentGridRowCount(rowCount){
-    //landingPage.AssessmentNameColumn()
+
     cy.get('tbody')
       .find('tr')
       .then((row) => {
-        //row.length will give you the row count
         const count=row.length.toString()
         cy.log(count)
         expect(count).to.equal(rowCount)
@@ -324,7 +323,6 @@ class landingPage {
   static displayeOfElement(element,passMessage,failureMessage){
     cy.get("body").then($body => {
       if ($body.find(element).length > 0) {
-        //evaluates as true
         return element
         assert.isOk('everything',passMessage);
       }else{
@@ -337,7 +335,7 @@ class landingPage {
   static clickCreateAssessment(){
     cy.wait(500)
     cy.get('#createAssessment', { timeout: 10000 }).should('be.visible');
-    //landingPage.createAssessment().click({force:true});
+
     landingPage.createAssessment().trigger("click")
   }
 

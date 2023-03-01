@@ -1,8 +1,8 @@
-import landingPage from "../pageObjects/landingPage.cy";
-import commonFunction from '../pageObjects/commonFunction.cy'
-import assessmentPage from "../pageObjects/assessmentPage.cy";
-import commonFunctions from "../pageObjects/commonFunction.cy";
-import manageModules from "../pageObjects/manageModules.cy";
+import landingPage from "../../pageObjects/landingPage.cy";
+import commonFunction from '../../pageObjects/commonFunction.cy'
+import assessmentPage from "../../pageObjects/assessmentPage.cy";
+import commonFunctions from "../../pageObjects/commonFunction.cy";
+import manageModules from "../../pageObjects/manageModules.cy";
 describe('validating functionality of options menu of xAct application', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {
@@ -26,7 +26,7 @@ describe('validating functionality of options menu of xAct application', () => {
   })
 
   it('tc002 option menu should be available for all the assignments in the page', () => {
-   // commonFunction.elementIsVisible(landingPage.assessmentOption(1),'Verifying if options menu is available for the ')
+
     let genArr = Array.from({length:5},(var1,var2)=>var2+1)
     cy.wrap(genArr).each((index) => {
       landingPage.assessmentOption(index).click()

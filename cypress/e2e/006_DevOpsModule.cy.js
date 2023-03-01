@@ -3,7 +3,7 @@ import commonFunction from '../pageObjects/commonFunction.cy'
 import assessmentPage from "../pageObjects/assessmentPage.cy";
 
 
-describe('validating creating Assessment assessment popup functionality', () => {
+describe('validating Devops module functionality', () => {
   beforeEach('User should get navigated to Okta by launching the url', () => {
     cy.visit('/')
     cy.wait(500)
@@ -38,7 +38,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
       commonFunction.typeInElement(assessmentPage.notesForQuestions(11), testData[0].notes[0])
       assessmentPage.questions(2, 2, 4).click().should('be.visible').contains(testData[0].CIDQuestions[6])
       commonFunction.typeInElement(assessmentPage.notesForQuestions(13), testData[0].notes[0])
-      assessmentPage.parameterMaturityScoreDesc(2, 3).click({ multiple: true }).should('be.visible')//.contains(testData[0].CIDAssignmentMaturityScoreDesc[5])
+      assessmentPage.parameterMaturityScoreDesc(2, 3).click({ multiple: true }).should('be.visible')
       assessmentPage.parameterMaturityScoreDesc(2, 4).should('be.visible').contains(testData[0].CIDAssignmentMaturityScoreDesc[6])
       assessmentPage.parameterMaturityScoreDesc(2, 5).should('be.visible').contains(testData[0].CIDAssignmentMaturityScoreDesc[7])
       assessmentPage.parameterMaturityScoreDesc(2, 6).should('be.visible').contains(testData[0].CIDAssignmentMaturityScoreDesc[8])
@@ -76,7 +76,7 @@ describe('validating creating Assessment assessment popup functionality', () => 
       commonFunction.typeInElement(assessmentPage.notesForQuestions(54), testData[0].notes[4])
       assessmentPage.questions(2,2,3).click().should('be.visible').contains(testData[1].ProductionOperationsQuestions[7])
       commonFunction.typeInElement(assessmentPage.notesForQuestions(55), testData[0].notes[4])
-      assessmentPage.parameterMaturityScoreDesc(2,3).click().should('be.visible')//.contains(testData[0].CIDAssignmentMaturityScoreDesc[5])
+      assessmentPage.parameterMaturityScoreDesc(2,3).click().should('be.visible')
       assessmentPage.parameterMaturityScoreDesc(2,4).should('be.visible').contains(testData[1].ProductionOperationsAssignmentMaturityScoreDesc[6])
       assessmentPage.parameterMaturityScoreDesc(2,5).should('be.visible').contains(testData[1].ProductionOperationsAssignmentMaturityScoreDesc[7])
       assessmentPage.parameterMaturityScoreDesc(2,6).should('be.visible').contains(testData[1].ProductionOperationsAssignmentMaturityScoreDesc[8])

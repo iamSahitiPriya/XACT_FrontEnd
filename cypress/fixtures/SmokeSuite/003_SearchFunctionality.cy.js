@@ -1,8 +1,8 @@
-import landingPage from "../pageObjects/landingPage.cy";
-import commonFunction from '../pageObjects/commonFunction.cy'
-import assessmentPage from "../pageObjects/assessmentPage.cy";
-import commonFunctions from "../pageObjects/commonFunction.cy";
-import manageModules from "../pageObjects/manageModules.cy";
+import landingPage from "../../pageObjects/landingPage.cy";
+import commonFunction from '../../pageObjects/commonFunction.cy'
+import assessmentPage from "../../pageObjects/assessmentPage.cy";
+import commonFunctions from "../../pageObjects/commonFunction.cy";
+import manageModules from "../../pageObjects/manageModules.cy";
 describe('validating the search functionality of xAct application', () => {
 
   beforeEach('User should get navigated to Okta by launching the url', () => {
@@ -26,7 +26,6 @@ describe('validating the search functionality of xAct application', () => {
 
   it('tc001 searching for an existing assessment', () => {
     landingPage.searchAssessment('Testassignment')
-    //landingPage.assessmentNameInGrid(1).should('have.text',' testassignment ')
     commonFunction.containsText(landingPage.assessmentNameInGrid(1),' testassignment ','The searched assessment is displayed in the grid')
   })
  it('tc002 searching for an existing assessment with organisation name', () => {

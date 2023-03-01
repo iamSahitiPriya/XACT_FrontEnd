@@ -12,7 +12,7 @@ class manageModules {
   }
   static moduleCheckBox(index){
     return cy.get('.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout>.mat-checkbox-inner-container')
-                   //.assessmentCards:nth-child('+index+') >div>.categoryCard>.category-card>.category-name>mat-checkbox>.mat-checkbox-layout
+
   }
   static topicList(index){
     return cy.get(':nth-child(2) > :nth-child(1) > .moduleCards > .row > :nth-child('+index+') > .moduleText')
@@ -34,7 +34,7 @@ class manageModules {
 
     let iInactiveCards=0
     let  iTotalCards=0
-//this.iTotalCards= cy.get('.categoryCard').its('length')
+
     cy.get('.categoryCard').its('length').then((totalCards) => {
       iTotalCards = totalCards
       cy.log(iTotalCards)
@@ -48,9 +48,7 @@ class manageModules {
     cy.wait(2000)
     cy.log(iTotalCards-iInactiveCards)
     cy.log(iTotalCards)
-    // for (let iModuleCount = 1; iModuleCount < cars.length; iModuleCount++) {
-    //   text += cars[i] + "<br>";
-    // }
+
     this.ModuleHeader(1).invoke('text').then((moduleHeader)=>{
       if(moduleHeader.includes(module)){
         this.moduleCheckBox(1).check()
@@ -59,23 +57,6 @@ class manageModules {
 
 
 
-
-    // switch (module){
-    //   case 'Software Engineering':
-    //     console.log('test')
-    //     break
-    //    case 'Product And Design':
-    //     console.log('test')
-    //      break
-    //    case 'Cloud Platform':
-    //     console.log('test')
-    //      break
-    //    case 'Operational Efficiency':
-    //     console.log('test')
-    //      break
-    //   case 'Org Design':
-    //     console.log('test')
-    //      break
 
   }
 
