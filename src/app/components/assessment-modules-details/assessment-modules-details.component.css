@@ -19,6 +19,10 @@ html, body {
 
 .name {
   padding-top: 5px;
+  font-size: 1.8em;
+  line-height: 1.2;
+  font-weight: 700;
+  font-family: 'Bitter', serif;
   text-transform: capitalize;
   letter-spacing: normal;
   color: #043D4E;

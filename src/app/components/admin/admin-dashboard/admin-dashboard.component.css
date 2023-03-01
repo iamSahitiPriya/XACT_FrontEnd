@@ -27,8 +27,9 @@
 .dashBoardText{
   margin-top: 2%;
   margin-left: 2%;
-  font-size: 18px;
+  font-size: 2em;
   font-weight: bold;
+  font-family: Bitter, sans-serif;
   color:#043D4E;
 }
 
