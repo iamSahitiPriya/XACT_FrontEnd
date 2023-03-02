@@ -99,7 +99,7 @@ describe('AppServiceService', () => {
 
   it("should update particular topic Recommendation", () => {
     let dummyTopicRecommendation: TopicLevelRecommendation = {
-          recommendationId: 1, recommendation: "some text", impact : "LOW", effort: "MEDIUM", deliveryHorizon:"NOW"}
+          recommendationId: 1, recommendationText: "some text", impact : "LOW", effort: "MEDIUM", deliveryHorizon:"NOW"}
     expect(service.saveTopicRecommendation(1,1,dummyTopicRecommendation)).toBeTruthy()
   });
 
@@ -137,7 +137,7 @@ describe('AppServiceService', () => {
     let parameterId = 1;
     let dummyParameterRecommendation: ParameterLevelRecommendation = {
           recommendationId: 1,
-          recommendation: "some text",
+          recommendationText: "some text",
           impact: "HIGH",
           effort: "LOW",
           deliveryHorizon: "some more text"

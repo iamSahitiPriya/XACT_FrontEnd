@@ -116,7 +116,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
             identifier: record.identifier,
             inputText: ""
           }
-          this.recommendation.recommendation = record.inputText
+          this.recommendation.recommendationText = record.inputText
           this.activateSpinner = !this.activateSpinner
         }
       }
@@ -160,7 +160,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
       rating: 0,
       parameterLevelRecommendation: [{
         recommendationId: recommendation.recommendationId,
-        recommendation: recommendation.recommendation,
+        recommendationText: recommendation.recommendationText,
         impact: recommendation.impact,
         effort: recommendation.effort,
         deliveryHorizon: recommendation.deliveryHorizon

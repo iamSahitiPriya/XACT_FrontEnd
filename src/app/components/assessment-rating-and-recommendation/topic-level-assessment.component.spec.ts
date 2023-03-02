@@ -306,7 +306,7 @@ describe('TopicLevelAssessmentComponent', () => {
           "deliveryHorizon": "LATER",
           "effort": "LOW",
           "impact": "LOW",
-          "recommendation": "",
+          "recommendationText": "",
           "recommendationId": undefined
         }]
       }
@@ -338,14 +338,14 @@ describe('TopicLevelAssessmentComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
       userQuestionResponseList: [],
     })
     const dummyAnswerResponse = {
@@ -371,14 +371,14 @@ describe('TopicLevelAssessmentComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
       userQuestionResponseList: []
     }
     component.topicInput = {
@@ -571,7 +571,7 @@ describe('TopicLevelAssessmentComponent', () => {
       topicId: 0, rating: 1, topicLevelRecommendation: [
         {
           recommendationId: undefined,
-          recommendation: "some text",
+          recommendationText: "some text",
           impact: "HIGH",
           effort: "LOW",
           deliveryHorizon: "some more text"
@@ -592,7 +592,7 @@ describe('TopicLevelAssessmentComponent', () => {
       parameterId: 0, rating: 1, parameterLevelRecommendation: [
         {
           recommendationId: undefined,
-          recommendation: "some text",
+          recommendationText: "some text",
           impact: "HIGH",
           effort: "LOW",
           deliveryHorizon: "some more text"

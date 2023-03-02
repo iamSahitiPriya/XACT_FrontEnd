@@ -86,7 +86,7 @@ describe('ParameterRecommendationComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
@@ -97,7 +97,7 @@ describe('ParameterRecommendationComponent', () => {
         parameterId: 0, rating: 2, parameterLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
@@ -110,7 +110,7 @@ describe('ParameterRecommendationComponent', () => {
     component.parameterId = 0
     component.recommendation = {
       recommendationId: 2,
-      recommendation: "text",
+      recommendationText: "text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "text"
@@ -118,7 +118,7 @@ describe('ParameterRecommendationComponent', () => {
 
     component.parameterRecommendations = [{
       recommendationId: 2,
-      recommendation: "new recommendation",
+      recommendationText: "new recommendation",
       impact: "MEDIUM",
       effort: "MEDIUM",
       deliveryHorizon: "NEXT"
@@ -126,7 +126,7 @@ describe('ParameterRecommendationComponent', () => {
 
     component.cloneParameterRecommendations = [{
       recommendationId: 1,
-      recommendation: "sample text",
+      recommendationText: "sample text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "sample text"
@@ -224,7 +224,7 @@ describe('ParameterRecommendationComponent', () => {
   it('should update parameter level recommendation according to recommendation response', function () {
     component.recommendation = {
       recommendationId: 1,
-      recommendation: "text",
+      recommendationText: "text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "text"
@@ -233,7 +233,7 @@ describe('ParameterRecommendationComponent', () => {
     component.setRecommendation(component.cloneParameterRecommendations, component.recommendation)
 
     if (component.cloneParameterRecommendations) {
-      expect(component.cloneParameterRecommendations[0].recommendation).toBe("text");
+      expect(component.cloneParameterRecommendations[0].recommendationText).toBe("text");
     }
   });
 
@@ -242,18 +242,18 @@ describe('ParameterRecommendationComponent', () => {
     component.setRecommendation(component.cloneParameterRecommendations, component.recommendation)
 
     // @ts-ignore
-    expect(component.cloneParameterRecommendations[1].recommendation).toBe("sample text");
+    expect(component.cloneParameterRecommendations[1].recommendationText).toBe("sample text");
 
   });
 
   it("should set user email when other user is working on the particular parameter recommendation", () => {
     component.activityRecord = [{identifier:1,activityType:"PARAMETER_RECOMMENDATION",inputText:"some text",email:"abc@thoughtworks.com",fullName:"abc"}]
-    component.recommendation = {recommendationId:1,recommendation:"hello"}
+    component.recommendation = {recommendationId:1,recommendationText:"hello"}
 
     component.ngOnChanges()
 
     expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
-    expect(component.recommendation.recommendation).toBe("some text")
+    expect(component.recommendation.recommendationText).toBe("some text")
   })
 
   it("should empty user email when the parameter recommendation record is empty", () => {
@@ -266,7 +266,7 @@ describe('ParameterRecommendationComponent', () => {
 
   it("should return true when the activity is already present in the  parameter recommendation array", () => {
     component.latestActivityRecord  = {identifier:1,activityType:"recommendation",inputText:"abc",email:"abc@thoughtworks.com",fullName:"abc"}
-    component.recommendation = {recommendationId :1,recommendation:"text"}
+    component.recommendation = {recommendationId :1,recommendationText:"text"}
 
     expect(component.isActivityFound()).toBeTruthy()
   });

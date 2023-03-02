@@ -2,11 +2,10 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {TopicStructure} from "../../types/topicStructure";
 import {Notes} from "../../types/answerNotes";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicRequest} from "../../types/topicRequest";
 import {ParameterRequest} from "../../types/parameterRequest";
@@ -24,6 +23,7 @@ import {UserQuestionSaveRequest} from "../../types/userQuestionSaveRequest";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
+import {ActivatedRoute} from "@angular/router";
 
 export const saveAssessmentData = [{}]
 
@@ -59,10 +59,10 @@ let RECOMMENDATION_MAX_LIMIT = 20;
 })
 
 
-export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
+export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterViewInit {
   averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
   disableRating: number = 0
-  form: UntypedFormGroup
+  private scrollToElement: string;
 
   answerResponse: AssessmentStructure
   answerResponse1: Observable<AssessmentStructure>
@@ -80,8 +80,11 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
     parameterRecommendation: []
   }
 
-  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private _fb: UntypedFormBuilder, @Optional() private store: Store<AppStates>) {
+  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private store: Store<AppStates>, private  route : ActivatedRoute) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+    this.route.queryParams.subscribe(params => {
+      this.scrollToElement = params['scrollToElement'];
+    })
 
   }
 
@@ -204,7 +207,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
           rating: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].rating,
           parameterLevelRecommendation: this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation ? this.answerResponse.parameterRatingAndRecommendation[indexByParameterId].parameterLevelRecommendation : [{
             recommendationId: undefined,
-            recommendation: "",
+            recommendationText: "",
             impact: "LOW",
             effort: "LOW",
             deliveryHorizon: "LATER"
@@ -219,7 +222,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
           rating: 0,
           parameterLevelRecommendation: [{
             recommendationId: undefined,
-            recommendation: "",
+            recommendationText: "",
             impact: "LOW",
             effort: "LOW",
             deliveryHorizon: "LATER"
@@ -245,7 +248,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         rating: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].rating : 0,
         topicLevelRecommendation: this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation ? this.answerResponse.topicRatingAndRecommendation[indexByTopicId].topicLevelRecommendation : [{
           recommendationId: undefined,
-          recommendation: "",
+          recommendationText: "",
           impact: "LOW",
           effort: "LOW",
           deliveryHorizon: "LATER"
@@ -257,7 +260,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         rating: 0,
         topicLevelRecommendation: [{
           recommendationId: undefined,
-          recommendation: "",
+          recommendationText: "",
           impact: "LOW",
           effort: "LOW",
           deliveryHorizon: "LATER"
@@ -329,7 +332,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
       this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation.length <= RECOMMENDATION_MAX_LIMIT) {
       let recommendation : TopicLevelRecommendation = {
         recommendationId: undefined,
-        recommendation: "",
+        recommendationText: "",
         impact: "LOW",
         effort: "LOW",
         deliveryHorizon: "LATER"
@@ -341,7 +344,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
   addParameterRecommendationTemplate(index : number) {
     let recommendation: ParameterLevelRecommendation = {
       recommendationId: undefined,
-      recommendation: "",
+      recommendationText: "",
       impact: "LOW",
       effort: "LOW",
       deliveryHorizon: "LATER"
@@ -352,5 +355,10 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
         this.topicRequest.parameterLevel[index]?.parameterRatingAndRecommendation?.parameterLevelRecommendation?.unshift(recommendation)
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+    const elements = document.getElementById(this.scrollToElement);
+    elements?.scrollIntoView();
   }
 }

@@ -83,7 +83,7 @@ describe('RecommendationComponent', () => {
         topicId: 1, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "NOW"
@@ -97,7 +97,7 @@ describe('RecommendationComponent', () => {
     component.topicId = 1
     component.recommendation = {
       recommendationId: 2,
-      recommendation: "text",
+      recommendationText: "text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "text"
@@ -105,7 +105,7 @@ describe('RecommendationComponent', () => {
 
     component.topicRecommendations = [{
       recommendationId: 2,
-      recommendation: "new recommendation",
+      recommendationText: "new recommendation",
       impact: "MEDIUM",
       effort: "MEDIUM",
       deliveryHorizon: "NEXT"
@@ -113,7 +113,7 @@ describe('RecommendationComponent', () => {
 
     component.cloneTopicRecommendations = [{
       recommendationId: 1,
-      recommendation: "sample text",
+      recommendationText: "sample text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "sample text"
@@ -212,7 +212,7 @@ describe('RecommendationComponent', () => {
   it('should update topic level recommendation according to recommendation response', function () {
     component.recommendation = {
       recommendationId: 1,
-      recommendation: "text",
+      recommendationText: "text",
       impact: "LOW",
       effort: "HIGH",
       deliveryHorizon: "text"
@@ -221,7 +221,7 @@ describe('RecommendationComponent', () => {
     component.setRecommendation(component.cloneTopicRecommendations, component.recommendation)
 
     if (component.cloneTopicRecommendations) {
-      expect(component.cloneTopicRecommendations[0].recommendation).toBe("text");
+      expect(component.cloneTopicRecommendations[0].recommendationText).toBe("text");
     }
   });
 
@@ -230,18 +230,18 @@ describe('RecommendationComponent', () => {
     component.setRecommendation(component.cloneTopicRecommendations, component.recommendation)
 
     // @ts-ignore
-    expect(component.cloneTopicRecommendations[1].recommendation).toBe("sample text");
+    expect(component.cloneTopicRecommendations[1].recommendationText).toBe("sample text");
 
   });
 
   it("should set user email when other user is working on the particular recommendation", () => {
     component.activityRecords = [{identifier:1,activityType:"TOPIC_RECOMMENDATION",inputText:"some text",email:"abc@thoughtworks.com",fullName:"abc"}]
-    component.recommendation = {recommendationId:1,recommendation:"hello"}
+    component.recommendation = {recommendationId:1,recommendationText:"hello"}
 
     component.ngOnChanges()
 
     expect(component.latestActivityRecord.email).toBe("abc@thoughtworks.com")
-    expect(component.recommendation.recommendation).toBe("some text")
+    expect(component.recommendation.recommendationText).toBe("some text")
   })
 
   it("should empty user email when the record is empty", () => {
@@ -254,7 +254,7 @@ describe('RecommendationComponent', () => {
 
   it("should return true when the activity is already present in the array", () => {
     component.latestActivityRecord  = {identifier:1,activityType:"recommendation",inputText:"abc",email:"abc@thoughtworks.com",fullName:"abc"}
-    component.recommendation = {recommendationId :1,recommendation:"text"}
+    component.recommendation = {recommendationId :1,recommendationText:"text"}
 
     expect(component.isActivityFound()).toBeTruthy()
   });

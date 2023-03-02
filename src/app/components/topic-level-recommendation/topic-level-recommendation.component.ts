@@ -106,7 +106,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     if (this.activityRecords.length > 0) {
       for (let record of this.activityRecords) {
         if (record.identifier === this.recommendation.recommendationId) {
-          this.recommendation.recommendation = record.inputText
+          this.recommendation.recommendationText = record.inputText
           this.latestActivityRecord = {
             activityType: record.activityType,
             email: record.email,
@@ -158,7 +158,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
       rating: 0,
       topicLevelRecommendation: [{
         recommendationId: recommendation.recommendationId,
-        recommendation: recommendation.recommendation,
+        recommendationText: recommendation.recommendationText,
         impact: recommendation.impact,
         effort: recommendation.effort,
         deliveryHorizon: recommendation.deliveryHorizon

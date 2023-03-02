@@ -12,7 +12,7 @@
         <mat-label>{{recommendationLabel}} {{inputWarningLabel}}</mat-label>
         <textarea #input id="recommendationElement_topic{{recommendation.recommendationId}}"
                   name="recommendationText_topic{{recommendation.recommendationId}}" matInput
-                  [(ngModel)]="recommendation.recommendation"
+                  [(ngModel)]="recommendation.recommendationText"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="2"

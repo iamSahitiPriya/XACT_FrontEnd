@@ -73,6 +73,7 @@
           </button>
           <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation ; let i=index">
             <app-parameter-level-recommendation
+              id="recommendation{{recommendation.recommendationId}}"
               [parameterIndex]="i"
               [recommendation]="recommendation"
               [assessmentId]="assessmentId"
@@ -105,6 +106,7 @@
       </button>
       <div *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">
         <app-topic-level-recommendation
+          id="recommendation{{recommendation.recommendationId}}"
           [recommendationIndex]="i"
           [recommendation]="recommendation"
           [assessmentId]="assessmentId"
