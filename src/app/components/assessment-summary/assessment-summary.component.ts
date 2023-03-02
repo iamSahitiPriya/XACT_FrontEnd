@@ -22,7 +22,6 @@ import {ModuleRatingTypes} from "../../types/moduleRatingTypes";
 import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {SunburstSequence} from "../../types/sunburstSequence";
-import {ReportCategory} from "../../types/ReportCategory";
 
 
 interface ColorScheme {

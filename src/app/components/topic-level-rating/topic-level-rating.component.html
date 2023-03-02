@@ -18,7 +18,8 @@
 </div>
 
 <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+<button (click)="addTemplate(topicRatingAndRecommendation.topicLevelRecommendation)" class="addRecommendation button1"
+        [disabled]="assessmentStatus ==='Completed'">
   <div>
     <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
     id="addRecommendation"> Add Recommendations</span>
@@ -27,6 +28,7 @@
 
 <div *ngFor="let recommendation of topicRatingAndRecommendation.topicLevelRecommendation ; let i=index">
   <app-topic-level-recommendation
+    id="recommendation{{recommendation.recommendationId}}"
     [index]="i"
     [recommendation]="recommendation"
     [assessmentId]="assessmentId"

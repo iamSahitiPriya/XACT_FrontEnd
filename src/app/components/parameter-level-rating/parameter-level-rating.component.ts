@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
@@ -23,6 +23,7 @@ import {ParameterRequest} from "../../types/parameterRequest";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
+import {ActivatedRoute} from "@angular/router";
 
 let RECOMMENDATION_MAX_LIMIT = 10;
 
@@ -31,7 +32,7 @@ let RECOMMENDATION_MAX_LIMIT = 10;
   templateUrl: './parameter-level-rating.component.html',
   styleUrls: ['./parameter-level-rating.component.css']
 })
-export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
+export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterViewInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
 
@@ -43,9 +44,13 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   answerResponse: AssessmentStructure
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
+  private scrollToElement: string;
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>, private route: ActivatedRoute) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+    this.route.queryParams.subscribe(params => {
+      this.scrollToElement = params['scrollToElement'];
+    });
   }
 
   @Input()
@@ -72,7 +77,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   parameterList: ParameterRequest[];
 
   @Input()
-  activityRecords : ActivityLogResponse[]
+  activityRecords: ActivityLogResponse[]
 
   saveCount = 0;
   recommendationCount: number = 0;
@@ -117,10 +122,10 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 2000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 2000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -215,5 +220,10 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  ngAfterViewInit(): void {
+    const elements = document.getElementById(this.scrollToElement);
+    elements?.scrollIntoView();
   }
 }

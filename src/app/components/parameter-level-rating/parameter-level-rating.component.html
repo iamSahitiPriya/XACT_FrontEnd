@@ -29,6 +29,7 @@
 
 <div *ngFor="let recommendation of parameterRatingAndRecommendation.parameterLevelRecommendation ; let i=index">
   <app-parameter-level-recommendation
+    id="recommendation{{recommendation.recommendationId}}"
     [parameterIndex]="i"
     [parameterLevelRecommendation]="recommendation"
     [assessmentId]="assessmentId"

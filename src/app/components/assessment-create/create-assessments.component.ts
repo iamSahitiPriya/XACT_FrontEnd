@@ -83,6 +83,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   blankSpaceErrorText = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.BLANK_SPACE_ERROR_TEXT;
   fillAllFieldsErrorMessage: string = data_local.ASSESSMENT.FILL_ALL_FIELDS_ERROR_MESSAGE;
   serverErrorMessage: string = data_local.ASSESSMENT.SERVER_ERROR_MESSAGE;
+  maxTeamSize:number = data_local.ASSESSMENT.ASSESSMENT_TEAM.MAX_TEAM_SIZE
+  teamSizeExceedErrorMessage:string = data_local.ASSESSMENT.ASSESSMENT_TEAM.TEAM_SIZE_EXCEED
 
   blankSpace: boolean = false;
   purposeOfAssessment = [{

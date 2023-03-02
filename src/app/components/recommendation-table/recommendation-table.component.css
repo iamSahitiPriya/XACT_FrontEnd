@@ -43,6 +43,7 @@
   width: 95%;
   padding-top: 10px;
   font-size: 18px;
+  word-break: break-all;
 
 }
 .delivery-horizon{
@@ -63,6 +64,7 @@
 .recommendation-title-text{
   padding-left: 5%;
   opacity: 0.8;
+  width: 100%;
 }
 .recommendation-impact , .recommendation-effort {
   width: 50%;

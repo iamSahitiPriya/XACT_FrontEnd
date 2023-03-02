@@ -106,8 +106,6 @@ class loginPage {
     cy.clearCookies()
     cy.clearLocalStorage()
 
-    // const username = Cypress.env('xAct_username')
-    // const password = Cypress.env('xAct_password')
     const username ='jathin.meduri@thoughtworks.com'
     const password ='Newspaper@123'
     expect(username, 'username was set').to.be.a('string').and.not.be.empty

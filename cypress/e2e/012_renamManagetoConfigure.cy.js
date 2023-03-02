@@ -27,7 +27,7 @@ describe('Renaming Manage option to Configure', () => {
 
   it('tc003 Validating whether Manage option is renamed as configure in quick link', () => {
     commonFunctions.clickOnElement(landingPage.optionsButton(),'quick link options is clicked')
-    commonFunctions.clickOnElement(landingPage.configureOption(),'configure option is clicked')
+    commonFunctions.clickOnElement(landingPage.menuOptions(1),'configure option is clicked')
     commonFunctions.elementIsVisible(landingPage.AssessmentPopup(),'Configure assessment popup is visible')
     commonFunctions.clickOnElement(landingPage.closeAssessmentPopup(),'configure assessment popup is closed')
   })

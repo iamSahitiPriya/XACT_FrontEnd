@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
@@ -21,6 +21,7 @@ import {data_local} from "src/app/messages"
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {ActivityLogResponse} from "../../types/activityLogResponse";
+import {ActivatedRoute} from "@angular/router";
 
 export const topicRatingData = [{}]
 
@@ -31,7 +32,7 @@ let RECOMMENDATION_MAX_LIMIT = 20;
   templateUrl: './topic-level-rating.component.html',
   styleUrls: ['./topic-level-rating.component.css']
 })
-export class TopicLevelRatingComponent implements OnInit, OnDestroy {
+export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewInit {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;
@@ -41,10 +42,14 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  private scrollToElement: string;
 
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>, private route: ActivatedRoute) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+    this.route.queryParams.subscribe(params => {
+      this.scrollToElement = params['scrollToElement'];
+    });
   }
 
   @Input()
@@ -68,7 +73,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   topicName: string
 
   @Input()
-  activityRecords : ActivityLogResponse[]
+  activityRecords: ActivityLogResponse[]
 
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
@@ -113,10 +118,10 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration : 200000,
-      verticalPosition : "top",
-      horizontalPosition : "center"
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: 200000,
+      verticalPosition: "top",
+      horizontalPosition: "center"
     })
   }
 
@@ -204,7 +209,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-
-
-
+  ngAfterViewInit(): void {
+    const elements = document.getElementById(this.scrollToElement);
+    elements?.scrollIntoView();
+  }
 }

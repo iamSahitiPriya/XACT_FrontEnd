@@ -21,6 +21,7 @@ import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {RouterTestingModule} from "@angular/router/testing";
 
 class MockAppService {
   saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
@@ -47,8 +48,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, MatTooltipModule, HttpClientTestingModule,
-        StoreModule.forRoot(reducers)],
-      providers: [
+        StoreModule.forRoot(reducers), RouterTestingModule],
+      providers: [RouterTestingModule,
         NgForm,
         {provide: AppServiceService, useClass: MockAppService}
       ],
