@@ -38,7 +38,6 @@
                 </mat-icon>
               </button>
             </div>
-
             <div class="questionCreateFunctions" *ngIf="userQuestion.userQuestion.questionId === -1">
               <button class="saveQuestionIcon">
                 <mat-icon id="saveQuestion" (click)="saveQuestion(userQuestion)" matTooltip="{{saveHoverText}}">done
@@ -49,7 +48,6 @@
                 <mat-icon (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon>
               </button>
             </div>
-
           </div>
 
 

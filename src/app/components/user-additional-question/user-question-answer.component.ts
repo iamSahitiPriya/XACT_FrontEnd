@@ -51,16 +51,11 @@ export class UserQuestionAnswerComponent implements OnInit {
 
   assessmentStatus: string;
 
-  userQuestionRequest: UserQuestionRequest = {
-    question: ""
-  }
-
   userQuestionData: UserQuestionData[] = [];
-
-  answerResponse1: Observable<AssessmentStructure>
-  answerResponse: AssessmentStructure
-
-
+  assessmentResponseObservable: Observable<AssessmentStructure>
+  assessmentResponse: AssessmentStructure
+  private cloneAnswerResponse: AssessmentStructure;
+  private cloneAnswerResponse1: AssessmentStructure;
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   menuMessageError = data_local.SHOW_ERROR_MESSAGE.MENU_ERROR;
   additionalQuestionHeading = data_local.ADDITIONAL_QUESTIONS.HEADING;
@@ -69,19 +64,23 @@ export class UserQuestionAnswerComponent implements OnInit {
   saveHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.SAVE;
   updateHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.UPDATE;
   deleteHoverText = data_local.ADDITIONAL_QUESTIONS.QUESTION_FUNCTIONALITY_MESSAGE.DELETE;
+  questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
+  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  showAccordion: boolean = true;
+  questionType: string = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
   private destroy$: Subject<void> = new Subject<void>();
   private previousUserQuestionData: UserQuestionData[];
 
 
   constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
-    this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
+    this.assessmentResponseObservable = this.store.select((storeMap) => storeMap.assessmentState.assessments)
 
   }
 
   ngOnInit() {
-    this.answerResponse1.pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.assessmentResponseObservable.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
-        this.answerResponse = data
+        this.assessmentResponse = data
         this.assessmentStatus = data.assessmentStatus
       }
     })
@@ -96,9 +95,6 @@ export class UserQuestionAnswerComponent implements OnInit {
     })
   }
 
-  private cloneAnswerResponse: AssessmentStructure;
-  private cloneAnswerResponse1: AssessmentStructure;
-
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
@@ -108,18 +104,12 @@ export class UserQuestionAnswerComponent implements OnInit {
     })
   }
 
-  questionLabel = data_local.ASSESSMENT_QUESTION_FIELD.LABEL;
-  inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
-  showAccordion: boolean = true;
-  questionType: string = data_local.QUESTION_TYPE_TEXT.ADDITIONAL_TYPE;
-
-
   saveQuestion(userQuestion: UserQuestionData) {
-    this.userQuestionRequest.question = userQuestion.userQuestion.question;
-    if (this.userQuestionRequest.question.trimStart().length > 0) {
-      this.appService.saveUserQuestion(this.userQuestionRequest, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
+    let userQuestionRequest: UserQuestionRequest = {question: userQuestion.userQuestion.question};
+    if (userQuestionRequest.question.trimStart().length > 0) {
+      this.appService.saveUserQuestion(userQuestionRequest, this.assessmentId, this.parameterId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
-            assessmentData.push(this.userQuestionRequest);
+            assessmentData.push(userQuestionRequest);
             let userQuestionData: UserQuestionData = {userQuestion: _data, isEdit: false}
             this.pruneUserQuestion();
             userQuestion.isEdit = false
@@ -200,7 +190,7 @@ export class UserQuestionAnswerComponent implements OnInit {
     let index = 0;
     let updatedUserQuestionAnswerList = [];
     updatedUserQuestionAnswerList.push(userQuestionData.userQuestion);
-    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
+    this.cloneAnswerResponse = Object.assign({}, this.assessmentResponse)
     if (this.cloneAnswerResponse.userQuestionResponseList != undefined) {
       index = this.cloneAnswerResponse.userQuestionResponseList.findIndex(eachQuestion => eachQuestion.questionId === userQuestionData.userQuestion.questionId)
       if (index !== -1) {
@@ -221,7 +211,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
 
   private removeUserQuestion(questionId: number) {
-    this.cloneAnswerResponse = Object.assign({}, this.answerResponse)
+    this.cloneAnswerResponse = Object.assign({}, this.assessmentResponse)
     if (this.cloneAnswerResponse.userQuestionResponseList != undefined) {
       this.userQuestionData = this.userQuestionData.filter(eachQuestion => eachQuestion.userQuestion.questionId !== questionId)
       this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachQuestion => eachQuestion.questionId !== questionId)
@@ -232,7 +222,7 @@ export class UserQuestionAnswerComponent implements OnInit {
 
 
   private updateDataSavedStatus() {
-    this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
+    this.cloneAnswerResponse1 = Object.assign({}, this.assessmentResponse)
     this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
   }

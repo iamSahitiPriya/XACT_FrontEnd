@@ -16,7 +16,6 @@ import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleReque
 import {UserQuestion} from "../../types/UserQuestion";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
-import exp from "constants";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;

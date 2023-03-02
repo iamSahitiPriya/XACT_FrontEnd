@@ -16,7 +16,6 @@ import {UserQuestion} from "../../types/UserQuestion";
 import {of, throwError} from "rxjs";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
-import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
@@ -108,7 +107,7 @@ describe('UserQuestionAnswerComponent', () => {
     // expect(component.).toBe(false)
   })
   it('should save User Added Question', () => {
-    component.answerResponse1= of({
+    component.assessmentResponseObservable= of({
       assessmentId: 5,
       assessmentName: "abc1",
       organisationName: "Thoughtworks",
@@ -127,9 +126,6 @@ describe('UserQuestionAnswerComponent', () => {
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
       userQuestionResponseList: [{questionId: 2, parameterId: 1, question: "new", answer: "answer"}]
     })
-    component.userQuestionRequest = {
-      question: "question?"
-    }
     component.userQuestionList = [{
       questionId: 2,
       question: "hello",
@@ -150,9 +146,6 @@ describe('UserQuestionAnswerComponent', () => {
     })
   })
   it('should throw error when not able  to save User Added Question', () => {
-    component.userQuestionRequest = {
-      question: "new"
-    }
     let userQuestion: UserQuestion = {
       questionId: 1,
       question: "new"
@@ -203,7 +196,7 @@ describe('UserQuestionAnswerComponent', () => {
       answer: "",
       parameterId: 1
     }]
-    component.answerResponse = {
+    component.assessmentResponse = {
       answerResponseList: [],
       assessmentId: 2,
       assessmentName: "",
@@ -233,7 +226,7 @@ describe('UserQuestionAnswerComponent', () => {
       questionId: 1, question: "update", parameterId: 5, answer: ""
     }
 
-    component.answerResponse1 = of({
+    component.assessmentResponseObservable = of({
       answerResponseList: [],
       assessmentId: 0,
       assessmentName: "",
@@ -278,7 +271,7 @@ describe('UserQuestionAnswerComponent', () => {
 
   })
   it("should create user question array if not exist", () => {
-    component.answerResponse1 = of({
+    component.assessmentResponseObservable = of({
       answerResponseList: [],
       assessmentId: 2,
       assessmentName: "",
@@ -296,9 +289,6 @@ describe('UserQuestionAnswerComponent', () => {
       userQuestionResponseList: [{questionId: 2, parameterId: 1, question: "new", answer: "answer"}],
       users: []
     })
-    component.userQuestionRequest = {
-      question: "question?"
-    }
     component.userQuestionList = [{
       questionId: 2,
       question: "hello",
@@ -310,7 +300,7 @@ describe('UserQuestionAnswerComponent', () => {
     }
     component.ngOnInit()
     // @ts-ignore
-    component.answerResponse.userQuestionResponseList = undefined
+    component.assessmentResponse.userQuestionResponseList = undefined
     component.saveQuestion(userQuestionData);
 
     mockAppService.saveUserQuestion(userQuestion, 2, 1).subscribe(data => {
