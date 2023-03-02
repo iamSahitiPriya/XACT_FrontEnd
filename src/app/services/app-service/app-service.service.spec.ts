@@ -345,5 +345,8 @@ describe('AppServiceService', () => {
     let assessmentId = 1;
     expect(service.getAllRecommendations(assessmentId)).toBeTruthy()
   })
+  it("should get user role", () => {
+    expect(service.getUserRole()).toBeTruthy()
+  });
 });
 
