@@ -22,6 +22,7 @@ import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {MatRadioModule} from "@angular/material/radio";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
+import {RouterTestingModule} from "@angular/router/testing";
 
 
 class MockAppService {
@@ -87,8 +88,8 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TopicLevelRatingComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, HttpClientTestingModule, MatRadioModule,
-        StoreModule.forRoot(reducers)],
-      providers: [{provide: AppServiceService, useClass: MockAppService}]
+        StoreModule.forRoot(reducers), RouterTestingModule],
+      providers: [RouterTestingModule, {provide: AppServiceService, useClass: MockAppService}]
     })
       .compileComponents();
   });

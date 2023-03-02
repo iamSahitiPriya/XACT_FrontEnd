@@ -6,30 +6,63 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {Recommendation} from "../../types/recommendation";
 import {MatCardModule} from "@angular/material/card";
 import {of} from "rxjs";
-import * as d3 from 'd3';
 
 class MockAppService {
 
-  getAllRecommendations(assessmentId : number) {
-    let recommendations : Recommendation[] = [
-      {recommendation:"1",deliveryHorizon:"NOW",impact:"LOW",effort:"MEDIUM",categoryName:"1",updatedAt:12345},
-      {recommendation:"2",deliveryHorizon:"NEXT",impact:"MEDIUM",effort:"LOW",categoryName:"2",updatedAt:12345},
-      {recommendation:"3",deliveryHorizon:"LATER",impact:"HIGH",effort:"HIGH",categoryName:"",updatedAt:12345}]
+  getAllRecommendations(assessmentId: number) {
+    let recommendations: Recommendation[] = [
+      {
+        recommendationId: 1,
+        recommendation: "1",
+        deliveryHorizon: "NOW",
+        impact: "LOW",
+        effort: "MEDIUM",
+        categoryName: "1",
+        updatedAt: 12345,
+        category: 1,
+        module: 1,
+        topic: 1
+      },
+      {
+        recommendationId: 2,
+        recommendation: "2",
+        deliveryHorizon: "NEXT",
+        impact: "MEDIUM",
+        effort: "LOW",
+        categoryName: "2",
+        updatedAt: 12345,
+        category: 1,
+        module: 1,
+        topic: 1
+      },
+      {
+        recommendationId: 3,
+        recommendation: "3",
+        deliveryHorizon: "LATER",
+        impact: "HIGH",
+        effort: "HIGH",
+        categoryName: "",
+        updatedAt: 12345,
+        category: 1,
+        module: 1,
+        topic: 1
+      }]
     return of(recommendations);
   }
 }
+
 describe('RoadmapBubbleChartComponent', () => {
   let component: RoadmapBubbleChartComponent;
   let fixture: ComponentFixture<RoadmapBubbleChartComponent>;
-  let mockAppService : MockAppService
+  let mockAppService: MockAppService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoadmapBubbleChartComponent ],
-      imports : [HttpClientTestingModule, MatCardModule],
-      providers : [{provide: AppServiceService, useClass: MockAppService}]
+      declarations: [RoadmapBubbleChartComponent],
+      imports: [HttpClientTestingModule, MatCardModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -49,7 +82,7 @@ describe('RoadmapBubbleChartComponent', () => {
     component.getRecommendations()
 
     expect(component.recommendationResponse.length).toBe(3)
-    })
+  })
 
   it("should return empty label for chart ticks", () => {
 

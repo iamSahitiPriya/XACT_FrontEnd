@@ -22,13 +22,12 @@
     {{assessmentModuleTitle}}
   </div>
 </mat-toolbar>
-<mat-tab-group #tabs mat-align-tabs="start" class="topicTab"
-               (selectedTabChange)="tabChanged($event)">
+<mat-tab-group mat-align-tabs="start" class="topicTab"
+               (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
   <div *ngFor="let topic of topics; let i=index">
   <mat-tab label={{topic.topicName}}>
     <ng-template matTabContent>
-      <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic"
-                                  [selectedIndex]="selectedIndex"></app-topic-level-assessment>
+      <app-topic-level-assessment *ngIf="assessment" [topicInput]="topic"></app-topic-level-assessment>
     </ng-template>
   </mat-tab>
   </div>
@@ -38,7 +37,7 @@
 
 <div class="side-bar">
   <div class="expansion_color" *ngFor="let category of category.userAssessmentCategories; first as isFirst">
-    <mat-expansion-panel [expanded]="isFirst">
+    <mat-expansion-panel [expanded]="shouldExpandCategory(isFirst,category.categoryId)">
       <mat-expansion-panel-header [matTooltip]="category.categoryName" [matTooltipPosition]="'right'">
         <mat-panel-title>
           <span>{{category.categoryName}}</span>
@@ -46,7 +45,7 @@
       </mat-expansion-panel-header>
       <div class="category-modules" *ngIf="category">
         <div *ngFor="let module of category.modules">
-        <mat-card  (click)="navigate(module);tabs.selectedIndex=0"  class="module-card"
+        <mat-card  (click)="navigate(module)"  class="module-card"
                     [ngClass]="{'module-card-active':moduleSelected === module.moduleId}" [matTooltip]="module.moduleName" [matTooltipPosition]="'right'">
             <span>{{module.moduleName}}</span>
           </mat-card>

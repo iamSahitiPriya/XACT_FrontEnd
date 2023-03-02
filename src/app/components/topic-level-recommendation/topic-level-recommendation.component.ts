@@ -303,7 +303,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   }
 
   isActivityFound() {
-    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.recommendation.recommendationId;
+    return this.latestActivityRecord.email.length > 0 && this.latestActivityRecord.identifier === this.recommendation.recommendationId;
   }
 
 

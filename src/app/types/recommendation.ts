@@ -3,11 +3,15 @@
  */
 
 export interface Recommendation {
-  recommendation : string;
-  deliveryHorizon : string;
-  impact : string;
-  effort : string;
-  categoryName : string;
-  updatedAt : number;
+  recommendationId: number;
+  recommendation: string;
+  deliveryHorizon: string;
+  impact: string;
+  effort: string;
+  categoryName: string;
+  updatedAt: number;
+  category: number;
+  module: number;
+  topic: number;
 }
 
