@@ -87,7 +87,6 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy {
 
   public answerSaved: string
 
-  @Input() selectedIndex: number
   assessmentId: number
   @Input() topicInput: TopicStructure;
   assessmentStatus: string;

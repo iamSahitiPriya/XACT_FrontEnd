@@ -159,10 +159,15 @@ describe('AssessmentModulesDetailsComponent', () => {
 
         ]), StoreModule.forRoot(reducers)],
       providers: [
+        RouterTestingModule,
         {provide: AppServiceService, useClass: MockAppService},
-        {provide: ActivatedRoute, useValue: {snapshot: {paramMap: convertToParamMap({'assessmentId': '1'})}}}
-        // {provide: OKTA_AUTH, useValue: oktaAuth},
-
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({category: 1, module: 1, topic: 1}),
+            snapshot: {paramMap: convertToParamMap({'assessmentId': '1'})}
+          }
+        }
       ],
     })
       .compileComponents();
@@ -213,13 +218,10 @@ describe('AssessmentModulesDetailsComponent', () => {
     // @ts-ignore
     const tabChangeEvent: MatTabChangeEvent = {tab: undefined, index: 1};
     component.selectedIndex = 0;
-    component.topics = [{
-      topicId: 1,
-      topicName: "hello", updatedAt: 0, active: false,
-      parameters: [],
-      module: 1,
-      references: []
-    }, {topicId: 2, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []},
+    component.isReloaded=false;
+    component.topics = [
+      {topicId: 1, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []},
+      {topicId: 2, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []},
       {topicId: 3, topicName: "hello", updatedAt: 0, active: false, parameters: [], module: 1, references: []}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
@@ -228,14 +230,10 @@ describe('AssessmentModulesDetailsComponent', () => {
     // @ts-ignore
     const tabChangeEvent: MatTabChangeEvent = {tab: undefined, index: 1};
     component.selectedIndex = 2;
-    component.topics = [{
-      topicId: 1,
-      topicName: "hello",
-      active: false,
-      parameters: [],
-      module: 1,
-      references: [], updatedAt: 0,
-    }, {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [], updatedAt: 0, active: false,},
+    component.isReloaded=false;
+    component.topics = [
+      {topicId: 1, topicName: "hello", active: false, parameters: [], module: 1, references: [], updatedAt: 0,},
+      {topicId: 2, topicName: "hello", parameters: [], module: 1, references: [], updatedAt: 0, active: false,},
       {topicId: 3, topicName: "hello", parameters: [], module: 1, references: [], updatedAt: 0, active: false,}]
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
@@ -260,7 +258,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     }
     component.navigate(dummyModule)
     expect(component.moduleSelected).toBe(1)
-    expect(component.topics.length).toBe(1)
+    expect(component.topics?.length).toBe(1)
   });
 
 

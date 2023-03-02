@@ -24,13 +24,16 @@ export class RecommendationTableComponent implements OnInit {
 
   tableData: RecommendationTableData[] = []
   @Input()
-  recommendations: Recommendation []
+  recommendations : Recommendation []
 
   index: number = 0;
   @Input()
-  colorScheme: Map<string, string>
+  colorScheme :  Map<string,string>
 
   deliveryHorizon: string | undefined = undefined;
+  @Input()
+  assessmentId: number
+
   recommendationTitle: string = data_local.SUMMARY_REPORT.RECOMMENDATION.HEADING;
   impact: string = data_local.RECOMMENDATION_TEXT.IMPACT_LABEL;
   effort: string = data_local.RECOMMENDATION_TEXT.EFFORT

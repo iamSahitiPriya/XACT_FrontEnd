@@ -17,9 +17,9 @@ describe('RecommendationTableComponent', () => {
 
     fixture = TestBed.createComponent(RecommendationTableComponent);
     component = fixture.componentInstance;
-    recommendations = [{recommendation:"Recommendation1",impact:"LOW",effort:"LOW",deliveryHorizon:"NOW",updatedAt:0,categoryName:"NEW"},
-      {recommendation:"Recommendation2",impact:"LOW",effort:"LOW",deliveryHorizon:"NEXT",updatedAt:0,categoryName:"NEW"},
-      {recommendation:"Recommendation3",impact:"LOW",effort:"LOW",deliveryHorizon:"LATER",updatedAt:0,categoryName:"NEW"}
+    recommendations = [{recommendationId:1, recommendation:"Recommendation1",impact:"LOW",effort:"LOW",deliveryHorizon:"NOW",updatedAt:0,categoryName:"NEW",category:1,module:1,topic:1},
+      {recommendationId:2,recommendation:"Recommendation2",impact:"LOW",effort:"LOW",deliveryHorizon:"NEXT",updatedAt:0,categoryName:"NEW",category:1,module:1,topic:1},
+      {recommendationId:3,recommendation:"Recommendation3",impact:"LOW",effort:"LOW",deliveryHorizon:"LATER",updatedAt:0,categoryName:"NEW",category:1,module:1,topic:1}
     ]
   });
 
