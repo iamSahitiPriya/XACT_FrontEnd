@@ -16,7 +16,7 @@ import {cloneDeep} from "lodash";
 
 export const assessmentData = [{}]
 
-interface UserQuestionData {
+export interface UserQuestionData {
   userQuestion: UserQuestionResponse
   isEdit: boolean
 }
@@ -86,7 +86,7 @@ export class UserQuestionAnswerComponent implements OnInit {
       }
     })
     this.formatUserQuestionData();
-    this.previousUserQuestionData= cloneDeep(this.userQuestionData);
+    this.previousUserQuestionData = cloneDeep(this.userQuestionData);
   }
 
   formatUserQuestionData() {
@@ -96,7 +96,7 @@ export class UserQuestionAnswerComponent implements OnInit {
     })
   }
 
-  private cloneAnswerResponse: AssessmentStructure ;
+  private cloneAnswerResponse: AssessmentStructure;
   private cloneAnswerResponse1: AssessmentStructure;
 
   showError(message: string) {
@@ -122,10 +122,9 @@ export class UserQuestionAnswerComponent implements OnInit {
             assessmentData.push(this.userQuestionRequest);
             let userQuestionData: UserQuestionData = {userQuestion: _data, isEdit: false}
             this.pruneUserQuestion();
-            this.sendUserQuestionAnswer(userQuestionData)
             userQuestion.isEdit = false
+            this.sendUserQuestionAnswer(userQuestionData)
             this.updateDataSavedStatus()
-
           }, error: _error => {
             this.showError(this.errorMessagePopUp);
           }
@@ -149,15 +148,18 @@ export class UserQuestionAnswerComponent implements OnInit {
     this.userQuestionData.push(userQuestion2);
   }
 
-  editUserQuestion(userQuestionData : UserQuestionData) {
+  editUserQuestion(userQuestionData: UserQuestionData) {
     this.resetUserQuestionData();
     userQuestionData.isEdit = true;
   }
 
   private resetUserQuestionData() {
     this.userQuestionData.forEach(userQuestion => {
-        userQuestion.isEdit = false
-        userQuestion.userQuestion.question = this.previousUserQuestionData[this.previousUserQuestionData.findIndex(unsavedUserQuestion => unsavedUserQuestion.userQuestion.questionId === userQuestion.userQuestion.questionId)]?.userQuestion.question;
+      userQuestion.isEdit = false
+      let questionIndex = this.previousUserQuestionData.findIndex(unsavedUserQuestion => unsavedUserQuestion.userQuestion.questionId === userQuestion.userQuestion.questionId);
+      if (questionIndex !== -1) {
+        userQuestion.userQuestion.question = this.previousUserQuestionData[questionIndex].userQuestion.question;
+      }
     })
   }
 
@@ -166,25 +168,25 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   deleteUserQuestion(questionId: number) {
-      this.appService.deleteUserQuestion(this.assessmentId, questionId).pipe(takeUntil(this.destroy$)).subscribe({
-        next: () => {
-          this.pruneUserQuestion();
-          this.removeUserQuestion(questionId)
-          this.updateDataSavedStatus();
-        },
-        error: _error => {
-          this.showError(this.errorMessagePopUp);
-        }
-      })
+    this.appService.deleteUserQuestion(this.assessmentId, questionId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.pruneUserQuestion();
+        this.removeUserQuestion(questionId)
+        this.updateDataSavedStatus();
+      },
+      error: _error => {
+        this.showError(this.errorMessagePopUp);
+      }
+    })
   }
 
-  updateQuestion(userQuestion : UserQuestionData) {
+  updateQuestion(userQuestion: UserQuestionData) {
     if (userQuestion.userQuestion.question.trimStart().length > 0) {
       this.appService.updateUserQuestion(userQuestion.userQuestion, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
+            userQuestion.isEdit = false
             this.sendUserQuestionAnswer(userQuestion);
             this.updateDataSavedStatus()
-            userQuestion.isEdit = false
           },
           error: _error => {
             this.showError(this.errorMessagePopUp);
@@ -213,7 +215,7 @@ export class UserQuestionAnswerComponent implements OnInit {
       this.cloneAnswerResponse.userQuestionResponseList = updatedUserQuestionAnswerList
       this.userQuestionData.push(userQuestionData)
     }
-    this.previousUserQuestionData= cloneDeep(this.userQuestionData);
+    this.previousUserQuestionData = cloneDeep(this.userQuestionData);
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 
@@ -224,7 +226,7 @@ export class UserQuestionAnswerComponent implements OnInit {
       this.userQuestionData = this.userQuestionData.filter(eachQuestion => eachQuestion.userQuestion.questionId !== questionId)
       this.cloneAnswerResponse.userQuestionResponseList = this.cloneAnswerResponse.userQuestionResponseList.filter(eachQuestion => eachQuestion.questionId !== questionId)
     }
-    this.previousUserQuestionData= cloneDeep(this.userQuestionData);
+    this.previousUserQuestionData = cloneDeep(this.userQuestionData);
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse}))
   }
 

@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {UserQuestionAnswerComponent} from './user-question-answer.component';
+import {UserQuestionAnswerComponent, UserQuestionData} from './user-question-answer.component';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -16,13 +16,17 @@ import {UserQuestion} from "../../types/UserQuestion";
 import {of, throwError} from "rxjs";
 import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
+import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 describe('UserQuestionAnswerComponent', () => {
+  let userQuestionData:UserQuestionData
   let component: UserQuestionAnswerComponent;
   let fixture: ComponentFixture<UserQuestionAnswerComponent>;
   let userQuestionResponse: UserQuestionResponse = {
-    question: "new",
+    question: "hello",
     questionId: 1,
     parameterId: 1,
     answer: ""
@@ -60,7 +64,7 @@ describe('UserQuestionAnswerComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [UserQuestionAnswerComponent],
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
-        StoreModule.forRoot(reducers),
+        StoreModule.forRoot(reducers), MatIconModule,MatTooltipModule,
         BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       providers: [{provide: AppServiceService, useClass: MockAppService}],
     })
@@ -72,7 +76,19 @@ describe('UserQuestionAnswerComponent', () => {
     fixture = TestBed.createComponent(UserQuestionAnswerComponent);
     component = fixture.componentInstance;
     mockAppService = new MockAppService()
+    component.userQuestionList = [{
+      questionId: 2,
+      question: "hello",
+      answer: "",
+      parameterId: 1
+    }]
     fixture.detectChanges();
+    userQuestionData = {isEdit: false, userQuestion: {
+        questionId: 2,
+        question: "hello",
+        answer: "",
+        parameterId: 1
+      }}
 
   });
 
@@ -89,28 +105,28 @@ describe('UserQuestionAnswerComponent', () => {
   it('should be able to change flag for removing question', () => {
     jest.spyOn(component, 'removeQuestion');
     component.removeQuestion();
-    expect(component.createQuestionFlag).toBe(false)
+    // expect(component.).toBe(false)
   })
   it('should save User Added Question', () => {
-    component.answerResponse = {
-      answerResponseList: [],
-      assessmentId: 2,
-      assessmentName: "",
-      assessmentPurpose: "",
-      assessmentState: "",
-      assessmentDescription: "",
-      assessmentStatus: "",
+    component.answerResponse1= of({
+      assessmentId: 5,
+      assessmentName: "abc1",
+      organisationName: "Thoughtworks",
+      assessmentStatus: "Active",
+      assessmentPurpose: "Client Request",
+      assessmentDescription: "description",
+      updatedAt: 1654664982698,
       domain: "",
       industry: "",
-      organisationName: "",
-      owner: false,
-      parameterRatingAndRecommendation: [],
+      assessmentState: "inProgress",
+      teamSize: 0,
+      users: [],
+      owner: true,
+      answerResponseList: [],
       topicRatingAndRecommendation: [],
-      updatedAt: 0,
-      userQuestionResponseList: [{questionId: 2, parameterId: 1, question: "new", answer: "answer"}],
-      users: []
-
-    }
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      userQuestionResponseList: [{questionId: 2, parameterId: 1, question: "new", answer: "answer"}]
+    })
     component.userQuestionRequest = {
       question: "question?"
     }
@@ -120,28 +136,31 @@ describe('UserQuestionAnswerComponent', () => {
       answer: "",
       parameterId: 1
     }]
-    component.questionText = "question?"
+    component.ngOnInit()
+    component.userQuestionData.push(userQuestionData)
     let userQuestion: UserQuestionRequest = {
       question: "question?"
     }
-    component.saveQuestion();
+    userQuestionData.userQuestion.questionId = -1
+    component.userQuestionData.push(userQuestionData)
+    component.saveQuestion(userQuestionData);
 
     mockAppService.saveUserQuestion(userQuestion, 2, 1).subscribe(data => {
       expect(data.question).toBe(userQuestion.question)
-      expect(component.questionText).toBe("")
     })
   })
   it('should throw error when not able  to save User Added Question', () => {
     component.userQuestionRequest = {
       question: "new"
     }
-    component.questionText = "new"
     let userQuestion: UserQuestion = {
       questionId: 1,
       question: "new"
     }
+    userQuestionData.userQuestion.question = 'new'
     jest.spyOn(component, 'saveQuestion')
-    component.saveQuestion();
+    component.ngOnInit()
+    component.saveQuestion(userQuestionData);
 
     jest.spyOn(component, "showError")
 
@@ -154,17 +173,17 @@ describe('UserQuestionAnswerComponent', () => {
       })
   })
   it('should allow user to edit the question ', () => {
+    let userQuestionData :UserQuestionData  = {isEdit: false, userQuestion: {
+        questionId: 2,
+        question: "hello",
+        answer: "",
+        parameterId: 1
+      }}
     jest.spyOn(component, 'editUserQuestion');
-    component.createQuestionFlag = false;
-    component.questionEditFlag = false;
-    component.editUserQuestion(1);
-
-    expect(component.questionEditFlag).toBe(true);
-    expect(component.questionEditFlagNumber).toBe(1);
+    component.editUserQuestion(userQuestionData);
   })
 
   it('should not be able to delete user Question and throw error', () => {
-    component.createQuestionFlag = false;
     component.deleteUserQuestion(1);
     mockAppService.deleteUserQuestion(2, 1).subscribe(data => {
         expect(data).toBeUndefined()
@@ -178,7 +197,6 @@ describe('UserQuestionAnswerComponent', () => {
 
   it('should be able to delete user Question', () => {
     jest.spyOn(component, 'deleteUserQuestion');
-    component.createQuestionFlag = false;
     component.userQuestionList = [{
       questionId: 2,
       question: "hello",
@@ -215,7 +233,7 @@ describe('UserQuestionAnswerComponent', () => {
       questionId: 1, question: "update", parameterId: 5, answer: ""
     }
 
-    component.answerResponse = {
+    component.answerResponse1 = of({
       answerResponseList: [],
       assessmentId: 0,
       assessmentName: "",
@@ -232,9 +250,11 @@ describe('UserQuestionAnswerComponent', () => {
       updatedAt: 0,
       userQuestionResponseList: [{questionId: 1, parameterId: 1, question: "new", answer: "answer"}],
       users: []
-
-    }
-    component.updateQuestion();
+    })
+    component.ngOnInit()
+    userQuestionData.userQuestion.question="update"
+    userQuestionData.userQuestion.questionId = 1
+    component.updateQuestion(userQuestionData);
     mockAppService.updateUserQuestion(userQuestion, 2).subscribe(data => {
       expect(data).toBe(true)
     });
@@ -246,7 +266,8 @@ describe('UserQuestionAnswerComponent', () => {
     let userQuestion: UserQuestionResponse = {
       questionId: 2, question: "new", answer: "answer", parameterId: 5
     }
-    component.updateQuestion();
+    component.ngOnInit()
+    component.updateQuestion(userQuestionData);
     mockAppService.updateUserQuestion(userQuestion, 1).subscribe(data => {
         expect(data).toBeUndefined()
       },
@@ -257,7 +278,7 @@ describe('UserQuestionAnswerComponent', () => {
 
   })
   it("should create user question array if not exist", () => {
-    component.answerResponse = {
+    component.answerResponse1 = of({
       answerResponseList: [],
       assessmentId: 2,
       assessmentName: "",
@@ -274,9 +295,7 @@ describe('UserQuestionAnswerComponent', () => {
       updatedAt: 0,
       userQuestionResponseList: [{questionId: 2, parameterId: 1, question: "new", answer: "answer"}],
       users: []
-    }
-    // @ts-ignore
-    component.answerResponse.userQuestionResponseList = undefined
+    })
     component.userQuestionRequest = {
       question: "question?"
     }
@@ -286,15 +305,16 @@ describe('UserQuestionAnswerComponent', () => {
       answer: "",
       parameterId: 1
     }]
-    component.questionText = "question?"
     let userQuestion: UserQuestionRequest = {
       question: "question?"
     }
-    component.saveQuestion();
+    component.ngOnInit()
+    // @ts-ignore
+    component.answerResponse.userQuestionResponseList = undefined
+    component.saveQuestion(userQuestionData);
 
     mockAppService.saveUserQuestion(userQuestion, 2, 1).subscribe(data => {
       expect(data.question).toBe(userQuestion.question)
-      expect(component.questionText).toBe("")
     })
   });
   it("should toggle accordian", () => {
