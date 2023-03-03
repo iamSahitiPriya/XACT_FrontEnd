@@ -131,6 +131,7 @@ export class UserQuestionAnswerComponent implements OnInit {
   }
 
   generateQuestion() {
+    this.showAccordion = true
     this.pruneUserQuestion();
     let userQuestion: UserQuestionResponse = {answer: "", parameterId: 0, question: "", questionId: -1}
     let userQuestion2: UserQuestionData = {userQuestion: userQuestion, isEdit: true}
