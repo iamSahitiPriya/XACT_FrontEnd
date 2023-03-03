@@ -11,8 +11,8 @@
                       [matTooltip]="latestActivityRecord.email" [matTooltipDisabled]="!isActivityFound()">
         <div *ngIf="recommendation"></div>
         <mat-label>{{recommendationLabel}}{{inputWarningLabel}}</mat-label>
-        <textarea #input id="recommendationElement_parameter{{recommendation.recommendationId}}"
-                  name="recommendationText_parameter{{recommendation.recommendationId}}" matInput
+        <textarea #input id="recommendation-parameter{{recommendation.recommendationId}}"
+                  name="recommendationText-parameter{{recommendation.recommendationId}}" matInput
                   [(ngModel)]="recommendation.recommendationText"
                   cdkTextareaAutosize
                   cdkAutosizeMinRows="1"
@@ -45,8 +45,8 @@
         <div *ngIf="recommendation.impact"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_parameter{{recommendation.recommendationId}}_impact"
-            name="recommendationText_parameter{{recommendation.recommendationId}}_impact"
+            id="recommendation-parameter{{recommendation.recommendationId}}-impact"
+            name="recommendationText-parameter{{recommendation.recommendationId}}-impact"
             [(ngModel)]="recommendation.impact" aria-label="Select an option" (change)="saveParameterRecommendation()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>
@@ -60,8 +60,8 @@
         <div *ngIf="recommendation.effort"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_parameter{{recommendation.recommendationId}}_effort"
-            name="recommendationText_parameter{{recommendation.recommendationId}}_effort"
+            id="recommendation-parameter{{recommendation.recommendationId}}-effort"
+            name="recommendationText-parameter{{recommendation.recommendationId}}-effort"
             [(ngModel)]="recommendation.effort" aria-label="Select an option" (change)="saveParameterRecommendation()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
             <mat-radio-button value="HIGH">&nbsp;{{High}}</mat-radio-button>&nbsp;
@@ -75,8 +75,8 @@
         <div *ngIf="recommendation.deliveryHorizon"></div>
         <div>
           <mat-radio-group
-            id="recommendationElement_topic{{recommendation.recommendationId}}_deliveryHorizon"
-            name="recommendationText_topic{{recommendation.recommendationId}}_deliveryHorizon"
+            id="recommendation-parameter{{recommendation.recommendationId}}-deliveryHorizon"
+            name="recommendationText-topic{{recommendation.recommendationId}}-deliveryHorizon"
             [(ngModel)]="recommendation.deliveryHorizon" aria-label="Select an option"
             (change)="saveParameterRecommendation()"
             [disabled]="disableFields(recommendation.recommendationId) || assessmentStatus ==='Completed'">
