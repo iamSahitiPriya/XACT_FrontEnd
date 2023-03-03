@@ -104,7 +104,6 @@ describe('UserQuestionAnswerComponent', () => {
   it('should be able to change flag for removing question', () => {
     jest.spyOn(component, 'removeQuestion');
     component.removeQuestion();
-    // expect(component.).toBe(false)
   })
   it('should save User Added Question', () => {
     component.assessmentResponseObservable= of({
