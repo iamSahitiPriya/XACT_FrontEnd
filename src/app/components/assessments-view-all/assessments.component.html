@@ -3,14 +3,14 @@
   -->
 
 <div class="header-container">
-  <div class="row">
-    <div class="col-md-2 col-sm-2">
-      <h1 class="heading">{{homePageTitle}}</h1>
+<!--  <div class="row">-->
+    <div class="heading">
+      <h1>{{homePageTitle}}</h1>
     </div>
-    <div class="col-md-8 col-sm-6" align="end">
+    <div class="search-bar" align="end">
       <app-search [dataSource]="dataSource" [columns]="['3','assessmentName','organisationName','assessmentStatus']" ></app-search>
     </div>
-    <div align="end" class="col-md-2 col-sm-4">
+    <div align="end" class="create-assessment-button">
       <button [matTooltip]=buttonToolTip mat-raised-button (click)="openAssessment(content)" class="create-assessment-button"
               id="createAssessment">{{createAssessment}}
       </button>
@@ -18,7 +18,7 @@
         <app-create-assessments [assessment]="blankAssessment"></app-create-assessments>
       </ng-template>
     </div>
-  </div>
+<!--  </div>-->
 </div>
 
 <div class="row">

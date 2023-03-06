@@ -7,12 +7,13 @@
 
 
 .header-container {
-  padding-left: 5%;
-  padding-right: 4%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 h1{
-  font-size: 3rem;
+  font-size: 2.2rem;
   letter-spacing: 0;
   line-height: 1.2;
   font-family: 'Bitter', serif;
@@ -63,17 +64,12 @@ td.mat-cell:last-child{
 }
 
 .heading {
-  padding-left: 3%;
-  text-align: left;
-  letter-spacing: 0;
-  color: #043D4E;
-  font-size: 2.4rem;
-  line-height: 1.2;
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 1;
-  margin: 6px 0 16px;
-  font-family: 'Bitter', serif;
+   width: 21%;
+   padding-left: 5%;
+   color: #043d4e;
+   white-space: nowrap;
+   opacity: 1;
+   font-family: Bitter,serif;
 }
 
 tr.mat-row {
@@ -117,7 +113,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 .create-assessment-button.mat-raised-button {
   background-color: #043d4e;
   color: #fff;
-  height: 3.375em;
+  height: 3.3rem;
   text-transform: capitalize;
   font-size: 1.1rem;
   font-family: Inter,sans-serif;
@@ -126,8 +122,16 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   text-overflow: ellipsis;
 }
 
+.create-assessment-button {
+  width: 21%;
+}
+
 
 .menuButton1 {
   margin-top: -9px;
+}
+
+.search-bar {
+  width: 54%;
 }
 
