@@ -36,7 +36,7 @@
 }
 
 .menuItem {
-  font-size: medium;
+  font-size: 1rem;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   opacity: 1;
@@ -58,7 +58,7 @@
 
 .item {
   background: var(--unnamed-color-f4fafc) 0% 0% no-repeat padding-box;
-  font-size: medium;
+  font-size: 1rem;
   background: #F4FAFC 0% 0% no-repeat padding-box;
   text-align: center;
   display: flex;

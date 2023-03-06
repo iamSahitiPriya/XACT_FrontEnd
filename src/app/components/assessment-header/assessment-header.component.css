@@ -12,7 +12,7 @@
   font-weight: bold;
   font-variant: normal;
   font-style: normal;
-  font-size: 1em;
+  font-size: 1rem;
   font-family: 'Inter', sans-serif;
   letter-spacing: 1.42px;
   color: #FFFFFF;
@@ -36,7 +36,7 @@
   font-weight: bold;
   font-variant: normal;
   font-style: normal;
-  font-size: 1em;
+  font-size: 1rem;
   font-family: 'Inter', sans-serif;
   letter-spacing: 1.42px;
   color: #FFFFFF;
@@ -54,7 +54,7 @@
   font-weight: bold;
   font-variant: normal;
   font-style: normal;
-  font-size: 1em;
+  font-size: 1rem;
   font-family: 'Inter', sans-serif;
   letter-spacing: 1.42px;
   color: #FFFFFF;
@@ -73,7 +73,7 @@
 }
 
 .dataStatus {
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: bolder;
   font-variant: normal;
   font-feature-settings: normal;

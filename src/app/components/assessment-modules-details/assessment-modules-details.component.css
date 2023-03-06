@@ -19,7 +19,7 @@ html, body {
 
 .name {
   padding-top: 5px;
-  font-size: 1.8em;
+  font-size: 1.8rem;
   line-height: 1.2;
   font-weight: 700;
   font-family: 'Bitter', serif;
@@ -45,7 +45,7 @@ html, body {
   color: #fff;
   height: 54px;
   text-transform: capitalize;
-  font-size: 17px;
+  font-size: 1.1rem;
   font-family: 'Inter', sans-serif;
   padding-left: 20px;
   letter-spacing: 1.35px;
@@ -88,7 +88,7 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 .mat-expansion-panel-header {
   background-color: transparent;
-  font-size: 18px;
+  font-size: 1.1rem;
   padding-left: 64px;
 }
 
@@ -131,7 +131,7 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 .module-card {
   width: 306px;
-  font-size: 15px;
+  font-size: 0.9rem;
   font-family: 'Inter', sans-serif;
   border-radius: 0;
   text-align: left;
@@ -173,14 +173,14 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 ::ng-deep .mat-tab-label {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   opacity: 1 !important;
   color: #043D4E !important;
 }
 
 .mat-expansion-panel-header-title {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   color: white;
 }
 
@@ -240,22 +240,22 @@ div.expansion_color:nth-of-type(5n + 1) {
   }
 
   .mat-raised-button {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .mat-expansion-panel-header {
-    font-size: 17px;
+    font-size: 1rem;
     padding: 0px 73px 0px 36px;
   }
 
 
 
   ::ng-deep .mat-tab-label {
-    font-size: 15px;
+    font-size: 0.9rem;
   }
 
   .mat-expansion-panel-header-title {
-    font-size: 15px;
+    font-size: 0.9rem;
   }
 
   .moduleHead {
@@ -264,7 +264,7 @@ div.expansion_color:nth-of-type(5n + 1) {
 
   .mat-tab-label {
     min-width: 115px;
-    font-size: 13px;
+    font-size: 0.9rem;
     padding: -1px;
   }
 

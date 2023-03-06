@@ -31,7 +31,7 @@
   margin-bottom: 28px;
   width: 97%;
   color: #043D4E;
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
   display: inline-table;
@@ -46,7 +46,7 @@
 }
 
 .question-content {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bolder;
   font-family: 'Inter', sans-serif;
   color: #000000;
@@ -86,10 +86,10 @@
     margin-right: -4px;
   }
   .question-content{
-    font-size: 14px;
+    font-size: 0.9rem;
   }
   .parameter{
-    font-size: 17px;
+    font-size: 1.1rem;
   }
 
 
@@ -97,7 +97,7 @@
 @media not all and (min-resolution:.001dpcm) {
   @media {
     .question-content {
-      font-size: 18px;
+      font-size: 1.1rem;
       font-weight: 400;
       font-family: 'Inter', sans-serif;
       color: #000000;

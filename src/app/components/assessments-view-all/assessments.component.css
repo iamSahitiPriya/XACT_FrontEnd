@@ -12,7 +12,7 @@
 }
 
 h1{
-  font-size: 3em;
+  font-size: 3rem;
   letter-spacing: 0;
   line-height: 1.2;
   font-family: 'Bitter', serif;
@@ -37,7 +37,7 @@ table {
 td.mat-cell {
   font-family: 'Inter', sans-serif;
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 1rem;
   padding-top: 17px;
   word-break: break-word;
 }
@@ -67,7 +67,7 @@ td.mat-cell:last-child{
   text-align: left;
   letter-spacing: 0;
   color: #043D4E;
-  font-size: 2.4em;
+  font-size: 2.4rem;
   line-height: 1.2;
   font-weight: 700;
   white-space: nowrap;
@@ -94,7 +94,7 @@ tr.mat-row {
 }
 
 th.tableHeader {
-  font-size: 17px;
+  font-size: 1rem;
   color: white;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -119,7 +119,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   color: #fff;
   height: 3.375em;
   text-transform: capitalize;
-  font-size: 1.1em;
+  font-size: 1.1rem;
   font-family: Inter,sans-serif;
   letter-spacing: 1.45px;
   width: 13.2em;
