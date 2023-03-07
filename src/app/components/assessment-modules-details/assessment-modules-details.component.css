@@ -100,10 +100,10 @@ div.expansion_color:nth-of-type(5n + 1) {
 
 .moduleHead {
   background-color: #F4FAFC;
-  padding-right: 156px;
+  padding-right: 136px;
   height: 49px;
   padding-left: 66px;
-  padding-top: 10px;
+  padding-top: 7px;
 
 }
 
@@ -271,7 +271,9 @@ div.expansion_color:nth-of-type(5n + 1) {
 }
 
 .menu-bar {
-  padding-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1.2%;
 }
 
 .mat-icon-custom {
@@ -290,5 +292,11 @@ div.expansion_color:nth-of-type(5n + 1) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.assessment-back {
+  display: flex;
+  flex-direction: row;
+  padding-left: 2%;
 }
 
