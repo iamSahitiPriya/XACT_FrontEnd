@@ -135,3 +135,10 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   width: 54%;
 }
 
+.assessment-paginator {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-right: 2.7%;
+}
