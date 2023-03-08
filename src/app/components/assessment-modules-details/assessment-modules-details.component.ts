@@ -3,7 +3,7 @@
  */
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
 import {ModuleStructure} from "../../types/moduleStructure";
@@ -17,12 +17,12 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../messages";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
+import {Location} from "@angular/common";
 
 let categories: UserCategoryResponse = {
   assessmentCategories: []
   , userAssessmentCategories: []
 }
-let valueEmitter = new BehaviorSubject<UserCategoryResponse>(categories)
 
 enum QueryParamHandling {
   PRESERVE = 'preserve',
@@ -38,7 +38,7 @@ enum QueryParamHandling {
 export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   moduleName: string
   assessment: AssessmentStructure
-  category: UserCategoryResponse
+  category: UserCategoryResponse = {assessmentCategories: [], userAssessmentCategories: []}
   topics: TopicStructure[] | undefined;
   parameters: ParameterStructure[];
   moduleSelected: number | undefined;
@@ -53,9 +53,9 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   answer: Observable<AssessmentStructure>
   private destroy$: Subject<void> = new Subject<void>();
-  private selectedModuleId: number;
+  private selectedModuleId: undefined;
   private selectedTopicId: number;
-  private selectedCategoryId: number;
+  private selectedCategoryId: number | undefined;
   isReloaded: boolean = true;
 
 
@@ -85,7 +85,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
     this.updateParamToUri(QueryParamHandling.MERGE);
   }
 
-  updateParamToUri(queryParamHandlingStrategy:QueryParamHandling) {
+  updateParamToUri(queryParamHandlingStrategy: QueryParamHandling) {
     this.router.navigate(
       [],  // Remain on current route
       {
@@ -101,6 +101,10 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if(history.state.type === 'modulePage'){
+      this.selectedCategoryId=undefined;
+      this.selectedModuleId=undefined;
+    }
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
     this.assessmentId = +assessmentIdParam;
     this.store.dispatch(fromActions.getAssessmentId({id: this.assessmentId}))
@@ -121,9 +125,6 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   private getCategories() {
     this.appService.getOnlySelectedCategories(this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       categories = data
-      valueEmitter.next(categories)
-    })
-    valueEmitter.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data
       if (this.category.userAssessmentCategories !== undefined && this.category.userAssessmentCategories.length > 0) {
         this.category.userAssessmentCategories = this.category.userAssessmentCategories.sort((category1, category2) => Number(category2.active) - Number(category1.active))

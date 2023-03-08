@@ -40,6 +40,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   assessmentId: number;
   categoryRequest: AssessmentCategoryStructure | undefined
   moduleRequest: UserAssessmentModuleRequest[] = []
+  modulePage :string ='modulePage'
 
   assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
   loading: boolean;
@@ -138,7 +139,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
     this.loading = false;
     if (history.state.type === 'table') {
       this.router.navigateByUrl("assessment/" + this.assessmentId);
-    } else {
+    } else if(history.state.type === 'assessmentHeader'){
+      this.router.navigateByUrl("assessment/" + this.assessmentId,{state:{type :this.modulePage} });
+    }else {
       this._location.back();
     }
   }
