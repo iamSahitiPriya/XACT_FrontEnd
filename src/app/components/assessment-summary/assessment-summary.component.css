@@ -178,7 +178,6 @@
 
 .definition {
   padding-left: 15%;
-  width: 175%;
 }
 
 .dataValue {
@@ -194,18 +193,29 @@
 
 .gauge {
   display: flex;
+  width: 100%;
 }
 
 .assessedData {
   padding-left: 4%;
 }
+.assessed-summary{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.assessment-description-summary{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
 
 .gauge-chart {
-  margin-right: 65px;
+  padding-left: 4%;
   margin-top: -85px;
   height: 205px;
   font-size: 1.1rem;
-  margin-left: 27%;
+  width: 30%;
 }
 
 .noDataHeading {
