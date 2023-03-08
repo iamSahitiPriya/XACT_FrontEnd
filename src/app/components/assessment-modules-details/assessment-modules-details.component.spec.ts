@@ -33,7 +33,9 @@ import {AssessmentHeaderComponent} from "../assessment-header/assessment-header.
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ModuleStructure} from "../../types/moduleStructure";
 import {UserCategoryResponse} from "../../types/UserCategoryResponse";
-import {ActivatedRoute, convertToParamMap} from "@angular/router";
+import {ActivatedRoute, convertToParamMap, Router} from "@angular/router";
+import {UserAssessmentModuleRequest} from "../../types/UserAssessmentModuleRequest";
+
 
 const mockCategory: UserCategoryResponse = {
   assessmentCategories: [
@@ -147,9 +149,10 @@ describe('AssessmentModulesDetailsComponent', () => {
   let component: AssessmentModulesDetailsComponent;
   let mockAppService: MockAppService;
   let fixture: ComponentFixture<AssessmentModulesDetailsComponent>;
-
+  let router: Router;
 
   beforeEach(async () => {
+    history.pushState({type:'modulePage'},'','');
     await TestBed.configureTestingModule({
       declarations: [AssessmentModulesDetailsComponent, TopicLevelAssessmentComponent, AssessmentQuestionComponent, AssessmentMenuComponent, ParameterLevelRatingComponent, TopicLevelRatingComponent, AssessmentHeaderComponent],
       imports: [HttpClientModule, MatTabsModule, MatIconModule, MatToolbarModule, MatExpansionModule, NoopAnimationsModule, MatTooltipModule,
@@ -260,6 +263,5 @@ describe('AssessmentModulesDetailsComponent', () => {
     expect(component.moduleSelected).toBe(1)
     expect(component.topics?.length).toBe(1)
   });
-
 
 });
