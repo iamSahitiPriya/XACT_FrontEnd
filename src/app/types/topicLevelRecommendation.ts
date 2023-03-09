@@ -3,9 +3,9 @@
  */
 
 export interface TopicLevelRecommendation {
-  "recommendationId"?: number;
-  "recommendation"?: string;
-  "impact"?: string;
-  "effort"?: string;
-  "deliveryHorizon"?: string;
+  recommendationId?: number;
+  recommendationText?: string;
+  impact?: string;
+  effort?: string;
+  deliveryHorizon?: string;
 }

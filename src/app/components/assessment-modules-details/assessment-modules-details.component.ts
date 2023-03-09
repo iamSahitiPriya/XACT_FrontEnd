@@ -49,7 +49,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   selectedIndex: number | undefined;
   assessmentId: number;
 
-  assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
+  assessmentModuleTitle = data_local.ASSESSMENT_CATEGORY.TITLE;
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   answer: Observable<AssessmentStructure>
   private destroy$: Subject<void> = new Subject<void>();

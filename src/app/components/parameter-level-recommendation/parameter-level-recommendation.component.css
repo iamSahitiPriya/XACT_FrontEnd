@@ -7,7 +7,7 @@
   width: 99%;
   height: 110px;
   margin-left: 3px;
-  font-size: 15px;
+  font-size: 0.99rem;
 }
 
 .parameterRecommendation {
@@ -133,7 +133,7 @@
 .autoSaveMessage {
   float: right;
   margin-top: 12px;
-  font-size: 10px;
+  font-size: 0.6rem;
   font-family: "Inter", sans-serif;
   font-style: italic;
   color: #45A0AC;

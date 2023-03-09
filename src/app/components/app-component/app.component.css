@@ -10,4 +10,14 @@ section {
   max-width: 100%;
 }
 
+.footer-main {
+  background-color: #043D4E;
+  height: 4.8%;
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+
 

@@ -7,12 +7,13 @@
 
 
 .header-container {
-  padding-left: 5%;
-  padding-right: 4%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 h1{
-  font-size: 3em;
+  font-size: 2.2rem;
   letter-spacing: 0;
   line-height: 1.2;
   font-family: 'Bitter', serif;
@@ -37,7 +38,7 @@ table {
 td.mat-cell {
   font-family: 'Inter', sans-serif;
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 1rem;
   padding-top: 17px;
   word-break: break-word;
 }
@@ -63,17 +64,12 @@ td.mat-cell:last-child{
 }
 
 .heading {
-  padding-left: 3%;
-  text-align: left;
-  letter-spacing: 0;
-  color: #043D4E;
-  font-size: 2.4em;
-  line-height: 1.2;
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 1;
-  margin: 6px 0 16px;
-  font-family: 'Bitter', serif;
+   width: 21%;
+   padding-left: 5%;
+   color: #043d4e;
+   white-space: nowrap;
+   opacity: 1;
+   font-family: Bitter,serif;
 }
 
 tr.mat-row {
@@ -94,7 +90,7 @@ tr.mat-row {
 }
 
 th.tableHeader {
-  font-size: 17px;
+  font-size: 1rem;
   color: white;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -117,13 +113,17 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 .create-assessment-button.mat-raised-button {
   background-color: #043d4e;
   color: #fff;
-  height: 3.375em;
+  height: 3.3rem;
   text-transform: capitalize;
-  font-size: 1.1em;
+  font-size: 1.1rem;
   font-family: Inter,sans-serif;
   letter-spacing: 1.45px;
   width: 13.2em;
   text-overflow: ellipsis;
+}
+
+.create-assessment-button {
+  width: 21%;
 }
 
 
@@ -131,3 +131,14 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   margin-top: -9px;
 }
 
+.search-bar {
+  width: 54%;
+}
+
+.assessment-paginator {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-right: 2.7%;
+}

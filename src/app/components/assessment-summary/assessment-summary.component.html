@@ -18,22 +18,24 @@
 <mat-divider></mat-divider>
 <br><br>
 <div class="gauge">
-  <div>
+  <div class="assessment-description-summary">
     <div class="definition">
       <p>{{assessmentDescription}}</p>
     </div>
     <br>
     <div class="row definition" *ngIf="summaryData">
-      <div class="col-md-12">
-        {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span>
-        <span class="assessedData">{{moduleAssessed}}  </span> <span
-        class="dataValue">{{summaryData.moduleAssessed}}</span>
-        <span class="assessedData">{{topicAssessed}}  </span> <span
-        class="dataValue">{{summaryData.topicAssessed}}</span>
-        <span class="assessedData">{{parameterAssessed}}  </span> <span
-        class="dataValue">{{summaryData.parameterAssessed}}</span>
-        <span class="assessedData">{{questionAnswered}}  </span> <span
-        class="dataValue">{{summaryData.questionAssessed}}</span>
+      <div class="assessed-summary">
+        <div>
+          {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span></div>
+        <div>{{moduleAssessed}}
+        <span class="dataValue">{{summaryData.moduleAssessed}}</span></div>
+        <div>{{topicAssessed}} <span
+        class="dataValue">{{summaryData.topicAssessed}}</span></div>
+        <div>
+        {{parameterAssessed}}<span
+        class="dataValue">{{summaryData.parameterAssessed}}</span></div>
+        <div>{{questionAnswered}} <span
+        class="dataValue">{{summaryData.questionAssessed}}</span></div>
       </div>
     </div>
   </div>
@@ -152,11 +154,11 @@
       </div>
     </div>
   </mat-card>
-  </div>
+</div>
 
-  <app-roadmap-bubble-chart
-    [assessmentId] = "assessmentId">
-  </app-roadmap-bubble-chart>
+<app-roadmap-bubble-chart
+  [assessmentId]="assessmentId">
+</app-roadmap-bubble-chart>
 
 <div *ngIf="data && categorySummary.length>0">
   <app-assessment-radar-chart [summaryData]="data"></app-assessment-radar-chart>
