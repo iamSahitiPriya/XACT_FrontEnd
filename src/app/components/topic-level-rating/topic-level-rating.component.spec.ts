@@ -18,7 +18,6 @@ import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {TopicRating} from "../../types/topicRating";
 import {MatRadioModule} from "@angular/material/radio";
 import {TopicLevelRecommendationComponent} from "../topic-level-recommendation/topic-level-recommendation.component";
@@ -26,14 +25,6 @@ import {RouterTestingModule} from "@angular/router/testing";
 
 
 class MockAppService {
-  saveTopicRecommendation(topicRecommendation: TopicRecommendation) {
-    if (topicRecommendation.topicId === 0) {
-      return of(topicRecommendation)
-    } else {
-      return throwError("Error!")
-    }
-  }
-
   saveTopicRating(topicRating: TopicRating) {
     if (topicRating.topicId === 0) {
       return of(topicRating)
@@ -152,7 +143,7 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effort: "LOW",
             deliveryHorizon: "some more text"
@@ -228,60 +219,6 @@ describe('TopicLevelRatingAndRecommendationComponent', () => {
     component.assessmentStatus = "Active"
     component.setRating(3)
     expect(topicRatingAndRecommendation.rating).toEqual(3);
-  });
-
-  it('should able to add recommendation when add template is clicked', () => {
-    component.topicRatingAndRecommendation = {
-      topicId: 0, rating: 1, topicLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
-
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
-
-    expect(component.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
-  });
-
-  it('should able to erase the recommendation sample data when add template is clicked', () => {
-    component.recommendationSample = {
-      recommendationId: undefined,
-      recommendation: "some text",
-      impact: "HIGH",
-      effort: "LOW",
-      deliveryHorizon: "some more text"
-    };
-    component.assessmentId = 2
-    component.topicId = 0
-    const keyEventData = {isTrusted: true, code: 'KeyA'};
-    jest.spyOn(component, "showError")
-    const keyEvent = new KeyboardEvent('keyup', keyEventData);
-    component.topicRatingAndRecommendation = {topicId: 0, rating: 1, topicLevelRecommendation: [{}]}
-    component.ngOnInit()
-    component.topicRatingAndRecommendation = {
-      topicId: 0, rating: 1, topicLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.topicRatingAndRecommendation.topicLevelRecommendation);
-
-    expect(component.recommendationSample.recommendation).toBe("");
-    expect(component.recommendationSample.deliveryHorizon).toBe("LATER");
   });
 
   it("should call the error whenever a problem occurs", () => {

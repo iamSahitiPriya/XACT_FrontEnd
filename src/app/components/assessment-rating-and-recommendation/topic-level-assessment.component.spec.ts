@@ -103,8 +103,7 @@ describe('TopicLevelAssessmentComponent', () => {
   let component: TopicLevelAssessmentComponent, fixture: ComponentFixture<TopicLevelAssessmentComponent>,
     component1: AssessmentQuestionComponent, fixture1: ComponentFixture<AssessmentQuestionComponent>,
     component2: TopicLevelRatingComponent,
-    fixture2: ComponentFixture<TopicLevelRatingComponent>,
-    mockAppService: MockAppService;
+    fixture2: ComponentFixture<TopicLevelRatingComponent>
 
   const original = window.location;
   const reloadFn = () => {
@@ -307,7 +306,7 @@ describe('TopicLevelAssessmentComponent', () => {
           "deliveryHorizon": "LATER",
           "effort": "LOW",
           "impact": "LOW",
-          "recommendation": "",
+          "recommendationText": "",
           "recommendationId": undefined
         }]
       }
@@ -339,14 +338,14 @@ describe('TopicLevelAssessmentComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
       userQuestionResponseList: [],
     })
     const dummyAnswerResponse = {
@@ -372,14 +371,14 @@ describe('TopicLevelAssessmentComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effect: "LOW",
             deliveryHorizon: "some more text"
           }
         ]
       }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendation: ""}],
+      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
       userQuestionResponseList: []
     }
     component.topicInput = {
@@ -565,8 +564,45 @@ describe('TopicLevelAssessmentComponent', () => {
     let userQuestionList = component.getUserQuestionList(parameter);
 
     expect(userQuestionList.length).toBe(1)
+  });
 
+  it('should able to add recommendation when add topic recommendation template is clicked', () => {
+    component.topicRequest.topicRatingAndRecommendation = {
+      topicId: 0, rating: 1, topicLevelRecommendation: [
+        {
+          recommendationId: undefined,
+          recommendationText: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+      ]
+    };
 
+    component.addTopicRecommendationTemplate();
+
+    expect(component.topicRequest.topicRatingAndRecommendation.topicLevelRecommendation).toHaveLength(2);
+  });
+
+  it('should able to add recommendation when add parameter recommendation template is clicked', () => {
+    component.topicRequest.parameterLevel = [
+      { answerRequest : [],
+        userQuestionRequestList : [],
+        parameterRatingAndRecommendation : {
+      parameterId: 0, rating: 1, parameterLevelRecommendation: [
+        {
+          recommendationId: undefined,
+          recommendationText: "some text",
+          impact: "HIGH",
+          effort: "LOW",
+          deliveryHorizon: "some more text"
+        }
+      ]}
+    }];
+
+    component.addParameterRecommendationTemplate(0)
+
+    expect(component.topicRequest.parameterLevel[0].parameterRatingAndRecommendation.parameterLevelRecommendation).toHaveLength(2);
   });
 });
 

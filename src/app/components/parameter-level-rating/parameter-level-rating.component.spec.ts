@@ -17,14 +17,13 @@ import {reducers} from "../../reducers/reducers";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {of, throwError} from "rxjs";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {ParameterRating} from "../../types/parameterRating";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {RouterTestingModule} from "@angular/router/testing";
+import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 
 class MockAppService {
-  saveParameterRecommendation(parameterRecommendation: ParameterRecommendation) {
+  saveParameterRecommendation(parameterRecommendation: ParameterLevelRecommendation) {
     return of(parameterRecommendation)
 
   }
@@ -48,8 +47,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ParameterLevelRatingComponent],
       imports: [MatFormFieldModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, MatInputModule, CommonModule, BrowserModule, MatSnackBarModule, MatCardModule, MatTooltipModule, HttpClientTestingModule,
-        StoreModule.forRoot(reducers), RouterTestingModule],
-      providers: [RouterTestingModule,
+        StoreModule.forRoot(reducers)],
+      providers: [
         NgForm,
         {provide: AppServiceService, useClass: MockAppService}
       ],
@@ -92,7 +91,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effort: "LOW",
             deliveryHorizon: "some more text"
@@ -282,54 +281,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
   });
 
 
-  it('should able to add parameter recommendation when add template is clicked', () => {
-    component.parameterRatingAndRecommendation = {
-      parameterId: 0, rating: 1, parameterLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
 
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);
-
-    expect(component.parameterRatingAndRecommendation.parameterLevelRecommendation).toHaveLength(2);
-
-  })
-
-  it('should able to erase the parameter recommendation sample data when add template is clicked', () => {
-    component.recommendationSample = {
-      recommendationId: undefined,
-      recommendation: "some text",
-      impact: "HIGH",
-      effort: "LOW",
-      deliveryHorizon: "some more text"
-    };
-
-    component.parameterRatingAndRecommendation = {
-      parameterId: 0, rating: 1, parameterLevelRecommendation: [
-        {
-          recommendationId: undefined,
-          recommendation: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
-        }
-      ]
-    };
-
-    jest.spyOn(component, "addTemplate");
-    component.addTemplate(component.parameterRatingAndRecommendation.parameterLevelRecommendation);
-
-    expect(component.recommendationSample.recommendation).toBe("");
-    expect(component.recommendationSample.deliveryHorizon).toBe("LATER");
-  });
 
   it("should call the error whenever a problem occurs", () => {
     jest.spyOn(component, "showError")

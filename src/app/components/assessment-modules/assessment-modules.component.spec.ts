@@ -284,7 +284,7 @@ describe('AssessmentModulesComponent', () => {
         topicId: 0, rating: 1, topicLevelRecommendation: [
           {
             recommendationId: 1,
-            recommendation: "some text",
+            recommendationText: "some text",
             impact: "HIGH",
             effort: "LOW",
             deliveryHorizon: "some more text"
