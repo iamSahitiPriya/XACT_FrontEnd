@@ -123,8 +123,8 @@ export const data_local =
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
     },
-    ASSESSMENT_MODULE: {
-      TITLE: "Modules",
+    ASSESSMENT_CATEGORY: {
+      TITLE: "Categories",
       SAVE: "Click to save modules",
       CATEGORY_CONTENT: "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
       CATEGORY: "Category",

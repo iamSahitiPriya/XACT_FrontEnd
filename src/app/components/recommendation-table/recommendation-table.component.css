@@ -10,7 +10,7 @@
   border-radius: 10px 150px 0 0;
   width: 275px;
   height: 35px;
-  font-size: 16px;
+  font-size: 1rem;
   color: #FFFFFF;
   padding: 0.5% 1%;
 
@@ -20,7 +20,7 @@
   flex-direction: row;
   justify-content: space-between;
   text-align: left;
-  font-size: 15px;
+  font-size: 0.9rem;
   letter-spacing: 0;
   color: #383838;
   opacity: 1;
@@ -42,13 +42,13 @@
 .recommendation-description{
   width: 95%;
   padding-top: 10px;
-  font-size: 18px;
+  font-size: 1.1rem;
   word-break: break-all;
 
 }
 .delivery-horizon{
   font-style: normal;
-  font-size: 28px;
+  font-size: 1.75rem;
   font-family: Inter, serif;
   padding-bottom: 1%;
   padding-top: 2%;

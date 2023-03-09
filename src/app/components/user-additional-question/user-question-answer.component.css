@@ -3,7 +3,7 @@
   height: 50px;
   width: 97%;
   color: #043D4E;
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
   display: flex;
@@ -64,7 +64,7 @@
 }
 
 .question-content {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bolder !important;
   font-family: 'Inter', sans-serif;
   color: #000000;
@@ -103,7 +103,7 @@
 }
 textarea.mat-input-element.cdk-textarea-autosize {
   color: black !important ;
-  font-size: 18px;
+  font-size: 0.8rem;
 }
 .questionFunctionButton{
   color: #043D4E;

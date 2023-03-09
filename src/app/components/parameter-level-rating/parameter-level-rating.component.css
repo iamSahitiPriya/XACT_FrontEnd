@@ -100,10 +100,10 @@ p {
 
 @media screen and (max-width: 1000px) {
   .scoreReference{
-    font-size: 14px;
+    font-size: 0.9rem;
   }
   .scoreHeading{
-    font-size: 17px;
+    font-size: 1rem;
   }
 }
 
