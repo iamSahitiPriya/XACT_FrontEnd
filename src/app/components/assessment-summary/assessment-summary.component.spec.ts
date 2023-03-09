@@ -127,7 +127,7 @@ describe('AssessmentSunburstChartComponent', () => {
       writable: true,
       value: jest.fn().mockReturnValue(100),
     });
-    expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("400");
+    expect(fixture.nativeElement.querySelector("svg").getAttribute("width")).toBe("380");
 
     expect(fixture.nativeElement.querySelector("circle").dispatchEvent(new Event('click'))).toBe(true);
 

@@ -330,5 +330,8 @@ describe('AppServiceService', () => {
   it("should get user role", () => {
     expect(service.getUserRole()).toBeTruthy()
   });
+  it("should get user role", () => {
+    expect(service.getUserRole()).toBeTruthy()
+  });
 });
 
