@@ -295,8 +295,12 @@ div.expansion_color:nth-of-type(5n + 1) {
 }
 
 .assessment-back {
+  overflow-wrap: anywhere;
   display: flex;
   flex-direction: row;
   padding-left: 2%;
+  width:38%
 }
-
+.header-menu-bar{
+  width: 62%;
+}

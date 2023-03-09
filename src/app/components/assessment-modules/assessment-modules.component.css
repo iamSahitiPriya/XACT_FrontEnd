@@ -16,7 +16,7 @@ h2 {
   text-transform: capitalize;
 }
 .assessment-name{
-  font-size: 2.4rem;
+  font-size: 1.8rem;
   line-height: 0.9;
   font-weight: 700;
   font-family: 'Bitter', serif;
@@ -285,4 +285,7 @@ h2 {
   display :flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+.assessment-name-heading{
+  overflow-wrap: anywhere;
 }
