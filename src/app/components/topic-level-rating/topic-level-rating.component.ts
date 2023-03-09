@@ -2,12 +2,11 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TopicRatingAndRecommendation} from "../../types/topicRatingAndRecommendation";
 import {TopicReference} from "../../types/topicReference";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
-import {TopicRecommendation} from "../../types/topicRecommendation";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TopicRating} from "../../types/topicRating";
@@ -18,21 +17,16 @@ import * as fromActions from "../../actions/assessment-data.actions";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {TopicLevelAssessmentComponent} from "../assessment-rating-and-recommendation/topic-level-assessment.component";
 import {data_local} from "src/app/messages"
-import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
-import {ActivityLogResponse} from "../../types/activityLogResponse";
-import {ActivatedRoute} from "@angular/router";
 
 export const topicRatingData = [{}]
-
-let RECOMMENDATION_MAX_LIMIT = 20;
 
 @Component({
   selector: 'app-topic-level-rating',
   templateUrl: './topic-level-rating.component.html',
   styleUrls: ['./topic-level-rating.component.css']
 })
-export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TopicLevelRatingComponent implements OnInit, OnDestroy {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
   private cloneTopicResponse: AssessmentStructure;
@@ -40,20 +34,14 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
   averageRating: TopicRatingResponse = {topicId: 0, rating: 0}
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
-  recommendationLabel = data_local.ASSESSMENT_TOPIC.RECOMMENDATION_LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
-  private scrollToElement: string;
+  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
 
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>, private route: ActivatedRoute) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
-    this.route.queryParams.subscribe(params => {
-      this.scrollToElement = params['scrollToElement'];
-    });
   }
 
-  @Input()
-  topicRecommendation: number;
 
   @Input()
   topicRatingAndRecommendation: TopicRatingAndRecommendation;
@@ -72,26 +60,10 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
   @Input()
   topicName: string
 
-  @Input()
-  activityRecords: ActivityLogResponse[]
-
   @ViewChild('topicLevelAssessmentComponent')
   topicLevelAssessmentComponent: TopicLevelAssessmentComponent
 
   form: UntypedFormGroup;
-
-  recommendationSample: TopicLevelRecommendation = {
-    recommendationId: undefined,
-    recommendation: "",
-    impact: "LOW",
-    effort: "LOW",
-    deliveryHorizon: "LATER"
-
-  }
-
-  topicLevelRecommendation: TopicRecommendation = {
-    assessmentId: 0, topicId: 0, topicLevelRecommendation: []
-  };
 
   topicLevelRating: TopicRating = {
     assessmentId: 0, topicId: 0, rating: undefined
@@ -113,7 +85,6 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
         this.answerResponse = data
       }
     })
-    this.topicRatingAndRecommendation.topicLevelRecommendation?.reverse()
   }
 
   showError(message: string) {
@@ -149,7 +120,7 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
             this.updateDataSavedStatus()
 
           }, error: _error => {
-            this.showError("Data cannot be saved, Please reload the page if problem persist.");
+            this.showError(this.serverError);
           }
         })
         if (this.topicRatingAndRecommendation.rating !== undefined) {
@@ -186,22 +157,8 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   private sendAverageRating(rating: number) {
-    this.sendAverageScore = {rating: rating, topicId: this.topicRecommendation}
+    this.sendAverageScore = {rating: rating, topicId: this.topicId}
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
-  }
-
-
-  addTemplate(topicLevelRecommendation: TopicLevelRecommendation[] | undefined) {
-    if (topicLevelRecommendation && topicLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
-      this.recommendationSample = {
-        recommendationId: undefined,
-        recommendation: "",
-        impact: "LOW",
-        effort: "LOW",
-        deliveryHorizon: "LATER"
-      };
-      topicLevelRecommendation.unshift(this.recommendationSample);
-    }
   }
 
   ngOnDestroy(): void {
@@ -209,8 +166,5 @@ export class TopicLevelRatingComponent implements OnInit, OnDestroy, AfterViewIn
     this.destroy$.complete();
   }
 
-  ngAfterViewInit(): void {
-    const elements = document.getElementById(this.scrollToElement);
-    elements?.scrollIntoView();
-  }
+
 }
