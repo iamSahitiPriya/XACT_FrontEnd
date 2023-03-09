@@ -42,16 +42,16 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   moduleRequest: UserAssessmentModuleRequest[] = []
   modulePage :string ='modulePage'
 
-  assessmentModuleTitle = data_local.ASSESSMENT_MODULE.TITLE;
+  assessmentModuleTitle = data_local.ASSESSMENT_CATEGORY.TITLE;
   loading: boolean;
   searchText: string;
   searchBarText = data_local.SEARCH.SEARCH_BAR_TEXT;
   assessmentResponse: Observable<AssessmentStructure>
   assessmentState: string;
-  saveText = data_local.ASSESSMENT_MODULE.SAVE;
+  saveText = data_local.ASSESSMENT_CATEGORY.SAVE;
   type: string;
-  content: string = data_local.ASSESSMENT_MODULE.CATEGORY_CONTENT;
-  categoryTitle : string = data_local.ASSESSMENT_MODULE.CATEGORY
+  content: string = data_local.ASSESSMENT_CATEGORY.CATEGORY_CONTENT;
+  categoryTitle : string = data_local.ASSESSMENT_CATEGORY.CATEGORY
 
   constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
     this.assessmentResponse = this.store.select((storeMap) => storeMap.assessmentState.assessments)

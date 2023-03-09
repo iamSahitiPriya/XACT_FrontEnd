@@ -73,7 +73,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   color: ScaleOrdinal<string, unknown>
   arrowColor: string = ""
   categorySummary: GaugeChartStructure[] = []
-  view: [number, number] = [400, 400];
+  view: [number, number] = [380, 380];
   legend: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Below;
   assessmentAverageRating: string;
@@ -554,5 +554,4 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   getModuleHeight(moduleLength:number){
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleChartHeightOffset
   }
-
 }

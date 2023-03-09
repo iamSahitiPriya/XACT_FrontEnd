@@ -16,7 +16,7 @@ h2 {
   text-transform: capitalize;
 }
 .assessment-name{
-  font-size: 2.4em;
+  font-size: 1.8rem;
   line-height: 0.9;
   font-weight: 700;
   font-family: 'Bitter', serif;
@@ -69,7 +69,7 @@ h2 {
   margin-left: 3%;
 }
 .mat-card-title {
-  font-size: 16px;
+  font-size: 1rem;
   font-family: 'Inter', sans-serif;
   font-weight: 550;
   color: black;
@@ -85,7 +85,7 @@ h2 {
 .mat-card-subtitle {
   color: #4BA1AC;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .moduleCards{
@@ -95,7 +95,7 @@ h2 {
   text-align: left;
   background: #F4FAFCC7 0 0 no-repeat padding-box;
   font-family: "Inter", sans-serif;
-  font-size: 13px;
+  font-size: 0.9rem;
   font-weight: normal;
   letter-spacing: 0.28px;
   opacity: 1;
@@ -118,7 +118,7 @@ h2 {
   opacity: 1;
   text-align: center;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: Inter,sans-serif;
   letter-spacing: 1.42px;
   color: #fff;
@@ -138,7 +138,7 @@ h2 {
   font-family: Inter, serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 16px;
+  font-size: 1rem;
   letter-spacing: 0.32px;
   color: #000000;
   opacity: 1;
@@ -163,7 +163,7 @@ h2 {
 
 .searchText {
   padding-left: 36px;
-  font-size: 14px;
+  font-size: 0.9rem;
   font-family: "Inter", sans-serif;
   color: #77969F;
 }
@@ -266,7 +266,7 @@ h2 {
 }
 .comments{
   font-family: "Inter", sans-serif;
-  font-size: 12px;
+  font-size: 0.8rem;
   margin-left:12px;
   word-break: break-word;
 }
@@ -285,4 +285,7 @@ h2 {
   display :flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+.assessment-name-heading{
+  overflow-wrap: anywhere;
 }

@@ -2,55 +2,45 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ParameterReference} from "../../types/parameterReference";
 import {ParameterRatingAndRecommendation} from "../../types/parameterRatingAndRecommendation";
-import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ParameterRecommendation} from "../../types/parameterRecommendation";
 import {ParameterRating} from "../../types/parameterRating";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
 import {AssessmentStructure} from 'src/app/types/assessmentStructure';
 import * as fromActions from "../../actions/assessment-data.actions";
-import {ParameterRecommendationResponse} from "../../types/parameterRecommendationResponse";
 import {ParameterRatingResponse} from "../../types/parameterRatingResponse";
 import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {data_local} from "../../messages";
 import {ParameterRequest} from "../../types/parameterRequest";
-import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
-import {ActivityLogResponse} from "../../types/activityLogResponse";
-import {ActivatedRoute} from "@angular/router";
-
-let RECOMMENDATION_MAX_LIMIT = 10;
 
 @Component({
   selector: 'app-parameter-level-rating',
   templateUrl: './parameter-level-rating.component.html',
   styleUrls: ['./parameter-level-rating.component.css']
 })
-export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
   answerResponse1: Observable<AssessmentStructure>;
   sendAverageScore: TopicRatingResponse;
 
   maturityScoreTitle = data_local.ASSESSMENT_PARAMETER.MATURITY_SCORE_TITLE;
   recommendationLabel = data_local.ASSESSMENT_PARAMETER.RECOMMENDATION_LABEL;
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
+  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
 
   private cloneParameterResponse: AssessmentStructure;
   answerResponse: AssessmentStructure
   private cloneAnswerResponse1: AssessmentStructure;
   private destroy$: Subject<void> = new Subject<void>();
-  private scrollToElement: string;
 
-  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>, private route: ActivatedRoute) {
+  constructor(private appService: AppServiceService, private _fb: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
-    this.route.queryParams.subscribe(params => {
-      this.scrollToElement = params['scrollToElement'];
-    });
   }
 
   @Input()
@@ -76,33 +66,8 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterVi
   @Input()
   parameterList: ParameterRequest[];
 
-  @Input()
-  activityRecords: ActivityLogResponse[]
-
-  saveCount = 0;
-  recommendationCount: number = 0;
-
-  recommendationSample: ParameterLevelRecommendation = {
-    recommendationId: undefined,
-    recommendation: "",
-    impact: "",
-    effort: "",
-    deliveryHorizon: ""
-
-  }
-
-  form: UntypedFormGroup
-
-  parameterLevelRecommendation: ParameterRecommendation = {
-    assessmentId: 0, parameterId: 0, parameterLevelRecommendation: undefined
-  };
-
   parameterLevelRating: ParameterRating = {
     assessmentId: 0, parameterId: 0, rating: undefined
-  };
-
-  parameterRecommendationResponse: ParameterRecommendationResponse = {
-    assessmentId: 0, parameterId: 0, recommendation: undefined
   };
 
   parameterRatingResponse: ParameterRatingResponse = {
@@ -117,15 +82,14 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterVi
         this.assessmentStatus = data.assessmentStatus
       }
     })
-    this.parameterRatingAndRecommendation.parameterLevelRecommendation?.reverse();
   }
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
-      duration: 2000,
-      verticalPosition: "top",
-      horizontalPosition: "center"
+      data : { message  : message, iconType : "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration : 2000,
+      verticalPosition : "top",
+      horizontalPosition : "center"
     })
   }
 
@@ -147,7 +111,7 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterVi
         next: () => {
           this.updateDataSavedStatus()
         }, error: _error => {
-          this.showError("Data cannot be saved, Please reload the page if problem persist.");
+          this.showError(this.serverError);
         }
       })
       this.updateAverageRating();
@@ -203,27 +167,8 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy, AfterVi
     this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
   }
 
-
-  addTemplate(parameterLevelRecommendation: ParameterLevelRecommendation[] | undefined) {
-    if (parameterLevelRecommendation && parameterLevelRecommendation.length != RECOMMENDATION_MAX_LIMIT) {
-      this.recommendationSample = {
-        recommendationId: undefined,
-        recommendation: "",
-        impact: "LOW",
-        effort: "LOW",
-        deliveryHorizon: "LATER"
-      };
-      parameterLevelRecommendation.unshift(this.recommendationSample);
-    }
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  ngAfterViewInit(): void {
-    const elements = document.getElementById(this.scrollToElement);
-    elements?.scrollIntoView();
   }
 }

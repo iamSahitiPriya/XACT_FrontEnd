@@ -123,8 +123,8 @@ export const data_local =
     TOPIC_AVERAGE_RATING: {
       TITLE: "Computed Maturity Score"
     },
-    ASSESSMENT_MODULE: {
-      TITLE: "Modules",
+    ASSESSMENT_CATEGORY: {
+      TITLE: "Categories",
       SAVE: "Click to save modules",
       CATEGORY_CONTENT: "Select the modules that are in scope for the assessment and click on ‘Save’ to proceed",
       CATEGORY: "Category",
@@ -263,6 +263,8 @@ export const data_local =
       LAST_YEAR: "Last 365 Days"
     },
     RECOMMENDATION_TEXT: {
+      ADD_RECOMMENDATION : "Add Recommendations",
+      DELETE_RECOMMENDATION : "Delete Recommendation",
       IMPACT_LABEL: "Impact",
       EFFORT: "Effort",
       DELIVERY_HORIZON: "Delivery Horizon",
@@ -280,7 +282,8 @@ export const data_local =
     },
     SHOW_ERROR_MESSAGE: {
       POPUP_ERROR: "Data cannot be saved, Please reload the page if problem persist.",
-      MENU_ERROR: "Error occurred while saving the data"
+      MENU_ERROR: "Error occurred while saving the data",
+      DELETE_ERROR : "Data cannot be deleted"
     },
     ADDITIONAL_QUESTIONS: {
       HEADING: "Additional Questions -",

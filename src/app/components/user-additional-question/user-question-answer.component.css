@@ -3,7 +3,7 @@
   height: 50px;
   width: 97%;
   color: #043D4E;
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
   display: flex;
@@ -23,7 +23,7 @@
   color: #4ba1ac;
 }
 
-.addQuestion {
+.add-question {
   width: 97%;
   padding: 10px 0px 10px 0;
   margin: 18px 0px 12px 3px;
@@ -64,7 +64,7 @@
 }
 
 .question-content {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bolder !important;
   font-family: 'Inter', sans-serif;
   color: #000000;
@@ -76,7 +76,7 @@
 .button1:hover {
   background-color: #45a0ac1d;
 }
-.questionArea {
+.question-area {
   display: -webkit-inline-flex;
   width: 84%;
   padding-right: 1%;
@@ -86,37 +86,37 @@
   width: 100% !important;
 }
 
-.userQuestionAnswers{
+.user-question-answers{
   background-color: #f9f9f9db;
   width: 97%;
   padding-top: 28px;
 }
-.questionFunctions{
+.question-functions{
   display: flex;
   align-items: flex-start;
   padding-left: 1%;
   margin-top:11px;
 }
-.questionEditFunctions{
+.question-edit-functions{
   display: flex;
   align-items: center;
 }
 textarea.mat-input-element.cdk-textarea-autosize {
   color: black !important ;
-  font-size: 18px;
+  font-size: 0.8rem;
 }
-.questionFunctionButton{
+.question-function-button{
   color: #043D4E;
   border: none;
   background-color: transparent;
 }
-.questionCreateFunctions{
+.question-create-functions{
   display: flex;
   justify-content: flex-end;
   padding-bottom: 20px;
 }
 
-.saveQuestionIcon{
+.save-question-button{
   color: #6B9E78;
   border: none;
   background-color: transparent;

@@ -29,7 +29,6 @@
 
         <div *ngIf="parameter.questions">
           <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
-                                    [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"
                                     [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
@@ -42,7 +41,7 @@
 
         <div *ngIf="!parameter.questions">
           <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
-                                     [additionalQuestionCount]="topicRequest.parameterLevel[i].userQuestionRequestList.length"   [parameterId]="parameter.parameterId"
+                                     [parameterId]="parameter.parameterId"
                                      [assessmentId]="assessmentId"
                                      [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
                                      [parameterIndex]="i"
@@ -61,21 +60,61 @@
                                       [assessmentId]="assessmentId"
                                       [parameterName]="parameter.parameterName"
                                       [parameterList]="topicRequest.parameterLevel"
-                                      [activityRecords] = "activityRecord.parameterRecommendation"
           ></app-parameter-level-rating>
+
+          <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+          <button (click)="addParameterRecommendationTemplate(i)"
+                  class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+            <div>
+              <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+              id="addParameterRecommendation"> {{addRecommendation}} </span>
+            </div>
+          </button>
+          <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation ; let i=index">
+            <app-parameter-level-recommendation
+              id="recommendation{{recommendation.recommendationId}}"
+              [parameterIndex]="i"
+              [recommendation]="recommendation"
+              [assessmentId]="assessmentId"
+              [topicId]="topicInput.topicId"
+              [parameterId]="parameter.parameterId"
+              [parameterRecommendations]="topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation"
+              [activityRecord]="activityRecord.parameterRecommendation"
+            ></app-parameter-level-recommendation>
+          </div>
+
         </div>
 
     </div>
 
     <div *ngIf="topicInput.references">
       <app-topic-level-rating *ngIf="topicRequest.topicRatingAndRecommendation"
-                              [topicRecommendation]="topicInput.topicId"
                               [topicScore]="topicInput.references"
                               [topicRatingAndRecommendation]="topicRequest.topicRatingAndRecommendation"
-                              [topicId]="topicInput.topicId" [assessmentId]="assessmentId"
-                              [topicName]="topicInput.topicName"
-                              [activityRecords] = "activityRecord.topicRecommendation"
-      ></app-topic-level-rating>
+                              [topicId]="topicInput.topicId"
+                              [assessmentId]="assessmentId"
+                              [topicName]="topicInput.topicName">
+      </app-topic-level-rating>
+
+      <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+      <button (click)="addTopicRecommendationTemplate()" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+        <div>
+          <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
+          id="addTopicRecommendation"> {{addRecommendation}}</span>
+        </div>
+      </button>
+      <div *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">
+        <app-topic-level-recommendation
+          id="recommendation{{recommendation.recommendationId}}"
+          [recommendationIndex]="i"
+          [recommendation]="recommendation"
+          [assessmentId]="assessmentId"
+          [topicId]="topicInput.topicId"
+          [topicRecommendations]="topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation"
+          [activityRecords] = "activityRecord.topicRecommendation"
+        ></app-topic-level-recommendation>
+      </div>
+
     </div>
 
   </div>

@@ -1,93 +1,100 @@
-<div class="additionalQuestion" >
-<div *ngIf="additionalQuestionCount>0">
-  <div class="additionalQuestionHeading">
-  <div >{{additionalQuestionHeading}} {{parameterName}}</div>
-    <button class="expandBar" (click)="changeAccordionState($event)">
-    <mat-icon *ngIf="!showAccordion">expand_more</mat-icon>
-    <mat-icon *ngIf="showAccordion">expand_less</mat-icon>
-    </button>
+<div class="additionalQuestion">
+  <div *ngIf="userQuestionData.length>0">
+    <div class="additionalQuestionHeading">
+      <div>{{additionalQuestionHeading}} {{parameterName}}</div>
+      <button class="expandBar" (click)="changeAccordionState($event)">
+        <mat-icon *ngIf="!showAccordion">expand_more</mat-icon>
+        <mat-icon *ngIf="showAccordion">expand_less</mat-icon>
+      </button>
     </div>
-  <div class="userQuestionAnswers" *ngIf="showAccordion">
-    <div class="question" *ngFor="let userQuestion of userQuestionList; let i=index;">
-      <div  class="edit-question" *ngIf="questionEditFlagNumber === userQuestion.questionId ">
-        <div class="question-user">
-          <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i+1}}     </span>
-          <mat-form-field class="questionArea" appearance="outline" id="testForm1">
-          <textarea #input matInput id="testForm{{userQuestion.questionId}}"
-                name="userQuestion{{userQuestion.questionId}}"
-                cdkTextareaAutosize
-                class="textArea1"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="3"
-                [(ngModel)]=userQuestion.question
-                maxlength="2000"></textarea>
-            <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
+    <div class="user-question-answers" *ngIf="showAccordion">
+      <div class="question" *ngFor="let userQuestion of userQuestionData; let i=index;">
+        <div class="edit-question" *ngIf="userQuestion.isEdit === true">
+          <div class="question-user">
+            <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + i + 1}}     </span>
+            <mat-form-field class="question-area" appearance="outline" id="testForm1">
+          <textarea #input matInput id="testForm{{userQuestion.userQuestion.questionId}}"
+                    name="userQuestion{{userQuestion.userQuestion.questionId}}"
+                    cdkTextareaAutosize
+                    class="textArea1"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="3"
+                    [(ngModel)]=userQuestion.userQuestion.question
+                    maxlength="2000"></textarea>
+              <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
 
-          </mat-form-field>
+            </mat-form-field>
 
-          <div class="questionEditFunctions">
-            <button class="saveQuestionIcon"><mat-icon class="saveQuestionIcon" (click)="updateQuestion(userQuestion)" matTooltip="{{updateHoverText}}">done</mat-icon>  </button>   <span>&nbsp;&nbsp;</span>
-            <button class="questionFunctionButton"><mat-icon  (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
+            <div class="question-edit-functions" *ngIf="userQuestion.userQuestion.questionId!==-1">
+              <button class="save-question-button">
+                <mat-icon (click)="updateQuestion(userQuestion)"
+                          matTooltip="{{updateHoverText}}">done
+                </mat-icon>
+              </button>
+              <span>&nbsp;&nbsp;</span>
+              <button class="question-function-button">
+                <mat-icon (click)="deleteUserQuestion(userQuestion.userQuestion.questionId)"
+                          matTooltip="{{deleteHoverText}}">delete
+                </mat-icon>
+              </button>
+            </div>
+            <div class="question-create-functions" *ngIf="userQuestion.userQuestion.questionId === -1">
+              <button class="save-question-button">
+                <mat-icon id="saveQuestion" (click)="saveQuestion(userQuestion)" matTooltip="{{saveHoverText}}">done
+                </mat-icon>
+              </button>
+              <span>&nbsp;&nbsp;</span>
+              <button class="question-function-button">
+                <mat-icon (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+
+          <br>
+        </div>
+
+        <div class="user-questions"
+             *ngIf="userQuestion.userQuestion.questionId !==-1 && userQuestion.isEdit === false">
+          <div class="question-content user-question">{{parameterIndex + 1}}.{{questionIndex + i + 1}}
+            &nbsp;{{userQuestion.userQuestion.question}}</div>
+
+          <div class="question-functions">
+            <button class="question-function-button">
+              <mat-icon (click)="editUserQuestion(userQuestion)" matTooltip="{{editHoverText}}">edit</mat-icon>
+            </button>
+            <span>&nbsp;&nbsp;</span>
+            <button class="question-function-button">
+              <mat-icon (click)="deleteUserQuestion(userQuestion.userQuestion.questionId)"
+                        matTooltip="{{deleteHoverText}}">delete
+              </mat-icon>
+            </button>
           </div>
         </div>
 
-        <br>
+
+        <div *ngIf="userQuestion.userQuestion.questionId !== -1">
+          <app-assessment-question [assessmentId]="assessmentId"
+                                   [questionNumber]="userQuestion.userQuestion.questionId"
+                                   [answerInput]="userQuestion.userQuestion.answer"
+                                   [question]="userQuestion.userQuestion.question"
+                                   [type]="questionType"
+                                   [parameterId]="parameterId"
+                                   [activityRecords]="activityRecords"
+          ></app-assessment-question>
+        </div>
       </div>
 
-      <div  class="user-questions" *ngIf="questionEditFlagNumber !== userQuestion.questionId">
-    <div class="question-content user-question">{{parameterIndex + 1}}.{{questionIndex + i+1}} &nbsp;{{userQuestion.question}}</div>
 
-      <div class="questionFunctions" >
-       <button class="questionFunctionButton"><mat-icon  (click)="editQuestionFlag(userQuestion.questionId)" matTooltip="{{editHoverText}}">edit</mat-icon> </button>   <span>&nbsp;&nbsp;</span>
-        <button class="questionFunctionButton"><mat-icon (click)="deleteUserQuestion(userQuestion.questionId)" matTooltip="{{deleteHoverText}}">delete</mat-icon></button>
-      </div>
-      </div>
-
-
-      <div *ngIf="userQuestion.questionId">
-      <app-assessment-question [assessmentId]="assessmentId" [questionNumber]="userQuestion.questionId"
-                               [answerInput]="userQuestion.answer" [question]="userQuestion.question"
-                               [type]="questionType"
-                               [parameterId]="parameterId"
-                               [activityRecords]="activityRecords"
-      ></app-assessment-question>
-      </div>
-  </div>
-
-<div class="question question-create" *ngIf="createQuestionFlag === true" >
-  <div class="question-user">
-    <span class="question-content">{{parameterIndex + 1}}.{{questionIndex + userQuestionList.length + 1}}  </span>
-    <mat-form-field class="questionArea" appearance="outline" id="testForm" style="width: 95%;">
-      <textarea #input matInput
-                cdkTextareaAutosize
-                class="textArea1"
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="3"
-                [(ngModel)]="questionText"
-                maxlength="2000"></textarea>
-      <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
-
-    </mat-form-field>
-
-    <div class="questionCreateFunctions">
-      <button class="saveQuestionIcon"> <mat-icon id="saveQuestion" (click)="saveQuestion()" matTooltip="{{saveHoverText}}">done</mat-icon> </button>
-      <span>&nbsp;&nbsp;</span>
-      <button class="questionFunctionButton"><mat-icon  (click)="removeQuestion()" matTooltip="{{deleteHoverText}}">delete</mat-icon> </button>
     </div>
-
   </div>
 
-
-
-</div>
-</div>
-  </div>
-
-<button (click)="generateQuestion()" class="addQuestion button1"  id="addQuestionBox" [disabled]="assessmentStatus ==='Completed'">
-  <div>
-    <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
-    id="addQuestion"> {{addQuestionButtonText}} </span>
-  </div>
-</button>
+  <button (click)="generateQuestion()" class="add-question button1" id="addQuestionBox"
+          [disabled]="assessmentStatus ==='Completed'">
+    <div>
+      <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plus-icon"/> <span
+      id="addQuestion"> {{addQuestionButtonText}} </span>
+    </div>
+  </button>
 
 </div>

@@ -10,7 +10,7 @@
   text-transform: capitalize;
   letter-spacing: normal;
   color: #043D4E;
-  font-size: 22px;
+  font-size: 1.2rem;
 }
 
 .colorTheme {
@@ -25,7 +25,7 @@
   letter-spacing: normal;
   color: #043D4E;
   margin-left: 1em;
-  font-size: 1.8em;
+  font-size: 1.8rem;
   line-height: 0.9;
   font-weight: 700;
   font-family: 'Bitter', serif;
@@ -127,7 +127,7 @@
 
 .rating-value {
   margin-top: -6px;
-  font-size: 12px;
+  font-size: 0.8rem;
   font-family: "Inter", sans-serif;
   font-weight: bolder;
   letter-spacing: 0.74px;
@@ -155,7 +155,6 @@
   width: 82%;
   height: 830px;
   margin-left: 9%;
-  margin-top: 2%;
 }
 
 .module-overall-rating-card {
@@ -178,7 +177,6 @@
 
 .definition {
   padding-left: 15%;
-  width: 175%;
 }
 
 .dataValue {
@@ -186,7 +184,7 @@
   border-radius: 50%;
   padding: 2px 5px;
   border: 1px solid #000;
-  font-size: 15px;
+  font-size: 0.9rem;
   font-family: "Inter", sans-serif;
   font-weight: normal;
   margin-left: 14px;
@@ -194,18 +192,29 @@
 
 .gauge {
   display: flex;
+  width: 100%;
 }
 
 .assessedData {
   padding-left: 4%;
 }
+.assessed-summary{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.assessment-description-summary{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
 
 .gauge-chart {
-  margin-right: 65px;
+  padding-left: 4%;
   margin-top: -85px;
   height: 205px;
-  font-size: 20px;
-  margin-left: 27%;
+  font-size: 1.1rem;
+  width: 30%;
 }
 
 .noDataHeading {
@@ -229,7 +238,7 @@
   flex-direction: column;
   width: 14vw;
   text-transform: capitalize;
-  font-size: 18px;
+  font-size: 1.1rem;
   border-radius: 4px;
   font-weight: 500;
   word-break: break-word;
@@ -295,7 +304,7 @@
   height: 50px;
   width: 82%;
   color: #043D4E;
-  font-size: 1.9em;
+  font-size: 1.9rem;
   font-weight: bolder;
   font-family:'Inter', sans-serif;
   display: flex;
