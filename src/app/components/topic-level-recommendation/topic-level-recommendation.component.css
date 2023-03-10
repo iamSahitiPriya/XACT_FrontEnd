@@ -94,6 +94,7 @@
   display: flex;
   flex-direction: row;
   margin-top: 2%;
+  flex-wrap: wrap;
 }
 .loader {
   border: 2px solid #f3f3f3;
@@ -161,6 +162,21 @@
 .edit-icon {
   height: 24px;
   width: 40px;
+}
+
+::ng-deep .others .mat-radio-label-content{
+  padding-left: 5px;
+}
+
+@media screen and (max-width: 1450px){
+  .impact, .effect, .deliveryHorizon {
+    width: 30%;
+  }
+
+  .delete-button {
+    width: 10%;
+  }
+
 }
 
 

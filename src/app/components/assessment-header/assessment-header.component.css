@@ -68,6 +68,7 @@
   flex-wrap: wrap;
   padding-right: 0.98em;
   float: right;
+  justify-content: space-evenly;
 }
 
 .dataStatus {
@@ -101,7 +102,7 @@
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1450px) {
   .menu-bar-right {
     padding-right: 0;
   }
@@ -112,7 +113,7 @@
     align-self: center;
   }
   .generate-report {
-    width: 29%;
+    width: 27%;
   }
   .menuButton {
     width: 4%;
