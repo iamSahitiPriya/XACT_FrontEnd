@@ -65,6 +65,7 @@
 .menu-bar-right {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding-right: 0.98em;
   float: right;
 }
