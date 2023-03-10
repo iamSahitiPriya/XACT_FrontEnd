@@ -5,161 +5,191 @@
 
 <div *ngIf="assessment">
   <form (ngSubmit)="saveAssessment()" [formGroup]="createAssessmentForm">
-    <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>{{createAssessmentTitle}}</h1>
-    <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{manageAssessmentTitle}}</h1>
-    <button [matTooltip]=closeToolTip type="button" id="close" mat-icon-button (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="create-assessment-body">
+      <div class="create-assessment-header">
+        <div class="create-assessment-title">
+          <h1 *ngIf="assessment.assessmentId===-1" mat-dialog-title>{{createAssessmentTitle}}</h1>
+          <h1 *ngIf="assessment.assessmentId>-1" mat-dialog-title>{{manageAssessmentTitle}}</h1>
+        </div>
+        <div class="close-button">
+          <button [matTooltip]=closeToolTip type="button" id="close" mat-icon-button (click)="close()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
 
-    <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="assessment-purpose">
-        <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
-        <mat-select (selectionChange)="purposeChange($event.value)" required formControlName="selected">
-          <mat-option *ngFor="let purpose of purposeOfAssessment" [value]="purpose.value">{{purpose.value}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="form['selected'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-      </mat-form-field>
-      <br>
-      <mat-form-field appearance="outline" class="assessmentName">
-        <mat-label>{{assessmentNameTitle}} *</mat-label>
-        <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
-               [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$"
-               maxlength="50">
-        <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
-          {{commonErrorFieldText}}
-        </mat-error>
-      </mat-form-field>
-      <br>
-      <mat-form-field appearance="outline" class="assessment-description">
-        <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
-        <textarea #input matInput formControlName="assessmentDescriptionValidator"
-                  [placeholder]=assessmentDescriptionPlaceholder required
-                  [(ngModel)]="assessment.assessmentDescription" pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="2"
-                  maxLength="200"
-        ></textarea>
-        <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('pattern')">
-          {{blankSpaceErrorText}}
-        </mat-error>
-        <mat-hint align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
-      </mat-form-field>
-      <br>
-      <mat-form-field appearance="outline" class="domain">
-        <mat-label>{{assessmentDomainTitle}} *</mat-label>
-        <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
-               [placeholder]=assessmentDomainPlaceholder required
-               pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$" maxlength="50">
-        <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
-          {{commonErrorFieldText}}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="team-size">
-        <mat-label>{{assessmentTeamTitle}} *</mat-label>
-        <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
-               [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
-          {{mandatoryNumberField}}
-        </mat-error>
-        <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
-          {{numberErrorField}}
-        </mat-error>
-        <mat-error *ngIf="form['teamSizeValidator'].value>maxTeamSize">
-          {{teamSizeExceedErrorMessage}}
-        </mat-error>
-      </mat-form-field>
-      <br>
-
-      <mat-form-field appearance="outline" class="organizationName" [class.spinner]="orgListLoader">
-        <mat-label>{{organisationNameTitle}} *</mat-label>
-        <input type="text"
-               [placeholder]=organisationNamePlaceholder
-               aria-label="Number"
-               matInput
-               [(ngModel)]="assessment.organisationName"
-               required
-               formControlName="organizationNameValidator"
-               (focus)="onOrganisationValueChange()"
-               (input)="onOrganisationValueChange()"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete"
-                          (optionSelected)="selectOrganisationName(assessment.organisationName)">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
-                      [disabled]="accounts[0]===organisationValidationText">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-error *ngFor="let validation of OrganizationNameValidation.myControl">
-          <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
-            {{validation.message}}
+      <div mat-dialog-content class="assessment-create-input-fields">
+        <div class="assessment-purpose">
+          <mat-form-field appearance="outline" class="assessment-purpose-input">
+            <mat-label>{{purposeOfAssessmentTitle}} *</mat-label>
+            <mat-select (selectionChange)="purposeChange($event.value)" required formControlName="selected">
+              <mat-option *ngFor="let purpose of purposeOfAssessment"
+                          [value]="purpose.value">{{purpose.value}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form['selected'].hasError('required')">
+              {{mandatoryFieldText}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <br>
+        <div class="assessment-name">
+          <mat-form-field appearance="outline" class="assessment-name-input">
+            <mat-label>{{assessmentNameTitle}} *</mat-label>
+            <input matInput formControlName="assessmentNameValidator" [placeholder]=assessmentNamePlaceholder required
+                   [(ngModel)]="assessment.assessmentName" pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$"
+                   maxlength="50">
+            <mat-error *ngIf="form['assessmentNameValidator'].hasError('required')">
+              {{mandatoryFieldText}}
+            </mat-error>
+            <mat-error *ngIf="form['assessmentNameValidator'].hasError('pattern')">
+              {{commonErrorFieldText}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <br>
+        <div class="assessment-description">
+          <mat-form-field appearance="outline" class="assessment-description-input">
+            <mat-label>{{descriptionOfAssessmentTitle}} *</mat-label>
+            <textarea #input matInput formControlName="assessmentDescriptionValidator"
+                      [placeholder]=assessmentDescriptionPlaceholder required
+                      [(ngModel)]="assessment.assessmentDescription"
+                      pattern="^[a-zA-Z0-9-()\S]+(\s+[a-zA-Z0-9-()\S]+)*$"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="2"
+                      maxLength="200"
+            ></textarea>
+            <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('required')">
+              {{mandatoryFieldText}}
+            </mat-error>
+            <mat-error *ngIf="form['assessmentDescriptionValidator'].hasError('pattern')">
+              {{blankSpaceErrorText}}
+            </mat-error>
+            <mat-hint align="end">{{input.value.length}}/{{assessmentDescriptionMaxLimit}}</mat-hint>
+          </mat-form-field>
+        </div>
+        <br>
+        <div class="domain-and-team-size">
+          <div class="domain">
+            <mat-form-field appearance="outline" class="domain-text">
+              <mat-label>{{assessmentDomainTitle}} *</mat-label>
+              <input matInput [(ngModel)]="assessment.domain" formControlName="domainNameValidator"
+                     [placeholder]=assessmentDomainPlaceholder required
+                     pattern="^[a-zA-Z0-9-()._:&,-]+(\s+[a-zA-Z0-9-()._:&,-]+)*$" maxlength="50">
+              <mat-error *ngIf="form['domainNameValidator'].hasError('required')">
+                {{mandatoryFieldText}}
+              </mat-error>
+              <mat-error *ngIf="form['domainNameValidator'].hasError('pattern')">
+                {{commonErrorFieldText}}
+              </mat-error>
+            </mat-form-field>
           </div>
-        </mat-error>
-      </mat-form-field>
-      <br>
+          <div class="team-size">
+            <mat-form-field appearance="outline" class="team-size-input">
+              <mat-label>{{assessmentTeamTitle}} *</mat-label>
+              <input type="number" [(ngModel)]="assessment.teamSize" matInput formControlName="teamSizeValidator"
+                     [placeholder]=assessmentTeamPlaceholder min="1" max="10000000" required pattern="^[1-9]\d*$">
+              <mat-error *ngIf="form['teamSizeValidator'].hasError('required')">
+                {{mandatoryNumberField}}
+              </mat-error>
+              <mat-error *ngIf="form['teamSizeValidator'].hasError('pattern')">
+                {{numberErrorField}}
+              </mat-error>
+              <mat-error *ngIf="form['teamSizeValidator'].value>maxTeamSize">
+                {{teamSizeExceedErrorMessage}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <div class="organisation-name">
+          <mat-form-field appearance="outline" class="organizationName" [class.spinner]="orgListLoader">
+            <mat-label>{{organisationNameTitle}} *</mat-label>
+            <input type="text"
+                   [placeholder]=organisationNamePlaceholder
+                   aria-label="Number"
+                   matInput
+                   [(ngModel)]="assessment.organisationName"
+                   required
+                   formControlName="organizationNameValidator"
+                   (focus)="onOrganisationValueChange()"
+                   (input)="onOrganisationValueChange()"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete"
+                              (optionSelected)="selectOrganisationName(assessment.organisationName)">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                          [disabled]="accounts[0]===organisationValidationText">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngFor="let validation of OrganizationNameValidation.myControl">
+              <div *ngIf="form['organizationNameValidator'].hasError(validation.type)">
+                {{validation.message}}
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <br>
+        <div class="assessment-industry">
+          <mat-form-field appearance="outline" class="industry">
+            <mat-label>{{organisationIndustryTitle}} *</mat-label>
+            <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator"
+                   [placeholder]=organisationIndustryPlaceholder
+                   required
+                   maxlength="50">
+            <mat-error *ngIf="form['industryValidator'].hasError('required')">
+              {{mandatoryFieldText}}
+            </mat-error>
+            <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
+              {{commonErrorFieldText}}
+            </mat-error>
+          </mat-form-field>&nbsp;&nbsp;
+        </div>
 
-      <mat-form-field appearance="outline" class="industry">
-        <mat-label>{{organisationIndustryTitle}} *</mat-label>
-        <input matInput [(ngModel)]="assessment.industry" formControlName="industryValidator"
-               [placeholder]=organisationIndustryPlaceholder
-               required
-               maxlength="50">
-        <mat-error *ngIf="form['industryValidator'].hasError('required')">
-          {{mandatoryFieldText}}
-        </mat-error>
-        <mat-error *ngIf="form['industryValidator'].hasError('pattern')">
-          {{commonErrorFieldText}}
-        </mat-error>
-      </mat-form-field>&nbsp;&nbsp;
-
+      </div>
+      <div class="grant-access">
+        <div class="grant-access-text">
+          <h2 mat-dialog-title>{{addAssessmentUsers}} </h2>
+        </div>
+        <div mat-dialog-content class="grant-access-input">
+          <mat-form-field appearance="outline" class="addUserEmail">
+            <mat-label>{{userEmailTitle}}</mat-label>
+            <mat-chip-list #chipList aria-label="Email Selection">
+              <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
+                {{email}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input matInput type="text"
+                     [placeholder]=userEmailPlaceholder
+                     formControlName="emailValidator"
+                     id="userEmails" maxlength="1200"
+                     [matChipInputFor]="chipList"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     (matChipInputTokenEnd)="add($event)"
+                     [(ngModel)]="emailTextField"
+              >
+            </mat-chip-list>
+          </mat-form-field>
+          <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
+            {{userEmailErrorMessage}}
+          </mat-error>
+        </div>
+        <div class="save-update-button">
+          <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit"
+                  mat-raised-button
+                  class="saveButton" [class.spinner]="loading" [disabled]="loading">{{createAssessmentButtonText}}
+          </button>
+          <button [matTooltip]=manageAssessmentToolTip *ngIf="assessment.assessmentId>-1" type="submit"
+                  mat-raised-button
+                  class="saveButton" [class.spinner]="loading" [disabled]="loading"
+                  (click)="updateAssessment()">{{manageAssessmentButtonText}}
+          </button>
+        </div>
+      </div>
     </div>
-
-    <h2 mat-dialog-title>{{addAssessmentUsers}} </h2>
-    <div mat-dialog-content>
-      <mat-form-field appearance="outline" class="addUserEmail">
-        <mat-label>{{userEmailTitle}}</mat-label>
-        <mat-chip-list #chipList aria-label="Email Selection">
-          <mat-chip *ngFor="let email of emails" (removed)="remove(email)">
-            {{email}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input matInput type="text"
-                 [placeholder]=userEmailPlaceholder
-                 formControlName="emailValidator"
-                 id="userEmails" maxlength="1200"
-                 [matChipInputFor]="chipList"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 (matChipInputTokenEnd)="add($event)"
-                 [(ngModel)]="emailTextField"
-          >
-        </mat-chip-list>
-      </mat-form-field>
-      <mat-error *ngIf="form['emailValidator'].hasError('pattern')" style="margin-top:-10px;margin-left:17px">
-        {{userEmailErrorMessage}}
-      </mat-error>
-    </div>
-    <button [matTooltip]=createAssessmentToolTip *ngIf="assessment.assessmentId===-1" type="submit" mat-raised-button
-            class="saveButton" [class.spinner]="loading" [disabled]="loading">{{createAssessmentButtonText}}
-    </button>
-    <button [matTooltip]=manageAssessmentToolTip *ngIf="assessment.assessmentId>-1" type="submit" mat-raised-button
-            class="saveButton" [class.spinner]="loading" [disabled]="loading"
-            (click)="updateAssessment()">{{manageAssessmentButtonText}}
-    </button>
   </form>
   <div></div>
 </div>

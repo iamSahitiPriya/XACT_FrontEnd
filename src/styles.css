@@ -160,3 +160,7 @@ ngb-datepicker {
 .mat-tooltip {
   font-size: 14px !important;
 }
+.create-assessment-popup{
+  width: 36.5vw;
+  max-height: 85vh;
+}
