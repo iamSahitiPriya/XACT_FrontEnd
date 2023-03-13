@@ -132,6 +132,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
           this.autoSave = ""
           this.isSaving = false
           this.sendRecommendation(this.recommendation)
+          this.updateDataSavedStatus()
         }, error: _error => {
           this.showError(this.serverError);
         }
@@ -140,14 +141,16 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
 
   deleteRecommendation(recommendation: TopicLevelRecommendation) {
     let index = this.getRecommendationIndex(recommendation);
-    if (index !== -1 && recommendation.recommendationId !== undefined) {
+    if (index !== -1) {
       this.topicRecommendations?.splice(index, 1);
-      this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
-        error: _error => {
-          this.topicRecommendations?.splice(index, 1, recommendation);
-          this.showError(this.deleteError);
-        }
-      })
+      if(recommendation.recommendationId !== undefined) {
+        this.appService.deleteTopicRecommendation(this.assessmentId, this.topicId, recommendation.recommendationId).subscribe({
+          error: _error => {
+            this.topicRecommendations?.splice(index, 1, recommendation);
+            this.showError(this.deleteError);
+          }
+        })
+      }
     }
   }
 
@@ -170,6 +173,12 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
     } else {
       this.cloneAssessmentData.topicRatingAndRecommendation = updatedRecommendationList;
     }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
+  }
+
+  private updateDataSavedStatus() {
+    this.cloneAssessmentData = Object.assign({}, this.cloneAssessmentData)
+    this.cloneAssessmentData.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
   }
 
