@@ -224,3 +224,9 @@ tr.expandedParameterRow {
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
   color: #45A0AC !important;
 }
+
+@media screen and (max-width: 1450px) {
+  ::ng-deep .parameter .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    width: 97%!important;
+  }
+}
