@@ -66,8 +66,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   Later = data_local.RECOMMENDATION_TEXT.DH_3;
   Delete = data_local.RECOMMENDATION_TEXT.DELETE;
   maxLimit: number = data_local.RECOMMENDATION_TEXT.LIMIT;
-  autoSaveText : string = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE
-  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
+  autoSaveText: string = data_local.AUTO_SAVE.AUTO_SAVE_MESSAGE
+  serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   assessmentStatus: string;
   assessmentData: Observable<AssessmentStructure>;
   cloneAssessmentData: AssessmentStructure;
@@ -126,30 +126,33 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   }
 
   saveParameterRecommendation() {
-      this.autoSave = this.autoSaveText
-      this.isSaving = true
-      this.appService.saveParameterRecommendation(this.assessmentId, this.parameterId,this.recommendation).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          this.autoSave = ""
-          this.isSaving = false
-          this.recommendation.recommendationId = _data.recommendationId;
-          this.sendRecommendation(this.recommendation)
-        }, error: _error => {
-          this.showError(this.serverError);
-        }
-      })
+    this.autoSave = this.autoSaveText
+    this.isSaving = true
+    this.appService.saveParameterRecommendation(this.assessmentId, this.parameterId, this.recommendation).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_data) => {
+        this.autoSave = ""
+        this.isSaving = false
+        this.recommendation.recommendationId = _data.recommendationId;
+        this.sendRecommendation(this.recommendation)
+        this.updateDataSavedStatus()
+      }, error: _error => {
+        this.showError(this.serverError);
+      }
+    })
   }
 
   deleteRecommendation(recommendation: ParameterLevelRecommendation) {
     let index = this.getRecommendationIndex(recommendation);
-    if (index !== undefined && recommendation.recommendationId != undefined) {
-      this.parameterRecommendations?.splice(index,1)
-      this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
-        error: _error => {
-          this.parameterRecommendations?.splice(index, 1, recommendation);
-          this.showError(this.deleteError);
-        }
-      })
+    if (index !== undefined) {
+      this.parameterRecommendations?.splice(index, 1)
+      if (recommendation.recommendationId != undefined) {
+        this.appService.deleteParameterRecommendation(this.assessmentId, this.parameterId, recommendation.recommendationId).subscribe({
+          error: _error => {
+            this.parameterRecommendations?.splice(index, 1, recommendation);
+            this.showError(this.deleteError);
+          }
+        })
+      }
     }
   }
 
@@ -168,12 +171,17 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
     };
     updatedRecommendationList.unshift(parameterRecommendation);
     if (this.cloneAssessmentData.parameterRatingAndRecommendation != undefined) {
-      this.setRecommendationForParameter(recommendation,parameterRecommendation)
+      this.setRecommendationForParameter(recommendation, parameterRecommendation)
     } else {
       this.cloneAssessmentData.parameterRatingAndRecommendation = updatedRecommendationList;
     }
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
+  }
 
+  private updateDataSavedStatus() {
+    this.cloneAssessmentData = Object.assign({}, this.cloneAssessmentData)
+    this.cloneAssessmentData.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAssessmentData}))
   }
 
   private setRecommendationForParameter(recommendation: ParameterLevelRecommendation, parameterRecommendation: ParameterRatingAndRecommendation) {
@@ -189,17 +197,17 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   }
 
   setRecommendation(parameterRecommendations: ParameterLevelRecommendation[] | undefined, recommendation: ParameterLevelRecommendation) {
-    if(parameterRecommendations !== undefined) {
+    if (parameterRecommendations !== undefined) {
       let index = parameterRecommendations.findIndex(eachRecommendation => eachRecommendation.recommendationId === recommendation.recommendationId);
       if (index !== -1) {
-        parameterRecommendations[index] =recommendation;
+        parameterRecommendations[index] = recommendation;
       } else {
         parameterRecommendations.unshift(recommendation);
       }
     }
   }
 
-  private getRecommendationIndex(recommendation: TopicLevelRecommendation) : number {
+  private getRecommendationIndex(recommendation: TopicLevelRecommendation): number {
     let index = -1;
     if (this.parameterRecommendations != undefined) {
       index = this.parameterRecommendations.indexOf(recommendation);
@@ -217,7 +225,7 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   }
 
   isActivityFound() {
-    return this.latestActivityRecord.email.length>0 && this.latestActivityRecord.identifier===this.recommendation.recommendationId;
+    return this.latestActivityRecord.email.length > 0 && this.latestActivityRecord.identifier === this.recommendation.recommendationId;
   }
 
 }

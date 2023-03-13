@@ -129,13 +129,13 @@ hr {
   width: 20%;
 }
 .nav-calender {
-  position: relative;
+  position: absolute;
   height : 21rem;
   width : 45rem;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 5px 25px #52575D1A;
   border-radius: 4px;
-  margin-top: 1%;
+  margin-left: 27%;
   margin-right: 5%;
   z-index: 1;
   float: right;
