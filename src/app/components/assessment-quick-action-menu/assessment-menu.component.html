@@ -19,7 +19,7 @@
       </button>
       </div>
 
-      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]" [state]="{type:'header'}"
+      <button mat-menu-item [routerLink]="['/assessmentModule',assessment.assessmentId]" [state]="{type:type}"
               [matTooltip]=manageCategoryModules [matTooltipPosition]="'right'"
               [disabled]="assessment.assessmentStatus ==='Completed'">
         <mat-icon class="iconColor">exposure</mat-icon>
