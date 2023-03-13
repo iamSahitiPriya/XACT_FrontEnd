@@ -153,3 +153,9 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   justify-content: flex-end;
   padding-right: 2.7%;
 }
+.assessment-table{
+  display: flex;
+  flex-direction: column;
+  height: 78vh;
+  overflow-y: scroll;
+}
