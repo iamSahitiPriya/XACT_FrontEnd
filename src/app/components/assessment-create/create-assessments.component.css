@@ -56,24 +56,26 @@ h2 {
 
 .mat-icon-button {
   position: relative;
-  margin-left: 92%;
   top: -12px;
 
 }
+.assessment-purpose, .assessment-name, .assessment-description,.domain-and-team-size,.organisation-name{
+  height: 6.3vh;
+}
 
-.assessment-purpose, .assessment-description, .assessmentName, .industry, .organizationName {
+.assessment-description-input, .assessment-name-input, .industry, .organizationName, .assessment-purpose-input {
+  width: 100%;
+  height: 50%;
+}
+.domain{
+  width: 70%;
+}
+.domain-text {
   width: 100%;
   height: 50%;
 }
 
-.domain {
-  padding-top:13px;
-  width: 70%;
-  height: 50%;
-}
-
 .mat-form-field {
-  height: 77px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -83,11 +85,13 @@ h2 {
     transform: rotate(360deg);
   }
 }
-
-.team-size {
+.team-size{
   width: 30%;
 }
-::ng-deep .team-size.mat-form-field-appearance-outline .mat-form-field-subscript-wrapper{
+.team-size-input {
+  width: 100%;
+}
+::ng-deep .team-size-input.mat-form-field-appearance-outline .mat-form-field-subscript-wrapper{
   padding: 0 !important;
 }
 
@@ -149,4 +153,40 @@ h2 {
 
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
+}
+
+.domain-and-team-size{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.assessment-create-input-fields{
+  display: flex;
+  flex-direction: column;
+}
+.grant-access{
+  display: flex;
+  flex-direction: column;
+}
+.grant-access-text{
+  color: #043d4e;
+  font-family: Inter,sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding-left: 5px;
+}
+.create-assessment-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.create-assessment-title{
+  width: 90%;
+}
+.close-button{
+  width: 10%;
+}
+.create-assessment-body{
+  display: flex;
+  flex-direction: column;
 }

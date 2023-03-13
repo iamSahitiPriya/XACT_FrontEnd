@@ -47,42 +47,34 @@
   </div>
 </div>
 <div class="status-bar">
-<div class="assessmentStatus">
-<mat-card class="Total">
-  <mat-card-title>{{Total_Assessment}}</mat-card-title>
+<div class="total-assessment">
+  <div class="section-text">{{Total_Assessment}}</div>
   <hr>
-  <mat-card-content>
-    <div class="parent">
-      {{total}}
-      <div class="total">{{this.adminAssessmentResponse.totalAssessments}}</div>
-    </div>
-  </mat-card-content>
-</mat-card>
-<mat-card class="Active">
-  <mat-card-title>{{Active_Assessment}}</mat-card-title>
+  <div class="assessment-status">
+    <div class="total">{{total}}</div>
+    <div class="total-count">{{this.adminAssessmentResponse.totalAssessments}}</div>
+  </div>
+</div>
+<div class="active-assessment">
+  <div class="section-text">{{Active_Assessment}}</div>
   <hr>
-  <mat-card-content>
-    <div class="parent">
-      {{total}}
+  <div class="assessment-status">
+    <div class="total">{{total}}</div>
       <div class="active">{{this.adminAssessmentResponse.totalActiveAssessments}}</div>
     </div>
-  </mat-card-content>
-</mat-card>
-<mat-card class="Completed">
-  <mat-card-title>{{Complete_Assessment}}</mat-card-title>
+</div>
+<div class="completed-assessment">
+  <div class="section-text">{{Complete_Assessment}}</div>
   <hr>
-  <mat-card-content>
-    <div class="parent">
-      {{total}}
-      <div class="complete">{{this.adminAssessmentResponse.totalCompleteAssessments}}</div>
-    </div>
-  </mat-card-content>
-</mat-card>
+  <div class="assessment-status">
+    <div class="total">{{total}}</div>
+    <div class="complete">{{this.adminAssessmentResponse.totalCompleteAssessments}}</div>
+  </div>
+</div>
   <div class="downloadButton" >
     <button class="button" (click)="downloadReport()" id="generate-report" [matTooltip]=download>
       <mat-icon class="downloadIcon">save_alt_icon</mat-icon>
       <span class="text">{{download_label}}</span></button>
   </div>
-</div>
 </div>
 

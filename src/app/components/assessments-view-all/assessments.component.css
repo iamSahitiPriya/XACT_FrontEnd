@@ -118,8 +118,19 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   font-size: 1.1rem;
   font-family: Inter,sans-serif;
   letter-spacing: 1.45px;
-  width: 13.2em;
+  width: 14.2vw;
   text-overflow: ellipsis;
+}
+@media screen and (max-width: 1000px) {
+  .create-assessment-button.mat-raised-button{
+    letter-spacing: 0;
+    font-size: 1rem;
+    width: 19.2vw;
+  }
+  h1{
+    font-size: 1.9rem;
+  }
+
 }
 
 .create-assessment-button {

@@ -21,13 +21,13 @@
 
 .logo {
   padding-left: 2%;
-  width: 5%;
+  width: 5vw;
   cursor: pointer;
 }
 
 .user {
   float: right;
-  width: 100%;
+  width: 93vw;
   height: 17px;
   cursor: pointer;
 

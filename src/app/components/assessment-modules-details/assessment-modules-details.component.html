@@ -2,8 +2,8 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div class="row menu-bar">
-  <div class="assessment-back col-md-3">
+<div class="menu-bar">
+  <div class="assessment-back">
       <div><button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button [routerLink]="['']">
         <mat-icon class="mat-icon-custom">keyboard_backspace</mat-icon>
       </button></div>
@@ -11,7 +11,7 @@
 <!--      <span class="module-spacer"></span>-->
 
   </div>
-  <div class="col-md-9 align-self-center header-menu-bar">
+  <div class="align-self-center header-menu-bar">
     <app-assessment-header [assessmentId]="assessmentId"></app-assessment-header>
   </div>
 </div>
