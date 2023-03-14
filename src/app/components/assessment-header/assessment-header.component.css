@@ -121,6 +121,7 @@
   }
   .btn-report, .btn-finish, .btn-reopen {
     letter-spacing: 0;
+    height: 2.5125rem;
   }
   .header-menu-bar {
     width: 61%;

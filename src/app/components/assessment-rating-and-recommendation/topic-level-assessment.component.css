@@ -9,7 +9,7 @@
   height: 70vh;
   overflow: auto;
   margin-right: -6px;
-  width: 65vw;
+  width: 90%;
 }
 
 .save-button {
@@ -110,6 +110,18 @@
     margin-bottom: 1.25rem;
     font-size: 1.09rem;
     padding: 0.7rem 0rem 0.4rem 1.25rem;
+  }
+
+  #averageMaturityScore {
+    margin-right: -2%;
+  }
+
+  .averageMaturityScore {
+    width: 20%;
+  }
+
+  .topic-questions {
+    width: 80%;
   }
 
 }
