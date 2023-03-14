@@ -126,10 +126,10 @@ h2 {
   float: right;
   margin-right: 10%;
 }
-.saveButtonRow{
+.save-button-row{
   display: flex;
   flex-direction: row;
-  margin-top: 2%;
+  margin-top: 1%;
 }
 .details {
   padding-top: 1%;
@@ -288,4 +288,25 @@ h2 {
 }
 .assessment-name-heading{
   overflow-wrap: anywhere;
+}
+.module-category-title{
+  background: #4BA1AC 0 0 no-repeat padding-box;
+  width:98.5%;
+  height: 100%
+}
+.module-details{
+  height: 7vh;
+}
+
+@media screen and (max-width: 1450px) {
+  .module-category-title{
+    height: 100%
+  }
+  .module-details{
+    height: 5.4vh;
+  }
+  .moduleHeading {
+    padding-top: 10px;
+    font-size: 1.3rem;
+  }
 }
