@@ -234,4 +234,14 @@ td.topic:nth-child(4){
   ::ng-deep .topic .mat-form-field-appearance-outline .mat-form-field-wrapper {
     width: 97%!important;
   }
+
+  .selectDropdownForm {
+    width: 100%;
+  }
+  .topic:nth-child(4) {
+    padding-left: 43px;
+  }
+  .topicDate {
+    padding-right: 2em;
+  }
 }
