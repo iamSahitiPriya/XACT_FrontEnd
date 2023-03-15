@@ -60,7 +60,7 @@ h2 {
 
 }
 .assessment-purpose, .assessment-name, .assessment-description,.domain-and-team-size,.organisation-name{
-  height: 7.7vh;
+  height: 6.3vh;
 }
 
 .assessment-description-input, .assessment-name-input, .industry, .organizationName, .assessment-purpose-input {
@@ -192,7 +192,7 @@ h2 {
 }
 @media screen and (max-width: 1450px) {
   .assessment-description{
-    height: 8.2vh;
+    height: 8vh;
   }
 
 }
