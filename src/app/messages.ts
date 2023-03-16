@@ -142,7 +142,8 @@ export const data_local =
       SUPPORT: "Support",
       FEEDBACK: "Feedback",
       LOGOUT: "Log Out",
-      ADMIN_CONSOLE: "Admin-Console"
+      ADMIN_CONSOLE: "Admin-Console",
+      CONTRIBUTOR: "Contributor"
     },
     ASSESSMENT_PARAMETER: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",

@@ -1,0 +1,41 @@
+<div class="contributor">
+  <div class="contributor-console">
+    <mat-card class="contributor-console-card">
+      <div class="contributor-title">
+        <mat-card-title class="contributor-heading">Contributor Console</mat-card-title>
+        <hr>
+      </div>
+      <mat-card-actions>
+        <div class="author">
+          <button mat-button class="author-button" (click)="setEvent('author')"
+                  [ngClass]="{'author-active':type === 'author'}" [routerLink]="['/contributor/author']">
+            <div class="author-icon">
+              <div class="icon-author">
+                <mat-icon class="dashboardIcon">dashboard</mat-icon>
+              </div>
+              <div class="author-label">
+                <h3>Author</h3>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div class="reviewer">
+          <button mat-button class="author-button" (click)="setEvent('reviewer')"
+                  [ngClass]="{'author-active':type === 'reviewer'}" [routerLink]="['/contributor/author']">
+            <div class="reviewer-icon">
+              <div class="icon-author">
+                <mat-icon class="dashboardIcon">dashboard</mat-icon>
+              </div>
+              <div class="reviewer-label">
+                <h3>Reviewer</h3>
+              </div>
+            </div>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="contributor-router">
+    <router-outlet></router-outlet>
+  </div>
+</div>

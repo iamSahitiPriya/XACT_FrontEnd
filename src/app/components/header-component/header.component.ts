@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   microSite = data_local.HEADER_LINK_TEXT.MICRO_SITE;
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
   feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
+  contributor = data_local.HEADER_LINK_TEXT.CONTRIBUTOR;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
   adminConsole = data_local.HEADER_LINK_TEXT.ADMIN_CONSOLE;
   private destroy$: Subject<void> = new Subject<void>();

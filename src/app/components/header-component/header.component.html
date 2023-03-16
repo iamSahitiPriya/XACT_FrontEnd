@@ -17,7 +17,11 @@
         <ul class="dropdown-menu menu">
           <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin/dashboard']" *ngIf="isRoleAdmin">
             <mat-icon>supervisor_account</mat-icon>
-            <span class="li-text">Admin Console</span></a></li>
+            <span class="li-text">{{adminConsole}}</span></a></li>
+
+          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['contributor/author']">
+            <mat-icon>supervisor_account</mat-icon>
+            <span class="li-text">{{contributor}}</span></a></li>
 
           <li><a class="dropdown-item  item" target="_blank" rel="noopener noreferrer"
                  href="https://sites.google.com/thoughtworks.com/x-act">

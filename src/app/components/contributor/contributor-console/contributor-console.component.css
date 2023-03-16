@@ -1,0 +1,88 @@
+.contributor-console-card{
+  background: #EAF4F6 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #C4C8D066;
+  border-radius: 20px;
+  opacity: 1;
+  width: 100%;
+  height: 35%;
+  padding: 28px 34px 34px 34px;
+  margin-left: -5px;
+}
+.contributor-heading{
+  text-align: left;
+  font-size: 20px;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  letter-spacing: 0.4px;
+  color: #043D4E;
+  opacity: 1;
+  padding-bottom: 6px;
+}
+.contributor{
+  display: flex;
+  flex-direction: row;
+  height: 86vh;
+}
+.contributor-console{
+  margin-left:1%;
+  width: 15vw;
+}
+.author-active{
+  background: #4BA1AC 0% 0% no-repeat padding-box;
+  color: white !important;
+}
+.author-button{
+  display: inline-block;
+  padding: 6px 5px;
+}
+.author button, .reviewer button{
+  height: 5vh;
+  text-align: left;
+  font-style: normal;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  letter-spacing: 0px;
+  width: 100%;
+  color: #52575d;
+  opacity: 1;
+  margin: 6px -4px !important;
+  border-radius: 32px;
+}
+.author-icon{
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  padding-bottom: 6px;
+  justify-content: space-between;
+  padding-top: 4px;
+  padding-left: 5px;
+}
+.author-icon .mat-icon{
+  padding-top: 3px;
+}
+.icon-author{
+  padding-left: 7px ;
+}
+.reviewer-icon{
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  padding-bottom: 6px;
+  justify-content: space-between;
+  padding-top: 4px;
+  padding-left: 5px;
+}
+.author-label{
+  padding-left: 8px;
+  padding-top: 3px;
+}
+.author-label h3, .reviewer-label h3{
+  font-size: 1em;
+}
+.reviewer-label{
+  padding-left: 7%;
+}
+.contributor-router{
+  width: 100%;
+  padding-left: 3%;
+}
