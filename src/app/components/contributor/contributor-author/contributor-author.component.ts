@@ -8,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class ContributorAuthorComponent implements OnInit {
   searchBarText: string = "Search questions";
   searchText: string;
+  isEdit: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  editQuestion() {
+    this.isEdit = true;
+    return this.isEdit;
+  }
 }

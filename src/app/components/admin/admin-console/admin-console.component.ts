@@ -15,24 +15,25 @@ import {Subject, takeUntil} from "rxjs";
   templateUrl: './admin-console.component.html',
   styleUrls: ['./admin-console.component.css']
 })
-export class AdminConsoleComponent implements OnDestroy{
+export class AdminConsoleComponent implements OnDestroy {
   type = "";
   tabIndex: number;
   private destroy$: Subject<void> = new Subject<void>();
 
 
-  constructor(private router: Router,private store: Store<AppStates>) {
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res =>{
+  constructor(private router: Router, private store: Store<AppStates>) {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res => {
       const currentRoute = this.router.url.split('?')[0];
-      const path = currentRoute.split('/').pop()||'';
+      const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
-      this.store.dispatch(fromActions.isAdmin({isAdmin:true}))
+      this.store.dispatch(fromActions.isAdmin({isAdmin: true}))
     })
   }
 
   setEvent(name: string) {
     this.type = name;
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

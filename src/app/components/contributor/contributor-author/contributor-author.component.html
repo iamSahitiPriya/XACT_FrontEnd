@@ -31,15 +31,28 @@
     </div>
     <div class="contributor-questions">
       <mat-card>
-        <div class="contributor-row-heading">
-          <div class="contributor-question-title">
+        <div class="each-question">
+          <div class="contributor-question-content">
+            <mat-card-content class="contributor-question">
+              <mat-form-field appearance="outline" class="contributor-input" *ngIf="isEdit">
+                <input matInput />
+              </mat-form-field>
+              <span *ngIf="!isEdit">Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text
+              of the printing?</span>
+            </mat-card-content>
           </div>
-        </div>
-        <div class="contributor-question-content">
-          <mat-card-content class="contributor-question">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text
-            of the printing?
-          </mat-card-content>
+          <div class="status-icon">
+            <mat-icon>info_outline</mat-icon>
+          </div>
+          <div class="contributor-edit-button" *ngIf="!isEdit">
+            <button mat-flat-button class="contributor-button" (click)="editQuestion()">Edit</button>
+          </div>
+          <div class="contributor-send-button">
+            <button mat-flat-button class="contributor-button">Send for Review</button>
+          </div>
+          <div class="question-delete-button">
+            <mat-icon>delete_outline</mat-icon>
+          </div>
         </div>
       </mat-card>
     </div>
