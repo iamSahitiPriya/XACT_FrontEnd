@@ -1,0 +1,33 @@
+<div class="question-content">
+  <div class="question-title">
+    <h2 class="question-heading">Questions</h2>
+  </div>
+  <div class="question-text">
+    <p>{{data.question}}</p>
+  </div>
+  <div>
+    <mat-form-field class="comments-area" appearance="outline" id="testForm">
+      <mat-label>Comments {{inputWarningLabel}}</mat-label>
+      <textarea matInput #input name="textarea"
+                id="assessmentAnswer"
+                [(ngModel)]="comments"
+                cdkTextareaAutosize
+                class="textArea1"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="10"
+                maxlength="10000"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="action-items">
+    <div>
+      <button mat-flat-button class="send-for-review-button" (click)="sendToReview()">
+        Send for Review
+      </button>
+    </div>
+    <div>
+      <button mat-flat-button class="cancel-review-button" (click)="cancelChanges()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
