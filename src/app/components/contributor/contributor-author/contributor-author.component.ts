@@ -30,10 +30,6 @@ export class ContributorAuthorComponent implements OnInit {
 
   sendForReview() {
     const dialogRef = this.dialog.open(ReviewDialogComponent,{
-      width: '48vw',
-      height: '33vh',
-      maxWidth: '80vw',
-      maxHeight: '71vh',
       data:{
         role:'author',
         question:this.text,
