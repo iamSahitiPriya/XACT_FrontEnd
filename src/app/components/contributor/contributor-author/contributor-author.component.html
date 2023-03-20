@@ -32,7 +32,7 @@
     </div>
     <div class="contributor-questions">
       <mat-card (click)="isCardClicked()" [ngClass]="{'contributor-questions-on-click':clicked}">
-        <div class="each-question">
+        <div class="each-question" [ngClass]="{'edit-input' : isEdit}">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">
               <div class="contributor-question-checkbox-and-input">
@@ -67,11 +67,13 @@
             </div>
           </div>
           <div class="contributor-edit-buttons" *ngIf="isEdit">
-            <div class="update-question">
-              <button>update</button>
+            <div class="send-review-button">
+            <button mat-flat-button class="contributor-button" (click)="sendForReview()" [disabled]="sentToReview">
+              Send for Review
+            </button>
             </div>
             <div class="discard-changes">
-              <button (click)="cancelChanges()">cancel</button>
+              <mat-icon (click)="cancelChanges()">cancel</mat-icon>
             </div>
           </div>
         </div>
