@@ -100,6 +100,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 96%;
 }
 a.anchor{
   text-decoration: underline;
