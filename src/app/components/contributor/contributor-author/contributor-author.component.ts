@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
-import {logger} from "html2canvas/dist/types/core/__mocks__/logger";
 
 @Component({
   selector: 'app-contributor-author',

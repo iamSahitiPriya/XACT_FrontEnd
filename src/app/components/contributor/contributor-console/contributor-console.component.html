@@ -6,7 +6,7 @@
         <hr>
       </div>
       <mat-card-actions>
-        <div class="author">
+        <div class="author" *ngIf="isAuthor">
           <button mat-button class="author-button" (click)="setEvent('author')"
                   [ngClass]="{'author-active':type === 'author'}" [routerLink]="['/contributor/author']">
             <div class="author-icon">
@@ -19,7 +19,7 @@
             </div>
           </button>
         </div>
-        <div class="reviewer">
+        <div class="reviewer" *ngIf="isContributor">
           <button mat-button class="author-button" (click)="setEvent('reviewer')"
                   [ngClass]="{'author-active':type === 'reviewer'}" [routerLink]="['/contributor/author']">
             <div class="reviewer-icon">

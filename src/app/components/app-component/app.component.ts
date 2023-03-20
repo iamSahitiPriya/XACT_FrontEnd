@@ -22,7 +22,7 @@ import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snac
 })
 
 export class AppComponent implements OnInit {
-  userRole: Observable<String []>;
+  userRole: Observable<string []>;
   public progressComponent = ProgressComponentComponent;
   public appVersion: string = environment.VERSION;
   copyright = data_local.COPYRIGHT_MESSAGE.COPYRIGHT_TEXT;

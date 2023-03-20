@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as fromActions from "../../../actions/assessment-data.actions";
 import {Router} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
+import {AppServiceService} from "../../../services/app-service/app-service.service";
 
 @Component({
   selector: 'app-contributor-console',
@@ -11,9 +11,11 @@ import {Subject, takeUntil} from "rxjs";
 export class ContributorConsoleComponent implements OnInit, OnDestroy {
   public type: string;
   private destroy$: Subject<void> = new Subject<void>();
+  isAuthor: boolean = false;
+  isContributor: boolean = false;
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private appService : AppServiceService) {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
@@ -22,6 +24,12 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.appService.getUserRole().subscribe((data) => {
+      if(data.includes("Author"))
+        this.isAuthor = true
+      if(data.includes("Reviewer"))
+        this.isContributor = true
+    })
   }
 
   setEvent(type: string) {

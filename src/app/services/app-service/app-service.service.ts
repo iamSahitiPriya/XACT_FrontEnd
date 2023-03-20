@@ -140,7 +140,7 @@ export class AppServiceService {
   }
 
   getUserRole() {
-    return this.http.get<String []>(environment.BaseURI + environment.ROLE_URI);
+    return this.http.get<string []>(environment.BaseURI + environment.ROLE_URI);
   }
 
   login() {
