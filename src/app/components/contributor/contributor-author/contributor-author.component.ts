@@ -9,6 +9,9 @@ export class ContributorAuthorComponent implements OnInit {
   searchBarText: string = "Search questions";
   searchText: string;
   isEdit: boolean;
+  text: string = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing?";
+  sentToReview: boolean = false;
+  clicked: boolean = false;
 
   constructor() { }
 
@@ -18,5 +21,17 @@ export class ContributorAuthorComponent implements OnInit {
   editQuestion() {
     this.isEdit = true;
     return this.isEdit;
+  }
+
+  sendForReview() {
+    this.sentToReview = true
+  }
+
+  cancelChanges() {
+    this.isEdit = false
+  }
+
+  isCardClicked() {
+    this.clicked = true
   }
 }

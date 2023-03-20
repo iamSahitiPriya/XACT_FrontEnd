@@ -23,35 +23,56 @@
   </div>
   <div class="contributor-author-content">
     <div class="parameter-heading-content">
-      <div class="parameter-heading">
+      <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':clicked}">
+        hello
       </div>
       <div class="all-question">
         <a href="#" class="anchor">All Questions</a>
       </div>
     </div>
     <div class="contributor-questions">
-      <mat-card>
+      <mat-card (click)="isCardClicked()" [ngClass]="{'contributor-questions-on-click':clicked}">
         <div class="each-question">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">
-              <mat-form-field appearance="outline" class="contributor-input" *ngIf="isEdit">
-                <input matInput />
-              </mat-form-field>
-              <span *ngIf="!isEdit">Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text
-              of the printing?</span>
+              <div class="contributor-question-checkbox-and-input">
+                <div class="select-checkbox" *ngIf="!isEdit && !sentToReview">
+                  <mat-checkbox class="example-margin"></mat-checkbox>
+                </div>
+                <div class="contributor-question-input">
+                  <mat-form-field appearance="outline" class="contributor-input" *ngIf="isEdit">
+                    <input matInput [(ngModel)]="text"/>
+                  </mat-form-field>
+                  <span *ngIf="!isEdit">{{text}}</span>
+                </div>
+              </div>
             </mat-card-content>
           </div>
-          <div class="status-icon">
+          <div class="status-icon" *ngIf="sentToReview">
             <mat-icon>info_outline</mat-icon>
           </div>
-          <div class="contributor-edit-button" *ngIf="!isEdit">
-            <button mat-flat-button class="contributor-button" (click)="editQuestion()">Edit</button>
+          <div class="contributor-edit-action" *ngIf="!isEdit">
+            <div class="contributor-edit-button">
+              <button mat-flat-button class="contributor-button" (click)="editQuestion()" [disabled]="sentToReview">
+                Edit
+              </button>
+            </div>
+            <div class="contributor-send-button">
+              <button mat-flat-button class="contributor-button" (click)="sendForReview()" [disabled]="sentToReview">
+                Send for Review
+              </button>
+            </div>
+            <div class="question-delete-button">
+              <mat-icon>delete_outline</mat-icon>
+            </div>
           </div>
-          <div class="contributor-send-button">
-            <button mat-flat-button class="contributor-button">Send for Review</button>
-          </div>
-          <div class="question-delete-button">
-            <mat-icon>delete_outline</mat-icon>
+          <div class="contributor-edit-buttons" *ngIf="isEdit">
+            <div class="update-question">
+              <button>update</button>
+            </div>
+            <div class="discard-changes">
+              <button (click)="cancelChanges()">cancel</button>
+            </div>
           </div>
         </div>
       </mat-card>

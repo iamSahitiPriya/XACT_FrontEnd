@@ -45,32 +45,48 @@
 .contributor-search-bar{
   width: 55%;
 }
-.parameter-heading{
-  border-color: #5D9EAA;
-  background-color: #5D9EAA;
-  border-radius: 10px 150px 0 0;
-  width: 275px;
-  height: 2vh;
-  font-size: 1rem;
+.parameter-heading-on-click{
+  background-color: #5D9EAA !important;
   color: #fff;
-  padding: .5% 1%;
+}
+.contributor-questions-on-click{
+  box-shadow: 0px 3px 6px #0000003E !important;
+  border: 1px solid #4BA1AC4A !important;
+}
+
+.parameter-heading{
+  border: 1px solid #5D9EAA;
+  background-color: #5D9EAA0D;
+  border-radius: 10px 150px 0 0;
+  height: 2vh;
+  font-size: 0.9rem;
+  padding: .1% 1%;
 }
 .contributor-author{
   display: flex;
   flex-direction: column;
 }
 .contributor-question{
-  padding-top: 10px;
   font-size: 1rem;
   word-break: break-all;
 }
 .contributor-questions{
   width: 97%;
+  cursor: pointer;
+}
+.contributor-questions .mat-card{
+  box-shadow: none;
+  border: 1px solid #4BA1ACBF
 }
 .contributor-question-content{
   width: 58vw;
   margin-right: 5%;
 }
+.contributor-question-checkbox-and-input{
+  display: flex;
+  flex-direction: row;
+}
+
 /*.contributor-row-heading{*/
 /*  display: flex;*/
 /*  flex-direction: row;*/
@@ -96,6 +112,7 @@ a.anchor{
 .each-question {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .contributor-button {
@@ -115,6 +132,7 @@ a.anchor{
 
 .contributor-edit-button, .contributor-send-button {
   margin-right: 1%;
+  padding-right: 3%;
 }
 
 .status-icon {
@@ -135,7 +153,7 @@ a.anchor{
 }
 
 .contributor-input {
-  width: 230px;
+  width: 48vw;
   height: 49px;
   border-radius: 7px;
   text-align: left;
@@ -145,7 +163,6 @@ a.anchor{
   letter-spacing: 0;
   color: #6f7071;
   opacity: 1;
-  margin-top: 14px;
   margin-bottom: 38px;
 }
 
@@ -154,6 +171,20 @@ a.anchor{
 }
 
 ::ng-deep .contributor-input .mat-form-field-appearance-outline .mat-form-field-outline{
-  height: 64%;
+  height: 6vh !important;
 }
-
+.contributor-edit-action{
+  display: flex;
+  flex-direction: row;
+  width: 25%;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.contributor-edit-buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+}
+.select-checkbox{
+  width: 3%;
+}
