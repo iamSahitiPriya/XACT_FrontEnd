@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
+import {AppServiceService} from "../../../services/app-service/app-service.service";
 
 @Component({
   selector: 'app-contributor-author',
@@ -16,10 +17,13 @@ export class ContributorAuthorComponent implements OnInit {
   clicked: boolean = false;
   public dialogRef: MatDialogRef<ReviewDialogComponent>
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,private appService : AppServiceService) {
   }
 
   ngOnInit(): void {
+    this.appService.getContributorQuestions("Author").subscribe((data) => {
+      console.log(data)
+    })
   }
 
   editQuestion() {

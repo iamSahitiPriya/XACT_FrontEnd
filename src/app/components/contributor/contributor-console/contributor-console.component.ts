@@ -16,7 +16,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
 
 
   constructor(private router: Router, private appService : AppServiceService) {
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res => {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);

@@ -38,6 +38,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
+import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
 
 
 @Injectable({
@@ -282,6 +283,13 @@ export class AppServiceService {
       assessmentId: assessmentId
     })
     return this.http.get<Recommendation []>(environment.BaseURI + recommendationsURI)
+  }
+
+  getContributorQuestions(role: string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("role", role);
+    return this.http.get<ContributorResponse>(environment.BaseURI + environment.CONTRIBUTOR_QUESTIONS_URI, {params: queryParams})
+
   }
 
   getActivity(topicId: number, assessmentId: number) {

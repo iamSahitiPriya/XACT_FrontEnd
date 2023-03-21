@@ -60,6 +60,8 @@ export const environment = {
   SUMMARY_DATA:"/v1/reports/${assessmentId}/summary",
   RECOMMENDATIONS_URI:"/v1/reports/${assessmentId}/charts/roadmap",
   ACTIVITY_LOGS_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/activities",
+  CONTRIBUTOR_QUESTIONS_URI: "/v1/contributor/questions"
+
 }
 
 
