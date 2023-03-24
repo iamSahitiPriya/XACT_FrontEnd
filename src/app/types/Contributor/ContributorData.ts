@@ -5,7 +5,10 @@
 
 import {Question} from "./Question";
 
-export interface Parameter {
+export interface ContributorData {
+  categoryName : string
+  moduleName : string
+  topicName : string
   parameterName : string
   questions : Question[]
 }

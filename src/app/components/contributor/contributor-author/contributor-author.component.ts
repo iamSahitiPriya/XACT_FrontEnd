@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
+import {ContributorResponse} from "../../../types/Contributor/ContributorResponse";
+import {ContributorData} from "../../../types/Contributor/ContributorData";
 
 @Component({
   selector: 'app-contributor-author',
@@ -12,17 +14,20 @@ export class ContributorAuthorComponent implements OnInit {
   searchBarText: string = "Search questions";
   searchText: string;
   isEdit: boolean;
-  text: string = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing?";
+  text: string = "Hello"
   sentToReview: boolean = false;
   clicked: boolean = false;
+  contributorResponse: ContributorResponse;
+  contributorData: ContributorData[] = []
   public dialogRef: MatDialogRef<ReviewDialogComponent>
 
-  constructor(public dialog: MatDialog,private appService : AppServiceService) {
+  constructor(public dialog: MatDialog, private appService: AppServiceService) {
   }
 
   ngOnInit(): void {
     this.appService.getContributorQuestions("Author").subscribe((data) => {
-      console.log(data)
+      this.contributorResponse = data
+      this.formatResponse()
     })
   }
 
@@ -32,14 +37,14 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendForReview() {
-    const dialogRef = this.dialog.open(ReviewDialogComponent,{
-      data:{
-        role:'author',
-        question:this.text,
-        sentToReview:this.sentToReview
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      data: {
+        role: 'author',
+        // question:this.text,
+        sentToReview: this.sentToReview
       }
     });
-    dialogRef.componentInstance.onSave.subscribe(data =>{
+    dialogRef.componentInstance.onSave.subscribe(data => {
       this.sentToReview = data
     })
     dialogRef.afterClosed()
@@ -51,5 +56,25 @@ export class ContributorAuthorComponent implements OnInit {
 
   isCardClicked() {
     this.clicked = true
+  }
+
+  private formatResponse() {
+    this.contributorResponse.categories?.forEach(eachCategory => {
+      eachCategory.modules?.forEach(eachModule => {
+        console.log(eachModule.moduleName)
+        eachModule.topics?.forEach(eachTopic => {
+          eachTopic.parameters?.forEach(eachParameter => {
+            let data: ContributorData = {categoryName: "", moduleName: "", parameterName: "", questions: [], topicName: ""}
+            data.categoryName = eachCategory.categoryName
+            data.moduleName = eachModule.moduleName
+            data.topicName = eachTopic.topicName
+            data.parameterName = eachParameter.parameterName
+            data.questions.push(...eachParameter.questions)
+            this.contributorData.push(data)
+          })
+        })
+      })
+
+    })
   }
 }

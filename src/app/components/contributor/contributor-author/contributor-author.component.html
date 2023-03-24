@@ -21,17 +21,17 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="contributor-author-content">
+  <div class="contributor-author-content" *ngFor="let response of contributorData">
     <div class="parameter-heading-content">
       <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':clicked}">
-        hello
+        {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
       </div>
       <div class="all-question">
         <a href="#" class="anchor">All Questions</a>
       </div>
     </div>
     <div class="contributor-questions">
-      <mat-card (click)="isCardClicked()" [ngClass]="{'contributor-questions-on-click':clicked}">
+      <mat-card (click)="isCardClicked()" [ngClass]="{'contributor-questions-on-click':clicked}" *ngFor="let question of response.questions">
         <div class="each-question" [ngClass]="{'edit-input' : isEdit}">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">
@@ -41,9 +41,9 @@
                 </div>
                 <div class="contributor-question-input">
                   <mat-form-field appearance="outline" class="contributor-input" *ngIf="isEdit">
-                    <input matInput [(ngModel)]="text"/>
+                    <input matInput [(ngModel)]="question.question"/>
                   </mat-form-field>
-                  <span *ngIf="!isEdit">{{text}}</span>
+                  <span *ngIf="!isEdit">{{question.question}}</span>
                 </div>
               </div>
             </mat-card-content>
