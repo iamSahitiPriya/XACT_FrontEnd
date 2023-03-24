@@ -8,4 +8,5 @@ export interface Question {
   question : string
   comments : string
   status : string
+  isEdit?: boolean
 }

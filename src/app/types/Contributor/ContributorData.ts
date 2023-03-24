@@ -11,4 +11,5 @@ export interface ContributorData {
   topicName : string
   parameterName : string
   questions : Question[]
+  isClicked?:boolean
 }

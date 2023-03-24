@@ -23,7 +23,7 @@
   </div>
   <div class="contributor-author-content" *ngFor="let response of contributorData">
     <div class="parameter-heading-content">
-      <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':clicked}">
+      <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':response.isClicked}">
         {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
       </div>
       <div class="all-question">
@@ -31,19 +31,19 @@
       </div>
     </div>
     <div class="contributor-questions">
-      <mat-card (click)="isCardClicked()" [ngClass]="{'contributor-questions-on-click':clicked}" *ngFor="let question of response.questions">
-        <div class="each-question" [ngClass]="{'edit-input' : isEdit}">
+      <mat-card (click)="isCardClicked(response)" [ngClass]="{'contributor-questions-on-click':response.isClicked}">
+        <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}" *ngFor="let question of response.questions">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">
               <div class="contributor-question-checkbox-and-input">
-                <div class="select-checkbox" *ngIf="!isEdit && !sentToReview">
+                <div class="select-checkbox" *ngIf="!question.isEdit && !sentToReview">
                   <mat-checkbox class="example-margin"></mat-checkbox>
                 </div>
                 <div class="contributor-question-input">
-                  <mat-form-field appearance="outline" class="contributor-input" *ngIf="isEdit">
+                  <mat-form-field appearance="outline" class="contributor-input" *ngIf="question.isEdit">
                     <input matInput [(ngModel)]="question.question"/>
                   </mat-form-field>
-                  <span *ngIf="!isEdit">{{question.question}}</span>
+                  <span *ngIf="!question.isEdit">{{question.question}}</span>
                 </div>
               </div>
             </mat-card-content>
@@ -51,14 +51,14 @@
           <div class="status-icon" *ngIf="sentToReview">
             <mat-icon>info_outline</mat-icon>
           </div>
-          <div class="contributor-edit-action" *ngIf="!isEdit">
+          <div class="contributor-edit-action" *ngIf="!question.isEdit">
             <div class="contributor-edit-button">
-              <button mat-flat-button class="contributor-button" (click)="editQuestion()" [disabled]="sentToReview">
+              <button mat-flat-button class="contributor-button" (click)="editQuestion(question)" [disabled]="sentToReview">
                 Edit
               </button>
             </div>
             <div class="contributor-send-button">
-              <button mat-flat-button class="contributor-button" (click)="sendForReview()" [disabled]="sentToReview">
+              <button mat-flat-button class="contributor-button" (click)="sendForReview(question)" [disabled]="sentToReview">
                 Send for Review
               </button>
             </div>
@@ -66,18 +66,19 @@
               <mat-icon>delete_outline</mat-icon>
             </div>
           </div>
-          <div class="contributor-edit-buttons" *ngIf="isEdit">
+          <div class="contributor-edit-buttons" *ngIf="question.isEdit">
             <div class="send-review-button">
-            <button mat-flat-button class="contributor-button" (click)="sendForReview()" [disabled]="sentToReview">
+            <button mat-flat-button class="contributor-button" (click)="sendForReview(question)" [disabled]="sentToReview">
               Send for Review
             </button>
             </div>
             <div class="discard-changes">
-              <mat-icon (click)="cancelChanges()">cancel</mat-icon>
+              <mat-icon (click)="cancelChanges(question)">cancel</mat-icon>
             </div>
           </div>
         </div>
       </mat-card>
+      <br><br>
     </div>
   </div>
 </div>

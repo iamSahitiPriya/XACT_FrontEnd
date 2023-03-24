@@ -112,6 +112,7 @@ a.anchor{
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-top: 1%;
 }
 
 .contributor-button {

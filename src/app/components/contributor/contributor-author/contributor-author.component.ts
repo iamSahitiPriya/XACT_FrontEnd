@@ -4,6 +4,7 @@ import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {ContributorResponse} from "../../../types/Contributor/ContributorResponse";
 import {ContributorData} from "../../../types/Contributor/ContributorData";
+import {Question} from "../../../types/Contributor/Question";
 
 @Component({
   selector: 'app-contributor-author',
@@ -31,16 +32,15 @@ export class ContributorAuthorComponent implements OnInit {
     })
   }
 
-  editQuestion() {
-    this.isEdit = true;
-    return this.isEdit;
+  editQuestion(question:Question) {
+    question.isEdit = true;
   }
 
-  sendForReview() {
+  sendForReview(question: Question) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       data: {
         role: 'author',
-        // question:this.text,
+        question:question.question,
         sentToReview: this.sentToReview
       }
     });
@@ -50,26 +50,31 @@ export class ContributorAuthorComponent implements OnInit {
     dialogRef.afterClosed()
   }
 
-  cancelChanges() {
-    this.isEdit = false
+  cancelChanges(question: Question) {
+    question.isEdit = false
   }
 
-  isCardClicked() {
-    this.clicked = true
+  isCardClicked(response: ContributorData) {
+    this.contributorData.filter(data => data !== response).forEach(eachResponse =>{
+      eachResponse.isClicked = false
+    })
+    response.isClicked = true
   }
 
   private formatResponse() {
     this.contributorResponse.categories?.forEach(eachCategory => {
       eachCategory.modules?.forEach(eachModule => {
-        console.log(eachModule.moduleName)
         eachModule.topics?.forEach(eachTopic => {
           eachTopic.parameters?.forEach(eachParameter => {
-            let data: ContributorData = {categoryName: "", moduleName: "", parameterName: "", questions: [], topicName: ""}
+            let data: ContributorData = {categoryName: "", moduleName: "", parameterName: "", questions: [], topicName: "", isClicked:false}
             data.categoryName = eachCategory.categoryName
             data.moduleName = eachModule.moduleName
             data.topicName = eachTopic.topicName
             data.parameterName = eachParameter.parameterName
-            data.questions.push(...eachParameter.questions)
+            eachParameter.questions.forEach(eachQuestion =>{
+              eachQuestion.isEdit = false
+              data.questions.push(eachQuestion)
+            })
             this.contributorData.push(data)
           })
         })
