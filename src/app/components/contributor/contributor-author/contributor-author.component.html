@@ -32,6 +32,21 @@
     </div>
     <div class="contributor-questions">
       <mat-card (click)="isCardClicked(response)" [ngClass]="{'contributor-questions-on-click':response.isClicked}">
+        <div class="all-questions-comment" *ngIf="response.isClicked">
+          <div class="contributor-comment">
+          <mat-form-field appearance="outline" class="contributor-input">
+            <input matInput [(ngModel)]="overallComments"/>
+          </mat-form-field>
+          </div>
+          <div class="contributor-send-for-review-button">
+            <button mat-flat-button class="contributor-button" (click)="sendAllQuestionsForReview(response)" [disabled]="sentToReview">
+              Send for Review
+            </button>
+          </div>
+          <div class="question-delete-button">
+            <mat-icon>delete_outline</mat-icon>
+          </div>
+        </div>
         <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}" *ngFor="let question of response.questions">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">

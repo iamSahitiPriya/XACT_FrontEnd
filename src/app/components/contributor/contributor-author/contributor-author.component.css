@@ -212,3 +212,22 @@ a.anchor{
   width: 80%;
 }
 
+.all-questions-comment {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+}
+
+.contributor-comment {
+  width: 82%
+}
+
+.all-questions-comment .contributor-input {
+  width: 60vw;
+}
+
+.all-questions-comment .contributor-send-for-review-button {
+  padding-right: 1%;
+}
+

@@ -16,12 +16,12 @@ export class ContributorAuthorComponent implements OnInit {
   searchBarText: string = "Search questions";
   searchText: string;
   isEdit: boolean;
-  text: string = "Hello"
   sentToReview: boolean = false;
   clicked: boolean = false;
   contributorResponse: ContributorResponse;
   contributorData: ContributorData[] = []
   unsavedData: ContributorData[]
+  overallComments : string = ""
   public dialogRef: MatDialogRef<ReviewDialogComponent>
 
   constructor(public dialog: MatDialog, private appService: AppServiceService) {
@@ -79,6 +79,8 @@ export class ContributorAuthorComponent implements OnInit {
 
   sendForReview(question: Question) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      width : '75vw',
+      height : '20vw',
       data: {
         role: 'author',
         question: question.question,
@@ -137,5 +139,9 @@ export class ContributorAuthorComponent implements OnInit {
       })
 
     })
+  }
+
+  sendAllQuestionsForReview(response: ContributorData) {
+
   }
 }
