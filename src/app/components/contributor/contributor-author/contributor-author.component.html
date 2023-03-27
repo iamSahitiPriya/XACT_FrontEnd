@@ -36,7 +36,8 @@
           <div class="contributor-comment">
             <mat-checkbox class="all-select-checkbox"
                           [checked]="response.allSelected"
-                          [indeterminate]="changeSelectedQuestions(response)">
+                          [indeterminate]="changeSelectedQuestions(response)"
+                          (change)="setAllQuestions($event.checked,response)">
               <mat-form-field appearance="outline" class="contributor-input">
                 <input matInput [(ngModel)]="overallComments"/>
               </mat-form-field>

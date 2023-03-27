@@ -163,4 +163,9 @@ export class ContributorAuthorComponent implements OnInit {
   updateAllSelectedStatus(data: ContributorData) {
     data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected);
   }
+
+  setAllQuestions(isSelected: boolean, data: ContributorData) {
+    data.allSelected = true
+    data.questions.forEach(eachQuestion => (eachQuestion.isSelected = isSelected));
+  }
 }
