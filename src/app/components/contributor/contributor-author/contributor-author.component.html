@@ -59,7 +59,7 @@
               <div class="contributor-question-checkbox-and-input">
                 <div class="select-checkbox" *ngIf="!question.isEdit">
                   <mat-checkbox [(ngModel)]="question.isSelected"
-                                (ngModelChange)="updateAllComplete(response)">
+                                (ngModelChange)="updateAllSelectedStatus(response)">
                     {{question.question}}
                   </mat-checkbox>
                 </div>

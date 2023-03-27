@@ -6,6 +6,7 @@ import {ContributorResponse} from "../../../types/Contributor/ContributorRespons
 import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {Question} from "../../../types/Contributor/Question";
 import {cloneDeep} from "lodash";
+import {Parameter} from "../../../types/Contributor/Parameter";
 
 @Component({
   selector: 'app-contributor-author',
@@ -86,6 +87,8 @@ export class ContributorAuthorComponent implements OnInit {
       data: {
         role: 'author',
         question: question.question,
+        questionId : question.questionId,
+        status : question.status,
         sentToReview: this.sentToReview
       }
     });
@@ -131,18 +134,22 @@ export class ContributorAuthorComponent implements OnInit {
             data.moduleName = eachModule.moduleName
             data.topicName = eachTopic.topicName
             data.parameterName = eachParameter.parameterName
-            data.allSelected = true
-            eachParameter.questions.forEach(eachQuestion => {
-              eachQuestion.isEdit = false
-              eachQuestion.isSelected = true
-              data.questions.push(eachQuestion)
-            })
-            this.contributorData.push(data)
+            data.allSelected = false
+            this.formatQuestion(eachParameter, data);
           })
         })
       })
 
     })
+  }
+
+  private formatQuestion(eachParameter: Parameter, data: ContributorData) {
+    eachParameter.questions.forEach(eachQuestion => {
+      eachQuestion.isEdit = false
+      eachQuestion.isSelected = false
+      data.questions.push(eachQuestion)
+    })
+    this.contributorData.push(data)
   }
 
   sendAllQuestionsForReview(response: ContributorData) {
@@ -153,7 +160,7 @@ export class ContributorAuthorComponent implements OnInit {
     return data.questions.filter(eachQuestion => eachQuestion.isSelected).length > 0 && !data.allSelected;
   }
 
-  updateAllComplete(data: ContributorData) {
+  updateAllSelectedStatus(data: ContributorData) {
     data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected);
   }
 }

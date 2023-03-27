@@ -39,6 +39,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
+import {Question} from "../../types/Contributor/Question";
 
 
 @Injectable({
@@ -260,7 +261,6 @@ export class AppServiceService {
 
   updateMasterQuestion(questionId: number, questionRequest: QuestionStructure) : Observable<QuestionStructure> {
     return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
-
   }
 
   saveMasterQuestion(questionRequest: QuestionRequest) : Observable<QuestionStructure>{
@@ -289,8 +289,15 @@ export class AppServiceService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("role", role);
     return this.http.get<ContributorResponse>(environment.BaseURI + environment.CONTRIBUTOR_QUESTIONS_URI, {params: queryParams})
-
   }
+
+  updateQuestion(questionId : number, question: string)  {
+    //question: Question
+    const headers = {'content-type': 'application/json'}
+    const updateQuestionURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_QUESTION, {
+      questionId : questionId
+    });
+    return this.http.patch(environment.BaseURI + updateQuestionURI, question,{'headers':headers})  }
 
   getActivity(topicId: number, assessmentId: number) {
     const activityDataURI = this.formatURI(environment.ACTIVITY_LOGS_URI, {
