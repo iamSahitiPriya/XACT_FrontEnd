@@ -12,4 +12,5 @@ export interface ContributorData {
   parameterName : string
   questions : Question[]
   isClicked?:boolean
+  allSelected ?: boolean
 }

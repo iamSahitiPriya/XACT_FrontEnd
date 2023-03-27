@@ -67,13 +67,15 @@ export class ContributorAuthorComponent implements OnInit {
       parameterName: "",
       questions: [],
       topicName: "",
-      isClicked: false
+      isClicked: false,
+      allSelected : true
     }
     data.categoryName = eachData.categoryName
     data.moduleName = eachData.moduleName
     data.topicName = eachData.topicName
     data.parameterName = eachData.parameterName
     data.isClicked = eachData.isClicked
+    data.allSelected = eachData.allSelected
     return data;
   }
 
@@ -129,8 +131,10 @@ export class ContributorAuthorComponent implements OnInit {
             data.moduleName = eachModule.moduleName
             data.topicName = eachTopic.topicName
             data.parameterName = eachParameter.parameterName
+            data.allSelected = true
             eachParameter.questions.forEach(eachQuestion => {
               eachQuestion.isEdit = false
+              eachQuestion.isSelected = true
               data.questions.push(eachQuestion)
             })
             this.contributorData.push(data)
@@ -143,5 +147,13 @@ export class ContributorAuthorComponent implements OnInit {
 
   sendAllQuestionsForReview(response: ContributorData) {
 
+  }
+
+  changeSelectedQuestions(data: ContributorData) {
+    return data.questions.filter(eachQuestion => eachQuestion.isSelected).length > 0 && !data.allSelected;
+  }
+
+  updateAllComplete(data: ContributorData) {
+    data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected);
   }
 }

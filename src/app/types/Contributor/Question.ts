@@ -9,4 +9,5 @@ export interface Question {
   comments : string
   status : string
   isEdit?: boolean
+  isSelected ?: boolean
 }

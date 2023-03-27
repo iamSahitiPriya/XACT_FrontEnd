@@ -145,6 +145,10 @@ a.anchor{
   padding-top: 2%;
 }
 
+.discard-changes .mat-icon {
+  color: #6F7071;
+}
+
 .status-icon {
  padding-left: 10%;
 }
@@ -152,7 +156,6 @@ a.anchor{
 .question-delete-button {
   padding-top: 0.5%;
 }
-
 .status-icon .mat-icon {
   color: #416386;
 }
@@ -229,5 +232,20 @@ a.anchor{
 
 .all-questions-comment .contributor-send-for-review-button {
   padding-right: 1%;
+  padding-top: 0.7%;
 }
+
+.all-questions-comment .discard-changes {
+  padding-top: 0.8%;
+}
+
+::ng-deep .contributor-comment .mat-checkbox-inner-container-no-side-margin {
+  margin-right: 1%;
+  margin-bottom: 5.5%;
+}
+
+::ng-deep .contributor-comment .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #4ba1ac;
+}
+
 
