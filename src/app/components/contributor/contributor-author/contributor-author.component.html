@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
-             *ngFor="let question of response.questions">
+             *ngFor="let question of response.questions | filter:searchText">
           <div class="contributor-question-content">
             <mat-card-content class="contributor-question">
               <div class="contributor-question-checkbox-and-input">
