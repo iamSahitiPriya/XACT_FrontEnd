@@ -59,7 +59,7 @@
             <mat-card-content class="contributor-question">
               <div class="contributor-question-checkbox-and-input">
                 <div class="select-checkbox" *ngIf="!question.isEdit">
-                  <mat-checkbox [(ngModel)]="question.isSelected"
+                  <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === 'Sent_For_Review'"
                                 (ngModelChange)="updateAllSelectedStatus(response)">
                     {{question.question}}
                   </mat-checkbox>
@@ -72,19 +72,19 @@
               </div>
             </mat-card-content>
           </div>
-          <div class="status-icon" *ngIf="sentToReview">
+          <div class="status-icon" *ngIf="question.status === 'Sent_For_Review'">
             <mat-icon>info_outline</mat-icon>
           </div>
           <div class="contributor-edit-action" *ngIf="!question.isEdit">
             <div class="contributor-edit-button">
               <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
-                      [disabled]="sentToReview">
+                      [disabled]="question.status === 'Sent_For_Review'">
                 Edit
               </button>
             </div>
             <div class="contributor-send-button">
-              <button mat-flat-button class="contributor-button" (click)="sendForReview(question)"
-                      [disabled]="sentToReview">
+              <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
+                      [disabled]="question.status === 'Sent_For_Review'">
                 Send for Review
               </button>
             </div>
@@ -94,8 +94,8 @@
           </div>
           <div class="contributor-edit-buttons" *ngIf="question.isEdit">
             <div class="send-review-button">
-              <button mat-flat-button class="contributor-button" (click)="sendForReview(question)"
-                      [disabled]="sentToReview">
+              <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
+                      [disabled]="question.status === 'Sent_For_Review'">
                 Send for Review
               </button>
             </div>

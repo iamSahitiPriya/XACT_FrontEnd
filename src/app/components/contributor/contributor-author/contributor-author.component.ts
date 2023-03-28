@@ -65,6 +65,7 @@ export class ContributorAuthorComponent implements OnInit {
     let data: ContributorData = {
       categoryName: "",
       moduleName: "",
+      moduleId:-1,
       parameterName: "",
       questions: [],
       topicName: "",
@@ -73,6 +74,7 @@ export class ContributorAuthorComponent implements OnInit {
     }
     data.categoryName = eachData.categoryName
     data.moduleName = eachData.moduleName
+    data.moduleId = eachData.moduleId
     data.topicName = eachData.topicName
     data.parameterName = eachData.parameterName
     data.isClicked = eachData.isClicked
@@ -80,20 +82,19 @@ export class ContributorAuthorComponent implements OnInit {
     return data;
   }
 
-  sendForReview(question: Question) {
+  sendForReview(question: Question, moduleId: number) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
-      width : '75vw',
+      width : '64vw',
       height : '20vw',
       data: {
         role: 'author',
-        question: question.question,
-        questionId : question.questionId,
-        status : question.status,
-        sentToReview: this.sentToReview
+        question: question,
+        moduleId :moduleId,
       }
     });
-    dialogRef.componentInstance.onSave.subscribe(data => {
-      this.sentToReview = data
+    dialogRef.componentInstance.onSave.subscribe(status => {
+      console.log(status)
+      question.status = status
     })
     dialogRef.afterClosed()
   }
@@ -124,6 +125,7 @@ export class ContributorAuthorComponent implements OnInit {
           eachTopic.parameters?.forEach(eachParameter => {
             let data: ContributorData = {
               categoryName: "",
+              moduleId : -1,
               moduleName: "",
               parameterName: "",
               questions: [],
@@ -132,6 +134,7 @@ export class ContributorAuthorComponent implements OnInit {
             }
             data.categoryName = eachCategory.categoryName
             data.moduleName = eachModule.moduleName
+            data.moduleId = eachModule.moduleId
             data.topicName = eachTopic.topicName
             data.parameterName = eachParameter.parameterName
             data.allSelected = false

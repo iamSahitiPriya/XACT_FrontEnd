@@ -7,5 +7,6 @@ import {Topic} from "./Topic";
 
 export interface Module {
   moduleName : string
+  moduleId:number
   topics : Topic[]
 }

@@ -30,7 +30,7 @@
   padding-left: 3%;
 }
 .question-text{
-  padding-top: 3%;
+  padding-top: 2%;
 }
 .comments-area{
   width: 99%;
@@ -39,6 +39,9 @@
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 7px;
   opacity: 1;
+}
+::ng-deep .comments-area .mat-form-field-appearance-outline .mat-form-field-wrapper >> .mat-form-field-appearance-outline .mat-form-field-flex{
+  height: 11vh !important;
 }
 .send-for-review-button{
   height: 0px;

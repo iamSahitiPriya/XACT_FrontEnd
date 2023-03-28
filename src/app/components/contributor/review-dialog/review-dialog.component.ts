@@ -24,12 +24,13 @@ export class ReviewDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
   }
 
-  sendToReview() {
-    console.log(this.data.question)
-    let updatedQuestion : Question = {comments: this.comments, question: this.data.question, questionId: this.data.questionId, status: this.data.status}
-    this.appService.updateQuestion(this.data.questionId,this.data.question).pipe(takeUntil(this.destroy$)).subscribe({
-      next : () => {
-        this.onSave.emit(true)
+  sendToReview(question: any) {
+    let questionId = []
+    questionId.push(question.questionId)
+    let updatedQuestion : any = {comments: this.comments, questionId: questionId}
+    this.appService.sendForReview(this.data.moduleId, "Sent_For_Review", updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (response:any) => {
+        this.onSave.emit(response[0].contributorQuestionStatus)
       }, error : _error => {
         this.showError(this.serverError);
       }

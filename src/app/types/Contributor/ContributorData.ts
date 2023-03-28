@@ -7,6 +7,7 @@ import {Question} from "./Question";
 
 export interface ContributorData {
   categoryName : string
+  moduleId:number
   moduleName : string
   topicName : string
   parameterName : string
