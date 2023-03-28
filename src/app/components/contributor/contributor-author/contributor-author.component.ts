@@ -11,6 +11,7 @@ import {Subject, takeUntil} from "rxjs";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -175,11 +176,11 @@ export class ContributorAuthorComponent implements OnInit {
       questionId: questionId,
       comments: overallComments
     }
-    this.appService.sendForReview(contributorData.moduleId,"Sent_For_Review",questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next:(response) =>{
-        this.setQuestionStatus(response,contributorData.questions)
+    this.appService.sendForReview(contributorData.moduleId, "Sent_For_Review", questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response) => {
+          this.setQuestionStatus(response, contributorData.questions)
+        }
       }
-  }
     )
   }
 
@@ -188,12 +189,15 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   updateAllSelectedStatus(data: ContributorData) {
-    data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected === true);
+    data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === 'Draft') || (eachQuestion.isSelected === false && eachQuestion.status === 'Sent_For_Review')));
   }
 
   setAllQuestions(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
-    data.questions.forEach(eachQuestion => (eachQuestion.isSelected = isSelected));
+    data.questions.forEach(eachQuestion => {
+      if (eachQuestion.status === 'Sent_For_Review') eachQuestion.isSelected = false
+      else eachQuestion.isSelected = isSelected
+    });
   }
 
   saveQuestion(question: Question) {
@@ -221,6 +225,34 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   private setQuestionStatus(response: any, questions: Question[]) {
-    console.log(response, questions)
+    response.forEach((eachResponse: any) => {
+      let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse.questionId)
+      if (index !== -1) {
+        questions[index].status = eachResponse.contributorQuestionStatus
+      }
+    })
+  }
+
+  deleteQuestion(question: Question, response: ContributorData) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = "Are you sure";
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.appService.deleteQuestion(question.questionId).subscribe({
+          next: () => {
+            let index = response.questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+            if (index !== -1)
+              response.questions.splice(index, 1)
+          },
+          error: () => {
+            this.showError(this.serverError)
+          }
+        })
+      }
+    })
+
   }
 }

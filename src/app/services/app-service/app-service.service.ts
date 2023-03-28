@@ -321,6 +321,15 @@ export class AppServiceService {
     })
 
   }
+
+  deleteQuestion(questionId: number) {
+    const headers = {'content-type': 'application/json'}
+    const deleteQuestionURI = this.formatURI(environment.DELETE_CONTRIBUTOR_QUESTION, {
+      questionId: questionId
+    });
+    return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
+
+  }
 }
 
 

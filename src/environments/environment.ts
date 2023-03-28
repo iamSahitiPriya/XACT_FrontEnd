@@ -62,7 +62,8 @@ export const environment = {
   ACTIVITY_LOGS_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/activities",
   CONTRIBUTOR_QUESTIONS_URI: "/v1/contributor/questions",
   UPDATE_CONTRIBUTOR_QUESTION : "/v1/question/${questionId}",
-  SEND_FOR_REVIEW_URI: "/v1/${moduleId}/questions/${status}"
+  SEND_FOR_REVIEW_URI: "/v1/${moduleId}/questions/${status}",
+  DELETE_CONTRIBUTOR_QUESTION : "/v1/question/${questionId}",
 }
 
 
