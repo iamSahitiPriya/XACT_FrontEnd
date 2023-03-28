@@ -14,49 +14,63 @@
     <button mat-flat-button class="questionButton1" (click)="addQuestionRow()">
       {{addQuestion}}
     </button>
-    <br><br>
+    <br>
   </div>
   <div class="questions">
-  <span *ngFor="let question of questionArray;let index=index">
-      <div class="row">
-        <div class="col-md-9 questionText">
-           <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
-             <mat-label>{{questionText}}</mat-label>
-              <input #input matInput required
-                     name="question{{question.questionId}}"
-                     id="question{{question.questionId}}"
-                     [(ngModel)]="question.questionText"
-                     class="input-field"
-                     maxlength="2000">
-             <mat-error>
-                {{requiredField}}
-             </mat-error>
-             <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
-          </mat-form-field>
-          <p *ngIf="question.isEdit===false">{{index + 1}}. {{question.questionText}}</p>
+    <div *ngFor="let question of questionStatusMap | keyvalue ">
+      <div class="question-status-heading-content"
+           [ngStyle]="{'border-color':colorScheme.get(question.key)[0], 'background-color':colorScheme.get(question.key)[1]}">
+        <div class="question-status-heading">
+          {{colorScheme.get(question.key)[2]}}
         </div>
-        <div class="col-md-3">
-        <div class="edit-button" *ngIf="question.isEdit === false">
-          <button class="editQuestion" id="edit-question" mat-flat-button
-                  (click)="setIsEdit(question)">{{edit}}</button>
-        </div>
-          <div class="save-button" *ngIf="question.isEdit === true && question.questionId === -1">
-          <button class="saveQuestion" [disabled]="!question.questionText" mat-flat-button
-                  (click)="saveQuestion(question)">{{save}}</button>
-            <div class="delete-question">
-              <button mat-flat-button (click)="deleteUnsavedQuestion()"><mat-icon id="deleteQuestion">delete</mat-icon></button>
-            </div>
-          </div>
-            <div class="updateButton" *ngIf="question.isEdit === true && question.questionId !== -1">
-              <button class="updateQuestion" mat-flat-button (click)="updateQuestion(question)"
-                      [disabled]="!question.questionText">{{update}}</button>
-              <span class="cancel-button">
+      </div>
+      <mat-card class="question-card" [ngStyle]="{'border-color':colorScheme.get(question.key)[0]}">
+        <mat-card-content class="question-card-content">
+          <div *ngFor="let question of question.value, let i=index">
+            <div class="row question-container">
+              <div class="col-md-9 questionText">
+                <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
+                  <mat-label>{{questionText}}</mat-label>
+                  <input #input matInput required
+                         name="question{{question.questionId}}"
+                         id="question{{question.questionId}}"
+                         [(ngModel)]="question.questionText"
+                         class="input-field"
+                         maxlength="2000">
+                  <mat-error>
+                    {{requiredField}}
+                  </mat-error>
+                  <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
+                </mat-form-field>
+                <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
+              </div>
+              <div class="col-md-3">
+                <div class="edit-button" *ngIf="question.isEdit === false">
+                  <button class="editQuestion" id="edit-question" mat-flat-button
+                          (click)="setIsEdit(question)">{{edit}}</button>
+                </div>
+                <div class="save-button" *ngIf="question.isEdit === true && question.questionId === -1">
+                  <button class="saveQuestion" [disabled]="!question.questionText" mat-flat-button
+                          (click)="saveQuestion(question)">{{save}}</button>
+                  <div class="delete-question">
+                    <button mat-flat-button (click)="deleteUnsavedQuestion()">
+                      <mat-icon id="deleteQuestion">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="updateButton" *ngIf="question.isEdit === true && question.questionId !== -1">
+                  <button class="updateQuestion" mat-flat-button (click)="updateQuestion(question)"
+                          [disabled]="!question.questionText">{{update}}</button>
+                  <span class="cancel-button">
                 <button class="cancel-button" (click)="cancelChanges(question)"><mat-icon>cancel</mat-icon></button>
               </span>
+                </div>
+              </div>
             </div>
-      </div>
-      </div>
-        <br>
-    </span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    </div>
   </div>
 </div>

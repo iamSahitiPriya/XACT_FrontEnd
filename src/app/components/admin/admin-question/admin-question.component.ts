@@ -45,23 +45,31 @@ export class AdminQuestionComponent implements OnInit {
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
+  questionStatusMap = new Map()
   masterData: Observable<CategoryResponse[]>
   categoryResponse: CategoryResponse[]
   unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
+  colorScheme = new Map()
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
   }
 
   ngOnInit(): void {
+    this.colorScheme.set('Published',['#5D9EAA','#5D9EAA0D','All published questions'])
+    this.colorScheme.set('Sent_For_Review',['#BE873E','#BE873E0D','Sent for Review'])
+    this.colorScheme.set('Rejected',['#BD4257','#BD425715','Rejected'])
+    this.colorScheme.set('Draft',['#5D9EAA','#5D9EAA0D','Draft'])
+
     this.questionArray = []
     this.unsavedChanges = []
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryResponse = data
         this.setParameterQuestion()
+        this.formatData()
         this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
       }
     })
@@ -72,6 +80,7 @@ export class AdminQuestionComponent implements OnInit {
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
+      status:'Draft',
       parameter: this.parameter.parameterId,
       isEdit: true
     }
@@ -221,6 +230,19 @@ export class AdminQuestionComponent implements OnInit {
     return this.categoryResponse.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics
       .find(topic => topic.topicId === this.topic)?.parameters
       .find(parameter => parameter.parameterId === this.parameter.parameterId)
+  }
+
+  private formatData() {
+    this.questionArray?.forEach(eachQuestion =>{
+      if(this.questionStatusMap.has(eachQuestion.status)){
+        this.questionStatusMap.get(eachQuestion.status).push(eachQuestion)
+      }else{
+        let questionArr = []
+        questionArr.push(eachQuestion)
+        this.questionStatusMap.set(eachQuestion.status,questionArr)
+      }
+    })
+    console.log(this.questionStatusMap)
   }
 }
 
