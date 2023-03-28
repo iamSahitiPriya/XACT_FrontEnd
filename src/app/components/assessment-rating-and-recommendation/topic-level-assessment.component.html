@@ -71,7 +71,7 @@
               id="addParameterRecommendation"> {{addRecommendation}} </span>
             </div>
           </button>
-          <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation ; let i=index">
+          <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation">
             <app-parameter-level-recommendation
               id="recommendation{{recommendation.recommendationId}}"
               [parameterIndex]="i"
