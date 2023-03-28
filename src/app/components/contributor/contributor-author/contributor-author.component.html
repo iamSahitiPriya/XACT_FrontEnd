@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="contributor-send-for-review-button">
-            <button mat-flat-button class="contributor-button" (click)="sendAllQuestionsForReview(response)"
+            <button mat-flat-button class="contributor-button" (click)="sendAllQuestionsForReview(response, overallComments)"
                     [disabled]="sentToReview">
               Send for Review
             </button>
@@ -96,11 +96,11 @@
               <mat-icon>delete_outline</mat-icon>
             </div>
           </div>
-          <div class="contributor-edit-buttons" *ngIf="question.isEdit">
-            <div class="send-review-button">
-              <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
-                      [disabled]="question.status === 'Sent_For_Review'">
-                Send for Review
+          <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
+            <div class="save-text-button">
+              <button mat-flat-button class="contributor-save-button" (click)="saveQuestion(question)"
+                      [disabled]="question.question.length <=0">
+                Save
               </button>
             </div>
             <div class="discard-changes">

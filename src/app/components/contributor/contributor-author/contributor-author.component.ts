@@ -7,6 +7,13 @@ import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {Question} from "../../../types/Contributor/Question";
 import {cloneDeep} from "lodash";
 import {Parameter} from "../../../types/Contributor/Parameter";
+import {Subject, takeUntil} from "rxjs";
+import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {data_local} from "../../../messages";
+
+const NOTIFICATION_DURATION = 2000;
+
 
 @Component({
   selector: 'app-contributor-author',
@@ -22,10 +29,12 @@ export class ContributorAuthorComponent implements OnInit {
   contributorResponse: ContributorResponse;
   contributorData: ContributorData[] = []
   unsavedData: ContributorData[]
-  overallComments : string = ""
+  overallComments: string = ""
+  private destroy$: Subject<void> = new Subject<void>();
   public dialogRef: MatDialogRef<ReviewDialogComponent>
+  serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService) {
+  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -43,7 +52,7 @@ export class ContributorAuthorComponent implements OnInit {
       let data = this.getContributorData(eachData);
       eachData.questions.forEach(eachQuestion => {
         let question = this.getQuestion(eachQuestion);
-        if(eachQuestion.questionId === question1.questionId)
+        if (eachQuestion.questionId === question1.questionId)
           question.isEdit = true;
         data.questions.push(question)
       })
@@ -65,12 +74,12 @@ export class ContributorAuthorComponent implements OnInit {
     let data: ContributorData = {
       categoryName: "",
       moduleName: "",
-      moduleId:-1,
+      moduleId: -1,
       parameterName: "",
       questions: [],
       topicName: "",
       isClicked: false,
-      allSelected : true
+      allSelected: true
     }
     data.categoryName = eachData.categoryName
     data.moduleName = eachData.moduleName
@@ -84,22 +93,22 @@ export class ContributorAuthorComponent implements OnInit {
 
   sendForReview(question: Question, moduleId: number) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
-      width : '64vw',
-      height : '20vw',
+      width: '64vw',
+      height: '20vw',
       data: {
         role: 'author',
         question: question,
-        moduleId :moduleId,
+        moduleId: moduleId,
       }
     });
     dialogRef.componentInstance.onSave.subscribe(status => {
-      console.log(status)
       question.status = status
     })
     dialogRef.afterClosed()
   }
 
   cancelChanges() {
+    this.overallComments = ""
     this.contributorData = []
     this.unsavedData.forEach(eachData => {
       let data = this.getContributorData(eachData);
@@ -125,7 +134,7 @@ export class ContributorAuthorComponent implements OnInit {
           eachTopic.parameters?.forEach(eachParameter => {
             let data: ContributorData = {
               categoryName: "",
-              moduleId : -1,
+              moduleId: -1,
               moduleName: "",
               parameterName: "",
               questions: [],
@@ -155,8 +164,23 @@ export class ContributorAuthorComponent implements OnInit {
     this.contributorData.push(data)
   }
 
-  sendAllQuestionsForReview(response: ContributorData) {
-
+  sendAllQuestionsForReview(contributorData: ContributorData, overallComments: string) {
+    let questionId: number[] = []
+    contributorData.questions.forEach(eachQuestion => {
+      if (eachQuestion.isSelected) {
+        questionId.push(eachQuestion.questionId)
+      }
+    })
+    let questionRequest = {
+      questionId: questionId,
+      comments: overallComments
+    }
+    this.appService.sendForReview(contributorData.moduleId,"Sent_For_Review",questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+      next:(response) =>{
+        this.setQuestionStatus(response,contributorData.questions)
+      }
+  }
+    )
   }
 
   changeSelectedQuestions(data: ContributorData) {
@@ -164,11 +188,39 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   updateAllSelectedStatus(data: ContributorData) {
-    data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected);
+    data.allSelected = data.questions != null && data.questions.every(eachQuestion => eachQuestion.isSelected === true);
   }
 
   setAllQuestions(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
     data.questions.forEach(eachQuestion => (eachQuestion.isSelected = isSelected));
+  }
+
+  saveQuestion(question: Question) {
+    this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (_response: any) => {
+        question.isEdit = false
+      }, error: _error => {
+        this.showError(this.serverError);
+      }
+    })
+  }
+
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: NOTIFICATION_DURATION,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private setQuestionStatus(response: any, questions: Question[]) {
+    console.log(response, questions)
   }
 }

@@ -115,7 +115,7 @@ a.anchor{
   padding-top: 1%;
 }
 
-.contributor-button {
+.contributor-button, .contributor-save-button {
   height: 0px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 3px;
@@ -262,4 +262,10 @@ a.anchor{
   padding: 0 !important;
 }
 
+.contributor-save-cancel-buttons{
+  display: flex;
+  justify-content: space-around;
+  width: 19%;
+  margin-bottom: 4%;
+}
 
