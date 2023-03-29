@@ -291,7 +291,8 @@ a.anchor{
 }
 
 .dummy {
-  position: absolute;
+  position: fixed;
+  /*position: absolute;*/
   height: 100%;
   width: 100%;
   z-index: 10000;
@@ -307,8 +308,8 @@ a.anchor{
 }
 
 .all-questions app-admin-question >>> .admin-questions .questions {
-  height: 100%;
-  overflow-y:unset;
+  height: 75vh;
+  overflow-y:scroll;
 }
 
 .all-questions app-admin-question >>> .admin-questions .question-status-heading-content {
@@ -322,6 +323,14 @@ a.anchor{
 .all-questions app-admin-question >>> .questionHeading {
   padding-left: 2%;
 }
+
+.all-questions app-admin-question >>> .admin-questions .questionText .mat-form-field-appearance-outline .mat-form-field-flex {
+  width: 36vw!important;
+}
+
+/*.all-questions app-admin-question >>> .admin-questions .questionText{*/
+/*  width: 75%;*/
+/*}*/
 
 .close button {
   background-color: transparent;

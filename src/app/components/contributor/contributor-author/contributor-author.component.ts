@@ -144,8 +144,7 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   private formatResponse() {
-    this.contributorResponse.categories?.forEach(eachCategory => {
-      eachCategory.modules?.forEach(eachModule => {
+    this.contributorResponse.contributorModuleData?.forEach(eachModule => {
         eachModule.topics?.forEach(eachTopic => {
           eachTopic.parameters?.forEach(eachParameter => {
             let data: ContributorData = {
@@ -160,8 +159,8 @@ export class ContributorAuthorComponent implements OnInit {
               topicName: "",
               isClicked: false
             }
-            data.categoryName = eachCategory.categoryName
-            data.categoryId = eachCategory.categoryId
+            data.categoryName = eachModule.categoryName
+            data.categoryId = eachModule.categoryId
             data.moduleName = eachModule.moduleName
             data.moduleId = eachModule.moduleId
             data.topicName = eachTopic.topicName
@@ -171,7 +170,6 @@ export class ContributorAuthorComponent implements OnInit {
             data.allSelected = false
             this.formatQuestion(eachParameter, data);
           })
-        })
       })
 
     })

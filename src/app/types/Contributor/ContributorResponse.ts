@@ -3,8 +3,8 @@
  */
 
 
-import {Category} from "./Category";
+import {Module} from "./Module";
 
 export interface ContributorResponse {
-  categories : Category[]
+  contributorModuleData : Module[]
 }
