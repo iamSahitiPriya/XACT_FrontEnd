@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContributorConsoleComponent } from './contributor-console.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ContributorConsoleComponent', () => {
   let component: ContributorConsoleComponent;
@@ -8,7 +9,8 @@ describe('ContributorConsoleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContributorConsoleComponent ]
+      declarations: [ ContributorConsoleComponent ],
+      imports:[HttpClientTestingModule]
     })
     .compileComponents();
 
