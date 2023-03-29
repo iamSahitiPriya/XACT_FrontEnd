@@ -1,11 +1,10 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../../messages";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Question} from "../../../types/Contributor/Question";
 
 const NOTIFICATION_DURATION = 2000;
 

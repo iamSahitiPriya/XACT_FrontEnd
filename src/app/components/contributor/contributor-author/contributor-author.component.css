@@ -262,7 +262,9 @@ a.anchor{
   margin-bottom: 4%;
 }
 
-.all-question {
+.all-question button {
+  border: none;
+  background : transparent;
   text-decoration: underline;
   color: #156C86;
 }
@@ -270,5 +272,67 @@ a.anchor{
 .all-question-container {
   position: absolute;
   background: #FFFFFF;
+  height: 100%;
+  width: 50%;
+  top:0;
+  right: 0;
+  z-index: 10000;
 }
+
+.dummy-div {
+  height: 100%;
+  width: 50%;
+  background-color: #6F7071;
+  opacity: 0.2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+}
+
+.dummy {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.all-questions {
+  padding-top: 2%;
+  height: 90%;
+}
+
+.all-questions app-admin-question >>> .admin-questions .questions {
+  height: 100%;
+  overflow-y:unset;
+}
+
+.all-questions app-admin-question >>> .admin-questions .question-status-heading-content {
+  width: 37%;
+}
+
+.all-questions app-admin-question >>> .question-heading {
+  padding-bottom: 3%;
+}
+
+.all-questions app-admin-question >>> .questionHeading {
+  padding-left: 2%;
+}
+
+.close button {
+  background-color: transparent;
+  border: none;
+  float: right;
+}
+
+.close {
+  padding-top: 3%;
+  padding-right: 3%;
+  padding-bottom: 7%;
+}
+
 

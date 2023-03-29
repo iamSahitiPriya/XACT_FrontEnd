@@ -12,6 +12,7 @@ import {NotificationSnackbarComponent} from "../../notification-component/notifi
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+import {ParameterData} from "../../../types/ParameterData";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -35,6 +36,7 @@ export class ContributorAuthorComponent implements OnInit {
   public dialogRef: MatDialogRef<ReviewDialogComponent>
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   isAllQuestionsOpened: boolean = false;
+  parameterData: ParameterData;
 
   constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar) {
   }
@@ -46,6 +48,10 @@ export class ContributorAuthorComponent implements OnInit {
       this.formatResponse()
       this.unsavedData = cloneDeep(this.contributorData)
     })
+  }
+
+  isContributorQuestionsOpened() {
+    this.isAllQuestionsOpened = false
   }
 
   editQuestion(question1: Question) {
@@ -74,6 +80,9 @@ export class ContributorAuthorComponent implements OnInit {
 
   private getContributorData(eachData: ContributorData) {
     let data: ContributorData = {
+      categoryId: -1,
+      parameterId: -1,
+      topicId: -1,
       categoryName: "",
       moduleName: "",
       moduleId: -1,
@@ -140,6 +149,9 @@ export class ContributorAuthorComponent implements OnInit {
         eachModule.topics?.forEach(eachTopic => {
           eachTopic.parameters?.forEach(eachParameter => {
             let data: ContributorData = {
+              categoryId: -1,
+              parameterId: -1,
+              topicId: -1,
               categoryName: "",
               moduleId: -1,
               moduleName: "",
@@ -149,10 +161,13 @@ export class ContributorAuthorComponent implements OnInit {
               isClicked: false
             }
             data.categoryName = eachCategory.categoryName
+            data.categoryId = eachCategory.categoryId
             data.moduleName = eachModule.moduleName
             data.moduleId = eachModule.moduleId
             data.topicName = eachTopic.topicName
+            data.topicId = eachTopic.topicId
             data.parameterName = eachParameter.parameterName
+            data.parameterId = eachParameter.parameterId
             data.allSelected = false
             this.formatQuestion(eachParameter, data);
           })
@@ -254,7 +269,26 @@ export class ContributorAuthorComponent implements OnInit {
 
   }
 
-  openAllQuestions() {
+  openAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
+    this.parameterData = this.getParameterData(response)
+    console.log(this.parameterData)
+  }
+
+  private getParameterData(data: ContributorData) {
+    return {
+      categoryId: data.categoryId,
+      categoryName: data.categoryName,
+      moduleId: data.moduleId,
+      moduleName: data.moduleName,
+      parameterId: data.parameterId,
+      parameterName: data.parameterName,
+      topicId:data.topicId,
+      topicName: data.topicName
+    }
+  }
+
+  closeQuestions() {
+    this.isAllQuestionsOpened = false
   }
 }

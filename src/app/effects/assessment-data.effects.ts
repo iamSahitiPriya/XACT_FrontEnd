@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {getAllCategories, getAssessmentData, getAssessmentId, isAdmin} from "../actions/assessment-data.actions";
+import {getAllCategories, getAssessmentData, getAssessmentId, user} from "../actions/assessment-data.actions";
 import {AppServiceService} from "../services/app-service/app-service.service";
 import {of} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
@@ -34,9 +34,9 @@ export class AssessmentDataEffects {
   )
 
   getCategories = createEffect(() => this.actions.pipe(
-      ofType(isAdmin),
+      ofType(user),
       switchMap((user) => {
-          return user.isAdmin ? this.appService.getAllCategories().pipe(
+          return (user.role === "admin" || user.role === "contributor") ? this.appService.getAllCategories().pipe(
             map(result => getAllCategories({categories: result})),
             catchError(_error => {
               this.showError("Server Error")
