@@ -170,7 +170,8 @@ export class ContributorAuthorComponent implements OnInit {
     this.contributorData.push(data)
   }
 
-  sendAllQuestionsForReview(contributorData: ContributorData, overallComments: string) {
+  sendAllQuestionsForReview(contributorData: ContributorData) {
+    console.log(contributorData)
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
@@ -178,16 +179,6 @@ export class ContributorAuthorComponent implements OnInit {
       }
     })
     this.openReviewDialog(question,contributorData.moduleId)
-    // let questionRequest = {
-    //   questionId: questionId,
-    //   comments: overallComments
-    // }
-    // this.appService.sendForReview(contributorData.moduleId, "Sent_For_Review", questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-    //     next: (response) => {
-    //       this.setQuestionStatus(response, contributorData.questions)
-    //     }
-    //   }
-    // )
   }
 
   changeSelectedQuestions(data: ContributorData) {

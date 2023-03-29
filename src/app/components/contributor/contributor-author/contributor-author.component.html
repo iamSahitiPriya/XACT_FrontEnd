@@ -42,22 +42,14 @@
                 Select All
               </mat-checkbox>
             </div>
-<!--            <div class="all-comments">-->
-<!--              <mat-form-field appearance="outline" class="contributor-input">-->
-<!--                <input matInput [(ngModel)]="overallComments"/>-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
           </div>
           <div class="contributor-send-for-review-button" *ngIf="checkbox.checked || checkbox.indeterminate">
             <button mat-flat-button class="contributor-button"
-                    (click)="sendAllQuestionsForReview(response, overallComments)"
+                    (click)="sendAllQuestionsForReview(response)"
                     >
               Send for Review
             </button>
           </div>
-<!--          <div class="discard-changes">-->
-<!--            <mat-icon (click)="cancelChanges()">cancel</mat-icon>-->
-<!--          </div>-->
         </div>
         <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
              *ngFor="let question of response.questions | filter:searchText">
