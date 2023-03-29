@@ -7,5 +7,6 @@ import {Question} from "./Question";
 
 export interface Parameter {
   parameterName : string
+  parameterId : number
   questions : Question[]
 }

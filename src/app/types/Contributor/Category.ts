@@ -6,5 +6,6 @@ import {Module} from "./Module";
 
 export interface Category {
   categoryName : string
+  categoryId : number
   modules : Module[]
 }

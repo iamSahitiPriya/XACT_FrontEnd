@@ -7,6 +7,7 @@ import {Parameter} from "./Parameter";
 
 export interface Topic {
   topicName : string
+  topicId : number
   parameters : Parameter[]
 
 }
