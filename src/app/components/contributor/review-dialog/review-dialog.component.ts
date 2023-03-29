@@ -25,12 +25,14 @@ export class ReviewDialogComponent {
   }
 
   sendToReview(question: any) {
-    let questionId = []
-    questionId.push(question.questionId)
+    let questionId: any[] = []
+    question.forEach((eachQuestion: { questionId: any; }) =>{
+      questionId.push(eachQuestion.questionId)
+    })
     let updatedQuestion : any = {comments: this.comments, questionId: questionId}
     this.appService.sendForReview(this.data.moduleId, "Sent_For_Review", updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
       next : (response:any) => {
-        this.onSave.emit(response[0].contributorQuestionStatus)
+        this.onSave.emit(response)
       }, error : _error => {
         this.showError(this.serverError);
       }

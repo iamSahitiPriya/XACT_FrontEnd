@@ -32,31 +32,32 @@
     </div>
     <div class="contributor-questions" *ngIf="response.questions.length >0">
       <mat-card (click)="isCardClicked(response)" [ngClass]="{'contributor-questions-on-click':response.isClicked}">
-        <div class="all-questions-comment" *ngIf="response.isClicked">
+        <div class="all-questions-comment">
           <div class="contributor-comment">
             <div class="comments-checkbox">
               <mat-checkbox class="all-select-checkbox"
                             [checked]="response.allSelected"
                             [indeterminate]="changeSelectedQuestions(response)"
-                            (change)="setAllQuestions($event.checked,response)">
+                            (change)="setAllQuestions($event.checked,response)" #checkbox>
+                Select All
               </mat-checkbox>
             </div>
-            <div class="all-comments">
-              <mat-form-field appearance="outline" class="contributor-input">
-                <input matInput [(ngModel)]="overallComments"/>
-              </mat-form-field>
-            </div>
+<!--            <div class="all-comments">-->
+<!--              <mat-form-field appearance="outline" class="contributor-input">-->
+<!--                <input matInput [(ngModel)]="overallComments"/>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
           </div>
-          <div class="contributor-send-for-review-button">
+          <div class="contributor-send-for-review-button" *ngIf="checkbox.checked || checkbox.indeterminate">
             <button mat-flat-button class="contributor-button"
                     (click)="sendAllQuestionsForReview(response, overallComments)"
-                    [disabled]="sentToReview">
+                    >
               Send for Review
             </button>
           </div>
-          <div class="discard-changes">
-            <mat-icon (click)="cancelChanges()">cancel</mat-icon>
-          </div>
+<!--          <div class="discard-changes">-->
+<!--            <mat-icon (click)="cancelChanges()">cancel</mat-icon>-->
+<!--          </div>-->
         </div>
         <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
              *ngFor="let question of response.questions | filter:searchText">
@@ -78,7 +79,8 @@
             </mat-card-content>
           </div>
           <div class="status-icon" *ngIf="question.status === 'Sent_For_Review'">
-            <mat-icon>info_outline</mat-icon>
+            <mat-icon  matTooltip="Sent for Review"
+                       [matTooltipPosition]="'below'">info_outline</mat-icon>
           </div>
           <div class="contributor-edit-action" *ngIf="!question.isEdit">
             <div class="contributor-edit-button">
@@ -89,7 +91,7 @@
             </div>
             <div class="contributor-send-button">
               <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
-                      [disabled]="question.status === 'Sent_For_Review'">
+                      [disabled]="question.status === 'Sent_For_Review' || checkbox.checked">
                 Send for Review
               </button>
             </div>

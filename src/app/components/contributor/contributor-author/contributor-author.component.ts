@@ -93,17 +93,22 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendForReview(question: Question, moduleId: number) {
+    let questionRequest:Question[] = []
+    questionRequest.push(question)
+    this.openReviewDialog(questionRequest, moduleId);
+  }
+
+  private openReviewDialog(questionRequest: Question[], moduleId: number) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '64vw',
-      height: '20vw',
       data: {
         role: 'author',
-        question: question,
+        question: questionRequest,
         moduleId: moduleId,
       }
     });
-    dialogRef.componentInstance.onSave.subscribe(status => {
-      question.status = status
+    dialogRef.componentInstance.onSave.subscribe(response => {
+      this.setQuestionStatus(response, questionRequest)
     })
     dialogRef.afterClosed()
   }
@@ -166,22 +171,23 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendAllQuestionsForReview(contributorData: ContributorData, overallComments: string) {
-    let questionId: number[] = []
+    let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
-        questionId.push(eachQuestion.questionId)
+        question.push(eachQuestion)
       }
     })
-    let questionRequest = {
-      questionId: questionId,
-      comments: overallComments
-    }
-    this.appService.sendForReview(contributorData.moduleId, "Sent_For_Review", questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (response) => {
-          this.setQuestionStatus(response, contributorData.questions)
-        }
-      }
-    )
+    this.openReviewDialog(question,contributorData.moduleId)
+    // let questionRequest = {
+    //   questionId: questionId,
+    //   comments: overallComments
+    // }
+    // this.appService.sendForReview(contributorData.moduleId, "Sent_For_Review", questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+    //     next: (response) => {
+    //       this.setQuestionStatus(response, contributorData.questions)
+    //     }
+    //   }
+    // )
   }
 
   changeSelectedQuestions(data: ContributorData) {

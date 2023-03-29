@@ -218,12 +218,13 @@ a.anchor{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 83.5%
+  width: 83.5%;
+  height: 4.3vh;
 }
 
 .comments-checkbox {
   height: 10%;
-  padding-top: 1.5%;
+  padding-top: 0.3%;
   padding-right: 1%;
 }
 
@@ -232,7 +233,7 @@ a.anchor{
 }
 
 .all-questions-comment .contributor-send-for-review-button {
-  padding-right: 1%;
+  padding-left: 1%;
   padding-top: 0.7%;
 }
 

@@ -31,6 +31,7 @@
 }
 .question-text{
   padding-top: 2%;
+  height: 4vh;
 }
 .comments-area{
   width: 99%;

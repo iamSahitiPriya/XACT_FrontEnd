@@ -2,8 +2,10 @@
   <div class="question-title">
     <h2 class="question-heading">Questions</h2>
   </div>
-  <div class="question-text">
-    <p>{{data.question.question}}</p>
+  <div *ngFor="let questionData of data.question; let i=index">
+    <div class="question-text">
+      <p>{{i+1}}. {{questionData.question}}</p>
+    </div>
   </div>
   <div class="question-comment">
     <mat-form-field class="comments-area" appearance="outline" id="testForm">
