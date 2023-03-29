@@ -2,12 +2,12 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnChanges, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import {Subject, Subscription, takeUntil} from "rxjs";
+import {Subject, Subscription} from "rxjs";
 
 
 @Component({
@@ -29,12 +29,12 @@ export class AdminConsoleComponent implements OnDestroy {
     //   this.setEvent(path);
     //   this.store.dispatch(fromActions.isAdmin({isAdmin: true}))
     // })
-    this.activateRoute.url.subscribe(val => {
+    // this.activateRoute.url.subscribe(val => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
-      this.store.dispatch(fromActions.isAdmin({isAdmin: true}))
-    })
+      this.store.dispatch(fromActions.user({role: "admin"}))
+    // })
   }
 
   setEvent(name: string) {

@@ -262,3 +262,13 @@ a.anchor{
   margin-bottom: 4%;
 }
 
+.all-question {
+  text-decoration: underline;
+  color: #156C86;
+}
+
+.all-question-container {
+  position: absolute;
+  background: #FFFFFF;
+}
+

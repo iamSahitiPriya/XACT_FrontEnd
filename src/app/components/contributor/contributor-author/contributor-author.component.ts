@@ -34,6 +34,7 @@ export class ContributorAuthorComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   public dialogRef: MatDialogRef<ReviewDialogComponent>
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
+  isAllQuestionsOpened: boolean = false;
 
   constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar) {
   }
@@ -251,5 +252,9 @@ export class ContributorAuthorComponent implements OnInit {
       }
     })
 
+  }
+
+  openAllQuestions() {
+    this.isAllQuestionsOpened = true
   }
 }

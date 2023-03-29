@@ -1,110 +1,120 @@
-<div class="contributor-author">
-  <div class="contributor-author-header">
-    <div class="contributor-author-heading">
-      <h1>X-Act Contributor</h1>
-    </div>
-    <div class="contributor-search-bar">
-      <mat-form-field class="search-contributor-questions" appearance="fill">
-        <mat-label>
-          <div class="search-contributor-question-icon">
-            <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search-image"/>
-          </div>
-          <div class="search-contributor-question-icon">
-            <p class="search-text">{{searchBarText}}</p>
-            <!--      Search...-->
-          </div>
-
-        </mat-label>
-
-        <input matTooltip="Type to search" matInput id="searchContributorQuestion" type="text"
-               name="search-question" [(ngModel)]="searchText" #searchQuestion>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="contributor-author-content" *ngFor="let response of contributorData">
-    <div class="parameter-heading-content" *ngIf="response.questions.length >0">
-      <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':response.isClicked}">
-        {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
-      </div>
-      <div class="all-question">
-        <a href="#" class="anchor">All Questions</a>
-      </div>
-    </div>
-    <div class="contributor-questions" *ngIf="response.questions.length >0">
-      <mat-card (click)="isCardClicked(response)" [ngClass]="{'contributor-questions-on-click':response.isClicked}">
-        <div class="all-questions-comment">
-          <div class="contributor-comment">
-            <div class="comments-checkbox">
-              <mat-checkbox class="all-select-checkbox"
-                            [checked]="response.allSelected"
-                            [indeterminate]="changeSelectedQuestions(response)"
-                            (change)="setAllQuestions($event.checked,response)" #checkbox>
-                Select All
-              </mat-checkbox>
-            </div>
-          </div>
-          <div class="contributor-send-for-review-button" *ngIf="checkbox.checked || checkbox.indeterminate">
-            <button mat-flat-button class="contributor-button"
-                    (click)="sendAllQuestionsForReview(response)"
-                    >
-              Send for Review
-            </button>
-          </div>
+<mat-sidenav-container class="all-question-container">
+  <mat-sidenav mode="side" position="end" opened *ngIf="isAllQuestionsOpened">Sidenav content</mat-sidenav>
+  <mat-sidenav-content>
+    <div class="contributor-author">
+      <div class="contributor-author-header">
+        <div class="contributor-author-heading">
+          <h1>X-Act Contributor</h1>
         </div>
-        <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
-             *ngFor="let question of response.questions | filter:searchText">
-          <div class="contributor-question-content">
-            <mat-card-content class="contributor-question">
-              <div class="contributor-question-checkbox-and-input">
-                <div class="select-checkbox" *ngIf="!question.isEdit">
-                  <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === 'Sent_For_Review'"
-                                (ngModelChange)="updateAllSelectedStatus(response)">
-                    {{question.question}}
+        <div class="contributor-search-bar">
+          <mat-form-field class="search-contributor-questions" appearance="fill">
+            <mat-label>
+              <div class="search-contributor-question-icon">
+                <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search-image"/>
+              </div>
+              <div class="search-contributor-question-icon">
+                <p class="search-text">{{searchBarText}}</p>
+                <!--      Search...-->
+              </div>
+
+            </mat-label>
+
+            <input matTooltip="Type to search" matInput id="searchContributorQuestion" type="text"
+                   name="search-question" [(ngModel)]="searchText" #searchQuestion>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="contributor-author-content" *ngFor="let response of contributorData">
+        <div class="parameter-heading-content" *ngIf="response.questions.length >0">
+          <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':response.isClicked}">
+            {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
+          </div>
+          <div class="all-question" (click)="openAllQuestions()">All Questions</div>
+        </div>
+        <div class="contributor-questions" *ngIf="response.questions.length >0">
+          <mat-card (click)="isCardClicked(response)" [ngClass]="{'contributor-questions-on-click':response.isClicked}">
+            <div class="all-questions-comment" *ngIf="response.isClicked">
+              <div class="contributor-comment">
+                <div class="comments-checkbox">
+                  <mat-checkbox class="all-select-checkbox"
+                                [checked]="response.allSelected"
+                                [indeterminate]="changeSelectedQuestions(response)"
+                                (change)="setAllQuestions($event.checked,response)">
                   </mat-checkbox>
                 </div>
-                <div class="contributor-question-input">
-                  <mat-form-field appearance="outline" class="contributor-input" *ngIf="question.isEdit">
-                    <input matInput [(ngModel)]="question.question"/>
+                <div class="all-comments">
+                  <mat-form-field appearance="outline" class="contributor-input">
+                    <input matInput [(ngModel)]="overallComments"/>
                   </mat-form-field>
                 </div>
               </div>
-            </mat-card-content>
-          </div>
-          <div class="status-icon" *ngIf="question.status === 'Sent_For_Review'">
-            <mat-icon  matTooltip="Sent for Review"
-                       [matTooltipPosition]="'below'">info_outline</mat-icon>
-          </div>
-          <div class="contributor-edit-action" *ngIf="!question.isEdit">
-            <div class="contributor-edit-button">
-              <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
-                      [disabled]="question.status === 'Sent_For_Review'">
-                Edit
-              </button>
+              <div class="contributor-send-for-review-button">
+                <button mat-flat-button class="contributor-button"
+                        (click)="sendAllQuestionsForReview(response, overallComments)"
+                        [disabled]="sentToReview">
+                  Send for Review
+                </button>
+              </div>
+              <div class="discard-changes">
+                <mat-icon (click)="cancelChanges()">cancel</mat-icon>
+              </div>
             </div>
-            <div class="contributor-send-button">
-              <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
-                      [disabled]="question.status === 'Sent_For_Review' || checkbox.checked">
-                Send for Review
-              </button>
+            <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
+                 *ngFor="let question of response.questions | filter:searchText">
+              <div class="contributor-question-content">
+                <mat-card-content class="contributor-question">
+                  <div class="contributor-question-checkbox-and-input">
+                    <div class="select-checkbox" *ngIf="!question.isEdit">
+                      <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === 'Sent_For_Review'"
+                                    (ngModelChange)="updateAllSelectedStatus(response)">
+                        {{question.question}}
+                      </mat-checkbox>
+                    </div>
+                    <div class="contributor-question-input">
+                      <mat-form-field appearance="outline" class="contributor-input" *ngIf="question.isEdit">
+                        <input matInput [(ngModel)]="question.question"/>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </div>
+              <div class="status-icon" *ngIf="question.status === 'Sent_For_Review'">
+                <mat-icon>info_outline</mat-icon>
+              </div>
+              <div class="contributor-edit-action" *ngIf="!question.isEdit">
+                <div class="contributor-edit-button">
+                  <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
+                          [disabled]="question.status === 'Sent_For_Review'">
+                    Edit
+                  </button>
+                </div>
+                <div class="contributor-send-button">
+                  <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response.moduleId)"
+                          [disabled]="question.status === 'Sent_For_Review'">
+                    Send for Review
+                  </button>
+                </div>
+                <div class="question-delete-button">
+                  <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
+                </div>
+              </div>
+              <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
+                <div class="save-text-button">
+                  <button mat-flat-button class="contributor-save-button" (click)="saveQuestion(question)"
+                          [disabled]="question.question.length <=0">
+                    Save
+                  </button>
+                </div>
+                <div class="discard-changes">
+                  <mat-icon (click)="cancelChanges()">cancel</mat-icon>
+                </div>
+              </div>
             </div>
-            <div class="question-delete-button">
-              <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
-            </div>
-          </div>
-          <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
-            <div class="save-text-button">
-              <button mat-flat-button class="contributor-save-button" (click)="saveQuestion(question)"
-                      [disabled]="question.question.length <=0">
-                Save
-              </button>
-            </div>
-            <div class="discard-changes">
-              <mat-icon (click)="cancelChanges()">cancel</mat-icon>
-            </div>
-          </div>
+          </mat-card>
+          <br><br>
         </div>
-      </mat-card>
-      <br><br>
+      </div>
     </div>
-  </div>
-</div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,6 +1,6 @@
 .questionHeading {
   height: 5vh;
-  width: 58vw;
+  width: 100%;
   padding: 1%;
   text-align: left;
   font-size: 1.2rem ;
@@ -219,4 +219,11 @@ div.questionButtonColumn {
 }
 .question-container{
   padding-top: 1%;
+}
+
+.admin-questions {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: auto;
 }

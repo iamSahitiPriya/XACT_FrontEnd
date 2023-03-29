@@ -1,6 +1,6 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="question-close">
+  <div class="question-close" *ngIf="type !== 'Contributor'">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="question_close-icon">close</mat-icon>
     </button>
@@ -9,8 +9,8 @@
 <mat-card-title style="background: #F4FAFC 0% 0% no-repeat padding-box">
   <h2 class="questionHeading">{{questions}}</h2>
 </mat-card-title>
-<div class="row">
-  <div class="col-md-12 questionButtonColumn">
+<div class="admin-questions">
+  <div class="questionButtonColumn">
     <button mat-flat-button class="questionButton1" (click)="addQuestionRow()">
       {{addQuestion}}
     </button>

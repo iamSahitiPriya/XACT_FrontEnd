@@ -29,6 +29,7 @@ export class AdminQuestionComponent implements OnInit {
   @Input() category: number
   @Input() module: number
   @Input() parameter: ParameterData
+  @Input() type: string
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   header = data_local.ADMIN.REFERENCES.HEADER
@@ -58,19 +59,21 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.colorScheme.set('Published',['#5D9EAA','#5D9EAA0D','All published questions'])
-    this.colorScheme.set('Sent_For_Review',['#BE873E','#BE873E0D','Sent for Review'])
-    this.colorScheme.set('Rejected',['#BD4257','#BD425715','Rejected'])
-    this.colorScheme.set('Draft',['#5D9EAA','#5D9EAA0D','Draft'])
+    this.colorScheme.set('Published', ['#5D9EAA', '#5D9EAA0D', 'All published questions'])
+    this.colorScheme.set('Sent_For_Review', ['#BE873E', '#BE873E0D', 'Sent for Review'])
+    this.colorScheme.set('Rejected', ['#BD4257', '#BD425715', 'Rejected'])
+    this.colorScheme.set('Draft', ['#5D9EAA', '#5D9EAA0D', 'Draft'])
 
     this.questionArray = []
     this.unsavedChanges = []
+    this.questionStatusMap.clear()
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryResponse = data
         this.setParameterQuestion()
         this.formatData()
         this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
+        console.log(this.questionStatusMap)
       }
     })
   }
@@ -80,11 +83,11 @@ export class AdminQuestionComponent implements OnInit {
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
-      status:'Draft',
+      status: 'Draft',
       parameter: this.parameter.parameterId,
       isEdit: true
     }
-    this.questionArray?.unshift(newQuestion)
+    this.questionStatusMap.get("Draft").unshift(newQuestion)
   }
 
   getQuestionsFromParameter(): QuestionStructure[] | undefined {
@@ -233,16 +236,15 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private formatData() {
-    this.questionArray?.forEach(eachQuestion =>{
-      if(this.questionStatusMap.has(eachQuestion.status)){
+    this.questionArray?.forEach(eachQuestion => {
+      if (this.questionStatusMap.has(eachQuestion.status)) {
         this.questionStatusMap.get(eachQuestion.status).push(eachQuestion)
-      }else{
+      } else {
         let questionArr = []
         questionArr.push(eachQuestion)
-        this.questionStatusMap.set(eachQuestion.status,questionArr)
+        this.questionStatusMap.set(eachQuestion.status, questionArr)
       }
     })
-    console.log(this.questionStatusMap)
   }
 }
 
