@@ -113,7 +113,7 @@
             </div>
             <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
               <div class="save-text-button">
-                <button mat-flat-button class="contributor-save-button" (click)="saveQuestion(question, response)"
+                <button mat-flat-button class="contributor-save-button" (click)="updateQuestion(question, response)"
                         [disabled]="question.question.length <=0">
                   Save
                 </button>

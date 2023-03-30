@@ -39,6 +39,7 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
+import {Question} from "../../types/Contributor/Question";
 
 
 @Injectable({
@@ -295,7 +296,7 @@ export class AppServiceService {
     const updateQuestionURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_QUESTION, {
       questionId: questionId
     });
-    return this.http.patch(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
+    return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
   }
 
   sendForReview(moduleId: number, status: string, questionRequest:any) {

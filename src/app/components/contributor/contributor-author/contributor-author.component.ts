@@ -225,12 +225,13 @@ export class ContributorAuthorComponent implements OnInit {
     });
   }
 
-  saveQuestion(question: Question, contributorData: ContributorData) {
+  updateQuestion(question: Question, contributorData: ContributorData) {
     this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response: any) => {
+      next: (response: QuestionStructure) => {
         question.isEdit = false
         console.log(response)
         this.updateDataToStore(response, contributorData)
+        this.unsavedData = cloneDeep(this.contributorData)
       }, error: _error => {
         this.showError(this.serverError);
       }
@@ -324,17 +325,17 @@ export class ContributorAuthorComponent implements OnInit {
     return this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
 
-  private updateStore(response: any, data: ContributorData) {
+  private updateStore(response: QuestionStructure, data: ContributorData) {
     let questions: any[] = this.getDataUsingId(data)
     this.setQuestionStatus(response, questions)
   }
 
-  private updateDataToStore(response: any, contributorData: ContributorData) {
+  private updateDataToStore(response: QuestionStructure, contributorData: ContributorData) {
     let questions: QuestionStructure[] = this.getDataUsingId(contributorData)
     let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === response.questionId)
     if(questionIndex !== -1){
       questions[questionIndex].questionText = response.questionText
-      questions[questionIndex].status = response.questionStatus
+      questions[questionIndex].status = response.status
       questions[questionIndex].parameter = response.parameter
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
