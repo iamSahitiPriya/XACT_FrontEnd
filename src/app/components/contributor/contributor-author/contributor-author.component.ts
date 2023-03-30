@@ -61,10 +61,6 @@ export class ContributorAuthorComponent implements OnInit {
     })
   }
 
-  isContributorQuestionsOpened() {
-    this.isAllQuestionsOpened = false
-  }
-
   editQuestion(question1: Question) {
     this.contributorData = []
     this.unsavedData.forEach(eachData => {
@@ -229,7 +225,6 @@ export class ContributorAuthorComponent implements OnInit {
     this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: QuestionStructure) => {
         question.isEdit = false
-        console.log(response)
         this.updateDataToStore(response, contributorData)
         this.unsavedData = cloneDeep(this.contributorData)
       }, error: _error => {
