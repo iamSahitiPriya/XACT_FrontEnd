@@ -27,8 +27,8 @@
       <mat-card class="question-card" [ngStyle]="{'border-color':colorScheme.get(question.key)[0]}">
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
-            <div class="row question-container">
-              <div class="col-md-9 questionText">
+            <div class="question-container">
+              <div class="questionText">
                 <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
                   <mat-label>{{questionText}}</mat-label>
                   <input #input matInput required
@@ -44,8 +44,8 @@
                 </mat-form-field>
                 <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
               </div>
-              <div class="col-md-3">
-                <div class="edit-button" *ngIf="question.isEdit === false">
+              <div class="question-edit-update">
+                <div class="edit-button" *ngIf="question.status !== 'Published' && question.isEdit === false">
                   <button class="editQuestion" id="edit-question" mat-flat-button
                           (click)="setIsEdit(question)">{{edit}}</button>
                 </div>
@@ -59,11 +59,11 @@
                   </div>
                 </div>
                 <div class="updateButton" *ngIf="question.isEdit === true && question.questionId !== -1">
-                  <button class="updateQuestion" mat-flat-button (click)="updateQuestion(question)"
-                          [disabled]="!question.questionText">{{update}}</button>
-                  <span class="cancel-button">
+                  <div><button class="updateQuestion" mat-flat-button (click)="updateQuestion(question)"
+                          [disabled]="!question.questionText">{{update}}</button></div>
+                  <div class="cancel-button">
                 <button class="cancel-button" (click)="cancelChanges(question)"><mat-icon>cancel</mat-icon></button>
-              </span>
+              </div>
                 </div>
               </div>
             </div>

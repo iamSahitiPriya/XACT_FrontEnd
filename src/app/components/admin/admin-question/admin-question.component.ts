@@ -86,7 +86,7 @@ export class AdminQuestionComponent implements OnInit {
       parameter: this.parameter.parameterId,
       isEdit: true
     }
-    this.questionStatusMap.get("Draft").unshift(newQuestion)
+    this.addQuestionToMap(newQuestion)
   }
 
   getQuestionsFromParameter(): QuestionStructure[] | undefined {
@@ -132,9 +132,11 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   deleteUnsavedQuestion() {
-    let index = this.questionArray?.findIndex((eachQuestion: { questionId: number; }) => eachQuestion.questionId === -1)
-    if (index !== -1 && index !== undefined)
-      this.questionArray?.splice(index, 1)
+    this.questionStatusMap.forEach((value, key) => {
+      let index = value.findIndex((eachQuestion: Question) => eachQuestion.questionId === -1)
+      if (index !== -1 && index !== undefined)
+          this.questionStatusMap.get(key)?.splice(index, 1)
+    })
   }
 
   cancelChanges(question: Question) {
@@ -171,7 +173,8 @@ export class AdminQuestionComponent implements OnInit {
     return {
       questionText: question.questionText,
       parameter: this.parameter.parameterId,
-      questionId: question.questionId
+      questionId: question.questionId,
+      status : question.status
     }
   }
 
@@ -236,14 +239,20 @@ export class AdminQuestionComponent implements OnInit {
 
   private formatData() {
     this.questionArray?.forEach(eachQuestion => {
-      if (this.questionStatusMap.has(eachQuestion.status)) {
-        this.questionStatusMap.get(eachQuestion.status).push(eachQuestion)
+      this.addQuestionToMap(eachQuestion);
+    })
+  }
+
+  private addQuestionToMap(eachQuestion: Question) {
+    if(eachQuestion.status !== undefined) {
+      if (this.questionStatusMap.has(eachQuestion?.status)) {
+        this.questionStatusMap.get(eachQuestion?.status).unshift(eachQuestion)
       } else {
         let questionArr = []
-        questionArr.push(eachQuestion)
-        this.questionStatusMap.set(eachQuestion.status, questionArr)
+        questionArr.unshift(eachQuestion)
+        this.questionStatusMap.set(eachQuestion?.status, questionArr)
       }
-    })
+    }
   }
 }
 

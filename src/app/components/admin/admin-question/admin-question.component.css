@@ -74,6 +74,7 @@ div.questionButtonColumn {
   color: #043D4E;
   opacity: 1;
   word-break: break-word;
+  width: 75%;
 }
 
 .editQuestion {
@@ -98,12 +99,16 @@ div.questionButtonColumn {
   justify-content: center;
 }
 .save-button{
-  margin-left: 39%;
+  /*margin-left: 39%;*/
   padding-top: 20px;
 }
 
 .updateButton{
-  margin-left: 40%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+  margin-left: 6%;
   padding-top: 20px;
 }
 
@@ -134,7 +139,7 @@ div.questionButtonColumn {
   font-size: 16px;
   font-family: "Inter", sans-serif;
   letter-spacing: 0.5px;
-  padding-bottom: 32px;
+  /*padding-bottom: 32px;*/
   margin-right: 3px;
 }
 
@@ -185,7 +190,7 @@ div.questionButtonColumn {
   margin: 0 6px;
 }
 ::ng-deep .questionText .mat-form-field-appearance-outline .mat-form-field-flex  {
-  width: 48vw !important;
+  width: 40vw !important;
 }
 .question-card{
   box-shadow: none !important;
@@ -203,8 +208,8 @@ div.questionButtonColumn {
   border-radius: 6px 48px 0px 0px;
   border-bottom: none;
   opacity: 1;
-  width: 23%;
-  height: 4vh;
+  width: 25%;
+  height: 4.5vh;
 
 }
 .question-status-heading{
@@ -215,9 +220,14 @@ div.questionButtonColumn {
   color: #000000;
   padding-top: 5%;
   padding-left: 6%;
+  padding-bottom: 5%;
   opacity: 1;
 }
 .question-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
   padding-top: 1%;
 }
 
@@ -226,4 +236,9 @@ div.questionButtonColumn {
   flex-direction: column;
   flex-wrap: wrap;
   flex: auto;
+}
+
+.question-edit-update {
+  width: 25%;
+  padding-left: 6%;
 }
