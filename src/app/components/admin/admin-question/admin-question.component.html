@@ -6,7 +6,7 @@
     </button>
   </div>
 </mat-card-header>
-<mat-card-title style="background: #F4FAFC 0% 0% no-repeat padding-box">
+<mat-card-title style="background: #F4FAFC 0 0 no-repeat padding-box">
   <h2 class="questionHeading">{{questions}}</h2>
 </mat-card-title>
 <div class="admin-questions">
@@ -19,12 +19,13 @@
   <div class="questions" *ngIf="questionStatusMap">
     <div *ngFor="let question of questionStatusMap | keyvalue ">
       <div class="question-status-heading-content"
-           [ngStyle]="{'border-color':colorScheme.get(question.key)[0], 'background-color':colorScheme.get(question.key)[1]}">
+           [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor, 'background-color':colorScheme.get(question.key)?.backgroundColor}">
+        <div *ngIf="question.key === 'Sent_For_Review'" class="sent-for-review-status-icon"><mat-icon>warning</mat-icon></div>
         <div class="question-status-heading">
-          {{colorScheme.get(question.key)[2]}}
+          {{colorScheme.get(question.key)?.displayText}}
         </div>
       </div>
-      <mat-card class="question-card" [ngStyle]="{'border-color':colorScheme.get(question.key)[0]}">
+      <mat-card class="question-card" [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor}">
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">

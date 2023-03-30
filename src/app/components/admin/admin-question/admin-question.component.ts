@@ -19,6 +19,12 @@ import {ParameterData} from "../../../types/ParameterData";
 
 const NOTIFICATION_DURATION = 2000;
 
+export  interface ColorScheme {
+  borderColor : string
+  backgroundColor : string
+  displayText : string
+}
+
 @Component({
   selector: 'app-admin-question',
   templateUrl: './admin-question.component.html',
@@ -46,23 +52,28 @@ export class AdminQuestionComponent implements OnInit {
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
-  questionStatusMap = new Map()
+  questionStatusMap = new Map<string, Question[]>()
   masterData: Observable<CategoryResponse[]>
   categoryResponse: CategoryResponse[]
   unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
-  colorScheme = new Map()
+  colorScheme = new Map<string,ColorScheme>()
+  publishedColorScheme : ColorScheme = {borderColor : '#5D9EAA', backgroundColor :'#5D9EAA0D', displayText : 'All published questions'}
+  sentForReviewColorScheme : ColorScheme = {borderColor : '#BE873E', backgroundColor :'#BE873E0D', displayText : 'Sent for Review'}
+  rejectedColorScheme : ColorScheme = {borderColor : '#BD4257', backgroundColor :'#BD425715', displayText : 'Rejected'}
+  draftColorScheme : ColorScheme = {borderColor : '#5D9EAA', backgroundColor :'#5D9EAA0D', displayText : 'Draft'}
+
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
   }
 
   ngOnInit(): void {
-    this.colorScheme.set('Published', ['#5D9EAA', '#5D9EAA0D', 'All published questions'])
-    this.colorScheme.set('Sent_For_Review', ['#BE873E', '#BE873E0D', 'Sent for Review'])
-    this.colorScheme.set('Rejected', ['#BD4257', '#BD425715', 'Rejected'])
-    this.colorScheme.set('Draft', ['#5D9EAA', '#5D9EAA0D', 'Draft'])
+    this.colorScheme.set('Published', this.publishedColorScheme)
+    this.colorScheme.set('Sent_For_Review', this.sentForReviewColorScheme)
+    this.colorScheme.set('Rejected', this.rejectedColorScheme)
+    this.colorScheme.set('Draft', this.draftColorScheme)
 
     this.questionArray = []
     this.unsavedChanges = []
@@ -246,7 +257,7 @@ export class AdminQuestionComponent implements OnInit {
   private addQuestionToMap(eachQuestion: Question) {
     if(eachQuestion.status !== undefined) {
       if (this.questionStatusMap.has(eachQuestion?.status)) {
-        this.questionStatusMap.get(eachQuestion?.status).unshift(eachQuestion)
+        this.questionStatusMap.get(eachQuestion?.status)?.unshift(eachQuestion)
       } else {
         let questionArr = []
         questionArr.unshift(eachQuestion)

@@ -201,9 +201,13 @@ div.questionButtonColumn {
   border: 1px solid #5D9EAA;
 }
 .question-status-heading-content{
-  background: #5D9EAA0D 0% 0% no-repeat padding-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+  background: #5D9EAA0D 0 0 no-repeat padding-box;
   border-style: solid;
-  border-radius: 6px 48px 0px 0px;
+  border-radius: 6px 48px 0 0;
   border-bottom: none;
   opacity: 1;
   width: 25%;
@@ -239,4 +243,13 @@ div.questionButtonColumn {
 .question-edit-update {
   width: 25%;
   padding-left: 6%;
+}
+
+.sent-for-review-status-icon {
+  padding-left: 3%;
+  padding-top: 3%;
+}
+
+.sent-for-review-status-icon mat-icon {
+  color: #BE873E;
 }
