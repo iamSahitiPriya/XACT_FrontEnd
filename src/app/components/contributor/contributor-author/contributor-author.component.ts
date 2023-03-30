@@ -17,6 +17,7 @@ import {AppStates} from "../../../reducers/app.states";
 import {Store} from "@ngrx/store";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
+import {QuestionStructure} from "../../../types/questionStructure";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -42,14 +43,14 @@ export class ContributorAuthorComponent implements OnInit {
   isAllQuestionsOpened: boolean = false;
   parameterData: ParameterData;
   masterData: Observable<CategoryResponse[]>
-  masterData1:CategoryResponse[]
+  masterData1: CategoryResponse[]
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store:Store<AppStates>) {
+  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
   }
 
   ngOnInit(): void {
-    this.masterData.subscribe(data =>{
+    this.masterData.subscribe(data => {
       this.masterData1 = data
     })
     this.appService.getContributorQuestions("Author").subscribe((data) => {
@@ -115,10 +116,10 @@ export class ContributorAuthorComponent implements OnInit {
     return data;
   }
 
-  sendForReview(question: Question, response:ContributorData) {
-    let questionRequest:Question[] = []
+  sendForReview(question: Question, response: ContributorData) {
+    let questionRequest: Question[] = []
     questionRequest.push(question)
-    this.openReviewDialog(questionRequest,response);
+    this.openReviewDialog(questionRequest, response);
   }
 
   private openReviewDialog(questionRequest: Question[], data: ContributorData) {
@@ -159,31 +160,31 @@ export class ContributorAuthorComponent implements OnInit {
 
   private formatResponse() {
     this.contributorResponse.contributorModuleData?.forEach(eachModule => {
-        eachModule.topics?.forEach(eachTopic => {
-          eachTopic.parameters?.forEach(eachParameter => {
-            let data: ContributorData = {
-              categoryId: -1,
-              parameterId: -1,
-              topicId: -1,
-              categoryName: "",
-              moduleId: -1,
-              moduleName: "",
-              parameterName: "",
-              questions: [],
-              topicName: "",
-              isClicked: false
-            }
-            data.categoryName = eachModule.categoryName
-            data.categoryId = eachModule.categoryId
-            data.moduleName = eachModule.moduleName
-            data.moduleId = eachModule.moduleId
-            data.topicName = eachTopic.topicName
-            data.topicId = eachTopic.topicId
-            data.parameterName = eachParameter.parameterName
-            data.parameterId = eachParameter.parameterId
-            data.allSelected = false
-            this.formatQuestion(eachParameter, data);
-          })
+      eachModule.topics?.forEach(eachTopic => {
+        eachTopic.parameters?.forEach(eachParameter => {
+          let data: ContributorData = {
+            categoryId: -1,
+            parameterId: -1,
+            topicId: -1,
+            categoryName: "",
+            moduleId: -1,
+            moduleName: "",
+            parameterName: "",
+            questions: [],
+            topicName: "",
+            isClicked: false
+          }
+          data.categoryName = eachModule.categoryName
+          data.categoryId = eachModule.categoryId
+          data.moduleName = eachModule.moduleName
+          data.moduleId = eachModule.moduleId
+          data.topicName = eachTopic.topicName
+          data.topicId = eachTopic.topicId
+          data.parameterName = eachParameter.parameterName
+          data.parameterId = eachParameter.parameterId
+          data.allSelected = false
+          this.formatQuestion(eachParameter, data);
+        })
       })
 
     })
@@ -199,14 +200,13 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendAllQuestionsForReview(contributorData: ContributorData) {
-    console.log(contributorData)
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
         question.push(eachQuestion)
       }
     })
-    this.openReviewDialog(question,contributorData)
+    this.openReviewDialog(question, contributorData)
   }
 
   changeSelectedQuestions(data: ContributorData) {
@@ -225,10 +225,12 @@ export class ContributorAuthorComponent implements OnInit {
     });
   }
 
-  saveQuestion(question: Question) {
+  saveQuestion(question: Question, contributorData: ContributorData) {
     this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_response: any) => {
+      next: (response: any) => {
         question.isEdit = false
+        console.log(response)
+        this.updateDataToStore(response, contributorData)
       }, error: _error => {
         this.showError(this.serverError);
       }
@@ -295,7 +297,7 @@ export class ContributorAuthorComponent implements OnInit {
       moduleName: data.moduleName,
       parameterId: data.parameterId,
       parameterName: data.parameterName,
-      topicId:data.topicId,
+      topicId: data.topicId,
       topicName: data.topicName
     }
   }
@@ -304,17 +306,36 @@ export class ContributorAuthorComponent implements OnInit {
     this.isAllQuestionsOpened = false
   }
 
-  private updateStore(response: any, data:ContributorData) {
-    let categoryIndex = this.masterData1.findIndex(eachData => eachData.categoryId === data.categoryId);
-    if(categoryIndex !== -1) {
-      let moduleIndex = this.masterData1[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === data.moduleId)
-      if(moduleIndex !== -1){
-        let topicIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics.findIndex(eachTopic => eachTopic.topicId === data.topicId)
-        if(topicIndex !== -1){
-          let parameterIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters.findIndex(eachParameter => eachParameter.parameterId === data.parameterId)
-          this.setQuestionStatus(response, this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex].questions)
+  private getDataUsingId(contributorData: ContributorData) {
+    let categoryIndex = this.masterData1.findIndex(eachData => eachData.categoryId === contributorData.categoryId);
+    let moduleIndex = 0
+    let topicIndex = 0
+    let parameterIndex = 0
+    if (categoryIndex !== -1) {
+      moduleIndex = this.masterData1[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === contributorData.moduleId)
+      if (moduleIndex !== -1) {
+        topicIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics.findIndex(eachTopic => eachTopic.topicId === contributorData.topicId)
+        if (topicIndex !== -1) {
+          parameterIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters.findIndex(eachParameter => eachParameter.parameterId === contributorData.parameterId)
         }
       }
     }
+    return this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
+  }
+
+  private updateStore(response: any, data: ContributorData) {
+    let questions: any[] = this.getDataUsingId(data)
+    this.setQuestionStatus(response, questions)
+  }
+
+  private updateDataToStore(response: any, contributorData: ContributorData) {
+    let questions: QuestionStructure[] = this.getDataUsingId(contributorData)
+    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === response.questionId)
+    if(questionIndex !== -1){
+      questions[questionIndex].questionText = response.questionText
+      questions[questionIndex].status = response.questionStatus
+      questions[questionIndex].parameter = response.parameter
+    }
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
   }
 }
