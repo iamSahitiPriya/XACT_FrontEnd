@@ -131,8 +131,8 @@ export class ContributorAuthorComponent implements OnInit {
       this.setQuestionStatus(response, questionRequest)
       this.updateStore(response, data)
     })
-    dialogRef.afterClosed().subscribe(() =>{
-      this.resetCheckbox(questionRequest,data)
+    dialogRef.afterClosed().subscribe(() => {
+      this.resetCheckbox(questionRequest, data)
     })
   }
 
@@ -330,7 +330,7 @@ export class ContributorAuthorComponent implements OnInit {
   private updateDataToStore(response: QuestionStructure, contributorData: ContributorData) {
     let questions: QuestionStructure[] = this.getDataUsingId(contributorData)
     let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === response.questionId)
-    if(questionIndex !== -1){
+    if (questionIndex !== -1) {
       questions[questionIndex].questionText = response.questionText
       questions[questionIndex].status = response.status
       questions[questionIndex].parameter = response.parameter
@@ -341,13 +341,13 @@ export class ContributorAuthorComponent implements OnInit {
   private resetCheckbox(questionRequest: Question[], data: ContributorData) {
     questionRequest.forEach(eachQuestion => {
       let question = data.questions.find(question => question.questionId === eachQuestion.questionId)
-      if(question !== undefined) question.isSelected = false
+      if (question !== undefined) question.isSelected = false
     })
 
-    data.allSelected = data.questions.every(eachQuestion => {(eachQuestion.isSelected === false && eachQuestion.status === "Sent_For_Review")})
+    data.allSelected = data.questions.every(eachQuestion => (eachQuestion.isSelected === false && eachQuestion.status === "Sent_For_Review"))
   }
 
-  isSentForReview(data: ContributorData) : boolean{
+  isSentForReview(data: ContributorData): boolean {
     return data.questions.every(eachQuestion => eachQuestion.status === "Sent_For_Review");
   }
 }

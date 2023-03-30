@@ -18,7 +18,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   isContributor: boolean = false;
 
 
-  constructor(private router: Router, private appService : AppServiceService, private store : Store<AppStates>) {
+  constructor(public router: Router, private appService: AppServiceService, private store: Store<AppStates>) {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
@@ -28,9 +28,9 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.appService.getUserRole().subscribe((data) => {
-      if(data.includes("Author"))
+      if (data.includes("Author"))
         this.isAuthor = true
-      if(data.includes("Reviewer"))
+      if (data.includes("Reviewer"))
         this.isContributor = true
     })
     this.store.dispatch(fromActions.user({role: "contributor"}))
