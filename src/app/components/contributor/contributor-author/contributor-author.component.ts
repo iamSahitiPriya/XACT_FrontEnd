@@ -7,12 +7,16 @@ import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {Question} from "../../../types/Contributor/Question";
 import {cloneDeep} from "lodash";
 import {Parameter} from "../../../types/Contributor/Parameter";
-import {Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {data_local} from "../../../messages";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
 import {ParameterData} from "../../../types/ParameterData";
+import {AppStates} from "../../../reducers/app.states";
+import {Store} from "@ngrx/store";
+import {CategoryResponse} from "../../../types/categoryResponse";
+import * as fromActions from "../../../actions/assessment-data.actions";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -37,11 +41,17 @@ export class ContributorAuthorComponent implements OnInit {
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   isAllQuestionsOpened: boolean = false;
   parameterData: ParameterData;
+  masterData: Observable<CategoryResponse[]>
+  masterData1:CategoryResponse[]
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store:Store<AppStates>) {
+    this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
   }
 
   ngOnInit(): void {
+    this.masterData.subscribe(data =>{
+      this.masterData1 = data
+    })
     this.appService.getContributorQuestions("Author").subscribe((data) => {
       this.unsavedData = []
       this.contributorResponse = data
@@ -102,23 +112,24 @@ export class ContributorAuthorComponent implements OnInit {
     return data;
   }
 
-  sendForReview(question: Question, moduleId: number) {
+  sendForReview(question: Question, response:ContributorData) {
     let questionRequest:Question[] = []
     questionRequest.push(question)
-    this.openReviewDialog(questionRequest, moduleId);
+    this.openReviewDialog(questionRequest,response);
   }
 
-  private openReviewDialog(questionRequest: Question[], moduleId: number) {
+  private openReviewDialog(questionRequest: Question[], data: ContributorData) {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '64vw',
       data: {
         role: 'author',
         question: questionRequest,
-        moduleId: moduleId,
+        moduleId: data.moduleId,
       }
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
       this.setQuestionStatus(response, questionRequest)
+      this.updateStore(response, data)
     })
     dialogRef.afterClosed()
   }
@@ -185,14 +196,13 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendAllQuestionsForReview(contributorData: ContributorData) {
-    console.log(contributorData)
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
         question.push(eachQuestion)
       }
     })
-    this.openReviewDialog(question,contributorData.moduleId)
+    this.openReviewDialog(question,contributorData)
   }
 
   changeSelectedQuestions(data: ContributorData) {
@@ -235,13 +245,14 @@ export class ContributorAuthorComponent implements OnInit {
     this.destroy$.complete();
   }
 
-  private setQuestionStatus(response: any, questions: Question[]) {
-    response.forEach((eachResponse: any) => {
-      let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse.questionId)
+  private setQuestionStatus(response: any, questions: any[]) {
+    response.questionId.forEach((eachResponse: any) => {
+      let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
-        questions[index].status = eachResponse.contributorQuestionStatus
+        questions[index].status = response.status
       }
     })
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
@@ -270,7 +281,6 @@ export class ContributorAuthorComponent implements OnInit {
   openAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
     this.parameterData = this.getParameterData(response)
-    console.log(this.parameterData)
   }
 
   private getParameterData(data: ContributorData) {
@@ -288,5 +298,19 @@ export class ContributorAuthorComponent implements OnInit {
 
   closeQuestions() {
     this.isAllQuestionsOpened = false
+  }
+
+  private updateStore(response: any, data:ContributorData) {
+    let categoryIndex = this.masterData1.findIndex(eachData => eachData.categoryId === data.categoryId);
+    if(categoryIndex !== -1) {
+      let moduleIndex = this.masterData1[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === data.moduleId)
+      if(moduleIndex !== -1){
+        let topicIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics.findIndex(eachTopic => eachTopic.topicId === data.topicId)
+        if(topicIndex !== -1){
+          let parameterIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters.findIndex(eachParameter => eachParameter.parameterId === data.parameterId)
+          this.setQuestionStatus(response, this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex].questions)
+        }
+      }
+    }
   }
 }

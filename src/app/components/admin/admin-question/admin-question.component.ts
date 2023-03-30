@@ -68,12 +68,12 @@ export class AdminQuestionComponent implements OnInit {
     this.unsavedChanges = []
     this.questionStatusMap.clear()
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      console.log(data)
       if (data !== undefined) {
         this.categoryResponse = data
         this.setParameterQuestion()
         this.formatData()
         this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
-        console.log(this.questionStatusMap)
       }
     })
   }
