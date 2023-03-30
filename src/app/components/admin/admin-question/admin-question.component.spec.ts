@@ -290,10 +290,11 @@ describe('AdminQuestionComponent', () => {
   });
 
   it("should remove unsaved question from the array", () => {
-    component.questionArray = [{questionId:1,questionText:"question",parameter:1},{questionId:-1,questionText:"question1",parameter:1}]
+    let questions = [{questionId:1,questionText:"question",parameter:1},{questionId:-1,questionText:"question1",parameter:1}]
+    component.questionStatusMap.set('Draft',questions)
 
     component.deleteUnsavedQuestion()
 
-    expect(component.questionArray.length).toBe(1)
+    expect(component.questionStatusMap.get('Draft')?.length).toBe(1)
   });
 });
