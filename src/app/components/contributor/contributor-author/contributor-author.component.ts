@@ -102,6 +102,9 @@ export class ContributorAuthorComponent implements OnInit {
       isClicked: false,
       allSelected: true
     }
+    data.categoryId = eachData.categoryId
+    data.topicId = eachData.topicId
+    data.parameterId = eachData.parameterId
     data.categoryName = eachData.categoryName
     data.moduleName = eachData.moduleName
     data.moduleId = eachData.moduleId
@@ -196,6 +199,7 @@ export class ContributorAuthorComponent implements OnInit {
   }
 
   sendAllQuestionsForReview(contributorData: ContributorData) {
+    console.log(contributorData)
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {

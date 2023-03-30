@@ -16,7 +16,7 @@
     </button>
     <br>
   </div>
-  <div class="questions">
+  <div class="questions" *ngIf="questionStatusMap">
     <div *ngFor="let question of questionStatusMap | keyvalue ">
       <div class="question-status-heading-content"
            [ngStyle]="{'border-color':colorScheme.get(question.key)[0], 'background-color':colorScheme.get(question.key)[1]}">
