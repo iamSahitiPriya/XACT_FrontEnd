@@ -88,3 +88,7 @@
 ::ng-deep .question-comment .mat-form-field-appearance-outline .mat-form-field-flex{
   height : 7rem !important;
 }
+::ng-deep .question-comment .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick{
+   color: #45A0AC !important;
+ }
+

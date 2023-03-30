@@ -304,6 +304,7 @@ export class ContributorAuthorComponent implements OnInit {
 
   closeQuestions() {
     this.isAllQuestionsOpened = false
+    window.location.reload();
   }
 
   private getDataUsingId(contributorData: ContributorData) {

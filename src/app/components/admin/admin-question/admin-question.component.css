@@ -99,7 +99,6 @@ div.questionButtonColumn {
   justify-content: center;
 }
 .save-button{
-  /*margin-left: 39%;*/
   padding-top: 20px;
 }
 
@@ -139,7 +138,6 @@ div.questionButtonColumn {
   font-size: 16px;
   font-family: "Inter", sans-serif;
   letter-spacing: 0.5px;
-  /*padding-bottom: 32px;*/
   margin-right: 3px;
 }
 

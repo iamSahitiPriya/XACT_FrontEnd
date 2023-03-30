@@ -328,10 +328,6 @@ a.anchor{
   width: 36vw!important;
 }
 
-/*.all-questions app-admin-question >>> .admin-questions .questionText{*/
-/*  width: 75%;*/
-/*}*/
-
 .close button {
   background-color: transparent;
   border: none;
@@ -346,4 +342,20 @@ a.anchor{
 
 .each-question-container{
   padding-top: 1%;
+}
+
+::ng-deep .contributor-question-input .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .contributor-question-input .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
+}
+
+.all-questions app-admin-question >>> .admin-questions .questionText .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+.all-questions app-admin-question >>> .admin-questions .questionText .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
 }
