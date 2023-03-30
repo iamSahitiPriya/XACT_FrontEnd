@@ -131,7 +131,9 @@ export class ContributorAuthorComponent implements OnInit {
       this.setQuestionStatus(response, questionRequest)
       this.updateStore(response, data)
     })
-    dialogRef.afterClosed()
+    dialogRef.afterClosed().subscribe(() =>{
+      this.resetCheckbox(questionRequest,data)
+    })
   }
 
   cancelChanges() {
@@ -334,5 +336,18 @@ export class ContributorAuthorComponent implements OnInit {
       questions[questionIndex].parameter = response.parameter
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
+  }
+
+  private resetCheckbox(questionRequest: Question[], data: ContributorData) {
+    questionRequest.forEach(eachQuestion => {
+      let question = data.questions.find(question => question.questionId === eachQuestion.questionId)
+      if(question !== undefined) question.isSelected = false
+    })
+
+    data.allSelected = data.questions.every(eachQuestion => {(eachQuestion.isSelected === false && eachQuestion.status === "Sent_For_Review")})
+  }
+
+  isSentForReview(data: ContributorData) : boolean{
+    return data.questions.every(eachQuestion => eachQuestion.status === "Sent_For_Review");
   }
 }

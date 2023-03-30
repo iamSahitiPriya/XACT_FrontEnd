@@ -55,6 +55,7 @@
               <mat-checkbox class="all-select-checkbox"
                             [checked]="response.allSelected"
                             [indeterminate]="changeSelectedQuestions(response)"
+                            [disabled] = "isSentForReview(response)"
                             (change)="setAllQuestions($event.checked,response)" #checkbox>
                 Select All
               </mat-checkbox>
