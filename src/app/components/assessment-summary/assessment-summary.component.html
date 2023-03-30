@@ -3,7 +3,7 @@
   -->
 
 <div class="row menu-bar">
-  <div class="col-md-3">
+  <div class="col-md-9">
     <mat-toolbar>
       <button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button
               [routerLink]="['/assessment',assessmentId]">
@@ -12,6 +12,15 @@
       <div *ngIf="data"><h1 class="name">{{data.name}}</h1></div>
       <span class="module-spacer"></span>
     </mat-toolbar>
+  </div>
+  <div class="col-md-3 menu-buttons">
+    <button accesskey="a" id="allChartsDownloadButton" mat-raised-button class="right all-download-button "
+            aria-label="Download all chart"
+            [matTooltip]=allDownloadActionTooltip
+            (click)="downloadAllImages()">
+      <mat-icon>save_alt</mat-icon>
+      {{allDownloadActionButton}}
+    </button>
   </div>
 </div>
 
@@ -28,29 +37,31 @@
         <div>
           {{categoryAssessed}} <span class="dataValue">{{summaryData.categoryAssessed}}</span></div>
         <div>{{moduleAssessed}}
-        <span class="dataValue">{{summaryData.moduleAssessed}}</span></div>
+          <span class="dataValue">{{summaryData.moduleAssessed}}</span></div>
         <div>{{topicAssessed}} <span
-        class="dataValue">{{summaryData.topicAssessed}}</span></div>
+          class="dataValue">{{summaryData.topicAssessed}}</span></div>
         <div>
-        {{parameterAssessed}}<span
-        class="dataValue">{{summaryData.parameterAssessed}}</span></div>
+          {{parameterAssessed}}<span
+          class="dataValue">{{summaryData.parameterAssessed}}</span></div>
         <div>{{questionAnswered}} <span
-        class="dataValue">{{summaryData.questionAssessed}}</span></div>
+          class="dataValue">{{summaryData.questionAssessed}}</span></div>
       </div>
     </div>
   </div>
   <div class="gauge-chart" id="gauge-chart-div">
-    <ngx-charts-gauge *ngIf="categorySummary.length>0"
-                      [view]="view"
-                      [results]="categorySummary"
-                      [max]="5"
-                      [textValue]="assessmentAverageRating"
-                      [startAngle]="270"
-                      [angleSpan]="180"
-                      [bigSegments]="5"
+    <div #gauge_image class="visible-opacity">
+      <ngx-charts-gauge *ngIf="categorySummary.length>0"
+                        [view]="view"
+                        [results]="categorySummary"
+                        [max]="5"
+                        [textValue]="assessmentAverageRating"
+                        [startAngle]="270"
+                        [angleSpan]="180"
+                        [bigSegments]="5"
 
-    >
-    </ngx-charts-gauge>
+      >
+      </ngx-charts-gauge>
+    </div>
   </div>
 </div>
 <br>
@@ -66,17 +77,17 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button accesskey="c" id="downloadButton" class="downloadButton" mat-icon-button color="primary"
+      <button accesskey="c" id="sunburstChartDownloadButton" class="download-button" mat-icon-button color="primary"
               aria-label="Download chart"
               [matTooltip]=downloadActionTooltip
-              (click)="downloadImage()">
+              (click)="downloadImage(this.sunburst,'sunburst')">
         <mat-icon>save_alt</mat-icon>
       </button>
     </div>
-    <div #screen>
+    <div>
       <div class="dashboard">
         <div class="sunBurst">
-          <div id="chart"></div>
+          <div id="chart" #sunburst_image class="visible-opacity"></div>
           <div id="sequence">
             <div *ngFor="let sequence of sunburstSequenceArray;index as i">
               <mat-card class="trail" id="trail1">
@@ -109,60 +120,73 @@
   <img #canvas alt="chart-image">
   <a #downloadLink></a>
 </div>
+
 <div *ngIf="data && categorySummary.length>0">
-  <div class="module-overall-rating-chart-title">{{stackedBarChartTitle}}
+  <div class="module-overall-rating-chart-title"><span>{{stackedBarChartTitle}}</span>
+    <button class="right" id="overallMaturityDownloadButton" mat-icon-button color="primary"
+            aria-label="Download chart"
+            [matTooltip]=downloadActionTooltip
+            (click)="downloadImage(this.overall,'overall')">
+      <mat-icon>save_alt</mat-icon>
+    </button>
   </div>
-  <mat-card class="module-overall-rating-card">
-    <mat-card-content class="chart-content">
-      <div *ngFor="let categoryModules of categoryModulesOverAllRatings ;let i=index; ">
-        <div class="x-label">
-          <span *ngFor="let score of stackedBarChartXAxisLabels" class="score">{{score}}</span>
+
+  <div #overall_image class="visible-opacity">
+    <mat-card class="module-overall-rating-card">
+      <mat-card-content class="chart-content">
+        <div *ngFor="let categoryModules of categoryModulesOverAllRatings ;let i=index; ">
+          <div class="x-label">
+            <span *ngFor="let score of stackedBarChartXAxisLabels" class="score">{{score}}</span>
+          </div>
+          <div class="module-overall-rating-chart">
+            <div class="category-title-card">
+              <div class="category-title"
+                   [style.height.px]="getCategoryHeight(categoryModules.modulesOverAllRatings.length)"
+                   [style.background-color]="stackedBarChartColorSchemes[i][0].value">{{categoryModules.categoryName}}
+              </div>
+            </div>
+            <div class="module-title">
+              <div *ngFor="let module of categoryModules.modulesOverAllRatings;" class="module">
+                {{module.name}}
+              </div>
+            </div>
+            <div>
+              <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart" #reference>
+                <ngx-charts-bar-horizontal-stacked
+                  [view]="[reference.offsetWidth ,getModuleHeight(categoryModules.modulesOverAllRatings.length)]"
+                  [results]="categoryModules.modulesOverAllRatings"
+                  [barPadding]="5"
+                  [customColors]="stackedBarChartColorSchemes[i]">
+                </ngx-charts-bar-horizontal-stacked>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="module-overall-rating-chart">
-          <div class="category-title-card">
-            <div class="category-title"
-                 [style.height.px]="getCategoryHeight(categoryModules.modulesOverAllRatings.length)"
-                 [style.background-color]="stackedBarChartColorSchemes[i][0].value">{{categoryModules.categoryName}}
-            </div>
-          </div>
-          <div class="module-title">
-            <div *ngFor="let module of categoryModules.modulesOverAllRatings;" class="module">
-              {{module.name}}
-            </div>
-          </div>
-          <div>
-            <div *ngIf="categoryModules.modulesOverAllRatings.length>0" class="module-ratings-bar-chart" #reference>
-              <ngx-charts-bar-horizontal-stacked
-                [view]="[reference.offsetWidth ,getModuleHeight(categoryModules.modulesOverAllRatings.length)]"
-                [results]="categoryModules.modulesOverAllRatings"
-                [barPadding]="5"
-                [customColors]="stackedBarChartColorSchemes[i]">
-              </ngx-charts-bar-horizontal-stacked>
-            </div>
-          </div>
+      </mat-card-content>
+      <div class="legend">
+        <div class="legend-title">{{currentRatingTitle}}</div>
+        <div *ngFor="let legend of categoryModulesOverAllRatings; let i=index">
+          <div class="legend-palette" [style.background-color]="stackedBarChartColorSchemes[i][0].value"></div>
+        </div>
+        <div class="legend-title">{{targetRatingTitle}}</div>
+        <div *ngFor="let legend of categoryModulesOverAllRatings; let i=index">
+          <div class="legend-palette" [style.background-color]="stackedBarChartColorSchemes[i][1].value"></div>
         </div>
       </div>
-    </mat-card-content>
-    <div class="legend">
-      <div class="legend-title">{{currentRatingTitle}}</div>
-      <div *ngFor="let legend of categoryModulesOverAllRatings; let i=index">
-        <div class="legend-palette" [style.background-color]="stackedBarChartColorSchemes[i][0].value"></div>
-      </div>
-      <div class="legend-title">{{targetRatingTitle}}</div>
-      <div *ngFor="let legend of categoryModulesOverAllRatings; let i=index">
-        <div class="legend-palette" [style.background-color]="stackedBarChartColorSchemes[i][1].value"></div>
-      </div>
-    </div>
-  </mat-card>
+    </mat-card>
+  </div>
+
 </div>
 
-<app-roadmap-bubble-chart
-  [assessmentId]="assessmentId">
-</app-roadmap-bubble-chart>
+
+<div>
+  <app-roadmap-bubble-chart #app_roadmap_bubble_chart (downloadEvent)="downloadImage($event,'roadmap')"
+                            [assessmentId]="assessmentId">
+  </app-roadmap-bubble-chart>
+</div>
+
 
 <div *ngIf="data && categorySummary.length>0">
-  <app-assessment-radar-chart [summaryData]="data"></app-assessment-radar-chart>
+  <app-assessment-radar-chart #app_assessment_radar_chart [summaryData]="data"
+                              (downloadEvent)="downloadImage($event,'module-radar')"></app-assessment-radar-chart>
 </div>
-
-
-

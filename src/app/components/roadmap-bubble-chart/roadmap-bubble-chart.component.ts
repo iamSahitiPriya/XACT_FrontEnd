@@ -1,4 +1,14 @@
-import {AfterContentChecked, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterContentChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
 import {BubbleChartStructure} from "../../types/bubbleChartStructure";
@@ -31,6 +41,14 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
   @Input()
   assessmentId: number
 
+  @ViewChild('roadmap_image') roadmap: ElementRef;
+
+  @Output() downloadEvent = new EventEmitter<ElementRef>();
+
+  downloadImage(): void {
+    this.downloadEvent.next(this.roadmap);
+  }
+
   recommendationResponse: Recommendation [] = [];
 
   recommendations: BubbleChartStructure [] = []
@@ -60,6 +78,7 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
     {x: 0.252, y: 0.169}, {x: 0.919, y: 0.438}, {x: 0.092, y: 0.83}, {x: 0.939, y: 0.151}, {x: 0.0795, y: 0.518},
     {x: 0.577, y: 0.608}, {x: 0.434, y: 0.168}, {x: 0.39, y: 0.692}, {x: 0.772, y: 0.136}, {x: 0.498, y: 0.83}]
 
+  downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
   lowImpact = data_local.RECOMMENDATION_TEXT.IMPACT_3;
   mediumImpact = data_local.RECOMMENDATION_TEXT.IMPACT_2;
   highImpact = data_local.RECOMMENDATION_TEXT.IMPACT_1;
@@ -209,4 +228,5 @@ export class RoadmapBubbleChartComponent implements OnInit, OnDestroy, AfterCont
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 }

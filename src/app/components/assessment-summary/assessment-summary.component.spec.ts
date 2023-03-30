@@ -26,6 +26,7 @@ import {ElementRef} from "@angular/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -70,7 +71,7 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentSummaryComponent],
-      imports: [FormsModule, MatFormFieldModule, MatDividerModule, MatToolbarModule, NoopAnimationsModule, MatButtonModule, MatSelectModule, MatCardModule, MatIconModule, HttpClientTestingModule, MatTooltipModule, NgxChartsModule, RouterTestingModule, StoreModule.forRoot(reducers)],
+      imports: [FormsModule, MatFormFieldModule, MatDividerModule, MatToolbarModule, NoopAnimationsModule, MatButtonModule, MatSelectModule, MatCardModule, MatIconModule, HttpClientTestingModule, MatTooltipModule, NgxChartsModule, RouterTestingModule, MatSnackBarModule, StoreModule.forRoot(reducers)],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
           provide: AppServiceService,
@@ -274,11 +275,12 @@ describe('AssessmentSunburstChartComponent', () => {
   })
 
 
-  it("should call download image function", () => {
+  it("should call download image " +
+    "", () => {
     component.categorySummary = [{
       name: "hello", value: 2
     }]
-    let button = fixture.nativeElement.querySelector("#downloadButton")
+    let button = fixture.nativeElement.querySelector("#sunburstChartDownloadButton")
     jest.spyOn(component, 'downloadImage').mockImplementation();
     button.click()
     expect(component.downloadImage).toBeCalled();

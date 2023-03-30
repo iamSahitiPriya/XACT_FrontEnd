@@ -141,6 +141,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
 
   deleteRecommendation(recommendation: TopicLevelRecommendation) {
     let index = this.getRecommendationIndex(recommendation);
+
     if (index !== -1) {
       this.topicRecommendations?.splice(index, 1);
       if(recommendation.recommendationId !== undefined) {
@@ -208,7 +209,7 @@ export class TopicLevelRecommendationComponent implements OnInit, OnDestroy, OnC
   private getRecommendationIndex(recommendation: TopicLevelRecommendation) : number {
     let index = -1;
     if (this.topicRecommendations != undefined) {
-      index = this.topicRecommendations.indexOf(recommendation);
+      index = this.topicRecommendations.map(rec => rec.recommendationId).indexOf(recommendation.recommendationId);
     }
     return index;
   }

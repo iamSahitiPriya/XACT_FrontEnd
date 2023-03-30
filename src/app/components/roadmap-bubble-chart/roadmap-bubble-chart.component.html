@@ -1,6 +1,12 @@
 <div class="recommendations-roadmap-title">{{roadmapTitle}}
+  <button class="right" mat-icon-button color="primary"
+          aria-label="Download chart"
+          [matTooltip]=downloadActionTooltip
+          (click)="downloadImage()">
+    <mat-icon>save_alt</mat-icon>
+  </button>
 </div>
-<div class="recommendation-roadmap">
+<div class="recommendation-roadmap" #roadmap_image>
   <mat-card class="roadmap-card">
     <mat-card-content *ngIf="recommendationResponse.length>0; else fillRecommendationMessage">
       <div class="roadmap-chart">
@@ -75,7 +81,7 @@
     <app-recommendation-table
       [recommendations]="recommendationResponse"
       [colorScheme]="categoryColor"
-      [assessmentId] = "assessmentId"
+      [assessmentId]="assessmentId"
     ></app-recommendation-table>
   </mat-card>
 </div>

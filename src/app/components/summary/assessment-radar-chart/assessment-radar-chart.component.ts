@@ -2,7 +2,7 @@
  *  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {ReportDataStructure} from "../../../types/ReportDataStructure";
 import {ChartConfiguration, ChartData, ChartType} from 'chart.js';
 import {data_local} from "../../../messages";
@@ -35,9 +35,19 @@ export class AssessmentRadarChartComponent implements OnInit {
   radarChartData: RadarChartData[] = [];
   currentDataColor: string = '#F15F79';
   targetDataColor: string = '#6D9D79';
+
+  downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
   targetScoreLabel: string = data_local.RADAR_CHART.TARGET_SCORE_LABEL;
   currentScoreLabel: string = data_local.RADAR_CHART.CURRENT_SCORE_LABEL;
   chartTitle: string = data_local.RADAR_CHART.CHART_TITLE;
+
+  @ViewChildren('radar_chart_image') radarChart!: QueryList<ElementRef>;
+  @Output() downloadEvent = new EventEmitter<ElementRef>();
+
+  downloadImage(chartIndex: number): void {
+    this.downloadEvent.next(this.radarChart.get(chartIndex) as ElementRef);
+  }
+
   public radarChartType: ChartType = 'radar';
   public radarChartConfiguration: ChartConfiguration['options'] = {
     plugins: {
@@ -132,4 +142,12 @@ export class AssessmentRadarChartComponent implements OnInit {
     )
   }
 
+  downloadAllImage() {
+    let chartIndex = 0;
+    this.radarChartData.forEach(async () => {
+      await new Promise(f => setTimeout(f, 100));
+      this.downloadImage(chartIndex);
+      chartIndex += 1;
+    });
+  }
 }
