@@ -9,9 +9,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {RouterTestingModule} from "@angular/router/testing";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
-import {of, Subject} from "rxjs";
+import {of} from "rxjs";
 import {MatIconModule} from "@angular/material/icon";
-import {RouterEvent} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 class  MockAppService {
   public getUserRole() {
@@ -19,11 +19,6 @@ class  MockAppService {
   }
 }
 
-const routerEventsSubject = new Subject<RouterEvent>();
-
-const routerStub = {
-  events: routerEventsSubject.asObservable()
-};
 describe('ContributorConsoleComponent', () => {
   let component: ContributorConsoleComponent;
   let fixture: ComponentFixture<ContributorConsoleComponent>;
@@ -41,6 +36,7 @@ describe('ContributorConsoleComponent', () => {
     component = fixture.componentInstance;
     fixture.autoDetectChanges();
     mockAppService = new MockAppService();
+    TestBed.get(ActivatedRoute)
   });
 
   it('should create', () => {

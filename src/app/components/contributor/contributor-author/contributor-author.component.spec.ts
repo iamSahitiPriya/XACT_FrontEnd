@@ -68,7 +68,7 @@ describe('ContributorAuthorComponent', () => {
       ]
     }
     updateQuestionResponse = {
-      "questionId": 606,
+      "questionId": 1,
       "questionText": "qw-eqweasdasdczxc 23112312dasda",
       "questionStatus": "Draft",
       "comments": "this is a review",
@@ -84,7 +84,7 @@ describe('ContributorAuthorComponent', () => {
       }
     }
     updateQuestion(questionId:number, question:string){
-      if(questionId === 606){
+      if(questionId === 1){
         return of(this.updateQuestionResponse)
       }else{
         return throwError("Error!")
@@ -183,6 +183,27 @@ describe('ContributorAuthorComponent', () => {
       "modules": []
     }
     ])
+
+    component.contributorData  = [{
+      allSelected: true,
+      categoryId: 1,
+      categoryName: "category",
+      isClicked: false,
+      moduleId: 1,
+      moduleName: "module",
+      parameterId: 1,
+      parameterName: "parameter",
+      questions: [{
+        "questionId": 1,
+        "question": "This is a question",
+        "isEdit": false,
+        "isSelected" : true,
+        "comments" : "comment",
+        "status" : "Draft"
+      }],
+      topicId: 1,
+      topicName: "topic"
+    }]
   });
 
   it('should create', () => {
@@ -251,13 +272,13 @@ describe('ContributorAuthorComponent', () => {
     component.updateAllSelectedStatus(response)
 
     expect(component.updateAllSelectedStatus).toHaveBeenCalled()
-    expect(response.allSelected).toBeFalsy()
+    expect(response.allSelected).toBeTruthy()
   });
   it("should update individual contributor questions", () => {
     jest.spyOn(component,'updateQuestion')
     component.ngOnInit()
 
-    let question: Question = {comments: "", question: "hello", questionId: 606, status: "Draft"}
+    let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
     component.updateQuestion(question,response)
@@ -277,6 +298,34 @@ describe('ContributorAuthorComponent', () => {
       expect(data).toBeUndefined()
       expect(component.showError).toHaveBeenCalled()
     })
+  });
+
+  it("it should return isAllQuestionsOpened as true when user clicked on all questions", () => {
+    component.ngOnInit()
+
+    component.openAllQuestions(component.contributorData[0])
+
+    expect(component.isAllQuestionsOpened).toBeTruthy()
+    expect(component.parameterData.parameterId).toBe(1)
+  });
+
+  it("it should return isAllQuestionsOpened as false when user clicked on all questions close", () => {
+    component.ngOnInit()
+
+    component.closeQuestions()
+
+    expect(component.isAllQuestionsOpened).toBeFalsy()
+  });
+
+  it("it should return true when all the question statuses are sent for review", () => {
+    component.ngOnInit()
+
+    component.contributorData[0].questions[0].status = "Sent_For_Review"
+    component.contributorData[0].questions[0].isSelected = false
+
+    let expectedResult = component.isSentForReview(component.contributorData[0])
+
+    expect(expectedResult).toBeTruthy()
   });
 
 });

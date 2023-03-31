@@ -45,7 +45,4 @@ export class AdminConsoleComponent implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  ngOnInit(){
-
-  }
 }

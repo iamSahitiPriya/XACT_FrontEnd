@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
@@ -27,7 +27,7 @@ const NOTIFICATION_DURATION = 2000;
   templateUrl: './contributor-author.component.html',
   styleUrls: ['./contributor-author.component.css']
 })
-export class ContributorAuthorComponent implements OnInit {
+export class ContributorAuthorComponent implements OnInit, OnDestroy {
   searchBarText: string = "Search questions";
   searchText: string;
   isEdit: boolean;

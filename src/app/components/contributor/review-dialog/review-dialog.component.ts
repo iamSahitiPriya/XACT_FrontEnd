@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject} from '@angular/core';
+import {Component, EventEmitter, Inject, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {data_local} from "../../../messages";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
@@ -13,7 +13,7 @@ const NOTIFICATION_DURATION = 2000;
   templateUrl: './review-dialog.component.html',
   styleUrls: ['./review-dialog.component.css']
 })
-export class ReviewDialogComponent {
+export class ReviewDialogComponent implements OnDestroy{
   comments: string;
   onSave = new EventEmitter();
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
