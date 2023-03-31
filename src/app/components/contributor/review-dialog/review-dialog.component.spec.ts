@@ -8,6 +8,8 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {of, throwError} from "rxjs";
 import {FormsModule} from "@angular/forms";
+import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 describe('ReviewDialogComponent', () => {
   let component: ReviewDialogComponent;
@@ -34,12 +36,12 @@ describe('ReviewDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ReviewDialogComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, MatSnackBarModule, BrowserAnimationsModule, NoopAnimationsModule, FormsModule],
+      imports: [MatDialogModule, HttpClientTestingModule, MatSnackBarModule, BrowserAnimationsModule, NoopAnimationsModule, FormsModule,MatFormFieldModule,MatInputModule],
       providers: [
         {provide: MAT_DIALOG_DATA, useValue: {}},
         {provide: MatDialogRef, useValue: {}},
         {provide: AppServiceService, useClass: MockAppService}
-      ]
+      ],
     })
       .compileComponents();
 

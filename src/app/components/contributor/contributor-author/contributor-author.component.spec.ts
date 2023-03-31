@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ContributorAuthorComponent} from './contributor-author.component';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
@@ -11,11 +11,38 @@ import {Question} from "../../../types/Contributor/Question";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {Ng2SearchPipe} from "ng2-search-filter";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {FormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('ContributorAuthorComponent', () => {
   let component: ContributorAuthorComponent;
   let mockAppService: MockAppService
+  let matDialog : any
   let fixture: ComponentFixture<ContributorAuthorComponent>;
+  class MockDialog {
+    questionResponse = {
+      "questionId": [
+        1
+      ],
+      "comments": "sdasdas",
+      "status": "Sent_For_Review"
+    }
+    open() {
+      return {
+        afterClosed: () => of(1),
+        componentInstance: {
+          onSave:of(this.questionResponse)
+        }
+      }
+    }
+    closeAll() {
+    }
+  }
 
   class MockAppService {
     questionResponse = {
@@ -95,9 +122,10 @@ describe('ContributorAuthorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ContributorAuthorComponent,Ng2SearchPipe],
-      imports: [MatDialogModule, HttpClientTestingModule, MatSnackBarModule, StoreModule.forRoot(reducers),BrowserAnimationsModule,NoopAnimationsModule],
+      imports: [MatDialogModule, HttpClientTestingModule, MatSnackBarModule, MatFormFieldModule,MatInputModule,MatCheckboxModule,FormsModule,MatCardModule,MatIconModule,
+        StoreModule.forRoot(reducers),BrowserAnimationsModule,NoopAnimationsModule, MatTooltipModule],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}
+        {provide: AppServiceService, useClass: MockAppService},{provide: MatDialog, useClass: MockDialog}
       ]
     })
       .compileComponents();
@@ -105,6 +133,7 @@ describe('ContributorAuthorComponent', () => {
     fixture = TestBed.createComponent(ContributorAuthorComponent);
     mockAppService = new MockAppService()
     component = fixture.componentInstance;
+    matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
     component.masterData = of([{
       "categoryId": 1,
@@ -326,6 +355,18 @@ describe('ContributorAuthorComponent', () => {
     let expectedResult = component.isSentForReview(component.contributorData[0])
 
     expect(expectedResult).toBeTruthy()
+  });
+  it("should subscribe to an instance after save", () => {
+    component.ngOnInit()
+    jest.spyOn(component,'sendForReview')
+    jest.spyOn(matDialog,'open')
+
+    let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
+    let response = component.contributorData[0]
+
+    component.sendForReview(question,response)
+
+    expect(matDialog.open).toHaveBeenCalled()
   });
 
 });
