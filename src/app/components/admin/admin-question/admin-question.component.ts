@@ -147,6 +147,8 @@ export class AdminQuestionComponent implements OnInit {
       let index = value.findIndex((eachQuestion: Question) => eachQuestion.questionId === -1)
       if (index !== -1 && index !== undefined)
           this.questionStatusMap.get(key)?.splice(index, 1)
+      if(this.questionStatusMap.get(key)?.length === 0)
+        this.questionStatusMap.delete(key)
     })
   }
 

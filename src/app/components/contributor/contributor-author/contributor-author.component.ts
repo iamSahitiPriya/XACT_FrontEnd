@@ -356,7 +356,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       if (question !== undefined) question.isSelected = false
     })
 
-    data.allSelected = data.questions.every(eachQuestion => (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview))
+    data.allSelected = false
   }
 
   isSentForReview(data: ContributorData): boolean {

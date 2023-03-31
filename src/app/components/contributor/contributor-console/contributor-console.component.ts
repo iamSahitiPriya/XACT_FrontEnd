@@ -38,7 +38,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       if (data.includes(this.reviewer))
         this.isContributor = true
     })
-    this.store.dispatch(fromActions.user({role: this.contributor}))
+    this.store.dispatch(fromActions.user({role: this.contributor.toLowerCase()}))
 
   }
 
