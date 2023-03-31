@@ -165,7 +165,10 @@ export const data_local =
     SUMMARY_REPORT: {
       TITLE: "Summary",
       TOOLTIP: "Click to View Chart Summary",
-      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image (Shortcut - ctrl+opt+c)",
+      DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image.",
+      ALL_DOWNLOAD_ACTION_BUTTON: "Download All Charts",
+      ALL_DOWNLOAD_ACTION_TOOLTIP: "Click to download all charts as PNG image.",
+      DOWNLOAD_NOTIFICATION:"Downloading charts. It may take some time, Please stay on same page.",
       INSTRUCTION: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\n" +
         "      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita\n" +
         "      kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",

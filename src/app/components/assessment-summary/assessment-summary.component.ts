@@ -22,6 +22,10 @@ import {ModuleRatingTypes} from "../../types/moduleRatingTypes";
 import {StackedBarChartColorScheme} from "../../types/stackedBarChartColorScheme";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {SunburstSequence} from "../../types/sunburstSequence";
+import {RoadmapBubbleChartComponent} from "../roadmap-bubble-chart/roadmap-bubble-chart.component";
+import {AssessmentRadarChartComponent} from "../summary/assessment-radar-chart/assessment-radar-chart.component";
+import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 interface ColorScheme {
@@ -31,8 +35,8 @@ interface ColorScheme {
 }
 
 interface GaugeChartStructure {
-  name : string,
-  value : number | undefined
+  name: string,
+  value: number | undefined
 }
 
 @Component({
@@ -44,11 +48,20 @@ interface GaugeChartStructure {
 
 export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
-  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('gauge_image') gauge: ElementRef;
+
+  @ViewChild('sunburst_image') sunburst: ElementRef;
+  @ViewChild('overall_image') overall: ElementRef;
+  @ViewChild('module_radar_image') moduleRadar: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('downloadLink') downloadLink: ElementRef;
 
+  @ViewChild('app_roadmap_bubble_chart') roadmapBubbleChartComponent: RoadmapBubbleChartComponent;
+  @ViewChild('app_assessment_radar_chart') assessmentRadarChartComponent: AssessmentRadarChartComponent;
+
   downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
+  allDownloadActionButton = data_local.SUMMARY_REPORT.ALL_DOWNLOAD_ACTION_BUTTON;
+  allDownloadActionTooltip = data_local.SUMMARY_REPORT.ALL_DOWNLOAD_ACTION_TOOLTIP;
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   instructionPanel = data_local.SUMMARY_REPORT.INSTRUCTION
   moduleAssessed = data_local.SUMMARY_REPORT.MODULE_ASSESSED;
@@ -131,7 +144,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     {value: "ThreatTheme", viewValue: 'Show Threats', textColor: 'white'}
   ];
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, @Optional() private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, @Optional() private store: Store<AppStates>, private _snackBar: MatSnackBar,) {
     this.assessmentData = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
@@ -169,7 +182,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   drawSunBurstChart() {
     let partition = (data: ReportDataStructure) => {
       const hierarchyNode = d3.hierarchy(data)
-        .sum((d:any) => d.value)
+        .sum((d: any) => d.value)
         .sort((a: any, b: any) => b.value - a.value);
       return d3.partition()
         .size([2 * Math.PI, hierarchyNode.height + 1])
@@ -222,10 +235,11 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .enter().append("path")
       .attr("fill", this.fillThreatColorsInChart)
       .attr("fill-opacity", (d: any) => {
-        if(arcVisible(d.current))
+        if (arcVisible(d.current))
           return ((d.data.rating < 3 && d.data.rating > 0) || d.data.value < 3) ? 0.9 : 0.7
         else
-          return 0 })
+          return 0
+      })
       .attr("d", (d: any) => {
         return <any>arc(d.current);
       })
@@ -265,7 +279,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .attr("pointer-events", "all")
       .on("click", clicked)
 
-    function clicked(_event: MouseEvent, p: any ) {
+    function clicked(_event: MouseEvent, p: any) {
       d3.select("#chart").select("#container").select("circle").datum(p.parent || root);
 
       root.each((d: any) => d.target = {
@@ -486,11 +500,11 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .style("opacity", 1);
   }
 
-  downloadImage() {
-    html2canvas(this.screen.nativeElement).then(canvas => {
+  downloadImage(image: ElementRef, imageName: string) {
+    html2canvas(image.nativeElement).then(canvas => {
       this.canvas.nativeElement.src = canvas.toDataURL();
       this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = this.data.name + '-sunburst-chart.png';
+      this.downloadLink.nativeElement.download = imageName + '-chart.png';
       this.downloadLink.nativeElement.click();
     });
   }
@@ -513,7 +527,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   private calculateAssessmentRating() {
     let sum = 0
     this.categorySummary.forEach(eachCategory => {
-      if(eachCategory.value) sum += eachCategory.value;
+      if (eachCategory.value) sum += eachCategory.value;
     })
     this.assessmentAverageRating = String((sum / this.categorySummary.length).toFixed(1))
   }
@@ -547,11 +561,40 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     })
 
   }
-  getCategoryHeight(moduleLength:number){
+
+  getCategoryHeight(moduleLength: number) {
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleCardHeightOffset
   }
 
-  getModuleHeight(moduleLength:number){
+  getModuleHeight(moduleLength: number) {
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleChartHeightOffset
+  }
+
+  async downloadAllImages() {
+
+    this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 5000);
+
+
+    this.downloadImage(this.gauge, 'gauge');
+
+    await new Promise(f => setTimeout(f, 100));
+    this.downloadImage(this.sunburst, 'sunburst');
+
+    await new Promise(f => setTimeout(f, 100));
+    this.downloadImage(this.overall, 'overall');
+
+    await new Promise(f => setTimeout(f, 100));
+    this.roadmapBubbleChartComponent.downloadImage();
+
+    await this.assessmentRadarChartComponent.downloadAllImage();
+  }
+
+  private showNotification(reportData: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 }

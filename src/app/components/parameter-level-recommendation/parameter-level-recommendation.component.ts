@@ -210,7 +210,8 @@ export class ParameterLevelRecommendationComponent implements OnInit, OnDestroy,
   private getRecommendationIndex(recommendation: TopicLevelRecommendation): number {
     let index = -1;
     if (this.parameterRecommendations != undefined) {
-      index = this.parameterRecommendations.indexOf(recommendation);
+      index = this.parameterRecommendations.map(rec => rec.recommendationId).indexOf(recommendation.recommendationId);
+
     }
     return index;
   }

@@ -2,20 +2,30 @@
   ~  Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
+<div class="radar-chart-container">
 <div class="title">{{chartTitle}}</div>
-<div *ngFor="let category of radarChartData" class="category-card">
-  <div class="category-name">{{category.categoryName}}</div>
-  <mat-card class="over-all-card">
-    <div *ngFor="let chartData of category.data" class="module-chart">
-      <div class="module-name">{{chartData.moduleName}}</div>
-      <canvas
-        baseChart
-        [data]="chartData.data"
-        [options]="radarChartConfiguration"
-        [type]="radarChartType"
-      >
-      </canvas>
-    </div>
-  </mat-card>
+<div *ngFor="let category of radarChartData; let i=index" class="category-card">
+  <div class="category-name">{{category.categoryName}}
+    <button class="right" id="overallMaturityDownloadButton" mat-icon-button color="primary"
+            aria-label="Download chart"
+            [matTooltip]=downloadActionTooltip
+            (click)="downloadImage(i)">
+      <mat-icon>save_alt</mat-icon>
+    </button>
+  </div>
+  <div #radar_chart_image>
+    <mat-card class="over-all-card">
+      <div *ngFor="let chartData of category.data" class="module-chart">
+        <div class="module-name">{{chartData.moduleName}}</div>
+        <canvas
+          baseChart
+          [data]="chartData.data"
+          [options]="radarChartConfiguration"
+          [type]="radarChartType"
+        >
+        </canvas>
+      </div>
+    </mat-card>
+  </div>
 </div>
-
+</div>

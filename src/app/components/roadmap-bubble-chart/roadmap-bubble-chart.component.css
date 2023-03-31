@@ -118,10 +118,9 @@
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: initial;
-  padding-top: 15px;
   padding-left: 18px;
   margin-top: 55px;
-  align-items: flex-start;
+  align-items: center;
   margin-left: 9%;
 }
 .no-recommendation-message{
@@ -129,4 +128,9 @@
   font-size: 1.125rem;
   font-family: Inter, sans-serif;
   font-style: normal;
+}
+.right{
+  float: right;
+  margin-left: auto;
+  margin-right: 0;
 }

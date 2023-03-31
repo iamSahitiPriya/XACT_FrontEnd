@@ -9,13 +9,12 @@
   font-size: 1.9rem;
   font-weight: bolder;
   font-family: Inter, sans-serif;
-  padding-top: 15px;
   padding-left: 18px;
   margin-top: 55px;
   width: 82%;
   display: flex;
   flex-direction: initial;
-  align-items: flex-start;
+  align-items: center;
   margin-left: 9%;
 }
 
@@ -32,6 +31,7 @@
 }
 
 .category-name {
+  width: 82%;
   height: 50px;
   color: #043d4e;
   font-size: 1.5rem;
@@ -61,4 +61,14 @@
 }
 .category-card{
   margin-top:-2%;
+}
+
+.right{
+  float: right;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.radar-chart-container{
+  padding-bottom: 8em;
 }
