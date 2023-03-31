@@ -1,6 +1,9 @@
 .contributor-author-heading h1{
   text-align: left;
-  font: normal normal bold 32px/38px Bitter;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: normal;
+  font-family: "Bitter", sans-serif;
   letter-spacing: 0.64px;
   color: #043D4E;
   opacity: 1;

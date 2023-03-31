@@ -35,8 +35,8 @@ export class AssessmentDataEffects {
 
   getCategories = createEffect(() => this.actions.pipe(
       ofType(user),
-      switchMap((user) => {
-          return (user.role === "admin" || user.role === "contributor") ? this.appService.getAllCategories().pipe(
+      switchMap((user1) => {
+          return (user1.role === "admin" || user1.role === "contributor") ? this.appService.getAllCategories().pipe(
             map(result => getAllCategories({categories: result})),
             catchError(_error => {
               this.showError("Server Error")

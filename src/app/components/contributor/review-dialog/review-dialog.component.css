@@ -81,9 +81,6 @@
 .question-comment{
   padding-bottom: 1%;
 }
-::ng-deep .question-comment .mat-form-field-appearance-outline .mat-form-field-flex{
-  height : 6rem !important;
-}
 
 ::ng-deep .question-comment .mat-form-field-appearance-outline .mat-form-field-flex{
   height : 7rem !important;

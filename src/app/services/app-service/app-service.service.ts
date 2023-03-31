@@ -39,7 +39,6 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
-import {Question} from "../../types/Contributor/Question";
 
 
 @Injectable({

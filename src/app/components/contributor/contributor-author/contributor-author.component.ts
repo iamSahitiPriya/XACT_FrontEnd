@@ -352,7 +352,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   private resetCheckbox(questionRequest: Question[], data: ContributorData) {
     questionRequest.forEach(eachQuestion => {
-      let question = data.questions.find(question => question.questionId === eachQuestion.questionId)
+      let question = data.questions.find(question1 => question1.questionId === eachQuestion.questionId)
       if (question !== undefined) question.isSelected = false
     })
 
