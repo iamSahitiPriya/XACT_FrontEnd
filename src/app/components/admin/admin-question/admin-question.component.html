@@ -1,6 +1,6 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="question-close" *ngIf="type !== 'Contributor'">
+  <div class="question-close" *ngIf="type !== contributor">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="question_close-icon">close</mat-icon>
     </button>
@@ -20,7 +20,7 @@
     <div *ngFor="let question of questionStatusMap | keyvalue ">
       <div class="question-status-heading-content"
            [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor, 'background-color':colorScheme.get(question.key)?.backgroundColor}">
-        <div *ngIf="question.key === 'Sent_For_Review'" class="sent-for-review-status-icon"><mat-icon>warning</mat-icon></div>
+        <div *ngIf="question.key === sentForReview" class="sent-for-review-status-icon"><mat-icon>warning</mat-icon></div>
         <div class="question-status-heading">
           {{colorScheme.get(question.key)?.displayText}}
         </div>
@@ -46,7 +46,7 @@
                 <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
               </div>
               <div class="question-edit-update">
-                <div class="edit-button" *ngIf="question.status !== 'Published' && question.isEdit === false">
+                <div class="edit-button" *ngIf="question.status !== published && question.status !== sentForReview && question.isEdit === false">
                   <button class="editQuestion" id="edit-question" mat-flat-button
                           (click)="setIsEdit(question)">{{edit}}</button>
                 </div>

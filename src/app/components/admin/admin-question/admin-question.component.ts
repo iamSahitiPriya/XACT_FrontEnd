@@ -63,6 +63,9 @@ export class AdminQuestionComponent implements OnInit {
   sentForReviewColorScheme : ColorScheme = {borderColor : '#BE873E', backgroundColor :'#BE873E0D', displayText : 'Sent for Review'}
   rejectedColorScheme : ColorScheme = {borderColor : '#BD4257', backgroundColor :'#BD425715', displayText : 'Rejected'}
   draftColorScheme : ColorScheme = {borderColor : '#5D9EAA', backgroundColor :'#5D9EAA0D', displayText : 'Draft'}
+  contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
+  sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
+  published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {

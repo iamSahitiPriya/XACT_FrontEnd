@@ -338,7 +338,8 @@ export const data_local =
       CONFIRMATION_POPUP_TEXT: "Are you sure",
       STATUS : {
         DRAFT : "Draft",
-        SEND_FOR_REVIEW : "Sent_For_Review",
+        SENT_FOR_REVIEW : "Sent_For_Review",
+        PUBLISHED: "Published",
       },
       ROLE : {
         AUTHOR : "Author",

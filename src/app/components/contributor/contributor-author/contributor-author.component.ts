@@ -50,7 +50,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
   sendToReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
-  sentForReview: string = data_local.CONTRIBUTOR.STATUS.SEND_FOR_REVIEW;
+  sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   edit: string = data_local.CONTRIBUTOR.EDIT;
   save: string = data_local.CONTRIBUTOR.SAVE;

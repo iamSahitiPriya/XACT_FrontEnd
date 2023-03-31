@@ -8,7 +8,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {of, throwError} from "rxjs";
 import {FormsModule} from "@angular/forms";
-import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 
 describe('ReviewDialogComponent', () => {
@@ -65,7 +65,7 @@ describe('ReviewDialogComponent', () => {
   it('should cancel changes', () => {
     jest.spyOn(component, 'cancelChanges')
 
-    let cancelButton = fixture.debugElement.nativeElement.querySelector("#cancelChanges");
+    let cancelButton = fixture.debugElement.nativeElement.querySelector("#cancel-changes");
     cancelButton.click()
 
     expect(component.cancelChanges).toHaveBeenCalled()

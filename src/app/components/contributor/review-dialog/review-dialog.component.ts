@@ -22,7 +22,7 @@ export class ReviewDialogComponent implements OnDestroy{
   questions: string = data_local.ADMIN.QUESTION.QUESTIONS;
   sendForReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
   cancel: string = data_local.CONTRIBUTOR.CANCEL;
-  sentForReview : string = data_local.CONTRIBUTOR.STATUS.SEND_FOR_REVIEW
+  sentForReview : string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
   }
