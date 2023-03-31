@@ -323,6 +323,31 @@ export const data_local =
       PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
 
     },
+    CONTRIBUTOR : {
+      CONSOLE : "Contributor Console",
+      CONTRIBUTOR : "Contributor",
+      TITLE :"X - Act Contributor",
+      ALL_QUESTIONS : "All Questions",
+      SELECT_ALL : "Select All",
+      SEARCH_QUESTIONS : "Search questions",
+      CANCEL : "Cancel",
+      CLOSE : "Close",
+      EDIT : "Edit",
+      SAVE : "Save",
+      QUESTIONS : "Questions",
+      CONFIRMATION_POPUP_TEXT: "Are you sure",
+      STATUS : {
+        DRAFT : "Draft",
+        SEND_FOR_REVIEW : "Sent_For_Review",
+      },
+      ROLE : {
+        AUTHOR : "Author",
+        REVIEWER : "Reviewer",
+      },
+      AUTHOR : {
+        SEND_FOR_REVIEW : "Send for Review",
+      }
+    },
     IDLE_STATE: {
       STATE: {
         NOT_STARTED: "NOT_STARTED",

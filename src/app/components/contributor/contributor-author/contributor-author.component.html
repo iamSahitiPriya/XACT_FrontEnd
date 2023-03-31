@@ -1,8 +1,8 @@
-<div class="dummy" *ngIf="isAllQuestionsOpened">
-  <div class="dummy-div"></div>
+<div class="all-questions-backdrop" *ngIf="isAllQuestionsOpened">
+  <div class="backdrop"></div>
   <div class="all-question-container">
     <div class="close">
-      <button (click)="closeQuestions()">Close</button>
+      <button (click)="closeQuestions()">{{close}}</button>
     </div>
     <div class="all-questions">
       <app-admin-question
@@ -10,7 +10,7 @@
         [topic]="parameterData.topicId"
         [module]="parameterData.moduleId"
         [category]="parameterData.categoryId"
-        [type]="'Contributor'">
+        [type]="contributor">
       </app-admin-question>
     </div>
   </div>
@@ -18,7 +18,7 @@
 <div class="contributor-author">
   <div class="contributor-author-header">
     <div class="contributor-author-heading">
-      <h1>X-Act Contributor</h1>
+      <h1>{{contributorTitle}}</h1>
     </div>
     <div class="contributor-search-bar">
       <mat-form-field class="search-contributor-questions" appearance="fill">
@@ -33,8 +33,8 @@
 
         </mat-label>
 
-        <input matTooltip="Type to search" matInput id="searchContributorQuestion" type="text"
-               name="search-question" [(ngModel)]="searchText" #searchQuestion>
+        <input matTooltip="Type to search" matInput id="search-contributor-question" type="text"
+               name="search-question" [(ngModel)]="searchText">
       </mat-form-field>
     </div>
   </div>
@@ -44,7 +44,7 @@
         {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
       </div>
       <div class="all-question">
-        <button (click)="openAllQuestions(response)">All Questions</button>
+        <button (click)="openAllQuestions(response)">{{allQuestions}}</button>
       </div>
     </div>
     <div class="contributor-questions" *ngIf="response.questions.length >0">
@@ -55,9 +55,9 @@
               <mat-checkbox class="all-select-checkbox"
                             [checked]="response.allSelected"
                             [indeterminate]="changeSelectedQuestions(response)"
-                            [disabled] = "isSentForReview(response)"
+                            [disabled]="isSentForReview(response)"
                             (change)="setAllQuestions($event.checked,response)" #checkbox>
-                Select All
+                {{selectAll}}
               </mat-checkbox>
             </div>
           </div>
@@ -65,7 +65,7 @@
             <button mat-flat-button class="contributor-button"
                     (click)="sendAllQuestionsForReview(response)"
                     [disabled]="sentToReview">
-              Send for Review
+              {{sendToReview}}
             </button>
           </div>
         </div>
@@ -76,7 +76,7 @@
               <mat-card-content class="contributor-question">
                 <div class="contributor-question-checkbox-and-input">
                   <div class="select-checkbox" *ngIf="!question.isEdit">
-                    <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === 'Sent_For_Review'"
+                    <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === sentForReview"
                                   (ngModelChange)="updateAllSelectedStatus(response)">
                       {{question.question}}
                     </mat-checkbox>
@@ -98,14 +98,14 @@
             <div class="contributor-edit-action" *ngIf="!question.isEdit">
               <div class="contributor-edit-button">
                 <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
-                        [disabled]="question.status === 'Sent_For_Review'">
-                  Edit
+                        [disabled]="question.status === sentForReview">
+                  {{edit}}
                 </button>
               </div>
               <div class="contributor-send-button">
                 <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response)"
-                        [disabled]="question.status === 'Sent_For_Review' || checkbox.checked">
-                  Send for Review
+                        [disabled]="question.status === sentForReview || checkbox.checked">
+                  {{sendToReview}}
                 </button>
               </div>
               <div class="question-delete-button">
@@ -116,7 +116,7 @@
               <div class="save-text-button">
                 <button mat-flat-button class="contributor-save-button" (click)="updateQuestion(question, response)"
                         [disabled]="question.question.length <=0">
-                  Save
+                  {{save}}
                 </button>
               </div>
               <div class="discard-changes">

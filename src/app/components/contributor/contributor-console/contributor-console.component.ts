@@ -5,6 +5,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
+import {data_local} from "../../../messages";
 
 @Component({
   selector: 'app-contributor-console',
@@ -16,6 +17,10 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   isAuthor: boolean = false;
   isContributor: boolean = false;
+  contributorConsole: string = data_local.CONTRIBUTOR.CONSOLE;
+  author : string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  reviewer : string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  contributor : string = data_local.CONTRIBUTOR.CONTRIBUTOR
 
 
   constructor(public router: Router, private appService: AppServiceService, private store: Store<AppStates>) {
@@ -28,12 +33,12 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.appService.getUserRole().subscribe((data) => {
-      if (data.includes("Author"))
+      if (data.includes(this.author))
         this.isAuthor = true
-      if (data.includes("Reviewer"))
+      if (data.includes(this.reviewer))
         this.isContributor = true
     })
-    this.store.dispatch(fromActions.user({role: "contributor"}))
+    this.store.dispatch(fromActions.user({role: this.contributor}))
 
   }
 

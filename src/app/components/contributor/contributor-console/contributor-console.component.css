@@ -1,6 +1,6 @@
 .contributor-console-card{
-  background: #EAF4F6 0% 0% no-repeat padding-box;
-  box-shadow: 0px 10px 20px #C4C8D066;
+  background: #EAF4F6 0 0 no-repeat padding-box;
+  box-shadow: 0 10px 20px #C4C8D066;
   border-radius: 20px;
   opacity: 1;
   width: 100%;
@@ -28,7 +28,7 @@
   width: 15vw;
 }
 .author-active{
-  background: #4BA1AC 0% 0% no-repeat padding-box;
+  background: #4BA1AC 0 0 no-repeat padding-box;
   color: white !important;
 }
 .author-button{
@@ -41,7 +41,7 @@
   font-style: normal;
   font-family: Inter, sans-serif;
   font-size: 18px;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   width: 100%;
   color: #52575d;
   opacity: 1;

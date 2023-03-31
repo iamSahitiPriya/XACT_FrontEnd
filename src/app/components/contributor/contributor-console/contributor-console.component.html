@@ -2,32 +2,32 @@
   <div class="contributor-console">
     <mat-card class="contributor-console-card">
       <div class="contributor-title">
-        <mat-card-title class="contributor-heading">Contributor Console</mat-card-title>
+        <mat-card-title class="contributor-heading">{{contributorConsole}}</mat-card-title>
         <hr>
       </div>
       <mat-card-actions>
         <div class="author" *ngIf="isAuthor">
-          <button mat-button class="author-button" (click)="setEvent('author')"
-                  [ngClass]="{'author-active':type === 'author'}" [routerLink]="['/contributor/author']">
+          <button mat-button class="author-button" (click)="setEvent(author.toLowerCase())"
+                  [ngClass]="{'author-active':type === author.toLowerCase()}" [routerLink]="['/contributor/author']">
             <div class="author-icon">
               <div class="icon-author">
                 <mat-icon class="dashboardIcon">dashboard</mat-icon>
               </div>
               <div class="author-label">
-                <h3>Author</h3>
+                <h3>{{author}}</h3>
               </div>
             </div>
           </button>
         </div>
         <div class="reviewer" *ngIf="isContributor">
-          <button mat-button class="author-button" (click)="setEvent('reviewer')"
-                  [ngClass]="{'author-active':type === 'reviewer'}" [routerLink]="['/contributor/author']">
+          <button mat-button class="author-button" (click)="setEvent(reviewer.toLowerCase())"
+                  [ngClass]="{'author-active':type === reviewer.toLowerCase()}" [routerLink]="['/contributor/author']">
             <div class="reviewer-icon">
               <div class="icon-author">
                 <mat-icon class="dashboardIcon">dashboard</mat-icon>
               </div>
               <div class="reviewer-label">
-                <h3>Reviewer</h3>
+                <h3>{{reviewer}}</h3>
               </div>
             </div>
           </button>

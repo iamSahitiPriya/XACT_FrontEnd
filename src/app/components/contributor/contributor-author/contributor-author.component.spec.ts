@@ -117,6 +117,14 @@ describe('ContributorAuthorComponent', () => {
         return throwError("Error!")
       }
     }
+    deleteQuestion(questionId : number) {
+      if(questionId === 1) {
+      return of(this.questionResponse);}
+      else {
+        return throwError("Error!")
+      }
+
+    }
   }
 
   beforeEach(async () => {
@@ -365,6 +373,25 @@ describe('ContributorAuthorComponent', () => {
     let response = component.contributorData[0]
 
     component.sendForReview(question,response)
+
+    expect(matDialog.open).toHaveBeenCalled()
+  });
+
+  it("it should delete question", () => {
+    component.ngOnInit()
+
+    jest.spyOn(matDialog, "open")
+    component.deleteQuestion(component.contributorData[0].questions[0],component.contributorData[0])
+
+    expect(matDialog.open).toHaveBeenCalled()
+  });
+
+  it("it should throw error when unsuccessful delete", () => {
+    component.ngOnInit()
+
+    jest.spyOn(matDialog, "open")
+    component.contributorData[0].questions[0].questionId = 5
+    component.deleteQuestion(component.contributorData[0].questions[0],component.contributorData[0])
 
     expect(matDialog.open).toHaveBeenCalled()
   });

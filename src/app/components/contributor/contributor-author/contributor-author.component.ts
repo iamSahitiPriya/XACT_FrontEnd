@@ -28,7 +28,7 @@ const NOTIFICATION_DURATION = 2000;
   styleUrls: ['./contributor-author.component.css']
 })
 export class ContributorAuthorComponent implements OnInit, OnDestroy {
-  searchBarText: string = "Search questions";
+  searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
   searchText: string;
   isEdit: boolean;
   sentToReview: boolean = false;
@@ -44,6 +44,18 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   parameterData: ParameterData;
   masterData: Observable<CategoryResponse[]>
   masterData1: CategoryResponse[]
+  close: string = data_local.CONTRIBUTOR.CLOSE;
+  contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
+  contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
+  allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
+  selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
+  sendToReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  sentForReview: string = data_local.CONTRIBUTOR.STATUS.SEND_FOR_REVIEW;
+  draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
+  edit: string = data_local.CONTRIBUTOR.EDIT;
+  save: string = data_local.CONTRIBUTOR.SAVE;
+  author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
 
   constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
@@ -53,7 +65,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.masterData.subscribe(data => {
       this.masterData1 = data
     })
-    this.appService.getContributorQuestions("Author").subscribe((data) => {
+    this.appService.getContributorQuestions(this.author).subscribe((data) => {
       this.unsavedData = []
       this.contributorResponse = data
       this.formatResponse()
@@ -122,7 +134,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '64vw',
       data: {
-        role: 'author',
+        role: this.author.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
       }
@@ -212,13 +224,13 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateAllSelectedStatus(data: ContributorData) {
-    data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === 'Draft') || (eachQuestion.isSelected === false && eachQuestion.status === 'Sent_For_Review')));
+    data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
   }
 
   setAllQuestions(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
     data.questions.forEach(eachQuestion => {
-      if (eachQuestion.status === 'Sent_For_Review') eachQuestion.isSelected = false
+      if (eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
       else eachQuestion.isSelected = isSelected
     });
   }
@@ -264,7 +276,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure";
+    openConfirm.componentInstance.text = this.confirmationTitle;
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         this.appService.deleteQuestion(question.questionId).subscribe({
@@ -344,10 +356,10 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       if (question !== undefined) question.isSelected = false
     })
 
-    data.allSelected = data.questions.every(eachQuestion => (eachQuestion.isSelected === false && eachQuestion.status === "Sent_For_Review"))
+    data.allSelected = data.questions.every(eachQuestion => (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview))
   }
 
   isSentForReview(data: ContributorData): boolean {
-    return data.questions.every(eachQuestion => eachQuestion.status === "Sent_For_Review");
+    return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
   }
 }

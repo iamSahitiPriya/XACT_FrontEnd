@@ -279,7 +279,7 @@ a.anchor{
   z-index: 10000;
 }
 
-.dummy-div {
+.backdrop {
   height: 100%;
   width: 45%;
   background-color: #6F7071;
@@ -290,7 +290,7 @@ a.anchor{
   z-index: 10000;
 }
 
-.dummy {
+.all-questions-backdrop {
   position: fixed;
   height: 100%;
   width: 100%;

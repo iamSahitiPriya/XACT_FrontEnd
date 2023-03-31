@@ -1,6 +1,6 @@
 <div class="question-content">
   <div class="question-title">
-    <h2 class="question-heading">Questions</h2>
+    <h2 class="question-heading">{{questions}}</h2>
   </div>
   <div *ngFor="let questionData of data.question; let i=index">
     <div class="question-text">
@@ -10,7 +10,7 @@
   <div class="question-comment">
     <mat-form-field class="comments-area" appearance="outline" id="testForm">
       <mat-label>Comments {{inputWarningLabel}}</mat-label>
-      <textarea matInput #input name="textarea"
+      <textarea matInput name="textarea"
                 id="assessmentAnswer"
                 [(ngModel)]="comments"
                 cdkTextareaAutosize
@@ -23,12 +23,12 @@
   <div class="action-items">
     <div>
       <button mat-flat-button class="send-for-review-button" (click)="sendToReview(data.question)">
-        Send for Review
+        {{sendForReview}}
       </button>
     </div>
     <div>
-      <button mat-flat-button class="cancel-review-button" (click)="cancelChanges()" id="cancelChanges">
-        Cancel
+      <button mat-flat-button class="cancel-review-button" (click)="cancelChanges()" id="cancel-changes">
+        {{cancel}}
       </button>
     </div>
   </div>

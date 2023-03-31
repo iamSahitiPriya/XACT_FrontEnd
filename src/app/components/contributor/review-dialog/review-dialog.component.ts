@@ -19,6 +19,10 @@ export class ReviewDialogComponent implements OnDestroy{
   inputWarningLabel = data_local.LEGAL_WARNING_MSG_FOR_INPUT;
   private destroy$: Subject<void> = new Subject<void>();
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
+  questions: string = data_local.ADMIN.QUESTION.QUESTIONS;
+  sendForReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  cancel: string = data_local.CONTRIBUTOR.CANCEL;
+  sentForReview : string = data_local.CONTRIBUTOR.STATUS.SEND_FOR_REVIEW
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
   }
@@ -29,7 +33,7 @@ export class ReviewDialogComponent implements OnDestroy{
       questionId.push(eachQuestion.questionId)
     })
     let updatedQuestion : any = {comments: this.comments, questionId: questionId}
-    this.appService.sendForReview(this.data.moduleId, "Sent_For_Review", updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
+    this.appService.sendForReview(this.data.moduleId, this.sentForReview, updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
       next : (response:any) => {
         this.onSave.emit(response)
       }, error : _error => {
