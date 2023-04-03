@@ -17,9 +17,6 @@ class loginPage {
   static oktaHeader(){
      return cy.get('.okta-sign-in-header > h1')
   }
-  static siginTitle(){
-    return cy.get('.okta-form-title')
-  }
   static userNameheader(){
     return cy.get('.okta-form-title')
   }

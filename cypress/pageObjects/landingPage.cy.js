@@ -5,6 +5,7 @@
 /// <reference types='cypress'/>
 import exp from "constants";
 import commonFunction from "./commonFunction.cy";
+import commonFunctions from "./commonFunction.cy";
 
 class landingPage {
 
@@ -24,6 +25,9 @@ class landingPage {
   static assessmentOption(rowCount){
     return cy.get('tr:nth-child('+rowCount+')>td:nth-child(5)>div>app-assessment-menu>div>div>button')
   }
+  static configureOption(){
+    return cy.get('#open-assessment')
+  }
 
   static menu() {
     return cy.get('[role=menuitem]')
@@ -41,6 +45,9 @@ class landingPage {
   static searchPlaceholder(){
     return cy.get('.text')
   }
+  static configurePopUpHeader(){
+    return cy.get('.mat-dialog-title.ng-star-inserted')
+  }
   static createAssessment() {
     return cy.get('#createAssessment',{ timeout: 10000 })
   }
@@ -55,12 +62,17 @@ class landingPage {
   static  purposeOfAssessment(){
     return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper')
   }
+
+  static  purposeOfAssessment1(){
+    return cy.get('.assessment-purpose > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
+  }
+
   static  pageNationDropDown(){
     return cy.get('.mat-paginator-page-size-label')
   }
 
   static  purposeOfAssessment2(){
-    return cy.get(':nth-child(3) > .mat-form-field-type-mat-select > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
+    return cy.get('.assessment-purpose > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
   }
   static  purposeOfAssessmentOption(index){
     return cy.get('mat-option:nth-child('+index+')')
@@ -71,7 +83,7 @@ class landingPage {
     return cy.get('[formcontrolname=assessmentNameValidator]')
   }
   static OrganisationName() {
-    return cy.get('.organizationName')
+    return cy.get('.organisation-name > .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix')
   }
   static description() {
     return cy.get('.assessment-description')
@@ -199,15 +211,15 @@ class landingPage {
     return cy.get(':nth-child('+index+') > .cdk-column-assessmentStatus > span')
   }
   static assessmentNameError(){
-    return cy.get('.assessmentName > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.assessment-name > .mat-form-field > .mat-form-field-wrapper>div:nth-child(2)')
   }static organisationNameError(){
-    return cy.get('.organizationName > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.organisation-name > .mat-form-field > .mat-form-field-wrapper>div:nth-child(2)')
   }static domainFieldError(){
-    return cy.get('.domain > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.domain > .mat-form-field > .mat-form-field-wrapper>div:nth-child(2)')
   }static industryFieldError(){
-    return cy.get('.industry > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.assessment-industry > .mat-form-field > .mat-form-field-wrapper>div:nth-child(2)')
   }static teamSizeFieldError(){
-    return cy.get('.team-size > .mat-form-field-wrapper > .mat-form-field-subscript-wrapper')
+    return cy.get('.team-size > .mat-form-field > .mat-form-field-wrapper>div:nth-child(2)')
   }
   static serverError(){
     return cy.get('.mat-snack-bar-container')
@@ -256,13 +268,13 @@ class landingPage {
     landingPage.AssessmentName().should('be.visible')
     expect(landingPage.AssessmentName()).to.exist;
     cy.wait(1000)
-    landingPage.AssessmentName().type(AssessmentName)
+    landingPage.AssessmentName().clear().type(AssessmentName)
     landingPage.OrganisationName().should('be.visible').clear().type(OrgName)
     landingPage.OrganisationSuggestion().click({ force: true })
     commonFunction.clickElement(landingPage.description(),'clicking on description edit box')
     landingPage.description().should('be.visible').clear().type(Desc)
     landingPage.Domain().should('be.visible')
-    landingPage.Domain().type(Domain)
+    landingPage.Domain().clear().type(Domain)
     landingPage.teamSizeField().should('be.visible')
     landingPage.teamSizeField().clear().type(TeamSize)
     landingPage.email().type(EmailId)
@@ -343,6 +355,19 @@ class landingPage {
     landingPage.searchBox().click({ force: true })
     landingPage.searchBox().clear()
     landingPage.searchBox().type(value)
+  }
+
+  static assessmentCreation(purposeOfAssessment,assessmentTitle,OrganisationName){
+    cy.wait(500)
+    landingPage.landingPageFields()
+    landingPage.createAssessment().should('be.visible')
+    landingPage.createAssessment().click()
+    commonFunctions.clickOnElement(landingPage.purposeOfAssessment2(),'purpose of element dropdown options are visible')
+    commonFunctions.clickOnElement(landingPage.purposeOfAssessmentOption(purposeOfAssessment),'Client Request option is clicked')
+    landingPage.AssessmentpopupFields(assessmentTitle,OrganisationName,'Description of the assessment','testDOMAIN','22','jathin@thoughtworks.com')
+    landingPage.saveAssessmentButton().click()
+    landingPage.assessmentNameInGrid(1).should('have.text',' '+assessmentTitle+' ')
+
   }
 
 }

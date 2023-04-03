@@ -1,11 +1,11 @@
-import loginPage from "../pageObjects/loginPage.cy";
-import landingPage from "../pageObjects/landingPage.cy";
-import assessmentPage from "../pageObjects/assessmentPage.cy";
-import commonFunctionCy from "../pageObjects/commonFunction.cy";
-import commonFunctions from "../pageObjects/commonFunction.cy";
-import adminPortalCy from "../pageObjects/adminPortal.cy";
+import loginPage from "../../pageObjects/loginPage.cy";
+import landingPage from "../../pageObjects/landingPage.cy";
+import assessmentPage from "../../pageObjects/assessmentPage.cy";
+import commonFunctionCy from "../../pageObjects/commonFunction.cy";
+import commonFunctions from "../../pageObjects/commonFunction.cy";
+import adminPortalCy from "../../pageObjects/adminPortal.cy";
 import assert from "assert";
-import adminPortal from "../pageObjects/adminPortal.cy";
+import adminPortal from "../../pageObjects/adminPortal.cy";
 describe('Smoke suite to verify all the major functionalities of the xAct application',()=>{
 
   beforeEach ('Launching the xAct application',()=>{
