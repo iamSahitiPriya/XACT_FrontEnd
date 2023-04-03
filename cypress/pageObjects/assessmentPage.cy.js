@@ -1,6 +1,7 @@
 import landingPage from "./landingPage.cy";
 
 import fs from "fs";
+import commonFunctions from "./commonFunction.cy";
 
 class assessmentPage {
 
@@ -10,10 +11,12 @@ class assessmentPage {
 
   static reOpenhAssessmentButton() {
       return cy.get('#reopenAssessment')
-    }
+  }
   static configureOption() {
-        return cy.get('#createAssessment')
-      }
+    return cy.get('#createAssessment')
+
+  }
+
  static modules(categoryIndex,moduleIndex) {
         return cy.get('.side-bar>.expansion_color:nth-child('+categoryIndex+')>mat-expansion-panel>.mat-expansion-panel-content>.mat-expansion-panel-body>.category-modules> :nth-child('+moduleIndex+') > .mat-card')
       }
@@ -65,7 +68,7 @@ class assessmentPage {
   }
 
   static threeDots(){
-    return cy.get('#menu-button')
+    return cy.get('button[id=menu-button]')
   }
 
 
@@ -164,7 +167,6 @@ class assessmentPage {
 
     return cy.get(' :nth-child('+index2+')  > :nth-child(4) > app-parameter-level-rating.ng-star-inserted > .parameterScoring > :nth-child('+index+') > .mat-toolbar > .reference')
 
-
   }
 static editBox(){
     return cy.get('textarea')
@@ -182,6 +184,8 @@ static editBox(){
       assessmentPage.softwareEngineeringModules(index).click()
     }
   }
+
+
 
 
 

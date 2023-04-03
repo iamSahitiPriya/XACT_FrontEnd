@@ -18,7 +18,7 @@ describe('validating functionality of options menu of xAct application', () => {
   it('tc001 validating all options available in menu of an assessment', () => {
     commonFunction.elementIsVisible(landingPage.assessmentOption(1),'Verifying if options menu is available for the assessment')
     commonFunction.clickElement(landingPage.assessmentOption(1),'clicking on the element to see options available in the menu')
-    commonFunction.lengthOfElement(landingPage.menu(),'validating the count of elements in the menu option')
+    commonFunction.lengthOfElement(landingPage.menu(),4,'validating the count of elements in the menu option')
     commonFunction.containsText(landingPage.menuOptions(1),'Configure','validating 1st option in the menu')
     commonFunction.containsText(landingPage.menuOptions(2),'Manage modules','validating 2nd option in the menu')
     commonFunction.containsText(landingPage.menuOptions(3),'Generate Report','validating 3rd option in the menu')

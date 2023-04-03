@@ -14,9 +14,8 @@ describe('validating architechture quality module functionality', () => {
   //Architectural style parameter
   it('tc001 Architectural style parameter validation',()=> {
     landingPage.assessmentNameInGrid(1).click()
-
     cy.wait(500)
-    manageModules.moduleCheckBox(1).click()
+    manageModules.categoryCheckBox(1).click()
     commonFunction.clickOnElement(manageModules.saveButton())
     cy.fixture('ArchitecturalStyle').then((testData) => {
       assessmentPage.topicTab(1).should('have.class', 'mat-ripple mat-tab-label mat-focus-indicator mat-tab-label-active ng-star-inserted')
