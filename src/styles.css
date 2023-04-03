@@ -163,3 +163,8 @@ ngb-datepicker {
   width: 36.5vw;
   max-height: 85vh;
 }
+
+.review-dialog {
+  width: 64vw;
+  z-index: 10500;
+}

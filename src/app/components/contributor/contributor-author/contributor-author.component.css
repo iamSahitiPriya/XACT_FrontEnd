@@ -79,7 +79,8 @@
 }
 .contributor-questions .mat-card{
   box-shadow: none;
-  border: 1px solid #4BA1ACBF
+  border: 1px solid #4BA1ACBF;
+  border-top-left-radius : 0;
 }
 .contributor-question-content{
   width: 80%;
@@ -143,14 +144,14 @@ a.anchor{
   color: #6F7071;
 }
 
-.status-icon {
+.question-status-icon {
  padding-left: 10%;
 }
 
 .question-delete-button {
   padding-top: 0.5%;
 }
-.status-icon .mat-icon {
+.question-status-icon .mat-icon {
   color: #416386;
 }
 
@@ -291,14 +292,14 @@ a.anchor{
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 10000;
+  z-index: 100;
 }
 
 .all-questions-backdrop {
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 10000;
+  z-index: 100;
   top: 0;
   left: 0;
   bottom: 0;

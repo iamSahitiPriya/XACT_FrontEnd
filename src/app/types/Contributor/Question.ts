@@ -7,7 +7,7 @@ export interface Question {
   questionId : number
   question : string
   comments : string
-  status : string
+  status ?: string
   isEdit?: boolean
   isSelected ?: boolean
 }

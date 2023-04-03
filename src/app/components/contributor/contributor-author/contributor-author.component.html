@@ -2,7 +2,7 @@
   <div class="backdrop"></div>
   <div class="all-question-container">
     <div class="close">
-      <button (click)="closeQuestions()">{{close}}</button>
+      <button (click)="closeQuestions()"><mat-icon class="question_close-icon">close</mat-icon></button>
     </div>
     <div class="all-questions">
       <app-admin-question
@@ -89,9 +89,9 @@
                 </div>
               </mat-card-content>
             </div>
-            <div class="status-icon" *ngIf="question.status === 'Sent_For_Review'">
+            <div class="question-status-icon" *ngIf="question.status === 'Sent_For_Review'">
               <mat-icon matTooltip="Sent for Review"
-                        [matTooltipPosition]="'below'"
+                        [matTooltipPosition]="'left'"
                         matTooltipHideDelay="1000">info_outline
               </mat-icon>
             </div>

@@ -5,24 +5,27 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {QuestionStructure} from "../../../types/questionStructure";
 import {data_local} from "../../../messages";
-import {cloneDeep} from "lodash";
+import {cloneDeep, uniqueId} from "lodash";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {Question} from "../../../types/Admin/question";
+import {Question as ContributorQuestion} from "../../../types/Contributor/Question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
 import {QuestionResponse} from "../../../types/Admin/questionResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {ParameterData} from "../../../types/ParameterData";
+import {ContributorData} from "../../../types/Contributor/ContributorData";
+import {ReviewDialogComponent} from "../../contributor/review-dialog/review-dialog.component";
 
 const NOTIFICATION_DURATION = 2000;
 
-export  interface ColorScheme {
-  borderColor : string
-  backgroundColor : string
-  displayText : string
+export interface ColorScheme {
+  borderColor: string
+  backgroundColor: string
+  displayText: string
 }
 
 @Component({
@@ -58,14 +61,23 @@ export class AdminQuestionComponent implements OnInit {
   unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
-  colorScheme = new Map<string,ColorScheme>()
-  publishedColorScheme : ColorScheme = {borderColor : '#5D9EAA', backgroundColor :'#5D9EAA0D', displayText : 'All published questions'}
-  sentForReviewColorScheme : ColorScheme = {borderColor : '#BE873E', backgroundColor :'#BE873E0D', displayText : 'Sent for Review'}
-  rejectedColorScheme : ColorScheme = {borderColor : '#BD4257', backgroundColor :'#BD425715', displayText : 'Rejected'}
-  draftColorScheme : ColorScheme = {borderColor : '#5D9EAA', backgroundColor :'#5D9EAA0D', displayText : 'Draft'}
+  colorScheme = new Map<string, ColorScheme>()
+  publishedColorScheme: ColorScheme = {
+    borderColor: '#6B9F78',
+    backgroundColor: '#e8f8ec',
+    displayText: 'All published questions'
+  }
+  sentForReviewColorScheme: ColorScheme = {
+    borderColor: '#BE873E',
+    backgroundColor: '#BE873E0D',
+    displayText: 'Sent for Review'
+  }
+  rejectedColorScheme: ColorScheme = {borderColor: '#BD4257', backgroundColor: '#BD425715', displayText: 'Rejected'}
+  draftColorScheme: ColorScheme = {borderColor: '#5D9EAA', backgroundColor: '#5D9EAA0D', displayText: 'Draft'}
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
+  private author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -149,10 +161,16 @@ export class AdminQuestionComponent implements OnInit {
     this.questionStatusMap.forEach((value, key) => {
       let index = value.findIndex((eachQuestion: Question) => eachQuestion.questionId === -1)
       if (index !== -1 && index !== undefined)
-          this.questionStatusMap.get(key)?.splice(index, 1)
-      if(this.questionStatusMap.get(key)?.length === 0)
-        this.questionStatusMap.delete(key)
+        this.questionStatusMap.get(key)?.splice(index, 1)
+      this.deleteFromMap(key);
     })
+  }
+
+  private deleteFromMap(status: string | undefined) {
+    if(status !== undefined) {
+      if (this.questionStatusMap.get(status)?.length === 0)
+        this.questionStatusMap.delete(status)
+    }
   }
 
   cancelChanges(question: Question) {
@@ -190,7 +208,7 @@ export class AdminQuestionComponent implements OnInit {
       questionText: question.questionText,
       parameter: this.parameter.parameterId,
       questionId: question.questionId,
-      status : question.status
+      status: question.status
     }
   }
 
@@ -210,9 +228,18 @@ export class AdminQuestionComponent implements OnInit {
         parameter.questions = []
         parameter.questions.push(question)
       }
-    } else
-      questions?.push(question)
+    } else {
+      this.updateQuestionArray(questions, data, question);
+    }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
+  }
+
+  private updateQuestionArray(questions: QuestionStructure[], data: QuestionStructure, question: QuestionResponse) {
+    let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === data.questionId)
+    if (index !== -1)
+      questions.splice(index, 1, data)
+    else
+      questions?.push(question)
   }
 
   resetPreviousChanges() {
@@ -259,15 +286,75 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  private addQuestionToMap(eachQuestion: Question) {
-    if(eachQuestion.status !== undefined) {
-      if (this.questionStatusMap.has(eachQuestion?.status)) {
-        this.questionStatusMap.get(eachQuestion?.status)?.unshift(eachQuestion)
+  private addQuestionToMap(question: Question) {
+    if (question.status !== undefined) {
+      if (this.questionStatusMap.has(question?.status)) {
+        this.questionStatusMap.get(question?.status)?.unshift(question)
       } else {
         let questionArr = []
-        questionArr.unshift(eachQuestion)
-        this.questionStatusMap.set(eachQuestion?.status, questionArr)
+        questionArr.unshift(question)
+        this.questionStatusMap.set(question?.status, questionArr)
       }
+    }
+  }
+
+  sendForReview(question: Question) {
+    let questionRequest: ContributorQuestion[] = []
+    let contributorQuestion: ContributorQuestion = {
+      comments: "", question: question.questionText, questionId: question.questionId, status: question.status
+    }
+    questionRequest.push(contributorQuestion)
+    let contributorData: ContributorData = this.getContributorData(questionRequest)
+    this.openReviewDialog(questionRequest, contributorData);
+  }
+
+  private getContributorData(questions: ContributorQuestion[]): ContributorData {
+    return {
+      categoryId: this.category,
+      categoryName: this.parameter.categoryName,
+      moduleId: this.module,
+      moduleName: this.parameter.moduleName,
+      parameterId: this.parameter.parameterId,
+      parameterName: this.parameter.parameterName,
+      questions: questions,
+      topicId: this.parameter.topicId,
+      topicName: this.parameter.topicName
+
+    };
+  }
+
+  private openReviewDialog(questionRequest: ContributorQuestion[], data: ContributorData) {
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      panelClass: 'review-dialog',
+      data: {
+        role: this.author.toLowerCase(),
+        question: questionRequest,
+        moduleId: data.moduleId,
+      }
+    });
+    dialogRef.componentInstance.onSave.subscribe(response => {
+      this.updateQuestionStatusMap(data.questions[0])
+      this.deleteFromMap(data.questions[0].status)
+      let question: QuestionStructure = {
+        parameter: data.parameterId,
+        questionId: response.questionId[0],
+        questionText: data.questions[0].question,
+        status: response.status
+      }
+      this.sendToStore(question)
+      let updatedQuestion : Question = question
+      updatedQuestion.isEdit = false
+      this.addQuestionToMap(question)
+    })
+    dialogRef.afterClosed();
+  }
+
+  private updateQuestionStatusMap(question: ContributorQuestion) {
+    if(question.status !== undefined)
+    {
+      let index : number | undefined = this.questionStatusMap.get(question.status)?.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+      if(index !== undefined && index !== -1)
+        this.questionStatusMap.get(question.status)?.splice(index,1)
     }
   }
 }

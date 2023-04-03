@@ -42,7 +42,7 @@
   font-family: Inter, sans-serif;
   font-size: 18px;
   letter-spacing: 0;
-  width: 100%;
+  width: 9vw;
   color: #52575d;
   opacity: 1;
   margin: 6px -4px !important;
@@ -54,13 +54,13 @@
   width: 50%;
   padding-bottom: 6px;
   justify-content: space-between;
-  padding-top: 4px;
   padding-left: 5px;
 }
 .author-icon .mat-icon{
-  padding-top: 3px;
+  padding-top: 2px;
 }
 .icon-author{
+  padding-top : 1px;
   padding-left: 7px ;
 }
 .reviewer-icon{
@@ -69,12 +69,10 @@
   width: 60%;
   padding-bottom: 6px;
   justify-content: space-between;
-  padding-top: 4px;
   padding-left: 5px;
 }
 .author-label{
   padding-left: 8px;
-  padding-top: 3px;
 }
 .author-label h3, .reviewer-label h3{
   font-size: 1em;
