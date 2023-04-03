@@ -23,10 +23,6 @@ th {
 
 }
 
-/*th.module {*/
-/*  padding-right: 18%;*/
-/*}*/
-
 th.module, td.module {
   border-bottom-style: none;
   text-align: center;

@@ -13,7 +13,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {Question} from "../../../types/Admin/question";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
-import exp from "constants";
 
 class MockDialog {
   questionResponse = {

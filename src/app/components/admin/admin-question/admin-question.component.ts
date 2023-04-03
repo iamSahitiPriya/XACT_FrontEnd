@@ -5,7 +5,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import {QuestionStructure} from "../../../types/questionStructure";
 import {data_local} from "../../../messages";
-import {cloneDeep, uniqueId} from "lodash";
+import {cloneDeep} from "lodash";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -292,7 +292,6 @@ export class AdminQuestionComponent implements OnInit {
   private addQuestionToMap(question: Question) {
     if (question.status !== undefined) {
       if (this.questionStatusMap.has(question?.status)) {
-        console.log(this.questionStatusMap)
         this.questionStatusMap.get(question?.status)?.unshift(question)
       } else {
         let questionArr = []
