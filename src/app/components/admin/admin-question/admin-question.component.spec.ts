@@ -8,14 +8,38 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {MatCardModule} from "@angular/material/card";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {Question} from "../../../types/Admin/question";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import exp from "constants";
+
+class MockDialog {
+  questionResponse = {
+    "questionId": [
+      1
+    ],
+    "comments": "sdasdas",
+    "status": "Sent_For_Review"
+  }
+
+  open() {
+    return {
+      afterClosed: () => of(1),
+      componentInstance: {
+        onSave: of(this.questionResponse)
+      }
+    }
+  }
+
+  closeAll() {
+  }
+}
 
 class MockAppService {
   response = {
-    questionId: 1,
+    questionId: 2,
     questionText: "Hello",
     parameter: 1,
     topic: 1,
@@ -33,12 +57,21 @@ class MockAppService {
   saveMasterQuestion(questionRequest: any) {
     if (questionRequest.questionText === "This is a question text") {
       return of(this.response)
-    } else if(questionRequest.questionText === "This is a question text2"){
+    } else if (questionRequest.questionText === "This is a question text2") {
       this.response.parameter = 5
       return of(this.response)
-    }else {
+    } else {
       return throwError("Error!")
     }
+  }
+
+  deleteQuestion(questionId: number) {
+    if (questionId === 1) {
+      return of(this.response);
+    } else {
+      return throwError("Error!")
+    }
+
   }
 }
 
@@ -46,20 +79,24 @@ describe('AdminQuestionComponent', () => {
   let component: AdminQuestionComponent;
   let fixture: ComponentFixture<AdminQuestionComponent>;
   let mockAppService: MockAppService
-  let row : Question
+  let matDialog: any
+  let row: Question
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminQuestionComponent],
-      imports: [StoreModule.forRoot(reducers), HttpClientModule, MatSnackBarModule, MatCardModule, MatDialogModule, MatIconModule, MatTooltipModule],
+      imports: [StoreModule.forRoot(reducers), BrowserAnimationsModule, NoopAnimationsModule, HttpClientModule, MatSnackBarModule, MatCardModule, MatDialogModule, MatIconModule, MatTooltipModule],
       providers: [
-        {provide: AppServiceService, useClass: MockAppService}]
+        {provide: AppServiceService, useClass: MockAppService},
+        {provide: MatDialog, useClass: MockDialog}
+      ]
     })
       .compileComponents();
 
     fixture = TestBed.createComponent(AdminQuestionComponent);
     component = fixture.componentInstance;
     mockAppService = new MockAppService();
+    matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
     // @ts-ignore
     component.masterData = of([{
@@ -94,9 +131,9 @@ describe('AdminQuestionComponent', () => {
               "questionText": "This is a question",
               "parameter": 1
             }],
-            "userQuestions" : [],
+            "userQuestions": [],
             "references": [],
-          },{
+          }, {
             "parameterId": 5,
             "parameterName": "parameter",
             "topic": 1,
@@ -104,7 +141,7 @@ describe('AdminQuestionComponent', () => {
             "comments": "",
             "active": true,
             "questions": undefined,
-            "userQuestions" : [],
+            "userQuestions": [],
             "references": [],
           }],
           "references": []
@@ -137,7 +174,22 @@ describe('AdminQuestionComponent', () => {
       "modules": []
     }
     ])
-    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: 1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
+    component.parameter = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: 1,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
     component.topic = 1
     component.module = 1
     component.category = 1
@@ -209,7 +261,22 @@ describe('AdminQuestionComponent', () => {
 
     component.ngOnInit()
     component.saveQuestion(row)
-    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
+    component.parameter = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
       expect(data).toBeDefined()
@@ -227,7 +294,22 @@ describe('AdminQuestionComponent', () => {
     expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions).toBeUndefined()
 
     component.saveQuestion(row)
-    component.parameter = {categoryId: 1, categoryName: "category1", categoryStatus: false, moduleId: 1, moduleName: "module1", moduleStatus: false, topicId: 1, topicName: "topic1", topicStatus: false, parameterId: -1, parameterName: "parameter", active: false, updatedAt: Date.now(), comments: "",}
+    component.parameter = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: -1,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
       expect(data).toBeDefined()
@@ -290,11 +372,66 @@ describe('AdminQuestionComponent', () => {
   });
 
   it("should remove unsaved question from the array", () => {
-    let questions = [{questionId:1,questionText:"question",parameter:1},{questionId:-1,questionText:"question1",parameter:1}]
-    component.questionStatusMap.set('Draft',questions)
+    let questions = [{questionId: -1, questionText: "question1", parameter: 1}]
+    component.questionStatusMap.set('Draft', questions)
 
     component.deleteUnsavedQuestion()
 
-    expect(component.questionStatusMap.get('Draft')?.length).toBe(1)
+    expect(component.questionStatusMap.get('Draft')?.length).toBeUndefined()
+  });
+
+  it("should send questions for review", () => {
+    let question: Question = {
+      parameter: 0, questionId: 1, questionText: "", status: 'Draft', isEdit: false
+    }
+    let question2: Question = {
+      parameter: 0, questionId: 1, questionText: "", status: 'Sent_For_Review', isEdit: false
+    }
+    let questions: Question[] = []
+    let questions2: Question[] = []
+    questions.push(question2)
+    questions2.push(question)
+    jest.spyOn(component, 'deleteQuestion')
+
+    component.ngOnInit()
+    component.questionStatusMap.set('Draft', questions)
+    component.questionStatusMap.set('Sent_For_Review', questions2)
+
+    jest.spyOn(matDialog, "open")
+    component.sendForReview(question)
+
+    expect(matDialog.open).toHaveBeenCalled()
+
+  });
+  it("should delete question", () => {
+    component.ngOnInit()
+    let question: Question = {
+      parameter: 1, questionId: 1, questionText: "", status: 'Draft', isEdit: false
+    }
+    let questions: Question[] = []
+    questions.push(question)
+    jest.spyOn(component, 'deleteQuestion')
+    component.questionStatusMap.set('Draft', questions)
+    component.deleteQuestion(question)
+
+    expect(component.deleteQuestion).toHaveBeenCalled()
+  });
+
+  it("should throw error on unsuccessful delete", () => {
+    component.ngOnInit()
+    let question: Question = {
+      parameter: 1, questionId: 2, questionText: "", status: 'Draft', isEdit: false
+    }
+    jest.spyOn(component, 'deleteQuestion')
+    jest.spyOn(component, 'showError')
+
+    component.deleteQuestion(question)
+
+    mockAppService.deleteQuestion(question.questionId).subscribe(data => {
+      expect(data).toBeUndefined()
+      expect(component.showError).toHaveBeenCalled()
+    })
+
+    expect(component.deleteQuestion).toHaveBeenCalled()
   });
 });

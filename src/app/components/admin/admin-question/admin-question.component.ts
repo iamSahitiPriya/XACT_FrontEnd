@@ -19,6 +19,7 @@ import {ParameterStructure} from "../../../types/parameterStructure";
 import {ParameterData} from "../../../types/ParameterData";
 import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {ReviewDialogComponent} from "../../contributor/review-dialog/review-dialog.component";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -78,6 +79,8 @@ export class AdminQuestionComponent implements OnInit {
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
   private author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
+  serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -167,7 +170,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private deleteFromMap(status: string | undefined) {
-    if(status !== undefined) {
+    if (status !== undefined) {
       if (this.questionStatusMap.get(status)?.length === 0)
         this.questionStatusMap.delete(status)
     }
@@ -289,6 +292,7 @@ export class AdminQuestionComponent implements OnInit {
   private addQuestionToMap(question: Question) {
     if (question.status !== undefined) {
       if (this.questionStatusMap.has(question?.status)) {
+        console.log(this.questionStatusMap)
         this.questionStatusMap.get(question?.status)?.unshift(question)
       } else {
         let questionArr = []
@@ -299,13 +303,18 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   sendForReview(question: Question) {
+    let questionRequest = this.getContributorQuestion(question);
+    let contributorData: ContributorData = this.getContributorData(questionRequest)
+    this.openReviewDialog(questionRequest, contributorData);
+  }
+
+  private getContributorQuestion(question: Question) {
     let questionRequest: ContributorQuestion[] = []
     let contributorQuestion: ContributorQuestion = {
       comments: "", question: question.questionText, questionId: question.questionId, status: question.status
     }
     questionRequest.push(contributorQuestion)
-    let contributorData: ContributorData = this.getContributorData(questionRequest)
-    this.openReviewDialog(questionRequest, contributorData);
+    return questionRequest;
   }
 
   private getContributorData(questions: ContributorQuestion[]): ContributorData {
@@ -342,20 +351,57 @@ export class AdminQuestionComponent implements OnInit {
         status: response.status
       }
       this.sendToStore(question)
-      let updatedQuestion : Question = question
+      let updatedQuestion: Question = question
+      this.addQuestionToMap(updatedQuestion)
       updatedQuestion.isEdit = false
-      this.addQuestionToMap(question)
+
     })
     dialogRef.afterClosed();
   }
 
   private updateQuestionStatusMap(question: ContributorQuestion) {
-    if(question.status !== undefined)
-    {
-      let index : number | undefined = this.questionStatusMap.get(question.status)?.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
-      if(index !== undefined && index !== -1)
-        this.questionStatusMap.get(question.status)?.splice(index,1)
+    if (question.status !== undefined) {
+      let index: number | undefined = this.questionStatusMap.get(question.status)?.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+      if (index !== undefined && index !== -1)
+        this.questionStatusMap.get(question.status)?.splice(index, 1)
     }
+  }
+
+  deleteQuestion(question: Question) {
+    let contributorQuestion = this.getContributorQuestion(question)
+    let response: QuestionStructure = question
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.confirmationTitle;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.appService.deleteQuestion(question.questionId).subscribe({
+          next: () => {
+            this.deleteFromStore(response)
+            this.updateQuestionStatusMap(contributorQuestion[0])
+            this.deleteFromMap(question.status)
+
+          },
+          error: () => {
+            this.showError(this.serverError)
+          }
+        })
+      }
+    })
+
+  }
+
+  private deleteFromStore(question: QuestionStructure) {
+    let questions = this.getQuestionsFromParameter()
+    if(questions !== undefined){
+      let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+      if (index !== -1)
+        questions.splice(index, 1)
+    }
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
+
   }
 }
 

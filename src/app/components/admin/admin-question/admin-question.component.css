@@ -74,7 +74,6 @@ div.questionButtonColumn {
   color: #043D4E;
   opacity: 1;
   word-break: break-word;
-  width: 62%;
 }
 
 .editQuestion {
@@ -96,10 +95,12 @@ div.questionButtonColumn {
 
 .save-button, .edit-button {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .save-button{
   padding-top: 20px;
+  width: 100%;
+  height: 6vh;
 }
 
 .updateButton{
@@ -107,8 +108,9 @@ div.questionButtonColumn {
   flex-direction: row;
   flex-wrap: wrap;
   flex: auto;
-  margin-left: 6%;
   padding-top: 20px;
+  justify-content: flex-end;
+  padding-right: 5%;
 }
 
 .edit-button{
@@ -241,11 +243,11 @@ div.questionButtonColumn {
 }
 
 .question-edit-update {
-  width: 34%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   flex: auto;
+  justify-content: flex-end;
 }
 
 .status-icon {
@@ -263,4 +265,8 @@ div.questionButtonColumn {
 
 .question_status-icon .sent-for-review mat-icon {
   color: #416386;
+}
+.question_status-icon{
+  padding-top: 0.75%;
+  padding-right: 2%;
 }

@@ -21,7 +21,7 @@
       <div class="question-status-heading-content"
            [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor, 'background-color':colorScheme.get(question.key)?.backgroundColor}">
         <div class="status-icon">
-          <span  *ngIf="question.key === sentForReview" class="sent-for-review"><mat-icon>warning</mat-icon></span>
+          <span *ngIf="question.key === sentForReview" class="sent-for-review"><mat-icon>warning</mat-icon></span>
           <span *ngIf="question.key === published" class="published"><mat-icon>check_circle</mat-icon></span>
         </div>
 
@@ -49,12 +49,13 @@
                 </mat-form-field>
                 <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
               </div>
-              <div class="question_status-icon">
-                <span *ngIf="question.status === sentForReview" class="sent-for-review"><mat-icon matTooltip="Sent for Review"
-                                                        [matTooltipPosition]="'left'"
-                                                        matTooltipHideDelay="1000">info_outline</mat-icon></span>
-              </div>
               <div class="question-edit-update">
+                <div class="question_status-icon">
+                <span *ngIf="question.status === sentForReview" class="sent-for-review"><mat-icon
+                  matTooltip="Sent for Review"
+                  [matTooltipPosition]="'left'"
+                  matTooltipHideDelay="1000">info_outline</mat-icon></span>
+                </div>
                 <div class="edit-button"
                      *ngIf="question.status !== published && question.isEdit === false">
                   <button class="editQuestion" id="edit-question" mat-flat-button
@@ -65,7 +66,12 @@
                      *ngIf="question.status !== published  && question.isEdit === false">
                   <button class="editQuestion" id="sent-for-review-question" mat-flat-button
                           [disabled]="question.status === sentForReview"
-                          (click)="sendForReview(question)">{{sentForReview}}</button>
+                          (click)="sendForReview(question)">{{colorScheme.get(sentForReview)?.displayText}}</button>
+                  <div class="delete-button">
+                    <button mat-flat-button (click)="deleteQuestion(question)">
+                      <mat-icon id="delete-question">delete</mat-icon>
+                    </button>
+                  </div>
                 </div>
                 <div class="save-button" *ngIf="question.isEdit === true && question.questionId === -1">
                   <button class="saveQuestion" [disabled]="!question.questionText" mat-flat-button
