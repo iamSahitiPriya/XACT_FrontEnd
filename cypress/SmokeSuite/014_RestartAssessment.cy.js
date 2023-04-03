@@ -28,7 +28,7 @@ describe('validating functionality of Finishing and Restarting assessment of xAc
       cy.wait(500)
       cy.get('body').then((body) => {
         if (body.find(manageModules.activeCards()).length > 0) {
-          manageModules.moduleCheckBox(1).click()
+          manageModules.(1).click()
           commonFunction.clickOnElement(manageModules.saveButton())
         }
       })

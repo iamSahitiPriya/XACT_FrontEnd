@@ -1,0 +1,70 @@
+[
+  {
+    "assessmentNames": [
+      "configAssessmentName",
+      "UpdatedAssessmentName",
+      "configFromAssessment",
+      "Data",
+      "InternalAssessmentCreation",
+      "ClientAssessmentCreation",
+      "JustExploringAssessmentCreation",
+      "50charassessment 50charassessment 50charassessment"
+    ],
+    "organisationNames": [
+      "Infineon AG",
+      "Infinity International",
+      "SF  Express"
+    ],
+    "Categories": [
+      "Software engineering",
+      "Operational efficiency",
+      "Cloud Platform",
+      "Product and Design",
+      "Talent Development",
+      "Org design",
+      "Data platform"
+    ],
+    "productDesignModules": [
+      "Project Management",
+      "Product Management",
+      "ProductOps"
+    ],
+    "softwareEngineeringModules": [
+      "Architecture Quality",
+      "DevOps",
+      "Quality Assurance",
+      "Code Quality",
+      "Agile Project Management",
+      "Engineering Excellence"
+    ],
+    "orgDesignModules": [
+      "Digital readiness",
+      "Capability and culture",
+      "Regulation readiness",
+      "Vendor optimisation"
+    ],
+    "cloudPlatformModules": [
+      "Cloud Modernization",
+      "Cloud Operating Model",
+      "Cloud readiness"
+    ],
+    "operationalEfficiencyModules": [
+      "Product & platform stability",
+      "People, process & tools",
+      "Infrastructure Stability",
+      "Optimised Evolvability",
+      "SRE"
+    ],
+    "talentDevelopmentModules": [
+      "Learning Assessment"
+    ],
+    "dataPlatformModules": [
+      "Data readiness",
+      "Data architecture"
+    ],
+    "status": [
+      "Active",
+      "Completed"
+    ]
+  }
+]

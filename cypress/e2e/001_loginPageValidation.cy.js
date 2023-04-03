@@ -7,7 +7,8 @@ describe('validating functionality of login page of xAct application', () => {
     cy.intercept('GET','https://dev-47045452.okta.com/oauth2/default/v1/userinfo').as('pageLoad')
     cy.visit('/')
   })
-
+//before method
+  //clear cookies,csstorage
 
   it('tc001 validating all fields in the login page',()=>{
     cy.clearLocalStorage()

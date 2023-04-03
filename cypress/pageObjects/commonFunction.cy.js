@@ -19,8 +19,8 @@ class commonFunction{
       .click({ force: true })
     cy.log(message)
   }
-  static lengthOfElement(webElementLocation,message){
-    webElementLocation.should('have.length', 4)
+  static lengthOfElement(webElementLocation,length,message){
+    webElementLocation.should('have.length', length)
     cy.log(message)
   }
 
@@ -29,6 +29,7 @@ class commonFunction{
       .clear().type(value)
    cy.log(message)
   }
+
  static applicationReload() {
     cy.reload()
    cy.log('reloading the application')
