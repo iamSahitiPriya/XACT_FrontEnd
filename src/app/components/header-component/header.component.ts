@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (data.includes("Admin")) {
         this.isRoleAdmin = true;
       }
-      if(data.includes("Author") || data.includes("Reviewer"))
+      if(data.includes("AUTHOR") || data.includes("REVIEWER"))
         this.isRoleContributor = true;
     })
     this.appService.login();

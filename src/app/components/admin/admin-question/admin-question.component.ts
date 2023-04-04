@@ -73,8 +73,16 @@ export class AdminQuestionComponent implements OnInit {
     backgroundColor: '#BE873E0D',
     displayText: 'Sent for Review'
   }
-  rejectedColorScheme: ColorScheme = {borderColor: '#BD4257', backgroundColor: '#BD425715', displayText: 'Rejected'}
-  draftColorScheme: ColorScheme = {borderColor: '#5D9EAA', backgroundColor: '#5D9EAA0D', displayText: 'Draft'}
+  rejectedColorScheme: ColorScheme = {
+    borderColor: '#BD4257',
+    backgroundColor: '#BD425715',
+    displayText: 'Rejected'
+  }
+  draftColorScheme: ColorScheme = {
+    borderColor: '#5D9EAA',
+    backgroundColor: '#5D9EAA0D',
+    displayText: 'Draft'
+  }
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
@@ -352,6 +360,7 @@ export class AdminQuestionComponent implements OnInit {
       this.sendToStore(question)
       let updatedQuestion: Question = question
       this.addQuestionToMap(updatedQuestion)
+
       updatedQuestion.isEdit = false
 
     })
@@ -403,5 +412,4 @@ export class AdminQuestionComponent implements OnInit {
 
   }
 }
-
 

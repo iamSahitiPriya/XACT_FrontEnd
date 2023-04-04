@@ -61,8 +61,7 @@ export const environment = {
   RECOMMENDATIONS_URI:"/v1/reports/${assessmentId}/charts/roadmap",
   ACTIVITY_LOGS_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/activities",
   CONTRIBUTOR_QUESTIONS_URI: "/v1/contributor/questions",
-  UPDATE_CONTRIBUTOR_QUESTION : "/v1/question/${questionId}",
-  SEND_FOR_REVIEW_URI: "/v1/${moduleId}/questions/${status}",
-  DELETE_CONTRIBUTOR_QUESTION : "/v1/question/${questionId}",
-
+  UPDATE_CONTRIBUTOR_QUESTION : "/v1/contributor/question/${questionId}",
+  SEND_FOR_REVIEW_URI: "/v1/contributor/module/${moduleId}/questions/${status}",
+  DELETE_CONTRIBUTOR_QUESTION : "/v1/contributor/question/${questionId}",
 };

@@ -337,13 +337,19 @@ export const data_local =
       QUESTIONS : "Questions",
       CONFIRMATION_POPUP_TEXT: "Are you sure",
       STATUS : {
-        DRAFT : "Draft",
-        SENT_FOR_REVIEW : "Sent_For_Review",
-        PUBLISHED: "Published",
+        DRAFT : "DRAFT",
+        SENT_FOR_REVIEW : "SENT_FOR_REVIEW",
+        PUBLISHED: "PUBLISHED",
+        REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
+        REJECTED : "REJECTED",
       },
       ROLE : {
-        AUTHOR : "Author",
-        REVIEWER : "Reviewer",
+        AUTHOR : "AUTHOR",
+        REVIEWER : "REVIEWER",
+        DISPLAY_TEXT : {
+          AUTHOR : "Author",
+          REVIEWER : "Reviewer",
+        },
       },
       AUTHOR : {
         SEND_FOR_REVIEW : "Send for Review",
