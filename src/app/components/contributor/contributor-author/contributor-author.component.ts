@@ -18,10 +18,15 @@ import {Store} from "@ngrx/store";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {QuestionStructure} from "../../../types/questionStructure";
+import {QuestionRequest} from "../../../types/Admin/questionRequest";
 
 const NOTIFICATION_DURATION = 2000;
 
-
+interface QuestionResponse{
+  questionId:number[],
+  comments:string
+  status:string
+}
 @Component({
   selector: 'app-contributor-author',
   templateUrl: './contributor-author.component.html',
@@ -261,8 +266,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private setQuestionStatus(response: any, questions: any[]) {
-    response.questionId.forEach((eachResponse: any) => {
+  private setQuestionStatus(response: QuestionResponse, questions: Question[] | QuestionStructure[]) {
+    response.questionId.forEach((eachResponse) => {
       let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
         questions[index].status = response.status
@@ -334,8 +339,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
 
-  private updateStore(response: QuestionStructure, data: ContributorData) {
-    let questions: any[] = this.getDataUsingId(data)
+  private updateStore(response: QuestionResponse, data: ContributorData) {
+    let questions: QuestionStructure[] = this.getDataUsingId(data)
     this.setQuestionStatus(response, questions)
   }
 

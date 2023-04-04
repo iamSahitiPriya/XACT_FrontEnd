@@ -5,8 +5,13 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {Subject, takeUntil} from "rxjs";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Question} from "../../../types/Contributor/Question";
 
 const NOTIFICATION_DURATION = 2000;
+interface QuestionRequest{
+  questionId:number[],
+  comments:string
+}
 
 @Component({
   selector: 'app-review-dialog',
@@ -27,14 +32,14 @@ export class ReviewDialogComponent implements OnDestroy{
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
   }
 
-  sendToReview(question: any) {
-    let questionId: any[] = []
-    question.forEach((eachQuestion: { questionId: any; }) =>{
+  sendToReview(question: Question[]) {
+    let questionId: number[] = []
+    question.forEach((eachQuestion) =>{
       questionId.push(eachQuestion.questionId)
     })
-    let updatedQuestion : any = {comments: this.comments, questionId: questionId}
+    let updatedQuestion : QuestionRequest = {comments: this.comments, questionId: questionId}
     this.appService.sendForReview(this.data.moduleId, this.sentForReview, updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
-      next : (response:any) => {
+      next : (response) => {
         this.onSave.emit(response)
       }, error : _error => {
         this.showError(this.serverError);
