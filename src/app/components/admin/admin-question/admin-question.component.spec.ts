@@ -213,7 +213,7 @@ describe('AdminQuestionComponent', () => {
     jest.spyOn(component, 'deleteUnsavedQuestion')
 
     component.ngOnInit()
-    const button = fixture.nativeElement.querySelector(".questionButton1");
+    const button = fixture.nativeElement.querySelector(".question-button1");
     button.click();
 
     expect(component.addQuestionRow).toHaveBeenCalled()

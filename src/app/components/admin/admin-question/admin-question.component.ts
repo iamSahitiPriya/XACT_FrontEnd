@@ -126,7 +126,7 @@ export class AdminQuestionComponent implements OnInit {
       parameter: this.parameter.parameterId,
       isEdit: true
     }
-    this.addQuestionToMap(newQuestion)
+    this.mapQuestionToStatus(newQuestion)
   }
 
   getQuestionsFromParameter(): QuestionStructure[] | undefined {
@@ -296,11 +296,11 @@ export class AdminQuestionComponent implements OnInit {
 
   private formatData() {
     this.questionArray?.forEach(eachQuestion => {
-      this.addQuestionToMap(eachQuestion);
+      this.mapQuestionToStatus(eachQuestion);
     })
   }
 
-  private addQuestionToMap(question: Question) {
+  private mapQuestionToStatus(question: Question) {
     if (question.status !== undefined) {
       if (this.questionStatusMap.has(question?.status)) {
         this.questionStatusMap.get(question?.status)?.unshift(question)
@@ -362,7 +362,7 @@ export class AdminQuestionComponent implements OnInit {
       }
       this.sendToStore(question)
       let updatedQuestion: Question = question
-      this.addQuestionToMap(updatedQuestion)
+      this.mapQuestionToStatus(updatedQuestion)
 
       updatedQuestion.isEdit = false
 

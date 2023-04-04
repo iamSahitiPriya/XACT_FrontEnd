@@ -7,11 +7,11 @@
   </div>
 </mat-card-header>
 <mat-card-title style="background: #F4FAFC 0 0 no-repeat padding-box">
-  <h2 class="questionHeading">{{questions}}</h2>
+  <h2 class="question-heading">{{questions}}</h2>
 </mat-card-title>
 <div class="admin-questions">
-  <div class="questionButtonColumn">
-    <button mat-flat-button class="questionButton1" (click)="addQuestionRow()">
+  <div class="question-button-column">
+    <button mat-flat-button class="question-button1" (click)="addQuestionRow()">
       {{addQuestion}}
     </button>
     <br>
@@ -33,7 +33,7 @@
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">
-              <div class="questionText">
+              <div class="question-text">
                 <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
                   <mat-label>{{questionText}}</mat-label>
                   <input #input matInput required
@@ -58,13 +58,13 @@
                 </div>
                 <div class="edit-button"
                      *ngIf="question.status !== published && question.isEdit === false">
-                  <button class="editQuestion" id="edit-question" mat-flat-button
+                  <button class="edit-question" id="edit-question" mat-flat-button
                           [disabled]="question.status === sentForReview"
                           (click)="setIsEdit(question)">{{edit}}</button>
                 </div>
                 <div class="edit-button"
                      *ngIf="question.status !== published  && question.isEdit === false">
-                  <button class="editQuestion" id="sent-for-review-question" mat-flat-button
+                  <button class="edit-question" id="sent-for-review-question" mat-flat-button
                           [disabled]="question.status === sentForReview"
                           (click)="sendForReview(question)">{{colorScheme.get(sentForReview)?.displayText}}</button>
                   <div class="delete-button">
@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <div class="save-button" *ngIf="question.isEdit === true && question.questionId === -1">
-                  <button class="saveQuestion" [disabled]="!question.questionText" mat-flat-button
+                  <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
                     <button mat-flat-button (click)="deleteUnsavedQuestion()">
@@ -82,9 +82,9 @@
                     </button>
                   </div>
                 </div>
-                <div class="updateButton" *ngIf="question.isEdit === true && question.questionId !== -1">
+                <div class="update-button" *ngIf="question.isEdit === true && question.questionId !== -1">
                   <div>
-                    <button class="updateQuestion" mat-flat-button (click)="updateQuestion(question)"
+                    <button class="update-question" mat-flat-button (click)="updateQuestion(question)"
                             [disabled]="!question.questionText">{{update}}</button>
                   </div>
                   <div class="cancel-button">
