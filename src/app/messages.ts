@@ -342,6 +342,9 @@ export const data_local =
         PUBLISHED: "PUBLISHED",
         REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
         REJECTED : "REJECTED",
+        DISPLAY_TEXT: {
+          SENT_FOR_REVIEW: "Sent for Review"
+        }
       },
       ROLE : {
         AUTHOR : "AUTHOR",

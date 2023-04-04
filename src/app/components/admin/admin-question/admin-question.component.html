@@ -52,7 +52,7 @@
               <div class="question-edit-update">
                 <div class="question_status-icon">
                 <span *ngIf="question.status === sentForReview" class="sent-for-review"><mat-icon
-                  matTooltip="Sent for Review"
+                  matTooltip="{{sentForReviewText}}"
                   [matTooltipPosition]="'left'"
                   matTooltipHideDelay="1000">info_outline</mat-icon></span>
                 </div>
