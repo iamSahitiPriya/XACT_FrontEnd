@@ -15,7 +15,7 @@ import {ActivatedRoute} from "@angular/router";
 
 class  MockAppService {
   public getUserRole() {
-    return of(["Author", "Reviewer"]);
+    return of(["AUTHOR", "REVIEWER"]);
   }
 }
 

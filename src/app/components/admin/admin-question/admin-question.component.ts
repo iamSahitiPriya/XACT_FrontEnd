@@ -86,6 +86,8 @@ export class AdminQuestionComponent implements OnInit {
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
+  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED;
+  draft : string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   private author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
@@ -96,10 +98,10 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.colorScheme.set('Published', this.publishedColorScheme)
-    this.colorScheme.set('Sent_For_Review', this.sentForReviewColorScheme)
-    this.colorScheme.set('Rejected', this.rejectedColorScheme)
-    this.colorScheme.set('Draft', this.draftColorScheme)
+    this.colorScheme.set(this.published, this.publishedColorScheme)
+    this.colorScheme.set(this.sentForReview, this.sentForReviewColorScheme)
+    this.colorScheme.set(this.rejected, this.rejectedColorScheme)
+    this.colorScheme.set(this.draft, this.draftColorScheme)
 
     this.questionArray = []
     this.unsavedChanges = []
@@ -119,7 +121,7 @@ export class AdminQuestionComponent implements OnInit {
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
-      status: 'Draft',
+      status: 'DRAFT',
       parameter: this.parameter.parameterId,
       isEdit: true
     }

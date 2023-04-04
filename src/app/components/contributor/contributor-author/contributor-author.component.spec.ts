@@ -64,26 +64,26 @@ describe('ContributorAuthorComponent', () => {
                     {
                       "questionId": 1,
                       "question": "sadadasdasdasd RAMPRAK 123123  asdasdasda RAMPRAKASH asasdd asdasds",
-                      "status": "Draft",
+                      "status": "DRAFT",
                       "isSelected":false
                     },
                     {
                       "questionId": 2,
                       "question": "HAHAHAHAasdas asdasd  asdasdas 123131232 asdasds",
-                      "status": "Sent_For_Review",
+                      "status": "SENT_FOR_REVIEW",
                       "isSelected":false
                     },
                     {
                       "questionId": 3,
                       "question": "HELLOOOO",
                       "comments": "send to review",
-                      "status": "Draft",
+                      "status": "DRAFT",
                       "isSelected":false
                     },
                     {
                       "questionId": 4,
                       "question": "helloasdasd",
-                      "status": "Sent_For_Review",
+                      "status": "SENT_FOR_REVIEW",
                       "isSelected":false
                     }
                   ]
@@ -97,14 +97,14 @@ describe('ContributorAuthorComponent', () => {
     updateQuestionResponse = {
       "questionId": 1,
       "questionText": "qw-eqweasdasdczxc 23112312dasda",
-      "questionStatus": "Draft",
+      "questionStatus": "DRAFT",
       "comments": "this is a review",
       "createdAt": 1680000083534,
       "updatedAt": 1680178784710
     }
 
     getContributorQuestions(role: string) {
-      if (role === 'Author') {
+      if (role === 'AUTHOR') {
         return of(this.questionResponse)
       } else {
         return of()
@@ -236,7 +236,7 @@ describe('ContributorAuthorComponent', () => {
         "isEdit": false,
         "isSelected" : true,
         "comments" : "comment",
-        "status" : "Draft"
+        "status" : "DRAFT"
       }],
       topicId: 1,
       topicName: "topic"
@@ -248,11 +248,11 @@ describe('ContributorAuthorComponent', () => {
   });
   it('should edit contributor question', () => {
     component.ngOnInit()
-    mockAppService.getContributorQuestions('Author').subscribe(data => {
+    mockAppService.getContributorQuestions('AUTHOR').subscribe(data => {
       expect(data).toBeDefined()
     })
 
-    let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
+    let question: Question = {comments: "", question: "hello", questionId: 1, status: "DRAFT"}
 
     component.editQuestion(question)
 
@@ -357,7 +357,7 @@ describe('ContributorAuthorComponent', () => {
   it("it should return true when all the question statuses are sent for review", () => {
     component.ngOnInit()
 
-    component.contributorData[0].questions[0].status = "Sent_For_Review"
+    component.contributorData[0].questions[0].status = "SENT_FOR_REVIEW"
     component.contributorData[0].questions[0].isSelected = false
 
     let expectedResult = component.isSentForReview(component.contributorData[0])

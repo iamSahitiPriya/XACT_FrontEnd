@@ -299,12 +299,13 @@ export class AppServiceService {
   }
 
   sendForReview(moduleId: number, status: string, questionRequest:any) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("status", status);
     const headers = {'content-type': 'application/json'}
     const sendForReviewURI = this.formatURI(environment.SEND_FOR_REVIEW_URI,{
       moduleId:moduleId,
-      status: status
     })
-    return this.http.patch(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers})
+    return this.http.patch(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
 
   }
 
