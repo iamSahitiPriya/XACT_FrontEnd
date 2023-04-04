@@ -353,7 +353,8 @@ export const data_local =
       },
       AUTHOR : {
         SEND_FOR_REVIEW : "Send for Review",
-      }
+      },
+      NO_DATA_PRESENT: "No Questions available to show at this moment"
     },
     IDLE_STATE: {
       STATE: {

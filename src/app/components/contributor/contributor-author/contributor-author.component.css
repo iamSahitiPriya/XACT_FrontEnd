@@ -363,3 +363,6 @@ a.anchor{
 .all-questions app-admin-question >>> .admin-questions .questionText .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
+.no-data-present-container{
+  text-align: center;
+}

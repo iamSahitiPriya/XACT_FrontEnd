@@ -61,6 +61,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   save: string = data_local.CONTRIBUTOR.SAVE;
   author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
+  noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
 
   constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)

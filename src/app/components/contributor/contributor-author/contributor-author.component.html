@@ -40,9 +40,9 @@
       </mat-form-field>
     </div>
   </div>
-  <div *ngIf="contributorData; else noDataDisplayed">
+  <div *ngIf="contributorData.length>0; else noDataPresent">
     <div class="contributor-author-content" *ngFor="let response of contributorData">
-      <div class="parameter-heading-content" *ngIf="response.questions.length >0">
+      <div class="parameter-heading-content" *ngIf="response.questions.length >0; else noDataPresent">
         <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':response.isClicked}">
           {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
         </div>
@@ -133,9 +133,11 @@
       </div>
     </div>
   </div>
+  <ng-template #noDataPresent>
+    <div class="no-data-present-container">
+      <h1>{{noDataPresentText}}</h1>
+    </div>
+  </ng-template>
 </div>
-<ng-template #noDataDisplayed>
-  <div>
-    No Data Present
-  </div>
-</ng-template>
+
+
