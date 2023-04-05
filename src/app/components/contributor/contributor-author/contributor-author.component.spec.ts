@@ -301,14 +301,14 @@ describe('ContributorAuthorComponent', () => {
 
   });
   it("should update all questions which are selected", () => {
-    jest.spyOn(component, 'updateAllSelectedStatus')
+    jest.spyOn(component, 'updateSelectAllStatus')
     component.ngOnInit()
 
     let response = component.contributorData[0]
 
-    component.updateAllSelectedStatus(response)
+    component.updateSelectAllStatus(response)
 
-    expect(component.updateAllSelectedStatus).toHaveBeenCalled()
+    expect(component.updateSelectAllStatus).toHaveBeenCalled()
     expect(response.allSelected).toBeTruthy()
   });
   it("should update individual contributor questions", () => {

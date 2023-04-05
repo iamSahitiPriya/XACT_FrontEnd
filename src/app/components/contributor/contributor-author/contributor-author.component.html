@@ -80,7 +80,7 @@
                   <div class="contributor-question-checkbox-and-input">
                     <div class="select-checkbox" *ngIf="!question.isEdit">
                       <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === sentForReview"
-                                    (ngModelChange)="updateAllSelectedStatus(response)">
+                                    (ngModelChange)="updateSelectAllStatus(response)">
                         {{question.question}}
                       </mat-checkbox>
                     </div>

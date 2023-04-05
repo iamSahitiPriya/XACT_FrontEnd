@@ -229,7 +229,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return data.questions.filter(eachQuestion => eachQuestion.isSelected).length > 0 && !data.allSelected;
   }
 
-  updateAllSelectedStatus(data: ContributorData) {
+  updateSelectAllStatus(data: ContributorData) {
     data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
   }
 
