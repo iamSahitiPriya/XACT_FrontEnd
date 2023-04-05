@@ -23,12 +23,6 @@ import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirm
 
 const NOTIFICATION_DURATION = 2000;
 
-export interface QuestionStatusStyle {
-  borderColor: string
-  backgroundColor: string
-  displayText: string
-}
-
 @Component({
   selector: 'app-admin-question',
   templateUrl: './admin-question.component.html',
@@ -62,27 +56,6 @@ export class AdminQuestionComponent implements OnInit {
   unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
-  statusStyleMapper = new Map<string, QuestionStatusStyle>()
-  publishedStatusStyle: QuestionStatusStyle = {
-    borderColor: '#6B9F78',
-    backgroundColor: '#e8f8ec',
-    displayText: 'All published questions'
-  }
-  sentForReviewStatusStyle: QuestionStatusStyle = {
-    borderColor: '#BE873E',
-    backgroundColor: '#BE873E0D',
-    displayText: 'Sent for Review'
-  }
-  rejectedStatusStyle: QuestionStatusStyle = {
-    borderColor: '#BD4257',
-    backgroundColor: '#BD425715',
-    displayText: 'Rejected'
-  }
-  draftStatusStyle: QuestionStatusStyle = {
-    borderColor: '#5D9EAA',
-    backgroundColor: '#5D9EAA0D',
-    displayText: 'Draft'
-  }
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
@@ -92,7 +65,34 @@ export class AdminQuestionComponent implements OnInit {
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
+  private publishedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.PUBLISHED_QUESTIONS;
+  private rejectedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.REJECTED;
+  private draftedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.DRAFT;
+
   defaultQuestionId: number = -1;
+  statusMapper = {
+    'PUBLISHED' : {
+      borderColor: '#6B9F78',
+      backgroundColor: '#e8f8ec',
+      displayText: this.publishedQuestions
+    },
+    'SENT_FOR_REVIEW': {
+      borderColor: '#BE873E',
+      backgroundColor: '#BE873E0D',
+      displayText: this.sentForReviewText
+    },
+    'REJECTED': {
+      borderColor: '#BD4257',
+      backgroundColor: '#BD425715',
+      displayText: this.rejectedQuestions
+    },
+    'DRAFT': {
+      borderColor: '#5D9EAA',
+      backgroundColor: '#5D9EAA0D',
+      displayText: this.draftedQuestions
+    }
+  }
+  statusStyleMapper = new Map(Object.entries(this.statusMapper))
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -100,11 +100,6 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.statusStyleMapper.set(this.published, this.publishedStatusStyle)
-    this.statusStyleMapper.set(this.sentForReview, this.sentForReviewStatusStyle)
-    this.statusStyleMapper.set(this.rejected, this.rejectedStatusStyle)
-    this.statusStyleMapper.set(this.draft, this.draftStatusStyle)
-
     this.questionArray = []
     this.unsavedChanges = []
     this.questionStatusMapper.clear()

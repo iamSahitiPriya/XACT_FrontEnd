@@ -343,7 +343,10 @@ export const data_local =
         REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
         REJECTED : "REJECTED",
         DISPLAY_TEXT: {
-          SENT_FOR_REVIEW: "Sent for Review"
+          SENT_FOR_REVIEW: "Sent for Review",
+          PUBLISHED_QUESTIONS:'All published questions',
+          REJECTED: 'Rejected',
+          DRAFT: 'Draft'
         }
       },
       ROLE : {
