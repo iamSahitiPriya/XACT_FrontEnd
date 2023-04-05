@@ -49,7 +49,7 @@ describe('ContributorConsoleComponent', () => {
     component.setEvent("author")
 
     expect(component.isAuthor).toBeTruthy()
-    expect(component.isContributor).toBeTruthy()
+    expect(component.isReviewer).toBeTruthy()
     expect(component.type).toBe("author")
   });
 });

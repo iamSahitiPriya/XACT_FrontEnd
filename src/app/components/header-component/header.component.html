@@ -14,12 +14,12 @@
           <span>{{username}}</span>
         </div>
         <ul class="dropdown-menu menu">
-          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin/dashboard']" *ngIf="isRoleAdmin">
+          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['admin/dashboard']" *ngIf="isAdmin">
             <mat-icon>supervisor_account</mat-icon>
             <span class="li-text">{{adminConsole}}</span></a></li>
 
           <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['contributor/author']"
-                 *ngIf="isRoleContributor">
+                 *ngIf="isContributor">
             <mat-icon>supervisor_account</mat-icon>
             <span class="li-text">{{contributor}}</span></a></li>
 

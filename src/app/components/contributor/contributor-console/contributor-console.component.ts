@@ -16,7 +16,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   public type: string;
   private destroy$: Subject<void> = new Subject<void>();
   isAuthor: boolean = false;
-  isContributor: boolean = false;
+  isReviewer: boolean = false;
   contributorConsole: string = data_local.CONTRIBUTOR.CONSOLE;
   author : string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   reviewer : string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
@@ -38,7 +38,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       if (data.includes(this.author))
         this.isAuthor = true
       if (data.includes(this.reviewer))
-        this.isContributor = true
+        this.isReviewer = true
     })
     this.store.dispatch(fromActions.user({role: this.contributor.toLowerCase()}))
 

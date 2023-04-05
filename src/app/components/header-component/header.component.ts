@@ -35,18 +35,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   username: string|undefined = ""
-  isRoleAdmin: boolean = false;
-  isRoleContributor: boolean = false;
+  isAdmin: boolean = false;
+  isContributor: boolean = false;
 
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
     this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data.includes("Admin")) {
-        this.isRoleAdmin = true;
+        this.isAdmin = true;
       }
       if(data.includes("AUTHOR") || data.includes("REVIEWER"))
-        this.isRoleContributor = true;
+        this.isContributor = true;
     })
     this.appService.login();
 

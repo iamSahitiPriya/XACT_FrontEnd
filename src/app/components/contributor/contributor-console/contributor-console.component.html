@@ -19,7 +19,7 @@
             </div>
           </button>
         </div>
-        <div class="reviewer" *ngIf="isContributor">
+        <div class="reviewer" *ngIf="isReviewer">
           <button mat-button class="author-button" (click)="setEvent(reviewer.toLowerCase())"
                   [ngClass]="{'author-active':type === reviewer.toLowerCase()}" [routerLink]="['/contributor/author']">
             <div class="reviewer-icon">
