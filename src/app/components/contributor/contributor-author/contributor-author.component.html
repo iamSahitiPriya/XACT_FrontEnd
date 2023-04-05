@@ -12,7 +12,7 @@
         [topic]="parameterData.topicId"
         [module]="parameterData.moduleId"
         [category]="parameterData.categoryId"
-        [type]="contributor">
+        [role]="contributor">
       </app-admin-question>
     </div>
   </div>
@@ -57,9 +57,9 @@
               <div class="comments-checkbox">
                 <mat-checkbox class="all-select-checkbox"
                               [checked]="response.allSelected"
-                              [indeterminate]="changeSelectedQuestions(response)"
+                              [indeterminate]="isQuestionIndeterminate(response)"
                               [disabled]="isSentForReview(response)"
-                              (change)="setAllQuestions($event.checked,response)" #checkbox>
+                              (change)="setQuestionsSelectedStatus($event.checked,response)" #checkbox>
                   {{selectAll}}
                 </mat-checkbox>
               </div>

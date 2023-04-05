@@ -372,11 +372,11 @@ describe('AdminQuestionComponent', () => {
 
   it("should remove unsaved question from the array", () => {
     let questions = [{questionId: -1, questionText: "question1", parameter: 1}]
-    component.questionStatusMap.set('Draft', questions)
+    component.questionStatusMapper.set('Draft', questions)
 
     component.deleteUnsavedQuestion()
 
-    expect(component.questionStatusMap.get('Draft')?.length).toBeUndefined()
+    expect(component.questionStatusMapper.get('Draft')?.length).toBeUndefined()
   });
 
   it("should send questions for review", () => {
@@ -393,8 +393,8 @@ describe('AdminQuestionComponent', () => {
     jest.spyOn(component, 'deleteQuestion')
 
     component.ngOnInit()
-    component.questionStatusMap.set('Draft', questions)
-    component.questionStatusMap.set('Sent_For_Review', questions2)
+    component.questionStatusMapper.set('Draft', questions)
+    component.questionStatusMapper.set('Sent_For_Review', questions2)
 
     jest.spyOn(matDialog, "open")
     component.sendForReview(question)
@@ -410,7 +410,7 @@ describe('AdminQuestionComponent', () => {
     let questions: Question[] = []
     questions.push(question)
     jest.spyOn(component, 'deleteQuestion')
-    component.questionStatusMap.set('Draft', questions)
+    component.questionStatusMapper.set('Draft', questions)
     component.deleteQuestion(question)
 
     expect(component.deleteQuestion).toHaveBeenCalled()

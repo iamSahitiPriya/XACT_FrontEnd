@@ -40,7 +40,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   clicked: boolean = false;
   contributorResponse: ContributorResponse;
   contributorData: ContributorData[] = []
-  unsavedData: ContributorData[]
+  unsavedChanges: ContributorData[]
   overallComments: string = ""
   private destroy$: Subject<void> = new Subject<void>();
   public dialogRef: MatDialogRef<ReviewDialogComponent>
@@ -48,7 +48,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   isAllQuestionsOpened: boolean = false;
   parameterData: ParameterData;
   masterData: Observable<CategoryResponse[]>
-  masterData1: CategoryResponse[]
+  categoryResponse: CategoryResponse[]
   close: string = data_local.CONTRIBUTOR.CLOSE;
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
@@ -69,31 +69,31 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
-      this.masterData1 = data
+      this.categoryResponse = data
     })
     this.appService.getContributorQuestions(this.author).subscribe((data) => {
-      this.unsavedData = []
+      this.unsavedChanges = []
       this.contributorResponse = data
       this.formatResponse()
-      this.unsavedData = cloneDeep(this.contributorData)
+      this.unsavedChanges = cloneDeep(this.contributorData)
     })
   }
 
-  editQuestion(question1: Question) {
+  editQuestion(question: Question) {
     this.contributorData = []
-    this.unsavedData.forEach(eachData => {
-      let data = this.getContributorData(eachData);
-      eachData.questions.forEach(eachQuestion => {
-        let question = this.getQuestion(eachQuestion);
-        if (eachQuestion.questionId === question1.questionId)
-          question.isEdit = true;
-        data.questions.push(question)
+    this.unsavedChanges.forEach(eachContributorData => {
+      let contributorData = this.getContributorData(eachContributorData);
+      eachContributorData.questions.forEach(eachQuestion => {
+        let formattedQuestion = this.getFormattedQuestion(eachQuestion);
+        if (eachQuestion.questionId === question.questionId)
+          formattedQuestion.isEdit = true;
+        contributorData.questions.push(formattedQuestion)
       })
-      this.contributorData.push(data)
+      this.contributorData.push(contributorData)
     })
   }
 
-  private getQuestion(eachQuestion: Question) {
+  private getFormattedQuestion(eachQuestion: Question) {
     let question: Question = {comments: "", isEdit: false, question: "", questionId: -1, status: ""}
     question.question = eachQuestion.question
     question.questionId = eachQuestion.questionId
@@ -157,10 +157,10 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   cancelChanges() {
     this.overallComments = ""
     this.contributorData = []
-    this.unsavedData.forEach(eachData => {
+    this.unsavedChanges.forEach(eachData => {
       let data = this.getContributorData(eachData);
       eachData.questions.forEach(eachQuestion => {
-        let question = this.getQuestion(eachQuestion);
+        let question = this.getFormattedQuestion(eachQuestion);
         data.questions.push(question)
       })
       this.contributorData.push(data)
@@ -225,7 +225,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.openReviewDialog(question, contributorData)
   }
 
-  changeSelectedQuestions(data: ContributorData) {
+  isQuestionIndeterminate(data: ContributorData) {
     return data.questions.filter(eachQuestion => eachQuestion.isSelected).length > 0 && !data.allSelected;
   }
 
@@ -233,7 +233,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
   }
 
-  setAllQuestions(isSelected: boolean, data: ContributorData) {
+  setQuestionsSelectedStatus(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
     data.questions.forEach(eachQuestion => {
       if (eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
@@ -246,7 +246,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       next: (response: QuestionStructure) => {
         question.isEdit = false
         this.updateDataToStore(response, contributorData)
-        this.unsavedData = cloneDeep(this.contributorData)
+        this.unsavedChanges = cloneDeep(this.contributorData)
       }, error: _error => {
         this.showError(this.serverError);
       }
@@ -274,7 +274,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
         questions[index].status = response.status
       }
     })
-    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
@@ -324,20 +324,20 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   private getDataUsingId(contributorData: ContributorData) {
-    let categoryIndex = this.masterData1.findIndex(eachData => eachData.categoryId === contributorData.categoryId);
+    let categoryIndex = this.categoryResponse.findIndex(eachData => eachData.categoryId === contributorData.categoryId);
     let moduleIndex = 0
     let topicIndex = 0
     let parameterIndex = 0
     if (categoryIndex !== -1) {
-      moduleIndex = this.masterData1[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === contributorData.moduleId)
+      moduleIndex = this.categoryResponse[categoryIndex].modules.findIndex(eachModule => eachModule.moduleId === contributorData.moduleId)
       if (moduleIndex !== -1) {
-        topicIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics.findIndex(eachTopic => eachTopic.topicId === contributorData.topicId)
+        topicIndex = this.categoryResponse[categoryIndex].modules[moduleIndex].topics.findIndex(eachTopic => eachTopic.topicId === contributorData.topicId)
         if (topicIndex !== -1) {
-          parameterIndex = this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters.findIndex(eachParameter => eachParameter.parameterId === contributorData.parameterId)
+          parameterIndex = this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters.findIndex(eachParameter => eachParameter.parameterId === contributorData.parameterId)
         }
       }
     }
-    return this.masterData1[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
+    return this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
 
   private updateStore(response: QuestionResponse, data: ContributorData) {
@@ -353,7 +353,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       questions[questionIndex].status = response.status
       questions[questionIndex].parameter = response.parameter
     }
-    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.masterData1}))
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
 
   private resetCheckbox(questionRequest: Question[], data: ContributorData) {

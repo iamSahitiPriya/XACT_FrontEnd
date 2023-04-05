@@ -294,7 +294,7 @@ describe('ContributorAuthorComponent', () => {
 
     let response = component.contributorData[0]
 
-    component.setAllQuestions(true, response)
+    component.setQuestionsSelectedStatus(true, response)
     component.sendAllQuestionsForReview(response)
 
     expect(component.sendAllQuestionsForReview).toHaveBeenCalled()

@@ -23,7 +23,7 @@ import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirm
 
 const NOTIFICATION_DURATION = 2000;
 
-export interface ColorScheme {
+export interface QuestionStatusStyle {
   borderColor: string
   backgroundColor: string
   displayText: string
@@ -39,7 +39,7 @@ export class AdminQuestionComponent implements OnInit {
   @Input() category: number
   @Input() module: number
   @Input() parameter: ParameterData
-  @Input() type: string
+  @Input() role: string
 
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
   header = data_local.ADMIN.REFERENCES.HEADER
@@ -56,29 +56,29 @@ export class AdminQuestionComponent implements OnInit {
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
-  questionStatusMap = new Map<string, Question[]>()
+  questionStatusMapper = new Map<string, Question[]>()
   masterData: Observable<CategoryResponse[]>
   categoryResponse: CategoryResponse[]
   unsavedChanges: QuestionStructure[] | undefined
   unsavedQuestion: QuestionStructure
   private destroy$: Subject<void> = new Subject<void>();
-  colorScheme = new Map<string, ColorScheme>()
-  publishedColorScheme: ColorScheme = {
+  statusStyleMapper = new Map<string, QuestionStatusStyle>()
+  publishedStatusStyle: QuestionStatusStyle = {
     borderColor: '#6B9F78',
     backgroundColor: '#e8f8ec',
     displayText: 'All published questions'
   }
-  sentForReviewColorScheme: ColorScheme = {
+  sentForReviewStatusStyle: QuestionStatusStyle = {
     borderColor: '#BE873E',
     backgroundColor: '#BE873E0D',
     displayText: 'Sent for Review'
   }
-  rejectedColorScheme: ColorScheme = {
+  rejectedStatusStyle: QuestionStatusStyle = {
     borderColor: '#BD4257',
     backgroundColor: '#BD425715',
     displayText: 'Rejected'
   }
-  draftColorScheme: ColorScheme = {
+  draftStatusStyle: QuestionStatusStyle = {
     borderColor: '#5D9EAA',
     backgroundColor: '#5D9EAA0D',
     displayText: 'Draft'
@@ -99,14 +99,14 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.colorScheme.set(this.published, this.publishedColorScheme)
-    this.colorScheme.set(this.sentForReview, this.sentForReviewColorScheme)
-    this.colorScheme.set(this.rejected, this.rejectedColorScheme)
-    this.colorScheme.set(this.draft, this.draftColorScheme)
+    this.statusStyleMapper.set(this.published, this.publishedStatusStyle)
+    this.statusStyleMapper.set(this.sentForReview, this.sentForReviewStatusStyle)
+    this.statusStyleMapper.set(this.rejected, this.rejectedStatusStyle)
+    this.statusStyleMapper.set(this.draft, this.draftStatusStyle)
 
     this.questionArray = []
     this.unsavedChanges = []
-    this.questionStatusMap.clear()
+    this.questionStatusMapper.clear()
     this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.categoryResponse = data
@@ -172,18 +172,18 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   deleteUnsavedQuestion() {
-    this.questionStatusMap.forEach((value, key) => {
+    this.questionStatusMapper.forEach((value, key) => {
       let index = value.findIndex((eachQuestion: Question) => eachQuestion.questionId === -1)
       if (index !== -1 && index !== undefined)
-        this.questionStatusMap.get(key)?.splice(index, 1)
+        this.questionStatusMapper.get(key)?.splice(index, 1)
       this.deleteFromMap(key);
     })
   }
 
   private deleteFromMap(status: string | undefined) {
     if (status !== undefined) {
-      if (this.questionStatusMap.get(status)?.length === 0)
-        this.questionStatusMap.delete(status)
+      if (this.questionStatusMapper.get(status)?.length === 0)
+        this.questionStatusMapper.delete(status)
     }
   }
 
@@ -302,12 +302,12 @@ export class AdminQuestionComponent implements OnInit {
 
   private mapQuestionToStatus(question: Question) {
     if (question.status !== undefined) {
-      if (this.questionStatusMap.has(question?.status)) {
-        this.questionStatusMap.get(question?.status)?.unshift(question)
+      if (this.questionStatusMapper.has(question?.status)) {
+        this.questionStatusMapper.get(question?.status)?.unshift(question)
       } else {
-        let questionArr = []
-        questionArr.unshift(question)
-        this.questionStatusMap.set(question?.status, questionArr)
+        let questions = []
+        questions.unshift(question)
+        this.questionStatusMapper.set(question?.status, questions)
       }
     }
   }
@@ -352,7 +352,7 @@ export class AdminQuestionComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
-      this.updateQuestionStatusMap(data.questions[0])
+      this.updateQuestionStatusMapper(data.questions[0])
       this.deleteFromMap(data.questions[0].status)
       let question: QuestionStructure = {
         parameter: data.parameterId,
@@ -370,11 +370,11 @@ export class AdminQuestionComponent implements OnInit {
     dialogRef.afterClosed();
   }
 
-  private updateQuestionStatusMap(question: ContributorQuestion) {
+  private updateQuestionStatusMapper(question: ContributorQuestion) {
     if (question.status !== undefined) {
-      let index: number | undefined = this.questionStatusMap.get(question.status)?.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+      let index: number | undefined = this.questionStatusMapper.get(question.status)?.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
       if (index !== undefined && index !== -1)
-        this.questionStatusMap.get(question.status)?.splice(index, 1)
+        this.questionStatusMapper.get(question.status)?.splice(index, 1)
     }
   }
 
@@ -391,7 +391,7 @@ export class AdminQuestionComponent implements OnInit {
         this.appService.deleteQuestion(question.questionId).subscribe({
           next: () => {
             this.deleteFromStore(response)
-            this.updateQuestionStatusMap(contributorQuestion[0])
+            this.updateQuestionStatusMapper(contributorQuestion[0])
             this.deleteFromMap(question.status)
 
           },

@@ -26,20 +26,20 @@
   overflow-wrap: break-word;
 }
 
-.question-close button {
+.close-question button {
   display: inline-block;
   float: right;
   border: none;
   background-color: transparent;
 }
 
-.question_close-icon.mat-icon {
+.close-question-icon.mat-icon {
   color: #043D4E;
   width: 50px;
   height: 38px;
 }
 
-.question_close-icon.material-icons {
+.close-question-icon.material-icons {
   font-size: 25px;
 }
 
@@ -269,4 +269,8 @@ div.question-button-column {
 .question_status-icon{
   padding-top: 0.75%;
   padding-right: 2%;
+}
+
+.question-status {
+  background: #F4FAFC 0 0 no-repeat padding-box;
 }

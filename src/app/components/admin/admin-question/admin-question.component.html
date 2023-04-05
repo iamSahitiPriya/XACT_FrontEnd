@@ -1,12 +1,12 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="question-close" *ngIf="type !== contributor">
+  <div class="close-question" *ngIf="role !== contributor">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
-      <mat-icon class="question_close-icon">close</mat-icon>
+      <mat-icon class="close-question-icon">close</mat-icon>
     </button>
   </div>
 </mat-card-header>
-<mat-card-title style="background: #F4FAFC 0 0 no-repeat padding-box">
+<mat-card-title class="question-status">
   <h2 class="question-heading">{{questions}}</h2>
 </mat-card-title>
 <div class="admin-questions">
@@ -16,20 +16,20 @@
     </button>
     <br>
   </div>
-  <div class="questions" *ngIf="questionStatusMap">
-    <div *ngFor="let question of questionStatusMap | keyvalue ">
+  <div class="questions" *ngIf="questionStatusMapper">
+    <div *ngFor="let question of questionStatusMapper | keyvalue ">
       <div class="question-status-heading-content"
-           [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor, 'background-color':colorScheme.get(question.key)?.backgroundColor}">
+           [ngStyle]="{'border-color':statusStyleMapper.get(question.key)?.borderColor, 'background-color':statusStyleMapper.get(question.key)?.backgroundColor}">
         <div class="status-icon">
           <span *ngIf="question.key === sentForReview" class="sent-for-review"><mat-icon>warning</mat-icon></span>
           <span *ngIf="question.key === published" class="published"><mat-icon>check_circle</mat-icon></span>
         </div>
 
         <div class="question-status-heading">
-          {{colorScheme.get(question.key)?.displayText}}
+          {{statusStyleMapper.get(question.key)?.displayText}}
         </div>
       </div>
-      <mat-card class="question-card" [ngStyle]="{'border-color':colorScheme.get(question.key)?.borderColor}">
+      <mat-card class="question-card" [ngStyle]="{'border-color':statusStyleMapper.get(question.key)?.borderColor}">
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">
@@ -66,7 +66,7 @@
                      *ngIf="question.status !== published  && question.isEdit === false">
                   <button class="edit-question" id="sent-for-review-question" mat-flat-button
                           [disabled]="question.status === sentForReview"
-                          (click)="sendForReview(question)">{{colorScheme.get(sentForReview)?.displayText}}</button>
+                          (click)="sendForReview(question)">{{statusStyleMapper.get(sentForReview)?.displayText}}</button>
                   <div class="delete-button">
                     <button mat-flat-button (click)="deleteQuestion(question)">
                       <mat-icon id="delete-question">delete</mat-icon>
