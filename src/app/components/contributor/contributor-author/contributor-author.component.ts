@@ -103,31 +103,20 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return question;
   }
 
-  private getContributorData(eachData: ContributorData) {
-    let data: ContributorData = {
-      categoryId: -1,
-      parameterId: -1,
-      topicId: -1,
-      categoryName: "",
-      moduleName: "",
-      moduleId: -1,
-      parameterName: "",
+  private getContributorData(eachData: ContributorData) :ContributorData{
+    return {
+      categoryId: eachData.categoryId,
+      parameterId: eachData.parameterId,
+      topicId: eachData.topicId,
+      categoryName: eachData.categoryName,
+      moduleName: eachData.moduleName,
+      moduleId: eachData.moduleId,
+      parameterName: eachData.parameterName,
       questions: [],
-      topicName: "",
-      isClicked: false,
-      allSelected: true
-    }
-    data.categoryId = eachData.categoryId
-    data.topicId = eachData.topicId
-    data.parameterId = eachData.parameterId
-    data.categoryName = eachData.categoryName
-    data.moduleName = eachData.moduleName
-    data.moduleId = eachData.moduleId
-    data.topicName = eachData.topicName
-    data.parameterName = eachData.parameterName
-    data.isClicked = eachData.isClicked
-    data.allSelected = eachData.allSelected
-    return data;
+      topicName: eachData.topicName,
+      isClicked: eachData.isClicked,
+      allSelected: eachData.allSelected
+    };
   }
 
   sendForReview(question: Question, response: ContributorData) {
@@ -147,7 +136,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
       this.setQuestionStatus(response, questionRequest)
-      this.updateStore(response, data)
+      this.sendToStore(response, data)
     })
     dialogRef.afterClosed().subscribe(() => {
       this.resetCheckbox(questionRequest, data)
@@ -178,26 +167,18 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       eachModule.topics?.forEach(eachTopic => {
         eachTopic.parameters?.forEach(eachParameter => {
           let data: ContributorData = {
-            categoryId: -1,
-            parameterId: -1,
-            topicId: -1,
-            categoryName: "",
-            moduleId: -1,
-            moduleName: "",
-            parameterName: "",
+            categoryId: eachModule.categoryId,
+            parameterId: eachParameter.parameterId,
+            topicId: eachTopic.topicId,
+            categoryName: eachModule.categoryName,
+            moduleId: eachModule.moduleId,
+            moduleName: eachModule.moduleName,
+            parameterName: eachParameter.parameterName,
             questions: [],
-            topicName: "",
-            isClicked: false
+            topicName: eachTopic.topicName,
+            isClicked: false,
+            allSelected: false
           }
-          data.categoryName = eachModule.categoryName
-          data.categoryId = eachModule.categoryId
-          data.moduleName = eachModule.moduleName
-          data.moduleId = eachModule.moduleId
-          data.topicName = eachTopic.topicName
-          data.topicId = eachTopic.topicId
-          data.parameterName = eachParameter.parameterName
-          data.parameterId = eachParameter.parameterId
-          data.allSelected = false
           this.formatQuestion(eachParameter, data);
         })
       })
@@ -244,7 +225,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: QuestionStructure) => {
         question.isEdit = false
-        this.updateDataToStore(response, contributorData)
+        this.updateToStore(response, contributorData)
         this.unsavedChanges = cloneDeep(this.contributorData)
       }, error: _error => {
         this.showError(this.serverError);
@@ -322,7 +303,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     window.location.reload();
   }
 
-  private getDataUsingId(contributorData: ContributorData) {
+  private getQuestionsFromContributorData(contributorData: ContributorData) {
     let categoryIndex = this.categoryResponse.findIndex(eachData => eachData.categoryId === contributorData.categoryId);
     let moduleIndex = 0
     let topicIndex = 0
@@ -339,18 +320,18 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
 
-  private updateStore(response: QuestionResponse, data: ContributorData) {
-    let questions: QuestionStructure[] = this.getDataUsingId(data)
+  private sendToStore(response: QuestionResponse, data: ContributorData) {
+    let questions: QuestionStructure[] = this.getQuestionsFromContributorData(data)
     this.setQuestionStatus(response, questions)
   }
 
-  private updateDataToStore(response: QuestionStructure, contributorData: ContributorData) {
-    let questions: QuestionStructure[] = this.getDataUsingId(contributorData)
-    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === response.questionId)
+  private updateToStore(questionRequest: QuestionStructure, contributorData: ContributorData) {
+    let questions: QuestionStructure[] = this.getQuestionsFromContributorData(contributorData)
+    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === questionRequest.questionId)
     if (questionIndex !== -1) {
-      questions[questionIndex].questionText = response.questionText
-      questions[questionIndex].status = response.status
-      questions[questionIndex].parameter = response.parameter
+      questions[questionIndex].questionText = questionRequest.questionText
+      questions[questionIndex].status = questionRequest.status
+      questions[questionIndex].parameter = questionRequest.parameter
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
