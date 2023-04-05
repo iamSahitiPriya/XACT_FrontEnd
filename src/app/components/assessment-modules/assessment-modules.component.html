@@ -31,14 +31,14 @@
     </div>
   </div>
   <br>
-  <div class="row" style="height: 45px">
-    <div class="col-md-12" style="background: #4BA1AC 0 0 no-repeat padding-box; width:98.5%;">
+  <div class="row module-details">
+    <div class="col-md-12 module-category-title">
       <div class="col-md-2">
         <h2 class="moduleHeading">{{categoryTitle}}</h2>
       </div>
     </div>
   </div>
-  <div class="saveButtonRow">
+  <div class="save-button-row">
     <div class="details">{{content}}</div>
     <div><button class="saveModuleButton" (click)="saveUserModule()"  [class.spinner]="loading" mat-raised-button [matTooltip]="saveText">Save</button></div>
   </div>

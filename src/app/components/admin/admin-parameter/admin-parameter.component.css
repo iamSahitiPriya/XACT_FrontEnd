@@ -227,6 +227,14 @@ tr.expandedParameterRow {
 
 @media screen and (max-width: 1450px) {
   ::ng-deep .parameter .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    width: 97%!important;
+    width: 97% !important;
+  }
+
+  td.mat-cell:last-of-type {
+    padding: 0;
+  }
+
+  td.parameter:nth-child(5) {
+    font-size: 14px;
   }
 }
