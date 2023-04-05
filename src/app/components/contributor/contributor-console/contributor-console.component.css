@@ -60,7 +60,7 @@
   padding-top: 2px;
 }
 .icon-author{
-  padding-top : 1px;
+  padding-top : 5%;
   padding-left: 7px ;
 }
 .reviewer-icon{
@@ -73,6 +73,7 @@
 }
 .author-label{
   padding-left: 8px;
+  padding-top: 7%;
 }
 .author-label h3, .reviewer-label h3{
   font-size: 1em;

@@ -11,7 +11,7 @@ section {
 }
 
 .footer-main {
-  background-color: #043D4E;
+  background-color: #F5F5F5;
   height: 4.8vh;
 }
 @media screen and (max-height: 850px) {
@@ -24,6 +24,8 @@ section {
 .footer {
   background-color: rgba(0, 0, 0, 0.2);
   height: 100%;
+  opacity: 0.6;
+  color: #000000;
 }
 
 
