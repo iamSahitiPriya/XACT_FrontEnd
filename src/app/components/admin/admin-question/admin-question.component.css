@@ -1,19 +1,4 @@
 .question-heading {
-  height: 5vh;
-  width: 100%;
-  padding: 1%;
-  text-align: left;
-  font-size: 1.2rem ;
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.36px;
-  color: #043D4E;
-  opacity: 1;
-  margin: 0;
-}
-
-.question-heading {
   width: 97%;
   text-align: left;
   font-size: 1.7rem ;
@@ -76,7 +61,7 @@ div.question-button-column {
   word-break: break-word;
 }
 
-.edit-question {
+.edit-question, .send-question-for-review {
   display: flex;
   flex-direction: row;
   height: 89%;
@@ -93,7 +78,7 @@ div.question-button-column {
   margin-right: 3px;
 }
 
-.save-button, .edit-button {
+.save-button, .edit-button, .send-for-review-button {
   display: flex;
   justify-content: flex-end;
 }
@@ -112,7 +97,7 @@ div.question-button-column {
   padding-right: 5%;
 }
 
-.edit-button{
+.edit-button, .send-for-review-button{
   height: 85%;
 }
 

@@ -18,15 +18,15 @@ import {Store} from "@ngrx/store";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {QuestionStructure} from "../../../types/questionStructure";
-import {QuestionRequest} from "../../../types/Admin/questionRequest";
 
 const NOTIFICATION_DURATION = 2000;
 
-interface QuestionResponse{
-  questionId:number[],
-  comments:string
-  status:string
+interface QuestionResponse {
+  questionId: number[],
+  comments: string
+  status: string
 }
+
 @Component({
   selector: 'app-contributor-author',
   templateUrl: './contributor-author.component.html',
@@ -36,12 +36,11 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
   searchText: string;
   isEdit: boolean;
-  sentToReview: boolean = false;
+  isReviewSent: boolean = false;
   clicked: boolean = false;
   contributorResponse: ContributorResponse;
   contributorData: ContributorData[] = []
   unsavedChanges: ContributorData[]
-  overallComments: string = ""
   private destroy$: Subject<void> = new Subject<void>();
   public dialogRef: MatDialogRef<ReviewDialogComponent>
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
@@ -54,7 +53,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
-  sendToReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  sentForReviewText : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   edit: string = data_local.CONTRIBUTOR.EDIT;
@@ -155,7 +155,6 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   cancelChanges() {
-    this.overallComments = ""
     this.contributorData = []
     this.unsavedChanges.forEach(eachData => {
       let data = this.getContributorData(eachData);
@@ -300,7 +299,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   }
 
-  openAllQuestions(response: ContributorData) {
+  showAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
     this.parameterData = this.getParameterData(response)
   }

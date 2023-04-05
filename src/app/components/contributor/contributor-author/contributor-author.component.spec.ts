@@ -269,7 +269,6 @@ describe('ContributorAuthorComponent', () => {
   });
   it("should cancel changes when click", () => {
     jest.spyOn(component, 'cancelChanges')
-    component.overallComments="hello"
     component.ngOnInit()
 
     component.cancelChanges()
@@ -340,7 +339,7 @@ describe('ContributorAuthorComponent', () => {
   it("it should return isAllQuestionsOpened as true when user clicked on all questions", () => {
     component.ngOnInit()
 
-    component.openAllQuestions(component.contributorData[0])
+    component.showAllQuestions(component.contributorData[0])
 
     expect(component.isAllQuestionsOpened).toBeTruthy()
     expect(component.parameterData.parameterId).toBe(1)

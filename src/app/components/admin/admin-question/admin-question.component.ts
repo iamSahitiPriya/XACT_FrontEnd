@@ -92,6 +92,7 @@ export class AdminQuestionComponent implements OnInit {
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
+  defaultQuestionId: number = -1;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -118,7 +119,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   addQuestionRow() {
-    this.deleteUnsavedQuestion()
+    this.removeQuestion()
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
@@ -138,7 +139,7 @@ export class AdminQuestionComponent implements OnInit {
   setIsEdit(question: Question) {
     this.questionArray = []
     this.setParameterQuestion()
-    this.resetPreviousChanges()
+    this.resetChanges()
     question.isEdit = !question.isEdit
     this.unsavedQuestion = cloneDeep(question)
   }
@@ -171,7 +172,7 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  deleteUnsavedQuestion() {
+  removeQuestion() {
     this.questionStatusMapper.forEach((value, key) => {
       let index = value.findIndex((eachQuestion: Question) => eachQuestion.questionId === -1)
       if (index !== -1 && index !== undefined)
@@ -205,7 +206,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   updateQuestion(question: Question) {
-    let questionRequest: QuestionResponse = this.getQuestionRequestWithId(question)
+    let questionRequest: QuestionResponse = this.getQuestionWithId(question)
     this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
       next: (_data) => {
         question.isEdit = false
@@ -217,7 +218,7 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  private getQuestionRequestWithId(question: Question | QuestionStructure): QuestionResponse {
+  private getQuestionWithId(question: Question | QuestionStructure): QuestionResponse {
     return {
       questionText: question.questionText,
       parameter: this.parameter.parameterId,
@@ -234,7 +235,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private sendToStore(data: QuestionStructure) {
-    let question: QuestionResponse = this.getQuestionRequestWithId(data)
+    let question: QuestionResponse = this.getQuestionWithId(data)
     let questions = this.getQuestionsFromParameter()
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
@@ -256,7 +257,7 @@ export class AdminQuestionComponent implements OnInit {
       questions?.push(question)
   }
 
-  resetPreviousChanges() {
+  resetChanges() {
     this.questionArray?.forEach((eachQuestion) => {
       if (!eachQuestion.isEdit) {
         let question = this.unsavedChanges?.find((eachUnsavedQuestion: { questionId: number; }) => eachQuestion.questionId === eachUnsavedQuestion.questionId)

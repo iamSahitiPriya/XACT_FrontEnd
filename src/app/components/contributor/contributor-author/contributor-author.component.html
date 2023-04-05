@@ -47,7 +47,7 @@
           {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
         </div>
         <div class="all-question">
-          <button (click)="openAllQuestions(response)">{{allQuestions}}</button>
+          <button (click)="showAllQuestions(response)">{{allQuestions}}</button>
         </div>
       </div>
       <div class="contributor-questions" *ngIf="response.questions.length >0">
@@ -67,8 +67,8 @@
             <div class="contributor-send-for-review-button" *ngIf="checkbox.checked || checkbox.indeterminate">
               <button mat-flat-button class="contributor-button"
                       (click)="sendAllQuestionsForReview(response)"
-                      [disabled]="sentToReview">
-                {{sendToReview}}
+                      [disabled]="isReviewSent">
+                {{sendForReviewText}}
               </button>
             </div>
           </div>
@@ -93,7 +93,7 @@
                 </mat-card-content>
               </div>
               <div class="question-status-icon" *ngIf="question.status === sentForReview">
-                <mat-icon matTooltip="Sent for Review"
+                <mat-icon matTooltip="{{sentForReviewText}}"
                           [matTooltipPosition]="'left'"
                           matTooltipHideDelay="1000">info_outline
                 </mat-icon>
@@ -108,7 +108,7 @@
                 <div class="contributor-send-button">
                   <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response)"
                           [disabled]="question.status === sentForReview || checkbox.checked">
-                    {{sendToReview}}
+                    {{sendForReviewText}}
                   </button>
                 </div>
                 <div class="question-delete-button">

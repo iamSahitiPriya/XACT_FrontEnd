@@ -210,14 +210,14 @@ describe('AdminQuestionComponent', () => {
 
   it("should add question text on clicking add question button", () => {
     jest.spyOn(component, 'addQuestionRow')
-    jest.spyOn(component, 'deleteUnsavedQuestion')
+    jest.spyOn(component, 'removeQuestion')
 
     component.ngOnInit()
     const button = fixture.nativeElement.querySelector(".question-button1");
     button.click();
 
     expect(component.addQuestionRow).toHaveBeenCalled()
-    expect(component.deleteUnsavedQuestion).toHaveBeenCalled()
+    expect(component.removeQuestion).toHaveBeenCalled()
   });
 
   it("should enable edit on clicking the edit button", () => {
@@ -374,7 +374,7 @@ describe('AdminQuestionComponent', () => {
     let questions = [{questionId: -1, questionText: "question1", parameter: 1}]
     component.questionStatusMapper.set('Draft', questions)
 
-    component.deleteUnsavedQuestion()
+    component.removeQuestion()
 
     expect(component.questionStatusMapper.get('Draft')?.length).toBeUndefined()
   });

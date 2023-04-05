@@ -62,9 +62,9 @@
                           [disabled]="question.status === sentForReview"
                           (click)="setIsEdit(question)">{{edit}}</button>
                 </div>
-                <div class="edit-button"
+                <div class="send-for-review-button"
                      *ngIf="question.status !== published  && question.isEdit === false">
-                  <button class="edit-question" id="sent-for-review-question" mat-flat-button
+                  <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
                           [disabled]="question.status === sentForReview"
                           (click)="sendForReview(question)">{{statusStyleMapper.get(sentForReview)?.displayText}}</button>
                   <div class="delete-button">
@@ -73,16 +73,16 @@
                     </button>
                   </div>
                 </div>
-                <div class="save-button" *ngIf="question.isEdit === true && question.questionId === -1">
+                <div class="save-button" *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
-                    <button mat-flat-button (click)="deleteUnsavedQuestion()">
+                    <button mat-flat-button (click)="removeQuestion()">
                       <mat-icon id="deleteQuestion">delete</mat-icon>
                     </button>
                   </div>
                 </div>
-                <div class="update-button" *ngIf="question.isEdit === true && question.questionId !== -1">
+                <div class="update-button" *ngIf="question.isEdit === true && question.questionId !== defaultQuestionId">
                   <div>
                     <button class="update-question" mat-flat-button (click)="updateQuestion(question)"
                             [disabled]="!question.questionText">{{update}}</button>

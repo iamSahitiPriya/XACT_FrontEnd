@@ -323,9 +323,6 @@ a.anchor{
 
 .all-questions app-admin-question >>> .question-heading {
   padding-bottom: 3%;
-}
-
-.all-questions app-admin-question >>> .question-heading {
   padding-left: 2%;
 }
 
