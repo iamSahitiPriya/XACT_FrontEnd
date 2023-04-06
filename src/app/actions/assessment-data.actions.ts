@@ -21,6 +21,6 @@ export const getAllCategories = createAction("Get master data", props<{ categori
 
 export const getUpdatedCategories = createAction("Get updated master data", props<{ newMasterData: CategoryResponse[] }>())
 
-export const user = createAction("validate the user", props<{ role: string }>())
+export const loggedInUser = createAction("validate the user", props<{ role: string }>())
 
 

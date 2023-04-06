@@ -33,7 +33,7 @@ export class AdminConsoleComponent implements OnDestroy {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
-      this.store.dispatch(fromActions.user({role: "admin"}))
+      this.store.dispatch(fromActions.loggedInUser({role: "admin"}))
     // })
   }
 
