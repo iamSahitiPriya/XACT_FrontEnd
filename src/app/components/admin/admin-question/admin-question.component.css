@@ -58,7 +58,7 @@ div.question-button-column {
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-  width: 60%;
+  width: 48%;
   word-break: break-all;
 }
 
@@ -234,6 +234,7 @@ div.question-button-column {
   flex-direction: row;
   flex: auto;
   justify-content: flex-end;
+  height: 6vh;
 }
 
 .status-icon {
@@ -259,4 +260,8 @@ div.question-button-column {
 
 .question-status {
   background: #F4FAFC 0 0 no-repeat padding-box;
+}
+
+.published-questions {
+  width: 100%;
 }

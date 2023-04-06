@@ -28,4 +28,8 @@ section {
   color: #000000;
 }
 
+.fixed-bottom {
+  z-index: 900 !important;
+}
+
 

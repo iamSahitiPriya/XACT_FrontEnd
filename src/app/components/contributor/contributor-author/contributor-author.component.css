@@ -298,7 +298,7 @@ a.anchor{
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 100;
+  z-index: 1000;
   top: 0;
   left: 0;
   bottom: 0;
@@ -363,4 +363,10 @@ a.anchor{
 }
 .no-data-present-container{
   text-align: center;
+}
+.question {
+  display: inline-block;
+  width: 45vw;
+  word-break: break-all;
+  white-space: normal;
 }

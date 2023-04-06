@@ -33,7 +33,7 @@
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">
-              <div class="question-text">
+              <div class="question-text" [ngClass]="{'published-questions': question.status === published}">
                 <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
                   <mat-label>{{questionText}}</mat-label>
                   <input #input matInput required
