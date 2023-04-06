@@ -57,12 +57,14 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
   sentForReviewText : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
+  contributorActionButtonText : string;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   edit: string = data_local.CONTRIBUTOR.EDIT;
   save: string = data_local.CONTRIBUTOR.SAVE;
   author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
+  action: string;
 
   contributorType:string
   constructor(public router: Router,public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
@@ -75,6 +77,14 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.contributorType == "AUTHOR") {
+      this.contributorActionButtonText = this.sendForReviewText
+      this.action = this.sentForReview;
+    }
+    else {
+      this.contributorActionButtonText = "Send For Reassessment"
+      this.action = "REQUESTED_FOR_CHANGE"
+    }
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
@@ -126,7 +136,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     };
   }
 
-  sendForReview(question: Question, response: ContributorData) {
+  evaluateQuestion(question: Question, response: ContributorData) {
     let questionRequest: Question[] = []
     questionRequest.push(question)
     this.openReviewDialog(questionRequest, response);
@@ -139,6 +149,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
         role: this.author.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
+        action: this.action
       }
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
@@ -354,5 +365,11 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   isSentForReview(data: ContributorData): boolean {
     return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
+  }
+
+
+
+  isStatusValid(status: string) : boolean {
+    return ((status === this.sentForReview && this.contributorType == "AUTHOR") || (status === "REQUESTED_FOR_CHANGE" && this.contributorType == "REVIEWER"))
   }
 }

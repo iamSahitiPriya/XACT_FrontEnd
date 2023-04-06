@@ -345,6 +345,7 @@ export class AdminQuestionComponent implements OnInit {
         role: this.author.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
+        action: "SENT_FOR_REVIEW"
       }
     });
     dialogRef.componentInstance.onSave.subscribe(response => {

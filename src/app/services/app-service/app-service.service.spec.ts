@@ -344,7 +344,7 @@ describe('AppServiceService', () => {
   });
 
   it("should send questions for review", () => {
-    expect(service.sendForReview(1, 'Sent_For_Review', '')).toBeTruthy()
+    expect(service.updateQuestionStatus(1, 'Sent_For_Review', '')).toBeTruthy()
   });
 
   it("should delete contributor questions", () => {

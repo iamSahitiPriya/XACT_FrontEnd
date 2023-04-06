@@ -80,7 +80,7 @@
                 <mat-card-content class="contributor-question">
                   <div class="contributor-question-checkbox-and-input">
                     <div class="select-checkbox" *ngIf="!question.isEdit">
-                      <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="question.status === sentForReview"
+                      <mat-checkbox [(ngModel)]="question.isSelected" [disabled]="isStatusValid(question.status)"
                                     (ngModelChange)="updateSelectAllStatus(response)">
                         <span class="question">{{question.question}}</span>
                       </mat-checkbox>
@@ -93,7 +93,7 @@
                   </div>
                 </mat-card-content>
               </div>
-              <div class="question-status-icon" *ngIf="question.status === sentForReview">
+              <div class="question-status-icon" *ngIf="question.status === sentForReview && contributorType === 'AUTHOR' ">
                 <mat-icon matTooltip="{{sentForReviewText}}"
                           [matTooltipPosition]="'left'"
                           matTooltipHideDelay="1000">info_outline
@@ -102,14 +102,14 @@
               <div class="contributor-edit-action" *ngIf="!question.isEdit">
                 <div class="contributor-edit-button">
                   <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
-                          [disabled]="question.status === sentForReview">
+                          [disabled]="isStatusValid(question.status)">
                     {{edit}}
                   </button>
                 </div>
                 <div class="contributor-send-button">
-                  <button mat-flat-button class="contributor-button" (click)="sendForReview(question,response)"
-                          [disabled]="question.status === sentForReview || checkbox.checked">
-                    {{sendForReviewText}}
+                  <button mat-flat-button class="contributor-button" (click)="evaluateQuestion(question,response)"
+                          [disabled]="isStatusValid(question.status) || checkbox.checked">
+                    {{contributorActionButtonText}}
                   </button>
                 </div>
                 <div class="question-delete-button">

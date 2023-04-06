@@ -260,12 +260,12 @@ describe('ContributorAuthorComponent', () => {
   });
   it("should send question for review", () => {
     component.ngOnInit()
-    jest.spyOn(component,'sendForReview')
+    jest.spyOn(component,'evaluateQuestion')
 
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.sendForReview(question,response)
+    component.evaluateQuestion(question,response)
   });
   it("should cancel changes when click", () => {
     jest.spyOn(component, 'cancelChanges')
@@ -365,13 +365,13 @@ describe('ContributorAuthorComponent', () => {
   });
   it("should subscribe to an instance after save", () => {
     component.ngOnInit()
-    jest.spyOn(component,'sendForReview')
+    jest.spyOn(component,'evaluateQuestion')
     jest.spyOn(matDialog,'open')
 
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.sendForReview(question,response)
+    component.evaluateQuestion(question,response)
 
     expect(matDialog.open).toHaveBeenCalled()
   });

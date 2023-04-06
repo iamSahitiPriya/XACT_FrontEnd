@@ -298,7 +298,7 @@ export class AppServiceService {
     return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
   }
 
-  sendForReview(moduleId: number, status: string, questionRequest:any) {
+  updateQuestionStatus(moduleId: number, status: string, questionRequest:any) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
     const headers = {'content-type': 'application/json'}

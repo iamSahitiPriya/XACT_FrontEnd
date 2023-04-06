@@ -73,7 +73,7 @@ describe('ReviewDialogComponent', () => {
   });
 
   it('should send questions to review', () => {
-    jest.spyOn(component,'sendToReview')
+    jest.spyOn(component,'evaluateQuestion')
     let moduleId = 1
     component.data = {
       question: {},
@@ -81,13 +81,13 @@ describe('ReviewDialogComponent', () => {
     }
     let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
 
-    component.sendToReview(question)
+    component.evaluateQuestion(question)
 
     mockAppService.sendForReview(moduleId,'Sent_For_Review',question).subscribe(data =>{
       expect(data).toBeDefined()
     })
 
-    expect(component.sendToReview).toHaveBeenCalled()
+    expect(component.evaluateQuestion).toHaveBeenCalled()
 
   });
   it('should throw error on unsuccessful API call', () => {
@@ -99,7 +99,7 @@ describe('ReviewDialogComponent', () => {
     }
     let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
 
-    component.sendToReview(question)
+    component.evaluateQuestion(question)
 
     mockAppService.sendForReview(moduleId,'Sent_For_Review',question).subscribe(data =>{
       expect(data).toBeUndefined()
