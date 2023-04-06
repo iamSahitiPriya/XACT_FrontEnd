@@ -121,7 +121,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
   width: 14.2vw;
   text-overflow: ellipsis;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1450px) {
   .create-assessment-button.mat-raised-button{
     letter-spacing: 0;
     font-size: 1rem;
