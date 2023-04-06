@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAdmin: boolean = false;
   isContributor: boolean = false;
 
+  contributorRole: string
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
@@ -45,8 +46,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (data.includes("Admin")) {
         this.isAdmin = true;
       }
-      if(data.includes("AUTHOR") || data.includes("REVIEWER"))
+      if(data.includes("REVIEWER")) {
         this.isContributor = true;
+        this.contributorRole = "reviewer";
+      }
+
+      if(data.includes("AUTHOR") ) {
+        this.isContributor = true;
+        this.contributorRole = "author"
+      }
     })
     this.appService.login();
 

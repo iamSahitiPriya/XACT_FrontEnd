@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
@@ -18,6 +18,7 @@ import {Store} from "@ngrx/store";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {QuestionStructure} from "../../../types/questionStructure";
+import {Router} from "@angular/router";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -33,8 +34,8 @@ interface QuestionResponse {
   styleUrls: ['./contributor-author.component.css']
 })
 export class ContributorAuthorComponent implements OnInit, OnDestroy {
-  // searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
-  // searchText: string;
+  searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
+  searchText: string;
   isEdit: boolean;
   isReviewSent: boolean = false;
   clicked: boolean = false;
@@ -50,7 +51,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   categoryResponse: CategoryResponse[]
   close: string = data_local.CONTRIBUTOR.CLOSE;
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
-  // contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
+  contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
@@ -63,15 +64,21 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+  contributorType:string
+  constructor(public router: Router,public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const currentRoute = this.router.url.split('?')[0];
+      const path = currentRoute.split('/').pop() || '';
+      this.contributorType = path.toUpperCase();
+    })
   }
 
   ngOnInit(): void {
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
-    this.appService.getContributorQuestions(this.author).subscribe((data) => {
+    this.appService.getContributorQuestions(this.contributorType).subscribe((data) => {
       this.unsavedChanges = []
       this.contributorResponse = data
       this.formatResponse()

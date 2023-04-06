@@ -153,7 +153,7 @@ export const appRoutes: Routes = [
     },
       {
         path: "reviewer",
-        component: ContributorReviewerComponent,
+        component: ContributorAuthorComponent,
         pathMatch:'full',
         canActivate:[OktaAuthGuard]
       }]

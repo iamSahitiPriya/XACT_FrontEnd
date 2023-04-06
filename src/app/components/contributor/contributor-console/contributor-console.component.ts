@@ -24,9 +24,9 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   authorText : string = data_local.CONTRIBUTOR.ROLE.DISPLAY_TEXT.AUTHOR
   reviewerText : string = data_local.CONTRIBUTOR.ROLE.DISPLAY_TEXT.REVIEWER
 
-  searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
-  searchText: string;
-  contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
+  // searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
+  // searchText: string;
+  // contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
 
 
   constructor(public router: Router, private appService: AppServiceService, private store: Store<AppStates>) {
