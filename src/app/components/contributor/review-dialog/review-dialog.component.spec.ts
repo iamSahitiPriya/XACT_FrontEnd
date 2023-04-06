@@ -10,6 +10,7 @@ import {of, throwError} from "rxjs";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {Question} from "../../../types/Contributor/Question";
 
 describe('ReviewDialogComponent', () => {
   let component: ReviewDialogComponent;
@@ -78,7 +79,7 @@ describe('ReviewDialogComponent', () => {
       question: {},
       moduleId: 1,
     }
-    let question = [{questionId: 1, questionText: "hello"}]
+    let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
 
     component.sendToReview(question)
 
@@ -96,7 +97,7 @@ describe('ReviewDialogComponent', () => {
       question: {},
       moduleId: 0,
     }
-    let question = [{questionId: 1, questionText: "hello"}]
+    let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
 
     component.sendToReview(question)
 
