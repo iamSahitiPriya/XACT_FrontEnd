@@ -1,22 +1,7 @@
-.questionHeading {
-  height: 5vh;
-  width: 58vw;
-  padding: 1%;
-  text-align: left;
-  font-size: 1.2rem ;
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.36px;
-  color: #043D4E;
-  opacity: 1;
-  margin: 0;
-}
-
 .question-heading {
   width: 97%;
   text-align: left;
-  font-size: 1.7em ;
+  font-size: 1.7rem ;
   font-family: "Bitter", sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -26,31 +11,30 @@
   overflow-wrap: break-word;
 }
 
-.question-close button {
+.close-question button {
   display: inline-block;
   float: right;
   border: none;
   background-color: transparent;
 }
 
-.question_close-icon.mat-icon {
+.close-question-icon.mat-icon {
   color: #043D4E;
   width: 50px;
   height: 38px;
 }
 
-.question_close-icon.material-icons {
+.close-question-icon.material-icons {
   font-size: 25px;
 }
 
-div.questionButtonColumn {
+div.question-button-column {
   display: flex;
   justify-content: flex-end;
-  height: 90px;
   margin-left: 2px;
 }
 
-.questionButton1 {
+.question-button1 {
   width: 20%;
   height: 50px;
   background: #4BA1AC 0 0 no-repeat padding-box;
@@ -66,7 +50,7 @@ div.questionButtonColumn {
   text-transform: capitalize;
 }
 
-.questionText {
+.question-text {
   text-align: left;
   font-size: 18px;
   font-weight: normal;
@@ -74,47 +58,53 @@ div.questionButtonColumn {
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-  word-break: break-word;
+  width: 48%;
+  word-break: break-all;
 }
 
-.editQuestion {
+.edit-question, .send-question-for-review {
   display: flex;
   flex-direction: row;
-  height: 0px;
+  height: 89%;
   background: #658892 0% 0% no-repeat padding-box;
   border-radius: 8px;
   opacity: 1;
   color: #FFFFFF;
   text-align: center;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: "Inter", sans-serif;
   letter-spacing: 0.5px;
-  padding-bottom: 32px;
+  padding-bottom: 10px;
   margin-right: 3px;
 }
 
-.save-button, .edit-button {
+.save-button, .edit-button, .send-for-review-button {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .save-button{
-  margin-left: 39%;
   padding-top: 20px;
+  height: 6vh;
 }
 
-.updateButton{
-  margin-left: 40%;
+.update-button{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
   padding-top: 20px;
+  justify-content: flex-end;
+  padding-right: 5%;
 }
 
-.edit-button{
-  margin-left: 26%;
+.edit-button, .send-for-review-button{
+  height: 85%;
 }
 
 .questions{
   overflow-y: scroll;
-  height: 320px;
+  height: 40vh;
   margin-left: 17px;
 }
 
@@ -122,10 +112,9 @@ div.questionButtonColumn {
   width: 100%;
 }
 
-.saveQuestion{
+.save-question{
   display: flex;
   flex-direction: row;
-  height: 0px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #61828C;
   border-radius: 8px;
@@ -136,7 +125,6 @@ div.questionButtonColumn {
   font-size: 16px;
   font-family: "Inter", sans-serif;
   letter-spacing: 0.5px;
-  padding-bottom: 32px;
   margin-right: 3px;
 }
 
@@ -145,7 +133,7 @@ div.questionButtonColumn {
   background: transparent;
 }
 
-.updateQuestion {
+.update-question {
   height: 0px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #61828C;
@@ -184,9 +172,96 @@ div.questionButtonColumn {
   width: 94%;
 }
 ::ng-deep .question-header .mat-card-header-text {
-  margin: 0 6px;
+  margin: 0 0;
 }
-::ng-deep .questionText .mat-form-field-appearance-outline .mat-form-field-flex  {
-  width: 48vw !important;
+::ng-deep .question-text .mat-form-field-appearance-outline .mat-form-field-flex  {
+  width: 40vw !important;
+}
+.question-card{
+  box-shadow: none !important;
+  border-radius: 0 6px 6px 6px;
+  border: 1px solid #5D9EAA;
+  opacity: 1;
+  width: 97%;
+}
+.question-draft{
+  border: 1px solid #5D9EAA;
+}
+.question-status-heading-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+  background: #5D9EAA0D 0 0 no-repeat padding-box;
+  border-style: solid;
+  border-radius: 6px 48px 0 0;
+  border-bottom: none;
+  opacity: 1;
+  width: 25%;
+  border-width:1px;
+  height: 4.5vh;
+
+}
+.question-status-heading{
+  text-align: left;
+  font-family: Inter, serif;
+  font-size: 1rem;
+  letter-spacing: 0.28px;
+  color: #000000;
+  padding-top: 3%;
+  padding-left: 6%;
+  padding-bottom: 5%;
+  opacity: 1;
+}
+.question-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+  padding-top: 1%;
 }
 
+.admin-questions {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: auto;
+}
+
+.question-edit-update {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  flex: auto;
+  justify-content: flex-end;
+  height: 6vh;
+}
+
+.status-icon {
+  padding-left: 3%;
+  padding-top: 2%;
+}
+
+.status-icon .sent-for-review mat-icon {
+  color: #BE873E;
+}
+
+.status-icon .published mat-icon {
+  color: #6B9F78;
+}
+
+.question_status-icon .sent-for-review mat-icon {
+  color: #416386;
+}
+.question_status-icon{
+  padding-top: 0.75%;
+  padding-right: 2%;
+}
+
+.question-status {
+  background: #F4FAFC 0 0 no-repeat padding-box;
+}
+
+.published-questions {
+  width: 100%;
+}

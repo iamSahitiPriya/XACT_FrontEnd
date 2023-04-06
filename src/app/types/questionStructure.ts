@@ -5,5 +5,6 @@
 export interface QuestionStructure {
   questionId: number,
   questionText: string,
+  status?:string,
   parameter: number,
 }

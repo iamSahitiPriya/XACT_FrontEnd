@@ -333,5 +333,22 @@ describe('AppServiceService', () => {
   it("should get user role", () => {
     expect(service.getUserRole()).toBeTruthy()
   });
+
+  it("should get contributor questions for the role", () => {
+    expect(service.getContributorQuestions('Author')).toBeTruthy()
+  });
+
+  it("should update contributor question", () => {
+    service.updateQuestion(1, "hello")
+    expect(service.updateQuestion(1, "hello")).toBeTruthy()
+  });
+
+  it("should send questions for review", () => {
+    expect(service.sendForReview(1, 'Sent_For_Review', '')).toBeTruthy()
+  });
+
+  it("should delete contributor questions", () => {
+    expect(service.deleteQuestion(1)).toBeTruthy()
+  });
 });
 

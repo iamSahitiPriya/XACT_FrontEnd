@@ -56,8 +56,8 @@ describe('HeaderComponent', () => {
     expect(component.username).toBe('dummyUserWithMoreThen10');
   });
   it('should enable admin-console when the user is Admin', () => {
-    component.userRole = of("Admin");
-    expect(component.isRoleAdmin).toBeFalsy();
+    component.userRole = of(["Admin"]);
+    expect(component.isAdmin).toBeFalsy();
     component.ngOnInit()
   });
 

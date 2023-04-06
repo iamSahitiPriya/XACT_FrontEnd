@@ -6,5 +6,6 @@ export interface QuestionResponse {
   questionText: string,
   parameter: number,
   questionId: number,
+  status ?: string
 }
 

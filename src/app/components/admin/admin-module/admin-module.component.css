@@ -23,10 +23,6 @@ th {
 
 }
 
-/*th.module {*/
-/*  padding-right: 18%;*/
-/*}*/
-
 th.module, td.module {
   border-bottom-style: none;
   text-align: center;
@@ -140,7 +136,7 @@ button.closeButton {
   margin-bottom: 3px;
 }
 
-.updateButton {
+.update-button {
   width: 77px;
   height: 30px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -157,7 +153,7 @@ button.closeButton {
   margin-right: 3px;
 }
 
-.updateButton.mat-flat-button {
+.update-button.mat-flat-button {
   padding: 0px 9px;
   padding-bottom: 34px;
   margin-right: -8px;

@@ -6,6 +6,6 @@ export interface ParameterRequest {
   parameterId ?: number
   parameterName : string
   topic : number
-  active : boolean
+  active ?: boolean
   comments ?: string
 }

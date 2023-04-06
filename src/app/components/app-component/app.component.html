@@ -6,7 +6,7 @@
 
 
 <div *ngIf="(authService.authState$ | async)?.isAuthenticated">
-  <app-header [userRole]="userRole"></app-header>
+  <app-header [userRole]="userRoles"></app-header>
   <br/>
 </div>
 <ng-http-loader [entryComponent]="progressComponent" [filteredMethods]="['PATCH']" [filteredUrlPatterns]="['reports','accounts','activities','login','roles']"></ng-http-loader>
@@ -18,7 +18,7 @@
     <!-- Copyright -->
     <div class="text-center p-3 footer">
       {{copyright}}
-      <a class="text-white text-decoration-none" href="https://www.thoughtworks.com">{{thoughtworks}}</a>
+      <a class="text-black text-decoration-none" href="https://www.thoughtworks.com">{{thoughtworks}}</a>
       {{rightReserved}} {{appVersion}}
     </div>
     <!-- Copyright -->

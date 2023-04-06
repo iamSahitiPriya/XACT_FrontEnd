@@ -101,7 +101,6 @@ ngb-datepicker {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
-
 .mat-form-field.mat-warn .mat-input-element, .mat-form-field.mat-focused .mat-input-element {
   caret-color: #45A0AC !important;
 }
@@ -163,4 +162,9 @@ ngb-datepicker {
 .create-assessment-popup{
   width: 36.5vw;
   max-height: 85vh;
+}
+
+.review-dialog {
+  width: 64vw;
+  z-index: 10500;
 }

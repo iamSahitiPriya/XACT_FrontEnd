@@ -1,0 +1,372 @@
+.contributor-author-heading h1{
+  text-align: left;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: normal;
+  font-family: "Bitter", sans-serif;
+  letter-spacing: 0.64px;
+  color: #043D4E;
+  opacity: 1;
+  padding-top:2% ;
+}
+::ng-deep .search-contributor-questions .mat-form-field-underline {
+  display: none;
+}
+
+.search-contributor-questions{
+  top: 2px;
+  width: 80%;
+  background-color: #F4FAFC !important;
+  border-bottom: none;
+  height: 51px;
+}
+.search-contributor-question-icon{
+  float: left;
+
+}
+.search-image{
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 15px;
+  cursor: pointer;
+}
+.search-text{
+  padding-left: 36px;
+  font-size: 0.9rem;
+  font-family: "Inter", sans-serif;
+  color: #77969F;
+}
+.contributor-author-header{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 3%;
+}
+.contributor-author-heading{
+  width: 45%;
+}
+.contributor-search-bar{
+  width: 55%;
+}
+.parameter-heading-on-click{
+  background-color: #5D9EAA !important;
+  color: #fff;
+}
+.contributor-questions-on-click{
+  box-shadow: 0px 3px 6px #0000003E !important;
+  border: 1px solid #4BA1AC4A !important;
+}
+
+.parameter-heading{
+  border: 1px solid #5D9EAA;
+  background-color: #5D9EAA0D;
+  border-radius: 10px 150px 0 0;
+  font-size: 0.9rem;
+  padding: .1% 1%;
+  border-bottom: none;
+}
+.contributor-author{
+  display: flex;
+  flex-direction: column;
+}
+.contributor-question{
+  font-size: 1rem;
+  word-break: break-all;
+}
+.contributor-questions{
+  width: 97%;
+  cursor: pointer;
+}
+.contributor-questions .mat-card{
+  box-shadow: none;
+  border: 1px solid #4BA1ACBF;
+  border-top-left-radius : 0;
+}
+.contributor-question-content{
+  width: 80%;
+}
+.contributor-question-checkbox-and-input{
+  display: flex;
+  flex-direction: row;
+}
+
+.parameter-heading-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 96%;
+}
+a.anchor{
+  text-decoration: underline;
+  color: #156C86;
+  font-family: Inter, serif;
+}
+
+.each-question {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 0.5%;
+}
+
+.contributor-button, .contributor-save-button {
+  height: 0px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border-radius: 3px;
+  border: 1px solid #61828C;
+  opacity: 1;
+  color: #658892;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: .5px;
+  padding-bottom: 33px;
+}
+
+.contributor-edit-button, .contributor-send-button {
+  margin-right: 1%;
+  padding-right: 3%;
+}
+
+.send-review-button {
+  padding-left: 22%;
+  margin-right: 1%;
+  padding-right: 3%;
+}
+
+.discard-changes {
+  padding-top: 2%;
+}
+
+.discard-changes .mat-icon {
+  color: #6F7071;
+}
+
+.question-status-icon {
+ padding-left: 10%;
+}
+
+.question-delete-button {
+  padding-top: 0.5%;
+}
+.question-status-icon .mat-icon {
+  color: #416386;
+}
+
+.question-delete-button .mat-icon {
+  color: #BD4257;
+}
+.contributor-question-input{
+  width: 100%;
+}
+.contributor-input {
+  width: 100%;
+  height: 49px;
+  border-radius: 7px;
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter,sans-serif;
+  letter-spacing: 0;
+  color: #6f7071;
+  opacity: 1;
+  margin-bottom: 38px;
+}
+
+::ng-deep .contributor-input .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+::ng-deep .contributor-input .mat-form-field-appearance-outline .mat-form-field-outline{
+  height: 6vh !important;
+}
+.contributor-edit-action{
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.contributor-edit-buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 19%;
+  margin-bottom: 4%;
+}
+.select-checkbox{
+  width: 3%;
+}
+
+::ng-deep .contributor-question-input .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 0.5em;
+  padding-bottom: 0.8em;
+}
+
+::ng-deep .contributor-input .mat-form-field-infix {
+  padding-bottom: 0;
+}
+
+.edit-input .contributor-question-content {
+  width: 80%;
+}
+
+.all-questions-comment {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: auto;
+}
+
+.contributor-comment {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 83.5%;
+  height: 4.3vh;
+}
+
+.comments-checkbox {
+  height: 10%;
+  padding-top: 0.3%;
+  padding-right: 1%;
+}
+
+.all-questions-comment .contributor-input {
+  width: 60vw;
+}
+
+.all-questions-comment .contributor-send-for-review-button {
+  padding-left: 1%;
+  padding-top: 0.7%;
+}
+
+.all-questions-comment .discard-changes {
+  padding-top: 0.8%;
+}
+
+::ng-deep .contributor-comment .mat-checkbox-inner-container-no-side-margin {
+  margin-right: 1%;
+  margin-bottom: 5.5%;
+}
+
+::ng-deep .contributor-comment .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #4ba1ac;
+}
+
+::ng-deep .all-comments .mat-form-field-appearance-outline .mat-form-field-flex {
+  height: 3rem !important;
+  padding: 0 !important;
+}
+
+.contributor-save-cancel-buttons{
+  display: flex;
+  justify-content: flex-end;
+  width: 19%;
+  margin-bottom: 4%;
+}
+
+.all-question button {
+  border: none;
+  background : transparent;
+  text-decoration: underline;
+  color: #156C86;
+}
+
+.all-question-container {
+  position: absolute;
+  background: #FFFFFF;
+  height: 100%;
+  width: 55%;
+  top:0;
+  right: 0;
+  z-index: 10000;
+}
+
+.backdrop {
+  height: 100%;
+  width: 45%;
+  background-color: #6F7071;
+  opacity: 0.2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.all-questions-backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.all-questions {
+  padding-top: 1%;
+  padding-right: 1.5%;
+  height: 90%;
+}
+
+.all-questions app-admin-question >>> .admin-questions .questions {
+  height: 75vh;
+  overflow-y:scroll;
+}
+
+.all-questions app-admin-question >>> .admin-questions .question-status-heading-content {
+  width: 37%;
+  border-width: 1px;
+}
+
+.all-questions app-admin-question >>> .question-heading {
+  padding-bottom: 3%;
+  padding-left: 2%;
+}
+
+.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-flex {
+  width: 36vw!important;
+}
+
+.close button {
+  background-color: transparent;
+  border: none;
+  float: right;
+}
+
+.close {
+  padding-top: 3%;
+  padding-right: 3%;
+  padding-bottom: 4%;
+}
+
+.each-question-container{
+  padding-top: 1%;
+}
+
+::ng-deep .contributor-question-input .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+::ng-deep .contributor-question-input .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
+}
+
+.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #45A0AC !important;
+}
+
+.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #45A0AC !important;
+}
+.no-data-present-container{
+  text-align: center;
+}
+.question {
+  display: inline-block;
+  width: 45vw;
+  word-break: break-all;
+  white-space: normal;
+}

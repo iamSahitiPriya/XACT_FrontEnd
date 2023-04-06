@@ -12,6 +12,7 @@ import {saveAs} from "file-saver";
 import {Subject, takeUntil} from "rxjs";
 import {data_local} from "../../../messages";
 import {NgbCalendar, NgbDate, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from "@angular/router";
 
 let MAXIMUM_NO_OF_DAYS: number = 700;
 let HOURS: number = 24;
@@ -75,7 +76,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   toDate: NgbDate | null = null;
   currentDate: NgbDate | null = null;
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, calendar: NgbCalendar, private config: NgbDatepickerConfig) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, calendar: NgbCalendar, private config: NgbDatepickerConfig,private router: Router) {
     this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 1);
     this.toDate = this.currentDate = calendar.getToday();
     const currentDate = new Date();

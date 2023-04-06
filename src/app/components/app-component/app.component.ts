@@ -22,7 +22,7 @@ import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snac
 })
 
 export class AppComponent implements OnInit {
-  userRole: Observable<Object>;
+  userRoles: Observable<string []>;
   public progressComponent = ProgressComponentComponent;
   public appVersion: string = environment.VERSION;
   copyright = data_local.COPYRIGHT_MESSAGE.COPYRIGHT_TEXT;
@@ -78,7 +78,8 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.reset();
-    this.userRole = await this.appService.getUserRole();
+    this.userRoles = await this.appService.getUserRole();
+
   }
 }
 

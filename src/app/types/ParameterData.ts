@@ -1,17 +1,17 @@
 export interface ParameterData{
   categoryId :number,
   categoryName:string,
-  categoryStatus :boolean,
+  categoryStatus ?:boolean,
   moduleId:number,
   moduleName :string,
-  moduleStatus : boolean,
+  moduleStatus ?: boolean,
   topicId:number,
   topicName:string,
-  topicStatus : boolean,
+  topicStatus ?: boolean,
   parameterId:number,
   parameterName:string,
-  active:boolean,
-  updatedAt : number,
+  active?:boolean,
+  updatedAt ?: number,
   comments ?: string
   isEdit ?: boolean
   openReferences ?: boolean,

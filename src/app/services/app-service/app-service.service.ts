@@ -38,6 +38,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
+import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
 
 
 @Injectable({
@@ -85,7 +86,7 @@ export class AppServiceService {
   }
 
 
-  saveTopicRecommendation(assessmentId : number, topicId : number, topicLevelRecommendation: TopicLevelRecommendation): Observable<TopicLevelRecommendation> {
+  saveTopicRecommendation(assessmentId: number, topicId: number, topicLevelRecommendation: TopicLevelRecommendation): Observable<TopicLevelRecommendation> {
     const topicRecommendationURI = this.formatURI(environment.SAVE_TOPIC_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       topicId: topicId
@@ -102,7 +103,7 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + topicRecommendationURI);
   }
 
-  saveParameterRecommendation(assessmentId : number, parameterId : number,recommendation: ParameterLevelRecommendation): Observable<ParameterLevelRecommendation> {
+  saveParameterRecommendation(assessmentId: number, parameterId: number, recommendation: ParameterLevelRecommendation): Observable<ParameterLevelRecommendation> {
     const paramRecommendationURI = this.formatURI(environment.SAVE_PARAMETER_RECOMMENDATION_URI, {
       assessmentId: assessmentId,
       parameterId: parameterId
@@ -140,11 +141,11 @@ export class AppServiceService {
   }
 
   getUserRole() {
-    return this.http.get(environment.BaseURI + environment.ROLE_URI);
+    return this.http.get<string []>(environment.BaseURI + environment.ROLE_URI);
   }
 
   login() {
-     this.http.get(environment.BaseURI + environment.LOGIN_URI).subscribe();
+    this.http.get(environment.BaseURI + environment.LOGIN_URI).subscribe();
   }
 
   getReportData(assessmentId: number): Observable<ReportDataStructure> {
@@ -161,27 +162,27 @@ export class AppServiceService {
   }
 
 
-  saveCategory(categoryRequest: CategoryRequest) : Observable<CategoryResponse> {
+  saveCategory(categoryRequest: CategoryRequest): Observable<CategoryResponse> {
     return this.http.post<CategoryResponse>(environment.BaseURI + environment.SAVE_CATEGORY_URI, categoryRequest)
   }
 
-  saveParameter(parameterRequest: ParameterRequest) : Observable<ParameterResponse>{
+  saveParameter(parameterRequest: ParameterRequest): Observable<ParameterResponse> {
     return this.http.post<ParameterResponse>(environment.BaseURI + environment.SAVE_PARAMETER_URI, parameterRequest)
   }
 
-  saveModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+  saveModule(moduleRequest: ModuleRequest): Observable<ModuleResponse> {
     return this.http.post<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI, moduleRequest)
   }
 
-  updateCategory(categoryRequest: CategoryRequest) : Observable<CategoryResponse> {
+  updateCategory(categoryRequest: CategoryRequest): Observable<CategoryResponse> {
     return this.http.put<CategoryResponse>(environment.BaseURI + environment.UPDATE_CATEGORY_URI + "/" + categoryRequest.categoryId, categoryRequest);
   }
 
-  updateParameter(parameterRequest: ParameterRequest, parameterId: number) : Observable<ParameterResponse> {
+  updateParameter(parameterRequest: ParameterRequest, parameterId: number): Observable<ParameterResponse> {
     return this.http.put<ParameterResponse>(environment.BaseURI + environment.SAVE_PARAMETER_URI + "/" + parameterId, parameterRequest)
   }
 
-  updateModule(moduleRequest: ModuleRequest) : Observable<ModuleResponse> {
+  updateModule(moduleRequest: ModuleRequest): Observable<ModuleResponse> {
     return this.http.put<ModuleResponse>(environment.BaseURI + environment.SAVE_MODULE_URI + "/" + moduleRequest.moduleId, moduleRequest);
   }
 
@@ -229,11 +230,11 @@ export class AppServiceService {
     return this.http.post<TopicResponse>(environment.BaseURI + environment.SAVE_TOPIC_URI, topicRequest)
   }
 
-  updateTopic(topicRequest: TopicRequest, topicId: number) : Observable<TopicResponse> {
+  updateTopic(topicRequest: TopicRequest, topicId: number): Observable<TopicResponse> {
     return this.http.put<TopicResponse>(environment.BaseURI + environment.UPDATE_TOPIC_URI + "/" + topicId, topicRequest)
   }
 
-  saveTopicReference(topicReferenceRequest: TopicReference) : Observable<TopicReference> {
+  saveTopicReference(topicReferenceRequest: TopicReference): Observable<TopicReference> {
     return this.http.post<TopicReference>(environment.BaseURI + environment.SAVE_TOPIC_REFERENCE_URI, topicReferenceRequest)
   }
 
@@ -241,11 +242,11 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.DELETE_TOPIC_REFERENCE_URI + "/" + referenceId)
   }
 
-  updateTopicReference(referenceId: number, topicReferenceRequest: TopicReference) : Observable<TopicReference> {
+  updateTopicReference(referenceId: number, topicReferenceRequest: TopicReference): Observable<TopicReference> {
     return this.http.put<TopicReference>(environment.BaseURI + environment.UPDATE_TOPIC_REFERENCE_URI + "/" + referenceId, topicReferenceRequest)
   }
 
-  saveParameterReference(parameterReferenceRequest: ParameterReference) : Observable<ParameterReference> {
+  saveParameterReference(parameterReferenceRequest: ParameterReference): Observable<ParameterReference> {
     return this.http.post<ParameterReference>(environment.BaseURI + environment.SAVE_PARAMETER_REFERENCE_URI, parameterReferenceRequest)
   }
 
@@ -253,16 +254,15 @@ export class AppServiceService {
     return this.http.delete(environment.BaseURI + environment.DELETE_PARAMETER_REFERENCE_URI + "/" + referenceId)
   }
 
-  updateParameterReference(referenceId: number, parameterReferenceRequest: ParameterReference) : Observable<ParameterReference> {
+  updateParameterReference(referenceId: number, parameterReferenceRequest: ParameterReference): Observable<ParameterReference> {
     return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId, parameterReferenceRequest)
   }
 
-  updateMasterQuestion(questionId: number, questionRequest: QuestionStructure) : Observable<QuestionStructure> {
+  updateMasterQuestion(questionId: number, questionRequest: QuestionStructure): Observable<QuestionStructure> {
     return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
-
   }
 
-  saveMasterQuestion(questionRequest: QuestionRequest) : Observable<QuestionStructure>{
+  saveMasterQuestion(questionRequest: QuestionRequest): Observable<QuestionStructure> {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
 
@@ -277,11 +277,36 @@ export class AppServiceService {
     return this.http.get<SummaryResponse>(environment.BaseURI + summaryDataURI)
   }
 
-  getAllRecommendations(assessmentId : number) {
+  getAllRecommendations(assessmentId: number) {
     const recommendationsURI = this.formatURI(environment.RECOMMENDATIONS_URI, {
       assessmentId: assessmentId
     })
     return this.http.get<Recommendation []>(environment.BaseURI + recommendationsURI)
+  }
+
+  getContributorQuestions(role: string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("role", role);
+    return this.http.get<ContributorResponse>(environment.BaseURI + environment.CONTRIBUTOR_QUESTIONS_URI, {params: queryParams})
+  }
+
+  updateQuestion(questionId: number, question: string) {
+    const headers = {'content-type': 'application/json'}
+    const updateQuestionURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_QUESTION, {
+      questionId: questionId
+    });
+    return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
+  }
+
+  sendForReview(moduleId: number, status: string, questionRequest:any) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("status", status);
+    const headers = {'content-type': 'application/json'}
+    const sendForReviewURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_STATUS_URI,{
+      moduleId:moduleId,
+    })
+    return this.http.patch(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
+
   }
 
   getActivity(topicId: number, assessmentId: number) {
@@ -294,6 +319,15 @@ export class AppServiceService {
       reconnectionDelay: 30_000,
       responseType: 'text'
     })
+
+  }
+
+  deleteQuestion(questionId: number) {
+    const headers = {'content-type': 'application/json'}
+    const deleteQuestionURI = this.formatURI(environment.DELETE_CONTRIBUTOR_QUESTION, {
+      questionId: questionId
+    });
+    return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
 
   }
 }

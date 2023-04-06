@@ -185,7 +185,7 @@ td.expandedData {
   border-bottom-width: 0px;
 }
 
-.updateButton {
+.update-button {
   width: 77px;
   height: 30px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -202,7 +202,7 @@ td.expandedData {
   margin-right: 3px;
 }
 
-.updateButton.mat-flat-button {
+.update-button.mat-flat-button {
   padding: 0px 9px;
   padding-bottom: 34px;
   margin-right: -8px;

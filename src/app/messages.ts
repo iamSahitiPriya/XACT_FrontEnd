@@ -142,7 +142,8 @@ export const data_local =
       SUPPORT: "Support",
       FEEDBACK: "Feedback",
       LOGOUT: "Log Out",
-      ADMIN_CONSOLE: "Admin-Console"
+      ADMIN_CONSOLE: "Admin-Console",
+      CONTRIBUTOR: "Contributor"
     },
     ASSESSMENT_PARAMETER: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",
@@ -321,6 +322,45 @@ export const data_local =
       TOPIC_RECOMMENDATION: "TOPIC_RECOMMENDATION",
       PARAMETER_RECOMMENDATION: "PARAMETER_RECOMMENDATION"
 
+    },
+    CONTRIBUTOR : {
+      CONSOLE : "Contributor Console",
+      CONTRIBUTOR : "Contributor",
+      TITLE :"X - Act Contributor",
+      ALL_QUESTIONS : "All Questions",
+      SELECT_ALL : "Select All",
+      SEARCH_QUESTIONS : "Search questions",
+      CANCEL : "Cancel",
+      CLOSE : "Close",
+      EDIT : "Edit",
+      SAVE : "Save",
+      QUESTIONS : "Questions",
+      CONFIRMATION_POPUP_TEXT: "Are you sure",
+      STATUS : {
+        DRAFT : "DRAFT",
+        SENT_FOR_REVIEW : "SENT_FOR_REVIEW",
+        PUBLISHED: "PUBLISHED",
+        REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
+        REJECTED : "REJECTED",
+        DISPLAY_TEXT: {
+          SENT_FOR_REVIEW: "Sent for Review",
+          PUBLISHED_QUESTIONS:'All published questions',
+          REJECTED: 'Rejected',
+          DRAFT: 'Draft'
+        }
+      },
+      ROLE : {
+        AUTHOR : "AUTHOR",
+        REVIEWER : "REVIEWER",
+        DISPLAY_TEXT : {
+          AUTHOR : "Author",
+          REVIEWER : "Reviewer",
+        },
+      },
+      AUTHOR : {
+        SEND_FOR_REVIEW : "Send for Review",
+      },
+      NO_DATA_PRESENT: "No Questions available to show at this moment"
     },
     IDLE_STATE: {
       STATE: {

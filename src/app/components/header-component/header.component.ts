@@ -22,26 +22,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
   microSite = data_local.HEADER_LINK_TEXT.MICRO_SITE;
   support = data_local.HEADER_LINK_TEXT.SUPPORT;
   feedback = data_local.HEADER_LINK_TEXT.FEEDBACK;
+  contributor = data_local.HEADER_LINK_TEXT.CONTRIBUTOR;
   logout = data_local.HEADER_LINK_TEXT.LOGOUT;
   adminConsole = data_local.HEADER_LINK_TEXT.ADMIN_CONSOLE;
   private destroy$: Subject<void> = new Subject<void>();
 
 
   @Input()
-  userRole: Observable<Object>
+  userRole: Observable<string []>
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService: AppServiceService) {
   }
 
   username: string|undefined = ""
-  isRoleAdmin: boolean = false;
+  isAdmin: boolean = false;
+  isContributor: boolean = false;
+
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
     this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (data == "Admin") {
-        this.isRoleAdmin = true;
+      if (data.includes("Admin")) {
+        this.isAdmin = true;
       }
+      if(data.includes("AUTHOR") || data.includes("REVIEWER"))
+        this.isContributor = true;
     })
     this.appService.login();
 
