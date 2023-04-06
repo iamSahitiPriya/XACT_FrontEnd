@@ -33,8 +33,8 @@ interface QuestionResponse {
   styleUrls: ['./contributor-author.component.css']
 })
 export class ContributorAuthorComponent implements OnInit, OnDestroy {
-  searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
-  searchText: string;
+  // searchBarText: string = data_local.CONTRIBUTOR.SEARCH_QUESTIONS;
+  // searchText: string;
   isEdit: boolean;
   isReviewSent: boolean = false;
   clicked: boolean = false;
@@ -50,7 +50,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   categoryResponse: CategoryResponse[]
   close: string = data_local.CONTRIBUTOR.CLOSE;
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
-  contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
+  // contributorTitle: string = data_local.CONTRIBUTOR.TITLE;
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;

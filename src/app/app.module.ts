@@ -110,6 +110,7 @@ import {NgChartsModule} from "ng2-charts";
 import {ContributorConsoleComponent} from './components/contributor/contributor-console/contributor-console.component';
 import {ContributorAuthorComponent} from './components/contributor/contributor-author/contributor-author.component';
 import {ReviewDialogComponent} from './components/contributor/review-dialog/review-dialog.component';
+import { ContributorReviewerComponent } from './components/contributor/contributor-reviewer/contributor-reviewer.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -149,7 +150,13 @@ export const appRoutes: Routes = [
       component: ContributorAuthorComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
-    }]
+    },
+      {
+        path: "reviewer",
+        component: ContributorReviewerComponent,
+        pathMatch:'full',
+        canActivate:[OktaAuthGuard]
+      }]
   },
   {
     path:'admin',
@@ -222,6 +229,7 @@ export const appRoutes: Routes = [
     ContributorConsoleComponent,
     ContributorAuthorComponent,
     ReviewDialogComponent,
+    ContributorReviewerComponent,
   ],
 
   imports: [

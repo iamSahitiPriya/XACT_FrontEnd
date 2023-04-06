@@ -8,7 +8,7 @@
       <mat-card-actions>
         <div class="author" *ngIf="isAuthor">
           <button mat-button class="author-button" (click)="setEvent(author.toLowerCase())"
-                  [ngClass]="{'author-active':type === author.toLowerCase()}" [routerLink]="['/contributor/author']">
+                  [ngClass]="{'contributor-active':type === author.toLowerCase()}" [routerLink]="['/contributor/author']">
             <div class="author-icon">
               <div class="icon-author">
                 <mat-icon class="dashboardIcon">dashboard</mat-icon>
@@ -21,7 +21,7 @@
         </div>
         <div class="reviewer" *ngIf="isReviewer">
           <button mat-button class="author-button" (click)="setEvent(reviewer.toLowerCase())"
-                  [ngClass]="{'author-active':type === reviewer.toLowerCase()}" [routerLink]="['/contributor/author']">
+                  [ngClass]="{'contributor-active':type === reviewer.toLowerCase()}" [routerLink]="['/contributor/reviewer']">
             <div class="reviewer-icon">
               <div class="icon-author">
                 <mat-icon class="dashboardIcon">dashboard</mat-icon>
@@ -36,6 +36,30 @@
     </mat-card>
   </div>
   <div class="contributor-router">
+    <div class="contributor-author-header">
+      <div class="contributor-author-heading">
+        <h1>{{contributorTitle}}</h1>
+      </div>
+      <div class="contributor-search-bar">
+        <mat-form-field class="search-contributor-questions" appearance="fill">
+          <mat-label>
+            <div class="search-contributor-question-icon">
+              <img data-id="search" src="../../assets/search-icon/search.png" alt="search icon" class="search-image"/>
+            </div>
+            <div class="search-contributor-question-icon">
+              <p class="search-text">{{searchBarText}}</p>
+              <!--      Search...-->
+            </div>
+
+          </mat-label>
+
+          <input matTooltip="Type to search" matInput id="search-contributor-question" type="text"
+                 name="search-question" [(ngModel)]="searchText">
+        </mat-form-field>
+      </div>
+    </div>
+
     <router-outlet></router-outlet>
   </div>
+
 </div>
