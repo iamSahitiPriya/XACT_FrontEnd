@@ -359,7 +359,7 @@ describe('ContributorAuthorComponent', () => {
     component.contributorData[0].questions[0].status = "SENT_FOR_REVIEW"
     component.contributorData[0].questions[0].isSelected = false
 
-    let expectedResult = component.isSentForReview(component.contributorData[0])
+    let expectedResult = component.shouldCheckboxBeDisabled(component.contributorData[0])
 
     expect(expectedResult).toBeTruthy()
   });

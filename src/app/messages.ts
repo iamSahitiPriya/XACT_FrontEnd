@@ -191,6 +191,9 @@ export const data_local =
       }
     },
     ADMIN: {
+      ROLE : {
+        ADMIN : "Admin",
+      },
       MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",
       SERVER_ERROR_MESSAGE: "Some error occurred",
@@ -340,9 +343,10 @@ export const data_local =
         DRAFT : "DRAFT",
         SENT_FOR_REVIEW : "SENT_FOR_REVIEW",
         PUBLISHED: "PUBLISHED",
-        REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
+        REQUESTED_FOR_CHANGE : "REQUESTED_FOR_CHANGE",
         REJECTED : "REJECTED",
         DISPLAY_TEXT: {
+          SEND_FOR_REASSESSMENT : "Send For Reassessment",
           SENT_FOR_REVIEW: "Sent for Review",
           PUBLISHED_QUESTIONS:'All published questions',
           REJECTED: 'Rejected',

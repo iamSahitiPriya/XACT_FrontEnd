@@ -9,6 +9,7 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {fdatasync} from "fs";
 
 @Component({
   selector: 'app-header',
@@ -37,23 +38,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username: string|undefined = ""
   isAdmin: boolean = false;
   isContributor: boolean = false;
-
-  contributorRole: string
+  contributorRole: string;
+  admin : string = data_local.ADMIN.ROLE.ADMIN
+  reviewer : string = data_local.CONTRIBUTOR.ROLE.REVIEWER
+  author : string = data_local.CONTRIBUTOR.ROLE.AUTHOR
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
     this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (data.includes("Admin")) {
+      if (data.includes(this.admin)) {
         this.isAdmin = true;
       }
-      if(data.includes("REVIEWER")) {
+      if(data.includes(this.reviewer)) {
         this.isContributor = true;
-        this.contributorRole = "reviewer";
+        this.contributorRole = this.reviewer.toLowerCase();
       }
 
-      if(data.includes("AUTHOR") ) {
+      if(data.includes(this.author) ) {
         this.isContributor = true;
-        this.contributorRole = "author"
+        this.contributorRole = this.author.toLowerCase()
       }
     })
     this.appService.login();

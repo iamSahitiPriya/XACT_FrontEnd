@@ -39,6 +39,8 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
+import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
+import {ContributorQuestionResponse} from "../../types/Contributor/ContributorQuestionResponse";
 
 
 @Injectable({
@@ -298,14 +300,14 @@ export class AppServiceService {
     return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
   }
 
-  updateQuestionStatus(moduleId: number, status: string, questionRequest:any) {
+  updateQuestionStatus(moduleId: number, status: string, questionRequest:ContributorQuestionRequest) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
     const headers = {'content-type': 'application/json'}
     const sendForReviewURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_STATUS_URI,{
       moduleId:moduleId,
     })
-    return this.http.patch(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
+    return this.http.patch<ContributorQuestionResponse>(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
 
   }
 

@@ -19,14 +19,10 @@ import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {QuestionStructure} from "../../../types/questionStructure";
 import {Router} from "@angular/router";
+import {ContributorQuestionRequest} from "../../../types/Contributor/ContributorQuestionRequest";
+import {ContributorQuestionResponse} from "../../../types/Contributor/ContributorQuestionResponse";
 
 const NOTIFICATION_DURATION = 2000;
-
-interface QuestionResponse {
-  questionId: number[],
-  comments: string
-  status: string
-}
 
 @Component({
   selector: 'app-contributor-author',
@@ -64,8 +60,12 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
+  sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
+  reviewer: string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  published : string = data_local.CONTRIBUTOR.STATUS.PUBLISHED
+  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED
   action: string;
-
   contributorType:string
   constructor(public router: Router,public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
@@ -77,13 +77,13 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.contributorType == "AUTHOR") {
+    if(this.contributorType === this.author) {
       this.contributorActionButtonText = this.sendForReviewText
       this.action = this.sentForReview;
     }
     else {
-      this.contributorActionButtonText = "Send For Reassessment"
-      this.action = "REQUESTED_FOR_CHANGE"
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
     }
     this.masterData.subscribe(data => {
       this.categoryResponse = data
@@ -146,7 +146,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '64vw',
       data: {
-        role: this.author.toLowerCase(),
+        role: this.contributorType.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
         action: this.action
@@ -154,7 +154,21 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
       this.setQuestionStatus(response, questionRequest)
-      this.sendToStore(response, data)
+      if(this.contributorType === this.reviewer) {
+        response.questionId.forEach((eachQuestion: number) => {
+          let index = data.questions.findIndex(question => question.questionId === eachQuestion)
+          if(index !== -1) {
+            data.questions.splice(index,1)
+            if(data.questions.length === 0) {
+              let parameterIndex = this.contributorData.findIndex(eachContributorData => eachContributorData.parameterId === data.parameterId)
+              if(parameterIndex !== -1) {
+                this.contributorData.splice(parameterIndex, 1)
+                this.unsavedChanges.splice(parameterIndex,1)
+              }
+            }
+          }
+        })
+      }
     })
     dialogRef.afterClosed().subscribe(() => {
       this.resetCheckbox(questionRequest, data)
@@ -265,8 +279,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private setQuestionStatus(response: QuestionResponse, questions: Question[] | QuestionStructure[]) {
-    response.questionId.forEach((eachResponse) => {
+  private setQuestionStatus(response: ContributorQuestionResponse, questions: Question[] | QuestionStructure[]) {
+    response.questionId.forEach((eachResponse: number) => {
       let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
         questions[index].status = response.status
@@ -337,19 +351,19 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     }
     return this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
+  //
+  // private sendToStore(response: ContributorQuestionResponse, data: ContributorData) {
+  //   let questions: QuestionStructure[] = this.getQuestionsFromContributorData(data)
+  //   this.setQuestionStatus(response, questions)
+  // }
 
-  private sendToStore(response: QuestionResponse, data: ContributorData) {
-    let questions: QuestionStructure[] = this.getQuestionsFromContributorData(data)
-    this.setQuestionStatus(response, questions)
-  }
-
-  private updateToStore(questionRequest: QuestionStructure, contributorData: ContributorData) {
+  private updateToStore(question: QuestionStructure, contributorData: ContributorData) {
     let questions: QuestionStructure[] = this.getQuestionsFromContributorData(contributorData)
-    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === questionRequest.questionId)
+    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
     if (questionIndex !== -1) {
-      questions[questionIndex].questionText = questionRequest.questionText
-      questions[questionIndex].status = questionRequest.status
-      questions[questionIndex].parameter = questionRequest.parameter
+      questions[questionIndex].questionText = question.questionText
+      questions[questionIndex].status = question.status
+      questions[questionIndex].parameter = question.parameter
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
@@ -363,13 +377,22 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     data.allSelected = false
   }
 
-  isSentForReview(data: ContributorData): boolean {
-    return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
+  shouldCheckboxBeDisabled(data: ContributorData): boolean {
+    if(this.contributorType === this.author)
+      return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
+    else
+      return false;
   }
 
 
 
   isStatusValid(status: string) : boolean {
-    return ((status === this.sentForReview && this.contributorType == "AUTHOR") || (status === "REQUESTED_FOR_CHANGE" && this.contributorType == "REVIEWER"))
+    return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer))
+  }
+
+  assessQuestion(question: Question, contributorData: ContributorData, status: string) {
+    this.action = status
+    this.evaluateQuestion(question,contributorData)
+
   }
 }

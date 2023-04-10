@@ -83,7 +83,7 @@
   border-top-left-radius : 0;
 }
 .contributor-question-content{
-  width: 80%;
+  width: 75%;
 }
 .contributor-question-checkbox-and-input{
   display: flex;
@@ -184,7 +184,7 @@ a.anchor{
 .contributor-edit-action{
   display: flex;
   flex-direction: row;
-  width: 30%;
+  width: 35%;
   justify-content: flex-end;
   flex-wrap: wrap;
 }
@@ -369,4 +369,20 @@ a.anchor{
   width: 45vw;
   word-break: break-all;
   white-space: normal;
+}
+
+.reviewer-actions {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.approve-action mat-icon {
+  color: #6B9F78;
+}
+
+.reject-action mat-icon {
+  color: #a10202;
 }

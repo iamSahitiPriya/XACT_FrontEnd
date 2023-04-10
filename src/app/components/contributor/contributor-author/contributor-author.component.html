@@ -42,7 +42,7 @@
   </div>
   <div *ngIf="contributorData.length>0; else noDataPresent">
     <div class="contributor-author-content" *ngFor="let response of contributorData">
-      <div class="parameter-heading-content" *ngIf="response.questions.length >0; else noDataPresent">
+      <div class="parameter-heading-content" *ngIf="response.questions.length >0">
         <div class="parameter-heading" [ngClass]="{'parameter-heading-on-click':response.isClicked}">
           {{response.categoryName}}/{{response.moduleName}}/{{response.topicName}}/{{response.parameterName}}
         </div>
@@ -58,7 +58,7 @@
                 <mat-checkbox class="all-select-checkbox"
                               [checked]="response.allSelected"
                               [indeterminate]="isQuestionIndeterminate(response)"
-                              [disabled]="isSentForReview(response)"
+                              [disabled]="shouldCheckboxBeDisabled(response)"
                               (change)="setQuestionsSelectedStatus($event.checked,response)" #checkbox>
                   {{selectAll}}
                 </mat-checkbox>
@@ -68,7 +68,7 @@
               <button mat-flat-button class="contributor-button"
                       (click)="sendAllQuestionsForReview(response)"
                       [disabled]="isReviewSent">
-                {{sendForReviewText}}
+                {{contributorActionButtonText}}
               </button>
             </div>
           </div>
@@ -112,16 +112,28 @@
                     {{contributorActionButtonText}}
                   </button>
                 </div>
-                <div class="question-delete-button">
+                <div class="question-delete-button" *ngIf="contributorType===author">
                   <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
+                </div>
+                <div class="reviewer-actions" *ngIf="contributorType===reviewer">
+                  <div class="approve-action" (click)="assessQuestion(question,response,published)">
+                    <mat-icon>check</mat-icon>
+                  </div>
+                  <div class="reject-action">
+                    <mat-icon>close</mat-icon>
+                  </div>
+
                 </div>
               </div>
               <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
-                <div class="save-text-button">
+                <div class="save-text-button" *ngIf="contributorType === author">
                   <button mat-flat-button class="contributor-save-button" (click)="updateQuestion(question, response)"
                           [disabled]="question.question.length <=0">
                     {{save}}
                   </button>
+                </div>
+                <div *ngIf="contributorType===reviewer">
+                  <mat-icon>check</mat-icon>
                 </div>
                 <div class="discard-changes">
                   <mat-icon (click)="cancelChanges()">cancel</mat-icon>
