@@ -77,14 +77,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.contributorType === this.author) {
-      this.contributorActionButtonText = this.sendForReviewText
-      this.action = this.sentForReview;
-    }
-    else {
-      this.contributorActionButtonText = this.sendForReassessment
-      this.action = this.requestedForChange
-    }
+    this.setActionByContributorType();
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
@@ -94,6 +87,16 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       this.formatResponse()
       this.unsavedChanges = cloneDeep(this.contributorData)
     })
+  }
+
+  private setActionByContributorType() {
+    if (this.contributorType === this.author) {
+      this.contributorActionButtonText = this.sendForReviewText
+      this.action = this.sentForReview;
+    } else {
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
+    }
   }
 
   editQuestion(question: Question) {
@@ -136,7 +139,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     };
   }
 
-  evaluateQuestion(question: Question, response: ContributorData) {
+  evaluateQuestion(question: Question, response: ContributorData, action: string) {
+    this.action = action
     let questionRequest: Question[] = []
     questionRequest.push(question)
     this.openReviewDialog(questionRequest, response);
@@ -154,25 +158,30 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
       this.setQuestionStatus(response, questionRequest)
-      if(this.contributorType === this.reviewer) {
-        response.questionId.forEach((eachQuestion: number) => {
-          let index = data.questions.findIndex(question => question.questionId === eachQuestion)
-          if(index !== -1) {
-            data.questions.splice(index,1)
-            if(data.questions.length === 0) {
-              let parameterIndex = this.contributorData.findIndex(eachContributorData => eachContributorData.parameterId === data.parameterId)
-              if(parameterIndex !== -1) {
-                this.contributorData.splice(parameterIndex, 1)
-                this.unsavedChanges.splice(parameterIndex,1)
-              }
-            }
-          }
-        })
-      }
+      this.removeAssessedQuestions(response, data);
     })
     dialogRef.afterClosed().subscribe(() => {
       this.resetCheckbox(questionRequest, data)
     })
+    this.setActionByContributorType()
+  }
+
+  private removeAssessedQuestions(questionRequest: ContributorQuestionRequest, contributorData: ContributorData) {
+    if (this.contributorType === this.reviewer) {
+      questionRequest.questionId.forEach((eachQuestion: number) => {
+        let index = contributorData.questions.findIndex(question => question.questionId === eachQuestion)
+        if (index !== -1) {
+          contributorData.questions.splice(index, 1)
+          if (contributorData.questions.length === 0) {
+            let parameterIndex = this.contributorData.findIndex(eachContributorData => eachContributorData.parameterId === contributorData.parameterId)
+            if (parameterIndex !== -1) {
+              this.contributorData.splice(parameterIndex, 1)
+              this.unsavedChanges.splice(parameterIndex, 1)
+            }
+          }
+        }
+      })
+    }
   }
 
   cancelChanges() {
@@ -227,7 +236,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.contributorData.push(data)
   }
 
-  sendAllQuestionsForReview(contributorData: ContributorData) {
+  evaluateQuestions(contributorData: ContributorData,action : string) {
+    this.action = action
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
@@ -242,13 +252,16 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateSelectAllStatus(data: ContributorData) {
-    data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
+    if(this.contributorType === this.author)
+      data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
+    else
+      data.allSelected = data.questions.every(eachQuestion => eachQuestion.isSelected === true)
   }
 
   setQuestionsSelectedStatus(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
     data.questions.forEach(eachQuestion => {
-      if (eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
+      if (this.contributorType === this.author && eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
       else eachQuestion.isSelected = isSelected
     });
   }
@@ -258,6 +271,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       next: (response: QuestionStructure) => {
         question.isEdit = false
         this.updateToStore(response, contributorData)
+        let questionRequest : ContributorQuestionRequest = {questionId:[question.questionId],comments:question.comments}
+        this.removeAssessedQuestions(questionRequest,contributorData)
         this.unsavedChanges = cloneDeep(this.contributorData)
       }, error: _error => {
         this.showError(this.serverError);
@@ -388,11 +403,5 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   isStatusValid(status: string) : boolean {
     return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer))
-  }
-
-  assessQuestion(question: Question, contributorData: ContributorData, status: string) {
-    this.action = status
-    this.evaluateQuestion(question,contributorData)
-
   }
 }

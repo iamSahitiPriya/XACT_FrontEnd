@@ -81,4 +81,10 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
       horizontalPosition: "center"
     })
   }
+
+  getClass() {
+    if(this.data.action === "PUBLISHED")
+      return "publish"
+    return undefined;
+  }
 }

@@ -265,7 +265,7 @@ describe('ContributorAuthorComponent', () => {
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.evaluateQuestion(question,response)
+    component.evaluateQuestion(question, response, action)
   });
   it("should cancel changes when click", () => {
     jest.spyOn(component, 'cancelChanges')
@@ -288,15 +288,15 @@ describe('ContributorAuthorComponent', () => {
 
   });
   it("should select all questions and send to review", () => {
-    jest.spyOn(component,'sendAllQuestionsForReview')
+    jest.spyOn(component,'evaluateQuestions')
     component.ngOnInit()
 
     let response = component.contributorData[0]
 
     component.setQuestionsSelectedStatus(true, response)
-    component.sendAllQuestionsForReview(response)
+    component.evaluateQuestions(response)
 
-    expect(component.sendAllQuestionsForReview).toHaveBeenCalled()
+    expect(component.evaluateQuestions).toHaveBeenCalled()
 
   });
   it("should update all questions which are selected", () => {
@@ -371,9 +371,9 @@ describe('ContributorAuthorComponent', () => {
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.evaluateQuestion(question,response)
+    component.evaluateQuestion(question, response, action)
 
-    expect(matDialog.open).toHaveBeenCalled()
+      expect(matDialog.open).toHaveBeenCalled()
   });
 
   it("it should delete question", () => {
