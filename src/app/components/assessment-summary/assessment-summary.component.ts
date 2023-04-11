@@ -13,7 +13,6 @@ import {AppStates} from "../../reducers/app.states";
 import {ReportDataStructure} from "../../types/ReportDataStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
-import html2canvas from "html2canvas";
 import {SummaryResponse} from "../../types/summaryResponse";
 import {LegendPosition} from "@swimlane/ngx-charts";
 import {CategoryModulesRating} from "../../types/categoryModulesRating";
@@ -26,6 +25,7 @@ import {RoadmapBubbleChartComponent} from "../roadmap-bubble-chart/roadmap-bubbl
 import {AssessmentRadarChartComponent} from "../summary/assessment-radar-chart/assessment-radar-chart.component";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import * as htmlToImage from 'html-to-image';
 
 
 interface ColorScheme {
@@ -53,15 +53,12 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('sunburst_image') sunburst: ElementRef;
   @ViewChild('overall_image') overall: ElementRef;
   @ViewChild('module_radar_image') moduleRadar: ElementRef;
-  @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('downloadLink') downloadLink: ElementRef;
 
   @ViewChild('app_roadmap_bubble_chart') roadmapBubbleChartComponent: RoadmapBubbleChartComponent;
   @ViewChild('app_assessment_radar_chart') assessmentRadarChartComponent: AssessmentRadarChartComponent;
 
   downloadActionTooltip = data_local.SUMMARY_REPORT.DOWNLOAD_ACTION_TOOLTIP;
-  allDownloadActionButton = data_local.SUMMARY_REPORT.ALL_DOWNLOAD_ACTION_BUTTON;
-  allDownloadActionTooltip = data_local.SUMMARY_REPORT.ALL_DOWNLOAD_ACTION_TOOLTIP;
   goBackToDashboard = data_local.ASSESSMENT_MENU.GO_BACK;
   instructionPanel = data_local.SUMMARY_REPORT.INSTRUCTION
   moduleAssessed = data_local.SUMMARY_REPORT.MODULE_ASSESSED;
@@ -500,13 +497,15 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
       .style("opacity", 1);
   }
 
-  downloadImage(image: ElementRef, imageName: string) {
-    html2canvas(image.nativeElement).then(canvas => {
-      this.canvas.nativeElement.src = canvas.toDataURL();
-      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = imageName + '-chart.png';
-      this.downloadLink.nativeElement.click();
-    });
+  async downloadImage(image: ElementRef, imageName: string) {
+    this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 4000);
+    await new Promise(f => setTimeout(f, 100));
+    htmlToImage.toPng(image.nativeElement, {backgroundColor: 'white'})
+      .then(dataUrl => {
+        this.downloadLink.nativeElement.href = dataUrl;
+        this.downloadLink.nativeElement.download = imageName + '-chart.png';
+        this.downloadLink.nativeElement.click();
+      });
   }
 
   ngOnDestroy(): void {
@@ -568,25 +567,6 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
   getModuleHeight(moduleLength: number) {
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleChartHeightOffset
-  }
-
-  async downloadAllImages() {
-
-    this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 5000);
-
-
-    this.downloadImage(this.gauge, 'gauge');
-
-    await new Promise(f => setTimeout(f, 100));
-    this.downloadImage(this.sunburst, 'sunburst');
-
-    await new Promise(f => setTimeout(f, 100));
-    this.downloadImage(this.overall, 'overall');
-
-    await new Promise(f => setTimeout(f, 100));
-    this.roadmapBubbleChartComponent.downloadImage();
-
-    await this.assessmentRadarChartComponent.downloadAllImage();
   }
 
   private showNotification(reportData: string, duration: number) {

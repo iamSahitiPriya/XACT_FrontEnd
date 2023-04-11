@@ -3,7 +3,7 @@
   -->
 
 <div class="row menu-bar">
-  <div class="col-md-9">
+  <div class="col-md-12">
     <mat-toolbar>
       <button class="backIcon" [matTooltip]=goBackToDashboard mat-icon-button
               [routerLink]="['/assessment',assessmentId]">
@@ -12,15 +12,6 @@
       <div *ngIf="data"><h1 class="name">{{data.name}}</h1></div>
       <span class="module-spacer"></span>
     </mat-toolbar>
-  </div>
-  <div class="col-md-3 menu-buttons">
-    <button accesskey="a" id="allChartsDownloadButton" mat-raised-button class="right all-download-button "
-            aria-label="Download all chart"
-            [matTooltip]=allDownloadActionTooltip
-            (click)="downloadAllImages()">
-      <mat-icon>save_alt</mat-icon>
-      {{allDownloadActionButton}}
-    </button>
   </div>
 </div>
 
@@ -117,7 +108,6 @@
   </mat-card-content>
 </mat-card>
 <div id="download">
-  <img #canvas alt="chart-image">
   <a #downloadLink></a>
 </div>
 
@@ -131,8 +121,8 @@
     </button>
   </div>
 
-  <div #overall_image class="visible-opacity">
-    <mat-card class="module-overall-rating-card">
+  <mat-card class="module-overall-rating-card">
+    <div #overall_image class="overall-image visible-opacity">
       <mat-card-content class="chart-content">
         <div *ngFor="let categoryModules of categoryModulesOverAllRatings ;let i=index; ">
           <div class="x-label">
@@ -173,8 +163,9 @@
           <div class="legend-palette" [style.background-color]="stackedBarChartColorSchemes[i][1].value"></div>
         </div>
       </div>
-    </mat-card>
-  </div>
+    </div>
+  </mat-card>
+
 
 </div>
 
