@@ -64,6 +64,7 @@
                 </mat-checkbox>
               </div>
             </div>
+            <div class="select-all-actions">
             <div class="contributor-send-for-review-button" *ngIf="checkbox.checked || checkbox.indeterminate">
               <button mat-flat-button class="contributor-button"
                       (click)="evaluateQuestions(response,action)"
@@ -80,6 +81,8 @@
                 <mat-icon (click)="evaluateQuestions(response,rejected)">close</mat-icon>
               </div>
             </div>
+          </div>
+
           </div>
           <div class="each-question-container">
             <div class="each-question" [ngClass]="{'edit-input' : question.isEdit}"
@@ -102,14 +105,17 @@
                   </div>
                 </mat-card-content>
               </div>
-              <div class="question-status-icon"
-                   *ngIf="question.status === sentForReview && contributorType === 'AUTHOR' ">
-                <mat-icon matTooltip="{{sentForReviewText}}"
-                          [matTooltipPosition]="'left'"
-                          matTooltipHideDelay="1000">info_outline
-                </mat-icon>
-              </div>
+
               <div class="contributor-edit-action" *ngIf="!question.isEdit">
+
+                <div class="question-status-icon"
+                     *ngIf="question.status === sentForReview && contributorType === 'AUTHOR' ">
+                  <mat-icon matTooltip="{{sentForReviewText}}"
+                            [matTooltipPosition]="'left'"
+                            matTooltipHideDelay="1000">info_outline
+                  </mat-icon>
+                </div>
+
                 <div class="contributor-edit-button">
                   <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
                           [disabled]="isStatusValid(question.status)">
@@ -143,7 +149,7 @@
                     {{save}}
                   </button>
                 </div>
-                <div *ngIf="contributorType===reviewer">
+                <div *ngIf="contributorType===reviewer" class="approve-action">
                   <mat-icon (click)="updateQuestion(question,response)">check</mat-icon>
                 </div>
                 <div class="discard-changes">

@@ -84,7 +84,9 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
 
   getClass() {
     if(this.data.action === "PUBLISHED")
-      return "publish"
-    return undefined;
+      return 'publish-button'
+    else if(this.data.action === "REJECTED")
+      return 'reject-button'
+    return 'default-button';
   }
 }

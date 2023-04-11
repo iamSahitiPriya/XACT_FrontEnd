@@ -21,8 +21,8 @@
     </mat-form-field>
   </div>
   <div class="action-items">
-    <div>
-      <button mat-flat-button class="send-for-review-button" (click)="evaluateQuestion(data.question)">
+    <div class="author-reviewer-actions">
+      <button mat-flat-button class="author-reviewer-actions-button" [ngClass]="getClass()" (click)="evaluateQuestion(data.question)">
         {{displayButtonText}}
       </button>
     </div>

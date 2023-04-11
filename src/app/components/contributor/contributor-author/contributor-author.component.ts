@@ -402,6 +402,6 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
 
   isStatusValid(status: string) : boolean {
-    return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer))
+    return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer));
   }
 }
