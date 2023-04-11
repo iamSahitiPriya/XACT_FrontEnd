@@ -198,7 +198,15 @@ tr.eachRow {
 .mat-slide-toggle.mat-disabled {
   opacity: 1 !important;
 }
-
+th.mat-header-cell:nth-child(4){
+  padding-right: 7rem;
+}
+th.mat-header-cell:nth-child(5){
+  padding-right: 4rem;
+}
+td.module:nth-child(5){
+  text-align: center;
+}
 .admin-searchBar {
   width: 75%;
   padding-left: 27%;

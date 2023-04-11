@@ -23,7 +23,20 @@ import {reducers} from "../../../reducers/reducers";
 import {ModuleRequest} from "../../../types/Admin/moduleRequest";
 import {ModuleResponse} from "../../../types/Admin/moduleResponse";
 import {ModuleData} from "../../../types/moduleData";
+import {MatDialog} from "@angular/material/dialog";
 
+
+class MockDialog {
+  open() {
+    return {
+      afterClosed: () => of(1),
+      componentInstance: jest.fn()
+    }
+  }
+
+  closeAll() {
+  }
+}
 
 class MockAppService {
   moduleResponse:ModuleStructure[]=[{
@@ -31,6 +44,7 @@ class MockAppService {
     "moduleName":"moduleName",
     "category": -1,
     "active":true,
+    contributors:[],
     "updatedAt" : 1033033,
     "comments" : "comments",
     "topics": []
@@ -78,12 +92,13 @@ describe('AdminModuleComponent', () => {
   let component: AdminModuleComponent;
   let fixture: ComponentFixture<AdminModuleComponent>;
   let mockAppService: MockAppService
+  let matDialog : MatDialog
   let row : ModuleData
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AdminModuleComponent,SearchComponent  ],
       imports:[HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule,MatSlideToggleModule,FormsModule,NoopAnimationsModule, MatSnackBarModule,MatInputModule,StoreModule.forRoot(reducers)],
-      providers: [{provide: AppServiceService, useClass: MockAppService},MatPaginator]
+      providers: [{provide: AppServiceService, useClass: MockAppService},{provide: MatDialog, useClass: MockDialog},MatPaginator]
     })
       .compileComponents();
   });
@@ -93,6 +108,7 @@ describe('AdminModuleComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     mockAppService = new MockAppService();
+    matDialog = fixture.debugElement.injector.get(MatDialog)
     row = {
       active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true
     }
@@ -106,6 +122,7 @@ describe('AdminModuleComponent', () => {
         "moduleId": 1,
         "moduleName": 'module1',
         "category": 1,
+        "contributors":[],
         "active": false,
         "updatedAt": 23456,
         "comments": " ",
@@ -349,6 +366,18 @@ describe('AdminModuleComponent', () => {
 
     expect(component.dataSource.data[0].moduleName).toBe("Module123")
   });
+
+  it("should open contributor dialog box", () => {
+    component.ngOnInit()
+    jest.spyOn(matDialog,'open')
+
+    let button = fixture.nativeElement.querySelector("#add-contributors")
+
+    component.addContributors(row)
+
+    expect(matDialog.open).toHaveBeenCalled()
+  });
+
 
 });
 

@@ -20,6 +20,8 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 import {ModuleRequest} from "../../../types/Admin/moduleRequest";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ModuleResponse} from "../../../types/Admin/moduleResponse";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {ManageContributorsComponent} from "../manage-contributors/manage-contributors.component";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -37,7 +39,7 @@ const NOTIFICATION_DURATION = 2000;
 })
 export class AdminModuleComponent implements OnInit, OnDestroy {
   moduleStructure: ModuleData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'edit', 'action'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'updatedAt', 'active', 'contributors', 'edit', 'action'];
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
   dataSource: MatTableDataSource<ModuleData>
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
@@ -47,7 +49,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   categoryDetails: CategoryResponse[] = [];
   isModuleUnique = true;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
-  masterData : Observable<CategoryResponse[]>
+  masterData: Observable<CategoryResponse[]>
   duplicateErrorMessage = data_local.ADMIN.DUPLICATE_ERROR_MESSAGE
   serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   updateSuccessMessage = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE
@@ -71,8 +73,10 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   dataSourceArray: ModuleData[];
   dataToDisplayed: ModuleData[];
   selectedModule: ModuleData | null;
+  contributors: string = data_local.ADMIN.MODULE.CONTRIBUTORS;
+  private dialogRef: MatDialogRef<any>;
 
-  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>, private matDialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.moduleStructure = []
     this.dataSource = new MatTableDataSource<ModuleData>(this.moduleStructure)
@@ -119,6 +123,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
           moduleName: eachModule.moduleName,
           categoryName: eachCategory.categoryName,
           categoryId: eachCategory.categoryId,
+          contributors:eachModule.contributors,
           active: eachModule.active,
           categoryStatus: eachCategory.active,
           updatedAt: eachModule.updatedAt,
@@ -145,6 +150,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       categoryId: 0,
       moduleName: '',
       categoryStatus: true,
+      contributors:[],
       active: true,
       updatedAt: Date.now(),
       isEdit: true,
@@ -292,8 +298,8 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   private updateModuleDataToStore(_data: ModuleResponse) {
-    let modules : ModuleStructure[] | undefined = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId)?.modules
-    let index : number | undefined = modules?.findIndex((eachModule) => eachModule.moduleId === this.module?.moduleId)
+    let modules: ModuleStructure[] | undefined = this.categoryDetails.find(eachCategory => eachCategory.categoryId === this.module?.categoryId)?.modules
+    let index: number | undefined = modules?.findIndex((eachModule) => eachModule.moduleId === this.module?.moduleId)
     if (index !== -1 && index !== undefined) {
       let fetchedModule: ModuleStructure | undefined = modules?.slice(index, index + 1)[0]
       _data.topics = fetchedModule?.topics;
@@ -304,11 +310,12 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   sendDataToStore(_data: ModuleResponse) {
     let modules = this.categoryDetails.find(eachCategory => eachCategory.categoryId === _data.categoryId)?.modules
-    let module :ModuleStructure = {
+    let module: ModuleStructure = {
       moduleId: _data.moduleId,
       moduleName: _data.moduleName,
       category: _data.categoryId,
       active: _data.active,
+      contributors: [],
       updatedAt: Date.now(),
       comments: _data.comments,
       topics: _data.topics ? _data.topics : []
@@ -321,16 +328,25 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
     this.isModuleUnique = true;
     let selectedCategoryId = this.categoryDetails.find(category => category.categoryName === row.categoryName)?.categoryId;
     if (selectedCategoryId) {
-      let moduleRequest: ModuleRequest = {
+      return {
         moduleId: row.moduleId,
         moduleName: row.moduleName,
         category: selectedCategoryId,
         active: row.active,
         comments: row.comments
       }
-      return moduleRequest
     }
     return null;
   }
 
+  addContributors(module: ModuleData) {
+    this.dialogRef = this.matDialog.open(ManageContributorsComponent, {
+      data:module,
+      width: '50vw',
+      height: '50vh',
+      maxWidth: '60vw',
+      maxHeight: '60vh'
+    })
+
+  }
 }

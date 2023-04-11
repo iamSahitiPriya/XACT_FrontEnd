@@ -216,7 +216,8 @@ export const data_local =
       MODULE: {
         ADD_MODULE: "Add Module",
         SELECT_MODULE: "Select Module",
-        MODULE_INPUT_TEXT: "Enter Module Name",
+        MODULE_INPUT_TEXT: "Enter Module Name", CONTRIBUTORS: "Contributors"
+
       },
       TOPIC: {
         ADD_TOPIC: "Add Topic",

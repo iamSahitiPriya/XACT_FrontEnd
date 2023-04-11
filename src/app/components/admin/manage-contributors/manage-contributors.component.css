@@ -1,0 +1,40 @@
+.main-container, .heading-container, .author-reviewer-container{
+  display: flex;
+  flex-direction: column;
+}
+.contributor-heading h1{
+  text-align: left;
+  font-size: 1.3rem;
+  font-family: Inter, serif;
+  font-style: normal;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+}
+.contributor-heading{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.module-heading h1{
+  text-align: left;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-family: Inter, serif;
+  letter-spacing: 0.15px;
+  color: #000000;
+  opacity: 1;
+}
+.author-heading-container h3, .reviewer-heading-container h3{
+  text-align: left;
+  font-size: 1rem;
+  font-style: normal;
+  font-family: Inter, serif;
+  letter-spacing: 0.15px;
+  color: #000000;
+  opacity: 1;
+}
+.add-author{
+  width: 100%;
+}
