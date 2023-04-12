@@ -5,72 +5,90 @@
         <h1>Contributors</h1>
       </div>
       <div class="close-button-container">
-        <button mat-icon-button><mat-icon>close</mat-icon></button>
+        <button mat-icon-button (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
     </div>
     <div class="module-heading">
       <h1>{{this.data.categoryName}} / {{this.data.moduleName}}</h1>
     </div>
   </div>
-  <div class="author-reviewer-container">
-    <div class="author-container">
-      <div class="author-heading-container">
-        <h3>Author</h3>
+  <form>
+    <div class="author-reviewer-container">
+      <div class="author-container">
+        <div class="author-heading-container">
+          <h3>Author</h3>
+        </div>
+        <div class="author-input-container">
+          <mat-form-field appearance="outline" class="add-author">
+            <mat-label>Author</mat-label>
+            <mat-chip-list #chipList1 aria-label="Email Selection" [formControl]="authorFormControl" required>
+              <mat-chip *ngFor="let user of authors">
+                {{user.userEmail}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input matInput type="text" #authorEmail
+                     id="user-emails" maxlength="1200"
+                     [matChipInputFor]="chipList1"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     [formControl]="contributorCtrl"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [(ngModel)]="emailTextField"
+                     pattern="/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/"
+                     (matChipInputTokenEnd)="addContributor($event, 'AUTHOR')"
+              >
+            </mat-chip-list>
+            <mat-error>
+              {{mandatoryFieldText}}
+            </mat-error>
+          </mat-form-field>
+          <!--          <mat-error *ngIf="form['emailValidator'].hasError('pattern')">-->
+          <!--            Does not match-->
+          <!--          </mat-error>-->
+        </div>
       </div>
-      <div class="author-input-container">
-        <mat-form-field appearance="outline" class="add-author">
-          <mat-label>Author</mat-label>
-          <mat-chip-list #chipList1 aria-label="Email Selection">
-            <mat-chip *ngFor="let user of authors">
-              {{user.userEmail}}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-            <input matInput type="text" required
-                   id="user-emails" maxlength="1200"
-                   [matChipInputFor]="chipList1"
-                   [matChipInputAddOnBlur]="addOnBlur"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [(ngModel)]="emailTextField"
-            >
-          </mat-chip-list>
-          <mat-error style="margin-top:-10px;margin-left:17px">
-            Error
-          </mat-error>
-        </mat-form-field>
+      <div class="reviewer-container">
+        <div class="reviewer-heading-container">
+          <h3>Reviewer</h3>
+        </div>
+        <div class="reviewer-input-container">
+          <mat-form-field appearance="outline" class="add-author">
+            <mat-label>Reviewer</mat-label>
+            <mat-chip-list #chipList aria-label="Email Selection" required [formControl]="reviewerFormControl">
+              <mat-chip *ngFor="let user of reviewers">
+                {{user.userEmail}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input matInput type="text"
+                     id="userEmails" maxlength="1200"
+                     [matChipInputFor]="chipList"
+                     [formControl]="contributorCtrl"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [(ngModel)]="reviewerText"
+                     (matChipInputTokenEnd)="addContributor($event, 'REVIEWER')"
+              >
+            </mat-chip-list>
+            <mat-error>
+              {{mandatoryFieldText}}
+            </mat-error>
+          </mat-form-field>
+          <!--          <mat-error *ngIf="form['emailValidator'].hasError('pattern')">-->
+          <!--            Does not match-->
+          <!--          </mat-error>-->
+        </div>
       </div>
     </div>
-    <div class="reviewer-container">
-      <div class="reviewer-heading-container">
-        <h3>Reviewer</h3>
-      </div>
-      <div class="reviewer-input-container">
-        <mat-form-field appearance="outline" class="add-author">
-          <mat-label>Reviewer</mat-label>
-          <mat-chip-list #chipList aria-label="Email Selection">
-            <mat-chip *ngFor="let user of reviewers">
-              {{user.userEmail}}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-            <input matInput type="text" required
-                   id="userEmails" maxlength="1200"
-                   [matChipInputFor]="chipList"
-                   [matChipInputAddOnBlur]="addOnBlur"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [(ngModel)]="reviewerText"
-            >
-          </mat-chip-list>
-          <mat-error style="margin-top:-10px;margin-left:17px">
-            Error
-          </mat-error>
-        </mat-form-field>
+    <br><br>
+    <div class="save-button-container">
+      <div>
+        <button mat-flat-button type="submit">Save</button>
       </div>
     </div>
-  </div>
-  <div class="save-button-container">
-    <button>Save</button>
-  </div>
+  </form>
 </div>

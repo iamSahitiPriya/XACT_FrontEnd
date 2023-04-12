@@ -38,3 +38,15 @@
 .add-author{
   width: 100%;
 }
+.save-button-container button{
+  background: #003D4F 0 0 no-repeat padding-box;
+  border-radius: 3px;
+  opacity: 1;
+  color: #FFFFFF;
+}
+.save-button-container{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
