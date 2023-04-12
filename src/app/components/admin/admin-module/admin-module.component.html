@@ -95,7 +95,7 @@
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editRow(row)">{{edit}}</button>
         </span>
         <span *ngIf="selectedModule===row && row.moduleId !== -1">
-        <button mat-flat-button class="updateButton" aria-label="expand row"
+        <button mat-flat-button class="update-button" aria-label="expand row"
                 (click)="updateModule(row)"
                 [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{update}}</button>
         </span>
