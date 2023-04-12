@@ -22,6 +22,8 @@ export class ManageContributorsComponent implements OnInit {
   reviewers: ContributorStructure[] = []
   reviewerText: string;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  userEmailErrorMessage = data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE;
+
 
 
   @ViewChild("chipList1") chipList: any;
