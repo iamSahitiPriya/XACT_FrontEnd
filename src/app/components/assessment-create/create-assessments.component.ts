@@ -83,8 +83,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   blankSpaceErrorText = data_local.ASSESSMENT.ASSESSMENT_DESCRIPTION.BLANK_SPACE_ERROR_TEXT;
   fillAllFieldsErrorMessage: string = data_local.ASSESSMENT.FILL_ALL_FIELDS_ERROR_MESSAGE;
   serverErrorMessage: string = data_local.ASSESSMENT.SERVER_ERROR_MESSAGE;
-  maxTeamSize:number = data_local.ASSESSMENT.ASSESSMENT_TEAM.MAX_TEAM_SIZE
-  teamSizeExceedErrorMessage:string = data_local.ASSESSMENT.ASSESSMENT_TEAM.TEAM_SIZE_EXCEED
+  maxTeamSize: number = data_local.ASSESSMENT.ASSESSMENT_TEAM.MAX_TEAM_SIZE
+  teamSizeExceedErrorMessage: string = data_local.ASSESSMENT.ASSESSMENT_TEAM.TEAM_SIZE_EXCEED
 
   blankSpace: boolean = false;
   purposeOfAssessment = [{
@@ -137,8 +137,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     this.assessmentCopy = Object.assign({}, this.assessment)
     if (this.assessment.users !== undefined) {
-      this.emails = this.assessment.users;
-      this.assessmentCopy = Object.assign({}, this.assessment)
+      this.emails = Object.assign([], this.assessment.users);
     }
 
   }
@@ -248,8 +247,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
     this.assessment.teamSize = this.assessmentCopy.teamSize;
     this.assessment.organisationName = this.assessmentCopy.organisationName;
     this.assessment.users = this.assessmentCopy.users;
-
-
+    this.emails = this.assessmentCopy.users;
   }
 
   getUsersStructure(users: User[]) {
