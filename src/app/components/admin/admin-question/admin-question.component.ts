@@ -90,6 +90,11 @@ export class AdminQuestionComponent implements OnInit {
       borderColor: '#5D9EAA',
       backgroundColor: '#5D9EAA0D',
       displayText: this.draftedQuestions
+    },
+    'REQUESTED_FOR_CHANGE':{
+      borderColor: '#BE873E',
+      backgroundColor: '#BE873E0D',
+      displayText: 'Requested For Change'
     }
   }
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
@@ -202,15 +207,28 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
-    this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        question.isEdit = false
-        this.questionArray = []
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError(this.dataNotSaved);
-      }
-    })
+    if(this.role === "Admin") {
+      this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          question.isEdit = false
+          this.questionArray = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError(this.dataNotSaved);
+        }
+      })
+    }
+    else if(this.role === "AUTHOR" || this.role === "REVIEWER"){
+      this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          question.isEdit = false
+          this.questionArray = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError(this.dataNotSaved);
+        }
+      })
+    }
   }
 
   private getQuestionWithId(question: Question | QuestionStructure): QuestionResponse {
@@ -410,6 +428,11 @@ export class AdminQuestionComponent implements OnInit {
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
 
+  }
+
+
+  isQuestionEdit(question: Question) {
+    return ((question.status !== this.published || question.status !== 'REJECTED') && question.isEdit === false);
   }
 }
 

@@ -1,6 +1,6 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="close-question" *ngIf="role !== contributor">
+  <div class="close-question" *ngIf="role === 'Author'">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="close-question-icon">close</mat-icon>
     </button>
@@ -51,28 +51,27 @@
               </div>
               <div class="question-edit-update">
                 <div class="question_status-icon">
-                <span *ngIf="question.status === sentForReview" class="sent-for-review"><mat-icon
-                  matTooltip="{{sentForReviewText}}"
-                  [matTooltipPosition]="'left'"
-                  matTooltipHideDelay="1000">info_outline</mat-icon></span>
+                <span *ngIf="question.status === sentForReview" class="sent-for-review">
+                  <mat-icon matTooltip="{{sentForReviewText}}" [matTooltipPosition]="'left'" matTooltipHideDelay="1000">info_outline</mat-icon></span>
                 </div>
-                <div class="edit-button"
-                     *ngIf="question.status !== published && question.isEdit === false">
-                  <button class="edit-question" id="edit-question" mat-flat-button
-                          [disabled]="question.status === sentForReview"
-                          (click)="setIsEdit(question)">{{edit}}</button>
-                </div>
-                <div class="send-for-review-button"
-                     *ngIf="question.status !== published  && question.isEdit === false">
-                  <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
-                          [disabled]="question.status === sentForReview"
-                          (click)="sendForReview(question)">{{statusStyleMapper.get(sentForReview)?.displayText}}</button>
-                  <div class="delete-button">
-                    <button mat-flat-button (click)="deleteQuestion(question)">
-                      <mat-icon id="delete-question">delete</mat-icon>
-                    </button>
+                  <div class="edit-button"
+                       *ngIf="(question.status === 'REQUESTED_FOR_CHANGE' || question.status === 'DRAFT' || (question.status === 'SENT_FOR_REVIEW' && role === 'AUTHOR') )">
+                    <button class="edit-question" id="edit-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === 'AUTHOR'"
+                            (click)="setIsEdit(question)">{{edit}}</button>
                   </div>
-                </div>
+                  <div class="send-for-review-button"
+                       *ngIf="question.status === 'REQUESTED_FOR_CHANGE' || question.status === 'DRAFT' || question.status === 'SENT_FOR_REVIEW'">
+                    <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === 'AUTHOR'"
+                            (click)="sendForReview(question)">{{statusStyleMapper.get(sentForReview)?.displayText}}</button>
+                    <div class="delete-button">
+                      <button mat-flat-button (click)="deleteQuestion(question)">
+                        <mat-icon id="delete-question">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+
                 <div class="save-button" *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
