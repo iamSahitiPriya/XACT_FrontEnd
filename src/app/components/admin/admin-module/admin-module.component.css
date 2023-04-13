@@ -251,3 +251,8 @@ td.module:nth-child(5){
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
   color: #45A0AC !important;
 }
+::ng-deep .no-of-person-badge .mat-badge-content{
+  background-color: #C4C8D066 !important;
+  color: #043D4E !important;
+  border:1px solid #C3CED1;
+}

@@ -74,7 +74,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   dataToDisplayed: ModuleData[];
   selectedModule: ModuleData | null;
   contributors: string = data_local.ADMIN.MODULE.CONTRIBUTORS;
-  private dialogRef: MatDialogRef<any>;
+  contributorCount: string;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>, private matDialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
@@ -340,7 +340,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   }
 
   addContributors(module: ModuleData) {
-    this.dialogRef = this.matDialog.open(ManageContributorsComponent, {
+    const dialogRef = this.matDialog.open(ManageContributorsComponent, {
       data: module,
       width: '50vw',
       height: '50vh',

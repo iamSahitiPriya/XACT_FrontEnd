@@ -39,6 +39,9 @@
 .add-author{
   width: 100%;
 }
+.add-author mat-label{
+  text-transform: capitalize;
+}
 .save-button-container button{
   background: #003D4F 0 0 no-repeat padding-box;
   border-radius: 3px;
@@ -50,4 +53,12 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+}
+.contributor-email {
+  background: #FFFFFF 0 0 no-repeat padding-box;
+  border: 1px solid #69A4AF;
+  letter-spacing: .18px;
+  color: #000;
+  opacity: 1;
+  margin: 1px 1px 0;
 }

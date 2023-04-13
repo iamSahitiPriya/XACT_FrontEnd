@@ -22,41 +22,36 @@
             <h3>{{contributor.key.toLowerCase()}}</h3>
           </div>
           <div class="author-input-container">
-            <mat-form-field appearance="outline" class="add-author">
-              <mat-label>{{contributor.key}}</mat-label>
-              <mat-chip-list #chipList1 aria-label="Email Selection" [formControl]="contributorFormControllers[i]"
-                             required>
-                <mat-chip *ngFor="let user of contributors.get(contributor.key)"
+            <mat-form-field appearance="outline" class="add-author" >
+              <mat-label>{{contributor.key.toLowerCase()}}</mat-label>
+              <mat-chip-list #chipList  aria-label="Email Selection" [formControl]="contributorFormControllers[i]" required>
+                <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
                           (removed)="removeContributor(user.userEmail,contributor.key)">
                   {{user.userEmail}}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                   </button>
                 </mat-chip>
-                <input matInput type="text" #authorEmail
+                <input matInput type="text" name="email{{contributor.key}}" [required]="chipList.required"
                        maxlength="1200"
-                       [matChipInputFor]="chipList1"
+                       [matChipInputFor]="chipList"
                        [matChipInputAddOnBlur]="addOnBlur"
                        [formControl]="contributorCtrl"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        pattern="/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/"
-                       (matChipInputTokenEnd)="addContributor($event, contributor.key)"
-                >
+                       (matChipInputTokenEnd)="addContributor($event, contributor.key)">
               </mat-chip-list>
-
-              <mat-error>
-                {{userEmailErrorMessage}}
+              <mat-error id="error{{contributor.key}}">
+                Mandatory field
               </mat-error>
             </mat-form-field>
-            <!--          <mat-error *ngIf="form['emailValidator'].hasError('pattern')">-->
-            <!--            Does not match-->
-            <!--          </mat-error>-->
           </div>
-
         </div>
-
       </div>
     </div>
+    <mat-error>
+      {{errorMessage}}
+    </mat-error>
     <div class="save-button-container">
       <div>
         <button mat-flat-button type="submit" (click)="saveContributors()">Save</button>

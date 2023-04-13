@@ -111,6 +111,7 @@ import {ContributorConsoleComponent} from './components/contributor/contributor-
 import {ContributorAuthorComponent} from './components/contributor/contributor-author/contributor-author.component';
 import {ReviewDialogComponent} from './components/contributor/review-dialog/review-dialog.component';
 import { ManageContributorsComponent } from './components/admin/manage-contributors/manage-contributors.component';
+import {MatBadgeModule} from "@angular/material/badge";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -256,51 +257,18 @@ export const appRoutes: Routes = [
     MatSelectModule,
     MatSortModule,
     NgHttpLoaderModule.forRoot(),
-    StoreModule.forRoot(reducers, {
-      runtimeChecks: {
-        strictStateSerializability: true,
-        strictActionSerializability: true,
-        strictActionWithinNgZone: true,
-        strictStateImmutability: false,
-        strictActionImmutability: false
-      }
-    }),
     EffectsModule.forRoot([AssessmentDataEffects]),
-    MatChipsModule,
     MatSlideToggleModule,
-    MatChipsModule,
     MatDatepickerModule,
-    MatChipsModule,
     MatRadioModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     OktaAuthModule,
     MatTableModule,
     MatFormFieldModule,
-    MatMenuModule,
     MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatSortModule,
-    NgHttpLoaderModule.forRoot(),
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateSerializability: true,
@@ -313,6 +281,7 @@ export const appRoutes: Routes = [
     EffectsModule.forRoot([AssessmentDataEffects]),
     MatChipsModule,
     MatSlideToggleModule,
+    MatBadgeModule,
     MatSlideToggleModule,
     MatNativeDateModule,
     NgbModule,
@@ -333,6 +302,7 @@ export const appRoutes: Routes = [
     MatIconModule,
     MatToolbarModule,
     NgHttpLoaderModule,
+    MatChipsModule,
     MatFormFieldModule,
     MatRippleModule,
     FormsModule,
