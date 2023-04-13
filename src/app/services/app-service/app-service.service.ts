@@ -39,6 +39,8 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
+import {ContributorStructure} from "../../types/Contributor/ContributorStructure";
+import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
 
 
 @Injectable({
@@ -264,6 +266,13 @@ export class AppServiceService {
 
   saveMasterQuestion(questionRequest: QuestionRequest): Observable<QuestionStructure> {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
+  }
+
+  saveContributors(contributorRequest : ManageContributorRequest,moduleId : number){
+    const saveContributorURI=this.formatURI(environment.SAVE_CONTRIBUTOR_URI,{
+      moduleId : moduleId
+    })
+    return this.http.post(environment.BaseURI+saveContributorURI,contributorRequest)
   }
 
   formatURI(URI: string, data: Readonly<unknown>) {

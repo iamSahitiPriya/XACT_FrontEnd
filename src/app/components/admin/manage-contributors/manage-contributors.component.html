@@ -19,7 +19,7 @@
       <div class="contributor" *ngFor="let contributor of contributors | keyvalue ; let i =index">
         <div class="author-container">
           <div class="author-heading-container">
-            <h3>{{contributor.key}}</h3>
+            <h3>{{contributor.key.toLowerCase()}}</h3>
           </div>
           <div class="author-input-container">
             <mat-form-field appearance="outline" class="add-author">
@@ -59,7 +59,7 @@
     </div>
     <div class="save-button-container">
       <div>
-        <button mat-flat-button type="submit">Save</button>
+        <button mat-flat-button type="submit" (click)="saveContributors()">Save</button>
       </div>
     </div>
   </form>
