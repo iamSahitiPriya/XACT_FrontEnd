@@ -32,26 +32,31 @@
                     <mat-icon>cancel</mat-icon>
                   </button>
                 </mat-chip>
-                <input matInput type="text" name="email{{contributor.key}}" [required]="chipList.required"
+                <input matInput type="text"  name="name{{contributor.key}}" #input
                        maxlength="1200"
+                       id="{{contributor.key}}"
+                       [placeholder]=userEmailPlaceholder
                        [matChipInputFor]="chipList"
                        [matChipInputAddOnBlur]="addOnBlur"
                        [formControl]="contributorCtrl"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       pattern="/^([_A-Za-z\d-+]+\.?[_A-Za-z\d-+]+@(thoughtworks.com),?)*$/"
-                       (matChipInputTokenEnd)="addContributor($event, contributor.key)">
+                       (matChipInputTokenEnd)="addContributor($event,contributor.key)"
+                       (input)="onInputChange(input.value)">
               </mat-chip-list>
-              <mat-error id="error{{contributor.key}}">
+              <mat-error  *ngIf="contributorFormControllers[i].hasError('required')">
                 Mandatory field
+              </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('invalid')">
+                 Duplicate email found,User can't be both author and reviewer
+              </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('pattern')">
+               {{userEmailErrorMessage}}
               </mat-error>
             </mat-form-field>
           </div>
         </div>
       </div>
     </div>
-    <mat-error>
-      {{errorMessage}}
-    </mat-error>
     <div class="save-button-container">
       <div>
         <button mat-flat-button type="submit" (click)="saveContributors()">Save</button>

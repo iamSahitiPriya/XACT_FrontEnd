@@ -7,7 +7,6 @@ import {FormControl, UntypedFormBuilder} from "@angular/forms";
 import {data_local} from "../../../messages";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {Subject, takeUntil} from "rxjs";
-import {AssessmentMenuComponent} from "../../assessment-quick-action-menu/assessment-menu.component";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ManageContributorRequest} from "../../../types/Contributor/ManageContributorRequest";
@@ -25,8 +24,10 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   reviewers: ContributorStructure[] = []
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   userEmailErrorMessage = data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE;
+  userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
   private destroy$: Subject<void> = new Subject<void>();
   contributorCount = new EventEmitter();
+
 
   @ViewChild("chipList1") chipList: any;
   authorFormControl = new FormControl(this.authors);
@@ -37,6 +38,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   isDuplicated: boolean = false;
   errorMessage: string;
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
@@ -61,23 +63,36 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
   addContributor(event: MatChipInputEvent, role: string) {
-    let authorIndex = this.authors.findIndex(author => author.userEmail === event.value)
-    let reviewerIndex = this.reviewers.findIndex(author => author.userEmail === event.value)
+    const authorIndex = this.authors.findIndex(author => author.userEmail === event.value)
+    const reviewerIndex = this.reviewers.findIndex(author => author.userEmail === event.value)
     if (event.value.length > 0 && event.value.search(this.emailPattern) !== -1) {
-      this.getErrorMessage("")
-      let contributor: ContributorStructure = {
+      const contributor: ContributorStructure = {
         userEmail: event.value,
         role: role
       }
-      let isPresent = authorIndex !== -1 || reviewerIndex !== -1
-      if (!isPresent) {
+      this.setCommonInvalid(authorIndex, reviewerIndex);
+      if (!(authorIndex !== -1 || reviewerIndex !== -1)) {
         this.contributors.get(role)?.push(contributor);
         this.resetFormControl();
-      } else {
-        this.getErrorMessage("Duplicate Error")
       }
-    }else{
-      this.getErrorMessage(this.userEmailErrorMessage)
+    } else if(event.value.length > 0){
+      this.setEmailInvalid(role);
+    }
+  }
+
+  private setEmailInvalid(role: string) {
+    if (role === 'AUTHOR') {
+      this.authorFormControl.setErrors({'pattern': true})
+    } else if (role === 'REVIEWER') {
+      this.reviewerFormControl.setErrors({'pattern': true})
+    }
+  }
+
+  private setCommonInvalid(authorIndex: number, reviewerIndex: number) {
+    if (authorIndex !== -1) {
+      this.reviewerFormControl.setErrors({'invalid': true})
+    } else if (reviewerIndex !== -1) {
+      this.authorFormControl.setErrors({'invalid': true})
     }
   }
 
@@ -97,7 +112,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
 
   saveContributors() {
     if (this.reviewerFormControl.valid && this.authorFormControl.valid) {
-      let contributorRequest: ManageContributorRequest = {
+      const contributorRequest: ManageContributorRequest = {
         contributors: this.authors.concat(this.reviewers)
       };
       this.appService.saveContributors(contributorRequest, this.data.moduleId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -125,14 +140,16 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
 
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      data: {message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
       duration: 2000,
       verticalPosition: "top",
       horizontalPosition: "center"
     })
   }
 
-  getErrorMessage(message:string) {
-    this.errorMessage = message
+  onInputChange(text : string) {
+    if(text.length === 0){
+      this.resetFormControl()
+    }
   }
 }
