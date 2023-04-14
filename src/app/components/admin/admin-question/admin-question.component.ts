@@ -48,6 +48,8 @@ export class AdminQuestionComponent implements OnInit {
   questions = data_local.ADMIN.QUESTION.QUESTIONS
   requiredField = data_local.ADMIN.QUESTION.REQUIRED_FIELD
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+  sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
   questionStatusMapper = new Map<string, Question[]>()
@@ -68,6 +70,8 @@ export class AdminQuestionComponent implements OnInit {
   private publishedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.PUBLISHED_QUESTIONS;
   private rejectedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.REJECTED;
   private draftedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.DRAFT;
+  sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+
 
   defaultQuestionId: number = -1;
   statusMapper = {
@@ -98,6 +102,8 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
+  action: string;
+  private contributorActionButtonText: string;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -105,6 +111,8 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setActionByContributorType();
+
     this.questionArray = []
     this.unsavedChanges = []
     this.questionStatusMapper.clear()
@@ -116,6 +124,17 @@ export class AdminQuestionComponent implements OnInit {
         this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
       }
     })
+  }
+
+
+  private setActionByContributorType() {
+    if (this.role === this.author) {
+      this.contributorActionButtonText = this.sendForReviewText
+      this.action = this.sentForReview;
+    } else {
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
+    }
   }
 
   addQuestionRow() {
@@ -326,7 +345,8 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  sendForReview(question: Question) {
+  sendForReview(question: Question, action:string) {
+    this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
     this.openReviewDialog(questionRequest, contributorData);
@@ -363,26 +383,32 @@ export class AdminQuestionComponent implements OnInit {
         role: this.author.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
-        action: "SENT_FOR_REVIEW"
+        action: this.action
       }
     });
+
     dialogRef.componentInstance.onSave.subscribe(response => {
-      this.updateQuestionStatusMapper(data.questions[0])
-      this.deleteFromMap(data.questions[0].status)
-      let question: QuestionStructure = {
-        parameter: data.parameterId,
-        questionId: response.questionId[0],
-        questionText: data.questions[0].question,
-        status: response.status
+      if(response) {
+        this.updateQuestionStatusMapper(data.questions[0])
+        this.deleteFromMap(data.questions[0].status)
+        let question: QuestionStructure = {
+          parameter: data.parameterId,
+          questionId: response.questionId[0],
+          questionText: data.questions[0].question,
+          status: response.status
+        }
+        this.sendToStore(question)
+        let updatedQuestion: Question = question
+        this.mapQuestionToStatus(updatedQuestion)
+
+        updatedQuestion.isEdit = false
       }
-      this.sendToStore(question)
-      let updatedQuestion: Question = question
-      this.mapQuestionToStatus(updatedQuestion)
-
-      updatedQuestion.isEdit = false
-
     })
     dialogRef.afterClosed();
+
+    this.setActionByContributorType();
+
+
   }
 
   private updateQuestionStatusMapper(question: ContributorQuestion) {

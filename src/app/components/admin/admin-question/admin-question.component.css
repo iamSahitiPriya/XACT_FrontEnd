@@ -235,6 +235,7 @@ div.question-button-column {
   flex: auto;
   justify-content: flex-end;
   height: 6vh;
+  padding-left: 5%;
 }
 
 .status-icon {
@@ -242,8 +243,15 @@ div.question-button-column {
   padding-top: 2%;
 }
 
-.status-icon .sent-for-review mat-icon {
+.status-icon .sent-for-review-and-reassessment mat-icon {
   color: #BE873E;
+}
+.status-icon .rejected mat-icon{
+  color: #e91e63;
+}
+
+.status-icon .draft mat-icon{
+  color: #043D4E;
 }
 
 .status-icon .published mat-icon {
@@ -264,4 +272,26 @@ div.question-button-column {
 
 .published-questions {
   width: 100%;
+}
+.question-comments{
+  padding-top: 2%;
+  padding-right: 1%;
+  color: #043D4E;
+}
+.reviewer-actions {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-top: 2%;
+  width: 10%;
+}
+
+.approve-action mat-icon {
+  color: #6B9F78;
+}
+
+.reject-action mat-icon {
+  color: #9B293C;
 }
