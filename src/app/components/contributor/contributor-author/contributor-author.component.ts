@@ -156,9 +156,13 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
         action: this.action
       }
     });
+
+
     dialogRef.componentInstance.onSave.subscribe(response => {
-      this.setQuestionStatus(response, questionRequest)
-      this.removeAssessedQuestions(response, data);
+      if(response) {
+        this.setQuestionStatus(response, questionRequest)
+        this.removeAssessedQuestions(response, data);
+      }
     })
     dialogRef.afterClosed().subscribe(() => {
       this.resetCheckbox(questionRequest, data)

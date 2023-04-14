@@ -109,12 +109,30 @@
               <div class="contributor-edit-action" *ngIf="!question.isEdit">
 
                 <div class="question-status-icon"
+                     *ngIf="question.comments">
+                  <mat-icon matTooltip="{{question.comments}}"
+                            [matTooltipPosition]="'left'"
+                            matTooltipHideDelay="1000">chat
+                  </mat-icon>
+                </div>
+
+
+                <div class="question-status-icon"
                      *ngIf="question.status === sentForReview && contributorType === 'AUTHOR' ">
                   <mat-icon matTooltip="{{sentForReviewText}}"
                             [matTooltipPosition]="'left'"
                             matTooltipHideDelay="1000">info_outline
                   </mat-icon>
                 </div>
+
+                <div class="requested-for-change-status-icon"
+                     *ngIf="question.status === 'REQUESTED_FOR_CHANGE' && contributorType === 'AUTHOR' ">
+                  <mat-icon  matTooltip="Requested For Change"
+                            [matTooltipPosition]="'left'"
+                            matTooltipHideDelay="1000">warning
+                  </mat-icon>
+                </div>
+
 
                 <div class="contributor-edit-button">
                   <button mat-flat-button class="contributor-button" (click)="editQuestion(question)"
@@ -132,6 +150,8 @@
                 <div class="question-delete-button" *ngIf="contributorType===author">
                   <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
                 </div>
+
+
                 <div class="reviewer-actions" *ngIf="contributorType===reviewer">
                   <div class="approve-action">
                     <mat-icon (click)="evaluateQuestion(question,response,published)">check</mat-icon>
@@ -139,8 +159,9 @@
                   <div class="reject-action">
                     <mat-icon (click)="evaluateQuestion(question,response,rejected)">close</mat-icon>
                   </div>
-
                 </div>
+
+
               </div>
               <div class="contributor-save-cancel-buttons" *ngIf="question.isEdit">
                 <div class="save-text-button" *ngIf="contributorType === author">

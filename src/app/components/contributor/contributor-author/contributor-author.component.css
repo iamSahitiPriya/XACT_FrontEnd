@@ -184,7 +184,7 @@ a.anchor{
 .contributor-edit-action {
   display: flex;
   flex-direction: row;
-  width: 30%;
+  width: 35%;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -392,3 +392,9 @@ a.anchor{
   justify-content: flex-end;
   padding-top: 0.7%;
 }
+.requested-for-change-status-icon{
+  color: #BE873E;
+  padding-right: 4%;
+
+}
+
