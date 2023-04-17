@@ -103,7 +103,7 @@ export class AdminQuestionComponent implements OnInit {
   }
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
   action: string;
-  private contributorActionButtonText: string;
+  contributorActionButtonText: string;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -176,7 +176,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0) {
+    if (question.questionText.trimStart().length > 0 && this.role=='AUTHOR') {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {
@@ -226,18 +226,18 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
-    if(this.role === "Admin") {
-      this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          question.isEdit = false
-          this.questionArray = []
-          this.ngOnInit()
-        }, error: _error => {
-          this.showError(this.dataNotSaved);
-        }
-      })
-    }
-    else if(this.role === "AUTHOR" || this.role === "REVIEWER"){
+    // if(this.role === "Admin") {
+    //   this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
+    //     next: (_data) => {
+    //       question.isEdit = false
+    //       this.questionArray = []
+    //       this.ngOnInit()
+    //     }, error: _error => {
+    //       this.showError(this.dataNotSaved);
+    //     }
+    //   })
+    // }
+    if(this.role === "AUTHOR" || this.role === "REVIEWER"){
       this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           question.isEdit = false
@@ -312,7 +312,6 @@ export class AdminQuestionComponent implements OnInit {
     questions?.splice(0, questions.length)
     this.unsavedChanges?.forEach((eachQuestion: QuestionStructure) => questions?.push(eachQuestion))
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
-
   }
 
   isInputValid(question: string): boolean {

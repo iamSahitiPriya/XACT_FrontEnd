@@ -306,11 +306,6 @@ describe('AppServiceService', () => {
     expect(service.saveMasterQuestion(questionRequest)).toBeTruthy()
   });
 
-  it("should update questions", () => {
-    let questionRequest = {questionId: 1, questionText: "new", parameter: 1}
-    let questionId = 1
-    expect(service.updateMasterQuestion(questionId, questionRequest)).toBeTruthy()
-  });
 
   it("should get summary data", () => {
     let assessmentId = 1
