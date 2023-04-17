@@ -36,6 +36,9 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   reviewerFormControl = new FormControl(this.reviewers);
   contributors = new Map<string, ContributorStructure[]>();
   contributorFormControllers = [this.authorFormControl, this.reviewerFormControl];
+  emailAuthor: string = ""
+  emailRev: string = ""
+  ngModelArr = [this.emailAuthor, this.emailRev]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   isDuplicated: boolean = false;
   errorMessage: string;
@@ -45,65 +48,20 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.formatData()
-  }
-
-  private formatData() {
-    if (this.data.contributors !== undefined) {
-      this.data.contributors.forEach((eachContributor: ContributorStructure) => {
-        if (eachContributor.role === 'AUTHOR') {
-          this.authors.push(eachContributor)
-        } else if (eachContributor.role === 'REVIEWER') {
-          this.reviewers.push(eachContributor)
-        }
-      })
-
-    }
-    this.contributors.set('AUTHOR', this.authors);
-    this.contributors.set('REVIEWER', this.reviewers);
+    this.formatResponse()
   }
 
   addContributor(event: MatChipInputEvent, role: string) {
-    let value = (event.value).trim().split(',');
-    value = value.filter(ele => ele !== '')
-    for (const eachEmail of value) {
-      const authorIndex = this.authors.findIndex(author => author.userEmail === eachEmail)
-      const reviewerIndex = this.reviewers.findIndex(author => author.userEmail === eachEmail)
-      if (eachEmail.length > 0 && eachEmail.search(this.emailPattern) !== -1) {
-        const contributor: ContributorStructure = {
-          userEmail: eachEmail,
-          role: role
-        }
-        if (authorIndex !== -1 || reviewerIndex !== -1) {
-          this.setCommonInvalid(authorIndex, reviewerIndex, role);
-        }
-        else{
-          this.contributors.get(role)?.push(contributor);
-          this.resetFormControl();
-        }
-      } else{
-        this.setEmailInvalid(role);
+    let emails = (event.value).trim().split(',');
+    emails = emails.filter(ele => ele !== '')
+    let invalidEmails: string[] = []
+    for (const eachEmail of emails) {
+      if (this.isValid(eachEmail)) {
+        this.validateAndAddContributor(eachEmail, role, invalidEmails);
+      } else {
+        invalidEmails.push(eachEmail)
+        this.setInvalidPatternError(role, invalidEmails);
       }
-    }
-  }
-
-  private setEmailInvalid(role: string) {
-    if (role === 'AUTHOR') {
-      this.authorFormControl.setErrors({'pattern': true})
-    } else if (role === 'REVIEWER') {
-      this.reviewerFormControl.setErrors({'pattern': true})
-    }
-  }
-
-  private setCommonInvalid(authorIndex: number, reviewerIndex: number, role: string) {
-    if (authorIndex !== -1 && role === 'REVIEWER') {
-      this.reviewerFormControl.setErrors({'invalid': true})
-    } else if (reviewerIndex !== -1 && role === 'AUTHOR') {
-      this.authorFormControl.setErrors({'invalid': true})
-    } else if (authorIndex !== -1 && role === 'AUTHOR') {
-      this.authorFormControl.setErrors({'duplicate': true})
-    } else if (reviewerIndex !== -1 && role === 'REVIEWER') {
-      this.reviewerFormControl.setErrors({'duplicate': true})
     }
   }
 
@@ -112,12 +70,11 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
   removeContributor(userEmail: string, role: string): void {
-
     const index = this.contributors.get(role)?.findIndex(contributor => contributor.userEmail === userEmail);
     if (index !== undefined && index !== -1) {
       this.contributors.get(role)?.splice(index, 1);
     }
-    this.resetFormControl();
+    this.resetFormControl(role);
   }
 
 
@@ -143,12 +100,6 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private resetFormControl() {
-    this.authorFormControl.setValue(this.authors)
-    this.reviewerFormControl.setValue(this.reviewers)
-    this.contributorCtrl.setValue(null)
-  }
-
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
@@ -158,9 +109,91 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     })
   }
 
-  onInputChange(text: string) {
+  onInputChange(text: string, role: string) {
     if (text.length === 0) {
-      this.resetFormControl()
+      this.resetFormControl(role)
+    }
+  }
+
+
+  private isValid(email: string) {
+    return email.length > 0 && email.search(this.emailPattern) !== -1;
+  }
+
+
+  private validateAndAddContributor(email: string, role: string, invalidEmail: string[]) {
+    const authorIndex = this.authors.findIndex(author => author.userEmail === email)
+    const reviewerIndex = this.reviewers.findIndex(author => author.userEmail === email)
+    const contributor: ContributorStructure = {
+      userEmail: email,
+      role: role
+    }
+    if (authorIndex !== -1 || reviewerIndex !== -1) {
+      invalidEmail.push(email)
+      this.setCommonEmailError(authorIndex, reviewerIndex, role);
+    } else {
+      this.contributors.get(role)?.push(contributor);
+      this.resetFormControl(role);
+    }
+    this.resetNgModel(role, invalidEmail);
+
+  }
+
+  private setInvalidPatternError(role: string, invalidEmail: string[]) {
+    if (role === 'AUTHOR') {
+      this.authorFormControl.setErrors({'pattern': true})
+    } else if (role === 'REVIEWER') {
+      this.reviewerFormControl.setErrors({'pattern': true})
+    }
+    this.resetNgModel(role, invalidEmail)
+  }
+
+  private formatResponse() {
+    if (this.data.contributors !== undefined) {
+      this.data.contributors.forEach((eachContributor: ContributorStructure) => {
+        if (eachContributor.role === 'AUTHOR') {
+          this.authors.push(eachContributor)
+        } else if (eachContributor.role === 'REVIEWER') {
+          this.reviewers.push(eachContributor)
+        }
+      })
+
+    }
+    this.contributors.set('AUTHOR', this.authors);
+    this.contributors.set('REVIEWER', this.reviewers);
+  }
+
+  private setCommonEmailError(authorIndex: number, reviewerIndex: number, role: string) {
+    if (authorIndex !== -1 && role === 'REVIEWER') {
+      this.reviewerFormControl.setErrors({'invalid': true})
+    } else if (reviewerIndex !== -1 && role === 'AUTHOR') {
+      this.authorFormControl.setErrors({'invalid': true})
+    } else if (authorIndex !== -1 && role === 'AUTHOR') {
+      this.authorFormControl.setErrors({'duplicate': true})
+    } else if (reviewerIndex !== -1 && role === 'REVIEWER') {
+      this.reviewerFormControl.setErrors({'duplicate': true})
+    }
+  }
+
+  private resetFormControl(role: string) {
+    switch (role) {
+      case 'AUTHOR':
+        this.authorFormControl.setValue(this.authors)
+        break;
+      case 'REVIEWER':
+        this.reviewerFormControl.setValue(this.reviewers)
+        break;
+    }
+  }
+
+  private resetNgModel(role: string, invalidEmail: string[]) {
+    switch (role) {
+      case 'AUTHOR':
+        this.ngModelArr[0] = invalidEmail.join(',')
+        break;
+      case 'REVIEWER':
+        this.ngModelArr[1] = invalidEmail.join(',')
+        break;
     }
   }
 }

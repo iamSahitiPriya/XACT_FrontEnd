@@ -22,9 +22,10 @@
             <h3>{{contributor.key.toLowerCase()}}</h3>
           </div>
           <div class="author-input-container">
-            <mat-form-field appearance="outline" class="add-author" >
+            <mat-form-field appearance="outline" class="add-author">
               <mat-label>{{contributor.key.toLowerCase()}}</mat-label>
-              <mat-chip-list #chipList  aria-label="Email Selection" [formControl]="contributorFormControllers[i]" required>
+              <mat-chip-list #chipList aria-label="Email Selection" [formControl]="contributorFormControllers[i]"
+                             required>
                 <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
                           (removed)="removeContributor(user.userEmail,contributor.key)">
                   {{user.userEmail}}
@@ -32,25 +33,26 @@
                     <mat-icon>cancel</mat-icon>
                   </button>
                 </mat-chip>
-                <input matInput type="text"  name="name{{contributor.key}}" #input
+                <input matInput type="text" name="name{{contributor.key}}" #input required
                        maxlength="1200"
                        id="{{contributor.key}}"
                        [placeholder]=userEmailPlaceholder
                        [matChipInputFor]="chipList"
                        [matChipInputAddOnBlur]="addOnBlur"
-                       [formControl]="contributorCtrl"
+                       [(ngModel)]="ngModelArr[i]"
+                       (input)="onInputChange(ngModelArr[i], contributor.key)"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       (matChipInputTokenEnd)="addContributor($event,contributor.key)"
-                       (input)="onInputChange(input.value)">
+                       (matChipInputTokenEnd)="addContributor($event,contributor.key)">
               </mat-chip-list>
-              <mat-error  *ngIf="contributorFormControllers[i].hasError('required')">
+              <mat-error
+                *ngIf="contributorFormControllers[i].hasError('required')">
                 Mandatory field
               </mat-error>
               <mat-error *ngIf="contributorFormControllers[i].hasError('invalid')">
-                 Duplicate email found,User can't be both author and reviewer
+                Duplicate email found,User can't be both author and reviewer
               </mat-error>
               <mat-error *ngIf="contributorFormControllers[i].hasError('pattern')">
-               {{userEmailErrorMessage}}
+                {{userEmailErrorMessage}}
               </mat-error>
               <mat-error *ngIf="contributorFormControllers[i].hasError('duplicate')">
                 Duplicate email found
