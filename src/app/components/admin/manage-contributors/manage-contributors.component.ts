@@ -25,25 +25,20 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   userEmailErrorMessage = data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE;
   userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
+  duplicateEmailErrorMessage =data_local.CONTRIBUTOR.duplicateErrorMessage;
+  commonEmailErrorMessage =data_local.CONTRIBUTOR.commonErrorMessage;
   private destroy$: Subject<void> = new Subject<void>();
-  contributorCount = new EventEmitter();
-  duplicate: boolean = false;
 
 
   @ViewChild("chipList1") chipList: any;
   authorFormControl = new FormControl(this.authors);
-  contributorCtrl = new FormControl();
   reviewerFormControl = new FormControl(this.reviewers);
   contributors = new Map<string, ContributorStructure[]>();
   contributorFormControllers = [this.authorFormControl, this.reviewerFormControl];
-  emailAuthor: string = ""
-  emailRev: string = ""
-  ngModelArr = [this.emailAuthor, this.emailRev]
+  authorEmail: string = ""
+  reviewerEmail: string = ""
+  ngModelArray = [this.authorEmail, this.reviewerEmail]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
-  isDuplicated: boolean = false;
-  errorMessage: string;
-
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
 
@@ -189,10 +184,10 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   private resetNgModel(role: string, invalidEmail: string[]) {
     switch (role) {
       case 'AUTHOR':
-        this.ngModelArr[0] = invalidEmail.join(',')
+        this.ngModelArray[0] = invalidEmail.join(',')
         break;
       case 'REVIEWER':
-        this.ngModelArr[1] = invalidEmail.join(',')
+        this.ngModelArray[1] = invalidEmail.join(',')
         break;
     }
   }

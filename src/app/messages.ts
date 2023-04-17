@@ -359,7 +359,9 @@ export const data_local =
       AUTHOR : {
         SEND_FOR_REVIEW : "Send for Review",
       },
-      NO_DATA_PRESENT: "No Questions available to show at this moment"
+      NO_DATA_PRESENT: "No Questions available to show at this moment",
+      duplicateErrorMessage: "Duplicate email found",
+      commonErrorMessage:"Duplicate email found,User can't be both author and reviewer"
     },
     IDLE_STATE: {
       STATE: {

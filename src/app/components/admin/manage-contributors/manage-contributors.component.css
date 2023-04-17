@@ -36,10 +36,10 @@
   opacity: 1;
   text-transform: capitalize;
 }
-.add-author{
+.add-contributor{
   width: 100%;
 }
-.add-author mat-label{
+.add-contributor mat-label{
   text-transform: capitalize;
 }
 .save-button-container button{
@@ -61,4 +61,11 @@
   color: #000;
   opacity: 1;
   margin: 1px 1px 0;
+}
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  height: 4vh;
+  overflow-y: scroll;
 }

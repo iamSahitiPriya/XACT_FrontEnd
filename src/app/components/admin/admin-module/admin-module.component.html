@@ -91,7 +91,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="contributors">
-      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="active">{{contributors}}</th>
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="contributors">{{contributors}}</th>
       <td class="module moduleActive" mat-cell *matCellDef="let row">
         <button id="add-contributors" mat-icon-button (click)="addContributors(row)">
           <mat-icon class="no-of-person-badge" matBadge="{{row.contributors?.length}}">people</mat-icon>
