@@ -62,10 +62,10 @@
   opacity: 1;
   margin: 1px 1px 0;
 }
-.wrapper{
-  display: flex;
-  flex-direction: row;
-  flex-wrap:wrap;
-  height: 4vh;
-  overflow-y: scroll;
-}
+/*.wrapper{*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  flex-wrap:wrap;*/
+/*  height: 4vh;*/
+/*  overflow-y: scroll;*/
+/*}*/

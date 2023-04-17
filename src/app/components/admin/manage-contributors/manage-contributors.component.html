@@ -26,7 +26,6 @@
               <mat-label>{{contributor.key.toLowerCase()}}</mat-label>
               <mat-chip-list #chipList aria-label="Email Selection" [formControl]="contributorFormControllers[i]"
                              required>
-                <div class="wrapper">
                   <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
                             (removed)="removeContributor(user.userEmail,contributor.key)">
                     {{user.userEmail}}
@@ -44,7 +43,6 @@
                          (input)="onInputChange(ngModelArray[i], contributor.key)"
                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                          (matChipInputTokenEnd)="addContributor($event,contributor.key)">
-                </div>
               </mat-chip-list>
               <mat-error
                 *ngIf="contributorFormControllers[i].hasError('required')">
