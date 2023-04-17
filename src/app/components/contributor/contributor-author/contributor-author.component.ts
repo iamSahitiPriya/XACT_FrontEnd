@@ -309,26 +309,27 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
-    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-      width: '448px',
-      height: '203px'
-    });
-    openConfirm.componentInstance.text = this.confirmationTitle;
-    openConfirm.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.appService.deleteQuestion(question.questionId).subscribe({
-          next: () => {
-            let index = response.questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
-            if (index !== -1)
-              response.questions.splice(index, 1)
-          },
-          error: () => {
-            this.showError(this.serverError)
-          }
-        })
-      }
-    })
-
+    if(question.status !== "SENT_FOR_REVIEW") {
+      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+        width: '448px',
+        height: '203px'
+      });
+      openConfirm.componentInstance.text = this.confirmationTitle;
+      openConfirm.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.appService.deleteQuestion(question.questionId).subscribe({
+            next: () => {
+              let index = response.questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+              if (index !== -1)
+                response.questions.splice(index, 1)
+            },
+            error: () => {
+              this.showError(this.serverError)
+            }
+          })
+        }
+      })
+    }
   }
 
   showAllQuestions(response: ContributorData) {

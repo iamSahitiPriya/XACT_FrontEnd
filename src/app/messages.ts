@@ -348,7 +348,7 @@ export const data_local =
         DISPLAY_TEXT: {
           SEND_FOR_REASSESSMENT : "Send For Reassessment",
           SENT_FOR_REVIEW: "Sent for Review",
-          PUBLISHED_QUESTIONS:'All published questions',
+          PUBLISHED_QUESTIONS:'Published Questions',
           REJECTED: 'Rejected',
           DRAFT: 'Draft'
         }

@@ -147,8 +147,8 @@
                     {{contributorActionButtonText}}
                   </button>
                 </div>
-                <div class="question-delete-button" *ngIf="contributorType===author">
-                  <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
+                <div [ngClass]="question.status === 'SENT_FOR_REVIEW' ? 'disable-delete-button' : 'question-delete-button'" *ngIf="contributorType===author">
+                 <mat-icon (click)="deleteQuestion(question,response)">delete_outline</mat-icon>
                 </div>
 
 
@@ -171,7 +171,7 @@
                   </button>
                 </div>
                 <div *ngIf="contributorType===reviewer" class="approve-action">
-                  <mat-icon (click)="updateQuestion(question,response)">check</mat-icon>
+                  <mat-icon [matTooltip]="'Approve'" (click)="updateQuestion(question,response)">check</mat-icon>
                 </div>
                 <div class="discard-changes">
                   <mat-icon (click)="cancelChanges()">cancel</mat-icon>

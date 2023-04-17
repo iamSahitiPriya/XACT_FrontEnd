@@ -58,7 +58,7 @@ div.question-button-column {
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-  width: 48%;
+  width: 40%;
   word-break: break-all;
 }
 
@@ -271,7 +271,7 @@ div.question-button-column {
 }
 
 .published-questions {
-  width: 100%;
+  width: 90%;
 }
 .question-comments{
   padding-top: 2%;
@@ -284,7 +284,6 @@ div.question-button-column {
   flex: auto;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  padding-top: 2%;
   width: 10%;
 }
 
@@ -294,4 +293,14 @@ div.question-button-column {
 
 .reject-action mat-icon {
   color: #9B293C;
+}
+
+.reviewer-actions button {
+  background-color: transparent;
+  border: none;
+  width: 30px;
+}
+
+.disable-delete-button .mat-icon {
+  color: #b2b2b2;
 }

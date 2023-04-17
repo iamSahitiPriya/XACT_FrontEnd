@@ -159,8 +159,10 @@ export class AppServiceService {
     return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.startDate + "/" + adminAssessmentRequest.endDate);
   }
 
-  getAllCategories(): Observable<CategoryResponse[]> {
-    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
+  getAllCategories(role : string): Observable<CategoryResponse[]> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("role", role);
+    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI,{params:queryParams});
   }
 
 

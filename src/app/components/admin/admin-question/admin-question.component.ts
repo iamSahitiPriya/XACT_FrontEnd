@@ -75,16 +75,6 @@ export class AdminQuestionComponent implements OnInit {
 
   defaultQuestionId: number = -1;
   statusMapper = {
-    'PUBLISHED' : {
-      borderColor: '#6B9F78',
-      backgroundColor: '#e8f8ec',
-      displayText: this.publishedQuestions
-    },
-    'SENT_FOR_REVIEW': {
-      borderColor: '#BE873E',
-      backgroundColor: '#BE873E0D',
-      displayText: this.sentForReviewText
-    },
     'REJECTED': {
       borderColor: '#BD4257',
       backgroundColor: '#BD425715',
@@ -98,7 +88,12 @@ export class AdminQuestionComponent implements OnInit {
     'REQUESTED_FOR_CHANGE':{
       borderColor: '#BE873E',
       backgroundColor: '#BE873E0D',
-      displayText: 'Requested For Change'
+      displayText: 'Change Requests'
+    },
+    'PUBLISHED' : {
+      borderColor: '#6B9F78',
+      backgroundColor: '#e8f8ec',
+      displayText: this.publishedQuestions
     }
   }
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
@@ -112,18 +107,17 @@ export class AdminQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.setActionByContributorType();
-
     this.questionArray = []
     this.unsavedChanges = []
     this.questionStatusMapper.clear()
-    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (data !== undefined) {
-        this.categoryResponse = data
-        this.setParameterQuestion()
-        this.formatData()
-        this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
-      }
-    })
+      this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        if (data !== undefined) {
+          this.categoryResponse = data
+          this.setParameterQuestion()
+          this.formatData()
+          this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
+        }
+      })
   }
 
 
@@ -131,9 +125,19 @@ export class AdminQuestionComponent implements OnInit {
     if (this.role === this.author) {
       this.contributorActionButtonText = this.sendForReviewText
       this.action = this.sentForReview;
-    } else {
+      this.statusStyleMapper.set('SENT_FOR_REVIEW', {
+        borderColor: '#BE873E',
+          backgroundColor: '#BE873E0D',
+          displayText: this.sentForReviewText
+      })
+    } else if(this.role === "REVIEWER") {
       this.contributorActionButtonText = this.sendForReassessment
       this.action = this.requestedForChange
+      this.statusStyleMapper.set('SENT_FOR_REVIEW', {
+        borderColor: '#BE873E',
+        backgroundColor: '#BE873E0D',
+        displayText: 'In Progress'
+      })
     }
   }
 
@@ -419,29 +423,30 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   deleteQuestion(question: Question) {
-    let contributorQuestion = this.getContributorQuestion(question)
-    let response: QuestionStructure = question
-    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-      width: '448px',
-      height: '203px'
-    });
-    openConfirm.componentInstance.text = this.confirmationTitle;
-    openConfirm.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.appService.deleteQuestion(question.questionId).subscribe({
-          next: () => {
-            this.deleteFromStore(response)
-            this.updateQuestionStatusMapper(contributorQuestion[0])
-            this.deleteFromMap(question.status)
+    if(question.status !== "SENT_FOR_REVIEW") {
+      let contributorQuestion = this.getContributorQuestion(question)
+      let response: QuestionStructure = question
+      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+        width: '448px',
+        height: '203px'
+      });
+      openConfirm.componentInstance.text = this.confirmationTitle;
+      openConfirm.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.appService.deleteQuestion(question.questionId).subscribe({
+            next: () => {
+              this.deleteFromStore(response)
+              this.updateQuestionStatusMapper(contributorQuestion[0])
+              this.deleteFromMap(question.status)
 
-          },
-          error: () => {
-            this.showError(this.serverError)
-          }
-        })
-      }
-    })
-
+            },
+            error: () => {
+              this.showError(this.serverError)
+            }
+          })
+        }
+      })
+    }
   }
 
   private deleteFromStore(question: QuestionStructure) {

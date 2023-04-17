@@ -83,7 +83,7 @@
   border-top-left-radius : 0;
 }
 .contributor-question-content{
-  width: 75%;
+  width: 63%;
 }
 .contributor-question-checkbox-and-input{
   display: flex;
@@ -145,11 +145,13 @@ a.anchor{
 
 .question-status-icon {
  padding-right: 4%;
+  padding-top: 1%;
 }
 
-.question-delete-button {
+.question-delete-button, .disable-delete-button {
   padding-top: 0.5%;
 }
+
 .question-status-icon .mat-icon {
   color: #416386;
 }
@@ -157,8 +159,12 @@ a.anchor{
 .question-delete-button .mat-icon {
   color: #BD4257;
 }
+
+.disable-delete-button .mat-icon {
+  color: #b2b2b2;
+}
 .contributor-question-input{
-  width: 100%;
+  width: 95%;
 }
 .contributor-input {
   width: 100%;
@@ -184,7 +190,7 @@ a.anchor{
 .contributor-edit-action {
   display: flex;
   flex-direction: row;
-  width: 35%;
+  width: 37%;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -262,8 +268,8 @@ a.anchor{
 .contributor-save-cancel-buttons{
   display: flex;
   justify-content: space-evenly;
-  width: 5%;
-  margin-bottom: 3%;
+  width: 10%;
+  margin-bottom: 4%;
 }
 
 .all-question button {
@@ -377,6 +383,7 @@ a.anchor{
   flex: auto;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  padding-top: 1%;
 }
 
 .approve-action mat-icon {
@@ -386,15 +393,16 @@ a.anchor{
 .reject-action mat-icon {
   color: #9B293C;
 }
+
 .select-all-actions{
   display: flex;
   width: 30%;
   justify-content: flex-end;
   padding-top: 0.7%;
 }
+
 .requested-for-change-status-icon{
   color: #BE873E;
   padding-right: 4%;
-
 }
 
