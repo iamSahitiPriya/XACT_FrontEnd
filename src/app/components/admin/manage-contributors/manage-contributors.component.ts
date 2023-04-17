@@ -27,7 +27,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
   private destroy$: Subject<void> = new Subject<void>();
   contributorCount = new EventEmitter();
-  duplicate : boolean =false;
+  duplicate: boolean = false;
 
 
   @ViewChild("chipList1") chipList: any;
@@ -67,19 +67,21 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     let value = (event.value).trim().split(',');
     value = value.filter(ele => ele !== '')
     for (const eachEmail of value) {
-      const authorIndex = this.authors.findIndex(author => author.userEmail ===eachEmail)
+      const authorIndex = this.authors.findIndex(author => author.userEmail === eachEmail)
       const reviewerIndex = this.reviewers.findIndex(author => author.userEmail === eachEmail)
       if (eachEmail.length > 0 && eachEmail.search(this.emailPattern) !== -1) {
         const contributor: ContributorStructure = {
           userEmail: eachEmail,
           role: role
         }
-        this.setCommonInvalid(authorIndex, reviewerIndex);
-        if (!(authorIndex !== -1 || reviewerIndex !== -1)) {
+        if (authorIndex !== -1 || reviewerIndex !== -1) {
+          this.setCommonInvalid(authorIndex, reviewerIndex, role);
+        }
+        else{
           this.contributors.get(role)?.push(contributor);
           this.resetFormControl();
         }
-      } else if (event.value.length > 0) {
+      } else{
         this.setEmailInvalid(role);
       }
     }
@@ -93,11 +95,15 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setCommonInvalid(authorIndex: number, reviewerIndex: number) {
-    if(authorIndex !==-1){
+  private setCommonInvalid(authorIndex: number, reviewerIndex: number, role: string) {
+    if (authorIndex !== -1 && role === 'REVIEWER') {
       this.reviewerFormControl.setErrors({'invalid': true})
-    }if(reviewerIndex !==-1){
+    } else if (reviewerIndex !== -1 && role === 'AUTHOR') {
       this.authorFormControl.setErrors({'invalid': true})
+    } else if (authorIndex !== -1 && role === 'AUTHOR') {
+      this.authorFormControl.setErrors({'duplicate': true})
+    } else if (reviewerIndex !== -1 && role === 'REVIEWER') {
+      this.reviewerFormControl.setErrors({'duplicate': true})
     }
   }
 
@@ -152,8 +158,8 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     })
   }
 
-  onInputChange(text : string) {
-    if(text.length === 0){
+  onInputChange(text: string) {
+    if (text.length === 0) {
       this.resetFormControl()
     }
   }

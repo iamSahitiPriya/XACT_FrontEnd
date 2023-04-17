@@ -52,6 +52,9 @@
               <mat-error *ngIf="contributorFormControllers[i].hasError('pattern')">
                {{userEmailErrorMessage}}
               </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('duplicate')">
+                Duplicate email found
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
