@@ -454,10 +454,5 @@ export class AdminQuestionComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
 
   }
-
-
-  isQuestionEdit(question: Question) {
-    return ((question.status !== this.published || question.status !== this.rejected) && question.isEdit === false);
-  }
 }
 

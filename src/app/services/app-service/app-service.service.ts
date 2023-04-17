@@ -262,10 +262,6 @@ export class AppServiceService {
     return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId, parameterReferenceRequest)
   }
 
-  // updateMasterQuestion(questionId: number, questionRequest: QuestionStructure): Observable<QuestionStructure> {
-  //   return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
-  // }
-
   saveMasterQuestion(questionRequest: QuestionRequest): Observable<QuestionStructure> {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }

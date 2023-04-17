@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {Question} from "../../../types/Contributor/Question";
+import {ContributorQuestionRequest} from "../../../types/Contributor/ContributorQuestionRequest";
 
 describe('ReviewDialogComponent', () => {
   let component: ReviewDialogComponent;
@@ -21,17 +22,15 @@ describe('ReviewDialogComponent', () => {
     questionResponse = {
       comments: "hello",
       questionId: [605],
-      status: "Sent_For_Review"
+      status: "SENT_FOR_REVIEW"
     }
 
-    sendForReview(moduleId: number, status: string, question: any) {
-      if(moduleId === 1) {
+    updateQuestionStatus(moduleId: number,action:string,question : ContributorQuestionRequest) {
+      if(moduleId === 1)
         return of(this.questionResponse)
-      }else{
+      else
         return throwError("Error!")
-      }
     }
-
   }
 
   beforeEach(async () => {
@@ -53,6 +52,8 @@ describe('ReviewDialogComponent', () => {
   });
 
   it('should create', () => {
+    component.data.action = "REJECTED"
+    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 
@@ -66,6 +67,8 @@ describe('ReviewDialogComponent', () => {
   it('should cancel changes', () => {
     jest.spyOn(component, 'cancelChanges')
 
+    component.data.action = "SENT_FOR_REVIEW"
+    component.ngOnInit()
     let cancelButton = fixture.debugElement.nativeElement.querySelector("#cancel-changes");
     cancelButton.click()
 
@@ -75,15 +78,19 @@ describe('ReviewDialogComponent', () => {
   it('should send questions to review', () => {
     jest.spyOn(component,'evaluateQuestion')
     let moduleId = 1
+
+    component.data.action = "REQUESTED_FOR_CHANGE"
+    component.ngOnInit()
     component.data = {
       question: {},
       moduleId: 1,
     }
     let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
+    let request : ContributorQuestionRequest = {comments: "", questionId: [1]}
 
     component.evaluateQuestion(question)
 
-    mockAppService.sendForReview(moduleId,'Sent_For_Review',question).subscribe(data =>{
+    mockAppService.updateQuestionStatus(moduleId,'Sent_For_Review',request).subscribe(data =>{
       expect(data).toBeDefined()
     })
 
@@ -91,6 +98,8 @@ describe('ReviewDialogComponent', () => {
 
   });
   it('should throw error on unsuccessful API call', () => {
+    component.data.action = "PUBLISHED"
+    component.ngOnInit()
     jest.spyOn(component,'showError')
     let moduleId = 0
     component.data = {
@@ -98,13 +107,27 @@ describe('ReviewDialogComponent', () => {
       moduleId: 0,
     }
     let question : Question[] = [{questionId: 1, question: "hello",comments:"comments"}]
+    let request : ContributorQuestionRequest = {comments: "", questionId: [1]}
 
     component.evaluateQuestion(question)
 
-    mockAppService.sendForReview(moduleId,'Sent_For_Review',question).subscribe(data =>{
+    mockAppService.updateQuestionStatus(moduleId,'Sent_For_Review',request).subscribe(data =>{
       expect(data).toBeUndefined()
       expect(component.showError).toHaveBeenCalled()
     })
+  });
 
+  it("should return publish-button as class name when the action is published", () => {
+    component.data.action = "PUBLISHED"
+    component.ngOnInit()
+
+    expect(component.getClass()).toBe("publish-button")
+  });
+
+  it("should return reject-button as class name when the action is rejected", () => {
+    component.data.action = "REJECTED"
+    component.ngOnInit()
+
+    expect(component.getClass()).toBe("reject-button")
   });
 });

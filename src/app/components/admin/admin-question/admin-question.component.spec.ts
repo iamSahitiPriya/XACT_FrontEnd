@@ -46,7 +46,7 @@ class MockAppService {
     module: 1
   }
 
-  updateMasterQuestion(questionId: any, questionRequest: any) {
+  updateQuestion(questionId: any, questionRequest: any) {
     if (questionId === 1) {
       return of(this.response)
     } else
@@ -96,7 +96,7 @@ describe('AdminQuestionComponent', () => {
     component = fixture.componentInstance;
     mockAppService = new MockAppService();
     matDialog = fixture.debugElement.injector.get(MatDialog)
-    fixture.detectChanges();
+    fixture.autoDetectChanges();
     // @ts-ignore
     component.masterData = of([{
       "categoryId": 1,
@@ -128,7 +128,8 @@ describe('AdminQuestionComponent', () => {
             "questions": [{
               "questionId": 1,
               "questionText": "This is a question",
-              "parameter": 1
+              "parameter": 1,
+              "status" : "PUBLISHED"
             }],
             "userQuestions": [],
             "references": [],
@@ -209,14 +210,12 @@ describe('AdminQuestionComponent', () => {
   });
 
   it("should add question text on clicking add question button", () => {
-    jest.spyOn(component, 'addQuestionRow')
     jest.spyOn(component, 'removeQuestion')
 
     component.ngOnInit()
-    const button = fixture.nativeElement.querySelector(".question-button1");
-    button.click();
+    component.role = "AUTHOR"
+    component.addQuestion()
 
-    expect(component.addQuestionRow).toHaveBeenCalled()
     expect(component.removeQuestion).toHaveBeenCalled()
   });
 
@@ -244,11 +243,12 @@ describe('AdminQuestionComponent', () => {
   it("should update question with respective changes", () => {
     jest.spyOn(component, 'getQuestionRequest')
     jest.spyOn(component, 'updateQuestion')
+    component.role = "AUTHOR"
 
     component.ngOnInit()
     component.updateQuestion(row)
 
-    mockAppService.updateMasterQuestion(1, row).subscribe(data => {
+    mockAppService.updateQuestion(1, row).subscribe(data => {
       expect(data).toBeDefined()
     })
 
@@ -288,9 +288,10 @@ describe('AdminQuestionComponent', () => {
     jest.spyOn(component, 'saveQuestion')
 
     component.ngOnInit()
+    component.role = "AUTHOR"
     component.parameter.parameterId = 5
-    row = {questionId: 1, questionText: "This is a question text2", parameter: 5, isEdit: false}
-    expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions).toBeUndefined()
+    row = {questionId: 1, questionText: "This is a question text2", parameter: 5, isEdit: false,status:"DRAFT"}
+    expect(component.categoryResponse[0].modules[0].topics[0].parameters[0].questions.length).toBe(1)
 
     component.saveQuestion(row)
     component.parameter = {
@@ -314,16 +315,16 @@ describe('AdminQuestionComponent', () => {
       expect(data).toBeDefined()
     })
 
-    expect(component.saveQuestion).toHaveBeenCalled()
     expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions.length).toBe(1)
   });
 
   it("should throw error on unsuccessful save", () => {
     jest.spyOn(component, 'saveQuestion')
     jest.spyOn(component, 'showError')
-    let row = {questionId: -1, questionText: "This is a question", parameter: 1, isEdit: true}
+    let row = {questionId: -1, questionText: "This is a questionss", parameter: 1, isEdit: true,status:"DRAFT"}
 
     component.ngOnInit()
+    component.role = "AUTHOR"
     component.saveQuestion(row)
 
     mockAppService.saveMasterQuestion(row).subscribe(data => {
@@ -337,12 +338,13 @@ describe('AdminQuestionComponent', () => {
   it("should throw error on unsuccessful update", () => {
     jest.spyOn(component, 'getQuestionRequest')
     jest.spyOn(component, 'showError')
-    let row = {questionId: 2, questionText: "This is a question text", parameter: 1, isEdit: true}
+    let row = {questionId: 2, questionText: "This is a question textss", parameter: 1, isEdit: true}
 
     component.ngOnInit()
+    component.role = "AUTHOR"
     component.updateQuestion(row)
 
-    mockAppService.updateMasterQuestion(2, row).subscribe(data => {
+    mockAppService.updateQuestion(2, row.questionText).subscribe(data => {
         expect(data).toBeUndefined()
       }, (error) => {
         expect(error).toBe(new Error("Error!"))
@@ -397,7 +399,7 @@ describe('AdminQuestionComponent', () => {
     component.questionStatusMapper.set('Sent_For_Review', questions2)
 
     jest.spyOn(matDialog, "open")
-    component.sendForReview(question)
+    component.sendForReview(question,"SENT_FOR_REVIEW")
 
     expect(matDialog.open).toHaveBeenCalled()
 
@@ -432,5 +434,12 @@ describe('AdminQuestionComponent', () => {
     })
 
     expect(component.deleteQuestion).toHaveBeenCalled()
+  });
+
+  it("should set action to request for change when contributor type is reviewer", () => {
+    component.role = "REVIEWER"
+    component.ngOnInit()
+
+    expect(component.action).toBe("REQUESTED_FOR_CHANGE")
   });
 });
