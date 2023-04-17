@@ -43,13 +43,13 @@ export class AdminQuestionComponent implements OnInit {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
-  addQuestion = data_local.ADMIN.QUESTION.ADD_QUESTION
+  addQuestionText = data_local.ADMIN.QUESTION.ADD_QUESTION
   questionText = data_local.ADMIN.QUESTION.QUESTION
   questions = data_local.ADMIN.QUESTION.QUESTIONS
   requiredField = data_local.ADMIN.QUESTION.REQUIRED_FIELD
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
-  sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
-  requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
+  sendForReassessment: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange: string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
   questionStatusMapper = new Map<string, Question[]>()
@@ -61,9 +61,9 @@ export class AdminQuestionComponent implements OnInit {
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
-  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED;
-  draft : string = data_local.CONTRIBUTOR.STATUS.DRAFT;
-  private author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  rejected: string = data_local.CONTRIBUTOR.STATUS.REJECTED;
+  draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
+  author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
@@ -71,6 +71,7 @@ export class AdminQuestionComponent implements OnInit {
   private rejectedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.REJECTED;
   private draftedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.DRAFT;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  changeRequests = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.CHANGE_REQUESTS;
 
 
   defaultQuestionId: number = -1;
@@ -85,12 +86,12 @@ export class AdminQuestionComponent implements OnInit {
       backgroundColor: '#5D9EAA0D',
       displayText: this.draftedQuestions
     },
-    'REQUESTED_FOR_CHANGE':{
+    'REQUESTED_FOR_CHANGE': {
       borderColor: '#BE873E',
       backgroundColor: '#BE873E0D',
-      displayText: 'Change Requests'
+      displayText: this.changeRequests
     },
-    'PUBLISHED' : {
+    'PUBLISHED': {
       borderColor: '#6B9F78',
       backgroundColor: '#e8f8ec',
       displayText: this.publishedQuestions
@@ -99,6 +100,11 @@ export class AdminQuestionComponent implements OnInit {
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
   action: string;
   contributorActionButtonText: string;
+  admin: string = data_local.ADMIN.ROLE.ADMIN;
+  reviewer: string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+  reject: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
+  inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -110,14 +116,14 @@ export class AdminQuestionComponent implements OnInit {
     this.questionArray = []
     this.unsavedChanges = []
     this.questionStatusMapper.clear()
-      this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
-        if (data !== undefined) {
-          this.categoryResponse = data
-          this.setParameterQuestion()
-          this.formatData()
-          this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
-        }
-      })
+    this.masterData.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      if (data !== undefined) {
+        this.categoryResponse = data
+        this.setParameterQuestion()
+        this.formatData()
+        this.unsavedChanges = cloneDeep(this.getQuestionsFromParameter())
+      }
+    })
   }
 
 
@@ -125,28 +131,28 @@ export class AdminQuestionComponent implements OnInit {
     if (this.role === this.author) {
       this.contributorActionButtonText = this.sendForReviewText
       this.action = this.sentForReview;
-      this.statusStyleMapper.set('SENT_FOR_REVIEW', {
-        borderColor: '#BE873E',
-          backgroundColor: '#BE873E0D',
-          displayText: this.sentForReviewText
-      })
-    } else if(this.role === "REVIEWER") {
-      this.contributorActionButtonText = this.sendForReassessment
-      this.action = this.requestedForChange
-      this.statusStyleMapper.set('SENT_FOR_REVIEW', {
+      this.statusStyleMapper.set(this.sentForReview, {
         borderColor: '#BE873E',
         backgroundColor: '#BE873E0D',
-        displayText: 'In Progress'
+        displayText: this.sentForReviewText
+      })
+    } else if (this.role === this.reviewer) {
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
+      this.statusStyleMapper.set(this.sentForReview, {
+        borderColor: '#BE873E',
+        backgroundColor: '#BE873E0D',
+        displayText: this.inProgress
       })
     }
   }
 
-  addQuestionRow() {
+  addQuestion() {
     this.removeQuestion()
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
-      status: 'DRAFT',
+      status: this.draft,
       parameter: this.parameter.parameterId,
       isEdit: true
     }
@@ -180,7 +186,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0 && this.role=='AUTHOR') {
+    if (question.questionText.trimStart().length > 0 && this.role == this.author) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {
@@ -230,18 +236,7 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
-    // if(this.role === "Admin") {
-    //   this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-    //     next: (_data) => {
-    //       question.isEdit = false
-    //       this.questionArray = []
-    //       this.ngOnInit()
-    //     }, error: _error => {
-    //       this.showError(this.dataNotSaved);
-    //     }
-    //   })
-    // }
-    if(this.role === "AUTHOR" || this.role === "REVIEWER"){
+    if (this.role === this.author || this.role === this.reviewer) {
       this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           question.isEdit = false
@@ -348,7 +343,7 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  sendForReview(question: Question, action:string) {
+  sendForReview(question: Question, action: string) {
     this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
@@ -391,7 +386,7 @@ export class AdminQuestionComponent implements OnInit {
     });
 
     dialogRef.componentInstance.onSave.subscribe(response => {
-      if(response) {
+      if (response) {
         this.updateQuestionStatusMapper(data.questions[0])
         this.deleteFromMap(data.questions[0].status)
         let question: QuestionStructure = {
@@ -423,7 +418,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   deleteQuestion(question: Question) {
-    if(question.status !== "SENT_FOR_REVIEW") {
+    if (question.status !== this.sentForReview) {
       let contributorQuestion = this.getContributorQuestion(question)
       let response: QuestionStructure = question
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
@@ -451,7 +446,7 @@ export class AdminQuestionComponent implements OnInit {
 
   private deleteFromStore(question: QuestionStructure) {
     let questions = this.getQuestionsFromParameter()
-    if(questions !== undefined){
+    if (questions !== undefined) {
       let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
       if (index !== -1)
         questions.splice(index, 1)
@@ -462,7 +457,7 @@ export class AdminQuestionComponent implements OnInit {
 
 
   isQuestionEdit(question: Question) {
-    return ((question.status !== this.published || question.status !== 'REJECTED') && question.isEdit === false);
+    return ((question.status !== this.published || question.status !== this.rejected) && question.isEdit === false);
   }
 }
 

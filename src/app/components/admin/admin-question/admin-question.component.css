@@ -28,13 +28,13 @@
   font-size: 25px;
 }
 
-div.question-button-column {
+.add-question {
   display: flex;
   justify-content: flex-end;
   margin-left: 2px;
 }
 
-.question-button1 {
+.add-question-button {
   width: 20%;
   height: 50px;
   background: #4BA1AC 0 0 no-repeat padding-box;
@@ -83,7 +83,7 @@ div.question-button-column {
   display: flex;
   justify-content: flex-end;
 }
-.save-button{
+.save-delete-button{
   padding-top: 20px;
   height: 6vh;
 }
@@ -98,7 +98,7 @@ div.question-button-column {
   padding-right: 5%;
 }
 
-.edit-button, .send-for-review-button{
+.edit-button, .send-for-review-delete-button{
   height: 85%;
 }
 
@@ -187,7 +187,7 @@ div.question-button-column {
 .question-draft{
   border: 1px solid #5D9EAA;
 }
-.question-status-heading-content{
+.question-status-heading{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -202,7 +202,7 @@ div.question-button-column {
   height: 4.5vh;
 
 }
-.question-status-heading{
+.question-status-heading-text{
   text-align: left;
   font-family: Inter, serif;
   font-size: 1rem;
@@ -221,14 +221,14 @@ div.question-button-column {
   padding-top: 1%;
 }
 
-.admin-questions {
+.admin-contributor-questions {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   flex: auto;
 }
 
-.question-edit-update {
+.question-action-buttons {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -266,8 +266,9 @@ div.question-button-column {
   padding-right: 2%;
 }
 
-.question-status {
+.questions-text {
   background: #F4FAFC 0 0 no-repeat padding-box;
+  padding-top: 1%;
 }
 
 .published-questions {

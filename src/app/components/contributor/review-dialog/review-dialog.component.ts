@@ -28,6 +28,11 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
   displayButtonText : string = " " ;
   requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  comment: string = data_local.CONTRIBUTOR.COMMENTS;
+  published : string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
+  approve : string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED;
+  reject : string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
@@ -38,10 +43,10 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
       this.displayButtonText = this.sendForReview
     else if(this.data.action === this.requestedForChange)
       this.displayButtonText = this.sendForReassessment
-    else if(this.data.action === "PUBLISHED")
-      this.displayButtonText = "Approve"
-    else if(this.data.action === "REJECTED")
-      this.displayButtonText = "Reject"
+    else if(this.data.action === this.published)
+      this.displayButtonText = this.approve
+    else if(this.data.action === this.rejected)
+      this.displayButtonText = this.reject
 
   }
 
@@ -83,9 +88,9 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
   }
 
   getClass() {
-    if(this.data.action === "PUBLISHED")
+    if(this.data.action === this.published)
       return 'publish-button'
-    else if(this.data.action === "REJECTED")
+    else if(this.data.action === this.rejected)
       return 'reject-button'
     return 'default-button';
   }

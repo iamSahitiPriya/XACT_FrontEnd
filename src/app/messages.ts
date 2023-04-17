@@ -327,6 +327,8 @@ export const data_local =
 
     },
     CONTRIBUTOR : {
+      COMMENTS : "Comments",
+      SEARCH_TEXT : "Type to search",
       CONSOLE : "Contributor Console",
       CONTRIBUTOR : "Contributor",
       TITLE :"X - Act Contributor",
@@ -350,7 +352,15 @@ export const data_local =
           SENT_FOR_REVIEW: "Sent for Review",
           PUBLISHED_QUESTIONS:'Published Questions',
           REJECTED: 'Rejected',
-          DRAFT: 'Draft'
+          DRAFT: 'Draft',
+          CHANGE_REQUESTS : 'Change Requests',
+          IN_PROGRESS : 'In Progress',
+
+        },
+        HOVER_TEXT : {
+          APPROVE : 'Approve',
+          REJECT : 'Reject',
+          REQUESTED_FOR_CHANGE: 'Requested For Change',
         }
       },
       ROLE : {

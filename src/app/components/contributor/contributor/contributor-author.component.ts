@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ReviewDialogComponent} from "../review-dialog/review-dialog.component";
 import {AppServiceService} from "../../../services/app-service/app-service.service";
@@ -67,6 +67,11 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED
   action: string;
   contributorType:string
+  search: string = data_local.CONTRIBUTOR.SEARCH_TEXT;
+  requestedForChangeText: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REQUESTED_FOR_CHANGE;
+  approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+
+
   constructor(public router: Router,public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -102,9 +107,9 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   editQuestion(question: Question) {
     this.contributorData = []
     this.unsavedChanges.forEach(eachContributorData => {
-      let contributorData = this.getContributorData(eachContributorData);
+      let contributorData = ContributorAuthorComponent.getContributorData(eachContributorData);
       eachContributorData.questions.forEach(eachQuestion => {
-        let formattedQuestion = this.getFormattedQuestion(eachQuestion);
+        let formattedQuestion = ContributorAuthorComponent.getFormattedQuestion(eachQuestion);
         if (eachQuestion.questionId === question.questionId)
           formattedQuestion.isEdit = true;
         contributorData.questions.push(formattedQuestion)
@@ -113,7 +118,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getFormattedQuestion(eachQuestion: Question) {
+  private static getFormattedQuestion(eachQuestion: Question) {
     let question: Question = {comments: "", isEdit: false, question: "", questionId: -1, status: ""}
     question.question = eachQuestion.question
     question.questionId = eachQuestion.questionId
@@ -123,7 +128,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return question;
   }
 
-  private getContributorData(eachData: ContributorData) :ContributorData{
+  private static getContributorData(eachData: ContributorData) :ContributorData{
     return {
       categoryId: eachData.categoryId,
       parameterId: eachData.parameterId,
@@ -191,9 +196,9 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   cancelChanges() {
     this.contributorData = []
     this.unsavedChanges.forEach(eachData => {
-      let data = this.getContributorData(eachData);
+      let data = ContributorAuthorComponent.getContributorData(eachData);
       eachData.questions.forEach(eachQuestion => {
-        let question = this.getFormattedQuestion(eachQuestion);
+        let question = ContributorAuthorComponent.getFormattedQuestion(eachQuestion);
         data.questions.push(question)
       })
       this.contributorData.push(data)
@@ -309,7 +314,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
-    if(question.status !== "SENT_FOR_REVIEW") {
+    if(question.status !== this.sentForReview) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -334,10 +339,10 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   showAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
-    this.parameterData = this.getParameterData(response)
+    this.parameterData = ContributorAuthorComponent.getParameterData(response)
   }
 
-  private getParameterData(data: ContributorData) {
+  private static getParameterData(data: ContributorData) {
     return {
       categoryId: data.categoryId,
       categoryName: data.categoryName,
@@ -371,11 +376,6 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     }
     return this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
-  //
-  // private sendToStore(response: ContributorQuestionResponse, data: ContributorData) {
-  //   let questions: QuestionStructure[] = this.getQuestionsFromContributorData(data)
-  //   this.setQuestionStatus(response, questions)
-  // }
 
   private updateToStore(question: QuestionStructure, contributorData: ContributorData) {
     let questions: QuestionStructure[] = this.getQuestionsFromContributorData(contributorData)
@@ -403,8 +403,6 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     else
       return false;
   }
-
-
 
   isStatusValid(status: string) : boolean {
     return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer));
