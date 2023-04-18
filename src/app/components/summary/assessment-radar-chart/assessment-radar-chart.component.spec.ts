@@ -7,10 +7,15 @@ import {AssessmentRadarChartComponent} from './assessment-radar-chart.component'
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCardModule} from "@angular/material/card";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {RouterTestingModule} from "@angular/router/testing";
 import {ChartsModule} from "angular-bootstrap-md";
 import {AssessmentSummaryComponent} from "../../assessment-summary/assessment-summary.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatIconModule} from "@angular/material/icon";
+import {FormsModule} from "@angular/forms";
+import {NgChartsModule} from "ng2-charts";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('AssessmentRadarChartComponent', () => {
   let component: AssessmentRadarChartComponent;
@@ -19,7 +24,9 @@ describe('AssessmentRadarChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AssessmentRadarChartComponent, AssessmentSummaryComponent],
-      imports: [NoopAnimationsModule, MatCardModule, HttpClientTestingModule, NgxChartsModule, ChartsModule, RouterTestingModule],
+      imports: [NoopAnimationsModule, MatCardModule, HttpClientTestingModule, NgxChartsModule ,ChartsModule, RouterTestingModule, MatTooltipModule, MatIconModule,
+      FormsModule],
+      schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
       .compileComponents();
 

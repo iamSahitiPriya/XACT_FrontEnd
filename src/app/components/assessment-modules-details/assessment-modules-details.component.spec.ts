@@ -92,6 +92,7 @@ const mockCategory: UserCategoryResponse = {
           "moduleName": "My Module",
           "category": 1,
           "active": true,
+          "contributors":[],
           "updatedAt": 10101010,
           "topics": [
             {
@@ -247,6 +248,7 @@ describe('AssessmentModulesDetailsComponent', () => {
       updatedAt: 0,
       moduleId: 1,
       moduleName: "hello",
+      contributors:[],
       topics: [{
         topicId: 1,
         topicName: "topic",

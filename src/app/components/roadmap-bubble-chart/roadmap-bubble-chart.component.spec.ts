@@ -6,6 +6,10 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {Recommendation} from "../../types/recommendation";
 import {MatCardModule} from "@angular/material/card";
 import {of} from "rxjs";
+import {MatIconModule} from "@angular/material/icon";
+import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockAppService {
 
@@ -58,9 +62,10 @@ describe('RoadmapBubbleChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoadmapBubbleChartComponent],
-      imports: [HttpClientTestingModule, MatCardModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}]
+      declarations: [RoadmapBubbleChartComponent, AssessmentSummaryComponent],
+      imports: [HttpClientTestingModule, MatCardModule, MatIconModule, MatTooltipModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}],
+      schemas:[NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   });
@@ -68,6 +73,7 @@ describe('RoadmapBubbleChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoadmapBubbleChartComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges()
     mockAppService = new MockAppService()
   });
 
@@ -80,6 +86,9 @@ describe('RoadmapBubbleChartComponent', () => {
     component.assessmentId = 1
 
     component.getRecommendations()
+    mockAppService.getAllRecommendations(1).subscribe(data =>{
+      expect(data).toBeDefined()
+    })
 
     expect(component.recommendationResponse.length).toBe(3)
   })

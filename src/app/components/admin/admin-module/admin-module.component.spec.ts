@@ -110,7 +110,7 @@ describe('AdminModuleComponent', () => {
     mockAppService = new MockAppService();
     matDialog = fixture.debugElement.injector.get(MatDialog)
     row = {
-      active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true
+      active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true,contributors:[],
     }
     component.masterData = of([{
       "categoryId": 1,
@@ -161,6 +161,7 @@ describe('AdminModuleComponent', () => {
       moduleName:"Module123",
       categoryName : "category1",
       categoryId : 1,
+      contributors:[],
       categoryStatus: true,
       active : true,
       updatedAt : 1022022,
@@ -171,6 +172,7 @@ describe('AdminModuleComponent', () => {
       active: false,
       categoryName: "newCategory",
       categoryStatus: false,
+      contributors:[],
       comments: "Comments",
       categoryId:-1,
       moduleId: 0,
@@ -183,6 +185,7 @@ describe('AdminModuleComponent', () => {
       "categoryId": 1,
       "categoryStatus" : true,
       "moduleName": "MODULE1",
+      "contributors":[],
       "moduleId" : 1,
       "comments": "comments",
       "updatedAt": 1022022,
@@ -192,6 +195,7 @@ describe('AdminModuleComponent', () => {
       "categoryId": 2,
       "categoryStatus" : true,
       "moduleName": "module2",
+      "contributors":[],
       "moduleId" : 2,
       "comments": "comments",
       "updatedAt": 1022022,
@@ -231,7 +235,7 @@ describe('AdminModuleComponent', () => {
     component.paginator.pageSize = 5
     component.paginator.pageIndex = 0
     component.ngOnInit()
-    component.dataSource.data = [{moduleId:-1, moduleName:"Module123", categoryName : "category1", categoryId : 1, categoryStatus: true, active : true, updatedAt : 1022022, comments : "",}]
+    component.dataSource.data = [{moduleId:-1, moduleName:"Module123", categoryName : "category1", categoryId : 1, categoryStatus: true, active : true, updatedAt : 1022022, comments : "",contributors:[]}]
     expect(component.dataSource).toBeTruthy()
     expect(component.isModuleAdded).toBeFalsy();
     component.addModuleRow()
@@ -252,7 +256,7 @@ describe('AdminModuleComponent', () => {
       active: false,
       comments: "comments"
     }
-    row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true}
+    row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true,contributors:[]}
     jest.spyOn(component,"sendDataToStore")
 
     component.saveModule(row)
@@ -300,7 +304,7 @@ describe('AdminModuleComponent', () => {
     expect(component.showError).toHaveBeenCalled()
   });
   it("should throw duplicate error when module is updated with same name", () => {
-    let row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module1", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true}
+    let row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module1", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true, contributors:[]}
     let  moduleRequest : ModuleRequest = {moduleName:"moduleName",moduleId:1,category:1,active:true}
 
     component.ngOnInit();
@@ -331,7 +335,7 @@ describe('AdminModuleComponent', () => {
   it("should throw error when there is a problem while updating module", () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
-    let row = {"categoryName": "category3", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
+    let row = {"categoryName": "category3", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true,"contributors":[]}
 
     component.updateModule(row)
 
@@ -341,7 +345,7 @@ describe('AdminModuleComponent', () => {
   it("should throw error when the category is not present", () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
-    let row = {"categoryName": "category4", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true}
+    let row = {"categoryName": "category4", "categoryId": 2, "categoryStatus" : true, "moduleName": "module2", "moduleId" : 2, "comments": "comments to be edited", "updatedAt": 1022022, "active": true,"contributors":[]}
 
     component.updateModule(row)
 
@@ -352,7 +356,7 @@ describe('AdminModuleComponent', () => {
     jest.spyOn(component,"showError")
     component.ngOnInit()
 
-    row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true}
+    row = {active: true, moduleId: -1, categoryName: "category1",moduleName:"module123", comments: "comments", updatedAt: 1022022, categoryId:1, categoryStatus : true, contributors:[]}
 
     component.saveModule(row)
 

@@ -249,7 +249,7 @@ describe('AssessmentModulesComponent', () => {
       userAssessmentCategories: [{
         categoryId: 0, active: true, categoryName: "Hello", modules: [{
           moduleId: 0, moduleName: "hello", topics: [], category: 0, active: true,
-          updatedAt: 0,
+          updatedAt: 0,contributors:[],
           comments: "",
         }]
       }]
@@ -347,7 +347,7 @@ describe('AssessmentModulesComponent', () => {
     component.category.userAssessmentCategories[0] = {
       categoryId: 1, active: true, categoryName: "Hello", modules: [{
         moduleId: 2, moduleName: "hello", topics: [], category: 0, active: true,
-        updatedAt: 0,
+        updatedAt: 0,contributors:[],
         comments: "",
       }]
     }
