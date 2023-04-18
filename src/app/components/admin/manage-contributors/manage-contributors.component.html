@@ -32,8 +32,8 @@
                        [placeholder]=userEmailPlaceholder
                        [matChipInputFor]="chipList"
                        [matChipInputAddOnBlur]="addOnBlur"
-                       [(ngModel)]="ngModelArray[i]"
-                       (input)="onInputChange(ngModelArray[i], contributor.key)"
+                       [(ngModel)]="ngModelValues[i]"
+                       (input)="onInputChange(ngModelValues[i], contributor.key)"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        (matChipInputTokenEnd)="addContributor($event,contributor.key)">
                 <div class="wrapper">

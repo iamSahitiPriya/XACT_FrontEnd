@@ -37,7 +37,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   contributorFormControllers = [this.authorFormControl, this.reviewerFormControl];
   authorEmail: string = ""
   reviewerEmail: string = ""
-  ngModelArray = [this.authorEmail, this.reviewerEmail]
+  ngModelValues = [this.authorEmail, this.reviewerEmail]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
@@ -184,10 +184,10 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   private resetNgModel(role: string, invalidEmail: string[]) {
     switch (role) {
       case 'AUTHOR':
-        this.ngModelArray[0] = invalidEmail.join(',')
+        this.ngModelValues[0] = invalidEmail.join(',')
         break;
       case 'REVIEWER':
-        this.ngModelArray[1] = invalidEmail.join(',')
+        this.ngModelValues[1] = invalidEmail.join(',')
         break;
     }
   }
