@@ -9,7 +9,6 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
-import {fdatasync} from "fs";
 
 @Component({
   selector: 'app-header',
