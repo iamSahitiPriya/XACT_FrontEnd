@@ -276,17 +276,22 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateQuestion(question: Question, contributorData: ContributorData) {
-    this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response: QuestionStructure) => {
-        question.isEdit = false
-        this.updateToStore(response, contributorData)
-        let questionRequest : ContributorQuestionRequest = {questionId:[question.questionId],comments:question.comments}
-        this.removeAssessedQuestions(questionRequest,contributorData)
-        this.unsavedChanges = cloneDeep(this.contributorData)
-      }, error: _error => {
-        this.showError(this.serverError);
-      }
-    })
+    if(question.question.trimStart().length>0) {
+      this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response: QuestionStructure) => {
+          question.isEdit = false
+          this.updateToStore(response, contributorData)
+          let questionRequest: ContributorQuestionRequest = {
+            questionId: [question.questionId],
+            comments: question.comments
+          }
+          this.removeAssessedQuestions(questionRequest, contributorData)
+          this.unsavedChanges = cloneDeep(this.contributorData)
+        }, error: _error => {
+          this.showError(this.serverError);
+        }
+      })
+    }
   }
 
   showError(message: string) {

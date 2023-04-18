@@ -83,7 +83,7 @@
   border-top-left-radius : 0;
 }
 .contributor-question-content{
-  width: 63%;
+  width: 75%;
 }
 .contributor-question-checkbox-and-input{
   display: flex;
@@ -190,7 +190,7 @@ a.anchor{
 .each-question-contributor-action {
   display: flex;
   flex-direction: row;
-  width: 37%;
+  width: 30%;
   flex-wrap: wrap;
   justify-content: flex-end;
 }

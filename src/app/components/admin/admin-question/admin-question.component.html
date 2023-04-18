@@ -39,9 +39,10 @@
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">
-              <div class="question-text" [ngClass]="{'published-questions': question.status === published || question.status === rejected}">
+              <div class="question-text" [ngClass]="{'published-questions': question.status === published || question.status === rejected ||
+              (question.status === requestedForChange && role === reviewer)}">
 
-                <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
+                <mat-form-field appearance="outline" *ngIf="question.isEdit===true">
                   <mat-label>{{questionText}}</mat-label>
                   <input #input matInput required
                          name="question{{question.questionId}}"
@@ -64,30 +65,30 @@
                   <mat-icon matTooltip="{{question.comments}}">chat</mat-icon>
                 </div>
 
-                <div class="edit-button"
-                     *ngIf="((question.status === sentForReview && question.isEdit === false) ||
-                                (question.status === draft && question.isEdit === false) ||
-                                (question.status === requestedForChange && question.isEdit === false && role === author) )">
-                  <button class="edit-question" id="edit-question" mat-flat-button
-                          [disabled]="question.status === sentForReview && role === author"
-                          (click)="setIsEdit(question)">{{edit}}</button>
-                </div>
 
-
-                <div class="send-for-review-delete-button"
+                <div class="author-action-buttons"
                      *ngIf="((question.status === sentForReview && question.isEdit === false) ||
                                (question.status === draft && question.isEdit === false) ||
                                (question.status === requestedForChange && question.isEdit === false && role === author) )">
 
-                  <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
-                          [disabled]="question.status === sentForReview && role === author"
-                          (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
+                  <div class="edit-button">
+                    <button class="edit-question" id="edit-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === author"
+                            (click)="setIsEdit(question)">{{edit}}</button>
+                  </div>
+
+                 <div class="send-for-review-author-button">
+                   <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
+                           [disabled]="question.status === sentForReview && role === author"
+                           (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
+                 </div>
 
                   <div class="delete-button" *ngIf="role === author">
                     <button mat-flat-button (click)="deleteQuestion(question)" [ngClass]="{'disable-delete-button' : question.status === sentForReview}">
                       <mat-icon id="delete-question">delete</mat-icon>
                     </button>
                   </div>
+
 
                   <div>
                     <div></div>
