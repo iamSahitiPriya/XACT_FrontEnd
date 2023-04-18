@@ -26,23 +26,25 @@
               <mat-label>{{contributor.key.toLowerCase()}}</mat-label>
               <mat-chip-list #chipList aria-label="Email Selection" [formControl]="contributorFormControllers[i]"
                              required>
-                  <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
-                            (removed)="removeContributor(user.userEmail,contributor.key)">
-                    {{user.userEmail}}
-                    <button matChipRemove>
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip>
-                  <input matInput type="text" name="name{{contributor.key}}"  required
-                         maxlength="1200"
-                         id="{{contributor.key}}"
-                         [placeholder]=userEmailPlaceholder
-                         [matChipInputFor]="chipList"
-                         [matChipInputAddOnBlur]="addOnBlur"
-                         [(ngModel)]="ngModelArray[i]"
-                         (input)="onInputChange(ngModelArray[i], contributor.key)"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         (matChipInputTokenEnd)="addContributor($event,contributor.key)">
+                <input matInput type="text" name="name{{contributor.key}}" required
+                       maxlength="1200"
+                       id="{{contributor.key}}"
+                       [placeholder]=userEmailPlaceholder
+                       [matChipInputFor]="chipList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       [(ngModel)]="ngModelArray[i]"
+                       (input)="onInputChange(ngModelArray[i], contributor.key)"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       (matChipInputTokenEnd)="addContributor($event,contributor.key)">
+                <div class="wrapper">
+                    <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
+                              (removed)="removeContributor(user.userEmail,contributor.key)">
+                      {{user.userEmail}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                </div>
               </mat-chip-list>
               <mat-error
                 *ngIf="contributorFormControllers[i].hasError('required')">
