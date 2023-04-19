@@ -361,7 +361,8 @@ export const data_local =
       },
       NO_DATA_PRESENT: "No Questions available to show at this moment",
       duplicateErrorMessage: "Duplicate email found",
-      commonErrorMessage:"Duplicate email found,User can't be both author and reviewer"
+      commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
+      manageText: "Manage Contributors",
     },
     IDLE_STATE: {
       STATE: {

@@ -126,6 +126,9 @@ describe('ContributorAuthorComponent', () => {
 
     }
   }
+  const reload = ()=>{
+    window.location.reload();
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -143,6 +146,12 @@ describe('ContributorAuthorComponent', () => {
     component = fixture.componentInstance;
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
+    Object.defineProperty(window,"location",{
+      configurable:true,
+      value:{
+        reload : jest.fn()
+      }
+    })
     component.masterData = of([{
       "categoryId": 1,
       "categoryName": "category1",
@@ -351,9 +360,11 @@ describe('ContributorAuthorComponent', () => {
   it("it should return isAllQuestionsOpened as false when user clicked on all questions close", () => {
     component.ngOnInit()
 
+    reload();
     component.closeQuestions()
 
     expect(component.isAllQuestionsOpened).toBeFalsy()
+    expect(window.location.reload).toHaveBeenCalled()
   });
 
   it("it should return true when all the question statuses are sent for review", () => {

@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {CategoryStructure} from "../../types/categoryStructure";
 import {BehaviorSubject, Observable, Subject, takeUntil} from "rxjs";
@@ -53,7 +53,7 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   content: string = data_local.ASSESSMENT_CATEGORY.CATEGORY_CONTENT;
   categoryTitle : string = data_local.ASSESSMENT_CATEGORY.CATEGORY
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private router: Router, private store: Store<AppStates>, private _snackBar: MatSnackBar, private _location: Location,private ngZone: NgZone) {
     this.assessmentResponse = this.store.select((storeMap) => storeMap.assessmentState.assessments)
   }
 
@@ -138,9 +138,13 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
   navigate() {
     this.loading = false;
     if (history.state.type === 'table') {
-      this.router.navigateByUrl("assessment/" + this.assessmentId);
+      this.ngZone.run(()=> {
+        this.router.navigateByUrl("assessment/" + this.assessmentId);
+      })
     } else if(history.state.type === 'assessmentHeader'){
-      this.router.navigateByUrl("assessment/" + this.assessmentId,{state:{type :this.modulePage} });
+      this.ngZone.run(()=>{
+        this.router.navigateByUrl("assessment/" + this.assessmentId,{state:{type :this.modulePage} });
+      })
     }else {
       this._location.back();
     }
@@ -174,7 +178,9 @@ export class AssessmentModulesComponent implements OnInit, OnDestroy {
 
   navigateBack() {
     if (history.state.type == 'url') {
-      this.router.navigateByUrl('')
+      this.ngZone.run(()=>{
+        this.router.navigateByUrl('')
+      })
     } else {
       this._location.back()
     }

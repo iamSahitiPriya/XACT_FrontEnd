@@ -39,6 +39,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   reviewerEmail: string = ""
   ngModelValues = [this.authorEmail, this.reviewerEmail]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
+  ManageContributors=data_local.CONTRIBUTOR.manageText;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
 
@@ -159,14 +160,19 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
   private setCommonEmailError(authorIndex: number, reviewerIndex: number, role: string) {
-    if (authorIndex !== -1 && role === 'REVIEWER') {
-      this.reviewerFormControl.setErrors({'invalid': true})
-    } else if (reviewerIndex !== -1 && role === 'AUTHOR') {
-      this.authorFormControl.setErrors({'invalid': true})
-    } else if (authorIndex !== -1 && role === 'AUTHOR') {
-      this.authorFormControl.setErrors({'duplicate': true})
-    } else if (reviewerIndex !== -1 && role === 'REVIEWER') {
-      this.reviewerFormControl.setErrors({'duplicate': true})
+    switch(true){
+      case(authorIndex !== -1 && role === 'REVIEWER'):
+        this.reviewerFormControl.setErrors({'invalid': true})
+        break;
+      case(reviewerIndex !== -1 && role === 'AUTHOR'):
+        this.authorFormControl.setErrors({'invalid': true});
+        break;
+      case(authorIndex !== -1 && role === 'AUTHOR'):
+        this.authorFormControl.setErrors({'duplicate': true});
+        break;
+      case(reviewerIndex !== -1 && role === 'REVIEWER'):
+        this.reviewerFormControl.setErrors({'duplicate': true});
+        break;
     }
   }
 
