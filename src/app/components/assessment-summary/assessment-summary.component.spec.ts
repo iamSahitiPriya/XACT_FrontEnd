@@ -28,7 +28,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AssessmentRadarChartComponent} from "../summary/assessment-radar-chart/assessment-radar-chart.component";
-import {RoadmapBubbleChartComponent} from "../roadmap-bubble-chart/roadmap-bubble-chart.component";
 
 
 describe('AssessmentSunburstChartComponent', () => {

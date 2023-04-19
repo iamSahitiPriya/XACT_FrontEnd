@@ -20,7 +20,7 @@ import * as fromActions from "../../../actions/assessment-data.actions";
 import {ModuleRequest} from "../../../types/Admin/moduleRequest";
 import {ModuleStructure} from "../../../types/moduleStructure";
 import {ModuleResponse} from "../../../types/Admin/moduleResponse";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {ManageContributorsComponent} from "../manage-contributors/manage-contributors.component";
 
 const NOTIFICATION_DURATION = 2000;
