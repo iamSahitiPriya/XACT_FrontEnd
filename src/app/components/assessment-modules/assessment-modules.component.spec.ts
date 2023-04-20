@@ -181,8 +181,6 @@ describe('AssessmentModulesComponent', () => {
     component.saveUserModule()
     component.navigate()
 
-    router.navigateByUrl('assessment/' + component.assessmentId)
-
     expect(router.url).toBe('/')
     mockAppService.updateUserModules().subscribe(data => {
       expect(data).toBe(moduleRequest)
@@ -203,7 +201,6 @@ describe('AssessmentModulesComponent', () => {
 
     component.moduleRequest = moduleRequest
     component.navigate()
-    router.navigateByUrl('/')
 
     expect(router.url).toBe('/')
     expect(component.navigate).toHaveBeenCalled()
@@ -306,7 +303,6 @@ describe('AssessmentModulesComponent', () => {
     const button = fixture.nativeElement.querySelector("#backButton");
     component.navigateBack()
     button.click()
-    router.navigateByUrl('/')
 
     expect(router.url).toBe('/')
     expect(component.navigateBack).toBeCalled();

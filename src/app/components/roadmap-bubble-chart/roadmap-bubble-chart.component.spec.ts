@@ -10,6 +10,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {RecommendationTableComponent} from "../recommendation-table/recommendation-table.component";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 class MockAppService {
 
@@ -62,10 +65,9 @@ describe('RoadmapBubbleChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoadmapBubbleChartComponent, AssessmentSummaryComponent],
-      imports: [HttpClientTestingModule, MatCardModule, MatIconModule, MatTooltipModule],
+      declarations: [RoadmapBubbleChartComponent, AssessmentSummaryComponent, RecommendationTableComponent],
+      imports: [HttpClientTestingModule, MatCardModule, MatIconModule, MatTooltipModule, NgxChartsModule,NoopAnimationsModule, BrowserAnimationsModule],
       providers: [{provide: AppServiceService, useClass: MockAppService}],
-      schemas:[NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   });
@@ -73,7 +75,6 @@ describe('RoadmapBubbleChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoadmapBubbleChartComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges()
     mockAppService = new MockAppService()
   });
 

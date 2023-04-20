@@ -25,7 +25,7 @@ describe('AssessmentRadarChartComponent', () => {
       declarations: [AssessmentRadarChartComponent, AssessmentSummaryComponent],
       imports: [NoopAnimationsModule, MatCardModule, HttpClientTestingModule, NgxChartsModule ,ChartsModule, RouterTestingModule, MatTooltipModule, MatIconModule,
       FormsModule],
-      schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+      schemas:[CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();
 
@@ -42,7 +42,6 @@ describe('AssessmentRadarChartComponent', () => {
         }]
       }]
     }
-    fixture.detectChanges();
   });
 
   it('should create', () => {
