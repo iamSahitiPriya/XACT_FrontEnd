@@ -51,28 +51,31 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
-  sentForReviewText : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
+  sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
-  contributorActionButtonText : string;
+  contributorActionButtonText: string;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   edit: string = data_local.CONTRIBUTOR.EDIT;
   save: string = data_local.CONTRIBUTOR.SAVE;
   author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
+  private approveConfirmationTitle: string = data_local.CONTRIBUTOR.APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT
   noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
-  sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
-  requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
+  sendForReassessment: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange: string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   reviewer: string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
-  published : string = data_local.CONTRIBUTOR.STATUS.PUBLISHED
-  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED
+  published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED
+  rejected: string = data_local.CONTRIBUTOR.STATUS.REJECTED
   action: string;
-  contributorType:string
+  contributorType: string
   search: string = data_local.CONTRIBUTOR.SEARCH_TEXT;
   requestedForChangeText: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REQUESTED_FOR_CHANGE;
   approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+  updateSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.UPDATE
+  approveSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.APPROVE
 
 
-  constructor(public router: Router,public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+  constructor(public router: Router, public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const currentRoute = this.router.url.split('?')[0];
@@ -128,7 +131,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return question;
   }
 
-  private static getContributorData(eachData: ContributorData) :ContributorData{
+  private static getContributorData(eachData: ContributorData): ContributorData {
     return {
       categoryId: eachData.categoryId,
       parameterId: eachData.parameterId,
@@ -164,7 +167,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
 
     dialogRef.componentInstance.onSave.subscribe(response => {
-      if(response) {
+      if (response) {
         this.setQuestionStatus(response, questionRequest)
         this.removeAssessedQuestions(response, data);
       }
@@ -245,7 +248,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.contributorData.push(data)
   }
 
-  evaluateQuestions(contributorData: ContributorData,action : string) {
+  evaluateQuestions(contributorData: ContributorData, action: string) {
     this.action = action
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
@@ -261,7 +264,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateSelectAllStatus(data: ContributorData) {
-    if(this.contributorType === this.author)
+    if (this.contributorType === this.author)
       data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
     else
       data.allSelected = data.questions.every(eachQuestion => eachQuestion.isSelected === true)
@@ -276,11 +279,12 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateQuestion(question: Question, contributorData: ContributorData) {
-    if(question.question.trimStart().length>0) {
+    if (question.question.trimStart().length > 0) {
       this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
         next: (response: QuestionStructure) => {
           question.isEdit = false
           this.updateToStore(response, contributorData)
+          this.contributorType === this.author ? this.showSuccess(this.updateSuccessMessage, NOTIFICATION_DURATION) : this.showSuccess(this.approveSuccessMessage, NOTIFICATION_DURATION);
           let questionRequest: ContributorQuestionRequest = {
             questionId: [question.questionId],
             comments: question.comments
@@ -294,6 +298,19 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateAndApproveQuestion(question: Question, contributorData: ContributorData) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.approveConfirmationTitle;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.updateQuestion(question, contributorData)
+      }
+    })
+  }
+
   showError(message: string) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
@@ -301,6 +318,15 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       verticalPosition: "top",
       horizontalPosition: "center"
     })
+  }
+
+  private showSuccess(data: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
   ngOnDestroy(): void {
@@ -319,7 +345,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
-    if(question.status !== this.sentForReview) {
+    if (question.status !== this.sentForReview) {
       const openConfirm = this.dialog.open(PopupConfirmationComponent, {
         width: '448px',
         height: '203px'
@@ -403,13 +429,13 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   shouldCheckboxBeDisabled(data: ContributorData): boolean {
-    if(this.contributorType === this.author)
+    if (this.contributorType === this.author)
       return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
     else
       return false;
   }
 
-  isStatusValid(status: string) : boolean {
+  isStatusValid(status: string): boolean {
     return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer));
   }
 }

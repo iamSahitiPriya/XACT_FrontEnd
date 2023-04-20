@@ -31,7 +31,7 @@
         </div>
 
         <div class="question-status-heading-text">
-         {{statusStyleMapper.get(question.key)?.displayText}}
+          {{statusStyleMapper.get(question.key)?.displayText}}
         </div>
 
       </div>
@@ -77,14 +77,15 @@
                             (click)="setIsEdit(question)">{{edit}}</button>
                   </div>
 
-                 <div class="send-for-review-author-button">
-                   <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
-                           [disabled]="question.status === sentForReview && role === author"
-                           (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
-                 </div>
+                  <div class="send-for-review-author-button">
+                    <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === author"
+                            (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
+                  </div>
 
                   <div class="delete-button" *ngIf="role === author">
-                    <button mat-flat-button (click)="deleteQuestion(question)" [ngClass]="{'disable-delete-button' : question.status === sentForReview}">
+                    <button mat-flat-button (click)="deleteQuestion(question)"
+                            [ngClass]="{'disable-delete-button' : question.status === sentForReview}">
                       <mat-icon id="delete-question">delete</mat-icon>
                     </button>
                   </div>
@@ -107,7 +108,8 @@
                 </div>
 
 
-                <div class="save-delete-button" *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
+                <div class="save-delete-button"
+                     *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
@@ -118,9 +120,12 @@
                 </div>
                 <div class="update-button"
                      *ngIf="question.isEdit === true && question.questionId !== defaultQuestionId">
-                  <div>
+                  <div *ngIf="role === author">
                     <button class="update-question" mat-flat-button (click)="updateQuestion(question)"
                             [disabled]="!question.questionText">{{update}}</button>
+                  </div>
+                  <div class="approve-action" *ngIf="role === reviewer">
+                      <mat-icon (click)="updateAndApproveQuestion(question)">check</mat-icon>
                   </div>
                   <div class="cancel-button">
                     <button class="cancel-button" (click)="cancelChanges(question)">

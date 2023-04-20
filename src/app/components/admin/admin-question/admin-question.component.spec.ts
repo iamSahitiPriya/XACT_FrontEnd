@@ -13,6 +13,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {Question} from "../../../types/Admin/question";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {ContributorData} from "../../../types/Contributor/ContributorData";
 
 class MockDialog {
   questionResponse = {
@@ -442,4 +443,16 @@ describe('AdminQuestionComponent', () => {
 
     expect(component.action).toBe("REQUESTED_FOR_CHANGE")
   });
+
+  it("should call updateQuestion method when updateAndApproveQuestion method is called", () => {
+    component.role = "REVIEWER"
+    component.ngOnInit()
+    jest.spyOn(component, "updateQuestion")
+    let question : Question = {parameter: 0, questionId: 0, questionText: ""}
+
+    component.updateAndApproveQuestion(question)
+
+    expect(component.updateQuestion).toHaveBeenCalled();
+  });
+
 });

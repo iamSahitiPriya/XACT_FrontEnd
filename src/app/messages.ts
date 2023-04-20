@@ -341,6 +341,15 @@ export const data_local =
       SAVE : "Save",
       QUESTIONS : "Questions",
       CONFIRMATION_POPUP_TEXT: "Are you sure",
+      APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT : "Do you want to approve the question?",
+      NOTIFICATION_MESSAGES : {
+        CREATE : "Questions created successfully!",
+        APPROVE : "Questions approved successfully!",
+        REJECT : "Questions rejected successfully!",
+        UPDATE : "Questions updated successfully!",
+        SENT_FOR_REVIEW : "Questions sent for review successfully!",
+        REQUESTED_FOR_CHANGE : "Questions sent for reassessment successfully!",
+      },
       STATUS : {
         DRAFT : "DRAFT",
         SENT_FOR_REVIEW : "SENT_FOR_REVIEW",
@@ -355,7 +364,6 @@ export const data_local =
           DRAFT: 'Draft',
           CHANGE_REQUESTS : 'Change Requests',
           IN_PROGRESS : 'In Progress',
-
         },
         HOVER_TEXT : {
           APPROVE : 'Approve',

@@ -483,4 +483,16 @@ describe('ContributorAuthorComponent', () => {
     expect(component.isStatusValid("SENT_FOR_REVIEW")).toBeTruthy()
   });
 
+  it("should call updateQuestion method when updateAndApproveQuestion method is called", () => {
+    component.contributorType = "REVIEWER"
+    component.ngOnInit()
+    jest.spyOn(component, "updateQuestion")
+    let question : Question = {comments: "", question: "", questionId: 1}
+    let contributorData : ContributorData = {categoryId: 0, categoryName: "", moduleId: 0, moduleName: "", parameterId: 0, parameterName: "", questions: [], topicId: 0, topicName: ""}
+
+    component.updateAndApproveQuestion(question,contributorData)
+
+    expect(component.updateQuestion).toHaveBeenCalled();
+  });
+
 });

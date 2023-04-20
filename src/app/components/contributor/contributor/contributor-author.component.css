@@ -407,3 +407,12 @@ a.anchor{
   padding-right: 4%;
 }
 
+@media screen and (max-width: 1515px){
+  .contributor-question-content {
+    width: 63%;
+  }
+  .each-question-contributor-action {
+    width: 37%;
+  }
+}
+

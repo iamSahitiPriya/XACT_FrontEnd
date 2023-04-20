@@ -19,7 +19,14 @@
   flex-direction: column;
   width: 100%;
 }
-.question-text p{
+
+.all-questions {
+  max-height: 15vh;
+  min-height: 4vh;
+  overflow-y : scroll;
+}
+
+.question-text{
   font-size: 0.9rem;
   font-family: Inter,sans-serif;
   font-weight: normal;
@@ -27,11 +34,9 @@
   color: #000000;
   text-transform: capitalize;
   opacity: 1;
-  padding-left: 3%;
-}
-.question-text{
   padding-top: 2%;
-  height: 4vh;
+  min-height: 4vh;
+  word-break: break-all;
 }
 .comments-area{
   width: 99%;

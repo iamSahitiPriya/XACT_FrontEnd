@@ -33,6 +33,10 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
   approve : string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
   rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED;
   reject : string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
+  approveSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.APPROVE
+  rejectSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.REJECT
+  sentForReviewSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.SENT_FOR_REVIEW
+  requestedForChangeSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.REQUESTED_FOR_CHANGE
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
@@ -58,6 +62,7 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
     let updatedQuestion : ContributorQuestionRequest = {comments: this.comments, questionId: questionId}
     this.appService.updateQuestionStatus(this.data.moduleId, this.data.action, updatedQuestion).pipe(takeUntil(this.destroy$)).subscribe({
       next : (response) => {
+        this.sendSuccessMessageByActionType()
         this.onSave.emit(response)
       }, error : _error => {
         this.showError(this.serverError);
@@ -73,6 +78,13 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
     this.dialog.closeAll()
   }
 
+  private sendSuccessMessageByActionType() {
+    if (this.data.action === this.published) this.showSuccess(this.approveSuccessMessage, NOTIFICATION_DURATION)
+    else if (this.data.action === this.rejected) this.showSuccess(this.rejectSuccessMessage, NOTIFICATION_DURATION)
+    else if (this.data.action === this.requestedForChange) this.showSuccess(this.requestedForChangeSuccessMessage, NOTIFICATION_DURATION)
+    else if (this.data.action === this.sentForReview) this.showSuccess(this.sentForReviewSuccessMessage, NOTIFICATION_DURATION)
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -85,6 +97,15 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
       verticalPosition: "top",
       horizontalPosition: "center"
     })
+  }
+
+  private showSuccess(data: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
   getClass() {

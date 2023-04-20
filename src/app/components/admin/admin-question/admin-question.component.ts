@@ -72,7 +72,10 @@ export class AdminQuestionComponent implements OnInit {
   private draftedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.DRAFT;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
   changeRequests = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.CHANGE_REQUESTS;
-
+  private approveConfirmationTitle: string = data_local.CONTRIBUTOR.APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT
+  createSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.CREATE
+  updateSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.UPDATE
+  approveSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.APPROVE
 
   defaultQuestionId: number = -1;
   statusMapper = {
@@ -193,6 +196,7 @@ export class AdminQuestionComponent implements OnInit {
           question.isEdit = false
           question.questionId = data.questionId
           this.sendToStore(data)
+          this.showSuccess(this.createSuccessMessage, NOTIFICATION_DURATION)
           this.ngOnInit()
         }, error: _error => {
           this.showError(this.dataNotSaved);
@@ -234,12 +238,23 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
+  private showSuccess(data: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
     if (this.role === this.author || this.role === this.reviewer) {
       this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           question.isEdit = false
+          this.sendToStore(_data)
+          this.role === this.author ? this.showSuccess(this.updateSuccessMessage, NOTIFICATION_DURATION) : this.showSuccess(this.approveSuccessMessage, NOTIFICATION_DURATION);
           this.questionArray = []
           this.ngOnInit()
         }, error: _error => {
@@ -384,7 +399,6 @@ export class AdminQuestionComponent implements OnInit {
         action: this.action
       }
     });
-
     dialogRef.componentInstance.onSave.subscribe(response => {
       if (response) {
         this.updateQuestionStatusMapper(data.questions[0])
@@ -398,15 +412,11 @@ export class AdminQuestionComponent implements OnInit {
         this.sendToStore(question)
         let updatedQuestion: Question = question
         this.mapQuestionToStatus(updatedQuestion)
-
         updatedQuestion.isEdit = false
       }
     })
     dialogRef.afterClosed();
-
     this.setActionByContributorType();
-
-
   }
 
   private updateQuestionStatusMapper(question: ContributorQuestion) {
@@ -453,6 +463,19 @@ export class AdminQuestionComponent implements OnInit {
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
 
+  }
+
+  updateAndApproveQuestion(question: Question) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.approveConfirmationTitle;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.updateQuestion(question)
+      }
+    })
   }
 }
 

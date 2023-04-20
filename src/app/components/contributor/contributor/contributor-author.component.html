@@ -98,7 +98,7 @@
                     </div>
                     <div class="contributor-question-input">
                       <mat-form-field  appearance="outline" class="contributor-input" *ngIf="question.isEdit">
-                        <input #input matInput [(ngModel)]="question.question"/>
+                        <input #input matInput maxlength="2000" [(ngModel)]="question.question"/>
                         <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
 
                       </mat-form-field>
@@ -169,7 +169,7 @@
                   </button>
                 </div>
                 <div *ngIf="contributorType===reviewer" class="approve-action">
-                  <mat-icon [matTooltip]="approve" (click)="updateQuestion(question,response)">check</mat-icon>
+                  <mat-icon [matTooltip]="approve" (click)="updateAndApproveQuestion(question,response)">check</mat-icon>
                 </div>
                 <div class="discard-changes">
                   <mat-icon (click)="cancelChanges()">cancel</mat-icon>
