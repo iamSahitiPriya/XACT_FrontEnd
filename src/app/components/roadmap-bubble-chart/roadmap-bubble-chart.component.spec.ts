@@ -8,7 +8,6 @@ import {MatCardModule} from "@angular/material/card";
 import {of} from "rxjs";
 import {MatIconModule} from "@angular/material/icon";
 import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {RecommendationTableComponent} from "../recommendation-table/recommendation-table.component";

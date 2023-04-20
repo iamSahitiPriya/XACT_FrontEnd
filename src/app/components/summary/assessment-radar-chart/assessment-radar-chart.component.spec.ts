@@ -14,7 +14,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
-import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('AssessmentRadarChartComponent', () => {
   let component: AssessmentRadarChartComponent;
