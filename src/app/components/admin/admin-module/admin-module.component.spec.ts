@@ -376,7 +376,7 @@ describe('AdminModuleComponent', () => {
     jest.spyOn(matDialog,'open')
 
     let button = fixture.nativeElement.querySelector("#add-contributors")
-
+    row.moduleId = 1
     component.addContributors(row)
 
     expect(matDialog.open).toHaveBeenCalled()

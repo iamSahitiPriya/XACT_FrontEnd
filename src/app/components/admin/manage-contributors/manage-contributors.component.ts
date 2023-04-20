@@ -25,8 +25,8 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
   userEmailErrorMessage = data_local.ASSESSMENT.USER_EMAIL.ERROR_MESSAGE;
   userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
-  duplicateEmailErrorMessage =data_local.CONTRIBUTOR.duplicateErrorMessage;
-  commonEmailErrorMessage =data_local.CONTRIBUTOR.commonErrorMessage;
+  duplicateEmailErrorMessage = data_local.CONTRIBUTOR.duplicateErrorMessage;
+  commonEmailErrorMessage = data_local.CONTRIBUTOR.commonErrorMessage;
   private destroy$: Subject<void> = new Subject<void>();
 
 
@@ -39,7 +39,8 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   reviewerEmail: string = ""
   ngModelValues = [this.authorEmail, this.reviewerEmail]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
-  ManageContributors=data_local.CONTRIBUTOR.manageText;
+  ManageContributors = data_local.CONTRIBUTOR.manageText;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
 
@@ -116,6 +117,15 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     return email.length > 0 && email.search(this.emailPattern) !== -1;
   }
 
+  private showNotification(reportData: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
 
   private validateAndAddContributor(email: string, role: string, invalidEmail: string[]) {
     const authorIndex = this.authors.findIndex(author => author.userEmail === email)
@@ -128,7 +138,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
       invalidEmail.push(email)
       this.setCommonEmailError(authorIndex, reviewerIndex, role);
     } else {
-      this.contributors.get(role)?.push(contributor);
+      this.contributors.get(role)?.unshift(contributor);
       this.resetFormControl(role);
     }
     this.resetNgModel(role, invalidEmail);
@@ -160,20 +170,26 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
   private setCommonEmailError(authorIndex: number, reviewerIndex: number, role: string) {
-    switch(true){
-      case(authorIndex !== -1 && role === 'REVIEWER'):
-        this.reviewerFormControl.setErrors({'invalid': true})
+    switch (true) {
+      case(role === 'REVIEWER'):
+        if (this.isPresent(authorIndex)) {
+          this.reviewerFormControl.setErrors({'invalid': true})
+        } else if (this.isPresent(reviewerIndex)) {
+          this.reviewerFormControl.setErrors({'duplicate': true});
+        }
         break;
-      case(reviewerIndex !== -1 && role === 'AUTHOR'):
-        this.authorFormControl.setErrors({'invalid': true});
-        break;
-      case(authorIndex !== -1 && role === 'AUTHOR'):
-        this.authorFormControl.setErrors({'duplicate': true});
-        break;
-      case(reviewerIndex !== -1 && role === 'REVIEWER'):
-        this.reviewerFormControl.setErrors({'duplicate': true});
+      case(role === 'AUTHOR'):
+        if (this.isPresent(reviewerIndex)) {
+          this.authorFormControl.setErrors({'invalid': true});
+        } else if (this.isPresent(authorIndex)) {
+          this.authorFormControl.setErrors({'duplicate': true});
+        }
         break;
     }
+  }
+
+  private isPresent(index: number) {
+    return index !== -1;
   }
 
   private resetFormControl(role: string) {
