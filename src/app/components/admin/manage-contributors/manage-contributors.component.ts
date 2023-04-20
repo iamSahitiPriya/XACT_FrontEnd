@@ -117,15 +117,6 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
     return email.length > 0 && email.search(this.emailPattern) !== -1;
   }
 
-  private showNotification(reportData: string, duration: number) {
-    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
-      data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
-      duration: duration,
-      verticalPosition: "top",
-      horizontalPosition: "center"
-    });
-  }
-
 
   private validateAndAddContributor(email: string, role: string, invalidEmail: string[]) {
     const authorIndex = this.authors.findIndex(author => author.userEmail === email)
