@@ -188,7 +188,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
             let parameterIndex = this.contributorData.findIndex(eachContributorData => eachContributorData.parameterId === contributorData.parameterId)
             if (parameterIndex !== -1) {
               this.contributorData.splice(parameterIndex, 1)
-              this.unsavedChanges.splice(parameterIndex, 1)
+              this.unsavedChanges = cloneDeep(this.contributorData)
             }
           }
         }

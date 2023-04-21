@@ -1,4 +1,4 @@
-.contributor-author-heading h1{
+.contributor-heading h1{
   text-align: left;
   font-size: 2rem;
   font-style: normal;
@@ -190,7 +190,7 @@ a.anchor{
 .each-question-contributor-action {
   display: flex;
   flex-direction: row;
-  width: 30%;
+  width: 36%;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -381,7 +381,6 @@ a.anchor{
 .reviewer-actions {
   display: flex;
   flex-direction: row;
-  flex: auto;
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding-top: 1%;

@@ -25,7 +25,7 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
   sendForReview: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
   cancel: string = data_local.CONTRIBUTOR.CANCEL;
   sentForReview : string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW
-  displayButtonText : string = " " ;
+  displayButtonText : string | undefined= " " ;
   requestedForChange : string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   sendForReassessment : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
   comment: string = data_local.CONTRIBUTOR.COMMENTS;
@@ -37,21 +37,20 @@ export class ReviewDialogComponent implements OnDestroy, OnInit{
   rejectSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.REJECT
   sentForReviewSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.SENT_FOR_REVIEW
   requestedForChangeSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.REQUESTED_FOR_CHANGE
+  statusMapper = {
+    'SENT_FOR_REVIEW' : this.sendForReview,
+    'REQUESTED_FOR_CHANGE': this.sendForReassessment,
+    'PUBLISHED': this.approve,
+    'REJECTED': this.reject
+  };
+  buttonTextMapper = new Map<string,string>(Object.entries(this.statusMapper))
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService : AppServiceService, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
-    if(this.data.action === this.sentForReview)
-      this.displayButtonText = this.sendForReview
-    else if(this.data.action === this.requestedForChange)
-      this.displayButtonText = this.sendForReassessment
-    else if(this.data.action === this.published)
-      this.displayButtonText = this.approve
-    else if(this.data.action === this.rejected)
-      this.displayButtonText = this.reject
-
+    this.displayButtonText = this.buttonTextMapper.get(this.data.action)
   }
 
   evaluateQuestion(question: Question[]) {

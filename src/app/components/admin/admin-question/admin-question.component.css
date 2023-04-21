@@ -58,7 +58,7 @@
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-  width: 50%;
+  width: 52%;
   word-break: break-all;
 }
 
@@ -233,10 +233,9 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  flex: auto;
   justify-content: flex-end;
   height: 6vh;
-  padding-left: 5%;
+  width: 48%;
 }
 
 .status-icon {
@@ -283,10 +282,9 @@
 .reviewer-actions {
   display: flex;
   flex-direction: row;
-  flex: auto;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: 10%;
+  width: 16%;
   padding-bottom: 4%;
 }
 
