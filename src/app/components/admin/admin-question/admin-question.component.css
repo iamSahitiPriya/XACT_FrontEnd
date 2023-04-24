@@ -65,7 +65,7 @@ div.question-button-column {
 .edit-question, .send-question-for-review {
   display: flex;
   flex-direction: row;
-  height: 89%;
+  height: 100%;
   background: #658892 0% 0% no-repeat padding-box;
   border-radius: 8px;
   opacity: 1;
@@ -99,17 +99,13 @@ div.question-button-column {
 }
 
 .edit-button, .send-for-review-button{
-  height: 85%;
+  height: 100%;
 }
 
 .questions{
   overflow-y: scroll;
   height: 40vh;
   margin-left: 17px;
-}
-
-.question-input {
-  width: 100%;
 }
 
 .save-question{
@@ -197,7 +193,7 @@ div.question-button-column {
   border-radius: 6px 48px 0 0;
   border-bottom: none;
   opacity: 1;
-  width: 25%;
+  width: 42%;
   border-width:1px;
   height: 4.5vh;
 
@@ -234,7 +230,7 @@ div.question-button-column {
   flex-direction: row;
   flex: auto;
   justify-content: flex-end;
-  height: 6vh;
+  height: 3.5vh;
 }
 
 .status-icon {

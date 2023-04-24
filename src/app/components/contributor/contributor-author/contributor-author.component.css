@@ -311,22 +311,23 @@ a.anchor{
   height: 90%;
 }
 
-.all-questions app-admin-question >>> .admin-questions .questions {
+::ng-deep .all-questions .app-admin-question .admin-questions .questions {
   height: 75vh;
   overflow-y:scroll;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-status-heading-content {
+::ng-deep .all-questions app-admin-question .admin-questions .question-status-heading-content {
   width: 37%;
   border-width: 1px;
 }
 
-.all-questions app-admin-question >>> .question-heading {
-  padding-bottom: 3%;
+::ng-deep .all-questions .app-admin-question .question-heading {
+  padding-bottom: 2%;
   padding-left: 2%;
+  padding-top: 2%;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-flex {
+::ng-deep .all-questions .app-admin-question ::ng-deep .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-flex {
   width: 36vw!important;
 }
 
@@ -354,11 +355,11 @@ a.anchor{
   color: #45A0AC !important;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+::ng-deep .all-questions app-admin-question ::ng-deep .admin-questions .question-text .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-outline {
+::ng-deep .all-questions app-admin-question ::ng-deep .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
 .no-data-present-container{
