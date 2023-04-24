@@ -103,7 +103,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="categoryRow"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expandedRow"></tr>
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell filter-data" colspan="4">{{dataNotFound}}</td>
+      <td class="mat-cell filter-data" colspan="12" class="no-data">{{dataNotFound}}</td>
     </tr>
   </table>
 

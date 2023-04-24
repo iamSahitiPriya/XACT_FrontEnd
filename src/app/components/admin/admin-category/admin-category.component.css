@@ -240,6 +240,16 @@ button.closeButton {
   padding-left: 25%;
 }
 
+.no-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 18px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 45%;
+}
+
 
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;

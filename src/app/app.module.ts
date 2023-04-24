@@ -108,7 +108,7 @@ import {
 } from './components/summary/assessment-radar-chart/assessment-radar-chart.component';
 import {NgChartsModule} from "ng2-charts";
 import {ContributorConsoleComponent} from './components/contributor/contributor-console/contributor-console.component';
-import {ContributorAuthorComponent} from './components/contributor/contributor-author/contributor-author.component';
+import {ContributorAuthorComponent} from './components/contributor/contributor/contributor-author.component';
 import {ReviewDialogComponent} from './components/contributor/review-dialog/review-dialog.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
@@ -149,7 +149,13 @@ export const appRoutes: Routes = [
       component: ContributorAuthorComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
-    }]
+    },
+      {
+        path: "reviewer",
+        component: ContributorAuthorComponent,
+        pathMatch:'full',
+        canActivate:[OktaAuthGuard]
+      }]
   },
   {
     path:'admin',

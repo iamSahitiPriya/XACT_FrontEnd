@@ -1,4 +1,4 @@
-.contributor-author-heading h1{
+.contributor-heading h1{
   text-align: left;
   font-size: 2rem;
   font-style: normal;
@@ -37,12 +37,12 @@
   font-family: "Inter", sans-serif;
   color: #77969F;
 }
-.contributor-author-header{
+.contributor-header{
   display: flex;
   flex-direction: row;
   padding-bottom: 3%;
 }
-.contributor-author-heading{
+.contributor-heading{
   width: 45%;
 }
 .contributor-search-bar{
@@ -65,7 +65,7 @@
   padding: .1% 1%;
   border-bottom: none;
 }
-.contributor-author{
+.contributor{
   display: flex;
   flex-direction: column;
 }
@@ -83,7 +83,7 @@
   border-top-left-radius : 0;
 }
 .contributor-question-content{
-  width: 80%;
+  width: 75%;
 }
 .contributor-question-checkbox-and-input{
   display: flex;
@@ -143,22 +143,28 @@ a.anchor{
   color: #6F7071;
 }
 
-.question-status-icon {
- padding-left: 10%;
+.question-status-icon , .question-comment-icon{
+ padding-right: 4%;
+  padding-top: 1%;
 }
 
-.question-delete-button {
+.question-delete-button, .disable-delete-button {
   padding-top: 0.5%;
 }
-.question-status-icon .mat-icon {
+
+.question-status-icon .mat-icon, .question-comment-icon .mat-icon {
   color: #416386;
 }
 
 .question-delete-button .mat-icon {
   color: #BD4257;
 }
+
+.disable-delete-button .mat-icon {
+  color: #b2b2b2;
+}
 .contributor-question-input{
-  width: 100%;
+  width: 95%;
 }
 .contributor-input {
   width: 100%;
@@ -181,12 +187,12 @@ a.anchor{
 ::ng-deep .contributor-input .mat-form-field-appearance-outline .mat-form-field-outline{
   height: 6vh !important;
 }
-.contributor-edit-action{
+.each-question-contributor-action {
   display: flex;
   flex-direction: row;
-  width: 30%;
-  justify-content: flex-end;
+  width: 36%;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 .contributor-edit-buttons{
   display: flex;
@@ -208,7 +214,7 @@ a.anchor{
 }
 
 .edit-input .contributor-question-content {
-  width: 80%;
+  width: 95%;
 }
 
 .all-questions-comment {
@@ -222,7 +228,7 @@ a.anchor{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 83.5%;
+  width: 70%;
   height: 4.3vh;
 }
 
@@ -236,9 +242,9 @@ a.anchor{
   width: 60vw;
 }
 
-.all-questions-comment .contributor-send-for-review-button {
-  padding-left: 1%;
-  padding-top: 0.7%;
+.all-questions-comment .contributor-action-button {
+  padding-left: 25%;
+  padding-right: 4%;
 }
 
 .all-questions-comment .discard-changes {
@@ -261,8 +267,8 @@ a.anchor{
 
 .contributor-save-cancel-buttons{
   display: flex;
-  justify-content: flex-end;
-  width: 19%;
+  justify-content: space-evenly;
+  width: 10%;
   margin-bottom: 4%;
 }
 
@@ -311,12 +317,13 @@ a.anchor{
   height: 90%;
 }
 
-.all-questions app-admin-question >>> .admin-questions .questions {
+.all-questions app-admin-question >>> .admin-contributor-questions .questions {
   height: 75vh;
   overflow-y:scroll;
+  padding-bottom: 2%;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-status-heading-content {
+.all-questions app-admin-question >>> .admin-contributor-questions .question-status-heading {
   width: 37%;
   border-width: 1px;
 }
@@ -326,7 +333,7 @@ a.anchor{
   padding-left: 2%;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-flex {
+.all-questions app-admin-question >>> .admin-contributor-questions .question-text .mat-form-field-appearance-outline .mat-form-field-flex {
   width: 36vw!important;
 }
 
@@ -354,11 +361,11 @@ a.anchor{
   color: #45A0AC !important;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+.all-questions app-admin-question >>> .admin-contributor-questions .question-text .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;
 }
 
-.all-questions app-admin-question >>> .admin-questions .question-text .mat-form-field-appearance-outline .mat-form-field-outline {
+.all-questions app-admin-question >>> .admin-contributor-questions .question-text .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #45A0AC !important;
 }
 .no-data-present-container{
@@ -370,3 +377,41 @@ a.anchor{
   word-break: break-all;
   white-space: normal;
 }
+
+.reviewer-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-top: 1%;
+}
+
+.approve-action mat-icon {
+  color: #6B9F78;
+}
+
+.reject-action mat-icon {
+  color: #9B293C;
+}
+
+.select-all-actions{
+  display: flex;
+  width: 30%;
+  justify-content: flex-end;
+  padding-top: 0.7%;
+}
+
+.requested-for-change-status-icon{
+  color: #BE873E;
+  padding-right: 4%;
+}
+
+@media screen and (max-width: 1515px){
+  .contributor-question-content {
+    width: 63%;
+  }
+  .each-question-contributor-action {
+    width: 37%;
+  }
+}
+

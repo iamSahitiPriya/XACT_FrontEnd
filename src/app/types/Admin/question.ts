@@ -7,6 +7,7 @@ export interface Question {
   questionText: string,
   parameter: number,
   status?:string,
-  isEdit ?: boolean
+  isEdit ?: boolean,
+  comments?:string
 }
 

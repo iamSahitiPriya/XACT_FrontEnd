@@ -18,7 +18,7 @@
             <mat-icon>supervisor_account</mat-icon>
             <span class="li-text">{{adminConsole}}</span></a></li>
 
-          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['contributor/author']"
+          <li><a mat-list-icon class="dropdown-item  item" [routerLink]="['contributor/'+contributorRole]"
                  *ngIf="isContributor">
             <mat-icon>supervisor_account</mat-icon>
             <span class="li-text">{{contributor}}</span></a></li>

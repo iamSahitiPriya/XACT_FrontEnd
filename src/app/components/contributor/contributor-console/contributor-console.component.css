@@ -27,7 +27,7 @@
   margin-left:1%;
   width: 15vw;
 }
-.author-active{
+.contributor-active{
   background: #4BA1AC 0 0 no-repeat padding-box;
   color: white !important;
 }
@@ -85,3 +85,4 @@
   width: 100%;
   padding-left: 3%;
 }
+
