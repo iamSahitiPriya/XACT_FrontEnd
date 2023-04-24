@@ -27,8 +27,9 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   userEmailPlaceholder = data_local.ASSESSMENT.USER_EMAIL.PLACEHOLDER;
   duplicateEmailErrorMessage = data_local.CONTRIBUTOR.duplicateErrorMessage;
   commonEmailErrorMessage = data_local.CONTRIBUTOR.commonErrorMessage;
+  author = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  reviewer = data_local.CONTRIBUTOR.ROLE.REVIEWER;
   private destroy$: Subject<void> = new Subject<void>();
-
 
   @ViewChild("chipList1") chipList: any;
   authorFormControl = new FormControl(this.authors);
@@ -40,6 +41,7 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   ngModelValues = [this.authorEmail, this.reviewerEmail]
   errorMessagePopUp = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR;
   ManageContributors = data_local.CONTRIBUTOR.manageText;
+  save: string = data_local.CONTRIBUTOR.SAVE;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private _snackBar: MatSnackBar, private formBuilder: UntypedFormBuilder, private appService: AppServiceService) {
   }
@@ -50,11 +52,11 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
 
   addContributor(event: MatChipInputEvent, role: string) {
     let emails = (event.value).trim().split(',');
-    emails = emails.filter(ele => ele !== '')
+    emails = emails.filter(email => email !== '')
     let invalidEmails: string[] = []
     for (const eachEmail of emails) {
-      if (this.isValid(eachEmail)) {
-        this.validateAndAddContributor(eachEmail, role, invalidEmails);
+      if (this.isAValidPattern(eachEmail)) {
+        this.validateContributor(eachEmail, role, invalidEmails);
       } else {
         invalidEmails.push(eachEmail)
         this.setInvalidPatternError(role, invalidEmails);
@@ -113,33 +115,37 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   }
 
 
-  private isValid(email: string) {
+  private isAValidPattern(email: string) {
     return email.length > 0 && email.search(this.emailPattern) !== -1;
   }
 
 
-  private validateAndAddContributor(email: string, role: string, invalidEmail: string[]) {
+  private validateContributor(email: string, role: string, invalidEmail: string[]) {
     const authorIndex = this.authors.findIndex(author => author.userEmail === email)
-    const reviewerIndex = this.reviewers.findIndex(author => author.userEmail === email)
+    const reviewerIndex = this.reviewers.findIndex(reviewer => reviewer.userEmail === email)
     const contributor: ContributorStructure = {
       userEmail: email,
       role: role
     }
-    if (authorIndex !== -1 || reviewerIndex !== -1) {
+    if (this.isPresent(authorIndex) || this.isPresent(reviewerIndex)) {
       invalidEmail.push(email)
       this.setCommonEmailError(authorIndex, reviewerIndex, role);
     } else {
-      this.contributors.get(role)?.unshift(contributor);
-      this.resetFormControl(role);
+      this.addValidContributor(role, contributor);
     }
     this.resetNgModel(role, invalidEmail);
 
   }
 
+  private addValidContributor(role: string, contributor: ContributorStructure) {
+    this.contributors.get(role)?.unshift(contributor);
+    this.resetFormControl(role);
+  }
+
   private setInvalidPatternError(role: string, invalidEmail: string[]) {
-    if (role === 'AUTHOR') {
+    if (role === this.author) {
       this.authorFormControl.setErrors({'pattern': true})
-    } else if (role === 'REVIEWER') {
+    } else if (role === this.reviewer) {
       this.reviewerFormControl.setErrors({'pattern': true})
     }
     this.resetNgModel(role, invalidEmail)
@@ -148,34 +154,34 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   private formatResponse() {
     if (this.data.contributors !== undefined) {
       this.data.contributors.forEach((eachContributor: ContributorStructure) => {
-        if (eachContributor.role === 'AUTHOR') {
+        if (eachContributor.role === this.author) {
           this.authors.push(eachContributor)
-        } else if (eachContributor.role === 'REVIEWER') {
+        } else if (eachContributor.role === this.reviewer) {
           this.reviewers.push(eachContributor)
         }
       })
 
     }
-    this.contributors.set('AUTHOR', this.authors);
-    this.contributors.set('REVIEWER', this.reviewers);
+    this.contributors.set(this.author, this.authors);
+    this.contributors.set(this.reviewer, this.reviewers);
   }
 
   private setCommonEmailError(authorIndex: number, reviewerIndex: number, role: string) {
-    switch (true) {
-      case(role === 'REVIEWER'):
-        if (this.isPresent(authorIndex)) {
-          this.reviewerFormControl.setErrors({'invalid': true})
-        } else if (this.isPresent(reviewerIndex)) {
-          this.reviewerFormControl.setErrors({'duplicate': true});
-        }
+    switch (role) {
+      case(this.reviewer):
+        this.set(authorIndex, reviewerIndex, this.reviewerFormControl);
         break;
-      case(role === 'AUTHOR'):
-        if (this.isPresent(reviewerIndex)) {
-          this.authorFormControl.setErrors({'invalid': true});
-        } else if (this.isPresent(authorIndex)) {
-          this.authorFormControl.setErrors({'duplicate': true});
-        }
+      case(this.author):
+        this.set(reviewerIndex, authorIndex, this.authorFormControl);
         break;
+    }
+  }
+
+  private set(authorIndex: number, reviewerIndex: number, formControl: FormControl<ContributorStructure[] | null>) {
+    if (this.isPresent(authorIndex)) {
+      formControl.setErrors({'invalid': true})
+    } else if (this.isPresent(reviewerIndex)) {
+      formControl.setErrors({'duplicate': true});
     }
   }
 
@@ -185,10 +191,10 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
 
   private resetFormControl(role: string) {
     switch (role) {
-      case 'AUTHOR':
+      case this.author:
         this.authorFormControl.setValue(this.authors)
         break;
-      case 'REVIEWER':
+      case this.reviewer:
         this.reviewerFormControl.setValue(this.reviewers)
         break;
     }
@@ -196,10 +202,10 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
 
   private resetNgModel(role: string, invalidEmail: string[]) {
     switch (role) {
-      case 'AUTHOR':
+      case this.author:
         this.ngModelValues[0] = invalidEmail.join(',')
         break;
-      case 'REVIEWER':
+      case this.reviewer:
         this.ngModelValues[1] = invalidEmail.join(',')
         break;
     }

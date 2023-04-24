@@ -44,7 +44,7 @@ td.module {
   padding-right: 4em;
 }
 
-.moduleActive {
+.moduleActive ,.module-contributor{
   padding-right: 4em;
 }
 
