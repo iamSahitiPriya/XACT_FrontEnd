@@ -3,7 +3,7 @@
  */
 
 import {Component, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
