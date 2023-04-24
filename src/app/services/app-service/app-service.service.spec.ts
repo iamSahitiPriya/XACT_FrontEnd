@@ -16,6 +16,7 @@ import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {AnswerRequest} from "../../types/answerRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
+import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
 
 describe('AppServiceService', () => {
@@ -100,8 +101,9 @@ describe('AppServiceService', () => {
 
   it("should update particular topic Recommendation", () => {
     let dummyTopicRecommendation: TopicLevelRecommendation = {
-          recommendationId: 1, recommendationText: "some text", impact : "LOW", effort: "MEDIUM", deliveryHorizon:"NOW"}
-    expect(service.saveTopicRecommendation(1,1,dummyTopicRecommendation)).toBeTruthy()
+      recommendationId: 1, recommendationText: "some text", impact: "LOW", effort: "MEDIUM", deliveryHorizon: "NOW"
+    }
+    expect(service.saveTopicRecommendation(1, 1, dummyTopicRecommendation)).toBeTruthy()
   });
 
   it("should delete topic recommendation", () => {
@@ -137,16 +139,16 @@ describe('AppServiceService', () => {
     let assessmentId = 1;
     let parameterId = 1;
     let dummyParameterRecommendation: ParameterLevelRecommendation = {
-          recommendationId: 1,
-          recommendationText: "some text",
-          impact: "HIGH",
-          effort: "LOW",
-          deliveryHorizon: "some more text"
+      recommendationId: 1,
+      recommendationText: "some text",
+      impact: "HIGH",
+      effort: "LOW",
+      deliveryHorizon: "some more text"
     }
-    expect(service.saveParameterRecommendation(assessmentId,parameterId,dummyParameterRecommendation)).toBeTruthy()
+    expect(service.saveParameterRecommendation(assessmentId, parameterId, dummyParameterRecommendation)).toBeTruthy()
   });
   it("should get all categories", () => {
-    expect(service.getAllCategories()).toBeTruthy()
+    expect(service.getAllCategories("")).toBeTruthy()
   });
   it("should save categories", () => {
     let categoryRequest = {
@@ -170,7 +172,7 @@ describe('AppServiceService', () => {
       "categoryId": 1,
       "moduleName": "module",
       "active": true,
-      "category":1
+      "category": 1
     }
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   });
@@ -180,7 +182,7 @@ describe('AppServiceService', () => {
       "categoryId": 1,
       "moduleName": "module",
       "active": true,
-      "category" : 1
+      "category": 1
     }
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   });
@@ -229,11 +231,11 @@ describe('AppServiceService', () => {
     expect(service.getOnlySelectedCategories(1)).toBeTruthy();
   })
   it("should save module", () => {
-    let moduleRequest = {moduleName: "module", active: true, comments: "",category: 1}
+    let moduleRequest = {moduleName: "module", active: true, comments: "", category: 1}
     expect(service.saveModule(moduleRequest)).toBeTruthy();
   })
   it("should update module", () => {
-    let moduleRequest = {moduleName: "module", active: true, comments: "",category:1}
+    let moduleRequest = {moduleName: "module", active: true, comments: "", category: 1}
     expect(service.updateModule(moduleRequest)).toBeTruthy();
   })
 
@@ -267,11 +269,11 @@ describe('AppServiceService', () => {
     expect(service.deleteAssessment(1)).toBeTruthy();
   });
   it("should save parameter", () => {
-    let parameterRequest = {parameterName: "parameter", active: true, comments: "",topic:1}
+    let parameterRequest = {parameterName: "parameter", active: true, comments: "", topic: 1}
     expect(service.saveParameter(parameterRequest)).toBeTruthy();
   })
   it("should update parameter", () => {
-    let parameterRequest = {parameterName: "parameter", active: true, comments: "",topic:2}
+    let parameterRequest = {parameterName: "parameter", active: true, comments: "", topic: 2}
     let parameterId = 1
     expect(service.updateParameter(parameterRequest, parameterId)).toBeTruthy();
   })
@@ -307,11 +309,6 @@ describe('AppServiceService', () => {
     expect(service.saveMasterQuestion(questionRequest)).toBeTruthy()
   });
 
-  it("should update questions", () => {
-    let questionRequest = {questionId: 1, questionText: "new", parameter: 1}
-    let questionId = 1
-    expect(service.updateMasterQuestion(questionId, questionRequest)).toBeTruthy()
-  });
 
   it("should get summary data", () => {
     let assessmentId = 1
@@ -345,7 +342,8 @@ describe('AppServiceService', () => {
   });
 
   it("should send questions for review", () => {
-    expect(service.sendForReview(1, 'Sent_For_Review', '')).toBeTruthy()
+    let request: ContributorQuestionRequest = {comments: "", questionId: []}
+    expect(service.updateQuestionStatus(1, 'Sent_For_Review', request)).toBeTruthy()
   });
 
   it("should delete contributor questions", () => {

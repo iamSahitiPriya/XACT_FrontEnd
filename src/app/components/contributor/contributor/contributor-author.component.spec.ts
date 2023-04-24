@@ -18,6 +18,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
+import {RouterTestingModule} from "@angular/router/testing";
+import {ContributorData} from "../../../types/Contributor/ContributorData";
 
 describe('ContributorAuthorComponent', () => {
   let component: ContributorAuthorComponent;
@@ -30,7 +32,7 @@ describe('ContributorAuthorComponent', () => {
         1
       ],
       "comments": "sdasdas",
-      "status": "Sent_For_Review"
+      "status": "SENT_FOR_REVIEW"
     }
     open() {
       return {
@@ -104,9 +106,10 @@ describe('ContributorAuthorComponent', () => {
     }
 
     getContributorQuestions(role: string) {
-      if (role === 'AUTHOR') {
+      if (role === 'AUTHOR' || role === 'REVIEWER') {
         return of(this.questionResponse)
-      } else {
+      }
+      else {
         return of()
       }
     }
@@ -134,7 +137,7 @@ describe('ContributorAuthorComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ContributorAuthorComponent,Ng2SearchPipe],
       imports: [MatDialogModule, HttpClientTestingModule, MatSnackBarModule, MatFormFieldModule,MatInputModule,MatCheckboxModule,FormsModule,MatCardModule,MatIconModule,
-        StoreModule.forRoot(reducers),BrowserAnimationsModule,NoopAnimationsModule, MatTooltipModule],
+        StoreModule.forRoot(reducers),BrowserAnimationsModule,NoopAnimationsModule, MatTooltipModule,RouterTestingModule],
       providers: [
         {provide: AppServiceService, useClass: MockAppService},{provide: MatDialog, useClass: MockDialog}
       ]
@@ -186,7 +189,16 @@ describe('ContributorAuthorComponent', () => {
               "questionText": "This is a question",
               "isEdit": false,
               "isSelected" : true,
-              "parameter": 1
+              "parameter": 1,
+              "status": "PUBLISHED",
+              "comments" : "comments"
+            },{
+              "questionId": 2,
+              "questionText": "This is a question2",
+              "isEdit": false,
+              "isSelected" : true,
+              "parameter": 1,
+              "status": "SENT_FOR_REVIEW"
             }],
             "userQuestions": [],
             "references": [],
@@ -229,7 +241,8 @@ describe('ContributorAuthorComponent', () => {
       "active": true,
       "updatedAt": 12345,
       "comments": "comment1",
-      "modules": []
+      "modules": [],
+      "isClicked" : true
     }
     ])
 
@@ -259,6 +272,7 @@ describe('ContributorAuthorComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should edit contributor question', () => {
+    component.contributorType = "AUTHOR"
     component.ngOnInit()
     mockAppService.getContributorQuestions('AUTHOR').subscribe(data => {
       expect(data).toBeDefined()
@@ -270,17 +284,36 @@ describe('ContributorAuthorComponent', () => {
 
     expect(component.contributorData.length).toBeGreaterThan(1)
   });
-  it("should send question for review", () => {
+
+  it('should evaluate contributor question when the contributor is reviewer', () => {
+    component.contributorType = "REVIEWER"
     component.ngOnInit()
-    jest.spyOn(component,'sendForReview')
+    mockAppService.getContributorQuestions('REVIEWER').subscribe(data => {
+      expect(data).toBeDefined()
+    })
+
+    let question: Question = {comments: "", question: "hello", questionId: 1, status: "DRAFT"}
+    let contributorData : ContributorData = {categoryId: 1, categoryName: "", moduleId: 1, moduleName: "", parameterId: 1, parameterName: "", questions: [question], topicId: 1, topicName: ""
+    }
+
+    component.evaluateQuestion(question,contributorData,"REQUESTED_FOR_CHANGE")
+
+    expect(component.contributorData.length).toBe(1)
+  });
+
+  it("should send question for review", () => {
+    component.contributorType = "AUTHOR"
+    component.ngOnInit()
+    jest.spyOn(component,'evaluateQuestion')
 
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.sendForReview(question,response)
+    component.evaluateQuestion(question, response, "SENT_FOR_REVIEW")
   });
   it("should cancel changes when click", () => {
     jest.spyOn(component, 'cancelChanges')
+    component.contributorType = "AUTHOR"
     component.ngOnInit()
 
     component.cancelChanges()
@@ -300,19 +333,34 @@ describe('ContributorAuthorComponent', () => {
 
   });
   it("should select all questions and send to review", () => {
-    jest.spyOn(component,'sendAllQuestionsForReview')
+    jest.spyOn(component,'evaluateQuestions')
+    component.contributorType = "AUTHOR"
     component.ngOnInit()
 
     let response = component.contributorData[0]
 
     component.setQuestionsSelectedStatus(true, response)
-    component.sendAllQuestionsForReview(response)
+    component.evaluateQuestions(response,"SENT_FOR_REVIEW")
 
-    expect(component.sendAllQuestionsForReview).toHaveBeenCalled()
+    expect(component.evaluateQuestions).toHaveBeenCalled()
 
   });
   it("should update all questions which are selected", () => {
+    component.contributorType = "AUTHOR"
     jest.spyOn(component, 'updateSelectAllStatus')
+    component.ngOnInit()
+
+    let response = component.contributorData[0]
+
+    component.updateSelectAllStatus(response)
+
+    expect(component.updateSelectAllStatus).toHaveBeenCalled()
+    expect(response.allSelected).toBeTruthy()
+  });
+
+  it("should update all questions which are selected when the contributor is reviewer", () => {
+    jest.spyOn(component, 'updateSelectAllStatus')
+    component.contributorType = "REVIEWER"
     component.ngOnInit()
 
     let response = component.contributorData[0]
@@ -358,6 +406,7 @@ describe('ContributorAuthorComponent', () => {
   });
 
   it("it should return isAllQuestionsOpened as false when user clicked on all questions close", () => {
+    component.contributorType = "AUTHOR"
     component.ngOnInit()
 
     reload();
@@ -368,26 +417,41 @@ describe('ContributorAuthorComponent', () => {
   });
 
   it("it should return true when all the question statuses are sent for review", () => {
+    component.contributorType = "AUTHOR"
     component.ngOnInit()
 
     component.contributorData[0].questions[0].status = "SENT_FOR_REVIEW"
     component.contributorData[0].questions[0].isSelected = false
 
-    let expectedResult = component.isSentForReview(component.contributorData[0])
+    let expectedResult = component.shouldCheckboxBeDisabled(component.contributorData[0])
 
     expect(expectedResult).toBeTruthy()
   });
-  it("should subscribe to an instance after save", () => {
+
+  it("it should return false when all the question statuses are requested for change when contributor is reviewer", () => {
+    component.contributorType = "REVIEWER"
     component.ngOnInit()
-    jest.spyOn(component,'sendForReview')
+
+    component.contributorData[0].questions[0].status = "REQUESTED_FOR_CHANGE"
+    component.contributorData[0].questions[0].isSelected = false
+
+    let expectedResult = component.shouldCheckboxBeDisabled(component.contributorData[0])
+
+    expect(expectedResult).toBeFalsy()
+  });
+
+  it("should subscribe to an instance after save", () => {
+    component.contributorType = "AUTHOR"
+    component.ngOnInit()
+    jest.spyOn(component,'evaluateQuestion')
     jest.spyOn(matDialog,'open')
 
     let question: Question = {comments: "", question: "hello", questionId: 1, status: "Draft"}
     let response = component.contributorData[0]
 
-    component.sendForReview(question,response)
+    component.evaluateQuestion(question, response, "SENT_FOR_REVIEW")
 
-    expect(matDialog.open).toHaveBeenCalled()
+      expect(matDialog.open).toHaveBeenCalled()
   });
 
   it("it should delete question", () => {
@@ -407,6 +471,42 @@ describe('ContributorAuthorComponent', () => {
     component.deleteQuestion(component.contributorData[0].questions[0],component.contributorData[0])
 
     expect(matDialog.open).toHaveBeenCalled()
+  });
+
+  it("should should isClicked properties of all questions to false except selected question", () => {
+    component.contributorType = "AUTHOR"
+    component.ngOnInit()
+    let contributorData : ContributorData = component.contributorData[0]
+
+    component.isCardClicked(contributorData)
+
+    expect(component.contributorData[1].isClicked).toBeFalsy()
+  });
+
+  it("should return false when all the questions are selected", () => {
+    component.contributorType = "AUTHOR"
+    component.ngOnInit()
+    let contributorData : ContributorData = component.contributorData[0]
+
+    expect(component.isQuestionIndeterminate(contributorData)).toBeFalsy()
+  });
+
+  it("should return true when the status is valid", () => {
+    component.contributorType = "AUTHOR"
+
+    expect(component.isStatusValid("SENT_FOR_REVIEW")).toBeTruthy()
+  });
+
+  it("should call updateQuestion method when updateAndApproveQuestion method is called", () => {
+    component.contributorType = "REVIEWER"
+    component.ngOnInit()
+    jest.spyOn(component, "updateQuestion")
+    let question : Question = {comments: "", question: "", questionId: 1}
+    let contributorData : ContributorData = {categoryId: 0, categoryName: "", moduleId: 0, moduleName: "", parameterId: 0, parameterName: "", questions: [], topicId: 0, topicName: ""}
+
+    component.updateAndApproveQuestion(question,contributorData)
+
+    expect(component.updateQuestion).toHaveBeenCalled();
   });
 
 });

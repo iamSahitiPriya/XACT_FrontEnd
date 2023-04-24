@@ -18,14 +18,11 @@ import {Store} from "@ngrx/store";
 import {CategoryResponse} from "../../../types/categoryResponse";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {QuestionStructure} from "../../../types/questionStructure";
+import {Router} from "@angular/router";
+import {ContributorQuestionRequest} from "../../../types/Contributor/ContributorQuestionRequest";
+import {ContributorQuestionResponse} from "../../../types/Contributor/ContributorQuestionResponse";
 
 const NOTIFICATION_DURATION = 2000;
-
-interface QuestionResponse {
-  questionId: number[],
-  comments: string
-  status: string
-}
 
 @Component({
   selector: 'app-contributor-author',
@@ -54,24 +51,45 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   allQuestions: string = data_local.CONTRIBUTOR.ALL_QUESTIONS;
   selectAll: string = data_local.CONTRIBUTOR.SELECT_ALL;
   sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
-  sentForReviewText : string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
+  sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
+  contributorActionButtonText: string;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
   edit: string = data_local.CONTRIBUTOR.EDIT;
   save: string = data_local.CONTRIBUTOR.SAVE;
   author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
+  private approveConfirmationTitle: string = data_local.CONTRIBUTOR.APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT
   noDataPresentText: string = data_local.CONTRIBUTOR.NO_DATA_PRESENT;
+  sendForReassessment: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange: string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
+  reviewer: string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED
+  rejected: string = data_local.CONTRIBUTOR.STATUS.REJECTED
+  action: string;
+  contributorType: string
+  search: string = data_local.CONTRIBUTOR.SEARCH_TEXT;
+  requestedForChangeText: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REQUESTED_FOR_CHANGE;
+  approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+  updateSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.UPDATE
+  approveSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.APPROVE
 
-  constructor(public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+
+  constructor(public router: Router, public dialog: MatDialog, private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const currentRoute = this.router.url.split('?')[0];
+      const path = currentRoute.split('/').pop() || '';
+      this.contributorType = path.toUpperCase();
+    })
   }
 
   ngOnInit(): void {
+    this.setActionByContributorType();
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
-    this.appService.getContributorQuestions(this.author).subscribe((data) => {
+    this.appService.getContributorQuestions(this.contributorType).subscribe((data) => {
       this.unsavedChanges = []
       this.contributorResponse = data
       this.formatResponse()
@@ -79,12 +97,22 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     })
   }
 
+  private setActionByContributorType() {
+    if (this.contributorType === this.author) {
+      this.contributorActionButtonText = this.sendForReviewText
+      this.action = this.sentForReview;
+    } else {
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
+    }
+  }
+
   editQuestion(question: Question) {
     this.contributorData = []
     this.unsavedChanges.forEach(eachContributorData => {
-      let contributorData = this.getContributorData(eachContributorData);
+      let contributorData = ContributorAuthorComponent.getContributorData(eachContributorData);
       eachContributorData.questions.forEach(eachQuestion => {
-        let formattedQuestion = this.getFormattedQuestion(eachQuestion);
+        let formattedQuestion = ContributorAuthorComponent.getFormattedQuestion(eachQuestion);
         if (eachQuestion.questionId === question.questionId)
           formattedQuestion.isEdit = true;
         contributorData.questions.push(formattedQuestion)
@@ -93,7 +121,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getFormattedQuestion(eachQuestion: Question) {
+  private static getFormattedQuestion(eachQuestion: Question) {
     let question: Question = {comments: "", isEdit: false, question: "", questionId: -1, status: ""}
     question.question = eachQuestion.question
     question.questionId = eachQuestion.questionId
@@ -103,7 +131,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return question;
   }
 
-  private getContributorData(eachData: ContributorData) :ContributorData{
+  private static getContributorData(eachData: ContributorData): ContributorData {
     return {
       categoryId: eachData.categoryId,
       parameterId: eachData.parameterId,
@@ -119,7 +147,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     };
   }
 
-  sendForReview(question: Question, response: ContributorData) {
+  evaluateQuestion(question: Question, response: ContributorData, action: string) {
+    this.action = action
     let questionRequest: Question[] = []
     questionRequest.push(question)
     this.openReviewDialog(questionRequest, response);
@@ -129,26 +158,50 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '64vw',
       data: {
-        role: this.author.toLowerCase(),
+        role: this.contributorType.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
+        action: this.action
       }
     });
+
+
     dialogRef.componentInstance.onSave.subscribe(response => {
-      this.setQuestionStatus(response, questionRequest)
-      this.sendToStore(response, data)
+      if (response) {
+        this.setQuestionStatus(response, questionRequest)
+        this.removeAssessedQuestions(response, data);
+      }
     })
     dialogRef.afterClosed().subscribe(() => {
       this.resetCheckbox(questionRequest, data)
     })
+    this.setActionByContributorType()
+  }
+
+  private removeAssessedQuestions(questionRequest: ContributorQuestionRequest, contributorData: ContributorData) {
+    if (this.contributorType === this.reviewer) {
+      questionRequest.questionId.forEach((eachQuestion: number) => {
+        let index = contributorData.questions.findIndex(question => question.questionId === eachQuestion)
+        if (index !== -1) {
+          contributorData.questions.splice(index, 1)
+          if (contributorData.questions.length === 0) {
+            let parameterIndex = this.contributorData.findIndex(eachContributorData => eachContributorData.parameterId === contributorData.parameterId)
+            if (parameterIndex !== -1) {
+              this.contributorData.splice(parameterIndex, 1)
+              this.unsavedChanges = cloneDeep(this.contributorData)
+            }
+          }
+        }
+      })
+    }
   }
 
   cancelChanges() {
     this.contributorData = []
     this.unsavedChanges.forEach(eachData => {
-      let data = this.getContributorData(eachData);
+      let data = ContributorAuthorComponent.getContributorData(eachData);
       eachData.questions.forEach(eachQuestion => {
-        let question = this.getFormattedQuestion(eachQuestion);
+        let question = ContributorAuthorComponent.getFormattedQuestion(eachQuestion);
         data.questions.push(question)
       })
       this.contributorData.push(data)
@@ -195,7 +248,8 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.contributorData.push(data)
   }
 
-  sendAllQuestionsForReview(contributorData: ContributorData) {
+  evaluateQuestions(contributorData: ContributorData, action: string) {
+    this.action = action
     let question: Question[] = []
     contributorData.questions.forEach(eachQuestion => {
       if (eachQuestion.isSelected) {
@@ -210,25 +264,49 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   updateSelectAllStatus(data: ContributorData) {
-    data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
+    if (this.contributorType === this.author)
+      data.allSelected = data.questions.every(eachQuestion => ((eachQuestion.isSelected === true && eachQuestion.status === this.draft) || (eachQuestion.isSelected === false && eachQuestion.status === this.sentForReview)));
+    else
+      data.allSelected = data.questions.every(eachQuestion => eachQuestion.isSelected === true)
   }
 
   setQuestionsSelectedStatus(isSelected: boolean, data: ContributorData) {
     data.allSelected = true
     data.questions.forEach(eachQuestion => {
-      if (eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
+      if (this.contributorType === this.author && eachQuestion.status === this.sentForReview) eachQuestion.isSelected = false
       else eachQuestion.isSelected = isSelected
     });
   }
 
   updateQuestion(question: Question, contributorData: ContributorData) {
-    this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response: QuestionStructure) => {
-        question.isEdit = false
-        this.updateToStore(response, contributorData)
-        this.unsavedChanges = cloneDeep(this.contributorData)
-      }, error: _error => {
-        this.showError(this.serverError);
+    if (question.question.trimStart().length > 0) {
+      this.appService.updateQuestion(question.questionId, question.question).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response: QuestionStructure) => {
+          question.isEdit = false
+          this.updateToStore(response, contributorData)
+          this.contributorType === this.author ? this.showSuccess(this.updateSuccessMessage, NOTIFICATION_DURATION) : this.showSuccess(this.approveSuccessMessage, NOTIFICATION_DURATION);
+          let questionRequest: ContributorQuestionRequest = {
+            questionId: [question.questionId],
+            comments: question.comments
+          }
+          this.removeAssessedQuestions(questionRequest, contributorData)
+          this.unsavedChanges = cloneDeep(this.contributorData)
+        }, error: _error => {
+          this.showError(this.serverError);
+        }
+      })
+    }
+  }
+
+  updateAndApproveQuestion(question: Question, contributorData: ContributorData) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.approveConfirmationTitle;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.updateQuestion(question, contributorData)
       }
     })
   }
@@ -242,13 +320,22 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     })
   }
 
+  private showSuccess(data: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  private setQuestionStatus(response: QuestionResponse, questions: Question[] | QuestionStructure[]) {
-    response.questionId.forEach((eachResponse) => {
+  private setQuestionStatus(response: ContributorQuestionResponse, questions: Question[] | QuestionStructure[]) {
+    response.questionId.forEach((eachResponse: number) => {
       let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
         questions[index].status = response.status
@@ -258,34 +345,35 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
   }
 
   deleteQuestion(question: Question, response: ContributorData) {
-    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-      width: '448px',
-      height: '203px'
-    });
-    openConfirm.componentInstance.text = this.confirmationTitle;
-    openConfirm.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.appService.deleteQuestion(question.questionId).subscribe({
-          next: () => {
-            let index = response.questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
-            if (index !== -1)
-              response.questions.splice(index, 1)
-          },
-          error: () => {
-            this.showError(this.serverError)
-          }
-        })
-      }
-    })
-
+    if (question.status !== this.sentForReview) {
+      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+        width: '448px',
+        height: '203px'
+      });
+      openConfirm.componentInstance.text = this.confirmationTitle;
+      openConfirm.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.appService.deleteQuestion(question.questionId).subscribe({
+            next: () => {
+              let index = response.questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
+              if (index !== -1)
+                response.questions.splice(index, 1)
+            },
+            error: () => {
+              this.showError(this.serverError)
+            }
+          })
+        }
+      })
+    }
   }
 
   showAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
-    this.parameterData = this.getParameterData(response)
+    this.parameterData = ContributorAuthorComponent.getParameterData(response)
   }
 
-  private getParameterData(data: ContributorData) {
+  private static getParameterData(data: ContributorData) {
     return {
       categoryId: data.categoryId,
       categoryName: data.categoryName,
@@ -320,18 +408,13 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     return this.categoryResponse[categoryIndex].modules[moduleIndex].topics[topicIndex].parameters[parameterIndex]?.questions
   }
 
-  private sendToStore(response: QuestionResponse, data: ContributorData) {
-    let questions: QuestionStructure[] = this.getQuestionsFromContributorData(data)
-    this.setQuestionStatus(response, questions)
-  }
-
-  private updateToStore(questionRequest: QuestionStructure, contributorData: ContributorData) {
+  private updateToStore(question: QuestionStructure, contributorData: ContributorData) {
     let questions: QuestionStructure[] = this.getQuestionsFromContributorData(contributorData)
-    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === questionRequest.questionId)
+    let questionIndex = questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
     if (questionIndex !== -1) {
-      questions[questionIndex].questionText = questionRequest.questionText
-      questions[questionIndex].status = questionRequest.status
-      questions[questionIndex].parameter = questionRequest.parameter
+      questions[questionIndex].questionText = question.questionText
+      questions[questionIndex].status = question.status
+      questions[questionIndex].parameter = question.parameter
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
@@ -345,7 +428,14 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     data.allSelected = false
   }
 
-  isSentForReview(data: ContributorData): boolean {
-    return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
+  shouldCheckboxBeDisabled(data: ContributorData): boolean {
+    if (this.contributorType === this.author)
+      return data.questions.every(eachQuestion => eachQuestion.status === this.sentForReview);
+    else
+      return false;
+  }
+
+  isStatusValid(status: string): boolean {
+    return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer));
   }
 }

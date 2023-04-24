@@ -179,6 +179,16 @@ tr.expandedTopicRow {
   color: #658892;
 }
 
+.no-data {
+  border-bottom-color: transparent;
+  font-family: 'Inter', sans-serif;
+  text-transform: capitalize;
+  font-size: 18px;
+  padding-top: 17px;
+  word-break: break-word;
+  padding-left: 45%;
+}
+
 button.closeTopicButton {
   background: none;
   border: none;

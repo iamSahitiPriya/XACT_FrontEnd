@@ -2,14 +2,16 @@
   <div class="question-title">
     <h2 class="question-heading">{{questions}}</h2>
   </div>
+  <div class="all-questions">
   <div *ngFor="let questionData of data.question; let i=index">
     <div class="question-text">
-      <p>{{i+1}}. {{questionData.question}}</p>
+      {{i + 1}}. {{questionData.question}}
     </div>
+  </div>
   </div>
   <div class="question-comment">
     <mat-form-field class="comments-area" appearance="outline" id="testForm">
-      <mat-label>Comments {{inputWarningLabel}}</mat-label>
+      <mat-label>{{comment}} {{inputWarningLabel}}</mat-label>
       <textarea matInput name="textarea"
                 id="assessmentAnswer"
                 [(ngModel)]="comments"
@@ -21,9 +23,10 @@
     </mat-form-field>
   </div>
   <div class="action-items">
-    <div>
-      <button mat-flat-button class="send-for-review-button" (click)="sendToReview(data.question)">
-        {{sendForReview}}
+    <div class="author-reviewer-actions">
+      <button mat-flat-button class="author-reviewer-actions-button" [ngClass]="getClass()"
+              (click)="evaluateQuestion(data.question)">
+        {{displayButtonText}}
       </button>
     </div>
     <div>

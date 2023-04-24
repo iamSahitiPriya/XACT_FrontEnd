@@ -19,7 +19,14 @@
   flex-direction: column;
   width: 100%;
 }
-.question-text p{
+
+.all-questions {
+  max-height: 15vh;
+  min-height: 4vh;
+  overflow-y : scroll;
+}
+
+.question-text{
   font-size: 0.9rem;
   font-family: Inter,sans-serif;
   font-weight: normal;
@@ -27,11 +34,9 @@
   color: #000000;
   text-transform: capitalize;
   opacity: 1;
-  padding-left: 3%;
-}
-.question-text{
   padding-top: 2%;
-  height: 4vh;
+  min-height: 4vh;
+  word-break: break-all;
 }
 .comments-area{
   width: 99%;
@@ -44,7 +49,7 @@
 ::ng-deep .comments-area .mat-form-field-appearance-outline .mat-form-field-wrapper >> .mat-form-field-appearance-outline .mat-form-field-flex{
   height: 11vh !important;
 }
-.send-for-review-button{
+.author-reviewer-actions-button{
   height: 0;
   background: #043D4E 0 0 no-repeat padding-box;
   border-radius: 3px;
@@ -75,8 +80,7 @@
 .action-items{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 28%;
+  justify-content: flex-start;
 }
 .question-comment{
   padding-bottom: 1%;
@@ -89,3 +93,15 @@
    color: #45A0AC !important;
  }
 
+.publish-button{
+  background-color: #6B9F78;
+}
+.default-button{
+  background-color: #043D4E;
+}
+.reject-button{
+  background-color: #9B293C;
+}
+.author-reviewer-actions{
+  padding-right: 4%;
+}

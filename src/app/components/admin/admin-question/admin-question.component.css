@@ -28,13 +28,13 @@
   font-size: 25px;
 }
 
-div.question-button-column {
+.add-question {
   display: flex;
   justify-content: flex-end;
   margin-left: 2px;
 }
 
-.question-button1 {
+.add-question-button {
   width: 20%;
   height: 50px;
   background: #4BA1AC 0 0 no-repeat padding-box;
@@ -58,7 +58,7 @@ div.question-button-column {
   letter-spacing: 0.36px;
   color: #043D4E;
   opacity: 1;
-  width: 48%;
+  width: 52%;
   word-break: break-all;
 }
 
@@ -83,9 +83,10 @@ div.question-button-column {
   display: flex;
   justify-content: flex-end;
 }
-.save-button{
+.save-delete-button{
   padding-top: 20px;
   height: 6vh;
+  display: flex;
 }
 
 .update-button{
@@ -98,13 +99,15 @@ div.question-button-column {
   padding-right: 5%;
 }
 
-.edit-button, .send-for-review-button{
-  height: 100%;
+.edit-button, .author-action-buttons{
+  height: 85%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .questions{
   overflow-y: scroll;
-  height: 40vh;
+  height: 46vh;
   margin-left: 17px;
 }
 
@@ -125,6 +128,7 @@ div.question-button-column {
 }
 
 .delete-question, .cancel-button{
+  padding-left: 1%;
   border: none;
   background: transparent;
 }
@@ -183,7 +187,7 @@ div.question-button-column {
 .question-draft{
   border: 1px solid #5D9EAA;
 }
-.question-status-heading-content{
+.question-status-heading{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -193,12 +197,13 @@ div.question-button-column {
   border-radius: 6px 48px 0 0;
   border-bottom: none;
   opacity: 1;
-  width: 42%;
+  width: 28%;
+  padding-top: 0.2%;
   border-width:1px;
   height: 4.5vh;
 
 }
-.question-status-heading{
+.question-status-heading-text{
   text-align: left;
   font-family: Inter, serif;
   font-size: 1rem;
@@ -217,19 +222,19 @@ div.question-button-column {
   padding-top: 1%;
 }
 
-.admin-questions {
+.admin-contributor-questions {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   flex: auto;
 }
 
-.question-edit-update {
+.question-action-buttons {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  flex: auto;
   justify-content: flex-end;
+  width: 48%;
   height: 3.5vh;
 }
 
@@ -238,8 +243,15 @@ div.question-button-column {
   padding-top: 2%;
 }
 
-.status-icon .sent-for-review mat-icon {
+.status-icon .sent-for-review-and-reassessment mat-icon {
   color: #BE873E;
+}
+.status-icon .rejected mat-icon{
+  color: #e91e63;
+}
+
+.status-icon .draft mat-icon{
+  color: #043D4E;
 }
 
 .status-icon .published mat-icon {
@@ -254,10 +266,59 @@ div.question-button-column {
   padding-right: 2%;
 }
 
-.question-status {
+.questions-text {
   background: #F4FAFC 0 0 no-repeat padding-box;
+  padding-top: 1%;
 }
 
 .published-questions {
-  width: 100%;
+  width: 90%;
+}
+.question-comments{
+  padding-top: 2%;
+  padding-right: 1%;
+  color: #043D4E;
+}
+.reviewer-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 16%;
+  padding-bottom: 4%;
+}
+
+.approve-action mat-icon {
+  color: #6B9F78;
+}
+
+.reject-action mat-icon {
+  color: #9B293C;
+}
+
+.reviewer-actions button {
+  background-color: transparent;
+  border: none;
+  width: 30px;
+}
+
+.disable-delete-button .mat-icon {
+  color: #b2b2b2;
+}
+.send-for-review-author-button{
+  height: 85%;
+}
+
+@media screen and (max-width: 1515px) {
+  .question-text {
+    width: 47%;
+  }
+
+  .question-action-buttons {
+    padding-left: 0%;
+  }
+
+  .published-questions {
+    width: 90%;
+  }
 }
