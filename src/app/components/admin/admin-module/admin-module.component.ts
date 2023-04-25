@@ -343,7 +343,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   addContributors(module: ModuleData) {
     if(module.moduleId !== -1) {
-      const dialogRef = this.matDialog.open(ManageContributorsComponent, {
+      this.matDialog.open(ManageContributorsComponent, {
         data: module,
         width: '40vw',
         maxWidth: '60vw',

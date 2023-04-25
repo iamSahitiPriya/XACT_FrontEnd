@@ -169,18 +169,18 @@ export class ManageContributorsComponent implements OnInit, OnDestroy {
   private setCommonEmailError(authorIndex: number, reviewerIndex: number, role: string) {
     switch (role) {
       case(this.reviewer):
-        this.set(authorIndex, reviewerIndex, this.reviewerFormControl);
+        this.setInvalidAndDuplicateError(authorIndex, reviewerIndex, this.reviewerFormControl);
         break;
       case(this.author):
-        this.set(reviewerIndex, authorIndex, this.authorFormControl);
+        this.setInvalidAndDuplicateError(reviewerIndex, authorIndex, this.authorFormControl);
         break;
     }
   }
 
-  private set(authorIndex: number, reviewerIndex: number, formControl: FormControl<ContributorStructure[] | null>) {
-    if (this.isPresent(authorIndex)) {
+  private setInvalidAndDuplicateError(index1: number, index2: number, formControl: FormControl<ContributorStructure[] | null>) {
+    if (this.isPresent(index1)) {
       formControl.setErrors({'invalid': true})
-    } else if (this.isPresent(reviewerIndex)) {
+    } else if (this.isPresent(index2)) {
       formControl.setErrors({'duplicate': true});
     }
   }
