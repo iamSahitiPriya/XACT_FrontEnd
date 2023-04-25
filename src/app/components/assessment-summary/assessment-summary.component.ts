@@ -501,7 +501,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 4000);
     await new Promise(f => setTimeout(f, 100));
     htmlToImage.toPng(image.nativeElement, {backgroundColor: 'white'})
-      .then(dataUrl => {
+      .then((dataUrl: any) => {
         this.downloadLink.nativeElement.href = dataUrl;
         this.downloadLink.nativeElement.download = imageName + '-chart.png';
         this.downloadLink.nativeElement.click();

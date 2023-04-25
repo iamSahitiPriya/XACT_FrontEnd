@@ -84,10 +84,7 @@
       <th class="category" mat-header-cell *matHeaderCellDef></th>
       <td class="category" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="selectedCategory?.categoryId===row.categoryId && row.categoryId !== -1">
-                  <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                                 src="../../assets/closeIcon/closeIcon.svg"
-                                                                                 alt="close icon"
-                                                                                 class="closeIcon"/></button>
+                  <button class="closeButton" (click)="cancelChanges(row)"> <mat-icon>cancel</mat-icon></button>
         </span>
         <span *ngIf="row.isEdit">
                     <button mat-flat-button class="delete" (click)="deleteRow()">

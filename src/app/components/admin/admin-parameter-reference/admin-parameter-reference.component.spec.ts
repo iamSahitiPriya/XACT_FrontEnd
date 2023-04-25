@@ -69,6 +69,7 @@ describe('AdminParameterReferenceComponent', () => {
       "modules": [{
         "moduleId": 1,
         "moduleName": 'module1',
+        "contributors":[],
         "category": 1,
         "active": false,
         "updatedAt": 23456,
@@ -145,6 +146,7 @@ describe('AdminParameterReferenceComponent', () => {
         "moduleName": 'module1',
         "category": 1,
         "active": false,
+        "contributors":[],
         "updatedAt": 23456,
         "comments": " ",
         "topics": [{
@@ -377,6 +379,7 @@ describe('AdminParameterReferenceComponent', () => {
       "modules": [{
         "moduleId": 1,
         "moduleName": 'module1',
+        "contributors":[],
         "category": 1,
         "active": false,
         "updatedAt": 23456,

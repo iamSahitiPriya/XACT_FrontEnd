@@ -219,7 +219,8 @@ export const data_local =
       MODULE: {
         ADD_MODULE: "Add Module",
         SELECT_MODULE: "Select Module",
-        MODULE_INPUT_TEXT: "Enter Module Name",
+        MODULE_INPUT_TEXT: "Enter Module Name", CONTRIBUTORS: "Contributors"
+
       },
       TOPIC: {
         ADD_TOPIC: "Add Topic",
@@ -380,7 +381,11 @@ export const data_local =
       AUTHOR : {
         SEND_FOR_REVIEW : "Send for Review",
       },
-      NO_DATA_PRESENT: "No Questions available to show at this moment"
+      NO_DATA_PRESENT: "No Questions available to show at this moment",
+      duplicateErrorMessage: "Duplicate email found",
+      commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
+      manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation'
+
     },
     IDLE_STATE: {
       STATE: {

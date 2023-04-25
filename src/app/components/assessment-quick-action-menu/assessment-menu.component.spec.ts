@@ -77,6 +77,9 @@ describe('AssessmentMenuComponent', () => {
     }
 
   }
+  const reload = ()=>{
+    window.location.reload();
+  }
 
   const assessmentData = {
     assessmentPurpose: "",
@@ -121,7 +124,12 @@ describe('AssessmentMenuComponent', () => {
     matDialog = fixture.debugElement.injector.get(MatDialog)
     mockAppService = new MockAppService();
     fixture.autoDetectChanges();
-
+    Object.defineProperty(window,"location",{
+      configurable:true,
+      value:{
+        reload : jest.fn()
+      }
+    })
   });
 
   it('should create', () => {
@@ -198,6 +206,7 @@ describe('AssessmentMenuComponent', () => {
     fixture.detectChanges();
     button = dom.querySelector("#menu-button");
     button.click();
+    reload();
     let deleteButton = dom.parentNode.querySelector('#delete-assessment');
     deleteButton.click();
     component.deleteAssessment(1)
@@ -205,6 +214,7 @@ describe('AssessmentMenuComponent', () => {
       expect(_data).toBe(1)
     })
     expect(component.deleteAssessment).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalled();
     tick();
     flush()
     flushMicrotasks();

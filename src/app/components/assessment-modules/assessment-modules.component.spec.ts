@@ -181,8 +181,6 @@ describe('AssessmentModulesComponent', () => {
     component.saveUserModule()
     component.navigate()
 
-    router.navigateByUrl('assessment/' + component.assessmentId)
-
     expect(router.url).toBe('/')
     mockAppService.updateUserModules().subscribe(data => {
       expect(data).toBe(moduleRequest)
@@ -203,7 +201,6 @@ describe('AssessmentModulesComponent', () => {
 
     component.moduleRequest = moduleRequest
     component.navigate()
-    router.navigateByUrl('/')
 
     expect(router.url).toBe('/')
     expect(component.navigate).toHaveBeenCalled()
@@ -249,7 +246,7 @@ describe('AssessmentModulesComponent', () => {
       userAssessmentCategories: [{
         categoryId: 0, active: true, categoryName: "Hello", modules: [{
           moduleId: 0, moduleName: "hello", topics: [], category: 0, active: true,
-          updatedAt: 0,
+          updatedAt: 0,contributors:[],
           comments: "",
         }]
       }]
@@ -306,7 +303,6 @@ describe('AssessmentModulesComponent', () => {
     const button = fixture.nativeElement.querySelector("#backButton");
     component.navigateBack()
     button.click()
-    router.navigateByUrl('/')
 
     expect(router.url).toBe('/')
     expect(component.navigateBack).toBeCalled();
@@ -347,7 +343,7 @@ describe('AssessmentModulesComponent', () => {
     component.category.userAssessmentCategories[0] = {
       categoryId: 1, active: true, categoryName: "Hello", modules: [{
         moduleId: 2, moduleName: "hello", topics: [], category: 0, active: true,
-        updatedAt: 0,
+        updatedAt: 0,contributors:[],
         comments: "",
       }]
     }

@@ -44,7 +44,7 @@ td.module {
   padding-right: 4em;
 }
 
-.moduleActive {
+.moduleActive ,.module-contributor{
   padding-right: 4em;
 }
 
@@ -198,7 +198,15 @@ tr.eachRow {
 .mat-slide-toggle.mat-disabled {
   opacity: 1 !important;
 }
-
+th.mat-header-cell:nth-child(4){
+  padding-right: 7rem;
+}
+th.mat-header-cell:nth-child(5){
+  padding-right: 4rem;
+}
+td.module:nth-child(5){
+  text-align: center;
+}
 .admin-searchBar {
   width: 75%;
   padding-left: 27%;
@@ -242,4 +250,9 @@ tr.eachRow {
 
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent, .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
   color: #45A0AC !important;
+}
+::ng-deep .no-of-person-badge .mat-badge-content{
+  background-color: #C4C8D066 !important;
+  color: #043D4E !important;
+  border:1px solid #C3CED1;
 }

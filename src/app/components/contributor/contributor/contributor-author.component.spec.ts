@@ -129,6 +129,9 @@ describe('ContributorAuthorComponent', () => {
 
     }
   }
+  const reload = ()=>{
+    window.location.reload();
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -146,16 +149,24 @@ describe('ContributorAuthorComponent', () => {
     component = fixture.componentInstance;
     matDialog = fixture.debugElement.injector.get(MatDialog)
     fixture.detectChanges();
+    Object.defineProperty(window,"location",{
+      configurable:true,
+      value:{
+        reload : jest.fn()
+      }
+    })
     component.masterData = of([{
       "categoryId": 1,
       "categoryName": "category1",
       "active": true,
+      "contributors":[],
       "updatedAt": 12345,
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
         "moduleName": 'module1',
         "category": 1,
+        "contributors":[],
         "active": false,
         "updatedAt": 23456,
         "comments": " ",
@@ -219,6 +230,7 @@ describe('ContributorAuthorComponent', () => {
           "moduleName": 'module2',
           "category": 1,
           "active": false,
+          "contributors":[],
           "updatedAt": 23456,
           "comments": " ",
           "topics": []
@@ -397,9 +409,11 @@ describe('ContributorAuthorComponent', () => {
     component.contributorType = "AUTHOR"
     component.ngOnInit()
 
+    reload();
     component.closeQuestions()
 
     expect(component.isAllQuestionsOpened).toBeFalsy()
+    expect(window.location.reload).toHaveBeenCalled()
   });
 
   it("it should return true when all the question statuses are sent for review", () => {

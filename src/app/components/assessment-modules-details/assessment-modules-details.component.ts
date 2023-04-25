@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {TopicStructure} from "../../types/topicStructure";
@@ -58,7 +58,7 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   isReloaded: boolean = true;
 
 
-  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog, public router: Router) {
+  constructor(private appService: AppServiceService, private route: ActivatedRoute, private store: Store<AppStates>, private dialog: MatDialog, public router: Router,private ngZone: NgZone) {
     this.answer = this.store.select((storeMap) => storeMap.assessmentState.assessments)
     this.route.queryParams.subscribe(params => {
       this.selectedCategoryId = params['category'];
@@ -85,18 +85,20 @@ export class AssessmentModulesDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateParamToUri(queryParamHandlingStrategy: QueryParamHandling) {
-    this.router.navigate(
-      [],  // Remain on current route
-      {
-        relativeTo: this.route,
-        queryParams: {
-          category: this.selectedCategoryId,
-          module: this.moduleSelected,
-          topic: this.selectedTopicId,
-          scrollToElement: undefined,
-        },
-        queryParamsHandling: queryParamHandlingStrategy
-      });
+   this.ngZone.run(()=> {
+     this.router.navigate(
+       [],  // Remain on current route
+       {
+         relativeTo: this.route,
+         queryParams: {
+           category: this.selectedCategoryId,
+           module: this.moduleSelected,
+           topic: this.selectedTopicId,
+           scrollToElement: undefined,
+         },
+         queryParamsHandling: queryParamHandlingStrategy
+       });
+   });
   }
 
   ngOnInit() {

@@ -62,6 +62,7 @@ class MockAppService {
       "moduleName": 'module1',
       "category": 1,
       "active": false,
+      "contributors":[],
       "updatedAt" : 23456,
       "comments" : " ",
       "topics" : [{
@@ -98,6 +99,7 @@ class MockAppService {
       "comments": "comment3",
       "modules": [{
         "moduleId": 1,
+        "contributors":[],
         "moduleName": 'module1',
         "category": 1,
         "active": false,
@@ -315,6 +317,7 @@ describe('AdminParameterComponent', () => {
       "modules": [{
         "moduleId": 1,
         "moduleName": 'module1',
+        "contributors":[],
         "category": 1,
         "active": false,
         "updatedAt": 23456,
@@ -655,6 +658,7 @@ describe('AdminParameterComponent', () => {
       "modules": [{
         "moduleId": 1,
         "moduleName": 'module1',
+        "contributors":[],
         "category": 1,
         "active": false,
         "updatedAt": 23456,

@@ -17,6 +17,7 @@ import {AnswerRequest} from "../../types/answerRequest";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
+import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -347,6 +348,12 @@ describe('AppServiceService', () => {
 
   it("should delete contributor questions", () => {
     expect(service.deleteQuestion(1)).toBeTruthy()
+  });
+  it("should save contributors", () => {
+    let contributorRequest : ManageContributorRequest ={
+      contributors:[]
+    }
+    expect(service.saveContributors(contributorRequest,1)).toBeTruthy()
   });
 });
 

@@ -3,6 +3,7 @@
  */
 
 import {TopicStructure} from "./topicStructure";
+import {ContributorStructure} from "./Contributor/ContributorStructure";
 
 export interface ModuleStructure {
   moduleId: number,
@@ -11,5 +12,6 @@ export interface ModuleStructure {
   active:boolean,
   updatedAt : number,
   comments ?: string,
+  contributors:ContributorStructure[]
   topics: TopicStructure[]
 }

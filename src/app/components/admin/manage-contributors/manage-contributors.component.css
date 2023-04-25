@@ -1,0 +1,72 @@
+.main-container, .heading-container, .author-reviewer-container{
+  display: flex;
+  flex-direction: column;
+}
+.contributor-heading h1{
+  text-align: left;
+  font-size: 1.3rem;
+  font-family: Inter, serif;
+  font-style: normal;
+  letter-spacing: 0.36px;
+  color: #043D4E;
+  opacity: 1;
+}
+.contributor-heading{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.module-heading h1{
+  text-align: left;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-family: Inter, serif;
+  letter-spacing: 0.15px;
+  color: #000000;
+  opacity: 1;
+}
+.author-heading-container h3, .reviewer-heading-container h3{
+  text-align: left;
+  font-size: 1rem;
+  font-style: normal;
+  font-family: Inter, serif;
+  letter-spacing: 0.15px;
+  color: #000000;
+  opacity: 1;
+  text-transform: capitalize;
+}
+.add-contributor{
+  width: 100%;
+}
+.add-contributor mat-label{
+  text-transform: capitalize;
+}
+.save-button-container button{
+  background: #003D4F 0 0 no-repeat padding-box;
+  border-radius: 3px;
+  opacity: 1;
+  color: #FFFFFF;
+}
+.save-button-container{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+.contributor-email {
+  background: #FFFFFF 0 0 no-repeat padding-box;
+  border: 1px solid #69A4AF;
+  letter-spacing: .18px;
+  color: #000;
+  opacity: 1;
+  margin: 1px 1px 0;
+}
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  overflow-y: scroll;
+  width: 100%;
+  max-height: 7.5vh;
+}

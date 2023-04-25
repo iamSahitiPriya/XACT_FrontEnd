@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {of, throwError} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {AnswerRequest} from "../../types/answerRequest";
+import {UserQuestionAnswerComponent} from "../user-additional-question/user-question-answer.component";
 
 
 describe('AssessmentQuestionComponent', () => {
@@ -45,7 +46,7 @@ describe('AssessmentQuestionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentQuestionComponent],
+      declarations: [AssessmentQuestionComponent, UserQuestionAnswerComponent],
 
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers),
