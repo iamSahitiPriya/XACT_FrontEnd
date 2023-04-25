@@ -50,7 +50,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
+  displayedColumns: string[] =['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -149,13 +149,15 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           categoryName: eachCategory.categoryName,
           active: eachCategory.active
         })
+        let module:ModuleRequest[]=[];
         eachCategory.modules?.forEach(eachModule => {
           if (this.path === 'admin') {
-            this.setModules(eachModule, eachCategory);
+            this.setModules(eachModule,module, eachCategory);
           } else if (this.path === 'contributor') {
+            this.displayedColumns=  ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','edit','reference'];
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
             if (contributor?.role === 'AUTHOR') {
-              this.setModules(eachModule, eachCategory);
+              this.setModules(eachModule,module, eachCategory);
             }
           }
         })
@@ -164,8 +166,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
 
-  private setModules(eachModule: ModuleStructure,eachCategory: CategoryResponse) {
-    let module:ModuleRequest[]=[];
+  private setModules(eachModule: ModuleStructure,module :ModuleRequest[],eachCategory: CategoryResponse) {
     this.moduleAndTopic.set(eachModule.moduleId, [])
     module.push({
       moduleId: eachModule.moduleId,

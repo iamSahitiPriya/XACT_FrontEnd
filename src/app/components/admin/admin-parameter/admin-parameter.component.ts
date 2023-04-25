@@ -146,13 +146,14 @@ export class AdminParameterComponent implements OnInit {
           categoryName: eachCategory.categoryName,
           active: eachCategory.active
         })
+        let modules: ModuleRequest [] = [];
         eachCategory.modules?.forEach(eachModule => {
           if (this.path === 'admin') {
-            this.setModules(eachModule, eachCategory);
+            this.setModules(eachModule, modules,eachCategory);
           } else if (this.path === 'contributor') {
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
             if (contributor?.role === 'AUTHOR') {
-              this.setModules(eachModule, eachCategory);
+              this.setModules(eachModule,  modules,eachCategory);
             }
           }
         })
@@ -160,8 +161,7 @@ export class AdminParameterComponent implements OnInit {
     })
   }
 
-  private setModules(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
-    let modules: ModuleRequest [] = [];
+  private setModules(eachModule: ModuleStructure, modules :ModuleRequest[],eachCategory: CategoryResponse) {
     this.moduleAndTopic.set(eachModule.moduleId, [])
     modules.push({
       moduleId: eachModule.moduleId,
