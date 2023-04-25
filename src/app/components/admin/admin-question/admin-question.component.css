@@ -211,9 +211,10 @@
   font-size: 1rem;
   letter-spacing: 0.28px;
   color: #000000;
-  padding-top: 3%;
+  padding-top: 2.5%;
   padding-left: 6%;
   padding-bottom: 5%;
+  width: 88%;
   opacity: 1;
 }
 .question-container{
@@ -243,6 +244,7 @@
 .status-icon {
   padding-left: 3%;
   padding-top: 2%;
+  width: 12%;
 }
 
 .status-icon .sent-for-review-and-reassessment mat-icon {
