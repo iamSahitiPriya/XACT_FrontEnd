@@ -28,6 +28,7 @@ import {TopicResponse} from "../../../types/Admin/topicResponse";
 import {TopicStructure} from "../../../types/topicStructure";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
+import {Router} from "@angular/router";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -90,21 +91,25 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
   loggedInUser: Observable<User>
   loggedInUserEmail: string
+  path : string ;
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+  constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.topicData = []
     this.dataSource = new MatTableDataSource<TopicData>(this.topicData)
     this.dataToDisplayed = [...this.dataSource.data]
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const currentRoute = this.router.url.split('?')[0];
+      const path = currentRoute.split('/');
+      this.path =path[1];
+    })
   }
 
   ngOnInit(): void {
     this.categoryList = []
     this.masterData.subscribe(data => {
-      this.loggedInUser.subscribe(email => {
-        this.loggedInUserEmail = email.email
         if (data !== undefined) {
           this.categories = data
           data.forEach(eachCategory => {
@@ -113,7 +118,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           this.sortTopic();
         }
       })
-    })
   }
 
   sortTopic() {
@@ -137,29 +141,42 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
-    let module: ModuleRequest [] = [];
-    this.categoryList.push({
-      categoryId: eachCategory.categoryId,
-      categoryName: eachCategory.categoryName,
-      active: eachCategory.active
-    })
-    eachCategory.modules?.forEach(eachModule => {
-      let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail)
-      if (contributor !== undefined && contributor.role !== 'REVIEWER') {
-        this.moduleAndTopic.set(eachModule.moduleId, [])
-        module.push({
-          moduleId: eachModule.moduleId,
-          moduleName: eachModule.moduleName,
-          active: eachModule.active,
-          category: eachModule.category
+    this.loggedInUser.subscribe(email => {
+      this.loggedInUserEmail = email.email
+      if(email.email.length >0) {
+        this.categoryList.push({
+          categoryId: eachCategory.categoryId,
+          categoryName: eachCategory.categoryName,
+          active: eachCategory.active
         })
-        this.categoryAndModule.set(eachCategory.categoryId, module)
-        if (eachModule.topics) {
-          this.fetchTopics(eachModule, eachCategory);
-        }
+        eachCategory.modules?.forEach(eachModule => {
+          if (this.path === 'admin') {
+            this.setModules(eachModule, eachCategory);
+          } else if (this.path === 'contributor') {
+            let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
+            if (contributor?.role === 'AUTHOR') {
+              this.setModules(eachModule, eachCategory);
+            }
+          }
+        })
       }
     })
-    console.log(this.categoryAndModule)
+  }
+
+
+  private setModules(eachModule: ModuleStructure,eachCategory: CategoryResponse) {
+    let module:ModuleRequest[]=[];
+    this.moduleAndTopic.set(eachModule.moduleId, [])
+    module.push({
+      moduleId: eachModule.moduleId,
+      moduleName: eachModule.moduleName,
+      active: eachModule.active,
+      category: eachModule.category
+    })
+    this.categoryAndModule.set(eachCategory.categoryId, module)
+    if (eachModule.topics) {
+      this.fetchTopics(eachModule, eachCategory);
+    }
   }
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
@@ -193,6 +210,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       topic.comments = eachTopic.comments
       this.topicData.push(topic)
     })
+    this.sortTopic();
   }
 
   addTopicRow() {

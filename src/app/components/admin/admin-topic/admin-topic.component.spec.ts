@@ -23,6 +23,7 @@ import {TopicData} from "../../../types/topicData";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {OKTA_AUTH, OKTA_CONFIG, OktaAuthStateService} from "@okta/okta-angular";
 
 class MockAppService {
   topic: TopicStructure = {
@@ -139,7 +140,10 @@ describe('AdminTopicComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AdminTopicComponent, SearchComponent],
       imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog}],
+      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog},
+        {provide: OKTA_CONFIG, useValue: 23},
+        {provide: OKTA_AUTH, useValue: 23},
+        {provide: OktaAuthStateService, useValue: 23},],
     })
       .compileComponents();
   });
@@ -173,7 +177,7 @@ describe('AdminTopicComponent', () => {
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
-        "contributors":[],
+        "contributors": [],
         "moduleName": 'module1',
         "category": 1,
         "active": false,
@@ -197,8 +201,19 @@ describe('AdminTopicComponent', () => {
           "active": false,
           "parameters": [],
           "references": []
-        }]
-      }]
+        }],
+      },
+        {
+          "moduleId": 1,
+          "contributors":[],
+          "moduleName": 'module1',
+          "topics":[],
+          "category": 1,
+          "active": false,
+          "updatedAt": 23456,
+          "comments": " ",
+        },
+      ]
     }, {
       "categoryId": 3,
       "categoryName": "category3",
@@ -238,6 +253,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should get topic data", () => {
+    component.path='admin';
     component.ngOnInit()
     expect(component.topicData[0].topicName).toBe("topic2")
   });

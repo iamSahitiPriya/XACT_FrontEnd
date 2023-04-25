@@ -14,7 +14,7 @@ import {ParameterData} from "../../../types/ParameterData";
 import {TopicStructure} from "../../../types/topicStructure";
 import {cloneDeep} from "lodash";
 import {Store} from "@ngrx/store";
-import {AppStates} from "../../../reducers/app.states";
+import {AppStates, User} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CategoryRequest} from "../../../types/Admin/categoryRequest";
@@ -23,6 +23,7 @@ import {TopicRequest} from "../../../types/Admin/topicRequest";
 import {ParameterRequest} from "../../../types/Admin/parameterRequest";
 import {ParameterResponse} from "../../../types/Admin/parameterResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
+import {Router} from "@angular/router";
 
 
 const NOTIFICATION_DURATION = 5000;
@@ -84,13 +85,22 @@ export class AdminParameterComponent implements OnInit {
   dataNotFound = data_local.ADMIN.DATA_NOT_FOUND;
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+  path : string;
+  loggedInUser: Observable<User>
+  loggedInUserEmail: string
 
 
-  constructor(private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
+  constructor(private router :Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []
+    this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.dataSource = new MatTableDataSource<ParameterData>(this.parameterData)
-    this.dataToDisplayed = [...this.dataSource.data]
+    this.dataToDisplayed = [...this.dataSource.data];
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const currentRoute = this.router.url.split('?')[0];
+      const path = currentRoute.split('/');
+      this.path =path[1];
+    })
   }
 
   ngOnInit(): void {
@@ -128,20 +138,41 @@ export class AdminParameterComponent implements OnInit {
   }
 
   private fetchModules(eachCategory: CategoryResponse) {
-    let modules: ModuleRequest [] = [];
-    this.categoryList.push({
-      categoryId: eachCategory.categoryId,
-      categoryName: eachCategory.categoryName,
-      active: eachCategory.active
-    })
-    eachCategory.modules?.forEach(eachModule => {
-      this.moduleAndTopic.set(eachModule.moduleId, [])
-      modules.push({moduleId: eachModule.moduleId, moduleName: eachModule.moduleName, active: eachModule.active, category : eachCategory.categoryId})
-      this.categoryAndModule.set(eachCategory.categoryId, modules)
-      if (eachModule.topics) {
-        this.fetchTopics(eachModule, eachCategory);
+    this.loggedInUser.subscribe(email => {
+      this.loggedInUserEmail = email.email
+      if(email.email.length >0) {
+        this.categoryList.push({
+          categoryId: eachCategory.categoryId,
+          categoryName: eachCategory.categoryName,
+          active: eachCategory.active
+        })
+        eachCategory.modules?.forEach(eachModule => {
+          if (this.path === 'admin') {
+            this.setModules(eachModule, eachCategory);
+          } else if (this.path === 'contributor') {
+            let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
+            if (contributor?.role === 'AUTHOR') {
+              this.setModules(eachModule, eachCategory);
+            }
+          }
+        })
       }
     })
+  }
+
+  private setModules(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
+    let modules: ModuleRequest [] = [];
+    this.moduleAndTopic.set(eachModule.moduleId, [])
+    modules.push({
+      moduleId: eachModule.moduleId,
+      moduleName: eachModule.moduleName,
+      active: eachModule.active,
+      category: eachCategory.categoryId
+    })
+    this.categoryAndModule.set(eachCategory.categoryId, modules)
+    if (eachModule.topics) {
+      this.fetchTopics(eachModule, eachCategory);
+    }
   }
 
   private fetchTopics(eachModule: ModuleStructure, eachCategory: CategoryResponse) {
@@ -190,6 +221,7 @@ export class AdminParameterComponent implements OnInit {
       }
       this.parameterData.push(parameter)
     })
+    this.sortParameter();
   }
 
   addParameterRow() {

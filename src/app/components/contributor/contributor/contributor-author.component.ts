@@ -89,7 +89,6 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
-    if(this.contributorType == 'AUTHOR' || this.contributorType == 'REVIEWER') {
       this.appService.getContributorQuestions(this.contributorType).subscribe((data) => {
         this.unsavedChanges = []
         this.contributorResponse = data
@@ -97,7 +96,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
         this.unsavedChanges = cloneDeep(this.contributorData)
       })
     }
-  }
+
 
   private setActionByContributorType() {
     if (this.contributorType === this.author) {
