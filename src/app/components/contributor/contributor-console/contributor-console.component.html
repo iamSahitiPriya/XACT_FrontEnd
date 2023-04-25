@@ -7,7 +7,7 @@
       </div>
       <mat-card-actions>
         <div class="author" *ngIf="isAuthor">
-          <button mat-button class="author-button" (click)="setEvent(author.toLowerCase())"
+          <button mat-button class="author-button"
                   [ngClass]="{'contributor-active':type === author.toLowerCase()}"
                   [routerLink]="['/contributor/author']">
             <div class="author-icon">
@@ -19,9 +19,11 @@
               </div>
             </div>
           </button>
+          <button [routerLink]="['/contributor/topic']">Topic</button>
+          <button [routerLink]="['/contributor/parameter']">Parameter</button>
         </div>
         <div class="reviewer" *ngIf="isReviewer">
-          <button mat-button class="author-button" (click)="setEvent(reviewer.toLowerCase())"
+          <button mat-button class="author-button"
                   [ngClass]="{'contributor-active':type === reviewer.toLowerCase()}"
                   [routerLink]="['/contributor/reviewer']">
             <div class="reviewer-icon">

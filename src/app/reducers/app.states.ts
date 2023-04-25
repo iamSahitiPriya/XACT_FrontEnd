@@ -10,8 +10,11 @@ export interface AppStates {
   assessmentState: AssessmentState;
   computedScore: ComputedScore
   masterData : MasterData
+  loggedInUserEmail:User
 }
-
+export interface User{
+  email:string
+}
 export interface AssessmentState {
   assessments: AssessmentStructure;
 

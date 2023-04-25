@@ -188,7 +188,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
 
     this.arrowColor = "orange"
 
-    let width = 800;
+    let width = 900;
     let breadCrumbId = document.getElementById("sequence")
     this.initializeBreadcrumbTrail(breadCrumbId)
 
@@ -213,16 +213,15 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     const svg = d3.select("#chart")
       .attr("width", width)
       .append("svg")
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr('viewBox', '0 0 ' + 580 + ' ' + 900)
-      .style("font", "10px sans-serif")
+
+      .attr('viewBox', [0, 0, width,width])
+      .style("font", "0.9rem sans-serif")
       .classed("svg-content-responsive", true);
 
 
     const vis = svg.append("svg:g")
       .attr("id", "container")
-      .attr("transform", `translate(290,480)`);
+      .attr("transform", `translate(${width/2},${width/2})`);
 
     d3.select("#container").on("mouseleave", this.onMouseleave);
 

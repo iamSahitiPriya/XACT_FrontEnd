@@ -9,6 +9,9 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import * as fromActions from "../../actions/assessment-data.actions";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../reducers/app.states";
 
 @Component({
   selector: 'app-header',
@@ -30,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input()
   userRole: Observable<string []>
+  private loggedInUserEmail: string;
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService: AppServiceService) {
   }

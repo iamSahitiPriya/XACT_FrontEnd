@@ -31,6 +31,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
     })
+    this.store.dispatch(fromActions.loggedInUser({role: this.contributor.toLowerCase()}))
   }
 
   ngOnInit(): void {
@@ -40,8 +41,6 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       if (data.includes(this.reviewer))
         this.isReviewer = true
     })
-    this.store.dispatch(fromActions.loggedInUser({role: this.contributor.toLowerCase()}))
-
   }
 
   setEvent(type: string) {

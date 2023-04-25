@@ -45,7 +45,6 @@
 
 .sunBurst {
   width: 99%;
-  height: 750px;
   margin-top: -75px;
   text-align: center;
   display: inline-flex;
@@ -54,7 +53,6 @@
 .dashboard {
   display: flex;
   width: 98%;
-  height: 95%;
   justify-content: flex-end;
 }
 
@@ -153,7 +151,6 @@
 
 .chart-card {
   width: 82%;
-  height: 830px;
   margin-left: 9%;
 }
 

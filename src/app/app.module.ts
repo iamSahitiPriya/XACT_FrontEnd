@@ -144,51 +144,62 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path:'contributor',
-    component:ContributorConsoleComponent,
-    children:[{
+    path: 'contributor',
+    component: ContributorConsoleComponent,
+    children: [{
       path: "author",
       component: ContributorAuthorComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
+      children: [],
     },
+      {
+        path: "topic",
+        component: AdminTopicComponent,
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
+      }, {
+        path: "parameter",
+        component: AdminParameterComponent,
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
+      },
       {
         path: "reviewer",
         component: ContributorAuthorComponent,
-        pathMatch:'full',
-        canActivate:[OktaAuthGuard]
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
       }]
   },
   {
-    path:'admin',
-    component:AdminConsoleComponent,
-    children:[{
-      path:"category",
-      component:AdminCategoryComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"dashboard",
-      component:AdminDashboardComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"module",
-      component:AdminModuleComponent,
-      canActivate:[OktaAuthGuard]
+    path: 'admin',
+    component: AdminConsoleComponent,
+    children: [{
+      path: "category",
+      component: AdminCategoryComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "dashboard",
+      component: AdminDashboardComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "module",
+      component: AdminModuleComponent,
+      canActivate: [OktaAuthGuard]
 
-    },{
-      path:"topic",
-      component:AdminTopicComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"parameter",
-      component:AdminParameterComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
+    }, {
+      path: "topic",
+      component: AdminTopicComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "parameter",
+      component: AdminParameterComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
     }
-    ]}];
+    ]
+  }];
 
 @NgModule({
   declarations: [
