@@ -31,6 +31,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
   @Input() topic: TopicData;
   @Input() category: number
   @Input() module: number
+  @Input() role:string
 
   categories: CategoryResponse[]
   topicId: number | undefined

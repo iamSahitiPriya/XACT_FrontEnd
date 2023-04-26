@@ -340,6 +340,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
         questions[index].status = response.status
+        questions[index].comments = response.comments
       }
     })
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))

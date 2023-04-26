@@ -131,7 +131,7 @@ export class AdminQuestionComponent implements OnInit {
 
 
   private setActionByContributorType() {
-    if (this.role === this.author) {
+    if (this.role === this.author || this.role === 'contributor') {
       this.contributorActionButtonText = this.sendForReviewText
       this.action = this.sentForReview;
       this.statusStyleMapper.set(this.sentForReview, {
@@ -189,7 +189,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0 && this.role == this.author) {
+    if (question.questionText.trimStart().length > 0 && (this.role === this.author || this.role === 'contributor')) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {

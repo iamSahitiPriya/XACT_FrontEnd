@@ -7,4 +7,5 @@ export interface QuestionStructure {
   questionText: string,
   status?:string,
   parameter: number,
+  comments?:string
 }
