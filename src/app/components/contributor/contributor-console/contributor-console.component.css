@@ -92,15 +92,17 @@
 
 .reviewer-label {
   padding-left: 7%;
-  padding-top:2px;
+  padding-top: 2px;
 }
 
 .contributor-router {
   width: 100%;
   padding-left: 3%;
+  height:100%;
+  overflow-y: scroll;
 }
 
-.example-tree-invisible {
+.author-tree-invisible {
   display: none;
 }
 
@@ -110,7 +112,7 @@
 
 .author-tree .mat-nested-tree-node div[role=group] {
   padding-left: 17px;
-  margin-top:-5px;
+  margin-top: -5px;
 }
 
 .parameter-icon {
@@ -122,11 +124,12 @@
   display: inline-block;
 }
 
-.contributor-active .parameter-icon{
+.contributor-active .parameter-icon {
   background: transparent url("src/assets/admin-dashboard/Group 3733.svg") 0% 0% no-repeat padding-box;
   display: inline-block;
 }
-.author-menu-button{
+
+.author-menu-button {
   height: 5vh;
   text-align: left;
   font-style: normal;

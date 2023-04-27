@@ -13,8 +13,8 @@
                       [ngClass]="{'contributor-active':type === node.name.toLowerCase()}">
                 <div class="author-icon">
                 <div class="icon-author">
-                  <mat-icon *ngIf="node.name === 'Topic'">list</mat-icon>
-                  <div *ngIf="node.name === 'Parameter'" class="parameter-icon"></div>
+                  <mat-icon *ngIf="node.name === topicText">list</mat-icon>
+                  <div *ngIf="node.name === parameterText" class="parameter-icon"></div>
                 </div>
                 <div class="author-label">
                   <h3>{{node.name}}</h3>
@@ -27,17 +27,13 @@
                         [attr.aria-label]="'Toggle ' + node.name"
                         [ngClass]="{'contributor-active':type === author.toLowerCase()}"
                         [routerLink]="['/contributor/author']">
-                    <div class="author-icon">
-                      <div class="icon-author">
-                        <mat-icon class="dashboardIcon">dashboard</mat-icon>
-                      </div>
-                      <div class="author-label">
-                        <h3>{{authorText}}</h3>
-                      </div>
-                    </div>
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                     {{authorText}}
                   </button>
               </div>
-              <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
+              <div [class.author-tree-invisible]="!treeControl.isExpanded(node)"
                    role="group">
                 <ng-container matTreeNodeOutlet></ng-container>
               </div>

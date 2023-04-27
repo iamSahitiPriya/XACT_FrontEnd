@@ -29,8 +29,10 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   contributor : string = data_local.CONTRIBUTOR.CONTRIBUTOR
   authorText : string = data_local.CONTRIBUTOR.ROLE.DISPLAY_TEXT.AUTHOR
   reviewerText : string = data_local.CONTRIBUTOR.ROLE.DISPLAY_TEXT.REVIEWER
+  topicText: string = data_local.CONTRIBUTOR.topicText
+  parameterText: string=data_local.CONTRIBUTOR.parameterText
 
-   TREE_DATA: AuthorTree[] = [
+   authorTree: AuthorTree[] = [
     {
       name: 'Author',
       children: [{name: 'Topic'}, {name: 'Parameter'}],
@@ -38,6 +40,7 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
   ]
   treeControl = new NestedTreeControl<AuthorTree>(node => node.children);
   dataSource = new MatTreeNestedDataSource<AuthorTree>();
+  hasChild = (_: number, node: AuthorTree) => !!node.children && node.children.length > 0;
 
   constructor(public router: Router, private appService: AppServiceService, private store: Store<AppStates>) {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -45,11 +48,11 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
     })
-    this.dataSource.data = this.TREE_DATA;
+    this.dataSource.data = this.authorTree;
     this.store.dispatch(fromActions.loggedInUser({role: this.contributor.toLowerCase()}))
   }
 
-  hasChild = (_: number, node: AuthorTree) => !!node.children && node.children.length > 0;
+
   ngOnInit(): void {
     this.appService.getUserRole().subscribe((data) => {
       if (data.includes(this.author))
@@ -57,6 +60,11 @@ export class ContributorConsoleComponent implements OnInit, OnDestroy {
       if (data.includes(this.reviewer))
         this.isReviewer = true
     })
+    if(this.type === this.topicText.toLowerCase() || this.type === this.parameterText.toLowerCase()){
+      this.treeControl.dataNodes = this.authorTree;
+      this.treeControl.expand(this.treeControl.dataNodes[0]);
+    }
+
   }
 
   setEvent(type: string) {
