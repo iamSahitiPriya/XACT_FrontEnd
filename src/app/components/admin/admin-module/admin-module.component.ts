@@ -168,6 +168,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   updateModule(row: ModuleData) {
     let moduleRequest = this.moduleRequest(row);
+    console.log(moduleRequest)
     if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
       moduleRequest = this.getModuleRequest(row);
     }
@@ -197,6 +198,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       row.active = this.module.active
       row.updatedAt = this.module.updatedAt
       row.comments = this.module.comments
+      row.contributors = this.module.contributors
     }
     this.selectedModule = this.selectedModule === row ? null : row
     return row;
@@ -287,6 +289,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       moduleRequest = {
         moduleName: row.moduleName,
         category: selectedCategoryId,
+        contributors:row.contributors?row.contributors:[],
         active: row.active,
         comments: row.comments
       }
@@ -295,7 +298,6 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       this.showError(this.duplicateErrorMessage)
       return null
     }
-
     return moduleRequest;
   }
 
@@ -317,7 +319,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
       moduleName: _data.moduleName,
       category: _data.categoryId,
       active: _data.active,
-      contributors: [],
+      contributors: _data.contributors,
       updatedAt: Date.now(),
       comments: _data.comments,
       topics: _data.topics ? _data.topics : []
@@ -334,6 +336,7 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
         moduleId: row.moduleId,
         moduleName: row.moduleName,
         category: selectedCategoryId,
+        contributors:row.contributors?row.contributors:[],
         active: row.active,
         comments: row.comments
       }

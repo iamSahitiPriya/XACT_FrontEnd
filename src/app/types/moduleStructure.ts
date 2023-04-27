@@ -12,6 +12,6 @@ export interface ModuleStructure {
   active:boolean,
   updatedAt : number,
   comments ?: string,
-  contributors:ContributorStructure[]
+  contributors?:ContributorStructure[]
   topics: TopicStructure[]
 }

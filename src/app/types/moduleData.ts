@@ -7,7 +7,7 @@ export interface ModuleData{
   categoryId : number,
   categoryStatus: boolean,
   active : boolean;
-  contributors:ContributorStructure[]
+  contributors?:ContributorStructure[]
   updatedAt : number,
   comments ?: string,
   isEdit ?: boolean
