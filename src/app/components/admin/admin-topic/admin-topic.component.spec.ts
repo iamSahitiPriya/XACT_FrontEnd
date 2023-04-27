@@ -36,6 +36,7 @@ class MockAppService {
     parameters: [],
     references: []
   }
+
   data: CategoryResponse [] = [{
     "categoryId": 1,
     "categoryName": "category1",
@@ -169,6 +170,11 @@ describe('AdminTopicComponent', () => {
       comments: "",
       isEdit: true,
     }
+    component.loggedInUser = of({
+      email:'abc@thoughtworks.com',
+      role:'author'
+    })
+    component.path = 'contributor'
     component.masterData = of([{
       "categoryId": 1,
       "categoryName": "category1",
@@ -177,7 +183,10 @@ describe('AdminTopicComponent', () => {
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
-        "contributors": [],
+        "contributors":[{
+          userEmail:'abc@thoughtworks.com',
+          role:'AUTHOR'
+        }],
         "moduleName": 'module1',
         "category": 1,
         "active": false,

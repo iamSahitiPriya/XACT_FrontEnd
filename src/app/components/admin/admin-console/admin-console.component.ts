@@ -19,7 +19,6 @@ export class AdminConsoleComponent implements OnDestroy {
   type = "";
   tabIndex: number;
   private destroy$: Subject<void> = new Subject<void>();
-  paramsSub: Subscription;
 
 
   constructor(private router: Router, private store: Store<AppStates>) {

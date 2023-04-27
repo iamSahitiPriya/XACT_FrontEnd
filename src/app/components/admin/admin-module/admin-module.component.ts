@@ -168,7 +168,6 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
 
   updateModule(row: ModuleData) {
     let moduleRequest = this.moduleRequest(row);
-    console.log(moduleRequest)
     if (this.module?.moduleName.toLowerCase().replace(/\s/g, '') !== row.moduleName.toLowerCase().replace(/\s/g, '')) {
       moduleRequest = this.getModuleRequest(row);
     }

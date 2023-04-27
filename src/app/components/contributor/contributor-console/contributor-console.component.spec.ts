@@ -12,8 +12,9 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {of} from "rxjs";
 import {MatIconModule} from "@angular/material/icon";
 import {ActivatedRoute} from "@angular/router";
+import {MatTreeModule} from "@angular/material/tree";
 
-class  MockAppService {
+class MockAppService {
   public getUserRole() {
     return of(["AUTHOR", "REVIEWER"]);
   }
@@ -22,15 +23,15 @@ class  MockAppService {
 describe('ContributorConsoleComponent', () => {
   let component: ContributorConsoleComponent;
   let fixture: ComponentFixture<ContributorConsoleComponent>;
-  let mockAppService : MockAppService
+  let mockAppService: MockAppService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContributorConsoleComponent ],
-      imports:[HttpClientTestingModule,StoreModule.forRoot(reducers), MatCardModule, MatFormFieldModule, MatInputModule, RouterTestingModule.withRoutes([]), MatIconModule],
-      providers: [{provide : AppServiceService, useClass: MockAppService}]
+      declarations: [ContributorConsoleComponent],
+      imports: [HttpClientTestingModule, StoreModule.forRoot(reducers), MatCardModule, MatFormFieldModule, MatInputModule, RouterTestingModule.withRoutes([]), MatIconModule, MatTreeModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ContributorConsoleComponent);
     component = fixture.componentInstance;
@@ -51,5 +52,14 @@ describe('ContributorConsoleComponent', () => {
     expect(component.isAuthor).toBeTruthy()
     expect(component.isReviewer).toBeTruthy()
     expect(component.type).toBe("author")
+  });
+
+  it('it should expand the nodes when author button is clicked', () => {
+    component.type = 'topic'
+    component.ngOnInit()
+
+    component.setEvent("topic")
+
+    expect(component.type).toBe("topic")
   });
 });

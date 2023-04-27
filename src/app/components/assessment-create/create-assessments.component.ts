@@ -110,7 +110,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   assessmentCopy: AssessmentStructure;
 
 
-  constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
+  constructor(private router: Router, public dialog: MatDialog,private appService: AppServiceService,
               private formBuilder: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
 
