@@ -1,6 +1,6 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="close-question" *ngIf="role === admin || role === 'contributor'">
+  <div class="close-question" *ngIf="role === admin.toLowerCase() || role === 'contributor'">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="close-question-icon">close</mat-icon>
     </button>

@@ -44,7 +44,7 @@ export class AdminParameterComponent implements OnInit {
   private dialogRef: MatDialogRef<any>;
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
-  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'reference'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'reference','addQuestion'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<ParameterData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -168,7 +168,8 @@ export class AdminParameterComponent implements OnInit {
       moduleId: eachModule.moduleId,
       moduleName: eachModule.moduleName,
       active: eachModule.active,
-      category: eachCategory.categoryId
+      category: eachCategory.categoryId,
+      contributors:eachModule.contributors
     })
     this.categoryAndModule.set(eachCategory.categoryId, modules)
     if (eachModule.topics) {
