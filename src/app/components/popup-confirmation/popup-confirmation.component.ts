@@ -19,8 +19,8 @@ export class PopupConfirmationComponent {
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) {
   }
 
-  cancelChanges() {
-    this.dialogRef.close(1)
+  cancelChanges(result: number) {
+    this.dialogRef.close(result)
   }
 
 

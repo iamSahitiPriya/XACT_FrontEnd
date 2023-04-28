@@ -39,6 +39,9 @@ import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommenda
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {Recommendation} from "../../types/recommendation";
 import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
+import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
+import {ContributorQuestionResponse} from "../../types/Contributor/ContributorQuestionResponse";
+import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
 
 
 @Injectable({
@@ -157,8 +160,10 @@ export class AppServiceService {
     return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.startDate + "/" + adminAssessmentRequest.endDate);
   }
 
-  getAllCategories(): Observable<CategoryResponse[]> {
-    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI);
+  getAllCategories(role : string): Observable<CategoryResponse[]> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("role", role);
+    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI,{params:queryParams});
   }
 
 
@@ -258,12 +263,15 @@ export class AppServiceService {
     return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId, parameterReferenceRequest)
   }
 
-  updateMasterQuestion(questionId: number, questionRequest: QuestionStructure): Observable<QuestionStructure> {
-    return this.http.put<QuestionStructure>(environment.BaseURI + environment.UPDATE_QUESTION + "/" + questionId, questionRequest)
-  }
-
   saveMasterQuestion(questionRequest: QuestionRequest): Observable<QuestionStructure> {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
+  }
+
+  saveContributors(contributorRequest : ManageContributorRequest,moduleId : number){
+    const saveContributorURI=this.formatURI(environment.SAVE_CONTRIBUTOR_URI,{
+      moduleId : moduleId
+    })
+    return this.http.post(environment.BaseURI+saveContributorURI,contributorRequest)
   }
 
   formatURI(URI: string, data: Readonly<unknown>) {
@@ -298,14 +306,14 @@ export class AppServiceService {
     return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
   }
 
-  sendForReview(moduleId: number, status: string, questionRequest:any) {
+  updateQuestionStatus(moduleId: number, status: string, questionRequest:ContributorQuestionRequest) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
     const headers = {'content-type': 'application/json'}
     const sendForReviewURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_STATUS_URI,{
       moduleId:moduleId,
     })
-    return this.http.patch(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
+    return this.http.patch<ContributorQuestionResponse>(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
 
   }
 

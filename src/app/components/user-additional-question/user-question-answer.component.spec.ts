@@ -18,6 +18,7 @@ import {UserQuestionRequest} from "../../types/userQuestionRequest";
 import {UserQuestionResponse} from "../../types/userQuestionResponse";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AssessmentQuestionComponent} from "../assessment-parameter-questions/assessment-question.component";
 
 
 describe('UserQuestionAnswerComponent', () => {
@@ -61,7 +62,7 @@ describe('UserQuestionAnswerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserQuestionAnswerComponent],
+      declarations: [UserQuestionAnswerComponent, AssessmentQuestionComponent],
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule, NoopAnimationsModule, CommonModule,
         StoreModule.forRoot(reducers), MatIconModule,MatTooltipModule,
         BrowserModule, CommonModule, MatSnackBarModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
@@ -81,7 +82,6 @@ describe('UserQuestionAnswerComponent', () => {
       answer: "",
       parameterId: 1
     }]
-    fixture.detectChanges();
     userQuestionData = {isEdit: false, userQuestion: {
         questionId: 2,
         question: "hello",

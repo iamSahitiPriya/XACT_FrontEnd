@@ -6,6 +6,12 @@ import {AppServiceService} from "../../services/app-service/app-service.service"
 import {Recommendation} from "../../types/recommendation";
 import {MatCardModule} from "@angular/material/card";
 import {of} from "rxjs";
+import {MatIconModule} from "@angular/material/icon";
+import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {RecommendationTableComponent} from "../recommendation-table/recommendation-table.component";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 class MockAppService {
 
@@ -58,9 +64,9 @@ describe('RoadmapBubbleChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoadmapBubbleChartComponent],
-      imports: [HttpClientTestingModule, MatCardModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}]
+      declarations: [RoadmapBubbleChartComponent, AssessmentSummaryComponent, RecommendationTableComponent],
+      imports: [HttpClientTestingModule, MatCardModule, MatIconModule, MatTooltipModule, NgxChartsModule,NoopAnimationsModule, BrowserAnimationsModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}],
     })
       .compileComponents();
   });
@@ -80,6 +86,9 @@ describe('RoadmapBubbleChartComponent', () => {
     component.assessmentId = 1
 
     component.getRecommendations()
+    mockAppService.getAllRecommendations(1).subscribe(data =>{
+      expect(data).toBeDefined()
+    })
 
     expect(component.recommendationResponse.length).toBe(3)
   })

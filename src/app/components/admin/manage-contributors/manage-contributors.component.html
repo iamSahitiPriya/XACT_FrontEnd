@@ -1,0 +1,73 @@
+<div class="main-container">
+  <div class="heading-container">
+    <div class="contributor-heading">
+      <div class="contributor-heading-container">
+        <h1>{{ManageContributors}}</h1>
+      </div>
+      <div class="close-button-container">
+        <button mat-icon-button (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="module-heading">
+      <h3>{{this.data.categoryName}} / {{this.data.moduleName}}</h3>
+    </div>
+  </div>
+  <form>
+    <div class="author-reviewer-container">
+      <div class="contributor" *ngFor="let contributor of contributors | keyvalue ; let i =index">
+        <div class="author-container">
+          <div class="author-heading-container">
+            <h3>{{contributor.key.toLowerCase()}}</h3>
+          </div>
+          <div class="author-input-container">
+            <mat-form-field appearance="outline" class="add-contributor">
+              <mat-label>{{contributor.key.toLowerCase()}}</mat-label>
+              <mat-chip-list #chipList aria-label="Email Selection" [formControl]="contributorFormControllers[i]"
+                             required>
+                <input matInput type="text" name="name{{contributor.key}}" required
+                       maxlength="1200"
+                       id="{{contributor.key}}"
+                       [placeholder]=userEmailPlaceholder
+                       [matChipInputFor]="chipList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       [(ngModel)]="ngModelValues[i]"
+                       (input)="onInputChange(ngModelValues[i], contributor.key)"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       (matChipInputTokenEnd)="addContributor($event,contributor.key)">
+                <div class="wrapper">
+                    <mat-chip *ngFor="let user of contributors.get(contributor.key)" class="contributor-email"
+                              (removed)="removeContributor(user.userEmail,contributor.key)">
+                      {{user.userEmail}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                </div>
+              </mat-chip-list>
+              <mat-error
+                *ngIf="contributorFormControllers[i].hasError('required')">
+                {{mandatoryFieldText}}
+              </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('invalid')">
+                {{commonEmailErrorMessage}}
+              </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('pattern')">
+                {{userEmailErrorMessage}}
+              </mat-error>
+              <mat-error *ngIf="contributorFormControllers[i].hasError('duplicate')">
+                {{duplicateEmailErrorMessage}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="save-button-container">
+      <div>
+        <button mat-flat-button type="submit" (click)="saveContributors()">{{save}}</button>
+      </div>
+    </div>
+  </form>
+</div>

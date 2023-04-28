@@ -330,22 +330,12 @@
   margin-left: auto;
 }
 
-.all-download-button {
-  background: #003D4F 0% 0% no-repeat padding-box;
-  color: white;
-  margin-right: 3em;
-}
-
-.all-download-button:hover {
-  background: #156C86 0% 0% no-repeat padding-box;
-}
-
-.all-download-button:active {
-  background: #156C86 0% 0% no-repeat padding-box;
-  border-color: #0D98C1;
-
-}
-
-.visible-opacity{
+.visible-opacity {
   opacity: 1;
+}
+
+.overall-image {
+  display: inherit;
+  width: 100%;
+  padding: 1em;
 }

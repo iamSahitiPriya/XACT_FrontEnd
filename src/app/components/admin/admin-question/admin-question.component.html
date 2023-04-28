@@ -1,40 +1,48 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="close-question" *ngIf="role !== contributor">
+  <div class="close-question" *ngIf="role === admin">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="close-question-icon">close</mat-icon>
     </button>
   </div>
 </mat-card-header>
-<mat-card-title class="question-status">
+<mat-card-title class="questions-text">
   <h2 class="question-heading">{{questions}}</h2>
 </mat-card-title>
-<div class="admin-questions">
-  <div class="question-button-column">
-    <button mat-flat-button class="question-button1" (click)="addQuestionRow()">
-      {{addQuestion}}
+<div class="admin-contributor-questions">
+  <div class="add-question" *ngIf="role === author">
+    <button mat-flat-button class="add-question-button" (click)="addQuestion()">
+      {{addQuestionText}}
     </button>
     <br>
   </div>
   <div class="questions" *ngIf="questionStatusMapper">
     <div *ngFor="let question of questionStatusMapper | keyvalue ">
-      <div class="question-status-heading-content"
+
+      <div class="question-status-heading"
            [ngStyle]="{'border-color':statusStyleMapper.get(question.key)?.borderColor, 'background-color':statusStyleMapper.get(question.key)?.backgroundColor}">
+
         <div class="status-icon">
-          <span *ngIf="question.key === sentForReview" class="sent-for-review"><mat-icon>warning</mat-icon></span>
+          <span *ngIf="question.key === sentForReview" class="sent-for-review-and-reassessment"><mat-icon>info-outline</mat-icon></span>
           <span *ngIf="question.key === published" class="published"><mat-icon>check_circle</mat-icon></span>
+          <span *ngIf="question.key === requestedForChange" class="sent-for-review-and-reassessment"><mat-icon>warning</mat-icon></span>
+          <span *ngIf="question.key === rejected" class="rejected"><mat-icon>close</mat-icon></span>
+          <span *ngIf="question.key === draft" class="draft"><mat-icon>create</mat-icon></span>
         </div>
 
-        <div class="question-status-heading">
+        <div class="question-status-heading-text">
           {{statusStyleMapper.get(question.key)?.displayText}}
         </div>
+
       </div>
       <mat-card class="question-card" [ngStyle]="{'border-color':statusStyleMapper.get(question.key)?.borderColor}">
         <mat-card-content class="question-card-content">
           <div *ngFor="let question of question.value, let i=index">
             <div class="question-container">
-              <div class="question-text" [ngClass]="{'published-questions': question.status === published}">
-                <mat-form-field appearance="outline" class="question-input" *ngIf="question.isEdit===true">
+              <div class="question-text" [ngClass]="{'published-questions': question.status === published || question.status === rejected ||
+              (question.status === requestedForChange && role === reviewer)}">
+
+                <mat-form-field appearance="outline" *ngIf="question.isEdit===true">
                   <mat-label>{{questionText}}</mat-label>
                   <input #input matInput required
                          name="question{{question.questionId}}"
@@ -47,45 +55,77 @@
                   </mat-error>
                   <mat-hint align="end">{{input.value.length}}/2000</mat-hint>
                 </mat-form-field>
+
                 <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
               </div>
-              <div class="question-edit-update">
-                <div class="question_status-icon">
-                <span *ngIf="question.status === sentForReview" class="sent-for-review"><mat-icon
-                  matTooltip="{{sentForReviewText}}"
-                  [matTooltipPosition]="'left'"
-                  matTooltipHideDelay="1000">info_outline</mat-icon></span>
+
+              <div class="question-action-buttons" *ngIf="question.status !== published">
+
+                <div class="question-comments" *ngIf="question.comments && question.isEdit === false">
+                  <mat-icon matTooltip="{{question.comments}}">chat</mat-icon>
                 </div>
-                <div class="edit-button"
-                     *ngIf="question.status !== published && question.isEdit === false">
-                  <button class="edit-question" id="edit-question" mat-flat-button
-                          [disabled]="question.status === sentForReview"
-                          (click)="setIsEdit(question)">{{edit}}</button>
-                </div>
-                <div class="send-for-review-button"
-                     *ngIf="question.status !== published  && question.isEdit === false">
-                  <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
-                          [disabled]="question.status === sentForReview"
-                          (click)="sendForReview(question)">{{statusStyleMapper.get(sentForReview)?.displayText}}</button>
-                  <div class="delete-button">
-                    <button mat-flat-button (click)="deleteQuestion(question)">
+
+
+                <div class="author-action-buttons"
+                     *ngIf="((question.status === sentForReview && question.isEdit === false) ||
+                               (question.status === draft && question.isEdit === false) ||
+                               (question.status === requestedForChange && question.isEdit === false && role === author) )">
+
+                  <div class="edit-button">
+                    <button class="edit-question" id="edit-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === author"
+                            (click)="setIsEdit(question)">{{edit}}</button>
+                  </div>
+
+                  <div class="send-for-review-author-button">
+                    <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
+                            [disabled]="question.status === sentForReview && role === author"
+                            (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
+                  </div>
+
+                  <div class="delete-button" *ngIf="role === author">
+                    <button mat-flat-button (click)="deleteQuestion(question)"
+                            [ngClass]="{'disable-delete-button' : question.status === sentForReview}">
                       <mat-icon id="delete-question">delete</mat-icon>
                     </button>
                   </div>
+
+
+                  <div>
+                    <div></div>
+                  </div>
                 </div>
-                <div class="save-button" *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
+
+
+                <div class="reviewer-actions"
+                     *ngIf="role=== reviewer && question.status === sentForReview && question.isEdit === false">
+                  <button class="approve-action">
+                    <mat-icon [matTooltip]="approve" (click)="sendForReview(question,published)">check</mat-icon>
+                  </button>
+                  <button class="reject-action">
+                    <mat-icon [matTooltip]="reject" (click)="sendForReview(question,rejected)">close</mat-icon>
+                  </button>
+                </div>
+
+
+                <div class="save-delete-button"
+                     *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
                     <button mat-flat-button (click)="removeQuestion()">
-                      <mat-icon id="deleteQuestion">delete</mat-icon>
+                      <mat-icon>delete</mat-icon>
                     </button>
                   </div>
                 </div>
-                <div class="update-button" *ngIf="question.isEdit === true && question.questionId !== defaultQuestionId">
-                  <div>
+                <div class="update-button"
+                     *ngIf="question.isEdit === true && question.questionId !== defaultQuestionId">
+                  <div *ngIf="role === author">
                     <button class="update-question" mat-flat-button (click)="updateQuestion(question)"
                             [disabled]="!question.questionText">{{update}}</button>
+                  </div>
+                  <div class="approve-action" *ngIf="role === reviewer">
+                      <mat-icon (click)="updateAndApproveQuestion(question)">check</mat-icon>
                   </div>
                   <div class="cancel-button">
                     <button class="cancel-button" (click)="cancelChanges(question)">

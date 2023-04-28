@@ -22,11 +22,12 @@ import {FormBuilder, FormsModule} from "@angular/forms";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {HttpClient, HttpHandler} from "@angular/common/http";
 import {SummaryResponse} from "../../types/summaryResponse";
-import {ElementRef} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, ElementRef, NO_ERRORS_SCHEMA} from "@angular/core";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {AssessmentRadarChartComponent} from "../summary/assessment-radar-chart/assessment-radar-chart.component";
 
 
 describe('AssessmentSunburstChartComponent', () => {
@@ -70,7 +71,7 @@ describe('AssessmentSunburstChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssessmentSummaryComponent],
+      declarations: [AssessmentSummaryComponent, AssessmentRadarChartComponent],
       imports: [FormsModule, MatFormFieldModule, MatDividerModule, MatToolbarModule, NoopAnimationsModule, MatButtonModule, MatSelectModule, MatCardModule, MatIconModule, HttpClientTestingModule, MatTooltipModule, NgxChartsModule, RouterTestingModule, MatSnackBarModule, StoreModule.forRoot(reducers)],
       providers: [HttpClient, HttpHandler, FormBuilder, RouterTestingModule,
         {
@@ -79,7 +80,8 @@ describe('AssessmentSunburstChartComponent', () => {
         }, {
           provide: ElementRef, useValue: new MockElementRef()
         }
-      ]
+      ],
+      schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
 
       .compileComponents();
@@ -88,6 +90,7 @@ describe('AssessmentSunburstChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssessmentSummaryComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges()
     mockAppService = new MockAppService()
     elRef = TestBed.get(ElementRef)
     component.data = {
@@ -101,7 +104,6 @@ describe('AssessmentSunburstChartComponent', () => {
         }]
       }]
     }
-    fixture.detectChanges()
 
 
   });

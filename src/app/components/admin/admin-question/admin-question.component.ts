@@ -43,11 +43,13 @@ export class AdminQuestionComponent implements OnInit {
   save = data_local.ADMIN.SAVE
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
-  addQuestion = data_local.ADMIN.QUESTION.ADD_QUESTION
+  addQuestionText = data_local.ADMIN.QUESTION.ADD_QUESTION
   questionText = data_local.ADMIN.QUESTION.QUESTION
   questions = data_local.ADMIN.QUESTION.QUESTIONS
   requiredField = data_local.ADMIN.QUESTION.REQUIRED_FIELD
   topicReferenceMessage = data_local.ADMIN.REFERENCES.TOPIC_REFERENCE_MESSAGE
+  sendForReassessment: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SEND_FOR_REASSESSMENT
+  requestedForChange: string = data_local.CONTRIBUTOR.STATUS.REQUESTED_FOR_CHANGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   questionArray: Question[] | undefined
   questionStatusMapper = new Map<string, Question[]>()
@@ -59,28 +61,24 @@ export class AdminQuestionComponent implements OnInit {
   contributor: string = data_local.CONTRIBUTOR.CONTRIBUTOR;
   sentForReview: string = data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
   published: string = data_local.CONTRIBUTOR.STATUS.PUBLISHED;
-  rejected : string = data_local.CONTRIBUTOR.STATUS.REJECTED;
-  draft : string = data_local.CONTRIBUTOR.STATUS.DRAFT;
-  private author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  rejected: string = data_local.CONTRIBUTOR.STATUS.REJECTED;
+  draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
+  author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   sentForReviewText: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.SENT_FOR_REVIEW;
   private publishedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.PUBLISHED_QUESTIONS;
   private rejectedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.REJECTED;
   private draftedQuestions: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.DRAFT;
+  sendForReviewText: string = data_local.CONTRIBUTOR.AUTHOR.SEND_FOR_REVIEW;
+  changeRequests = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.CHANGE_REQUESTS;
+  private approveConfirmationTitle: string = data_local.CONTRIBUTOR.APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT
+  createSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.CREATE
+  updateSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.UPDATE
+  approveSuccessMessage: string = data_local.CONTRIBUTOR.NOTIFICATION_MESSAGES.APPROVE
 
   defaultQuestionId: number = -1;
   statusMapper = {
-    'PUBLISHED' : {
-      borderColor: '#6B9F78',
-      backgroundColor: '#e8f8ec',
-      displayText: this.publishedQuestions
-    },
-    'SENT_FOR_REVIEW': {
-      borderColor: '#BE873E',
-      backgroundColor: '#BE873E0D',
-      displayText: this.sentForReviewText
-    },
     'REJECTED': {
       borderColor: '#BD4257',
       backgroundColor: '#BD425715',
@@ -90,9 +88,26 @@ export class AdminQuestionComponent implements OnInit {
       borderColor: '#5D9EAA',
       backgroundColor: '#5D9EAA0D',
       displayText: this.draftedQuestions
+    },
+    'REQUESTED_FOR_CHANGE': {
+      borderColor: '#BE873E',
+      backgroundColor: '#BE873E0D',
+      displayText: this.changeRequests
+    },
+    'PUBLISHED': {
+      borderColor: '#6B9F78',
+      backgroundColor: '#e8f8ec',
+      displayText: this.publishedQuestions
     }
   }
   statusStyleMapper = new Map(Object.entries(this.statusMapper))
+  action: string;
+  contributorActionButtonText: string;
+  admin: string = data_local.ADMIN.ROLE.ADMIN;
+  reviewer: string = data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
+  reject: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
+  inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -100,6 +115,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setActionByContributorType();
     this.questionArray = []
     this.unsavedChanges = []
     this.questionStatusMapper.clear()
@@ -113,12 +129,33 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  addQuestionRow() {
+
+  private setActionByContributorType() {
+    if (this.role === this.author) {
+      this.contributorActionButtonText = this.sendForReviewText
+      this.action = this.sentForReview;
+      this.statusStyleMapper.set(this.sentForReview, {
+        borderColor: '#BE873E',
+        backgroundColor: '#BE873E0D',
+        displayText: this.sentForReviewText
+      })
+    } else if (this.role === this.reviewer) {
+      this.contributorActionButtonText = this.sendForReassessment
+      this.action = this.requestedForChange
+      this.statusStyleMapper.set(this.sentForReview, {
+        borderColor: '#BE873E',
+        backgroundColor: '#BE873E0D',
+        displayText: this.inProgress
+      })
+    }
+  }
+
+  addQuestion() {
     this.removeQuestion()
     let newQuestion: Question = {
       questionId: -1,
       questionText: '',
-      status: 'DRAFT',
+      status: this.draft,
       parameter: this.parameter.parameterId,
       isEdit: true
     }
@@ -152,13 +189,14 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0) {
+    if (question.questionText.trimStart().length > 0 && this.role == this.author) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {
           question.isEdit = false
           question.questionId = data.questionId
           this.sendToStore(data)
+          this.showSuccess(this.createSuccessMessage, NOTIFICATION_DURATION)
           this.ngOnInit()
         }, error: _error => {
           this.showError(this.dataNotSaved);
@@ -200,17 +238,30 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
+  private showSuccess(data: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
+  }
+
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
-    this.appService.updateMasterQuestion(question.questionId, questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (_data) => {
-        question.isEdit = false
-        this.questionArray = []
-        this.ngOnInit()
-      }, error: _error => {
-        this.showError(this.dataNotSaved);
-      }
-    })
+    if (this.role === this.author || this.role === this.reviewer) {
+      this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          question.isEdit = false
+          this.sendToStore(_data)
+          this.role === this.author ? this.showSuccess(this.updateSuccessMessage, NOTIFICATION_DURATION) : this.showSuccess(this.approveSuccessMessage, NOTIFICATION_DURATION);
+          this.questionArray = []
+          this.ngOnInit()
+        }, error: _error => {
+          this.showError(this.dataNotSaved);
+        }
+      })
+    }
   }
 
   private getQuestionWithId(question: Question | QuestionStructure): QuestionResponse {
@@ -275,7 +326,6 @@ export class AdminQuestionComponent implements OnInit {
     questions?.splice(0, questions.length)
     this.unsavedChanges?.forEach((eachQuestion: QuestionStructure) => questions?.push(eachQuestion))
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
-
   }
 
   isInputValid(question: string): boolean {
@@ -308,7 +358,8 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  sendForReview(question: Question) {
+  sendForReview(question: Question, action: string) {
+    this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
     this.openReviewDialog(questionRequest, contributorData);
@@ -345,25 +396,27 @@ export class AdminQuestionComponent implements OnInit {
         role: this.author.toLowerCase(),
         question: questionRequest,
         moduleId: data.moduleId,
+        action: this.action
       }
     });
     dialogRef.componentInstance.onSave.subscribe(response => {
-      this.updateQuestionStatusMapper(data.questions[0])
-      this.deleteFromMap(data.questions[0].status)
-      let question: QuestionStructure = {
-        parameter: data.parameterId,
-        questionId: response.questionId[0],
-        questionText: data.questions[0].question,
-        status: response.status
+      if (response) {
+        this.updateQuestionStatusMapper(data.questions[0])
+        this.deleteFromMap(data.questions[0].status)
+        let question: QuestionStructure = {
+          parameter: data.parameterId,
+          questionId: response.questionId[0],
+          questionText: data.questions[0].question,
+          status: response.status
+        }
+        this.sendToStore(question)
+        let updatedQuestion: Question = question
+        this.mapQuestionToStatus(updatedQuestion)
+        updatedQuestion.isEdit = false
       }
-      this.sendToStore(question)
-      let updatedQuestion: Question = question
-      this.mapQuestionToStatus(updatedQuestion)
-
-      updatedQuestion.isEdit = false
-
     })
     dialogRef.afterClosed();
+    this.setActionByContributorType();
   }
 
   private updateQuestionStatusMapper(question: ContributorQuestion) {
@@ -375,40 +428,54 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   deleteQuestion(question: Question) {
-    let contributorQuestion = this.getContributorQuestion(question)
-    let response: QuestionStructure = question
-    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
-      width: '448px',
-      height: '203px'
-    });
-    openConfirm.componentInstance.text = this.confirmationTitle;
-    openConfirm.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.appService.deleteQuestion(question.questionId).subscribe({
-          next: () => {
-            this.deleteFromStore(response)
-            this.updateQuestionStatusMapper(contributorQuestion[0])
-            this.deleteFromMap(question.status)
+    if (question.status !== this.sentForReview) {
+      let contributorQuestion = this.getContributorQuestion(question)
+      let response: QuestionStructure = question
+      const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+        width: '448px',
+        height: '203px'
+      });
+      openConfirm.componentInstance.text = this.confirmationTitle;
+      openConfirm.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.appService.deleteQuestion(question.questionId).subscribe({
+            next: () => {
+              this.deleteFromStore(response)
+              this.updateQuestionStatusMapper(contributorQuestion[0])
+              this.deleteFromMap(question.status)
 
-          },
-          error: () => {
-            this.showError(this.serverError)
-          }
-        })
-      }
-    })
-
+            },
+            error: () => {
+              this.showError(this.serverError)
+            }
+          })
+        }
+      })
+    }
   }
 
   private deleteFromStore(question: QuestionStructure) {
     let questions = this.getQuestionsFromParameter()
-    if(questions !== undefined){
+    if (questions !== undefined) {
       let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === question.questionId)
       if (index !== -1)
         questions.splice(index, 1)
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
 
+  }
+
+  updateAndApproveQuestion(question: Question) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.approveConfirmationTitle;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.updateQuestion(question)
+      }
+    })
   }
 }
 

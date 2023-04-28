@@ -141,13 +141,4 @@ export class AssessmentRadarChartComponent implements OnInit {
       }
     )
   }
-
-  downloadAllImage() {
-    let chartIndex = 0;
-    this.radarChartData.forEach(async () => {
-      await new Promise(f => setTimeout(f, 100));
-      this.downloadImage(chartIndex);
-      chartIndex += 1;
-    });
-  }
 }

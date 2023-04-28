@@ -166,9 +166,7 @@ export const data_local =
       TITLE: "Summary",
       TOOLTIP: "Click to View Chart Summary",
       DOWNLOAD_ACTION_TOOLTIP: "Click to download this chart as PNG image.",
-      ALL_DOWNLOAD_ACTION_BUTTON: "Download All Charts",
-      ALL_DOWNLOAD_ACTION_TOOLTIP: "Click to download all charts as PNG image.",
-      DOWNLOAD_NOTIFICATION:"Downloading charts. It may take some time, Please stay on same page.",
+      DOWNLOAD_NOTIFICATION:"Downloading ... It may take some time, Please stay on same page.",
       INSTRUCTION: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\n" +
         "      dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita\n" +
         "      kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
@@ -191,6 +189,9 @@ export const data_local =
       }
     },
     ADMIN: {
+      ROLE : {
+        ADMIN : "Admin",
+      },
       MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",
       SERVER_ERROR_MESSAGE: "Some error occurred",
@@ -218,7 +219,8 @@ export const data_local =
       MODULE: {
         ADD_MODULE: "Add Module",
         SELECT_MODULE: "Select Module",
-        MODULE_INPUT_TEXT: "Enter Module Name",
+        MODULE_INPUT_TEXT: "Enter Module Name", CONTRIBUTORS: "Contributors"
+
       },
       TOPIC: {
         ADD_TOPIC: "Add Topic",
@@ -324,6 +326,8 @@ export const data_local =
 
     },
     CONTRIBUTOR : {
+      COMMENTS : "Comments",
+      SEARCH_TEXT : "Type to search",
       CONSOLE : "Contributor Console",
       CONTRIBUTOR : "Contributor",
       TITLE :"X - Act Contributor",
@@ -336,17 +340,34 @@ export const data_local =
       SAVE : "Save",
       QUESTIONS : "Questions",
       CONFIRMATION_POPUP_TEXT: "Are you sure",
+      APPROVE_QUESTION_CONFIRMATION_POPUP_TEXT : "Do you want to approve the question?",
+      NOTIFICATION_MESSAGES : {
+        CREATE : "Questions created successfully!",
+        APPROVE : "Questions approved successfully!",
+        REJECT : "Questions rejected successfully!",
+        UPDATE : "Questions updated successfully!",
+        SENT_FOR_REVIEW : "Questions sent for review successfully!",
+        REQUESTED_FOR_CHANGE : "Questions sent for reassessment successfully!",
+      },
       STATUS : {
         DRAFT : "DRAFT",
         SENT_FOR_REVIEW : "SENT_FOR_REVIEW",
         PUBLISHED: "PUBLISHED",
-        REQUEST_FOR_CHANGE : "REQUEST_FOR_CHANGE",
+        REQUESTED_FOR_CHANGE : "REQUESTED_FOR_CHANGE",
         REJECTED : "REJECTED",
         DISPLAY_TEXT: {
+          SEND_FOR_REASSESSMENT : "Send For Reassessment",
           SENT_FOR_REVIEW: "Sent for Review",
-          PUBLISHED_QUESTIONS:'All published questions',
+          PUBLISHED_QUESTIONS:'Published Questions',
           REJECTED: 'Rejected',
-          DRAFT: 'Draft'
+          DRAFT: 'Draft',
+          CHANGE_REQUESTS : 'Change Requests',
+          IN_PROGRESS : 'In Progress',
+        },
+        HOVER_TEXT : {
+          APPROVE : 'Approve',
+          REJECT : 'Reject',
+          REQUESTED_FOR_CHANGE: 'Requested For Change',
         }
       },
       ROLE : {
@@ -360,7 +381,11 @@ export const data_local =
       AUTHOR : {
         SEND_FOR_REVIEW : "Send for Review",
       },
-      NO_DATA_PRESENT: "No Questions available to show at this moment"
+      NO_DATA_PRESENT: "No Questions available to show at this moment",
+      duplicateErrorMessage: "Duplicate email found",
+      commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
+      manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation'
+
     },
     IDLE_STATE: {
       STATE: {

@@ -6,67 +6,68 @@
     <mat-icon>save_alt</mat-icon>
   </button>
 </div>
-<div class="recommendation-roadmap" #roadmap_image>
+<div class="recommendation-roadmap">
   <mat-card class="roadmap-card">
-    <mat-card-content *ngIf="recommendationResponse.length>0; else fillRecommendationMessage">
-      <div class="roadmap-chart">
-        <div class="y-labels">
-          <div class="y-label-title">{{impact}}</div>
-          <div class="y-label-ticks">
-            <div class="y-label-text">{{highImpact}}</div>
-            <div class="y-label-text">{{mediumImpact}}</div>
-            <div class="y-label-text">{{lowImpact}}</div>
-          </div>
-        </div>
-
-        <div class="chart-and-x-axis">
-          <div class="chart" #roadmapChart>
-            <ngx-charts-bubble-chart
-              [view]=[roadmapChart.offsetWidth,height]
-              [results]="recommendations"
-              [scheme]="colorScheme"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend"
-              [showXAxisLabel]="showXAxisLabel"
-              [showYAxisLabel]="showYAxisLabel"
-              [autoScale]="autoScale"
-              [minRadius]="minBubbleRadius"
-              [maxRadius]="maxBubbleRadius"
-              [xAxisTickFormatting]=tickFormat
-              [yAxisTickFormatting]=tickFormat
-              [tooltipDisabled]="true"
-              [xAxisTicks]=showXAxisTicks
-              [yAxisTicks]=showYAxisTicks
-              [yScaleMin]="yScaleMin"
-              [yScaleMax]="yScaleMax"
-              [xScaleMin]="xScaleMin"
-              [xScaleMax]="xScaleMax">
-            </ngx-charts-bubble-chart>
-          </div>
-          <div class="x-labels">
-            <div class="x-label-ticks">
-              <div class="x-label-text">{{nowDeliveryHorizon}}</div>
-              <div class="x-label-text">{{nextDeliveryHorizon}}</div>
-              <div class="x-label-text">{{laterDeliveryHorizon}}</div>
+    <div #roadmap_image>
+      <mat-card-content *ngIf="recommendationResponse.length>0; else fillRecommendationMessage">
+        <div class="roadmap-chart">
+          <div class="y-labels">
+            <div class="y-label-title">{{impact}}</div>
+            <div class="y-label-ticks">
+              <div class="y-label-text">{{highImpact}}</div>
+              <div class="y-label-text">{{mediumImpact}}</div>
+              <div class="y-label-text">{{lowImpact}}</div>
             </div>
-            <div class="x-label-title">{{deliveryHorizon}}</div>
+          </div>
+
+          <div class="chart-and-x-axis">
+            <div class="chart" #roadmapChart>
+              <ngx-charts-bubble-chart
+                [view]=[roadmapChart.offsetWidth,height]
+                [results]="recommendations"
+                [scheme]="colorScheme"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [autoScale]="autoScale"
+                [minRadius]="minBubbleRadius"
+                [maxRadius]="maxBubbleRadius"
+                [xAxisTickFormatting]=tickFormat
+                [yAxisTickFormatting]=tickFormat
+                [tooltipDisabled]="true"
+                [xAxisTicks]=showXAxisTicks
+                [yAxisTicks]=showYAxisTicks
+                [yScaleMin]="yScaleMin"
+                [yScaleMax]="yScaleMax"
+                [xScaleMin]="xScaleMin"
+                [xScaleMax]="xScaleMax">
+              </ngx-charts-bubble-chart>
+            </div>
+            <div class="x-labels">
+              <div class="x-label-ticks">
+                <div class="x-label-text">{{nowDeliveryHorizon}}</div>
+                <div class="x-label-text">{{nextDeliveryHorizon}}</div>
+                <div class="x-label-text">{{laterDeliveryHorizon}}</div>
+              </div>
+              <div class="x-label-title">{{deliveryHorizon}}</div>
+            </div>
           </div>
         </div>
-      </div>
 
 
-      <div class="legend">
-        <div class="legend-title">{{category}}</div>
-        <div class="legend-details">
-          <div class="category-legend" *ngFor="let category of categoryColor | keyvalue">
-            <div class="legend-circle" [style.background-color]="category.value"></div>
-            <div class="legend-text">{{category.key}}</div>
+        <div class="legend">
+          <div class="legend-title">{{category}}</div>
+          <div class="legend-details">
+            <div class="category-legend" *ngFor="let category of categoryColor | keyvalue">
+              <div class="legend-circle" [style.background-color]="category.value"></div>
+              <div class="legend-text">{{category.key}}</div>
+            </div>
           </div>
         </div>
-      </div>
-    </mat-card-content>
-
+      </mat-card-content>
+    </div>
     <ng-template #fillRecommendationMessage>
       <div class="no-recommendation-message"> {{noRecommendationMessage}}  </div>
     </ng-template>

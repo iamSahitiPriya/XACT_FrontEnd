@@ -13,8 +13,9 @@
       <mat-icon>save_alt</mat-icon>
     </button>
   </div>
-  <div #radar_chart_image>
+  <div>
     <mat-card class="over-all-card">
+      <div #radar_chart_image class="radar-charts-image">
       <div *ngFor="let chartData of category.data" class="module-chart">
         <div class="module-name">{{chartData.moduleName}}</div>
         <canvas
@@ -24,6 +25,7 @@
           [type]="radarChartType"
         >
         </canvas>
+      </div>
       </div>
     </mat-card>
   </div>

@@ -44,6 +44,7 @@ class MockAppService {
     "modules": [{
       "moduleId": 1,
       "moduleName": 'module1',
+      "contributors":[],
       "category": 1,
       "active": false,
       "updatedAt": 23456,
@@ -172,6 +173,7 @@ describe('AdminTopicComponent', () => {
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
+        "contributors":[],
         "moduleName": 'module1',
         "category": 1,
         "active": false,
@@ -460,6 +462,7 @@ describe('AdminTopicComponent', () => {
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
+        "contributors":[],
         "moduleName": 'module1',
         "category": 1,
         "active": false,

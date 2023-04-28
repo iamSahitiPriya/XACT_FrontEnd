@@ -4,29 +4,32 @@
 
 <div class="row">
   <div class="col-md-9">
-  <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']" class="admin-searchBar"></app-search>
+    <app-search [dataSource]="dataSource" [columns]="['2','moduleName','categoryName']"
+                class="admin-searchBar"></app-search>
   </div>
-    <div class="col-md-3 buttonColumn">
+  <div class="col-md-3 buttonColumn">
     <button mat-flat-button class="button1" (click)="addModuleRow()">
       {{addModule}}
     </button>
   </div>
 </div>
 <div class="mat-elevation-z8 module">
-  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="moduleTable" aria-describedby="category">
+  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="moduleTable"
+         aria-describedby="category">
 
     <ng-container matColumnDef="categoryName">
       <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName"> {{categoryLabel}} </th>
       <td class="module" mat-cell *matCellDef="let row">
-          <span *ngIf="!(row.isEdit || selectedModule === row)" [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
+          <span *ngIf="!(row.isEdit || selectedModule === row)"
+                [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
           <span class="circle"></span>
-           {{row.categoryName}}
+            {{row.categoryName}}
         </span>
         <span *ngIf="row.isEdit || selectedModule===row">
          <mat-form-field appearance="outline" class="selectionBox">
            <mat-label>Select Category</mat-label>
   <mat-select [(ngModel)]="row.categoryName" required>
-    <mat-option *ngFor="let category of categoryDetails"  [value]="category.categoryName"
+    <mat-option *ngFor="let category of categoryDetails" [value]="category.categoryName"
                 [ngStyle]="{'color': category.active ? '52575d' : '#B3B8BD' }">
       {{category.categoryName}}
     </mat-option>
@@ -36,7 +39,7 @@
            </mat-error>
 </mat-form-field>
         </span>
-         </td>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="expandedDetail">
@@ -87,6 +90,17 @@
                           [disabled]="!(selectedModule === row || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
+    <ng-container matColumnDef="contributors">
+      <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="contributors">{{contributors}}</th>
+      <td class="module module-contributor" mat-cell *matCellDef="let row">
+        <button [matTooltip]="row.moduleId === -1?disableText:manageContributors"
+                [matTooltipPosition]="row.moduleId === -1?'below':'right'" id="add-contributors" mat-icon-button
+                (click)="addContributors(row)">
+          <mat-icon class="no-of-person-badge" matBadge="{{row.contributors?.length}}">people</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
 
     <ng-container matColumnDef="edit">
       <th class="module" mat-header-cell *matHeaderCellDef>{{action}}</th>
@@ -95,7 +109,7 @@
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editRow(row)">{{edit}}</button>
         </span>
         <span *ngIf="selectedModule===row && row.moduleId !== -1">
-        <button mat-flat-button class="updateButton" aria-label="expand row"
+        <button mat-flat-button class="update-button" aria-label="expand row"
                 (click)="updateModule(row)"
                 [disabled]="!row.moduleName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')">{{update}}</button>
         </span>
@@ -109,10 +123,7 @@
       <th class="module" mat-header-cell *matHeaderCellDef></th>
       <td class="module" mat-cell *matCellDef="let row; let index = index;">
         <span *ngIf="selectedModule===row && row.moduleId !== -1">
-                  <button class="closeButton" (click)="cancelChanges(row)"> <img data-id="manage"
-                                                                                 src="../../assets/closeIcon/closeIcon.svg"
-                                                                                 alt="close icon"
-                                                                                 class="closeIcon"/></button>
+                  <button class="closeButton" (click)="cancelChanges(row)"> <mat-icon>cancel</mat-icon></button>
         </span>
         <span *ngIf="row.isEdit">
                     <button mat-flat-button class="delete" (click)="deleteRow()">

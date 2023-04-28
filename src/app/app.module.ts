@@ -108,8 +108,10 @@ import {
 } from './components/summary/assessment-radar-chart/assessment-radar-chart.component';
 import {NgChartsModule} from "ng2-charts";
 import {ContributorConsoleComponent} from './components/contributor/contributor-console/contributor-console.component';
-import {ContributorAuthorComponent} from './components/contributor/contributor-author/contributor-author.component';
+import {ContributorAuthorComponent} from './components/contributor/contributor/contributor-author.component';
 import {ReviewDialogComponent} from './components/contributor/review-dialog/review-dialog.component';
+import {ManageContributorsComponent} from './components/admin/manage-contributors/manage-contributors.component';
+import {MatBadgeModule} from "@angular/material/badge";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -149,7 +151,13 @@ export const appRoutes: Routes = [
       component: ContributorAuthorComponent,
       pathMatch:'full',
       canActivate:[OktaAuthGuard]
-    }]
+    },
+      {
+        path: "reviewer",
+        component: ContributorAuthorComponent,
+        pathMatch:'full',
+        canActivate:[OktaAuthGuard]
+      }]
   },
   {
     path:'admin',
@@ -222,6 +230,7 @@ export const appRoutes: Routes = [
     ContributorConsoleComponent,
     ContributorAuthorComponent,
     ReviewDialogComponent,
+    ManageContributorsComponent,
   ],
 
   imports: [
@@ -254,51 +263,18 @@ export const appRoutes: Routes = [
     MatSelectModule,
     MatSortModule,
     NgHttpLoaderModule.forRoot(),
-    StoreModule.forRoot(reducers, {
-      runtimeChecks: {
-        strictStateSerializability: true,
-        strictActionSerializability: true,
-        strictActionWithinNgZone: true,
-        strictStateImmutability: false,
-        strictActionImmutability: false
-      }
-    }),
     EffectsModule.forRoot([AssessmentDataEffects]),
-    MatChipsModule,
     MatSlideToggleModule,
-    MatChipsModule,
     MatDatepickerModule,
-    MatChipsModule,
     MatRadioModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     OktaAuthModule,
     MatTableModule,
     MatFormFieldModule,
-    MatMenuModule,
     MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatSortModule,
-    NgHttpLoaderModule.forRoot(),
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateSerializability: true,
@@ -311,6 +287,7 @@ export const appRoutes: Routes = [
     EffectsModule.forRoot([AssessmentDataEffects]),
     MatChipsModule,
     MatSlideToggleModule,
+    MatBadgeModule,
     MatSlideToggleModule,
     MatNativeDateModule,
     NgbModule,
@@ -331,6 +308,7 @@ export const appRoutes: Routes = [
     MatIconModule,
     MatToolbarModule,
     NgHttpLoaderModule,
+    MatChipsModule,
     MatFormFieldModule,
     MatRippleModule,
     FormsModule,

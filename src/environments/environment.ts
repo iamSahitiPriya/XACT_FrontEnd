@@ -55,8 +55,7 @@ export const environment = {
   },
   SAVE_MODULE_URI: "/v1/admin/modules",
   SAVE_PARAMETER_URI: "/v1/admin/parameters",
-  UPDATE_QUESTION:"/v1/admin/questions",
-  SAVE_QUESTION:"/v1/admin/questions",
+  SAVE_QUESTION:"/v1/contributor/questions",
   SUMMARY_DATA:"/v1/reports/${assessmentId}/summary",
   RECOMMENDATIONS_URI:"/v1/reports/${assessmentId}/charts/roadmap",
   ACTIVITY_LOGS_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/activities",
@@ -64,6 +63,8 @@ export const environment = {
   UPDATE_CONTRIBUTOR_QUESTION : "/v1/contributor/questions/${questionId}",
   UPDATE_CONTRIBUTOR_STATUS_URI: "/v1/contributor/modules/${moduleId}/questions",
   DELETE_CONTRIBUTOR_QUESTION : "/v1/contributor/questions/${questionId}",
+  SAVE_CONTRIBUTOR_URI: "/v1/admin/modules/${moduleId}/contributors",
+
 }
 
 

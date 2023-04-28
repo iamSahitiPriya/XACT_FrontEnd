@@ -3,11 +3,11 @@
  */
 
 import {Component, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import {Subject, Subscription} from "rxjs";
+import {Subject, Subscription, takeUntil} from "rxjs";
 
 
 @Component({
@@ -22,19 +22,13 @@ export class AdminConsoleComponent implements OnDestroy {
   paramsSub: Subscription;
 
 
-  constructor(private router: Router, private store: Store<AppStates>, private activateRoute:ActivatedRoute) {
-    // this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res => {
-    //   const currentRoute = this.router.url.split('?')[0];
-    //   const path = currentRoute.split('/').pop() || '';
-    //   this.setEvent(path);
-    //   this.store.dispatch(fromActions.isAdmin({isAdmin: true}))
-    // })
-    // this.activateRoute.url.subscribe(val => {
+  constructor(private router: Router, private store: Store<AppStates>) {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(_res => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/').pop() || '';
       this.setEvent(path);
-      this.store.dispatch(fromActions.loggedInUser({role: "admin"}))
-    // })
+    })
+    this.store.dispatch(fromActions.loggedInUser({role: "admin"}))
   }
 
   setEvent(name: string) {
