@@ -93,7 +93,7 @@
     <ng-container matColumnDef="contributors">
       <th class="module" mat-header-cell *matHeaderCellDef mat-sort-header="contributors">{{contributors}}</th>
       <td class="module module-contributor" mat-cell *matCellDef="let row">
-        <button [matTooltip]="row.moduleId === -1?disableText:manageContributors"
+        <button [matTooltip]="row.moduleId === -1?disableText:manageContributors" [disabled]="row.isEdit || selectedModule===row"
                 [matTooltipPosition]="row.moduleId === -1?'below':'right'" id="add-contributors" mat-icon-button
                 (click)="addContributors(row)">
           <mat-icon class="no-of-person-badge" matBadge="{{row.contributors?.length}}">people</mat-icon>

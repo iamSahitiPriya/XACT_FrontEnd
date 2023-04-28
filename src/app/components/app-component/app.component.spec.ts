@@ -17,6 +17,8 @@ import {Idle, InterruptSource} from "@ng-idle/core";
 import {Interrupt} from "@ng-idle/core/lib/interrupt";
 import {EventEmitter} from "@angular/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 
 describe('AppComponent', () => {
@@ -72,7 +74,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         RouterModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        StoreModule.forRoot(reducers),
       ],
       providers: [
         AppServiceService,

@@ -2,10 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
 import {
@@ -16,6 +14,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
+
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../types/user";
@@ -27,6 +26,8 @@ import {map, Observable, startWith, Subject, takeUntil} from "rxjs";
 import {Responses} from 'src/app/types/Responses';
 import {OrganisationResponse} from "../../types/OrganisationResponse";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import {AppStates} from "../../reducers/app.states";
+import {Store} from "@ngrx/store";
 
 
 @Component({
@@ -85,6 +86,7 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   serverErrorMessage: string = data_local.ASSESSMENT.SERVER_ERROR_MESSAGE;
   maxTeamSize: number = data_local.ASSESSMENT.ASSESSMENT_TEAM.MAX_TEAM_SIZE
   teamSizeExceedErrorMessage: string = data_local.ASSESSMENT.ASSESSMENT_TEAM.TEAM_SIZE_EXCEED
+  loggedInUser:Observable<User>
 
   blankSpace: boolean = false;
   purposeOfAssessment = [{
@@ -105,8 +107,10 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   assessmentCopy: AssessmentStructure;
 
 
-  constructor(private router: Router, public dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth, private appService: AppServiceService,
-              private formBuilder: UntypedFormBuilder, private _snackBar: MatSnackBar) {
+  constructor(private router: Router, public dialog: MatDialog,private appService: AppServiceService,
+              private formBuilder: UntypedFormBuilder, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
+    this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
+
   }
 
   get form(): { [key: string]: AbstractControl } {
@@ -121,6 +125,9 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.loggedInUser.subscribe(user =>{
+      this.loggedInUserEmail = user.email
+    })
     this.createAssessmentForm = this.formBuilder.group(
       {
         selected: ['', Validators.required],
@@ -134,7 +141,6 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
       }
     )
     this.createAssessmentForm.controls['selected'].setValue(this.assessment.assessmentPurpose)
-    this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
     this.assessmentCopy = Object.assign({}, this.assessment)
     if (this.assessment.users !== undefined) {
       this.emails = Object.assign([], this.assessment.users);

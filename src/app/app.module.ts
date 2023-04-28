@@ -112,6 +112,7 @@ import {ContributorAuthorComponent} from './components/contributor/contributor/c
 import {ReviewDialogComponent} from './components/contributor/review-dialog/review-dialog.component';
 import {ManageContributorsComponent} from './components/admin/manage-contributors/manage-contributors.component';
 import {MatBadgeModule} from "@angular/material/badge";
+import {MatTreeModule} from "@angular/material/tree";
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -144,51 +145,62 @@ export const appRoutes: Routes = [
     canActivate: [OktaAuthGuard]
   },
   {
-    path:'contributor',
-    component:ContributorConsoleComponent,
-    children:[{
+    path: 'contributor',
+    component: ContributorConsoleComponent,
+    children: [{
       path: "author",
       component: ContributorAuthorComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
+      children: [],
     },
+      {
+        path: "topic",
+        component: AdminTopicComponent,
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
+      }, {
+        path: "parameter",
+        component: AdminParameterComponent,
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
+      },
       {
         path: "reviewer",
         component: ContributorAuthorComponent,
-        pathMatch:'full',
-        canActivate:[OktaAuthGuard]
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
       }]
   },
   {
-    path:'admin',
-    component:AdminConsoleComponent,
-    children:[{
-      path:"category",
-      component:AdminCategoryComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"dashboard",
-      component:AdminDashboardComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"module",
-      component:AdminModuleComponent,
-      canActivate:[OktaAuthGuard]
+    path: 'admin',
+    component: AdminConsoleComponent,
+    children: [{
+      path: "category",
+      component: AdminCategoryComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "dashboard",
+      component: AdminDashboardComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "module",
+      component: AdminModuleComponent,
+      canActivate: [OktaAuthGuard]
 
-    },{
-      path:"topic",
-      component:AdminTopicComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
-    },{
-      path:"parameter",
-      component:AdminParameterComponent,
-      pathMatch:'full',
-      canActivate:[OktaAuthGuard]
+    }, {
+      path: "topic",
+      component: AdminTopicComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
+    }, {
+      path: "parameter",
+      component: AdminParameterComponent,
+      pathMatch: 'full',
+      canActivate: [OktaAuthGuard]
     }
-    ]}];
+    ]
+  }];
 
 @NgModule({
   declarations: [
@@ -233,73 +245,74 @@ export const appRoutes: Routes = [
     ManageContributorsComponent,
   ],
 
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    MDBBootstrapModule.forRoot(),
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatInputModule,
-    MatIconModule,
-    MatDialogModule,
-    FormsModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatSortModule,
-    NgHttpLoaderModule.forRoot(),
-    EffectsModule.forRoot([AssessmentDataEffects]),
-    MatSlideToggleModule,
-    MatDatepickerModule,
-    MatRadioModule,
-    BrowserModule,
-    MDBBootstrapModule.forRoot(),
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    OktaAuthModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    StoreModule.forRoot(reducers, {
-      runtimeChecks: {
-        strictStateSerializability: true,
-        strictActionSerializability: true,
-        strictActionWithinNgZone: true,
-        strictStateImmutability: false,
-        strictActionImmutability: false
-      }
-    }),
-    EffectsModule.forRoot([AssessmentDataEffects]),
-    MatChipsModule,
-    MatSlideToggleModule,
-    MatBadgeModule,
-    MatSlideToggleModule,
-    MatNativeDateModule,
-    NgbModule,
-    MatCheckboxModule,
-    Ng2SearchPipeModule,
-    MatAutocompleteModule,
-    NgxChartsModule,
-    MtxPopoverModule,
-    NgIdleModule.forRoot(),
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    NgChartsModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        MDBBootstrapModule.forRoot(),
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatInputModule,
+        MatIconModule,
+        MatDialogModule,
+        FormsModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatExpansionModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatTabsModule,
+        MatTooltipModule,
+        MatSelectModule,
+        MatSortModule,
+        NgHttpLoaderModule.forRoot(),
+        EffectsModule.forRoot([AssessmentDataEffects]),
+        MatSlideToggleModule,
+        MatDatepickerModule,
+        MatRadioModule,
+        BrowserModule,
+        MDBBootstrapModule.forRoot(),
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+        OktaAuthModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        StoreModule.forRoot(reducers, {
+            runtimeChecks: {
+                strictStateSerializability: true,
+                strictActionSerializability: true,
+                strictActionWithinNgZone: true,
+                strictStateImmutability: false,
+                strictActionImmutability: false
+            }
+        }),
+        EffectsModule.forRoot([AssessmentDataEffects]),
+        MatChipsModule,
+        MatSlideToggleModule,
+        MatBadgeModule,
+        MatSlideToggleModule,
+        MatNativeDateModule,
+        NgbModule,
+        MatCheckboxModule,
+        Ng2SearchPipeModule,
+        MatAutocompleteModule,
+        NgxChartsModule,
+        MtxPopoverModule,
+        NgIdleModule.forRoot(),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+        NgChartsModule,
+        MatTreeModule
+    ],
 
   exports: [
     MatButtonModule,

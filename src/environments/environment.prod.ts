@@ -36,14 +36,14 @@ export const environment = {
   USER_ASSESSMENT_MODULE_URI: "/modules",
   ACCOUNT_URI : "/v1/accounts",
   CREATE_UPDATE_DELETE_USER_QUESTION_URI:"/v1/assessments",
-  SAVE_TOPIC_URI :"/v1/admin/topics",
-  UPDATE_TOPIC_URI : "/v1/admin/topics",
-  SAVE_TOPIC_REFERENCE_URI : "/v1/admin/topic-references",
-  DELETE_TOPIC_REFERENCE_URI : "/v1/admin/topic-references",
-  UPDATE_TOPIC_REFERENCE_URI : "/v1/admin/topic-references",
-  SAVE_PARAMETER_REFERENCE_URI: "/v1/admin/parameter-references",
-  DELETE_PARAMETER_REFERENCE_URI: "/v1/admin/parameter-references",
-  UPDATE_PARAMETER_REFERENCE_URI: "/v1/admin/parameter-references",
+  SAVE_TOPIC_URI :"/v1/contributor/topics",
+  UPDATE_TOPIC_URI : "/v1/contributor/topics",
+  SAVE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
+  DELETE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
+  UPDATE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
+  SAVE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
+  DELETE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
+  UPDATE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
 
   okta: {
     cookies: {
@@ -54,7 +54,7 @@ export const environment = {
     }
   },
   SAVE_MODULE_URI: "/v1/admin/modules",
-  SAVE_PARAMETER_URI: "/v1/admin/parameters",
+  SAVE_PARAMETER_URI: "/v1/contributor/parameters",
   SAVE_QUESTION:"/v1/contributor/questions",
   SUMMARY_DATA:"/v1/reports/${assessmentId}/summary",
   RECOMMENDATIONS_URI:"/v1/reports/${assessmentId}/charts/roadmap",

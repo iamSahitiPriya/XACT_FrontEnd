@@ -29,6 +29,8 @@ import {OKTA_AUTH} from "@okta/okta-angular";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OrganisationResponse} from "../../types/OrganisationResponse";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 jest.mock('lodash/cloneDeep', () => jest.fn());
 
@@ -121,7 +123,7 @@ describe('CreateAssessmentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAssessmentsComponent],
       imports: [MatDialogModule, RouterTestingModule, MatFormFieldModule, MatIconModule, MatInputModule,
-        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule, MatSelectModule, MatAutocompleteModule,
+        MatTableModule, HttpClientTestingModule, NoopAnimationsModule, RouterModule, MatTooltipModule, MatSelectModule, MatAutocompleteModule, StoreModule.forRoot(reducers),
         ReactiveFormsModule, MatSnackBarModule, FormsModule, MatButtonModule, MatRippleModule, MatChipsModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})],
       providers: [
         {provide: OKTA_AUTH, useValue: oktaAuth},
@@ -482,10 +484,4 @@ describe('CreateAssessmentsComponent', () => {
 
   });
 
-  it("should be able to fetch okta user details", () => {
-    component.assessment = mockAssessment;
-    jest.spyOn(component, "ngOnInit");
-    component.ngOnInit();
-    expect(component.oktaAuth.getUser).toHaveBeenCalled()
-  })
 });

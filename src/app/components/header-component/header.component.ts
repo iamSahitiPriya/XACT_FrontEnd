@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input()
   userRole: Observable<string []>
+  private loggedInUserEmail: string;
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService: AppServiceService) {
   }
