@@ -94,6 +94,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   stackedBarChartHeightMultiplier: number = 22.5;
   moduleCardHeightOffset: number = 55;
   moduleChartHeightOffset: number = 20;
+  assessmentName: string;
 
 
   stackedBarChartColorSchemes: StackedBarChartColorScheme[][] = [
@@ -152,6 +153,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.assessmentData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentDescription = data.assessmentDescription
+        this.assessmentName = data.assessmentName
       }
     })
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
@@ -504,7 +506,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     html2canvas(image.nativeElement).then(canvas => {
       this.canvas.nativeElement.src = canvas.toDataURL();
       this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = imageName + '-chart.png';
+      this.downloadLink.nativeElement.download = this.assessmentName+"-"+imageName + '-chart.png';
       this.downloadLink.nativeElement.click();
     });
   }
