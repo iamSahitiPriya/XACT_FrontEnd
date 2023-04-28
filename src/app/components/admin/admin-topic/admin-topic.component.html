@@ -7,7 +7,7 @@
     <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']"
                 class="admin-searchBar"></app-search>
   </div>
-  <div class="col-md-3 topicButtonColumn" *ngIf="path === 'contributor'">
+  <div class="col-md-3 topicButtonColumn" *ngIf="path === contributorText.toLowerCase()">
     <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
       {{addTopic}}
     </button>

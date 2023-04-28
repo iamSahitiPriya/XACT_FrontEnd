@@ -125,8 +125,8 @@ export class CreateAssessmentsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.loggedInUser.subscribe(email =>{
-      this.loggedInUserEmail = email.email
+    this.loggedInUser.subscribe(user =>{
+      this.loggedInUserEmail = user.email
     })
     this.createAssessmentForm = this.formBuilder.group(
       {

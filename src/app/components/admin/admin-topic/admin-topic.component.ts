@@ -93,6 +93,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   loggedInUserEmail: string
   path : string ;
   adminParameterReferenceMessage = data_local.ADMIN.REFERENCES.ADMIN_PARAMETER_REFERENCE_MESSAGE;
+  authorText = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  adminText = data_local.ADMIN.ROLE;
+  contributorText = data_local.CONTRIBUTOR.CONTRIBUTOR;
 
 
   constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
@@ -142,9 +145,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   private fetchModuleDetails(eachCategory: CategoryResponse) {
-    this.loggedInUser.subscribe(email => {
-      this.loggedInUserEmail = email.email
-      if(email.email.length >0) {
+    this.loggedInUser.subscribe(user => {
+      this.loggedInUserEmail = user.email
+      if(user.email.length >0) {
         this.categoryList.push({
           categoryId: eachCategory.categoryId,
           categoryName: eachCategory.categoryName,
@@ -152,12 +155,12 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         })
         let module:ModuleRequest[]=[];
         eachCategory.modules?.forEach(eachModule => {
-          if (this.path === 'admin') {
+          if (this.path === this.adminText.ADMIN.toLowerCase()) {
             this.setModules(eachModule,module, eachCategory);
-          } else if (this.path === 'contributor') {
+          } else if (this.path === this.contributorText.toLowerCase()) {
             this.displayedColumns=  ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','edit','reference'];
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
-            if (contributor?.role === 'AUTHOR') {
+            if (contributor?.role === this.authorText) {
               this.setModules(eachModule,module, eachCategory);
             }
           }
