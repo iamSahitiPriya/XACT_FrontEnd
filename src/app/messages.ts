@@ -240,6 +240,9 @@ export const data_local =
         DATA_NOT_SAVED: "Data cannot be saved, Please reload the page if problem persist.",
         DUPLICATE_RATING_ERROR_MESSAGE: "No duplicate ratings are allowed",
         DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
+        ADMIN_PARAMETER_REFERENCE_MESSAGE: "References can't be shown because parameter Level References already exists! ",
+        ADMIN_TOPIC_REFERENCE_MESSAGE:"References can't be shown because topic Level References already exists! ",
+
       },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",

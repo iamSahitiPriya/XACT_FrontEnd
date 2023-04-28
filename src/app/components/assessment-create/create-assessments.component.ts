@@ -2,10 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import {OktaAuth} from "@okta/okta-auth-js";
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {Router} from "@angular/router";
 import {
@@ -16,7 +14,6 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import * as fromActions from "../../actions/assessment-data.actions";
 
 import {AssessmentRequest} from "../../types/assessmentRequest";
 import {MatSnackBar} from "@angular/material/snack-bar";

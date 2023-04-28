@@ -88,6 +88,7 @@ export class AdminParameterComponent implements OnInit {
   path: string;
   loggedInUser: Observable<User>
   loggedInUserEmail: string
+  private adminTopicReferenceMessage= data_local.ADMIN.REFERENCES.ADMIN_TOPIC_REFERENCE_MESSAGE;
 
 
   constructor(private router: Router, private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
@@ -471,8 +472,10 @@ export class AdminParameterComponent implements OnInit {
         maxHeight: '71vh'
       })
       this.dialogRef.disableClose = true;
-    } else
-      this.showError(this.topicReferenceMessage)
+    } else {
+      this.path === 'admin' ?  this.showError(this.adminTopicReferenceMessage) : this.showError(this.topicReferenceMessage);
+
+    }
   }
 
   findCategoryId(row: ParameterData): number {

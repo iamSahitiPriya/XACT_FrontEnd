@@ -92,6 +92,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   loggedInUser: Observable<User>
   loggedInUserEmail: string
   path : string ;
+  adminParameterReferenceMessage = data_local.ADMIN.REFERENCES.ADMIN_PARAMETER_REFERENCE_MESSAGE;
 
 
   constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
@@ -446,8 +447,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         maxHeight: '71vh'
       })
       this.dialogRef.disableClose = true;
-    } else
-      this.showError(this.parameterReferenceMessage)
+    } else {
+        this.path === 'admin' ?  this.showError(this.adminParameterReferenceMessage) : this.showError(this.parameterReferenceMessage)
+    }
   }
 
   private isTopicReferences(row: TopicData) {
