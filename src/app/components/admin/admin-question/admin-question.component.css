@@ -324,4 +324,8 @@
   .published-questions {
     width: 90%;
   }
+
+  .edit-question, .send-question-for-review{
+    height: 2.2rem;
+  }
 }
