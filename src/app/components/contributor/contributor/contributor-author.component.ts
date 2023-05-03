@@ -89,13 +89,14 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     this.masterData.subscribe(data => {
       this.categoryResponse = data
     })
-    this.appService.getContributorQuestions(this.contributorType).subscribe((data) => {
-      this.unsavedChanges = []
-      this.contributorResponse = data
-      this.formatResponse()
-      this.unsavedChanges = cloneDeep(this.contributorData)
-    })
-  }
+      this.appService.getContributorQuestions(this.contributorType).subscribe((data) => {
+        this.unsavedChanges = []
+        this.contributorResponse = data
+        this.formatResponse()
+        this.unsavedChanges = cloneDeep(this.contributorData)
+      })
+    }
+
 
   private setActionByContributorType() {
     if (this.contributorType === this.author) {
@@ -339,6 +340,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       let index = questions.findIndex(eachQuestion => eachQuestion.questionId === eachResponse)
       if (index !== -1) {
         questions[index].status = response.status
+        questions[index].comments = response.comments
       }
     })
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))

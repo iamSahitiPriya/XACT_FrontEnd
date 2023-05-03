@@ -3,7 +3,7 @@
     <app-search [dataSource]="dataSource" [columns]="['4','categoryName','moduleName','topicName','parameterName']"
                 class="admin-searchBar"></app-search>
   </div>
-  <div class="col-md-3 parameterButtonColumn">
+  <div class="col-md-3 parameterButtonColumn" *ngIf="path === 'contributor'">
     <button mat-flat-button class="parameterButton1" (click)="addParameterRow()">
       Add Parameter
     </button>
@@ -171,7 +171,9 @@
             <app-admin-parameter-reference [parameter]="row"
                                            [topic]="findTopicId(row)"
                                            [module]="findModuleId(row)"
-                                           [category]="findCategoryId(row)">
+                                           [category]="findCategoryId(row)"
+                                           [role] = "path"
+            >
 
             </app-admin-parameter-reference>
           </ng-container>
@@ -193,7 +195,7 @@
                                 [topic]="findTopicId(row)"
                                 [module]="findModuleId(row)"
                                 [category]="findCategoryId(row)"
-                                [role]="'Admin'"
+                                [role]="path"
             ></app-admin-question>
           </ng-container>
         </ng-template>

@@ -209,6 +209,13 @@ describe('AdminParameterComponent', () => {
       topicStatus: false,
       updatedAt: 0
     }
+    component.loggedInUser = of({
+      email:'abc@thoughtworks.com',
+      role:'author'
+    })
+    component.path = 'contributor'
+
+
     // @ts-ignore
     component.masterData = of([{
       "categoryId": 1,
@@ -221,6 +228,10 @@ describe('AdminParameterComponent', () => {
         "moduleName": 'module1',
         "category": 1,
         "active": false,
+        "contributors":[{
+          userEmail:'abc@thoughtworks.com',
+          role:'AUTHOR'
+        }],
         "updatedAt": 23456,
         "comments": " ",
         "topics": [{
@@ -259,6 +270,10 @@ describe('AdminParameterComponent', () => {
           "active": false,
           "updatedAt": 23456,
           "comments": " ",
+          "contributors":[{
+            userEmail:'abc@thoughtworks.com',
+            role:'AUTHOR'
+          }],
           "topics":[]
         }]
     }, {
@@ -458,6 +473,18 @@ describe('AdminParameterComponent', () => {
     component.isEditable = false
     component.unSavedParameter = row
      component.ngOnInit()
+    component.editParameterRow(row)
+    expect(component.isEditable).toBeTruthy()
+    expect(component.selectedParameter).toBe(row)
+
+  });
+
+  it("should not select parameter on clicking edit when path is admin", () => {
+    component.selectedParameter = null
+    component.isEditable = false
+    component.unSavedParameter = row
+    component.path = 'admin'
+    component.ngOnInit()
     component.editParameterRow(row)
     expect(component.isEditable).toBeTruthy()
     expect(component.selectedParameter).toBe(row)

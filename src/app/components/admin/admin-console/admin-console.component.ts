@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import {Subject, Subscription, takeUntil} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -19,7 +19,6 @@ export class AdminConsoleComponent implements OnDestroy {
   type = "";
   tabIndex: number;
   private destroy$: Subject<void> = new Subject<void>();
-  paramsSub: Subscription;
 
 
   constructor(private router: Router, private store: Store<AppStates>) {

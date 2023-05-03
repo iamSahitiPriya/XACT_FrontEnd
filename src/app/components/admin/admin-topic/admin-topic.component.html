@@ -7,7 +7,7 @@
     <app-search [dataSource]="dataSource" [columns]="['3','categoryName','topicName','moduleName']"
                 class="admin-searchBar"></app-search>
   </div>
-  <div class="col-md-3 topicButtonColumn">
+  <div class="col-md-3 topicButtonColumn" *ngIf="path === contributorText.toLowerCase()">
     <button mat-flat-button class="topicButton1" (click)="addTopicRow()">
       {{addTopic}}
     </button>
@@ -139,7 +139,7 @@
         </button>
         </div>
         <ng-template #reference>
-          <app-admin-reference [topic]="row" [category]="findCategoryId(row)" [module]="findModuleId(row)"></app-admin-reference>
+          <app-admin-reference [topic]="row" [category]="findCategoryId(row)" [module]="findModuleId(row)" [role]="path"></app-admin-reference>
         </ng-template>
       </td>
 

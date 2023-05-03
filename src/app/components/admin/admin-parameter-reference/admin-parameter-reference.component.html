@@ -16,7 +16,7 @@
     <span>{{scoreCard}}</span>
   </div>
 
-  <div class="reference-button">
+  <div class="reference-button" *ngIf="role === 'contributor'">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
   <div *ngIf="parameterReferences!== undefined" class="references">
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <div class="edit">
+      <div class="edit" *ngIf="role === 'contributor'">
         <div *ngIf="reference.isEdit===false" class="edit-button">
           <button (click)="setIsEdit(reference)">{{edit}}</button>
         </div>

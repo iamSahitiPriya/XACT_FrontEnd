@@ -26,6 +26,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   @Input() category: number
   @Input() module: number
   @Input() parameter: ParameterData
+  @Input() role:string
 
   parameterId : number | undefined
   categories: CategoryResponse[]

@@ -1,6 +1,6 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="close-question" *ngIf="role === admin">
+  <div class="close-question" *ngIf="role === admin.toLowerCase() || role === contributor.toLowerCase()">
     <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
       <mat-icon class="close-question-icon">close</mat-icon>
     </button>
@@ -10,7 +10,7 @@
   <h2 class="question-heading">{{questions}}</h2>
 </mat-card-title>
 <div class="admin-contributor-questions">
-  <div class="add-question" *ngIf="role === author">
+  <div class="add-question" *ngIf="role === contributor.toLowerCase() || role === author">
     <button mat-flat-button class="add-question-button" (click)="addQuestion()">
       {{addQuestionText}}
     </button>
@@ -69,21 +69,21 @@
                 <div class="author-action-buttons"
                      *ngIf="((question.status === sentForReview && question.isEdit === false) ||
                                (question.status === draft && question.isEdit === false) ||
-                               (question.status === requestedForChange && question.isEdit === false && role === author) )">
+                               (question.status === requestedForChange && question.isEdit === false && (role === author || role === 'contributor')))">
 
                   <div class="edit-button">
                     <button class="edit-question" id="edit-question" mat-flat-button
-                            [disabled]="question.status === sentForReview && role === author"
+                            [disabled]="question.status === sentForReview && (role === author || role === contributor.toLowerCase())"
                             (click)="setIsEdit(question)">{{edit}}</button>
                   </div>
 
                   <div class="send-for-review-author-button">
                     <button class="send-question-for-review" id="sent-for-review-question" mat-flat-button
-                            [disabled]="question.status === sentForReview && role === author"
+                            [disabled]="question.status === sentForReview && (role === author|| role === contributor.toLowerCase())"
                             (click)="sendForReview(question,action)">{{contributorActionButtonText}}</button>
                   </div>
 
-                  <div class="delete-button" *ngIf="role === author">
+                  <div class="delete-button" *ngIf="(role === author|| role === 'contributor')">
                     <button mat-flat-button (click)="deleteQuestion(question)"
                             [ngClass]="{'disable-delete-button' : question.status === sentForReview}">
                       <mat-icon id="delete-question">delete</mat-icon>
@@ -125,7 +125,7 @@
                             [disabled]="!question.questionText">{{update}}</button>
                   </div>
                   <div class="approve-action" *ngIf="role === reviewer">
-                      <mat-icon (click)="updateAndApproveQuestion(question)">check</mat-icon>
+                    <mat-icon (click)="updateAndApproveQuestion(question)">check</mat-icon>
                   </div>
                   <div class="cancel-button">
                     <button class="cancel-button" (click)="cancelChanges(question)">

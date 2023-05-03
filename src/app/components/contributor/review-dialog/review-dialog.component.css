@@ -46,7 +46,6 @@
   border-radius: 7px;
   opacity: 1;
 }
-
 ::ng-deep .comments-area .mat-form-field-appearance-outline .mat-form-field-wrapper ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex{
   height: 11vh !important;
 }
