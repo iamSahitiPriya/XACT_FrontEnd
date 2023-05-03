@@ -9,6 +9,9 @@ import {AssessmentStructure} from "../../types/assessmentStructure";
 import {data_local} from "../../messages";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppServiceService} from "../../services/app-service/app-service.service";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../reducers/app.states";
+import * as fromActions from "../../actions/assessment-data.actions";
 
 @Component({
   selector: 'app-header',
@@ -30,9 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input()
   userRole: Observable<string []>
-  private loggedInUserEmail: string;
 
-  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService: AppServiceService) {
+  constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth,private appService: AppServiceService,private store: Store<AppStates>) {
   }
 
   username: string|undefined = ""
@@ -42,9 +44,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   admin : string = data_local.ADMIN.ROLE.ADMIN
   reviewer : string = data_local.CONTRIBUTOR.ROLE.REVIEWER
   author : string = data_local.CONTRIBUTOR.ROLE.AUTHOR
+  private loggedInUserEmail: string | undefined;
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.oktaAuth.getUser()).name;
+    this.loggedInUserEmail = ( await this.oktaAuth.getUser()).email || "";
+    this.store.dispatch(fromActions.loggedInUserEmail({email:this.loggedInUserEmail}))
     this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data.includes(this.admin)) {
         this.isAdmin = true;

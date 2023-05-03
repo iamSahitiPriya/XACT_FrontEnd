@@ -3,12 +3,12 @@
   -->
 
 <div>
-  <button type="button" id="close" mat-icon-button (click)="cancelChanges(0)">
+  <button type="button" id="close" mat-icon-button (click)="closeDialog(cancel)">
     <mat-icon>close</mat-icon>
   </button>
   <p class="cancelText">{{text}}</p>
   <mat-dialog-actions align="center">
-    <button mat-flat-button (click)="cancelChanges(1)" class="okButton">{{buttonText}}</button>
+    <button mat-flat-button (click)="closeDialog(save)" class="okButton">{{buttonText}}</button>
   </mat-dialog-actions>
 </div>
 

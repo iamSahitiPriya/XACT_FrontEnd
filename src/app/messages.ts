@@ -333,7 +333,7 @@ export const data_local =
       SEARCH_TEXT : "Type to search",
       CONSOLE : "Contributor Console",
       CONTRIBUTOR : "Contributor",
-      TITLE :"X - Act Contributor",
+      TITLE :"X-Act Contributor",
       ALL_QUESTIONS : "All Questions",
       SELECT_ALL : "Select All",
       SEARCH_QUESTIONS : "Search questions",

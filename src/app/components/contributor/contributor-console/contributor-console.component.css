@@ -41,7 +41,7 @@
 }
 
 .author button, .reviewer button {
-  height: 5vh;
+  height: 6vh;
   text-align: left;
   font-style: normal;
   font-family: Inter, sans-serif;
@@ -61,6 +61,7 @@
   padding-bottom: 6px;
   justify-content: space-between;
   padding-left: 5px;
+  padding-top:8px;
 }
 
 .author-icon .mat-icon {
@@ -79,6 +80,7 @@
   padding-bottom: 6px;
   justify-content: space-between;
   padding-left: 5px;
+  padding-top:8px;
 }
 
 .author-label {
@@ -86,7 +88,7 @@
   padding-top: 7%;
 }
 
-.author-label h3, .reviewer-label h3 {
+.author-label h3,.reviewer-label h3{
   font-size: 1em;
 }
 
@@ -117,7 +119,7 @@
 
 .parameter-icon {
   height: 16px;
-  margin-bottom: 0px;
+  margin-bottom: 3px;
   padding-left: 20px;
   background: transparent url("src/assets/admin-dashboard/Group 3732.svg") 0% 0% no-repeat padding-box;
   opacity: 1;
@@ -141,4 +143,10 @@
   opacity: 1;
   margin: 6px -4px !important;
   border-radius: 32px;
+}
+.title{
+  margin-left:-5px;
+}
+.expand-icon{
+   margin-left:14px;
 }
