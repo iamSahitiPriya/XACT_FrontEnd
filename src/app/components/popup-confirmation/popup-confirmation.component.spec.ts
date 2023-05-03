@@ -39,7 +39,7 @@ describe('PopupConfirmationComponent', () => {
   });
   it('should close dialog box', () => {
     jest.spyOn(component.dialogRef, 'close');
-    component.cancelChanges();
+    component.closeDialog(0);
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 

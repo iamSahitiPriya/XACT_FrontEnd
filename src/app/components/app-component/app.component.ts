@@ -13,9 +13,6 @@ import {Observable} from "rxjs";
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snack-bar";
-import * as fromActions from "../../actions/assessment-data.actions";
-import {Store} from "@ngrx/store";
-import {AppStates} from "../../reducers/app.states";
 
 
 @Component({
@@ -33,11 +30,11 @@ export class AppComponent implements OnInit {
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;
 
   idleState = data_local.IDLE_STATE.STATE.NOT_STARTED;
-  private loggedInUserEmail: string;
+  private loggedInUserEmail: string | undefined;
 
 
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef,private _snackBar: MatSnackBar,private store: Store<AppStates>) {
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef,private _snackBar: MatSnackBar) {
     // set idle parameters
     idle.setIdle(environment.IDLE_TIMEOUT); // how long can they be inactive before considered idle, in seconds
     idle.setTimeout(environment.TIMEOUT); // how long can they be idle before considered timed out, in seconds
@@ -81,11 +78,8 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.loggedInUserEmail = (await this.oktaAuth.getUser()).email || "";
-    this.store.dispatch(fromActions.loggedInUserEmail({email:this.loggedInUserEmail}))
     this.reset();
-    this.userRoles = await this.appService.getUserRole();
-
+    this.userRoles =await this.appService.getUserRole();
   }
 }
 

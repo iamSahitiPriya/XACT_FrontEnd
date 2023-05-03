@@ -15,12 +15,14 @@ export class PopupConfirmationComponent {
   text: string;
 
   buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
+  cancel : number =0;
+  save : number =1;
 
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) {
   }
 
-  cancelChanges() {
-    this.dialogRef.close(1)
+  closeDialog(result: number) {
+    this.dialogRef.close(result)
   }
 
 

@@ -27,10 +27,10 @@
                         [attr.aria-label]="'Toggle ' + node.name"
                         [ngClass]="{'contributor-active':type === author.toLowerCase()}"
                         [routerLink]="['/contributor/author']">
-                  <mat-icon class="mat-icon-rtl-mirror">
+                  <mat-icon class="expand-icon">
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
-                     {{authorText}}
+                   <span class="title"> {{authorText}}</span>
                   </button>
               </div>
               <div [class.author-tree-invisible]="!treeControl.isExpanded(node)"

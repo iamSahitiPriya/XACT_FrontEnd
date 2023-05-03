@@ -14,6 +14,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {of} from 'rxjs';
 import {AppServiceService} from "../../services/app-service/app-service.service";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {StoreModule} from "@ngrx/store";
+import {reducers} from "../../reducers/reducers";
 
 
 describe('HeaderComponent', () => {
@@ -27,7 +29,7 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent, SearchComponent, CreateAssessmentsComponent],
 
-      imports: [MatMenuModule, RouterTestingModule, RouterModule,MatIconModule,HttpClientTestingModule],
+      imports: [MatMenuModule, RouterTestingModule, RouterModule,MatIconModule,HttpClientTestingModule, StoreModule.forRoot(reducers)],
       providers: [
         AppServiceService,
         {provide: OKTA_AUTH, useValue: oktaAuth},

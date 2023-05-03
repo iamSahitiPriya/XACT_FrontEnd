@@ -91,6 +91,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   stackedBarChartHeightMultiplier: number = 22.5;
   moduleCardHeightOffset: number = 55;
   moduleChartHeightOffset: number = 20;
+  assessmentName: string;
 
 
   stackedBarChartColorSchemes: StackedBarChartColorScheme[][] = [
@@ -149,6 +150,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     this.assessmentData.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
         this.assessmentDescription = data.assessmentDescription
+        this.assessmentName = data.assessmentName
       }
     })
     const assessmentIdParam = this.route.snapshot.paramMap.get('assessmentId') || 0;
