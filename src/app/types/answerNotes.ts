@@ -5,4 +5,5 @@
 export interface Notes {
   "questionId": number,
   "answer"?: string
+  "rating" ?: number
 }

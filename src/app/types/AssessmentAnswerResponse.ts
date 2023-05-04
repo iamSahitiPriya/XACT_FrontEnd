@@ -5,4 +5,5 @@
 export interface AssessmentAnswerResponse {
   "questionId"?: number,
   "answer"?: string,
+  "rating"?: number
 }

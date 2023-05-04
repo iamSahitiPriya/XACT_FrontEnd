@@ -139,6 +139,14 @@ export class AppServiceService {
     return this.http.patch(environment.BaseURI + parameterRatingURI, parameterRating.rating)
   }
 
+  saveQuestionRating(assessmentId: number, questionId: number, rating: number | undefined) {
+    const questionRatingURI = this.formatURI(environment.SAVE_QUESTION_RATING_URI, {
+      assessmentId: assessmentId,
+      questionId: questionId
+    })
+    return this.http.patch(environment.BaseURI + questionRatingURI, rating)
+  }
+
   updateAssessment(assessmentId: number, assessmentData: AssessmentRequest): Observable<AssessmentStructure> {
     return this.http.put<AssessmentStructure>(environment.BaseURI + environment.ASSESSMENT_URI + "/" + assessmentId, assessmentData,);
   }

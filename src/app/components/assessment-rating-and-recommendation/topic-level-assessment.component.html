@@ -25,6 +25,15 @@
                                      [type]="questionType"
                                      [activityRecords] = "activityRecord.question"
             ></app-assessment-question>
+            <app-question-level-rating *ngIf="topicRequest.parameterLevel[i]"
+                                        [parameterId]="parameter.parameterId"
+                                        [topicId]="topicInput.topicId"
+                                        [references]="question.references"
+                                        [question]="topicRequest.parameterLevel[i].answerRequest[j]"
+                                        [assessmentId]="assessmentId"
+                                        [parameterName]="parameter.parameterName"
+            ></app-question-level-rating>
+
           </div>
         </div>
 

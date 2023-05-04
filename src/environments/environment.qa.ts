@@ -19,6 +19,7 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/recommendations",
   SAVE_TOPIC_RATING_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/ratings",
   SAVE_PARAMETER_RATING_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/ratings",
+  SAVE_QUESTION_RATING_URI : "/v1/assessments/${assessmentId}/questions/${questionId}/ratings",
   VERSION: appPackage && appPackage.version,
   ROLE_URI:"/v1/users/roles",
   LOGIN_URI: "/v1/users/login",
