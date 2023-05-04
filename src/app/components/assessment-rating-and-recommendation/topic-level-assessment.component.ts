@@ -80,7 +80,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
     parameterRecommendation: []
   }
 
-  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private store: Store<AppStates>, private  route : ActivatedRoute) {
+  constructor(private _snackBar: MatSnackBar, @Optional() private appService: AppServiceService, @Optional() private store: Store<AppStates>, private route: ActivatedRoute) {
     this.answerResponse1 = this.store.select((storeMap) => storeMap.assessmentState.assessments)
     this.route.queryParams.subscribe(params => {
       this.scrollToElement = params['scrollToElement'];
@@ -128,9 +128,9 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
     }
   }
 
-  getNotes(questionId: number, answer: string | undefined): Notes {
+  getNotes(questionId: number, answer: string | undefined, rating: number | undefined): Notes {
     return {
-      questionId: questionId, answer: answer
+      questionId: questionId, answer: answer, rating: rating
     };
   }
 
@@ -144,14 +144,16 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
   getAnswersList(parameter: ParameterStructure): Notes[] {
     const answerRequest = []
     let answer: string | undefined;
+    let rating: number | undefined;
     for (let question in parameter.questions) {
       if (this.answerResponse.answerResponseList !== undefined) {
         let indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
         if (indexQuestion !== -1) {
           answer = this.answerResponse.answerResponseList[indexQuestion].answer
+          rating = this.answerResponse.answerResponseList[indexQuestion].rating
         }
       }
-      answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer))
+      answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer, rating))
       answer = undefined;
     }
     return answerRequest
@@ -279,11 +281,21 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
       this.averageRating.topicId = this.topicInput.topicId
     } else {
       for (let parameter in this.topicRequest.parameterLevel) {
-        if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation) {
+        if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating !== 0) {
           let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating || 0);
           ratingSum = ratingSum + currentRating;
           if (currentRating > 0) {
             ratingNumber = ratingNumber + 1;
+          }
+        } else if (this.topicRequest.parameterLevel[parameter].answerRequest.length > 0) {
+          for (let answer in this.topicRequest.parameterLevel[parameter].answerRequest) {
+            if (this.topicRequest.parameterLevel[parameter].answerRequest[answer]) {
+              let currentRating = (this.topicRequest.parameterLevel[parameter].answerRequest[answer].rating || 0);
+              ratingSum = ratingSum + currentRating;
+              if (currentRating > 0) {
+                ratingNumber = ratingNumber + 1;
+              }
+            }
           }
         }
       }
@@ -305,7 +317,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
   }
 
   private getActivities() {
-    if(this.assessmentStatus !== 'Completed') {
+    if (this.assessmentStatus !== 'Completed') {
       this.appService.getActivity(this.topicInput.topicId, this.assessmentId).pipe(takeUntil(this.destroy$)).subscribe((data: string | undefined) => {
         if (data !== undefined) {
           this.activities = JSON.parse(data);
@@ -330,7 +342,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
   addTopicRecommendationTemplate() {
     if (this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation &&
       this.topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation.length <= RECOMMENDATION_MAX_LIMIT) {
-      let recommendation : TopicLevelRecommendation = {
+      let recommendation: TopicLevelRecommendation = {
         recommendationId: undefined,
         recommendationText: "",
         impact: "LOW",
@@ -341,7 +353,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
     }
   }
 
-  addParameterRecommendationTemplate(index : number) {
+  addParameterRecommendationTemplate(index: number) {
     let recommendation: ParameterLevelRecommendation = {
       recommendationId: undefined,
       recommendationText: "",
