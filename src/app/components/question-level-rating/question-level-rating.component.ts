@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {QuestionReference} from "../../types/QuestionReference";
 import {Notes} from "../../types/answerNotes";
 import {data_local} from "../../messages";
@@ -13,34 +13,40 @@ import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
 import {AssessmentStructure} from "../../types/assessmentStructure";
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
+import * as fromActions from "../../actions/assessment-data.actions";
+import {ParameterRequest} from "../../types/parameterRequest";
+
 
 @Component({
   selector: 'app-question-level-rating',
   templateUrl: './question-level-rating.component.html',
   styleUrls: ['./question-level-rating.component.css']
 })
-export class QuestionLevelRatingComponent  {
+export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
 
   @Input()
-  parameterId : number
+  parameterId: number
 
   @Input()
-  topicId : number
+  topicId: number
 
   @Input()
-  references : QuestionReference[] | undefined
+  references: QuestionReference[] | undefined
 
   @Input()
-  question : Notes
+  question: Notes
 
   @Input()
-  assessmentId : number
+  assessmentId: number
 
   @Input()
-  parameterName : string
+  parameterName: string
+
+  @Input()
+  parameters: ParameterRequest[]
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
-  serverError : string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
+  serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   private masterData: Observable<AssessmentStructure>;
   private destroy$: Subject<void> = new Subject<void>();
   private assessmentStatus: string;
@@ -69,18 +75,14 @@ export class QuestionLevelRatingComponent  {
       if (this.question.rating != 0) {
         this.appService.saveQuestionRating(this.assessmentId, this.question.questionId, this.question.rating).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
-            // this.sendRating(this.topicRatingResponse)
-            // this.updateDataSavedStatus()
+            this.sendRating()
+            this.updateDataSavedStatus()
 
           }, error: _error => {
             this.showError(this.serverError);
           }
         })
-        if (this.question.rating !== undefined) {
-          // this.sendAverageRating(this.topicRatingAndRecommendation.rating)
-        } else {
-          // this.sendAverageRating(0)
-        }
+        this.updateAverageRating()
       }
     }
   }
@@ -94,34 +96,57 @@ export class QuestionLevelRatingComponent  {
     })
   }
 
-  // private sendRating(topicRating: TopicRatingResponse) {
-  //   let index = 0;
-  //   let updatedRatingList = [];
-  //   updatedRatingList.push(topicRating);
-  //   this.cloneTopicResponse = Object.assign({}, this.answerResponse)
-  //   if (this.cloneTopicResponse.topicRatingAndRecommendation !== undefined) {
-  //     index = this.cloneTopicResponse.topicRatingAndRecommendation.findIndex(eachTopic => eachTopic.topicId === topicRating.topicId)
-  //     if (index !== -1) {
-  //       this.cloneTopicResponse.topicRatingAndRecommendation[index].rating = topicRating.rating
-  //     } else {
-  //       this.cloneTopicResponse.topicRatingAndRecommendation.push(topicRating)
-  //     }
-  //   } else {
-  //     this.cloneTopicResponse.topicRatingAndRecommendation = updatedRatingList
-  //   }
-  //   this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneTopicResponse}))
-  // }
+  public updateAverageRating() {
+    let averageRating = 0;
+    let ratingSum = 0
+    let index = 0;
+    let questionCount = 0
 
-  // private updateDataSavedStatus() {
-  //   this.cloneAnswerResponse1 = Object.assign({}, this.answerResponse)
-  //   this.cloneAnswerResponse1.updatedAt = Number(new Date(Date.now()))
-  //   this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.cloneAnswerResponse1}))
-  // }
+    for (let iter in this.parameters) {
+      questionCount += this.parameters[iter].answerRequest.length
+      for (let answer in this.parameters[iter].answerRequest) {
+        if (this.assessmentResponse.answerResponseList !== undefined) {
+          index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.parameters[iter].answerRequest[answer].questionId)
+          if (index != -1 && this.assessmentResponse.answerResponseList[index].rating != undefined) {
+            ratingSum = ratingSum + Number(this.assessmentResponse.answerResponseList[index].rating);
+          }
+        }
+      }
+    }
 
-  // private sendAverageRating(rating: number) {
-  //   this.sendAverageScore = {rating: rating, topicId: this.topicId}
-  //   this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: this.sendAverageScore}))
-  // }
+
+    if (ratingSum !== 0 && questionCount !== 0) {
+      averageRating = Math.round(ratingSum / questionCount);
+    }
+    this.sendAverageRating(averageRating);
+  }
+
+  private sendRating() {
+    let index = 0;
+    let updatedRatingList: Notes[] = [];
+    updatedRatingList.push(this.question);
+    if (this.assessmentResponse.answerResponseList !== undefined) {
+      index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.question.questionId)
+      if (index !== -1) {
+        this.assessmentResponse.answerResponseList[index].rating = this.question.rating
+      } else {
+        this.assessmentResponse.answerResponseList.push(this.question)
+      }
+    } else {
+      this.assessmentResponse.answerResponseList = updatedRatingList
+    }
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.assessmentResponse}))
+  }
+
+  private updateDataSavedStatus() {
+    this.assessmentResponse.updatedAt = Number(new Date(Date.now()))
+    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.assessmentResponse}))
+  }
+
+  private sendAverageRating(rating: number) {
+    let averageRating = {rating: rating, topicId: this.topicId}
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: averageRating}))
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

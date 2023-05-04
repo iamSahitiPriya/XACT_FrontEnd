@@ -25,10 +25,11 @@
                                      [type]="questionType"
                                      [activityRecords] = "activityRecord.question"
             ></app-assessment-question>
-            <app-question-level-rating *ngIf="topicRequest.parameterLevel[i]"
+            <app-question-level-rating *ngIf="question.references"
                                         [parameterId]="parameter.parameterId"
                                         [topicId]="topicInput.topicId"
                                         [references]="question.references"
+                                        [parameters] = "topicRequest.parameterLevel"
                                         [question]="topicRequest.parameterLevel[i].answerRequest[j]"
                                         [assessmentId]="assessmentId"
                                         [parameterName]="parameter.parameterName"
@@ -45,7 +46,7 @@
                                     [parameterIndex]="i"
                                     [parameterName]="parameter.parameterName"
                                     [questionIndex]="parameter.questions.length"
-                                     [activityRecords] = "activityRecord.userQuestion"
+                                    [activityRecords] = "activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
 
