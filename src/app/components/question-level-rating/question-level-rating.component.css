@@ -8,7 +8,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.scoreHeading {
+.score-heading {
   display: block;
   position: relative;
   padding: 12px;
@@ -34,7 +34,7 @@ p {
   flex: 1 1 auto;
 }
 
-.scoreReference {
+.score-reference {
   min-height: 100px;
   height: auto;
   max-height:1000px;
@@ -77,7 +77,7 @@ p {
   margin-top: 16px
 }
 
-.topicScoring {
+.question-score {
   width: 97%;
 }
 
@@ -116,16 +116,16 @@ p {
 }
 
 @media screen and (max-width: 1000px) {
-  .scoreReference{
+  .score-reference{
     font-size: 0.9rem;
   }
-  .scoreHeading{
+  .score-heading{
     font-size: 1rem;
   }
 }
 
 @media screen and (max-width: 1450px) {
-  .scoreHeading {
+  .score-heading {
     font-size: 1.09rem;
     padding: 0.5rem 0rem 0.8rem 1.25rem;  }
 }

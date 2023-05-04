@@ -1,12 +1,10 @@
 <!--
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
-<script src="../assessment-quick-action-menu/assessment-menu.component.ts"></script>
-<div class="topicScoring">
-
-  <mat-card class="scoreHeading">{{maturityScoreTitle}}</mat-card>
+<div class="question-score">
+  <mat-card class="score-heading">{{maturityScoreTitle}}</mat-card>
   <div *ngFor="let reference of references">
-    <mat-toolbar class="scoreReference">
+    <mat-toolbar class="score-reference">
       <p class="reference">{{reference.reference}}</p>
       <span class="spacer"></span>
       <span class="rating" (click)="setRating(reference.rating)"

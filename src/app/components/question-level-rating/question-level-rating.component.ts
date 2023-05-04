@@ -45,7 +45,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
   @Input()
   parameters: ParameterRequest[]
 
-  maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE;
+  maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE.split('-')[0];
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   private masterData: Observable<AssessmentStructure>;
   private destroy$: Subject<void> = new Subject<void>();
@@ -72,17 +72,16 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
       } else {
         this.question.rating = rating;
       }
-      if (this.question.rating != 0) {
+      if (this.question.rating !== 0) {
         this.appService.saveQuestionRating(this.assessmentId, this.question.questionId, this.question.rating).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
             this.sendRating()
             this.updateDataSavedStatus()
-
+            this.updateAverageRating()
           }, error: _error => {
             this.showError(this.serverError);
           }
         })
-        this.updateAverageRating()
       }
     }
   }
@@ -103,17 +102,16 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
     let questionCount = 0
 
     for (let iter in this.parameters) {
-      questionCount += this.parameters[iter].answerRequest.length
       for (let answer in this.parameters[iter].answerRequest) {
         if (this.assessmentResponse.answerResponseList !== undefined) {
           index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.parameters[iter].answerRequest[answer].questionId)
-          if (index != -1 && this.assessmentResponse.answerResponseList[index].rating != undefined) {
+          if (index !== -1 && this.assessmentResponse.answerResponseList[index].rating !== undefined) {
             ratingSum = ratingSum + Number(this.assessmentResponse.answerResponseList[index].rating);
+            questionCount += 1
           }
         }
       }
     }
-
 
     if (ratingSum !== 0 && questionCount !== 0) {
       averageRating = Math.round(ratingSum / questionCount);
