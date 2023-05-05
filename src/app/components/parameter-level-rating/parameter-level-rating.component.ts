@@ -148,17 +148,33 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
     let ratingNumber = 0
     let index = 0;
     for (let pId in this.parameterList) {
+      if(this.parameterList[pId].parameterRatingAndRecommendation){
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterList[pId].parameterRatingAndRecommendation.parameterId)
-      if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating != undefined) {
+      if (index !== -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating !== undefined) {
         ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
         ratingNumber = ratingNumber + 1;
       }
-    }
-
-
+    }else if(this.cloneAnswerResponse1.answerResponseList !== undefined) {
+        let questionCount = 0;
+        let questionSum = 0;
+        let hasQuestionRating =false;
+        this.cloneAnswerResponse1.answerResponseList.forEach(eachAnswer => {
+          if (eachAnswer.rating !== undefined && eachAnswer.rating !== 0) {
+            hasQuestionRating =true;
+            questionSum += eachAnswer.rating;
+            questionCount += 1;
+          }
+        })
+        if(hasQuestionRating) {
+          ratingNumber = ratingNumber + 1;
+          ratingSum +=  questionSum / questionCount;
+        }
+      }
+        }
     if (ratingSum !== 0 && ratingNumber !== 0) {
-      averageRating = Math.round(ratingSum / ratingNumber);
+      averageRating = ratingSum / ratingNumber;
     }
+
     this.sendAverageRating(averageRating);
   }
 

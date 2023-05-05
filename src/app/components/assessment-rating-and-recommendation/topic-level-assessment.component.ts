@@ -24,6 +24,7 @@ import {ActivityLogResponse} from "../../types/activityLogResponse";
 import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {ActivatedRoute} from "@angular/router";
+import * as fromActions from "../../actions/assessment-data.actions";
 
 export const saveAssessmentData = [{}]
 
@@ -274,33 +275,40 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
 
 
   public updateAverageRating() {
-    let ratingSum = 0
     let ratingNumber = 0
     if (this.topicRequest.topicRatingAndRecommendation) {
       this.averageRating.rating = this.topicRequest.topicRatingAndRecommendation.rating
       this.averageRating.topicId = this.topicInput.topicId
     } else {
+      let paramRating =0;
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating !== 0) {
           let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating || 0);
-          ratingSum = ratingSum + currentRating;
+          paramRating =paramRating + currentRating;
           if (currentRating > 0) {
             ratingNumber = ratingNumber + 1;
           }
         } else if (this.topicRequest.parameterLevel[parameter].answerRequest.length > 0) {
+          let questionSum=0;
+          let questionCount=0;
           for (let answer in this.topicRequest.parameterLevel[parameter].answerRequest) {
             if (this.topicRequest.parameterLevel[parameter].answerRequest[answer]) {
               let currentRating = (this.topicRequest.parameterLevel[parameter].answerRequest[answer].rating || 0);
-              ratingSum = ratingSum + currentRating;
+              questionSum = questionSum + currentRating;
               if (currentRating > 0) {
-                ratingNumber = ratingNumber + 1;
+                questionCount = questionCount + 1;
               }
             }
           }
+          if(questionCount!==0 && questionSum !== 0){
+          paramRating += questionSum/questionCount;
+          ratingNumber +=1;
+          }
         }
       }
-      if (ratingSum !== 0 && ratingNumber !== 0) {
-        this.averageRating.rating = Math.round(ratingSum / ratingNumber);
+      if (paramRating!== 0 && ratingNumber !== 0) {
+        console.log("number ",ratingNumber)
+        this.averageRating.rating = paramRating / ratingNumber;
         this.averageRating.topicId = this.topicInput.topicId
 
 
@@ -309,11 +317,18 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
         this.averageRating.topicId = this.topicInput.topicId
       }
     }
+    // console.log("from topic level",this.averageRating.rating)
+    this.sendAverageRating(this.averageRating.rating);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private sendAverageRating(rating: number | undefined) {
+    let sendAverageScore = {rating: rating, topicId: this.topicInput.topicId}
+    this.store.dispatch(fromActions.setAverageComputedScore({averageScoreDetails: sendAverageScore}))
   }
 
   private getActivities() {

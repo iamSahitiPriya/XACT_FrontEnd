@@ -95,27 +95,64 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
     })
   }
 
+  // public updateAverageRating() {
+  //   let averageRating = 0;
+  //   let ratingSum = 0
+  //   let index = 0;
+  //   let questionCount = 0
+  //
+  //   for (let iter in this.parameters) {
+  //     for (let answer in this.parameters[iter].answerRequest) {
+  //       if (this.assessmentResponse.answerResponseList !== undefined) {
+  //         index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.parameters[iter].answerRequest[answer].questionId)
+  //         if (index !== -1 && this.assessmentResponse.answerResponseList[index].rating !== undefined) {
+  //           ratingSum = ratingSum + Number(this.assessmentResponse.answerResponseList[index].rating);
+  //           questionCount += 1
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   if (ratingSum !== 0 && questionCount !== 0) {
+  //     averageRating = ratingSum / questionCount;
+  //   }
+  //   // console.log("from question component",averageRating)
+  //   this.sendAverageRating(averageRating);
+  // }
+
   public updateAverageRating() {
     let averageRating = 0;
     let ratingSum = 0
+    let ratingNumber = 0
     let index = 0;
-    let questionCount = 0
-
-    for (let iter in this.parameters) {
-      for (let answer in this.parameters[iter].answerRequest) {
-        if (this.assessmentResponse.answerResponseList !== undefined) {
-          index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.parameters[iter].answerRequest[answer].questionId)
-          if (index !== -1 && this.assessmentResponse.answerResponseList[index].rating !== undefined) {
-            ratingSum = ratingSum + Number(this.assessmentResponse.answerResponseList[index].rating);
-            questionCount += 1
+    for (let pId in this.parameters) {
+      if(this.parameters[pId].parameterRatingAndRecommendation){
+        index = this.assessmentResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameters[pId].parameterRatingAndRecommendation.parameterId)
+        if (index !== -1 && this.assessmentResponse.parameterRatingAndRecommendation[index].rating !== undefined) {
+          ratingSum = ratingSum + Number(this.assessmentResponse.parameterRatingAndRecommendation[index].rating);
+          ratingNumber = ratingNumber + 1;
+        }
+      }else if(this.assessmentResponse.answerResponseList !== undefined) {
+        let questionCount = 0;
+        let questionSum = 0;
+        let hasQuestionRating =false;
+        this.assessmentResponse.answerResponseList.forEach(eachAnswer => {
+          if (eachAnswer.rating !== undefined && eachAnswer.rating !== 0) {
+            hasQuestionRating =true;
+            questionSum += eachAnswer.rating;
+            questionCount += 1;
           }
+        })
+        if(hasQuestionRating) {
+          ratingNumber = ratingNumber + 1;
+          ratingSum +=  questionSum / questionCount;
         }
       }
     }
-
-    if (ratingSum !== 0 && questionCount !== 0) {
-      averageRating = Math.round(ratingSum / questionCount);
+    if (ratingSum !== 0 && ratingNumber !== 0) {
+      averageRating = ratingSum / ratingNumber;
     }
+
     this.sendAverageRating(averageRating);
   }
 
