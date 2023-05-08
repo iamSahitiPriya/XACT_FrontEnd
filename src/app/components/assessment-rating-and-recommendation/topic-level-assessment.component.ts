@@ -156,6 +156,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
       }
       answerRequest.push(this.getNotes(parameter.questions[question].questionId, answer, rating))
       answer = undefined;
+      rating = undefined
     }
     return answerRequest
   }

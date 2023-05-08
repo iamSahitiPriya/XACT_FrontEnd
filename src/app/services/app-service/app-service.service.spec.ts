@@ -355,5 +355,9 @@ describe('AppServiceService', () => {
     }
     expect(service.saveContributors(contributorRequest,1)).toBeTruthy()
   });
+
+  it("should save rating for questions", () => {
+    expect(service.saveQuestionRating(1,1,1)).toBeTruthy()
+  });
 });
 

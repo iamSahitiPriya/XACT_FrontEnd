@@ -47,7 +47,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
 
   maturityScoreTitle = data_local.ASSESSMENT_TOPIC.MATURITY_SCORE_TITLE.split('-')[0];
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
-  private masterData: Observable<AssessmentStructure>;
+  masterData: Observable<AssessmentStructure>;
   private destroy$: Subject<void> = new Subject<void>();
   assessmentStatus: string;
   assessmentResponse: AssessmentStructure;
@@ -75,13 +75,12 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
       if (this.question.rating !== 0) {
         this.appService.saveQuestionRating(this.assessmentId, this.question.questionId, this.question.rating).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
+            this.updateAverageRating()
             this.sendRating()
-            this.updateDataSavedStatus()
           }, error: _error => {
             this.showError(this.serverError);
           }
         })
-        this.updateAverageRating()
       }
     }
   }
@@ -95,7 +94,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
     })
   }
 
-  public updateAverageRating() {
+  updateAverageRating() {
     let averageRating = 0;
     let ratingSum = 0
     let ratingNumber = 0
@@ -115,7 +114,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
         for (let answer in this.parameters[pId].answerRequest) {
           if (this.parameters[pId].answerRequest[answer].rating !== undefined) {
             hasQuestionRating = true;
-            questionSum = questionSum + Number(this.assessmentResponse.answerResponseList[index].rating);
+            questionSum = questionSum + Number(this.parameters[pId].answerRequest[answer].rating);
             questionCount += 1
           }
         }
@@ -145,10 +144,6 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
     } else {
       this.assessmentResponse.answerResponseList = updatedRatingList
     }
-    this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.assessmentResponse}))
-  }
-
-  private updateDataSavedStatus() {
     this.assessmentResponse.updatedAt = Number(new Date(Date.now()))
     this.store.dispatch(fromActions.getUpdatedAssessmentData({newData: this.assessmentResponse}))
   }
