@@ -7,38 +7,37 @@
 
   <div class="topic-questions" *ngIf="topicInput">
     <div *ngFor="let parameter of topicInput.parameters; let i=index;">
-        <div id="questionContainer">
-          <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
-          </div>
+      <div id="questionContainer">
+        <div class="parameter"><strong>{{i + 1}}.</strong>&nbsp;{{parameter && parameter.parameterName}}
         </div>
+      </div>
 
 
-        <div>
-          <div class="question" *ngFor="let question of parameter.questions; let j=index;">
-            <span class="question-content">{{i + 1}}.{{j + 1}} &nbsp;{{question.questionText}}</span>
-            <br>
-            <app-assessment-question *ngIf="topicRequest.parameterLevel[i]"
-                                     [answerInput]="topicRequest.parameterLevel[i].answerRequest[j].answer"
-                                     [questionNumber]="topicRequest.parameterLevel[i].answerRequest[j].questionId"
+      <div>
+        <div class="question" *ngFor="let question of parameter.questions; let j=index;">
+          <span class="question-content">{{i + 1}}.{{j + 1}} &nbsp;{{question.questionText}}</span>
+          <br>
+          <app-assessment-question *ngIf="topicRequest.parameterLevel[i]"
+                                   [answerInput]="topicRequest.parameterLevel[i].answerRequest[j].answer"
+                                   [questionNumber]="topicRequest.parameterLevel[i].answerRequest[j].questionId"
+                                   [parameterId]="parameter.parameterId"
+                                   [assessmentId]="assessmentId"
+                                   [type]="questionType"
+                                   [activityRecords]="activityRecord.question"
+          ></app-assessment-question>
+          <app-question-level-rating *ngIf="question.references"
                                      [parameterId]="parameter.parameterId"
+                                     [topicId]="topicInput.topicId"
+                                     [references]="question.references"
+                                     [parameters]="topicRequest.parameterLevel"
+                                     [question]="topicRequest.parameterLevel[i].answerRequest[j]"
                                      [assessmentId]="assessmentId"
-                                     [type]="questionType"
-                                     [activityRecords] = "activityRecord.question"
-            ></app-assessment-question>
-            <app-question-level-rating *ngIf="question.references"
-                                        [parameterId]="parameter.parameterId"
-                                        [topicId]="topicInput.topicId"
-                                        [references]="question.references"
-                                        [parameters] = "topicRequest.parameterLevel"
-                                        [question]="topicRequest.parameterLevel[i].answerRequest[j]"
-                                        [assessmentId]="assessmentId"
-                                        [parameterName]="parameter.parameterName"
-            ></app-question-level-rating>
+                                     [parameterName]="parameter.parameterName"
+          ></app-question-level-rating>
 
-          </div>
         </div>
 
-        <div *ngIf="parameter.questions">
+        <div *ngIf="parameter.questions && (parameter.references || topicInput.references) ">
           <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
                                     [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"
@@ -46,55 +45,58 @@
                                     [parameterIndex]="i"
                                     [parameterName]="parameter.parameterName"
                                     [questionIndex]="parameter.questions.length"
-                                    [activityRecords] = "activityRecord.userQuestion"
+                                    [activityRecords]="activityRecord.userQuestion"
           ></app-user-question-answer>
         </div>
+      </div>
 
-        <div *ngIf="!parameter.questions">
-          <app-user-question-answer  *ngIf="topicRequest.parameterLevel[i]"
-                                     [parameterId]="parameter.parameterId"
-                                     [assessmentId]="assessmentId"
-                                     [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
-                                     [parameterIndex]="i"
-                                     [parameterName]="parameter.parameterName"
-                                     [questionIndex]="0"
-                                     [activityRecords] = "activityRecord.userQuestion"
-          ></app-user-question-answer>
-        </div>
 
-        <div *ngIf="parameter.references">
-          <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
-                                      [parameterId]="parameter.parameterId"
-                                      [topicId]="topicInput.topicId"
-                                      [parameterScore]="parameter.references"
-                                      [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
-                                      [assessmentId]="assessmentId"
-                                      [parameterName]="parameter.parameterName"
-                                      [parameterList]="topicRequest.parameterLevel"
-          ></app-parameter-level-rating>
+      <div *ngIf="!parameter.questions">
+        <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
+                                  [parameterId]="parameter.parameterId"
+                                  [assessmentId]="assessmentId"
+                                  [userQuestionList]="topicRequest.parameterLevel[i].userQuestionRequestList"
+                                  [parameterIndex]="i"
+                                  [parameterName]="parameter.parameterName"
+                                  [questionIndex]="0"
+                                  [activityRecords]="activityRecord.userQuestion"
+        ></app-user-question-answer>
+      </div>
 
-          <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-          <button (click)="addParameterRecommendationTemplate(i)"
-                  class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
-            <div>
-              <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
-              id="addParameterRecommendation"> {{addRecommendation}} </span>
-            </div>
-          </button>
-          <div *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation">
-            <app-parameter-level-recommendation
-              id="recommendation{{recommendation.recommendationId}}"
-              [parameterIndex]="i"
-              [recommendation]="recommendation"
-              [assessmentId]="assessmentId"
-              [topicId]="topicInput.topicId"
-              [parameterId]="parameter.parameterId"
-              [parameterRecommendations]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation.parameterLevelRecommendation"
-              [activityRecord]="activityRecord.parameterRecommendation"
-            ></app-parameter-level-recommendation>
+      <div *ngIf="parameter.references">
+        <app-parameter-level-rating *ngIf="topicRequest.parameterLevel[i]"
+                                    [parameterId]="parameter.parameterId"
+                                    [topicId]="topicInput.topicId"
+                                    [parameterScore]="parameter.references"
+                                    [parameterRatingAndRecommendation]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation"
+                                    [assessmentId]="assessmentId"
+                                    [parameterName]="parameter.parameterName"
+                                    [parameterList]="topicRequest.parameterLevel"
+        ></app-parameter-level-rating>
+
+        <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
+        <button (click)="addParameterRecommendationTemplate(i)"
+                class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+          <div>
+            <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/> <span
+            id="addParameterRecommendation"> {{addRecommendation}} </span>
           </div>
-
+        </button>
+        <div
+          *ngFor="let recommendation of topicRequest.parameterLevel[i]?.parameterRatingAndRecommendation?.parameterLevelRecommendation">
+          <app-parameter-level-recommendation
+            id="recommendation{{recommendation.recommendationId}}"
+            [parameterIndex]="i"
+            [recommendation]="recommendation"
+            [assessmentId]="assessmentId"
+            [topicId]="topicInput.topicId"
+            [parameterId]="parameter.parameterId"
+            [parameterRecommendations]="topicRequest.parameterLevel[i].parameterRatingAndRecommendation.parameterLevelRecommendation"
+            [activityRecord]="activityRecord.parameterRecommendation"
+          ></app-parameter-level-recommendation>
         </div>
+
+      </div>
 
     </div>
 
@@ -108,13 +110,15 @@
       </app-topic-level-rating>
 
       <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
-      <button (click)="addTopicRecommendationTemplate()" class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">
+      <button (click)="addTopicRecommendationTemplate()" class="addRecommendation button1"
+              [disabled]="assessmentStatus ==='Completed'">
         <div>
           <img data-id="manage" src="../../assets/plus-icon/addIcon.svg" alt="plus icon" class="plusIcon"/><span
           id="addTopicRecommendation"> {{addRecommendation}}</span>
         </div>
       </button>
-      <div *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">
+      <div
+        *ngFor="let recommendation of topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation ; let i=index">
         <app-topic-level-recommendation
           id="recommendation{{recommendation.recommendationId}}"
           [recommendationIndex]="i"
@@ -122,7 +126,7 @@
           [assessmentId]="assessmentId"
           [topicId]="topicInput.topicId"
           [topicRecommendations]="topicRequest.topicRatingAndRecommendation?.topicLevelRecommendation"
-          [activityRecords] = "activityRecord.topicRecommendation"
+          [activityRecords]="activityRecord.topicRecommendation"
         ></app-topic-level-recommendation>
       </div>
 
