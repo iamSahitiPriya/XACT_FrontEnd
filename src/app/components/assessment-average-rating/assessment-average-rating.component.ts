@@ -22,7 +22,7 @@ export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
 
 
   disableRating: number = 0
-  averageRating : number =0;
+  averageRating: number = 0;
 
   @Input()
   topicId: number
@@ -37,7 +37,6 @@ export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.finalAverageRating.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
-        console.log(data.scoreDetails)
         if (this.topicId === data.scoreDetails.topicId && data.scoreDetails.rating !== undefined) {
           this.averageRating = data.scoreDetails.rating
         }

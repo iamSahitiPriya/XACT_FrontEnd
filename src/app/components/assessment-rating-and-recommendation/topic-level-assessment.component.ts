@@ -276,16 +276,16 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
 
   public updateAverageRating() {
     let ratingNumber = 0
+    let paramRating =0;
     if (this.topicRequest.topicRatingAndRecommendation) {
       this.averageRating.rating = this.topicRequest.topicRatingAndRecommendation.rating
       this.averageRating.topicId = this.topicInput.topicId
     } else {
-      let paramRating =0;
       for (let parameter in this.topicRequest.parameterLevel) {
         if (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating !== 0) {
           let currentRating = (this.topicRequest.parameterLevel[parameter].parameterRatingAndRecommendation.rating || 0);
-          paramRating =paramRating + currentRating;
           if (currentRating > 0) {
+            paramRating =paramRating + currentRating;
             ratingNumber = ratingNumber + 1;
           }
         } else if (this.topicRequest.parameterLevel[parameter].answerRequest.length > 0) {
@@ -294,30 +294,26 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
           for (let answer in this.topicRequest.parameterLevel[parameter].answerRequest) {
             if (this.topicRequest.parameterLevel[parameter].answerRequest[answer]) {
               let currentRating = (this.topicRequest.parameterLevel[parameter].answerRequest[answer].rating || 0);
-              questionSum = questionSum + currentRating;
               if (currentRating > 0) {
+                questionSum = questionSum + currentRating;
                 questionCount = questionCount + 1;
               }
             }
           }
           if(questionCount!==0 && questionSum !== 0){
-          paramRating += questionSum/questionCount;
+          paramRating += Math.round(questionSum/questionCount);
           ratingNumber +=1;
           }
         }
       }
       if (paramRating!== 0 && ratingNumber !== 0) {
-        console.log("number ",ratingNumber)
-        this.averageRating.rating = paramRating / ratingNumber;
+        this.averageRating.rating = Math.round(paramRating / ratingNumber);
         this.averageRating.topicId = this.topicInput.topicId
-
-
       } else {
         this.averageRating.rating = 0
         this.averageRating.topicId = this.topicInput.topicId
       }
     }
-    // console.log("from topic level",this.averageRating.rating)
     this.sendAverageRating(this.averageRating.rating);
   }
 
