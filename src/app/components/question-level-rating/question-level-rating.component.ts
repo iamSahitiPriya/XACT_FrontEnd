@@ -49,8 +49,8 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
   serverError: string = data_local.SHOW_ERROR_MESSAGE.POPUP_ERROR
   private masterData: Observable<AssessmentStructure>;
   private destroy$: Subject<void> = new Subject<void>();
-  private assessmentStatus: string;
-  private assessmentResponse: AssessmentStructure;
+  assessmentStatus: string;
+  assessmentResponse: AssessmentStructure;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     this.masterData = this.store.select((storeMap) => storeMap.assessmentState.assessments)
@@ -77,11 +77,11 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
           next: (_data) => {
             this.sendRating()
             this.updateDataSavedStatus()
-            this.updateAverageRating()
           }, error: _error => {
             this.showError(this.serverError);
           }
         })
+        this.updateAverageRating()
       }
     }
   }
@@ -108,13 +108,12 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
           ratingNumber = ratingNumber + 1;
         }
       }
-      if (this.assessmentResponse.answerResponseList !== undefined) {
+      if (this.parameters[pId].answerRequest !== undefined) {
         let questionCount = 0;
         let questionSum = 0;
         let hasQuestionRating = false;
         for (let answer in this.parameters[pId].answerRequest) {
-          index = this.assessmentResponse.answerResponseList.findIndex(eachAnswer => eachAnswer.questionId === this.parameters[pId].answerRequest[answer].questionId)
-          if (index !== -1 && this.assessmentResponse.answerResponseList[index].rating !== undefined) {
+          if (this.parameters[pId].answerRequest[answer].rating !== undefined) {
             hasQuestionRating = true;
             questionSum = questionSum + Number(this.assessmentResponse.answerResponseList[index].rating);
             questionCount += 1

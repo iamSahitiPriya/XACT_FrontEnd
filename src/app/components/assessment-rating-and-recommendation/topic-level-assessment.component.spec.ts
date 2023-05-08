@@ -259,8 +259,49 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1",rating:undefined}]
+    component.topicInput = {
+      active: false,
+      updatedAt: 0,
+      topicId: 0,
+      topicName: "",
+
+      parameters: [{
+        parameterId: 0,
+        parameterName: "",
+        topic: 1,
+        active: false,
+        updatedAt: 0,
+        questions: [{
+          questionId :1,
+          questionText:"",
+          parameter:1,
+        }],
+        userQuestions: [],
+        references: []
+      }],
+
+      references: [],
+      module: 1
+    }
+    let parameter = {
+      active: false, comments: "", updatedAt: 0,
+      parameterId: 1,
+      parameterName: "hello",
+      topic: 1,
+      questions: [
+        {
+          questionId: 1,
+          questionText: "some text",
+          parameter: 1
+        }
+      ],
+      userQuestions: [],
+      references: []
+    }
+    component.ngOnInit()
     component.answerResponse = answerResponse
-    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1"}]
+
     expect(component.getAnswersList(parameter)).toStrictEqual(dummyAnswerRequest)
   });
   it("should get parameter rating and recommendation when undefined", () => {
@@ -293,7 +334,7 @@ describe('TopicLevelAssessmentComponent', () => {
       owner: true
 
     }
-    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: undefined}]
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: undefined,rating:undefined}]
     let dummyUserQuestionRequestList: UserQuestionSaveRequest[] = [];
 
     let dummyNewParameter: ParameterRequest = {

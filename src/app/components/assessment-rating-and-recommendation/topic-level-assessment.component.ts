@@ -148,7 +148,7 @@ export class TopicLevelAssessmentComponent implements OnInit, OnDestroy, AfterVi
     let rating: number | undefined;
     for (let question in parameter.questions) {
       if (this.answerResponse.answerResponseList !== undefined) {
-        let indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId == parameter.questions[question].questionId)
+        let indexQuestion = this.answerResponse.answerResponseList.findIndex(questionIdPos => questionIdPos.questionId === parameter.questions[question].questionId)
         if (indexQuestion !== -1) {
           answer = this.answerResponse.answerResponseList[indexQuestion].answer
           rating = this.answerResponse.answerResponseList[indexQuestion].rating
