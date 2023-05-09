@@ -1,0 +1,12 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+.manage-user {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-role {
+  padding-left: 30%;
+}

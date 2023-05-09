@@ -189,6 +189,16 @@ export const data_local =
       }
     },
     ADMIN: {
+      CONSOLE : {
+        CONSOLE_TEXT : "Admin Console",
+        DASHBOARD: "Dashboard",
+        CATEGORY: "Category",
+        MODULE: "Module",
+        TOPIC: "Topic",
+        PARAMETER: "Parameter",
+        MANAGE_USERS: "Manage Users"
+
+      },
       ROLE : {
         ADMIN : "Admin",
       },

@@ -8,6 +8,7 @@ import {Store} from "@ngrx/store";
 import {AppStates} from "../../../reducers/app.states";
 import * as fromActions from "../../../actions/assessment-data.actions";
 import {Subject, takeUntil} from "rxjs";
+import {data_local} from "../../../messages";
 
 
 @Component({
@@ -19,6 +20,13 @@ export class AdminConsoleComponent implements OnDestroy {
   type = "";
   tabIndex: number;
   private destroy$: Subject<void> = new Subject<void>();
+  adminConsole: string = data_local.ADMIN.CONSOLE.CONSOLE_TEXT;
+  dashboard: string = data_local.ADMIN.CONSOLE.DASHBOARD;
+  category: string = data_local.ADMIN.CONSOLE.CATEGORY;
+  module: string = data_local.ADMIN.CONSOLE.MODULE;
+  topic: string = data_local.ADMIN.CONSOLE.TOPIC;
+  parameter: string = data_local.ADMIN.CONSOLE.PARAMETER;
+  manageUsers: string = data_local.ADMIN.CONSOLE.MANAGE_USERS;
 
 
   constructor(private router: Router, private store: Store<AppStates>) {
