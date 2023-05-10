@@ -10,6 +10,7 @@ export interface TopicData{
   active:boolean
   updatedAt : number,
   comments ?: string,
-  isEdit ?: boolean
+  isEdit ?: boolean,
+  topicLevelReference ?: boolean
 
 }

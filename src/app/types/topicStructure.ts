@@ -12,6 +12,7 @@ export interface TopicStructure {
   module: number,
   updatedAt:number,
   comments?:string,
+  topicLevelReference ?: boolean
   parameters: ParameterStructure[],
   references: TopicReference[]
 }

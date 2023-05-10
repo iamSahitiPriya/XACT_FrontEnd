@@ -133,7 +133,7 @@
         <button mat-flat-button (click)="deleteAddedTopicRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteTopic">delete</mat-icon>
         </button>
-        <div class="topic-reference">
+        <div class="topic-reference" *ngIf="row.topicLevelReference">
         <button *ngIf="!(selectedTopic === row)">
           <mat-icon (click)="openTopicReferences(reference,row)">playlist_add</mat-icon>
         </button>

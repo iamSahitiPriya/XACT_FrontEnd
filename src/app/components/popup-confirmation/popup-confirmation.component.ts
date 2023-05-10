@@ -17,6 +17,8 @@ export class PopupConfirmationComponent {
   buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
   cancel : number =0;
   save : number =1;
+  no: number = 2;
+  noButtonText : string = data_local.POPUP_BUTTON.NO_BUTTON_TEXT
 
   constructor(public dialogRef: MatDialogRef<PopupConfirmationComponent>) {
   }

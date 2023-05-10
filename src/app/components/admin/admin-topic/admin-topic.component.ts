@@ -29,6 +29,7 @@ import {TopicStructure} from "../../../types/topicStructure";
 import {OKTA_AUTH} from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {Router} from "@angular/router";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -96,7 +97,9 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   authorText = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   adminText = data_local.ADMIN.ROLE;
   contributorText = data_local.CONTRIBUTOR.CONTRIBUTOR;
-
+  private confirmationText: string = data_local.ADMIN.TOPIC.REFERENCE_CONFIRMATION_TEXT;
+  private isTopicLevelReference: number = 1;
+  private isNotTopicLevelReference : number = 2;
 
   constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
@@ -200,7 +203,8 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         topicName: "",
         active: false,
         updatedAt: 123,
-        comments: ""
+        comments: "",
+        topicLevelReference : false
       }
       topic.categoryId = eachCategory.categoryId
       topic.categoryName = eachCategory.categoryName
@@ -213,6 +217,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       topic.topicName = eachTopic.topicName
       topic.updatedAt = eachTopic.updatedAt
       topic.comments = eachTopic.comments
+      topic.topicLevelReference = eachTopic.topicLevelReference
       this.topicData.push(topic)
     })
     this.sortTopic();
@@ -245,24 +250,28 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   saveTopic(row: TopicData) {
     let topicSaveRequest = this.getTopicRequest(row);
     if (topicSaveRequest !== null) {
-      this.appService.saveTopic(topicSaveRequest).subscribe({
-        next: (_data) => {
-          let data = this.dataSource.data
-          this.isEditable = false;
-          data.splice(0, 1)
-          this.dataSource.data = data
-          this.selectedTopic = null
-          row.updatedAt = _data.updatedAt
-          row.isEdit = false
-          this.topicData = []
-          this.table.renderRows()
-          this.sendToStore(_data)
-          this.ngOnInit()
-        }, error: (_err) => {
-          this.showError(this.serverErrorMessage)
-        }
-      })
+      this.confirmReferencePopup(topicSaveRequest,row)
     }
+  }
+
+  private saveNewTopic(topicSaveRequest: TopicRequest, row: TopicData) {
+    this.appService.saveTopic(topicSaveRequest).subscribe({
+      next: (_data) => {
+        let data = this.dataSource.data
+        this.isEditable = false;
+        data.splice(0, 1)
+        this.dataSource.data = data
+        this.selectedTopic = null
+        row.updatedAt = _data.updatedAt
+        row.isEdit = false
+        this.topicData = []
+        this.table.renderRows()
+        this.sendToStore(_data)
+        this.ngOnInit()
+      }, error: (_err) => {
+        this.showError(this.serverErrorMessage)
+      }
+    })
   }
 
   getTopicRequest(row: TopicData): TopicRequest | null {
@@ -473,5 +482,23 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     let modules: ModuleRequest[] = this.categoryAndModule.get(this.findCategoryId(row))
     let moduleId = modules.find(module => module.moduleName === row.moduleName)?.moduleId
     return moduleId ? moduleId : -1
+  }
+
+  private confirmReferencePopup(topicRequest: TopicRequest, row: TopicData) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px',
+      data : {
+        level : "topic"
+      }
+    });
+    openConfirm.componentInstance.text = this.confirmationText;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === this.isTopicLevelReference || result === this.isNotTopicLevelReference) {
+        console.log(result === this.isTopicLevelReference)
+        topicRequest.topicLevelReference = result === this.isTopicLevelReference
+        this.saveNewTopic(topicRequest, row);
+      }
+    })
   }
 }

@@ -6,5 +6,6 @@ export interface TopicResponse {
   topicName: string,
   comments:string,
   updatedAt:number,
-  active:boolean
+  active:boolean,
+  topicLevelReference : boolean
 }

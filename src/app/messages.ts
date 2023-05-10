@@ -150,7 +150,8 @@ export const data_local =
       RECOMMENDATION_LABEL: "Recommendations"
     },
     POPUP_BUTTON: {
-      BUTTON_TEXT: "Yes"
+      BUTTON_TEXT: "Yes",
+      NO_BUTTON_TEXT: "No"
     },
     ASSESSMENT_TOPIC: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",
@@ -224,7 +225,9 @@ export const data_local =
       },
       TOPIC: {
         ADD_TOPIC: "Add Topic",
-        ENTER_TOPIC: "Enter topic name",
+        ENTER_TOPIC: "Enter topic name", 
+        REFERENCE_CONFIRMATION_TEXT: "Do you want to add Topic Level Reference?"
+
       },
       PARAMETER: {
         TOPIC_SELECTION_LABEL: "Select Topic",
