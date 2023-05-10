@@ -63,3 +63,10 @@ td.user-role:nth-child(3), th:nth-child(3){
 .input-mat-form-field{
   width: 80%;
 }
+.manage-user-container{
+  display: flex;
+  flex-direction: row;
+}
+.manage-user-form{
+  width: 100%;
+}
