@@ -200,7 +200,7 @@ export const data_local =
 
       },
       ROLE : {
-        ADMIN : "Admin",
+        ADMIN : "admin",
       },
       MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",

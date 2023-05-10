@@ -4,20 +4,53 @@
 
 <div>
   <div class="manage-user">
-  <div>
-    <mat-form-field appearance="outline" class="input">
-      <mat-label>Enter user name</mat-label>
-      <input matInput/>
-    </mat-form-field>
+    <div class="input-field">
+      <mat-form-field appearance="outline" class="input-mat-form-field">
+        <mat-label>Enter user name</mat-label>
+        <input matInput aria-label="State"
+               [formControl]="userControl"
+               (focus)="onInputChange()"
+               (input)="onInputChange()"
+               [matAutocomplete]="auto"/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let state of filteredUsers | async" [value]="state.email">
+            <span>{{state.given_name}} {{state.family_name}}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="admin-role">
+      <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <select matNativeControl required #select>
+          <option value="PRIMARY_ADMIN">Primary</option>
+          <option value="SECONDARY_ADMIN">Secondary</option>
+        </select>
+      </mat-form-field>
+    </div>
+    <div class="save-role">
+      <button mat-button (click)="saveRole(userControl.value,select.value)" class="save-role-button">Save</button>
+    </div>
   </div>
-  <div class="admin-role">
-    <mat-form-field appearance="fill">
-      <mat-label>Role</mat-label>
-      <select matNativeControl required>
-        <option value="primary">Primary</option>
-        <option value="secondary">Secondary</option>
-      </select>
-    </mat-form-field>
-  </div>
+  <div class="display-users mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="table-users">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let row" class="user-role"> {{row.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let row" class="user-role"> {{row.accessControlRoles}} </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let row" class="user-role">
+          <button mat-icon-button><mat-icon id="deleteTopic">delete</mat-icon></button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
   </div>
 </div>

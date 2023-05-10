@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.loggedInUserEmail = ( await this.oktaAuth.getUser()).email || "";
     this.store.dispatch(fromActions.loggedInUserEmail({email:this.loggedInUserEmail}))
     this.userRole.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (data.includes(this.admin)) {
+      if (data.includes("PRIMARY_ADMIN")) {
         this.isAdmin = true;
       }
       if(data.includes(this.reviewer)) {

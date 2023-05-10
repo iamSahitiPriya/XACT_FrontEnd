@@ -42,6 +42,8 @@ import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ContributorQuestionResponse} from "../../types/Contributor/ContributorQuestionResponse";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
+import {UserInfo} from "../../types/UserInfo";
+import {AccessControlRole} from "../../types/AccessControlRole";
 
 
 @Injectable({
@@ -337,6 +339,19 @@ export class AppServiceService {
     });
     return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
 
+  }
+  getLoggedInUserInfo(){
+    const headers = {'content-type': 'application/json'}
+    return this.http.get<UserInfo[]>(environment.BaseURI+environment.GET_ALL_USER_INFO_URI,{'headers': headers})
+  }
+  getAccessControlRoles(){
+    const headers = {'content-type': 'application/json'}
+    return this.http.get<AccessControlRole[]>(environment.BaseURI+environment.GET_ACCESS_CONTROL_URI,{'headers': headers})
+
+  }
+  saveRole(userRequest:AccessControlRole){
+    const headers = {'content-type': 'application/json'}
+    return this.http.post(environment.BaseURI+environment.ADD_USER_URI,userRequest,{'headers': headers})
   }
 }
 
