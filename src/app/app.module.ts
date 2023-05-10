@@ -114,6 +114,7 @@ import {ManageContributorsComponent} from './components/admin/manage-contributor
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTreeModule} from "@angular/material/tree";
 import { QuestionLevelRatingComponent } from './components/question-level-rating/question-level-rating.component';
+import { AdminQuestionReferenceComponent } from './components/admin/admin-question-reference/admin-question-reference.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -245,6 +246,7 @@ export const appRoutes: Routes = [
     ReviewDialogComponent,
     ManageContributorsComponent,
     QuestionLevelRatingComponent,
+    AdminQuestionReferenceComponent,
   ],
 
     imports: [

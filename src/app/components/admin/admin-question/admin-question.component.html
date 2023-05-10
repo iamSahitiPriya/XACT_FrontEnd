@@ -110,6 +110,14 @@
 
                 <div class="save-delete-button"
                      *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
+                  <div class="question-reference" *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
+                    <button>
+                      <mat-icon>playlist_add</mat-icon>
+                    </button>
+                  </div>
+<!--                  <ng-template #reference>-->
+<!--                    <app-admin-question-reference [topic]="row" [category]="findCategoryId(row)" [module]="findModuleId(row)" [role]="path"></app-admin-question-reference>-->
+<!--                  </ng-template>-->
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">

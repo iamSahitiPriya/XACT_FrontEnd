@@ -307,6 +307,13 @@
   width: 30px;
 }
 
+.question-reference button{
+  border: none;
+  background-color: transparent;
+  padding-top:8px;
+  padding-right:21px;
+}
+
 .disable-delete-button .mat-icon {
   color: #b2b2b2;
 }
@@ -328,4 +335,5 @@
   .edit-question, .send-question-for-review{
     height: 2.2rem;
   }
+
 }
