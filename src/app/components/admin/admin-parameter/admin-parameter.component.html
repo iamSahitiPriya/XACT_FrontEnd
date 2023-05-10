@@ -160,7 +160,7 @@
         <button mat-flat-button (click)="deleteAddedParameterRow()" *ngIf="(row.isEdit)">
           <mat-icon id="deleteParameter">delete</mat-icon>
         </button>
-        <div class="parameter-reference">
+        <div class="parameter-reference" *ngIf="row.parameterLevelReference">
           <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                   (click)="openParameterReference(reference,row)">
             <mat-icon>playlist_add</mat-icon>

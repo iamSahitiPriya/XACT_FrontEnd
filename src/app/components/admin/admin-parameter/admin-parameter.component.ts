@@ -24,6 +24,7 @@ import {ParameterRequest} from "../../../types/Admin/parameterRequest";
 import {ParameterResponse} from "../../../types/Admin/parameterResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {Router} from "@angular/router";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
 
 
 const NOTIFICATION_DURATION = 5000;
@@ -89,6 +90,11 @@ export class AdminParameterComponent implements OnInit {
   loggedInUser: Observable<User>
   loggedInUserEmail: string
   private adminTopicReferenceMessage= data_local.ADMIN.REFERENCES.ADMIN_TOPIC_REFERENCE_MESSAGE;
+  private confirmationText: string =data_local.ADMIN.PARAMETER.CONFIRMATION_TEXT;
+  private isNotParameterLevelReference: number =2;
+  private isParameterLevelReference: number =1;
+
+
 
 
   constructor(private router: Router, private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
@@ -191,6 +197,7 @@ export class AdminParameterComponent implements OnInit {
       topic.push({
         topicId: eachTopic.topicId,
         topicName: eachTopic.topicName,
+        topicLevelReference:eachTopic.topicLevelReference,
         active: eachTopic.active,
         module: eachModule.moduleId
       })
@@ -203,9 +210,11 @@ export class AdminParameterComponent implements OnInit {
 
   private fetchParameters(eachTopic: TopicStructure, eachCategory: CategoryResponse, eachModule: ModuleStructure) {
     let parameters: ParameterRequest[] = [];
-    this.topicList.push({
-      topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active, module: eachModule.moduleId
-    })
+    this.topicList.push(
+      {
+      topicId: eachTopic.topicId, topicName: eachTopic.topicName, active: eachTopic.active, module: eachModule.moduleId,topicLevelReference:eachTopic.topicLevelReference
+    }
+    )
     eachTopic.parameters?.forEach(eachParameter => {
       parameters.push({
         parameterId: eachParameter.parameterId,
@@ -224,11 +233,13 @@ export class AdminParameterComponent implements OnInit {
         topicId: eachTopic.topicId,
         topicName: eachTopic.topicName,
         topicStatus: eachTopic.active,
+        topicLevelReference:eachTopic.topicLevelReference,
         active: eachParameter.active,
         updatedAt: eachParameter.updatedAt,
         comments: eachParameter.comments,
         parameterId: eachParameter.parameterId,
-        parameterName: eachParameter.parameterName
+        parameterName: eachParameter.parameterName,
+        parameterLevelReference : eachParameter.parameterLevelReference
       }
       this.parameterData.push(parameter)
     })
@@ -246,6 +257,7 @@ export class AdminParameterComponent implements OnInit {
       topicId: -1,
       topicName: "",
       topicStatus: false,
+      topicLevelReference:false,
       parameterId: -1,
       parameterName: "",
       active: true,
@@ -285,23 +297,32 @@ export class AdminParameterComponent implements OnInit {
 
   saveParameterRow(row: ParameterData) {
     let parameterSaveRequest = this.getParameterRequest(row);
+    let topicLevelReference = this.topicList.find(topic => topic.topicId === parameterSaveRequest?.topic)?.topicLevelReference;
     if (this.isParameterUnique && parameterSaveRequest !== null) {
-      this.appService.saveParameter(parameterSaveRequest).subscribe({
-        next: (_data) => {
-          let data = this.dataSource.data
-          row.isEdit = false
-          this.isEditable = false;
-          this.selectedParameter = null
-          data.splice(0, 1)
-          this.dataSource.data = data
-          this.table.renderRows()
-          this.parameterData = []
-          this.sendToStore(_data)
-        }, error: (_err) => {
-          this.showError(this.serverErrorMessage)
-        }
-      })
+      if(topicLevelReference){
+        this.saveNewParameter(parameterSaveRequest,row)
+      }else {
+        this.confirmReferencePopup(parameterSaveRequest, row);
+      }
     }
+  }
+
+  private saveNewParameter(parameterSaveRequest: ParameterRequest, row: ParameterData) {
+    this.appService.saveParameter(parameterSaveRequest).subscribe({
+      next: (_data) => {
+        let data = this.dataSource.data
+        row.isEdit = false
+        this.isEditable = false;
+        this.selectedParameter = null
+        data.splice(0, 1)
+        this.dataSource.data = data
+        this.table.renderRows()
+        this.parameterData = []
+        this.sendToStore(_data)
+      }, error: (_err) => {
+        this.showError(this.serverErrorMessage)
+      }
+    })
   }
 
   private getParameterRequest(row: ParameterData): ParameterRequest | null {
@@ -453,6 +474,7 @@ export class AdminParameterComponent implements OnInit {
       active: _data.active,
       comments: _data.comments,
       updatedAt: Date.now(),
+      parameterLevelReference:_data.parameterLevelReference,
       topic: _data.topicId,
       questions: _data.questions ? _data.questions : [],
       references: _data.references ? _data.references : []
@@ -515,5 +537,21 @@ export class AdminParameterComponent implements OnInit {
     this.dialogRef.disableClose = true;
   }
 
+  private confirmReferencePopup(parameterSaveRequest: ParameterRequest, row: ParameterData) {
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px',
+      data : {
+        level : "topic"
+      }
+    });
+    openConfirm.componentInstance.text = this.confirmationText;
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === this.isParameterLevelReference || result === this.isNotParameterLevelReference) {
+        parameterSaveRequest.parameterLevelReference = result === this.isParameterLevelReference
+        this.saveNewParameter(parameterSaveRequest, row);
+      }
+    })
+  }
 }
 

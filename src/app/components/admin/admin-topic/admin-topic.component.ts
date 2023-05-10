@@ -423,6 +423,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       topicName: _data.topicName,
       module: _data.moduleId,
       updatedAt: _data.updatedAt,
+      topicLevelReference:_data.topicLevelReference,
       active: _data.active,
       comments: _data.comments,
       parameters: _data.parameters ? _data.parameters : [],
@@ -495,7 +496,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     openConfirm.componentInstance.text = this.confirmationText;
     openConfirm.afterClosed().subscribe(result => {
       if (result === this.isTopicLevelReference || result === this.isNotTopicLevelReference) {
-        console.log(result === this.isTopicLevelReference)
         topicRequest.topicLevelReference = result === this.isTopicLevelReference
         this.saveNewTopic(topicRequest, row);
       }

@@ -225,14 +225,15 @@ export const data_local =
       },
       TOPIC: {
         ADD_TOPIC: "Add Topic",
-        ENTER_TOPIC: "Enter topic name", 
+        ENTER_TOPIC: "Enter topic name",
         REFERENCE_CONFIRMATION_TEXT: "Do you want to add Topic Level Reference?"
 
       },
       PARAMETER: {
         TOPIC_SELECTION_LABEL: "Select Topic",
         PARAMETER_INPUT_TEXT: "Enter Parameter Name",
-        TOPIC_NOT_FOUND: "Topic Not Found",
+        TOPIC_NOT_FOUND: "Topic Not Found", CONFIRMATION_TEXT: "Do you want to add Parameter Level Reference?"
+
       },
       REFERENCES: {
         HEADER: "References - ",

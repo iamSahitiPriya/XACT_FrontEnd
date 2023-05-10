@@ -37,7 +37,7 @@
 
         </div>
 
-        <div *ngIf="parameter.questions && (parameter.references || topicInput.references) ">
+        <div *ngIf="parameter.questions && (parameter.parameterLevelReference || topicInput.topicLevelReference) ">
           <app-user-question-answer *ngIf="topicRequest.parameterLevel[i]"
                                     [parameterId]="parameter.parameterId"
                                     [assessmentId]="assessmentId"

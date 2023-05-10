@@ -8,6 +8,7 @@ export interface TopicResponse{
   updatedAt:number,
   active:boolean,
   comments?:string
+  topicLevelReference ?: boolean
   categoryId : number
   parameters ?: ParameterStructure[]
   references ?: TopicReference[]
