@@ -11,6 +11,13 @@ import {map} from "rxjs/operators";
 import {AccessControlRole} from "../../../types/AccessControlRole";
 import {MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../../messages";
+import {Store} from "@ngrx/store";
+import {AppStates, User} from "../../../reducers/app.states";
+
+interface UserRole {
+  role: string,
+  value: string
+}
 
 @Component({
   selector: 'app-manage-admin',
@@ -25,6 +32,7 @@ export class ManageAdminComponent implements OnInit {
   accessControlRole: AccessControlRole[];
   dataSource: MatTableDataSource<AccessControlRole>
   private destroy$: Subject<void> = new Subject<void>();
+  loggedInUser: Observable<User>
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
 
   displayedColumns: string[] = ['name', 'role', 'action'];
@@ -37,10 +45,18 @@ export class ManageAdminComponent implements OnInit {
     ]
   }
   userEmail: string;
+  role: UserRole[] = [{
+    role: 'Primary', value: 'PRIMARY_ADMIN'
+  }, {
+    role: 'Secondary', value: 'SECONDARY_ADMIN'
+  }];
 
 
-  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder) {
+  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
     this.dataSource = new MatTableDataSource<AccessControlRole>(this.accessControlRole);
+    this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
+
+
   }
 
   ngOnInit(): void {
@@ -55,6 +71,7 @@ export class ManageAdminComponent implements OnInit {
     })
     this.appService.getAccessControlRoles().subscribe(data => {
       this.accessControlRole = data;
+      this.validateUser()
       this.dataSource = new MatTableDataSource(this.accessControlRole)
     })
   }
@@ -98,6 +115,7 @@ export class ManageAdminComponent implements OnInit {
   saveRole(email: string, role: string) {
     if (this.addUserFormGroup.valid) {
       let roleRequest: AccessControlRole = {
+        username:email,
         email: email,
         accessControlRoles: role
       }
@@ -109,14 +127,13 @@ export class ManageAdminComponent implements OnInit {
             this.dataSource.data = this.accessControlRole
             this.userEmail = ""
           })
-      }
-      // }else{
-      //   this.addUserFormGroup.controls['userEmailRoleValidator'].setValidators({'alreadyPresent':{value:{}}})
-      //
-      // }
-    }
+      } else {
+        this.addUserFormGroup.controls['userEmailRoleValidator'].setValidators(this.validateUserEmailRole(roleRequest))
 
+      }
+    }
   }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -131,8 +148,27 @@ export class ManageAdminComponent implements OnInit {
           flag = true
         }
       })
-      console.log(flag)
       return flag ? null : {'invalidAutocompleteString': {value: control.value}}
+    }
+  }
+
+  private validateUser() {
+    this.loggedInUser.subscribe(user => {
+      let isPresent = this.accessControlRole.find(eachUser => eachUser.email == user.email)?.accessControlRoles
+      if (isPresent === 'SECONDARY_ADMIN') {
+        this.role.splice(0, 1);
+      }
+    })
+  }
+
+  private validateUserEmailRole(roleRequest: AccessControlRole) {
+    let flag = false;
+    let filteredData = this.dataSource.data.filter(eachData => eachData.email === roleRequest.email)
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (filteredData.length === 0) {
+        flag = true
+      }
+      return flag ? null : {'alreadyPresent': {value: control.value}}
     }
   }
 }

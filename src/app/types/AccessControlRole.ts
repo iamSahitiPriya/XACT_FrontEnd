@@ -3,6 +3,7 @@
  */
 
 export interface AccessControlRole{
+  username:string
   email:string,
   accessControlRoles:string
 }
