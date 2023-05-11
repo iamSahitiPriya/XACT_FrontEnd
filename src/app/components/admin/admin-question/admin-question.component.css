@@ -318,6 +318,11 @@
   color: #b2b2b2;
 }
 
+.question-reference-container {
+  display: flex;
+  flex-direction: column;
+}
+
 @media screen and (max-width: 1515px) {
   .question-text {
     width: 45%;

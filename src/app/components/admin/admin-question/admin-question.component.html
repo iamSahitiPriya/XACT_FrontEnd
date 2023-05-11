@@ -59,18 +59,23 @@
                 <p *ngIf="question.isEdit===false">{{i + 1}}. {{question.questionText}}</p>
               </div>
 
+              <div class="question-reference"
+                   *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
+                <button (click)="openQuestionReference(question)">
+                  <mat-icon>playlist_add</mat-icon>
+                </button>
+              </div>
+
               <div class="question-action-buttons" *ngIf="question.status !== published">
 
                 <div class="question-comments" *ngIf="question.comments && question.isEdit === false">
                   <mat-icon matTooltip="{{question.comments}}">chat</mat-icon>
                 </div>
 
-
                 <div class="author-action-buttons"
                      *ngIf="((question.status === sentForReview && question.isEdit === false) ||
                                (question.status === draft && question.isEdit === false) ||
                                (question.status === requestedForChange && question.isEdit === false && (role === author || role === 'contributor')))">
-
                   <div class="edit-button">
                     <button class="edit-question" id="edit-question" mat-flat-button
                             [disabled]="question.status === sentForReview && (role === author || role === contributor.toLowerCase())"
@@ -110,14 +115,12 @@
 
                 <div class="save-delete-button"
                      *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
-                  <div class="question-reference" *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
-                    <button>
+                  <div class="question-reference"
+                       *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
+                    <button (click)="openQuestionReference(question)">
                       <mat-icon>playlist_add</mat-icon>
                     </button>
                   </div>
-<!--                  <ng-template #reference>-->
-<!--                    <app-admin-question-reference [topic]="row" [category]="findCategoryId(row)" [module]="findModuleId(row)" [role]="path"></app-admin-question-reference>-->
-<!--                  </ng-template>-->
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
@@ -142,6 +145,14 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="question-reference-container" *ngIf="question.isReferenceOpened">
+              <app-admin-question-reference
+                [role]="role" [question]="question"
+                [category]="category"
+                [module]="module"
+                [topic]="topic"
+              ></app-admin-question-reference>
             </div>
           </div>
         </mat-card-content>

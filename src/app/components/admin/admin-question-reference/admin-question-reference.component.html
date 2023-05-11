@@ -1,1 +1,56 @@
-<p>admin-question-reference works!</p>
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div class="question-reference-button" *ngIf="role === 'contributor'">
+  <!--  <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>-->
+</div>
+
+<div *ngIf="questionReferences!== undefined" class="references">
+  <div class="reference" *ngFor="let reference of questionReferences;let i = index">
+    <div class="rating-dropdown">
+      <mat-form-field appearance="outline" class="selectDropdown">
+        <mat-select [(ngModel)]="reference.rating" required
+                    [disabled]="reference.isEdit===false">
+          <mat-option *ngFor="let rating of rating"
+                      [value]="rating.rating"
+                      [disabled]="rating.selected === true">
+            {{rating.rating}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          {{inputErrorMessage}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="referenceInput">
+      <mat-form-field appearance="outline" class="reference-input">
+        <textarea #input matInput
+                  name="reference{{reference.referenceId}}"
+                  id="reference{{reference.reference}}"
+                  [(ngModel)]="reference.reference"
+                  [readonly]="reference.isEdit===false"
+                  cdkTextareaAutosize
+                  class="textArea1"
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="7"
+                  maxlength="10000">
+        </textarea>
+        <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="reference.isEdit===true && reference.referenceId === -1 && selectedReference === reference" class="save">
+      <div  class="save-reference-button">
+        <button mat-flat-button class="save-button" type="submit" (click)="saveQuestionReference(reference)" [disabled]="isInputValid(reference)">{{save}}</button>
+      </div>
+      <div class="delete-button">
+        <button (click)="deleteUnSavedReferences()"><mat-icon id="deleteReference">delete</mat-icon></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

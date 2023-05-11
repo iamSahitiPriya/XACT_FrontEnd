@@ -8,6 +8,7 @@ export interface Question {
   parameter: number,
   status?:string,
   isEdit ?: boolean,
-  comments?:string
+  comments?:string,
+  isReferenceOpened ?: boolean
 }
 

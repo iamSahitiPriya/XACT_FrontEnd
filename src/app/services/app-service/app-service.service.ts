@@ -42,6 +42,7 @@ import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ContributorQuestionResponse} from "../../types/Contributor/ContributorQuestionResponse";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
+import {QuestionReference} from "../../types/QuestionReference";
 
 
 @Injectable({
@@ -322,7 +323,19 @@ export class AppServiceService {
       moduleId:moduleId,
     })
     return this.http.patch<ContributorQuestionResponse>(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
+  }
 
+  deleteQuestion(questionId: number) {
+    const headers = {'content-type': 'application/json'}
+    const deleteQuestionURI = this.formatURI(environment.DELETE_CONTRIBUTOR_QUESTION, {
+      questionId: questionId
+    });
+    return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
+
+  }
+
+  saveQuestionReference(questionReferenceRequest: QuestionReference): Observable<QuestionReference> {
+    return this.http.post<QuestionReference>(environment.BaseURI + environment.SAVE_QUESTION_REFERENCE_URI, questionReferenceRequest)
   }
 
   getActivity(topicId: number, assessmentId: number) {
@@ -335,15 +348,6 @@ export class AppServiceService {
       reconnectionDelay: 30_000,
       responseType: 'text'
     })
-
-  }
-
-  deleteQuestion(questionId: number) {
-    const headers = {'content-type': 'application/json'}
-    const deleteQuestionURI = this.formatURI(environment.DELETE_CONTRIBUTOR_QUESTION, {
-      questionId: questionId
-    });
-    return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
 
   }
 }

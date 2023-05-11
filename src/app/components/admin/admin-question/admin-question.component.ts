@@ -157,7 +157,8 @@ export class AdminQuestionComponent implements OnInit {
       questionText: '',
       status: this.draft,
       parameter: this.parameter.parameterId,
-      isEdit: true
+      isEdit: true,
+      isReferenceOpened : false
     }
     this.mapQuestionToStatus(newQuestion)
   }
@@ -183,6 +184,7 @@ export class AdminQuestionComponent implements OnInit {
       questions?.forEach(question => {
         let eachQuestion: Question = question
         eachQuestion.isEdit = false
+        eachQuestion.isReferenceOpened = false
         this.questionArray?.unshift(eachQuestion)
       })
     }
@@ -477,5 +479,11 @@ export class AdminQuestionComponent implements OnInit {
       }
     })
   }
+
+  openQuestionReference(question: Question) {
+    console.log(question.isReferenceOpened)
+    question.isReferenceOpened = !question.isReferenceOpened
+  }
+
 }
 
