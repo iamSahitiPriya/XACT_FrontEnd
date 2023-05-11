@@ -481,9 +481,12 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   openQuestionReference(question: Question) {
-    console.log(question.isReferenceOpened)
+    this.closePreviouslyOpenedReferences(question)
     question.isReferenceOpened = !question.isReferenceOpened
   }
 
+  private closePreviouslyOpenedReferences(question: Question) {
+    this.questionArray?.filter(eachQuestion => eachQuestion.questionId !== question.questionId).forEach(eachQuestion => eachQuestion.isReferenceOpened = false)
+  }
 }
 

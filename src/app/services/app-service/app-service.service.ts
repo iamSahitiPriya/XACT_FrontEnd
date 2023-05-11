@@ -272,6 +272,10 @@ export class AppServiceService {
     return this.http.put<ParameterReference>(environment.BaseURI + environment.UPDATE_PARAMETER_REFERENCE_URI + "/" + referenceId, parameterReferenceRequest)
   }
 
+  deleteQuestionReference(referenceId: number) {
+    return this.http.delete(environment.BaseURI + environment.DELETE_QUESTION_REFERENCE_URI + "/" + referenceId)
+  }
+
   saveMasterQuestion(questionRequest: QuestionRequest): Observable<QuestionStructure> {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
@@ -336,6 +340,10 @@ export class AppServiceService {
 
   saveQuestionReference(questionReferenceRequest: QuestionReference): Observable<QuestionReference> {
     return this.http.post<QuestionReference>(environment.BaseURI + environment.SAVE_QUESTION_REFERENCE_URI, questionReferenceRequest)
+  }
+
+  updateQuestionReference(referenceId: number, reference: QuestionReference) : Observable<QuestionReference> {
+    return this.http.put<QuestionReference>(environment.BaseURI + environment.UPDATE_QUESTION_REFERENCE_URI + "/" + referenceId, reference)
   }
 
   getActivity(topicId: number, assessmentId: number) {

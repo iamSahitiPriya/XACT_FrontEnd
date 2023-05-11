@@ -2,12 +2,25 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+.question-reference-container {
+  border: 1px solid #4ba1ac;
+  margin: 1%;
+  padding: 2%;
+  border-radius: 5px;
+}
+
+.question-reference-button button, .delete-icon button, .edit-button button {
+  display: inline-block;
+  float: right;
+  border: none;
+  background-color: transparent;
+}
+
 .question-reference-button {
-  padding-top: 1%;
   display: inline-block;
   float: right;
   width: 100%;
-  padding-right: 2%;
+  padding: 1% 2% 1% 0;
 }
 
 .question-reference-button button {
@@ -31,13 +44,6 @@
   box-shadow: 0px 2px 2px #00000024;
   border-radius: 4px;
   opacity: 1;
-}
-
-.question-reference-button button, .delete-icon button, .edit-button button {
-  display: inline-block;
-  float: right;
-  border: none;
-  background-color: transparent;
 }
 
 .reference {

@@ -2,30 +2,31 @@
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
 
-<div class="question-reference-button" *ngIf="role === 'contributor'">
-  <!--  <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>-->
-</div>
+<div class="question-reference-container">
+  <div class="question-reference-button">
+    <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
+  </div>
 
-<div *ngIf="questionReferences!== undefined" class="references">
-  <div class="reference" *ngFor="let reference of questionReferences;let i = index">
-    <div class="rating-dropdown">
-      <mat-form-field appearance="outline" class="selectDropdown">
-        <mat-select [(ngModel)]="reference.rating" required
-                    [disabled]="reference.isEdit===false">
-          <mat-option *ngFor="let rating of rating"
-                      [value]="rating.rating"
-                      [disabled]="rating.selected === true">
-            {{rating.rating}}
-          </mat-option>
-        </mat-select>
-        <mat-error>
-          {{inputErrorMessage}}
-        </mat-error>
-      </mat-form-field>
-    </div>
+  <div *ngIf="questionReferences!== undefined" class="references">
+    <div class="reference" *ngFor="let reference of questionReferences;let i = index">
+      <div class="rating-dropdown">
+        <mat-form-field appearance="outline" class="selectDropdown">
+          <mat-select [(ngModel)]="reference.rating" required
+                      [disabled]="reference.isEdit===false">
+            <mat-option *ngFor="let rating of rating"
+                        [value]="rating.rating"
+                        [disabled]="rating.selected === true">
+              {{rating.rating}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            {{inputErrorMessage}}
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-    <div class="referenceInput">
-      <mat-form-field appearance="outline" class="reference-input">
+      <div class="referenceInput">
+        <mat-form-field appearance="outline" class="reference-input">
         <textarea #input matInput
                   name="reference{{reference.referenceId}}"
                   id="reference{{reference.reference}}"
@@ -37,20 +38,43 @@
                   cdkAutosizeMaxRows="7"
                   maxlength="10000">
         </textarea>
-        <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
-      </mat-form-field>
-    </div>
-
-    <div *ngIf="reference.isEdit===true && reference.referenceId === -1 && selectedReference === reference" class="save">
-      <div  class="save-reference-button">
-        <button mat-flat-button class="save-button" type="submit" (click)="saveQuestionReference(reference)" [disabled]="isInputValid(reference)">{{save}}</button>
+          <mat-hint align="end">{{input.value.length}}/10000</mat-hint>
+        </mat-form-field>
       </div>
-      <div class="delete-button">
-        <button (click)="deleteUnSavedReferences()"><mat-icon id="deleteReference">delete</mat-icon></button>
-      </div>
-    </div>
 
+      <div *ngIf="reference.isEdit===true && reference.referenceId === -1 && selectedReference === reference"
+           class="save">
+        <div class="save-reference-button">
+          <button mat-flat-button class="save-button" type="submit" (click)="saveQuestionReference(reference)"
+                  [disabled]="isInputValid(reference)">{{save}}</button>
+        </div>
+        <div class="delete-button">
+          <button (click)="deleteUnSavedReferences()">
+            <mat-icon id="deleteReference">delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="reference.isEdit === true && reference.referenceId !== -1 && selectedReference === reference" class = update>
+        <div class="update-reference-button">
+          <button mat-flat-button class="update-button" type="submit" (click)="updateQuestionReference(reference)" [disabled]="isInputValid(reference)">{{update}}</button>
+        </div>
+
+        <div  class="cancel-button">
+          <button (click)="cancelChanges(reference)"><mat-icon>cancel</mat-icon></button>
+        </div>
+      </div>
+
+      <div class="edit" *ngIf="role === 'contributor'">
+        <div *ngIf="reference.isEdit===false" class="edit-button">
+          <button (click)="setIsEdit(reference)">{{edit}}</button>
+        </div>
+        <div class="delete-icon" *ngIf="reference.isEdit===false">
+          <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
-
 
