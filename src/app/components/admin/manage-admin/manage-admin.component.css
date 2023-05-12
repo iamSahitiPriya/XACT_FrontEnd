@@ -70,3 +70,6 @@ td.user-role:nth-child(3), th:nth-child(3){
 .manage-user-form{
   width: 100%;
 }
+tr.row-data{
+  height: 5.5vh;
+}

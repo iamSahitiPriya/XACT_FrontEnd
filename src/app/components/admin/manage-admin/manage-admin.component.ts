@@ -2,7 +2,7 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AppServiceService} from "../../../services/app-service/app-service.service";
 import {UserInfo} from "../../../types/UserInfo";
 import {Observable, startWith, Subject, takeUntil} from "rxjs";
@@ -13,10 +13,19 @@ import {MatTableDataSource} from "@angular/material/table";
 import {data_local} from "../../../messages";
 import {Store} from "@ngrx/store";
 import {AppStates, User} from "../../../reducers/app.states";
+import {AccessControlRoleRequest} from "../../../types/AccessControlRoleRequest";
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
 
 interface UserRole {
   role: string,
   value: string
+}
+
+interface RoleSchema {
+  role:string,
+  displayText:string,
+  color:string
 }
 
 @Component({
@@ -34,6 +43,9 @@ export class ManageAdminComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   loggedInUser: Observable<User>
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  roleSchema = new Map()
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['name', 'role', 'action'];
   addUserFormGroup: UntypedFormGroup;
@@ -50,13 +62,20 @@ export class ManageAdminComponent implements OnInit {
   }, {
     role: 'Secondary', value: 'SECONDARY_ADMIN'
   }];
+  isAdminPrimary: boolean = false;
 
 
   constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
     this.dataSource = new MatTableDataSource<AccessControlRole>(this.accessControlRole);
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
+    this.roleSchema.set('PRIMARY_ADMIN',{displayText:'Primary Admin',color:'#3f51b5'})
+    this.roleSchema.set('SECONDARY_ADMIN',{displayText:'Secondary Admin', color:'green'})
 
 
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -73,6 +92,8 @@ export class ManageAdminComponent implements OnInit {
       this.accessControlRole = data;
       this.validateUser()
       this.dataSource = new MatTableDataSource(this.accessControlRole)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
 
@@ -83,7 +104,7 @@ export class ManageAdminComponent implements OnInit {
   private _filterUser(value: string): UserInfo[] {
     const filterValue = value.toLowerCase();
     let dummy: UserInfo = {
-      email: 'abc',
+      email: '',
       family_name: 'Not Found',
       given_name: '',
       locale: ''
@@ -119,9 +140,13 @@ export class ManageAdminComponent implements OnInit {
         email: email,
         accessControlRoles: role
       }
+      let roleData:AccessControlRoleRequest = {
+        email: email,
+        accessControlRoles: role
+      }
       let filteredData = this.dataSource.data.filter(eachData => eachData.email === roleRequest.email)
       if (filteredData.length === 0) {
-        this.appService.saveRole(roleRequest).pipe(takeUntil(this.destroy$)).subscribe(
+        this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe(
           (_data) => {
             this.accessControlRole.push(roleRequest)
             this.dataSource.data = this.accessControlRole
@@ -133,7 +158,6 @@ export class ManageAdminComponent implements OnInit {
       }
     }
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -155,8 +179,8 @@ export class ManageAdminComponent implements OnInit {
   private validateUser() {
     this.loggedInUser.subscribe(user => {
       let isPresent = this.accessControlRole.find(eachUser => eachUser.email == user.email)?.accessControlRoles
-      if (isPresent === 'SECONDARY_ADMIN') {
-        this.role.splice(0, 1);
+      if (isPresent === 'PRIMARY_ADMIN') {
+        this.isAdminPrimary = true;
       }
     })
   }
@@ -170,5 +194,13 @@ export class ManageAdminComponent implements OnInit {
       }
       return flag ? null : {'alreadyPresent': {value: control.value}}
     }
+  }
+
+  deleteUser(user:AccessControlRole) {
+    // let request:AccessControlRoleRequest = {
+    //   email:user.email,
+    //   accessControlRoles:user.accessControlRoles
+    // }
+    // this.appService.deleteRole(request).pipe(takeUntil(this.destroy$))
   }
 }
