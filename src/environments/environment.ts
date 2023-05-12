@@ -65,7 +65,7 @@ export const environment = {
   UPDATE_CONTRIBUTOR_STATUS_URI: "/v1/contributor/modules/${moduleId}/questions",
   DELETE_CONTRIBUTOR_QUESTION : "/v1/contributor/questions/${questionId}",
   SAVE_CONTRIBUTOR_URI: "/v1/admin/modules/${moduleId}/contributors",
-  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
+  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question-references",
   UPDATE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
   DELETE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
 }

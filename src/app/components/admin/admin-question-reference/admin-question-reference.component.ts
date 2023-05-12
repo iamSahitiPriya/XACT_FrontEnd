@@ -17,6 +17,7 @@ import {QuestionStructure} from "../../../types/questionStructure";
 import {data_local} from "../../../messages";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import * as fromActions from "../../../actions/assessment-data.actions";
+import { Question } from 'src/app/types/Contributor/Question';
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -50,6 +51,8 @@ export class AdminQuestionReferenceComponent implements OnInit {
   addReference = data_local.ADMIN.REFERENCES.ADD_REFERENCE_BUTTON
   update = data_local.ADMIN.UPDATE
   edit = data_local.ADMIN.EDIT
+  header = data_local.ADMIN.REFERENCES.HEADER
+  closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
@@ -67,6 +70,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
       this.unsavedReferences = cloneDeep(this.getReferenceFromQuestion())
       this.disableSavedRatings()
     })
+    console.log("erg",this.question)
   }
 
   showError(message: string) {
@@ -270,7 +274,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
   }
 
   private deleteQuestionReference(reference: QuestionReference) {
-    if(reference.referenceId) {
+    if (reference.referenceId) {
       this.appService.deleteQuestionReference(reference.referenceId).pipe().subscribe({
         next: () => {
           this.deleteFromStore(reference)
@@ -310,5 +314,26 @@ export class AdminQuestionReferenceComponent implements OnInit {
 
     references.push(reference)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
+  }
+
+  close() {
+    this.updateUnsavedChangesToStore()
+    this.questionReferences = this.unsavedReferences
+    this.closePopUp();
+  }
+
+  private closePopUp() {
+    this.dialog.closeAll();
+  }
+
+
+  private updateUnsavedChangesToStore() {
+    let references = this.getReferenceFromQuestion()
+    references?.splice(0,references?.length)
+    if(this.unsavedReferences !== undefined)
+      this.unsavedReferences.forEach(reference => references?.push(reference))
+
+    this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
+
   }
 }

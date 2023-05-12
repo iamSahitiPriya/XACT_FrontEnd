@@ -172,7 +172,7 @@
                                            [topic]="findTopicId(row)"
                                            [module]="findModuleId(row)"
                                            [category]="findCategoryId(row)"
-                                           [role] = "path"
+                                           [role]="path"
             >
 
             </app-admin-parameter-reference>
@@ -184,21 +184,29 @@
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
       <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
         <div class="parameter-reference">
-          <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
-                  (click)="openQuestions(questions,row)">
-            <mat-icon>question_answer</mat-icon>
-          </button>
-        </div>
-        <ng-template #questions>
-          <ng-container *ngIf="row.openQuestions">
-            <app-admin-question [parameter]="row"
-                                [topic]="findTopicId(row)"
-                                [module]="findModuleId(row)"
-                                [category]="findCategoryId(row)"
-                                [role]="path"
-            ></app-admin-question>
-          </ng-container>
-        </ng-template>
+                    <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
+                            (click)="openQuestionPanel(row)">
+                      <mat-icon>question_answer</mat-icon>
+                    </button>
+                  </div>
+          <div class="all-questions-backdrop" *ngIf="row.openQuestions">
+            <div class="backdrop"></div>
+            <div class="all-question-container">
+              <div class="close">
+                <button (click)="closeQuestions(row)">
+                  <mat-icon class="question_close-icon">close</mat-icon>
+                </button>
+              </div>
+              <div class="all-questions" >
+                <app-admin-question class ="app-admin-question" [parameter]="row"
+                                    [topic]="findTopicId(row)"
+                                    [module]="findModuleId(row)"
+                                    [category]="findCategoryId(row)"
+                                    [role]="path"
+                ></app-admin-question>
+            </div>
+          </div>
+          </div>
       </td>
     </ng-container>
     <ng-container>

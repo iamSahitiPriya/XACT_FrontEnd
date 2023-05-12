@@ -100,6 +100,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   private confirmationText: string = data_local.ADMIN.TOPIC.REFERENCE_CONFIRMATION_TEXT;
   private isTopicLevelReference: number = 1;
   private isNotTopicLevelReference : number = 2;
+  warningLabel: string = data_local.ADMIN.REFERENCES.WARNING_LABEL;
 
   constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
@@ -494,6 +495,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       }
     });
     openConfirm.componentInstance.text = this.confirmationText;
+    openConfirm.componentInstance.warningLabel=this.warningLabel;
     openConfirm.afterClosed().subscribe(result => {
       if (result === this.isTopicLevelReference || result === this.isNotTopicLevelReference) {
         topicRequest.topicLevelReference = result === this.isTopicLevelReference

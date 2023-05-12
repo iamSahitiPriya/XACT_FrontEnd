@@ -10,7 +10,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Question} from "../../../types/Admin/question";
 import {Question as ContributorQuestion} from "../../../types/Contributor/Question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
@@ -20,6 +20,7 @@ import {ParameterData} from "../../../types/ParameterData";
 import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {ReviewDialogComponent} from "../../contributor/review-dialog/review-dialog.component";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -108,6 +109,8 @@ export class AdminQuestionComponent implements OnInit {
   approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
   reject: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
   inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
+  private dialogRef: MatDialogRef<any>;
+
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -158,7 +161,8 @@ export class AdminQuestionComponent implements OnInit {
       status: this.draft,
       parameter: this.parameter.parameterId,
       isEdit: true,
-      isReferenceOpened : false
+      isReferenceOpened : false,
+      references : this.hasQuestionReference() ? [] : undefined,
     }
     this.mapQuestionToStatus(newQuestion)
   }
@@ -480,13 +484,21 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  openQuestionReference(question: Question) {
-    this.closePreviouslyOpenedReferences(question)
-    question.isReferenceOpened = !question.isReferenceOpened
+  async openQuestionReference(reference : any,question: Question) {
+    if (this.hasQuestionReference()) {
+      question.isReferenceOpened = true
+      this.dialogRef = this.dialog.open(reference,{
+        width: '62vw',
+        height: '66vh',
+        maxWidth: '80vw',
+        maxHeight: '71vh'
+      })
+      this.dialogRef.disableClose = true;
+    }
   }
 
-  private closePreviouslyOpenedReferences(question: Question) {
-    this.questionArray?.filter(eachQuestion => eachQuestion.questionId !== question.questionId).forEach(eachQuestion => eachQuestion.isReferenceOpened = false)
+  private hasQuestionReference() {
+    return !this.parameter.topicLevelReference && !this.parameter.parameterLevelReference
   }
 }
 

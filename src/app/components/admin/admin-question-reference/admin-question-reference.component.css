@@ -3,10 +3,41 @@
  */
 
 .question-reference-container {
-  border: 1px solid #4ba1ac;
   margin: 1%;
   padding: 2%;
-  border-radius: 5px;
+}
+
+.header {
+  display : flex;
+  flex-direction: row;
+  padding-top: 1%;
+}
+.close button{
+  display: inline-block;
+  float: right;
+  border: none;
+  background-color: transparent;
+}
+.heading {
+  width: 97%;
+  text-align: left;
+  padding-left: 2%;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: Bitter, sans-serif;
+  letter-spacing: 0.4px;
+  color: #45A0AC;
+  opacity: 1;
+  overflow-wrap: break-word;
+}
+.close-icon.mat-icon {
+  color: #043D4E;
+  width: 50px;
+  height: 38px;
+}
+
+.close-icon.material-icons {
+  font-size: 25px;
 }
 
 .question-reference-button button, .delete-icon button, .edit-button button {

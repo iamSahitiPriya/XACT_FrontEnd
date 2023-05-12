@@ -13,6 +13,7 @@ import {data_local} from "../../messages";
 })
 export class PopupConfirmationComponent {
   text: string;
+  warningLabel : string;
 
   buttonText = data_local.POPUP_BUTTON.BUTTON_TEXT;
   cancel : number =0;

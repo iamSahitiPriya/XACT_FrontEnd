@@ -177,8 +177,9 @@
   margin: 0 0;
 }
 ::ng-deep .question-text .mat-form-field-appearance-outline .mat-form-field-flex  {
-  width: 40vw !important;
+  width: 36vw !important;
 }
+
 .question-card{
   box-shadow: none !important;
   border-radius: 0 6px 6px 6px;
@@ -238,7 +239,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-end;
-  width: 48%;
+  width: 40%;
   height: 3.5vh;
 }
 

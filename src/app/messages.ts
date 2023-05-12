@@ -226,13 +226,13 @@ export const data_local =
       TOPIC: {
         ADD_TOPIC: "Add Topic",
         ENTER_TOPIC: "Enter topic name",
-        REFERENCE_CONFIRMATION_TEXT: "Do you want to add Topic Level Reference?"
+        REFERENCE_CONFIRMATION_TEXT: "Are you planning to add Topic Level Reference?"
 
       },
       PARAMETER: {
         TOPIC_SELECTION_LABEL: "Select Topic",
         PARAMETER_INPUT_TEXT: "Enter Parameter Name",
-        TOPIC_NOT_FOUND: "Topic Not Found", CONFIRMATION_TEXT: "Do you want to add Parameter Level Reference?"
+        TOPIC_NOT_FOUND: "Topic Not Found", CONFIRMATION_TEXT: "Are you planning to add Parameter Level Reference?"
 
       },
       REFERENCES: {
@@ -246,7 +246,7 @@ export const data_local =
         DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
         ADMIN_PARAMETER_REFERENCE_MESSAGE: "References can't be shown because parameter Level References already exists! ",
         ADMIN_TOPIC_REFERENCE_MESSAGE:"References can't be shown because topic Level References already exists! ",
-
+        WARNING_LABEL: "(option can't be changed later)",
       },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",
@@ -265,7 +265,7 @@ export const data_local =
         ADD_QUESTION: " Add Question",
         QUESTIONS: "Questions",
         QUESTION: "Question",
-        REQUIRED_FIELD: "This field is required"
+        REQUIRED_FIELD: "This field is required",
 
       },
     },
@@ -393,7 +393,7 @@ export const data_local =
       commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
       manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation',
       topicText: "Topic",
-      parameterText: "Parameter"
+      parameterText: "Parameter",
 
     },
     IDLE_STATE: {

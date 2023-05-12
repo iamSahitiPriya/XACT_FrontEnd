@@ -93,6 +93,8 @@ export class AdminParameterComponent implements OnInit {
   private confirmationText: string =data_local.ADMIN.PARAMETER.CONFIRMATION_TEXT;
   private isNotParameterLevelReference: number =2;
   private isParameterLevelReference: number =1;
+  warningLabel: string = data_local.ADMIN.REFERENCES.WARNING_LABEL;
+
 
 
 
@@ -526,16 +528,6 @@ export class AdminParameterComponent implements OnInit {
     return flag
   }
 
-  openQuestions(questions: any, row: ParameterData) {
-    row.openQuestions = true;
-    this.dialogRef = this.dialog.open(questions, {
-      width: '62vw',
-      height: '66vh',
-      maxWidth: '80vw',
-      maxHeight: '71vh'
-    })
-    this.dialogRef.disableClose = true;
-  }
 
   private confirmReferencePopup(parameterSaveRequest: ParameterRequest, row: ParameterData) {
     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
@@ -546,12 +538,21 @@ export class AdminParameterComponent implements OnInit {
       }
     });
     openConfirm.componentInstance.text = this.confirmationText;
+    openConfirm.componentInstance.warningLabel=this.warningLabel;
     openConfirm.afterClosed().subscribe(result => {
       if (result === this.isParameterLevelReference || result === this.isNotParameterLevelReference) {
         parameterSaveRequest.parameterLevelReference = result === this.isParameterLevelReference
         this.saveNewParameter(parameterSaveRequest, row);
       }
     })
+  }
+
+  closeQuestions(row :ParameterData){
+      row.openQuestions = false
+    }
+
+  openQuestionPanel(row : ParameterData) {
+    row.openQuestions=true;
   }
 }
 

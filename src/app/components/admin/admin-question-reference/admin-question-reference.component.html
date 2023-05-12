@@ -1,7 +1,14 @@
 <!--
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
-
+<div class="header">
+  <div class="heading">{{header.split('-')[0]}}</div>
+  <div class="close">
+    <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
+  </div>
+</div>
 <div class="question-reference-container">
   <div class="question-reference-button">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
@@ -65,8 +72,8 @@
         </div>
       </div>
 
-      <div class="edit" *ngIf="role === 'contributor'">
-        <div *ngIf="reference.isEdit===false" class="edit-button">
+      <div class="edit" *ngIf="role === 'contributor' || role==='author'.toUpperCase()" >
+        <div *ngIf="reference.isEdit===false" class="edit-button" >
           <button (click)="setIsEdit(reference)">{{edit}}</button>
         </div>
         <div class="delete-icon" *ngIf="reference.isEdit===false">

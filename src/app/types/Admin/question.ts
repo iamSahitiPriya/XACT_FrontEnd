@@ -2,6 +2,8 @@
  * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
  */
 
+import {QuestionReference} from "../QuestionReference";
+
 export interface Question {
   questionId: number,
   questionText: string,
@@ -10,5 +12,6 @@ export interface Question {
   isEdit ?: boolean,
   comments?:string,
   isReferenceOpened ?: boolean
+  references ?: QuestionReference[]
 }
 

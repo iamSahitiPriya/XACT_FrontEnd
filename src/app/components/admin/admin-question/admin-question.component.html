@@ -1,10 +1,5 @@
 <mat-card-header class="question-header">
   <div class="question-heading">{{parameter && parameter.parameterName}}</div>
-  <div class="close-question" *ngIf="role === admin.toLowerCase() || role === contributor.toLowerCase()">
-    <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
-      <mat-icon class="close-question-icon">close</mat-icon>
-    </button>
-  </div>
 </mat-card-header>
 <mat-card-title class="questions-text">
   <h2 class="question-heading">{{questions}}</h2>
@@ -60,11 +55,21 @@
               </div>
 
               <div class="question-reference"
-                   *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
-                <button (click)="openQuestionReference(question)">
+                   *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference && !question.isEdit)">
+                <button (click)="openQuestionReference(reference,question)">
                   <mat-icon>playlist_add</mat-icon>
                 </button>
               </div>
+              <ng-template #reference>
+                <ng-container *ngIf="question.isReferenceOpened">
+                  <app-admin-question-reference
+                    [role]="role" [question]="question"
+                    [category]="category"
+                    [module]="module"
+                    [topic]="topic"
+                  ></app-admin-question-reference>
+                </ng-container>
+              </ng-template>
 
               <div class="question-action-buttons" *ngIf="question.status !== published">
 
@@ -115,12 +120,6 @@
 
                 <div class="save-delete-button"
                      *ngIf="question.isEdit === true && question.questionId === defaultQuestionId">
-                  <div class="question-reference"
-                       *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference)">
-                    <button (click)="openQuestionReference(question)">
-                      <mat-icon>playlist_add</mat-icon>
-                    </button>
-                  </div>
                   <button class="save-question" [disabled]="!question.questionText" mat-flat-button
                           (click)="saveQuestion(question)">{{save}}</button>
                   <div class="delete-question">
@@ -131,7 +130,7 @@
                 </div>
                 <div class="update-button"
                      *ngIf="question.isEdit === true && question.questionId !== defaultQuestionId">
-                  <div *ngIf="role === author">
+                  <div *ngIf="role === author || role=== 'contributor'">
                     <button class="update-question" mat-flat-button (click)="updateQuestion(question)"
                             [disabled]="!question.questionText">{{update}}</button>
                   </div>
@@ -146,14 +145,7 @@
                 </div>
               </div>
             </div>
-            <div class="question-reference-container" *ngIf="question.isReferenceOpened">
-              <app-admin-question-reference
-                [role]="role" [question]="question"
-                [category]="category"
-                [module]="module"
-                [topic]="topic"
-              ></app-admin-question-reference>
-            </div>
+
           </div>
         </mat-card-content>
       </mat-card>
