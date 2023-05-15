@@ -17,7 +17,7 @@
                      (focus)="onInputChange()"
                      (input)="onInputChange()" required
                      [matAutocomplete]="auto"/>
-              <mat-hint>User should have logged in at least once.</mat-hint>
+              <mat-hint>{{userEmailValidatorCriteriaText}}</mat-hint>
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let state of filteredUsers | async" [value]="state.email"
                             [disabled]="users[0].family_name==='Not Found'">
@@ -41,7 +41,7 @@
             </mat-form-field>
           </div>
           <div class="save-role">
-            <button mat-button class="save-role-button" type="submit">Add</button>
+            <button mat-button class="save-role-button" type="submit">{{addUserDisplayText}}</button>
           </div>
         </div>
       </form>
@@ -51,11 +51,11 @@
   <div class="display-users mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="table-users">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <th mat-header-cell *matHeaderCellDef>{{nameHeader}}</th>
         <td mat-cell *matCellDef="let row" class="user-role"> {{row.username}} </td>
       </ng-container>
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <th mat-header-cell *matHeaderCellDef>{{roleHeader}}</th>
         <td mat-cell *matCellDef="let row" class="user-role">
           <mat-chip-list>
             <mat-chip
@@ -64,7 +64,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <th mat-header-cell *matHeaderCellDef>{{action}}</th>
         <td mat-cell *matCellDef="let row" class="user-role">
           <button mat-icon-button (click)="deleteUser(row)">
             <mat-icon id="deleteTopic">delete</mat-icon>

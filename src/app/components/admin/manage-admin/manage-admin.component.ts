@@ -45,7 +45,25 @@ export class ManageAdminComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   loggedInUser: Observable<User>
   mandatoryFieldText = data_local.ASSESSMENT.MANDATORY_FIELD_TEXT;
+  invalidAutocompleteValidation = data_local.ADMIN.MANAGE_ADMIN.INVALID_AUTOCOMPLETE_VALIDATION;
+  invalidAutocompleteValidationMessage = data_local.ADMIN.MANAGE_ADMIN.INVALID_AUTOCOMPLETE_VALIDATION_MESSAGE;
+  requireValidation = data_local.ADMIN.MANAGE_ADMIN.REQUIRED_FIELD_VALIDATION;
+  roleAlreadyPresentValidation = data_local.ADMIN.MANAGE_ADMIN.ROLE_ALREADY_PRESENT_VALIDATION;
+  roleAlreadyPresentValidationMessage = data_local.ADMIN.MANAGE_ADMIN.MESSAGE.ROLE_ALREADY_PRESENT;
+  primaryAdminRole = data_local.ADMIN.ROLE.PRIMARY.ROLE_VALUE;
+  primaryAdminDisplayValue = data_local.ADMIN.ROLE.PRIMARY.DISPLAY_VALUE;
+  primaryAdminDisplayText = data_local.ADMIN.ROLE.PRIMARY.DISPLAY_TEXT;
+  secondaryAdminRole = data_local.ADMIN.ROLE.SECONDARY.ROLE_VALUE;
+  secondaryAdminDisplayValue = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_VALUE;
+  secondaryAdminDisplayText = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_TEXT;
+  primaryAdminDisplayColor = '#3f51b5';
+  userEmailValidatorCriteriaText: string = data_local.ADMIN.MANAGE_ADMIN.CRITERIA_TEXT;
+  roleHeader: string = "Role";
+  addUserDisplayText: string = "Add";
+  nameHeader: string = "Name";
+  action = data_local.ADMIN.ACTION
   roleSchema = new Map()
+  secondaryAdminDisplayColor = 'green';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<AccessControlRole>
@@ -54,16 +72,16 @@ export class ManageAdminComponent implements OnInit {
   addUserFormGroup: UntypedFormGroup;
   public userEmailRoleValidator = {
     'userFormControl': [
-      {type: 'invalidAutocompleteString', message: "Not found"},
-      {type: 'required', message: this.mandatoryFieldText},
-      {type: 'roleAlreadyPresent', message: 'User already assigned to a role'}
+      {type: this.invalidAutocompleteValidation, message: this.invalidAutocompleteValidationMessage},
+      {type: this.requireValidation, message: this.mandatoryFieldText},
+      {type: this.roleAlreadyPresentValidation, message: this.roleAlreadyPresentValidationMessage}
     ]
   }
   userEmail: string;
   role: UserRole[] = [{
-    role: 'Primary', value: 'PRIMARY_ADMIN'
+    role: this.primaryAdminRole, value: this.primaryAdminDisplayValue
   }, {
-    role: 'Secondary', value: 'SECONDARY_ADMIN'
+    role: this.secondaryAdminRole, value: this.secondaryAdminDisplayValue
   }];
   isAdminPrimary: boolean = false;
   private accessControlRoleDataSource: AccessControlRole[];
@@ -72,8 +90,8 @@ export class ManageAdminComponent implements OnInit {
   constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
     this.dataSource = new MatTableDataSource<AccessControlRole>();
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
-    this.roleSchema.set('PRIMARY_ADMIN', {displayText: 'Primary Admin', color: '#3f51b5'})
-    this.roleSchema.set('SECONDARY_ADMIN', {displayText: 'Secondary Admin', color: 'green'})
+    this.roleSchema.set(this.primaryAdminDisplayValue, {displayText: this.primaryAdminDisplayText, color: this.primaryAdminDisplayColor})
+    this.roleSchema.set(this.secondaryAdminDisplayValue, {displayText: this.secondaryAdminDisplayText, color: this.secondaryAdminDisplayColor})
 
 
   }
@@ -107,7 +125,7 @@ export class ManageAdminComponent implements OnInit {
     const filterValue = value.toLowerCase();
     let dummy: UserInfo = {
       email: '',
-      family_name: 'Not Found',
+      family_name: this.invalidAutocompleteValidationMessage,
       given_name: '',
       locale: ''
     }
@@ -198,8 +216,8 @@ export class ManageAdminComponent implements OnInit {
     this.loggedInUser.subscribe(user => {
       this.accessControlRoleDataSource = cloneDeep(this.accessControlRole);
       let index = this.accessControlRole.findIndex(eachUser => eachUser.email === user.email)
-      if (index !== -1){
-        this.accessControlRoleDataSource.splice(index,1)
+      if (index !== -1) {
+        this.accessControlRoleDataSource.splice(index, 1)
         this.dataSource = new MatTableDataSource(this.accessControlRoleDataSource)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
