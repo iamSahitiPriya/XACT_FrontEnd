@@ -206,7 +206,7 @@ export const data_local =
         SECONDARY: {
           ROLE_VALUE:'Secondary',
           DISPLAY_VALUE: 'SECONDARY_ADMIN',
-          DISPLAY_TEXT: 'SECONDARY_ADMIN'
+          DISPLAY_TEXT: 'Secondary Admin'
         }
 
       },
@@ -286,14 +286,14 @@ export const data_local =
         ROLE_ALREADY_PRESENT_VALIDATION: 'roleAlreadyPresent',
         MESSAGE: {
           ROLE_ALREADY_PRESENT: 'User already assigned to a role'
-          
+
         },
         CRITERIA_TEXT: "User should have logged in at least once.",
         INVALID_AUTOCOMPLETE_VALIDATION_MESSAGE: "User Not found"
 
 
       }
-          
+
     },
     DROPDOWN_OPTION_TEXT: {
       LAST_WEEK: "Last 7 Days",

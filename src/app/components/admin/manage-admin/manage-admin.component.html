@@ -20,9 +20,10 @@
               <mat-hint>{{userEmailValidatorCriteriaText}}</mat-hint>
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let state of filteredUsers | async" [value]="state.email"
-                            [disabled]="users[0].family_name==='Not Found'">
-                  <span>{{state.given_name}} {{state.family_name}}</span> |
+                            [disabled]="users[0].family_name===invalidAutocompleteValidationMessage">
+                  <span>{{state.given_name}} {{state.family_name}}</span><span *ngIf="users[0].family_name!==invalidAutocompleteValidationMessage"> |
                   <small>{{state.email}}</small>
+                  </span>
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngFor="let validation of userEmailRoleValidator.userFormControl">

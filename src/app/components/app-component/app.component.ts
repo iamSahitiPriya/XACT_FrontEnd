@@ -15,7 +15,6 @@ import {NotificationSnackbarComponent} from "../notification-component/notificat
 import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../reducers/app.states";
-import * as fromActions from "../../actions/assessment-data.actions";
 
 
 @Component({
@@ -84,11 +83,6 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     this.reset();
     this.userRoles = await this.appService.getUserRole();
-    this.userRoles.subscribe(data => {
-      this.store.dispatch(fromActions.loggedInUserRole({roles:data}))
-    })
-
-
   }
 }
 
