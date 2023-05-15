@@ -289,7 +289,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private sendToStore(data: QuestionStructure) {
-    let question: QuestionResponse = this.getQuestionWithId(data)
+    let question: Question = this.getQuestionWithId(data)
     let questions = this.getQuestionsFromParameter()
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
@@ -298,7 +298,7 @@ export class AdminQuestionComponent implements OnInit {
         parameter.questions.push(question)
       }
     } else {
-      this.updateQuestionArray(questions, data, question);
+      this.updateQuestionArray(questions, data, question)
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
@@ -306,7 +306,7 @@ export class AdminQuestionComponent implements OnInit {
   private updateQuestionArray(questions: QuestionStructure[], data: QuestionStructure, question: QuestionResponse) {
     let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === data.questionId)
     if (index !== -1)
-      questions.splice(index, 1, data)
+      questions.splice(index, 1, question)
     else
       questions?.push(question)
   }
@@ -373,7 +373,7 @@ export class AdminQuestionComponent implements OnInit {
     if(this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview)
       this.showError("Please add atleast one reference to send for review")
     else
-    this.openReviewDialog(questionRequest, contributorData);
+      this.openReviewDialog(questionRequest, contributorData);
   }
 
   private getContributorQuestion(question: Question) {
@@ -493,6 +493,7 @@ export class AdminQuestionComponent implements OnInit {
   async openQuestionReference(reference : any,question: Question) {
     if (this.hasQuestionReference()) {
       question.isReferenceOpened = true
+      question.references=this.getReferences(question.questionId);
       this.dialogRef = this.dialog.open(reference,{
         width: '62vw',
         height: '66vh',
@@ -517,12 +518,14 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private getReferences(questionId: number) {
-    console.log(this.categoryResponse)
     let question = this.categoryResponse.find(eachCategory => eachCategory.categoryId === this.category)?.modules.find(eachModule => eachModule.moduleId === this.module)?.topics.find(eachTopic => eachTopic.topicId === this.topic)?.parameters.find(eachParameter => eachParameter.parameterId === this.parameter.parameterId)?.questions.find(eachQuestion => eachQuestion.questionId === questionId);
-    if (question?.references !== undefined)
+    if (question?.references !== undefined && question?.references.length >0) {
       return question?.references
+    }
     else
       return []
   }
+
+
 }
 
