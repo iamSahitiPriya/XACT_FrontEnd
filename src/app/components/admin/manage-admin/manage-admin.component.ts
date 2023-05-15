@@ -63,10 +63,11 @@ export class ManageAdminComponent implements OnInit {
     role: 'Secondary', value: 'SECONDARY_ADMIN'
   }];
   isAdminPrimary: boolean = false;
+  private accessControlRoleDataSource: AccessControlRole[];
 
 
   constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
-    this.dataSource = new MatTableDataSource<AccessControlRole>(this.accessControlRole);
+    this.dataSource = new MatTableDataSource<AccessControlRole>(this.accessControlRoleDataSource);
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.roleSchema.set('PRIMARY_ADMIN',{displayText:'Primary Admin',color:'#3f51b5'})
     this.roleSchema.set('SECONDARY_ADMIN',{displayText:'Secondary Admin', color:'green'})
@@ -90,10 +91,7 @@ export class ManageAdminComponent implements OnInit {
     })
     this.appService.getAccessControlRoles().subscribe(data => {
       this.accessControlRole = data;
-      this.validateUser()
-      this.dataSource = new MatTableDataSource(this.accessControlRole)
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.filterLoggedInUser()
     })
   }
 
@@ -144,11 +142,11 @@ export class ManageAdminComponent implements OnInit {
         email: email,
         accessControlRoles: role
       }
-      let filteredData = this.dataSource.data.filter(eachData => eachData.email === roleRequest.email)
+      let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
       if (filteredData.length === 0) {
         this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe(
           (_data) => {
-            this.accessControlRole.push(roleRequest)
+            this.accessControlRole.unshift(roleRequest)
             this.dataSource.data = this.accessControlRole
             this.userEmail = ""
           })
@@ -175,19 +173,9 @@ export class ManageAdminComponent implements OnInit {
       return flag ? null : {'invalidAutocompleteString': {value: control.value}}
     }
   }
-
-  private validateUser() {
-    this.loggedInUser.subscribe(user => {
-      let isPresent = this.accessControlRole.find(eachUser => eachUser.email == user.email)?.accessControlRoles
-      if (isPresent === 'PRIMARY_ADMIN') {
-        this.isAdminPrimary = true;
-      }
-    })
-  }
-
   private validateUserEmailRole(roleRequest: AccessControlRole) {
     let flag = false;
-    let filteredData = this.dataSource.data.filter(eachData => eachData.email === roleRequest.email)
+    let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (filteredData.length === 0) {
         flag = true
@@ -197,10 +185,25 @@ export class ManageAdminComponent implements OnInit {
   }
 
   deleteUser(user:AccessControlRole) {
-    // let request:AccessControlRoleRequest = {
-    //   email:user.email,
-    //   accessControlRoles:user.accessControlRoles
-    // }
-    // this.appService.deleteRole(request).pipe(takeUntil(this.destroy$))
+    let request:AccessControlRoleRequest = {
+      email:user.email,
+      accessControlRoles:user.accessControlRoles
+    }
+    this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe(_data =>{
+      let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
+      if(index !== -1){
+        this.accessControlRoleDataSource.splice(index,1)
+      }
+      this.dataSource.data = this.accessControlRoleDataSource
+    })
+  }
+
+  private filterLoggedInUser() {
+    this.loggedInUser.subscribe(user =>{
+      this.accessControlRoleDataSource = this.accessControlRole.filter(eachUser => eachUser.email !== user.email)
+      this.dataSource = new MatTableDataSource(this.accessControlRoleDataSource)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
   }
 }

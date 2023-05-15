@@ -23,7 +23,8 @@ export const getUpdatedCategories = createAction("Get updated master data", prop
 
 export const loggedInUser = createAction("validate the user", props<{ role: string }>())
 
-export const loggedInUserEmail = createAction("User email from okta", props<{email:string}>())
+export const loggedInUserEmail = createAction("User email from okta", props<{ email: string }>())
 
+export const loggedInUserRole = createAction("Roles for the logged in user", props<{ roles: string[] }>())
 
 

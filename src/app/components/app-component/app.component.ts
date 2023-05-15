@@ -13,6 +13,9 @@ import {Observable} from "rxjs";
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
 import {NotificationSnackbarComponent} from "../notification-component/notification-component.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition} from "@angular/material/snack-bar";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../reducers/app.states";
+import * as fromActions from "../../actions/assessment-data.actions";
 
 
 @Component({
@@ -33,8 +36,7 @@ export class AppComponent implements OnInit {
   private loggedInUserEmail: string | undefined;
 
 
-
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef,private _snackBar: MatSnackBar) {
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     // set idle parameters
     idle.setIdle(environment.IDLE_TIMEOUT); // how long can they be inactive before considered idle, in seconds
     idle.setTimeout(environment.TIMEOUT); // how long can they be idle before considered timed out, in seconds
@@ -58,7 +60,11 @@ export class AppComponent implements OnInit {
 
     function timedOut() {
       _snackBar.openFromComponent(NotificationSnackbarComponent, {
-        data: {message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY, iconType: "warning_outline", notificationType: "Warning:"}, panelClass: ['error-snackBar'],
+        data: {
+          message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY,
+          iconType: "warning_outline",
+          notificationType: "Warning:"
+        }, panelClass: ['error-snackBar'],
         duration: 80000,
         verticalPosition: "top",
         horizontalPosition: "center" as MatSnackBarHorizontalPosition
@@ -66,8 +72,6 @@ export class AppComponent implements OnInit {
     }
 
   }
-
-
 
 
   reset() {
@@ -79,7 +83,12 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.reset();
-    this.userRoles =await this.appService.getUserRole();
+    this.userRoles = await this.appService.getUserRole();
+    this.userRoles.subscribe(data => {
+      this.store.dispatch(fromActions.loggedInUserRole({roles:data}))
+    })
+
+
   }
 }
 

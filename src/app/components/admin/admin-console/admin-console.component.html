@@ -43,7 +43,7 @@
               {{parameter}}
                 </span>
             </button>
-            <span class="manage-users"><button mat-button (click)="setEvent('manage-users')"
+            <span class="manage-users"><button mat-button (click)="setEvent('manage-users')" *ngIf="isAdminPrimary"
                                                [ngClass]="{'button-active':type === 'manage-users'}" [routerLink]="['/admin/manage-users']">
               <mat-icon class="manage-user">supervised_user_circle_outline</mat-icon>
               <span class="label">{{manageUsers}}</span>
