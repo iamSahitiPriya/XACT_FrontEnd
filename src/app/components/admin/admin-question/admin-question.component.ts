@@ -189,6 +189,7 @@ export class AdminQuestionComponent implements OnInit {
         let eachQuestion: Question = question
         eachQuestion.isEdit = false
         eachQuestion.isReferenceOpened = false
+        eachQuestion.references = this.hasQuestionReference() ? question.references : undefined
         this.questionArray?.unshift(eachQuestion)
       })
     }
@@ -270,12 +271,13 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  private getQuestionWithId(question: Question | QuestionStructure): QuestionResponse {
+  private getQuestionWithId(question: Question | QuestionStructure): QuestionStructure {
     return {
       questionText: question.questionText,
       parameter: this.parameter.parameterId,
       questionId: question.questionId,
-      status: question.status
+      status: question.status,
+      references: this.getQuestionReferences(question.questionId)
     }
   }
 
@@ -291,7 +293,7 @@ export class AdminQuestionComponent implements OnInit {
     let questions = this.getQuestionsFromParameter()
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
-      if (parameter) {
+      if (parameter !== undefined) {
         parameter.questions = []
         parameter.questions.push(question)
       }
@@ -374,7 +376,7 @@ export class AdminQuestionComponent implements OnInit {
   private getContributorQuestion(question: Question) {
     let questionRequest: ContributorQuestion[] = []
     let contributorQuestion: ContributorQuestion = {
-      comments: "", question: question.questionText, questionId: question.questionId, status: question.status
+      comments: "", question: question.questionText, questionId: question.questionId, status: question.status,references : this.getQuestionReferences(question.questionId)
     }
     questionRequest.push(contributorQuestion)
     return questionRequest;
@@ -413,7 +415,8 @@ export class AdminQuestionComponent implements OnInit {
           parameter: data.parameterId,
           questionId: response.questionId[0],
           questionText: data.questions[0].question,
-          status: response.status
+          status: response.status,
+          references : this.getQuestionReferences(response.questionId)
         }
         this.sendToStore(question)
         let updatedQuestion: Question = question
@@ -499,6 +502,24 @@ export class AdminQuestionComponent implements OnInit {
 
   private hasQuestionReference() {
     return !this.parameter.topicLevelReference && !this.parameter.parameterLevelReference
+  }
+
+  private getQuestionReferences(questionId : number) {
+    if(this.hasQuestionReference()) {
+      return this.getReferences(questionId);
+    }
+    else
+      return undefined
+
+  }
+
+  private getReferences(questionId: number) {
+    console.log(this.categoryResponse)
+    let question = this.categoryResponse.find(eachCategory => eachCategory.categoryId === this.category)?.modules.find(eachModule => eachModule.moduleId === this.module)?.topics.find(eachTopic => eachTopic.topicId === this.topic)?.parameters.find(eachParameter => eachParameter.parameterId === this.parameter.parameterId)?.questions.find(eachQuestion => eachQuestion.questionId === questionId);
+    if (question?.references !== undefined)
+      return question?.references
+    else
+      return []
   }
 }
 

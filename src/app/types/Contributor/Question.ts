@@ -3,6 +3,8 @@
  */
 
 
+import {QuestionReference} from "../QuestionReference";
+
 export interface Question {
   questionId : number
   question : string
@@ -10,4 +12,5 @@ export interface Question {
   status ?: string
   isEdit?: boolean
   isSelected ?: boolean
+  references ? : QuestionReference[]
 }

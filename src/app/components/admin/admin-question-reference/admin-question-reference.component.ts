@@ -13,11 +13,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Rating} from "../../../types/Admin/rating";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {CategoryResponse} from "../../../types/categoryResponse";
-import {QuestionStructure} from "../../../types/questionStructure";
 import {data_local} from "../../../messages";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import { Question } from 'src/app/types/Contributor/Question';
+import {Question} from "../../../types/Admin/question";
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -28,7 +27,7 @@ const NOTIFICATION_DURATION = 2000;
 })
 
 export class AdminQuestionReferenceComponent implements OnInit {
-  @Input() question: QuestionStructure
+  @Input() question: Question
   @Input() category: number
   @Input() module: number
   @Input() topic: number
@@ -70,7 +69,6 @@ export class AdminQuestionReferenceComponent implements OnInit {
       this.unsavedReferences = cloneDeep(this.getReferenceFromQuestion())
       this.disableSavedRatings()
     })
-    console.log("erg",this.question)
   }
 
   showError(message: string) {
@@ -309,10 +307,14 @@ export class AdminQuestionReferenceComponent implements OnInit {
     let reference: QuestionReference = {
       referenceId: data.referenceId, rating: data.rating, question: data.question, reference: data.reference
     }
-    let references = this.getReferenceFromQuestion();
+    let references = this.categories.find(category => category.categoryId === this.category)
+      ?.modules.find(module => module.moduleId === this.module)
+      ?.topics.find(topic => topic.topicId === this.topic)
+      ?.parameters.find(parameter => parameter.parameterId === this.question.parameter)
+      ?.questions.find(eachQuestion => eachQuestion.questionId === this.question.questionId)?.references
     if (references === undefined) references = []
-
     references.push(reference)
+    console.log("reference", this.categories)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
