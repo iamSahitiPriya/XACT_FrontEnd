@@ -150,3 +150,10 @@
 .expand-icon{
    margin-left:14px;
 }
+
+@media screen and (max-width: 1515px) {
+  .author-icon {
+    padding-top: 1px;
+  }
+
+}

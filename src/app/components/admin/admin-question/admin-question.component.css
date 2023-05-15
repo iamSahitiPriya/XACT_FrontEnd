@@ -324,6 +324,10 @@
   flex-direction: column;
 }
 
+.question-reference {
+  width: 5%;
+}
+
 @media screen and (max-width: 1515px) {
   .question-text {
     width: 45%;
@@ -331,8 +335,12 @@
 
   .question-action-buttons {
     padding-left: 0%;
-    width: 55%;
+    width: 45%;
   }
+
+  .question-reference {
+    width: 9%;
+    padding-left: 4%; }
 
   .published-questions {
     width: 90%;
@@ -340,6 +348,10 @@
 
   .edit-question, .send-question-for-review{
     height: 2.2rem;
+  }
+
+  .save-delete-button {
+    width: 15%;
   }
 
 }
