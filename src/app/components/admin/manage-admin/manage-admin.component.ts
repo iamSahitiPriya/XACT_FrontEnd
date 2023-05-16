@@ -85,13 +85,20 @@ export class ManageAdminComponent implements OnInit {
   }];
   isAdminPrimary: boolean = false;
   private accessControlRoleDataSource: AccessControlRole[];
+  loggedInUserEmail: string;
 
 
   constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
     this.dataSource = new MatTableDataSource<AccessControlRole>();
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
-    this.roleSchema.set(this.primaryAdminDisplayValue, {displayText: this.primaryAdminDisplayText, color: this.primaryAdminDisplayColor})
-    this.roleSchema.set(this.secondaryAdminDisplayValue, {displayText: this.secondaryAdminDisplayText, color: this.secondaryAdminDisplayColor})
+    this.roleSchema.set(this.primaryAdminDisplayValue, {
+      displayText: this.primaryAdminDisplayText,
+      color: this.primaryAdminDisplayColor
+    })
+    this.roleSchema.set(this.secondaryAdminDisplayValue, {
+      displayText: this.secondaryAdminDisplayText,
+      color: this.secondaryAdminDisplayColor
+    })
 
 
   }
@@ -213,15 +220,12 @@ export class ManageAdminComponent implements OnInit {
   }
 
   private filterLoggedInUser() {
-    this.loggedInUser.subscribe(user => {
+    this.loggedInUser.subscribe(data =>{
+      this.loggedInUserEmail = data.email
       this.accessControlRoleDataSource = cloneDeep(this.accessControlRole);
-      let index = this.accessControlRole.findIndex(eachUser => eachUser.email === user.email)
-      if (index !== -1) {
-        this.accessControlRoleDataSource.splice(index, 1)
-        this.dataSource = new MatTableDataSource(this.accessControlRoleDataSource)
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
+      this.dataSource = new MatTableDataSource(this.accessControlRoleDataSource)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
 }

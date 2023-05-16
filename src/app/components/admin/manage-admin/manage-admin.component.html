@@ -21,8 +21,9 @@
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let state of filteredUsers | async" [value]="state.email"
                             [disabled]="users[0].family_name===invalidAutocompleteValidationMessage">
-                  <span>{{state.given_name}} {{state.family_name}}</span><span *ngIf="users[0].family_name!==invalidAutocompleteValidationMessage"> |
-                  <small>{{state.email}}</small>
+                  <span>{{state.given_name}} {{state.family_name}}</span><span
+                  *ngIf="users[0].family_name!==invalidAutocompleteValidationMessage">
+                  <<small>{{state.email}}</small>>
                   </span>
                 </mat-option>
               </mat-autocomplete>
@@ -53,7 +54,9 @@
     <table mat-table [dataSource]="dataSource" class="table-users">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>{{nameHeader}}</th>
-        <td mat-cell *matCellDef="let row" class="user-role"> {{row.username}} </td>
+        <td mat-cell *matCellDef="let row" class="user-role">
+          <span [matTooltip]="row.email" [matTooltipPosition]="'below'"> {{row.username}} </span>
+        </td>
       </ng-container>
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>{{roleHeader}}</th>
@@ -67,7 +70,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>{{action}}</th>
         <td mat-cell *matCellDef="let row" class="user-role">
-          <button mat-icon-button (click)="deleteUser(row)">
+          <button mat-icon-button (click)="deleteUser(row)" *ngIf="row.email !== loggedInUserEmail">
             <mat-icon id="deleteTopic">delete</mat-icon>
           </button>
         </td>
