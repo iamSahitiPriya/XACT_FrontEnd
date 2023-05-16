@@ -37,7 +37,7 @@
           <div class="admin-role">
             <mat-form-field appearance="fill">
               <mat-label>Role</mat-label>
-              <select matNativeControl required #select>
+              <select matNativeControl required #select formControlName="roleValidator">
                 <option *ngFor="let option of role" [value]="option.value">{{option.role}}</option>
               </select>
             </mat-form-field>

@@ -18,17 +18,15 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {CategoryData} from "../../../types/category";
 import {cloneDeep} from "lodash";
+import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 interface UserRole {
   role: string,
   value: string
 }
 
-interface RoleSchema {
-  role: string,
-  displayText: string,
-  color: string
-}
+const NOTIFICATION_DURATION = 2000;
 
 @Component({
   selector: 'app-manage-admin',
@@ -50,6 +48,7 @@ export class ManageAdminComponent implements OnInit {
   requireValidation = data_local.ADMIN.MANAGE_ADMIN.REQUIRED_FIELD_VALIDATION;
   roleAlreadyPresentValidation = data_local.ADMIN.MANAGE_ADMIN.ROLE_ALREADY_PRESENT_VALIDATION;
   roleAlreadyPresentValidationMessage = data_local.ADMIN.MANAGE_ADMIN.MESSAGE.ROLE_ALREADY_PRESENT;
+  serverErrorMessage = data_local.ADMIN.SERVER_ERROR_MESSAGE
   primaryAdminRole = data_local.ADMIN.ROLE.PRIMARY.ROLE_VALUE;
   primaryAdminDisplayValue = data_local.ADMIN.ROLE.PRIMARY.DISPLAY_VALUE;
   primaryAdminDisplayText = data_local.ADMIN.ROLE.PRIMARY.DISPLAY_TEXT;
@@ -79,16 +78,18 @@ export class ManageAdminComponent implements OnInit {
   }
   userEmail: string;
   role: UserRole[] = [{
-    role: this.primaryAdminRole, value: this.primaryAdminDisplayValue
-  }, {
     role: this.secondaryAdminRole, value: this.secondaryAdminDisplayValue
-  }];
+  },{
+    role: this.primaryAdminRole, value: this.primaryAdminDisplayValue
+  }
+
+  ];
   isAdminPrimary: boolean = false;
   private accessControlRoleDataSource: AccessControlRole[];
   loggedInUserEmail: string;
 
 
-  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>) {
+  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<AccessControlRole>();
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.roleSchema.set(this.primaryAdminDisplayValue, {
@@ -111,7 +112,8 @@ export class ManageAdminComponent implements OnInit {
   ngOnInit(): void {
     this.addUserFormGroup = this.formBuilder.group(
       {
-        userEmailRoleValidator: ['', Validators.required]
+        userEmailRoleValidator: ['', Validators.required],
+        roleValidator:['SECONDARY_ADMIN', Validators.required]
       }
     )
     this.appService.getLoggedInUserInfo().subscribe(data => {
@@ -128,30 +130,11 @@ export class ManageAdminComponent implements OnInit {
     return this.addUserFormGroup.controls;
   }
 
-  private _filterUser(value: string): UserInfo[] {
-    const filterValue = value.toLowerCase();
-    let dummy: UserInfo = {
-      email: '',
-      family_name: this.invalidAutocompleteValidationMessage,
-      given_name: '',
-      locale: ''
-    }
-    this.users = []
-    if (filterValue.length > 2) {
-      this.users = this.initialState.filter(state => state.email.toLowerCase().includes(filterValue));
-      if (this.users.length === 0) {
-        this.users.push(dummy)
-      }
-    }
-    return this.users
-  }
-
   onInputChange() {
     this.filterUser()
   }
 
   saveRole(email: string, role: string) {
-    if (this.addUserFormGroup.valid) {
       let roleRequest: AccessControlRole = {
         username: email,
         email: email,
@@ -163,17 +146,21 @@ export class ManageAdminComponent implements OnInit {
       }
       let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
       if (filteredData.length === 0) {
-        this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe(
-          (_data) => {
+        this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
             this.accessControlRole.unshift(roleRequest)
             this.filterLoggedInUser()
             this.userEmail = ""
-          })
+          },
+          error: (_err) => {
+            this.showError(this.serverErrorMessage);
+          }
+
+        })
       } else {
         this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
 
       }
-    }
   }
 
   deleteUser(user: AccessControlRole) {
@@ -181,12 +168,17 @@ export class ManageAdminComponent implements OnInit {
       email: user.email,
       accessControlRoles: user.accessControlRoles
     }
-    this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe(_data => {
-      let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
-      if (index !== -1) {
-        this.accessControlRole.splice(index, 1)
+    this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe({
+      next: _data => {
+        let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
+        if (index !== -1) {
+          this.accessControlRole.splice(index, 1)
+        }
+        this.filterLoggedInUser()
+      },
+      error: () => {
+        this.showError(this.serverErrorMessage);
       }
-      this.filterLoggedInUser()
     })
   }
 
@@ -194,6 +186,15 @@ export class ManageAdminComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  showError(message: string) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "error_outline", notificationType: "Error:"}, panelClass: ['error-snackBar'],
+      duration: NOTIFICATION_DURATION,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    })
   }
 
   private filterUser() {
@@ -220,12 +221,30 @@ export class ManageAdminComponent implements OnInit {
   }
 
   private filterLoggedInUser() {
-    this.loggedInUser.subscribe(data =>{
+    this.loggedInUser.subscribe(data => {
       this.loggedInUserEmail = data.email
       this.accessControlRoleDataSource = cloneDeep(this.accessControlRole);
       this.dataSource = new MatTableDataSource(this.accessControlRoleDataSource)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
+  }
+
+  private _filterUser(value: string): UserInfo[] {
+    const filterValue = value.toLowerCase();
+    let dummy: UserInfo = {
+      email: '',
+      family_name: this.invalidAutocompleteValidationMessage,
+      given_name: '',
+      locale: ''
+    }
+    this.users = []
+    if (filterValue.length > 2) {
+      this.users = this.initialState.filter(state => state.email.toLowerCase().includes(filterValue));
+      if (this.users.length === 0) {
+        this.users.push(dummy)
+      }
+    }
+    return this.users
   }
 }
