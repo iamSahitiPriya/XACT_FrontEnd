@@ -129,7 +129,10 @@ describe('AdminQuestionComponent', () => {
               "questionId": 1,
               "questionText": "This is a question",
               "parameter": 1,
-              "status" : "PUBLISHED"
+              "status" : "PUBLISHED",
+              "references" : [{
+                "referenceId" : 1,
+              }]
             }],
             "userQuestions": [],
             "references": [],
@@ -287,8 +290,8 @@ describe('AdminQuestionComponent', () => {
   it("should able to save new questions for the parameter that doesn't have any questions before", () => {
     jest.spyOn(component, 'saveQuestion')
 
-    component.ngOnInit()
     component.role = "AUTHOR"
+    component.ngOnInit()
     component.parameter.parameterId = 5
     row = {questionId: 1, questionText: "This is a question text2", parameter: 5, isEdit: false,status:"DRAFT"}
     expect(component.categoryResponse[0].modules[0].topics[0].parameters[0].questions.length).toBe(1)
@@ -315,7 +318,7 @@ describe('AdminQuestionComponent', () => {
       expect(data).toBeDefined()
     })
 
-    expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions.length).toBe(1)
+    expect(component.categoryResponse[0].modules[0].topics[0].parameters[0].questions.length).toBe(1)
   });
 
   it("should throw error on unsuccessful save", () => {

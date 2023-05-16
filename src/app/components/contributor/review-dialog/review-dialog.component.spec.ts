@@ -90,7 +90,7 @@ describe('ReviewDialogComponent', () => {
 
     component.evaluateQuestion(question)
 
-    mockAppService.updateQuestionStatus(moduleId,'Sent_For_Review',request).subscribe(data =>{
+    mockAppService.updateQuestionStatus(moduleId,'SENT_FOR_REVIEW',request).subscribe(data =>{
       expect(data).toBeDefined()
     })
 

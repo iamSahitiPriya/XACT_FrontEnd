@@ -80,7 +80,8 @@ const answerResponse = {
   answerResponseList: [
     {
       questionId: 1,
-      answer: "answer1"
+      answer: "answer1",
+      rating:3
     }],
 
   topicRatingAndRecommendation: [{
@@ -155,7 +156,7 @@ describe('TopicLevelAssessmentComponent', () => {
       users: [],
       updatedAt: 0,
       owner: true,
-      answerResponseList: [{questionId: 0, answer: "some answer"}],
+      answerResponseList: [{questionId: 0, answer: "some answer",rating:3}],
       topicRatingAndRecommendation: [],
       parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, parameterLevelRecommendation: [{}]}],
       userQuestionResponseList: [{parameterId: 1, question: "abc", questionId: 1, answer: "this is an answer"}]
@@ -259,7 +260,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {
-    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1",rating:undefined}]
+    const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1",rating:3}]
     component.topicInput = {
       active: false,
       updatedAt: 0,
@@ -354,85 +355,90 @@ describe('TopicLevelAssessmentComponent', () => {
     }
     expect(component.getParameterWithRatingAndRecommendationRequest(dummyParameter)).toStrictEqual(dummyNewParameter)
   });
-  it("should fetch the answers from the ngrx store", () => {
-    component.answerResponse1 = of({
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      assessmentPurpose: "Client Request",
-      assessmentDescription: "description",
-      updatedAt: 1654664982698,
-      domain: "",
-      assessmentState: "inProgress",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
-        }],
 
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
+  it("should fetch the answers from the ngrx store",
+    () => {
+      component.answerResponse1 = of({
+        assessmentId: 5,
+        assessmentName: "abc1",
+        organisationName: "Thoughtworks",
+        assessmentStatus: "Active",
+        assessmentPurpose: "Client Request",
+        assessmentDescription: "description",
+        updatedAt: 1654664982698,
+        domain: "",
+        assessmentState: "inProgress",
+        industry: "",
+        teamSize: 0,
+        users: [],
+        owner: true,
+        answerResponseList: [
           {
-            recommendationId: 1,
-            recommendationText: "some text",
-            impact: "HIGH",
-            effect: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
-      userQuestionResponseList: [],
-    })
-    const dummyAnswerResponse = {
-      assessmentId: 5,
-      assessmentName: "abc1",
-      organisationName: "Thoughtworks",
-      assessmentStatus: "Active",
-      assessmentPurpose: "Client Request",
-      assessmentDescription: "description",
-      updatedAt: 1654664982698,
-      assessmentState: "inProgress",
-      domain: "",
-      industry: "",
-      teamSize: 0,
-      users: [],
-      owner: true,
-      answerResponseList: [
-        {
-          questionId: 1,
-          answer: "answer1"
+            questionId: 1,
+            answer: "answer1",
+            rating:3
+          }],
+
+        topicRatingAndRecommendation: [{
+          topicId: 0, rating: 1, topicLevelRecommendation: [
+            {
+              recommendationId: 1,
+              recommendationText: "some text",
+              impact: "HIGH",
+              effect: "LOW",
+              deliveryHorizon: "some more text"
+            }
+          ]
         }],
-      topicRatingAndRecommendation: [{
-        topicId: 0, rating: 1, topicLevelRecommendation: [
+        parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
+        userQuestionResponseList: [],
+      })
+      const dummyAnswerResponse = {
+        assessmentId: 5,
+        assessmentName: "abc1",
+        organisationName: "Thoughtworks",
+        assessmentStatus: "Active",
+        assessmentPurpose: "Client Request",
+        assessmentDescription: "description",
+        updatedAt: 1654664982698,
+        assessmentState: "inProgress",
+        domain: "",
+        industry: "",
+        teamSize: 0,
+        users: [],
+        owner: true,
+        answerResponseList: [
           {
-            recommendationId: 1,
-            recommendationText: "some text",
-            impact: "HIGH",
-            effect: "LOW",
-            deliveryHorizon: "some more text"
-          }
-        ]
-      }],
-      parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
-      userQuestionResponseList: []
-    }
-    component.topicInput = {
-      active: false, updatedAt: 0,
-      topicId: 0,
-      topicName: "dummyTopic",
-      parameters: [],
-      references: [],
-      module: 1
-    }
-    component.ngOnInit()
-    expect(component.answerResponse).toStrictEqual(dummyAnswerResponse)
-  });
+            questionId: 1,
+            answer: "answer1",
+            rating : 3
+          }],
+        topicRatingAndRecommendation: [{
+          topicId: 0, rating: 1, topicLevelRecommendation: [
+            {
+              recommendationId: 1,
+              recommendationText: "some text",
+              impact: "HIGH",
+              effect: "LOW",
+              deliveryHorizon: "some more text"
+            }
+          ]
+        }],
+        parameterRatingAndRecommendation: [{parameterId: 1, rating: 2, recommendationText: ""}],
+        userQuestionResponseList: []
+      }
+      component.topicInput = {
+        active: false, updatedAt: 0,
+        topicId: 0,
+        topicName: "dummyTopic",
+        parameters: [{parameterId:1,parameterName:"name",topic:1,active:true,updatedAt:12345,questions:[{questionId:1,questionText:"text",parameter:1}],references:[]}],
+        references: [],
+        module: 1
+      }
+      component.ngOnInit()
+      expect(component.answerResponse).toStrictEqual(dummyAnswerResponse)
+    });
+
   it("should calculate average rating", () => {
     component.answerResponse = answerResponse
     component.topicRequest = {

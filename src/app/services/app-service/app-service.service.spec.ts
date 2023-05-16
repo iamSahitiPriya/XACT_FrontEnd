@@ -18,6 +18,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
+import {QuestionReference} from "../../types/QuestionReference";
 
 describe('AppServiceService', () => {
   let service: AppServiceService;
@@ -358,6 +359,20 @@ describe('AppServiceService', () => {
 
   it("should save rating for questions", () => {
     expect(service.saveQuestionRating(1,1,1)).toBeTruthy()
+  });
+
+  it("it should delete question reference", () => {
+    expect(service.deleteQuestionReference(1)).toBeTruthy()
+  });
+
+  it("it should save question reference", () => {
+    let question : QuestionReference = {question: 0, rating: 0, reference: ""}
+    expect(service.saveQuestionReference(question)).toBeTruthy()
+  });
+
+  it("it should update question reference", () => {
+    let question : QuestionReference = {question: 0, rating: 0, reference: ""}
+    expect(service.updateQuestionReference(1,question)).toBeTruthy()
   });
 });
 

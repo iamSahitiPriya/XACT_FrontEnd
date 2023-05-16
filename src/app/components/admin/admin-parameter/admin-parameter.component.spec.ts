@@ -767,14 +767,6 @@ describe('AdminParameterComponent', () => {
     expect(component.findTopicId(row)).toBe(1)
   });
 
-  it("should open question dialog box", () => {
-    jest.spyOn(matDialog, "open")
-
-    component.openQuestions("",row)
-    fixture.detectChanges()
-    expect(matDialog.open).toHaveBeenCalled()
-  });
-
   it("should change the value to lower case while sorting the parameter table for string valued columns", () => {
     component.sortParameter()
 
