@@ -5,7 +5,6 @@
 import {AssessmentStructure} from "../types/assessmentStructure";
 import {TopicRatingResponse} from "../types/topicRatingResponse";
 import {CategoryResponse} from "../types/categoryResponse";
-import exp from "constants";
 
 export interface AppStates {
   assessmentState: AssessmentState;

@@ -8,7 +8,8 @@ import {
   getAssessmentData,
   getUpdatedAssessmentData,
   getUpdatedCategories,
-  loggedInUserEmail, loggedInUserRole,
+  loggedInUserEmail,
+  loggedInUserRole,
   setAverageComputedScore,
   setErrorMessage,
 } from "../actions/assessment-data.actions";

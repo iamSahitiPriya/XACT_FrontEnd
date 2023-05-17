@@ -113,7 +113,7 @@ import {ReviewDialogComponent} from './components/contributor/review-dialog/revi
 import {ManageContributorsComponent} from './components/admin/manage-contributors/manage-contributors.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTreeModule} from "@angular/material/tree";
-import { ManageAdminComponent } from './components/admin/manage-admin/manage-admin.component';
+import {ManageAdminComponent} from './components/admin/manage-admin/manage-admin.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

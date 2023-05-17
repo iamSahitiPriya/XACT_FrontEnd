@@ -16,7 +16,6 @@ import {AppStates, User} from "../../../reducers/app.states";
 import {AccessControlRoleRequest} from "../../../types/AccessControlRoleRequest";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {CategoryData} from "../../../types/category";
 import {cloneDeep} from "lodash";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
