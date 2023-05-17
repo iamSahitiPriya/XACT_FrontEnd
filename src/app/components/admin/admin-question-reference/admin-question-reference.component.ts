@@ -314,7 +314,6 @@ export class AdminQuestionReferenceComponent implements OnInit {
       ?.questions.find(eachQuestion => eachQuestion.questionId === this.question.questionId)?.references
     if (references === undefined) references = []
     references.push(reference)
-    console.log("reference", this.categories)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 

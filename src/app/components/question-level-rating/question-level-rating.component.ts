@@ -75,8 +75,8 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
       if (this.question.rating !== 0) {
         this.appService.saveQuestionRating(this.assessmentId, this.question.questionId, this.question.rating).pipe(takeUntil(this.destroy$)).subscribe({
           next: (_data) => {
-            this.updateAverageRating()
             this.sendRating()
+            this.updateAverageRating()
           }, error: _error => {
             this.showError(this.serverError);
           }
@@ -100,11 +100,11 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
     let ratingNumber = 0
     let index = 0;
     for (let pId in this.parameters) {
-      if (this.parameters[pId].parameterRatingAndRecommendation) {
-        index = this.assessmentResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameters[pId].parameterRatingAndRecommendation.parameterId)
-        if (index !== -1 && this.assessmentResponse.parameterRatingAndRecommendation[index].rating !== undefined) {
-          ratingSum = ratingSum + Number(this.assessmentResponse.parameterRatingAndRecommendation[index].rating);
-          ratingNumber = ratingNumber + 1;
+      if (this.parameters[pId].parameterRatingAndRecommendation && this.assessmentResponse.parameterRatingAndRecommendation !== undefined) {
+          index = this.assessmentResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameters[pId].parameterRatingAndRecommendation.parameterId)
+          if (index !== -1 && this.assessmentResponse.parameterRatingAndRecommendation[index].rating !== undefined) {
+            ratingSum = ratingSum + Number(this.assessmentResponse.parameterRatingAndRecommendation[index].rating);
+            ratingNumber = ratingNumber + 1;
         }
       }
       if (this.parameters[pId].answerRequest !== undefined) {

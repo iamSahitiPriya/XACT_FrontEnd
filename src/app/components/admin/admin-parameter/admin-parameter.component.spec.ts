@@ -792,6 +792,19 @@ describe('AdminParameterComponent', () => {
 
     expect(component.showError).toHaveBeenCalled()
   });
+
+  it("should close questions", () => {
+    component.closeQuestions(row)
+
+    expect(row.openQuestions).toBeFalsy()
+  });
+
+  it("should open question panel when openQuestions is true", () => {
+    component.openQuestionPanel(row)
+
+    expect(row.openQuestions).toBeTruthy()
+  });
+
 });
 
 

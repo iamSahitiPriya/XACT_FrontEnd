@@ -51,7 +51,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   categories: CategoryResponse[]
   masterData: Observable<CategoryResponse[]>
   topicData: TopicData[];
-  displayedColumns: string[] =['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','reference'];
+  displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'reference'];
   commonErrorFieldText = data_local.ASSESSMENT.ERROR_MESSAGE_TEXT;
   dataSource: MatTableDataSource<TopicData>;
   displayColumns: string[] = [...this.displayedColumns, 'expand'];
@@ -92,17 +92,17 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   parameterReferenceMessage = data_local.ADMIN.REFERENCES.PARAMETER_REFERENCE_MESSAGE
   loggedInUser: Observable<User>
   loggedInUserEmail: string
-  path : string ;
+  path: string;
   adminParameterReferenceMessage = data_local.ADMIN.REFERENCES.ADMIN_PARAMETER_REFERENCE_MESSAGE;
   authorText = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   adminText = data_local.ADMIN.ROLE;
   contributorText = data_local.CONTRIBUTOR.CONTRIBUTOR;
   private confirmationText: string = data_local.ADMIN.TOPIC.REFERENCE_CONFIRMATION_TEXT;
   private isTopicLevelReference: number = 1;
-  private isNotTopicLevelReference : number = 2;
+  private isNotTopicLevelReference: number = 2;
   warningLabel: string = data_local.ADMIN.REFERENCES.WARNING_LABEL;
 
-  constructor(public router: Router,private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
+  constructor(public router: Router, private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog, @Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.topicData = []
@@ -111,21 +111,21 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const currentRoute = this.router.url.split('?')[0];
       const path = currentRoute.split('/');
-      this.path =path[1];
+      this.path = path[1];
     })
   }
 
   ngOnInit(): void {
     this.categoryList = []
     this.masterData.subscribe(data => {
-        if (data !== undefined) {
-          this.categories = data
-          data.forEach(eachCategory => {
-            this.fetchModuleDetails(eachCategory);
-          })
-          this.sortTopic();
-        }
-      })
+      if (data !== undefined) {
+        this.categories = data
+        data.forEach(eachCategory => {
+          this.fetchModuleDetails(eachCategory);
+        })
+        this.sortTopic();
+      }
+    })
   }
 
   sortTopic() {
@@ -151,21 +151,22 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   private fetchModuleDetails(eachCategory: CategoryResponse) {
     this.loggedInUser.subscribe(user => {
       this.loggedInUserEmail = user.email
-      if(user.email.length >0) {
-        this.categoryList.push({
-          categoryId: eachCategory.categoryId,
-          categoryName: eachCategory.categoryName,
-          active: eachCategory.active
-        })
-        let module:ModuleRequest[]=[];
+      if (user.email.length > 0) {
+        let module: ModuleRequest[] = [];
         eachCategory.modules?.forEach(eachModule => {
           if (this.path === this.adminText.ADMIN.toLowerCase()) {
-            this.setModules(eachModule,module, eachCategory);
-          } else if (this.path === this.contributorText.toLowerCase()) {
-            this.displayedColumns=  ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active','edit','reference'];
+            this.setModules(eachModule, module, eachCategory);
+          }
+          else if (this.path === this.contributorText.toLowerCase()) {
+            this.displayedColumns = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
             if (contributor?.role === this.authorText) {
-              this.setModules(eachModule,module, eachCategory);
+              this.categoryList.push({
+                categoryId: eachCategory.categoryId,
+                categoryName: eachCategory.categoryName,
+                active: eachCategory.active
+              })
+              this.setModules(eachModule, module, eachCategory);
             }
           }
         })
@@ -174,7 +175,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
 
-  private setModules(eachModule: ModuleStructure,module :ModuleRequest[],eachCategory: CategoryResponse) {
+  private setModules(eachModule: ModuleStructure, module: ModuleRequest[], eachCategory: CategoryResponse) {
     this.moduleAndTopic.set(eachModule.moduleId, [])
     module.push({
       moduleId: eachModule.moduleId,
@@ -205,7 +206,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         active: false,
         updatedAt: 123,
         comments: "",
-        topicLevelReference : false
+        topicLevelReference: false
       }
       topic.categoryId = eachCategory.categoryId
       topic.categoryName = eachCategory.categoryName
@@ -251,7 +252,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   saveTopic(row: TopicData) {
     let topicSaveRequest = this.getTopicRequest(row);
     if (topicSaveRequest !== null) {
-      this.confirmReferencePopup(topicSaveRequest,row)
+      this.confirmReferencePopup(topicSaveRequest, row)
     }
   }
 
@@ -424,7 +425,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       topicName: _data.topicName,
       module: _data.moduleId,
       updatedAt: _data.updatedAt,
-      topicLevelReference:_data.topicLevelReference,
+      topicLevelReference: _data.topicLevelReference,
       active: _data.active,
       comments: _data.comments,
       parameters: _data.parameters ? _data.parameters : [],
@@ -462,7 +463,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       })
       this.dialogRef.disableClose = true;
     } else {
-        this.path === 'admin' ?  this.showError(this.adminParameterReferenceMessage) : this.showError(this.parameterReferenceMessage)
+      this.path === 'admin' ? this.showError(this.adminParameterReferenceMessage) : this.showError(this.parameterReferenceMessage)
     }
   }
 
@@ -490,12 +491,12 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
     const openConfirm = this.dialog.open(PopupConfirmationComponent, {
       width: '448px',
       height: '203px',
-      data : {
-        level : "topic"
+      data: {
+        level: "topic"
       }
     });
     openConfirm.componentInstance.text = this.confirmationText;
-    openConfirm.componentInstance.warningLabel=this.warningLabel;
+    openConfirm.componentInstance.warningLabel = this.warningLabel;
     openConfirm.afterClosed().subscribe(result => {
       if (result === this.isTopicLevelReference || result === this.isNotTopicLevelReference) {
         topicRequest.topicLevelReference = result === this.isTopicLevelReference
