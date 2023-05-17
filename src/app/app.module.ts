@@ -113,8 +113,10 @@ import {ReviewDialogComponent} from './components/contributor/review-dialog/revi
 import {ManageContributorsComponent} from './components/admin/manage-contributors/manage-contributors.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTreeModule} from "@angular/material/tree";
-import { QuestionLevelRatingComponent } from './components/question-level-rating/question-level-rating.component';
-import { AdminQuestionReferenceComponent } from './components/admin/admin-question-reference/admin-question-reference.component';
+import {QuestionLevelRatingComponent} from './components/question-level-rating/question-level-rating.component';
+import {
+  AdminQuestionReferenceComponent
+} from './components/admin/admin-question-reference/admin-question-reference.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 

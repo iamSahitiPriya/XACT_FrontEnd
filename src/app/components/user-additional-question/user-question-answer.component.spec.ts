@@ -81,6 +81,11 @@ describe('UserQuestionAnswerComponent', () => {
       question: "hello",
       answer: "",
       parameterId: 1
+    },{
+      questionId: 1,
+      question: "hello question",
+      answer: "",
+      parameterId: 1
     }]
     userQuestionData = {isEdit: false, userQuestion: {
         questionId: 2,
@@ -307,13 +312,22 @@ describe('UserQuestionAnswerComponent', () => {
     })
   });
   it("should toggle accordian", () => {
-
     const newEvent = new MouseEvent('dxcontextmenu', {bubbles: true})
 
     component.changeAccordionState(newEvent);
 
     expect(component.showAccordion).toBeFalsy()
+  });
 
+  it("should reset user question when editing", () => {
+    let question : UserQuestionData = {userQuestion:{question:"",questionId:1,parameterId:1,answer:""},isEdit:false}
+    component.ngOnInit()
+
+
+    component.editUserQuestion(question)
+
+    expect(component.userQuestionData[0].userQuestion.question).toBe("hello")
+    expect(question.isEdit).toBeTruthy()
   });
 
 

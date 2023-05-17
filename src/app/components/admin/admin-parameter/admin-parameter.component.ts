@@ -95,10 +95,6 @@ export class AdminParameterComponent implements OnInit {
   private isParameterLevelReference: number =1;
   warningLabel: string = data_local.ADMIN.REFERENCES.WARNING_LABEL;
 
-
-
-
-
   constructor(private router: Router, private appService: AppServiceService, private _snackbar: MatSnackBar, private store: Store<AppStates>, private dialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)
     this.parameterData = []

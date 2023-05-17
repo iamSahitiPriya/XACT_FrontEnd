@@ -59,6 +59,15 @@ class MockAppService {
     } else if (questionRequest.questionText === "This is a question text2") {
       this.response.parameter = 5
       return of(this.response)
+    } else if(questionRequest.parameter === 5){
+      return of({
+        questionId: 2,
+        questionText: "Hello",
+        parameter: 5,
+        topic: 1,
+        category: 1,
+        module: 1
+      })
     } else {
       return throwError("Error!")
     }
@@ -260,8 +269,10 @@ describe('AdminQuestionComponent', () => {
 
   it("should able to save questions", () => {
     jest.spyOn(component, 'saveQuestion')
+    jest.spyOn(component, 'showSuccess')
 
     component.ngOnInit()
+    component.role = 'contributor'
     component.saveQuestion(row)
     component.parameter = {
       categoryId: 1,
@@ -274,6 +285,41 @@ describe('AdminQuestionComponent', () => {
       topicName: "topic1",
       topicStatus: false,
       parameterId: -1,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    mockAppService.saveMasterQuestion(row).subscribe(data => {
+      expect(data).toBeDefined()
+    })
+
+    expect(component.saveQuestion).toHaveBeenCalled()
+    expect(component.showSuccess).toHaveBeenCalled()
+  });
+
+  it("should able to save new questions in the store", () => {
+    jest.spyOn(component, 'saveQuestion')
+    row = {questionId: 1, questionText: "question", parameter: 5, isEdit: false}
+
+
+    component.ngOnInit()
+    component.parameter.parameterId = 5
+    component.role = 'contributor'
+    component.parameter.topicLevelReference = true
+    component.saveQuestion(row)
+    component.parameter = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: 5,
       parameterName: "parameter",
       active: false,
       updatedAt: Date.now(),
@@ -455,6 +501,25 @@ describe('AdminQuestionComponent', () => {
     component.updateAndApproveQuestion(question)
 
     expect(component.updateQuestion).toHaveBeenCalled();
+  });
+
+  it("should send for review when the question has atleast one reference", () => {
+    jest.spyOn(component, "showError")
+    component.ngOnInit()
+    component.parameter.topicLevelReference = true
+
+    component.sendForReview(row, 'SENT_FOR_REVIEW')
+
+    expect(component.showError).toHaveBeenCalled()
+  });
+
+  it("should open question reference dialog", () => {
+    component.ngOnInit()
+    jest.spyOn(matDialog, "open")
+
+    component.openQuestionReference("",row)
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
   });
 
 });

@@ -3,7 +3,6 @@
  */
 
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppStates, ComputedScore} from "../../reducers/app.states";
 import {Store} from "@ngrx/store";

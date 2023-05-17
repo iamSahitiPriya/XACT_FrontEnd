@@ -570,7 +570,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleChartHeightOffset
   }
 
-  private showNotification(reportData: string, duration: number) {
+  showNotification(reportData: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,

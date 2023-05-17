@@ -260,6 +260,7 @@ describe('TopicLevelAssessmentComponent', () => {
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {
+    jest.spyOn(JSON, 'parse').mockReturnValue([{identifier : 1, activityType : "RECOMMENDATION", inputText : "text", email : "abc@thoughtworks.com",fullName : "name"}]);
     const dummyAnswerRequest: Notes[] = [{questionId: 1, answer: "answer1",rating:3}]
     component.topicInput = {
       active: false,
@@ -650,6 +651,29 @@ describe('TopicLevelAssessmentComponent', () => {
     component.addParameterRecommendationTemplate(0)
 
     expect(component.topicRequest.parameterLevel[0].parameterRatingAndRecommendation.parameterLevelRecommendation).toHaveLength(2);
+  });
+
+  it("should update average rating to the store", () => {
+    component.topicInput = {active: false, module: 0, parameters: [], references: [], topicId: 0, topicName: "", updatedAt: 0}
+    component.topicRequest.parameterLevel = [
+      { answerRequest : [{questionId:1,rating:3,answer:"answer"},{questionId:2,rating:4,answer:""}],
+        userQuestionRequestList : [],
+        parameterRatingAndRecommendation : {
+          parameterId: 0, rating: 0, parameterLevelRecommendation: [
+            {
+              recommendationId: undefined,
+              recommendationText: "some text",
+              impact: "HIGH",
+              effort: "LOW",
+              deliveryHorizon: "some more text"
+            }
+          ]}
+      }];
+
+    component.updateAverageRating()
+
+    expect(component.averageRating.rating).toBe(4)
+    component.ngAfterViewInit()
   });
 });
 

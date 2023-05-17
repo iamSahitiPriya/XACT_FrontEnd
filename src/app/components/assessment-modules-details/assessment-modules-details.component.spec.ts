@@ -241,6 +241,7 @@ describe('AssessmentModulesDetailsComponent', () => {
     component.tabChanged(tabChangeEvent);
     expect(component.selectedIndex).toBe(1);
   });
+
   it("should navigate to particular module", () => {
     let dummyModule: ModuleStructure = {
       active: false,

@@ -30,11 +30,9 @@ export class AppComponent implements OnInit {
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;
 
   idleState = data_local.IDLE_STATE.STATE.NOT_STARTED;
-  private loggedInUserEmail: string | undefined;
 
 
-
-  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef,private _snackBar: MatSnackBar) {
+  constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef, private _snackBar: MatSnackBar) {
     // set idle parameters
     idle.setIdle(environment.IDLE_TIMEOUT); // how long can they be inactive before considered idle, in seconds
     idle.setTimeout(environment.TIMEOUT); // how long can they be idle before considered timed out, in seconds
@@ -58,7 +56,11 @@ export class AppComponent implements OnInit {
 
     function timedOut() {
       _snackBar.openFromComponent(NotificationSnackbarComponent, {
-        data: {message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY, iconType: "warning_outline", notificationType: "Warning:"}, panelClass: ['error-snackBar'],
+        data: {
+          message: data_local.IDLE_STATE.STATE.TIMED_OUT.PROMPT_BODY,
+          iconType: "warning_outline",
+          notificationType: "Warning:"
+        }, panelClass: ['error-snackBar'],
         duration: 80000,
         verticalPosition: "top",
         horizontalPosition: "center" as MatSnackBarHorizontalPosition
@@ -66,8 +68,6 @@ export class AppComponent implements OnInit {
     }
 
   }
-
-
 
 
   reset() {
@@ -78,8 +78,8 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.userRoles = await this.appService.getUserRole();
     this.reset();
-    this.userRoles =await this.appService.getUserRole();
   }
 }
 

@@ -245,7 +245,7 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  private showSuccess(data: string, duration: number) {
+   showSuccess(data: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
@@ -370,7 +370,7 @@ export class AdminQuestionComponent implements OnInit {
     this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
-    if(this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview)
+    if((this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview) || (this.getQuestionReferences(question.questionId) === undefined && this.action === this.sentForReview))
       this.showError("Please add atleast one reference to send for review")
     else
       this.openReviewDialog(questionRequest, contributorData);

@@ -73,9 +73,6 @@ export class AssessmentsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
-
-
     this.appService.getAssessments().pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         assessments = response

@@ -805,6 +805,17 @@ describe('AdminParameterComponent', () => {
     expect(row.openQuestions).toBeTruthy()
   });
 
+  it("it should save new parameter without confirmation popup", () => {
+    component.topicList[0].topicLevelReference = true
+    row.parameterName = "new parameter"
+    component.ngOnInit()
+
+
+    component.saveParameterRow(row)
+
+    expect(row.isEdit).toBeFalsy()
+  });
+
 });
 
 
