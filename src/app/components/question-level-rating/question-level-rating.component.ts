@@ -107,7 +107,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
             ratingNumber = ratingNumber + 1;
         }
       }
-      if (this.parameters[pId].answerRequest !== undefined) {
+     if (this.parameters[pId].answerRequest !== undefined) {
         let questionCount = 0;
         let questionSum = 0;
         let hasQuestionRating = false;
@@ -120,7 +120,7 @@ export class QuestionLevelRatingComponent implements OnInit, OnDestroy {
         }
         if (questionCount !== 0 && questionSum !== 0 && hasQuestionRating) {
           ratingNumber = ratingNumber + 1;
-          ratingSum = Math.round(questionSum / questionCount);
+          ratingSum =ratingSum+ Math.round(questionSum / questionCount);
         }
       }
     }
