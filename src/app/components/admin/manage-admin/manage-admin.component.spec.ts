@@ -21,6 +21,11 @@ import {AccessControlRoleRequest} from "../../../types/AccessControlRoleRequest"
 import {UserInfo} from "../../../types/UserInfo";
 import {AccessControlRole} from "../../../types/AccessControlRole";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatIconModule} from "@angular/material/icon";
+import {MatChipsModule} from "@angular/material/chips";
+import {BrowserModule} from "@angular/platform-browser";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 class MockAppService {
   userInfo: UserInfo[] = [{
@@ -28,7 +33,7 @@ class MockAppService {
     family_name: "ABC",
     given_name: "DEF",
     locale: "US"
-  },{
+  }, {
     email: "twq@thoughtworks.com",
     family_name: "Thoughtworks",
     given_name: "DEF",
@@ -64,7 +69,7 @@ class MockAppService {
   deleteRole(user: AccessControlRole) {
     if (user.email === "abc@thoughtworks.com") {
       return of(user);
-    }else{
+    } else {
       return throwError("Error!")
     }
   }
@@ -79,21 +84,28 @@ describe('ManageAdminComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageAdminComponent],
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, StoreModule.forRoot(reducers), MatAutocompleteModule, BrowserAnimationsModule, NoopAnimationsModule, MatPaginatorModule
-        , MatTableModule, MatSnackBarModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, UntypedFormBuilder]
+        , MatTableModule, MatSnackBarModule, MatTooltipModule, MatIconModule, MatChipsModule, BrowserModule],
+      providers: [{provide: AppServiceService, useClass: MockAppService}, UntypedFormBuilder],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
 
     fixture = TestBed.createComponent(ManageAdminComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.detectChanges()
     component.loggedInUser = of({
       email: "abc@thoughtworks.com"
     })
-
+    component.users = [{
+      email: "def@thoughtworks.com",
+      family_name: "ABC",
+      given_name: "DEF",
+      locale: "US"
+    }]
   });
 
   it('should create', () => {
+    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 
@@ -104,9 +116,6 @@ describe('ManageAdminComponent', () => {
 
     component.addUserFormGroup.clearValidators()
     component.userControl.clearValidators()
-
-    component.addUserFormGroup.controls["userEmailRoleValidator"].setValue(email)
-    component.addUserFormGroup.controls["roleValidator"].setValue(role)
 
     component.saveRole(email, role);
 
@@ -135,7 +144,7 @@ describe('ManageAdminComponent', () => {
 
   it("should handle error when trying to delete a user", () => {
     component.ngOnInit();
-    jest.spyOn(component,'showError')
+    jest.spyOn(component, 'showError')
     let user: AccessControlRole = {
       accessControlRoles: "PRIMARY_ADMIN", email: "123@thoughtworks.com", username: "ABC DEF"
     }
@@ -150,12 +159,33 @@ describe('ManageAdminComponent', () => {
     let email = "345@thoughtworks.com"
     let role = "PRIMARY_ADMIN"
 
-    component.saveRole(email,role)
+    component.saveRole(email, role)
     expect(component.showError).toHaveBeenCalled()
 
   });
 
   it("should throw error when user tries to add already present email", () => {
+    component.ngOnInit()
+
+    let email = "abc@thoughtworks.com"
+    component.userControl.setValue(email)
+    component.addUserFormGroup.controls["userEmailRoleValidator"].setValue(email)
+
+    expect(component.addUserFormGroup.controls['userEmailRoleValidator'].hasError('invalidAutocompleteString')).toBeTruthy()
+  });
+
+  it("should throw error when user tries to add again", () => {
+    component.ngOnInit()
+    let email = "def@thoughtworks.com"
+    let role = "PRIMARY_ADMIN"
+    component.onInputChange()
+
+    component.saveRole(email, role)
+
+    expect(component.addUserFormGroup.controls['userEmailRoleValidator'].hasError('roleAlreadyPresent')).toBeTruthy()
+  });
+
+  it("should throw invalid auto complete error", () => {
     component.ngOnInit()
     component.users = [{
       email: "def@thoughtworks.com",
@@ -167,17 +197,5 @@ describe('ManageAdminComponent', () => {
     component.userControl.setValue(email)
     component.addUserFormGroup.controls["userEmailRoleValidator"].setValue(email)
 
-    expect(component.addUserFormGroup.controls['userEmailRoleValidator'].hasError('invalidAutocompleteString'))
-  });
-
-  it("should throw error when user tries to add again", () => {
-    component.ngOnInit()
-    let email = "def@thoughtworks.com"
-    let role = "PRIMARY_ADMIN"
-    component.onInputChange()
-
-    component.saveRole(email,role)
-
-    expect(component.addUserFormGroup.controls['userEmailRoleValidator'].hasError('roleAlreadyPresent'))
   });
 });
