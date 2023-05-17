@@ -30,7 +30,7 @@ export const saveAssessmentData = [{}]
 
 let topicRatingAndRecommendation: TopicRatingAndRecommendation;
 
-export class parameterRequest {
+export class ParameterLevelRequest {
 
   answerRequest1: Notes[] = [{questionId: 0, answer: ""}];
   userQuestionRequest: UserQuestion[] = []
@@ -50,7 +50,7 @@ export interface ActivityRecord {
   parameterRecommendation: ActivityLogResponse[];
 }
 
-let parameterRequests: parameterRequest[];
+let parameterRequests: ParameterLevelRequest[];
 let RECOMMENDATION_MAX_LIMIT = 20;
 
 @Component({

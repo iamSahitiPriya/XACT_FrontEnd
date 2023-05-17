@@ -450,7 +450,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   isInputValid(row: TopicData): boolean {
-    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._:&,-]+(\\s+[a-zA-Z0-9-()._:&,-]+)*$')));
+    return ((row.categoryName === '') || (row.moduleName === '') || (row.topicName === '') || !(row.topicName.match('^[a-zA-Z0-9-()._:&,]+(\\s+[a-zA-Z0-9-()._:&,]+)*$')));
   }
 
   async openTopicReferences(reference: any, row: TopicData) {

@@ -4,7 +4,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import * as fromReducer from '../../reducers/assessment.reducer';
-import {parameterRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
+import {ParameterLevelRequest, TopicLevelAssessmentComponent} from './topic-level-assessment.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {AppServiceService} from "../../services/app-service/app-service.service";
@@ -256,7 +256,7 @@ describe('TopicLevelAssessmentComponent', () => {
       parameterId: 0, rating: undefined, parameterLevelRecommendation: [{}]
     }
     let userQuestionRequestList: UserQuestion[] = [];
-    let parameterRequest1 = new parameterRequest(answerRequest1, userQuestionRequestList, parameterRatingAndRecommendation)
+    let parameterRequest1 = new ParameterLevelRequest(answerRequest1, userQuestionRequestList, parameterRatingAndRecommendation)
     expect(parameterRequest1).toBeTruthy()
   });
   it("should get answer when parameter is passed", () => {

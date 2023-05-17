@@ -396,7 +396,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   wrap(content: any, width: number, lineHeight: number, adjustPadding: number) {
 
     content.each(function (this: any) {
-      let text = d3.select(<any>this),
+      let text = d3.select(this),
         wordList = text.text().split(/\s+/),
         word,
         line: string[] = [],
