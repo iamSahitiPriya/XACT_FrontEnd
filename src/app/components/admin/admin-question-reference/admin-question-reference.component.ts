@@ -41,7 +41,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
   unsavedReferences: QuestionReference[] | undefined
   rating: Rating [] = []
   inputErrorMessage = data_local.ADMIN.INPUT_ERROR_MESSAGE
-  private referenceToSend: QuestionReference | null;
+   referenceToSend: QuestionReference | null;
   duplicateRatingMessage = data_local.ADMIN.REFERENCES.DUPLICATE_RATING_ERROR_MESSAGE
   duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
@@ -93,7 +93,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
         question: this.question.questionId,
         isEdit: true
       }
-      this.selectedReference = this.selectedReference == reference ? null : reference
+      this.selectedReference = this.selectedReference === reference ? null : reference
       this.questionReferences?.unshift(reference)
     }
 
@@ -111,7 +111,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
     this.sortReferences()
   }
 
-  private getReferenceFromQuestion() {
+   getReferenceFromQuestion() {
     return this.categories.find(category => category.categoryId === this.category)
       ?.modules.find(module => module.moduleId === this.module)
       ?.topics.find(topic => topic.topicId === this.topic)
@@ -223,7 +223,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
 
   }
 
-  private resetReference(reference: QuestionReference | undefined) {
+ resetReference(reference: QuestionReference | undefined) {
     if (this.unsavedChanges !== null && reference !== undefined) {
       reference.reference = this.unsavedChanges.reference
       reference.referenceId = this.unsavedChanges.referenceId
@@ -271,7 +271,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
     }
   }
 
-  private deleteQuestionReference(reference: QuestionReference) {
+  deleteQuestionReference(reference: QuestionReference) {
     if (reference.referenceId) {
       this.appService.deleteQuestionReference(reference.referenceId).pipe().subscribe({
         next: () => {
@@ -285,7 +285,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
     }
   }
 
-  private updateStore(reference: QuestionReference) {
+  updateStore(reference: QuestionReference) {
     let references = this.getReferenceFromQuestion();
     if (references !== undefined) {
       let index = references.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
@@ -294,7 +294,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  private deleteFromStore(reference: QuestionReference) {
+   deleteFromStore(reference: QuestionReference) {
     let references = this.getReferenceFromQuestion();
     if (references !== undefined) {
       let index = references.findIndex(eachReference => eachReference.referenceId === reference.referenceId)
@@ -303,7 +303,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categories}))
   }
 
-  private sendReferenceToStore(data: QuestionReference) {
+   sendReferenceToStore(data: QuestionReference) {
     let reference: QuestionReference = {
       referenceId: data.referenceId, rating: data.rating, question: data.question, reference: data.reference
     }
@@ -328,7 +328,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
   }
 
 
-  private updateUnsavedChangesToStore() {
+   updateUnsavedChangesToStore() {
     let references = this.getReferenceFromQuestion()
     references?.splice(0,references?.length)
     if(this.unsavedReferences !== undefined)
