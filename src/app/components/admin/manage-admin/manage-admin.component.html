@@ -51,7 +51,7 @@
   </div>
   <br>
   <div class="display-users mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" class="table-users">
+    <table mat-table [dataSource]="dataSource" class="table-users" aria-describedby="manage-admin">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>{{nameHeader}}</th>
         <td mat-cell *matCellDef="let row" class="user-role">
