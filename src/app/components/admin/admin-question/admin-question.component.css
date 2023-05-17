@@ -222,7 +222,6 @@
   display: flex;
   width: 100%;
   flex-direction: row;
-  flex-wrap: wrap;
   flex: auto;
   padding-top: 1%;
 }
@@ -239,7 +238,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-end;
-  width: 40%;
+  width: 45%;
   height: 3.5vh;
 }
 
@@ -288,10 +287,8 @@
 .reviewer-actions {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 16%;
-  padding-bottom: 4%;
+  width: 12%;
+  padding-bottom: -19%;
 }
 
 .approve-action mat-icon {
