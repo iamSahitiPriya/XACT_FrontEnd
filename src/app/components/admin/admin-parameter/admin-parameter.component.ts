@@ -146,11 +146,6 @@ export class AdminParameterComponent implements OnInit {
     this.loggedInUser.subscribe(email => {
       this.loggedInUserEmail = email.email
       if (email.email.length > 0) {
-        this.categoryList.push({
-          categoryId: eachCategory.categoryId,
-          categoryName: eachCategory.categoryName,
-          active: eachCategory.active
-        })
         let modules: ModuleRequest [] = [];
         eachCategory.modules?.forEach(eachModule => {
           if (this.path === 'admin') {
@@ -159,6 +154,11 @@ export class AdminParameterComponent implements OnInit {
             this.displayedColumns = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference', 'addQuestion']
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
             if (contributor?.role === 'AUTHOR') {
+              this.categoryList.push({
+                categoryId: eachCategory.categoryId,
+                categoryName: eachCategory.categoryName,
+                active: eachCategory.active
+              })
               this.setModules(eachModule, modules, eachCategory);
             }
           }

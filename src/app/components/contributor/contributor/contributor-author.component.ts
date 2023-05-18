@@ -170,6 +170,7 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSave.subscribe(response => {
       if (response) {
         this.setQuestionStatus(response, questionRequest)
+        this.updateQuestionsToStore(questionRequest,data)
         this.removeAssessedQuestions(response, data);
       }
     })
@@ -341,8 +342,10 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       if (index !== -1) {
         questions[index].status = response.status
         questions[index].comments = response.comments
+        console.log(questions)
       }
     })
+    console.log(this.categoryResponse)
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
 
@@ -439,5 +442,22 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   isStatusValid(status: string): boolean {
     return ((status === this.sentForReview && this.contributorType == this.author) || (status === this.requestedForChange && this.contributorType == this.reviewer));
+  }
+
+  private updateQuestionsToStore(questionRequest: Question[], contributorData: ContributorData) {
+    questionRequest.forEach(eachQuestion => {
+      let question : QuestionStructure = {
+        comments: eachQuestion.comments,
+        parameter: contributorData.parameterId,
+        questionId: eachQuestion.questionId,
+        questionText: eachQuestion.question,
+        references: eachQuestion.references,
+        status: eachQuestion.status
+      }
+
+      this.updateToStore(question,contributorData)
+
+    })
+
   }
 }

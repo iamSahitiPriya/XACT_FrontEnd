@@ -420,6 +420,7 @@ export class AdminQuestionComponent implements OnInit {
           questionId: response.questionId[0],
           questionText: data.questions[0].question,
           status: response.status,
+          comments : response.comments,
           references : this.getQuestionReferences(response.questionId)
         }
         this.sendToStore(question)

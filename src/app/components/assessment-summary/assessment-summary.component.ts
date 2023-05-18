@@ -504,7 +504,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     htmlToImage.toPng(image.nativeElement, {backgroundColor: 'white'})
       .then((dataUrl: any) => {
         this.downloadLink.nativeElement.href = dataUrl;
-        this.downloadLink.nativeElement.download = imageName + '-chart.png';
+        this.downloadLink.nativeElement.download = this.assessmentName + '-' + imageName + '-chart.png';
         this.downloadLink.nativeElement.click();
       });
   }

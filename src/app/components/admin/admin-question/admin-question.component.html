@@ -71,9 +71,9 @@
                 </ng-container>
               </ng-template>
 
-              <div class="question-action-buttons" *ngIf="question.status !== published">
+              <div class="question-action-buttons" *ngIf="question.status !== published && question.status !== rejected">
 
-                <div class="question-comments" *ngIf="question.comments && question.isEdit === false">
+                <div class="question-comments" *ngIf="question.comments && question.comments.length > 0 && question.isEdit === false">
                   <mat-icon matTooltip="{{question.comments}}">chat</mat-icon>
                 </div>
 
