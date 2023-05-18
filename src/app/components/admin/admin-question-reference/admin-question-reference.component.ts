@@ -52,6 +52,10 @@ export class AdminQuestionReferenceComponent implements OnInit {
   edit = data_local.ADMIN.EDIT
   header = data_local.ADMIN.REFERENCES.HEADER
   closeToolTip = data_local.ASSESSMENT.CLOSE.TOOLTIP_MESSAGE;
+  author: string = data_local.CONTRIBUTOR.ROLE.AUTHOR;
+  contributor: string =data_local.CONTRIBUTOR.CONTRIBUTOR;
+  reviewer: string =data_local.CONTRIBUTOR.ROLE.REVIEWER;
+  draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)

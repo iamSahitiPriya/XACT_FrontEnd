@@ -394,7 +394,7 @@ export const data_local =
       manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation',
       topicText: "Topic",
       parameterText: "Parameter",
-
+      REFERENCE_ERROR_MESSAGE: "Please provide atLeast one reference to send for review",
     },
     IDLE_STATE: {
       STATE: {

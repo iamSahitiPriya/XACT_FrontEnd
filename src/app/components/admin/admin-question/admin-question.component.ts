@@ -110,6 +110,7 @@ export class AdminQuestionComponent implements OnInit {
   reject: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
   inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
   private dialogRef: MatDialogRef<any>;
+  private referenceErrorMessage: string =data_local.CONTRIBUTOR.REFERENCE_ERROR_MESSAGE;
 
 
 
@@ -196,7 +197,7 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0 && (this.role === this.author || this.role === 'contributor')) {
+    if (question.questionText.trimStart().length > 0 && (this.role === this.author || this.role === this.contributor.toLowerCase())) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {
@@ -371,7 +372,7 @@ export class AdminQuestionComponent implements OnInit {
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
     if((this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview) || (this.getQuestionReferences(question.questionId) === undefined && this.action === this.sentForReview))
-      this.showError("Please add atleast one reference to send for review")
+      this.showError(this.referenceErrorMessage)
     else
       this.openReviewDialog(questionRequest, contributorData);
   }

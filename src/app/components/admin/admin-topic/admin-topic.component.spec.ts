@@ -46,7 +46,7 @@ class MockAppService {
     "modules": [{
       "moduleId": 1,
       "moduleName": 'module1',
-      "contributors":[],
+      "contributors": [],
       "category": 1,
       "active": false,
       "updatedAt": 23456,
@@ -81,7 +81,7 @@ class MockAppService {
   }
   ]
 
-  row : TopicData = {
+  row: TopicData = {
     active: false,
     categoryId: 1,
     categoryName: "category1",
@@ -134,14 +134,17 @@ describe('AdminTopicComponent', () => {
   let component: AdminTopicComponent;
   let fixture: ComponentFixture<AdminTopicComponent>;
   let mockAppService: MockAppService
-  let matDialog : any
+  let matDialog: any
   let topicRequest: TopicData
   let row: TopicData
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminTopicComponent, SearchComponent],
       imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog},
+      providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator, {
+        provide: MatDialog,
+        useClass: MockDialog
+      },
         {provide: OKTA_CONFIG, useValue: 23},
         {provide: OKTA_AUTH, useValue: 23},
         {provide: OktaAuthStateService, useValue: 23},],
@@ -171,8 +174,8 @@ describe('AdminTopicComponent', () => {
       isEdit: true,
     }
     component.loggedInUser = of({
-      email:'abc@thoughtworks.com',
-      role:'author'
+      email: 'abc@thoughtworks.com',
+      role: 'author'
     })
     component.path = 'contributor'
     component.masterData = of([{
@@ -183,9 +186,9 @@ describe('AdminTopicComponent', () => {
       "comments": "comment1",
       "modules": [{
         "moduleId": 1,
-        "contributors":[{
-          userEmail:'abc@thoughtworks.com',
-          role:'AUTHOR'
+        "contributors": [{
+          userEmail: 'abc@thoughtworks.com',
+          role: 'AUTHOR'
         }],
         "moduleName": 'module1',
         "category": 1,
@@ -214,9 +217,9 @@ describe('AdminTopicComponent', () => {
       },
         {
           "moduleId": 1,
-          "contributors":[],
+          "contributors": [],
           "moduleName": 'module1',
-          "topics":[],
+          "topics": [],
           "category": 1,
           "active": false,
           "updatedAt": 23456,
@@ -233,23 +236,59 @@ describe('AdminTopicComponent', () => {
     }
     ])
 
-    topicRequest  = {comments: "comment", moduleId: 1, topicName: "new topic", active: true,categoryName:"name",categoryId:1,categoryStatus:true,moduleName:"name",moduleStatus:false,updatedAt:12345,topicId:1}
+    topicRequest = {
+      comments: "comment",
+      moduleId: 1,
+      topicName: "new topic",
+      active: true,
+      categoryName: "name",
+      categoryId: 1,
+      categoryStatus: true,
+      moduleName: "name",
+      moduleStatus: false,
+      updatedAt: 12345,
+      topicId: 1
+    }
 
-    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true,category:1},
-      {moduleId: 2, moduleName: "module2", active: true,category:2}]
+    component.moduleList = [{moduleId: 1, moduleName: "module1", active: true, category: 1},
+      {moduleId: 2, moduleName: "module2", active: true, category: 2}]
 
-    component.unsavedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
-    component.selectedTopic = {active: false, comments: "", updatedAt: 0, categoryId:1,categoryName:"new",categoryStatus:true,moduleStatus:true,moduleId:2,moduleName:"new",topicId:2,topicName:"new"}
+    component.unsavedTopic = {
+      active: false,
+      comments: "",
+      updatedAt: 0,
+      categoryId: 1,
+      categoryName: "new",
+      categoryStatus: true,
+      moduleStatus: true,
+      moduleId: 2,
+      moduleName: "new",
+      topicId: 2,
+      topicName: "new"
+    }
+    component.selectedTopic = {
+      active: false,
+      comments: "",
+      updatedAt: 0,
+      categoryId: 1,
+      categoryName: "new",
+      categoryStatus: true,
+      moduleStatus: true,
+      moduleId: 2,
+      moduleName: "new",
+      topicId: 2,
+      topicName: "new"
+    }
 
     component.topicData = [{
       "categoryName": "category1",
       "categoryId": 1,
-      "categoryStatus" : true,
+      "categoryStatus": true,
       "moduleName": "module1",
-      "moduleId" : 1,
-      "moduleStatus":true,
-      "topicId" : 1,
-      "topicName" : "topic2",
+      "moduleId": 1,
+      "moduleStatus": true,
+      "topicId": 1,
+      "topicName": "topic2",
       "comments": "comments",
       "updatedAt": 1022022,
       "active": true
@@ -262,7 +301,7 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should get topic data", () => {
-    component.path='admin';
+    component.path = 'admin';
     component.ngOnInit()
     expect(component.topicData[0].topicName).toBe("topic2")
   });
@@ -469,103 +508,34 @@ describe('AdminTopicComponent', () => {
   it("should open reference dialog", () => {
     jest.spyOn(matDialog, "open")
 
-    component.openTopicReferences("",row)
+    component.openTopicReferences("", row)
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
 
-  it("should show error when topic has parameter level reference", () => {
-    component.ngOnInit()
-    row.categoryName = "category1"
-    row.moduleName = "module1"
-    row.topicName = "topic1"
-    component.categories = [{
-      "categoryId": 1,
-      "categoryName": "category1",
-      "active": true,
-      "updatedAt": 12345,
-      "comments": "comment1",
-      "modules": [{
-        "moduleId": 1,
-        "contributors":[],
-        "moduleName": 'module1',
-        "category": 1,
-        "active": false,
-        "updatedAt": 23456,
-        "comments": " ",
-        "topics": [{
-          "topicId": 1,
-          "topicName": "topic1",
-          "module": 1,
-          "updatedAt": 1234,
-          "comments": "",
-          "active": true,
-          "parameters": [{
-            "parameterId": 1,
-            "parameterName": "parameter1",
-            "topic": 1,
-            "updatedAt": 1234,
-            "comments": "",
-            "active": true,
-            "questions" : [],
-            "userQuestions":[],
-            "references": [{
-              "referenceId" : 1,
-              "reference" : "reference",
-              "rating":2,
-              "parameter":1
-            }],
-          }],
-          "references": []
-        }, {
-          "topicId": 3,
-          "topicName": "topic2",
-          "module": 1,
-          "updatedAt": 45678,
-          "comments": "",
-          "active": false,
-          "parameters": [],
-          "references": []
-        }]
-      }]
-    }, {
-      "categoryId": 3,
-      "categoryName": "category3",
-      "active": true,
-      "updatedAt": 12345,
-      "comments": "comment1",
-      "modules": []
-    }
-    ]
-    jest.spyOn(component, "showError")
-
-    component.openTopicReferences("",row)
-    fixture.detectChanges()
-    expect(component.showError).toHaveBeenCalled()
-  });
 
   it("should return category id of the selected row", () => {
-    jest.spyOn(component,"findCategoryId")
+    jest.spyOn(component, "findCategoryId")
     component.ngOnInit()
 
     expect(component.findCategoryId(row)).toBe(1)
   });
 
   it("should return module id of the selected row", () => {
-    jest.spyOn(component,"findModuleId")
+    jest.spyOn(component, "findModuleId")
     component.ngOnInit()
 
     expect(component.findModuleId(row)).toBe(1)
   });
 
-  it("should return true if the inputs are not valid",() => {
+  it("should return true if the inputs are not valid", () => {
     row.categoryName = ""
     row.moduleName = ""
     row.topicName = ""
     expect(component.isInputValid(row)).toBeTruthy()
   })
 
-  it("should set isEdit to false and isEditable to true when the user clicks on edit button",() => {
+  it("should set isEdit to false and isEditable to true when the user clicks on edit button", () => {
     component.ngOnInit()
 
     component.editTopic(row)
@@ -577,7 +547,7 @@ describe('AdminTopicComponent', () => {
   it("should change the value to lower case while sorting the topic table for string valued columns", () => {
     component.sortTopic()
 
-    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'topicName');
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0], 'topicName');
 
     expect(expectedResponse).toBe("topic2")
   });
@@ -585,7 +555,7 @@ describe('AdminTopicComponent', () => {
   it("should return the same value while sorting the topic table for other column types than string", () => {
     component.sortTopic()
 
-    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0],'active');
+    let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0], 'active');
 
     expect(expectedResponse).toBe(true)
   });

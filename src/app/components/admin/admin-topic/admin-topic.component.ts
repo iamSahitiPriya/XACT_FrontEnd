@@ -454,7 +454,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   async openTopicReferences(reference: any, row: TopicData) {
-    if (this.isTopicReferences(row)) {
+    if(this.hasTopicReferences(row)) {
       this.dialogRef = this.dialog.open(reference, {
         width: '62vw',
         height: '66vh',
@@ -462,12 +462,10 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         maxHeight: '71vh'
       })
       this.dialogRef.disableClose = true;
-    } else {
-      this.path === 'admin' ? this.showError(this.adminParameterReferenceMessage) : this.showError(this.parameterReferenceMessage)
     }
   }
 
-  private isTopicReferences(row: TopicData) {
+  private hasTopicReferences(row: TopicData) {
     let flag = true;
     this.categories.find(category => category.categoryName === row.categoryName)?.modules.find(module => module.moduleName === row.moduleName)?.topics.find(topic => topic.topicName === row.topicName)?.parameters?.forEach(parameter => {
       if (parameter.references !== undefined && parameter.references.length !== 0)
@@ -477,13 +475,13 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   }
 
   findCategoryId(row: TopicData): number {
-    let categoryId = this.categoryList.find(category => category.categoryName === row.categoryName)?.categoryId;
+    let categoryId = this.categories.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
     return categoryId ? categoryId : -1
   }
 
   findModuleId(row: TopicData): number {
-    let modules: ModuleRequest[] = this.categoryAndModule.get(this.findCategoryId(row))
-    let moduleId = modules.find(module => module.moduleName === row.moduleName)?.moduleId
+    let modules: ModuleRequest[] | undefined = this.categoryAndModule.get(this.findCategoryId(row))
+    let moduleId = modules?.find(module => module.moduleName === row.moduleName)?.moduleId
     return moduleId ? moduleId : -1
   }
 
