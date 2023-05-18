@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class="question-reference-container">
-  <div class="question-reference-button" *ngIf="(role === author || role===contributor.toLowerCase())">
+  <div class="question-reference-button" *ngIf="(role === author || role===contributor.toLowerCase()) && (question.status === draft || question.status === sentForReview)">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
 

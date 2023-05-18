@@ -56,6 +56,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
   contributor: string =data_local.CONTRIBUTOR.CONTRIBUTOR;
   reviewer: string =data_local.CONTRIBUTOR.ROLE.REVIEWER;
   draft: string = data_local.CONTRIBUTOR.STATUS.DRAFT;
+  sentForReview: string =data_local.CONTRIBUTOR.STATUS.SENT_FOR_REVIEW;
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)
