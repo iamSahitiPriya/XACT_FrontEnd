@@ -505,8 +505,9 @@ describe('AdminQuestionComponent', () => {
 
   it("should send for review when the question has atleast one reference", () => {
     jest.spyOn(component, "showError")
-    component.ngOnInit()
-    component.parameter.topicLevelReference = true
+    // @ts-ignore
+    row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: false, references:[]}
+
 
     component.sendForReview(row, 'SENT_FOR_REVIEW')
 

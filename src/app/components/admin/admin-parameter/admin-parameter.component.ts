@@ -364,7 +364,7 @@ export class AdminParameterComponent implements OnInit {
     this.selectedParameter = this.selectedParameter === row ? null : row
     this.isEditable = true;
     row.isEdit = false;
-    let categoryId = this.categoryList.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
+    let categoryId = this.categoryData.find(eachCategory => eachCategory.categoryName === row.categoryName)?.categoryId
     this.moduleList = this.categoryAndModule.get(categoryId)
     let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === row.moduleName)?.moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
@@ -499,7 +499,7 @@ export class AdminParameterComponent implements OnInit {
   }
 
   findCategoryId(row: ParameterData): number {
-    let categoryId = this.categoryList.find(category => category.categoryName === row.categoryName)?.categoryId
+    let categoryId = this.categoryData.find(category => category.categoryName === row.categoryName)?.categoryId
     return categoryId ? categoryId : -1
   }
 
