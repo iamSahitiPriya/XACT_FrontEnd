@@ -324,4 +324,30 @@ describe('AdminQuestionReferenceComponent', () => {
 
     expect(component.setIsEdit).toHaveBeenCalled()
   });
+  it("should show duplicate error when reference rating get duplicated", () => {
+    let reference: QuestionReference = {question: 1, rating: 4, reference: "new"}
+    component.ngOnInit();
+    jest.spyOn(component, "showError")
+
+    component.saveQuestionReference(reference);
+    expect(component.showError).toHaveBeenCalled()
+  });
+  it("should show duplicate error when reference  text get duplicated", () => {
+    let reference: QuestionReference = {question: 1, rating: 2, reference: "new reference"}
+    component.ngOnInit();
+    jest.spyOn(component, "showError")
+
+    component.saveQuestionReference(reference);
+    expect(component.showError).toHaveBeenCalled()
+  });
+  it("should return false when question references are undefined", () => {
+    component.questionReferences =undefined;
+
+    expect(component.isReferenceArrayFull()).toBe(false);
+  });
+  it("should return false when question references as 5 when list is fill", () => {
+    component.ngOnInit();
+    component.isReferenceArrayFull()
+    expect(component.questionReferences?.length).toBe(1);
+  });
 });

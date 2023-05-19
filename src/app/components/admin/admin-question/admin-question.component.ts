@@ -111,6 +111,8 @@ export class AdminQuestionComponent implements OnInit {
   inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
   private dialogRef: MatDialogRef<any>;
   private referenceErrorMessage: string =data_local.CONTRIBUTOR.REFERENCE_ERROR_MESSAGE;
+  addReferenceText: string=data_local.CONTRIBUTOR.ADD_REFERENCE_MESSAGE_TIP;
+  referenceText:string=data_local.CONTRIBUTOR.REFERENCE_TIP;
 
 
 

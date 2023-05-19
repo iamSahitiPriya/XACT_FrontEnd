@@ -395,6 +395,10 @@ export const data_local =
       topicText: "Topic",
       parameterText: "Parameter",
       REFERENCE_ERROR_MESSAGE: "Please provide atLeast one reference to send for review",
+      ADD_REFERENCE_MESSAGE_TIP: "Click to add references",
+      REFERENCE_TIP: "Click to see references",
+
+
     },
     IDLE_STATE: {
       STATE: {
