@@ -373,7 +373,7 @@ export class AdminQuestionComponent implements OnInit {
     this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
-    if((this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview) || (this.getQuestionReferences(question.questionId) === undefined && this.action === this.sentForReview))
+    if(this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview)
       this.showError(this.referenceErrorMessage)
     else
       this.openReviewDialog(questionRequest, contributorData);

@@ -424,7 +424,7 @@ export const data_local =
       manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation',
       topicText: "Topic",
       parameterText: "Parameter",
-      REFERENCE_ERROR_MESSAGE: "Please provide atLeast one reference to send for review",
+      REFERENCE_ERROR_MESSAGE: "Please provide at least one reference to send for review",
       ADD_REFERENCE_MESSAGE_TIP: "Click to add references",
       REFERENCE_TIP: "Click to see references",
 

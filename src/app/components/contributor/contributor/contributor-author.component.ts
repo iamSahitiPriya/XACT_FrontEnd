@@ -373,10 +373,10 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
 
   showAllQuestions(response: ContributorData) {
     this.isAllQuestionsOpened = true
-    this.parameterData = ContributorAuthorComponent.getParameterData(response)
+    this.parameterData = this.getParameterData(response)
   }
 
-  private static getParameterData(data: ContributorData) {
+  private getParameterData(data: ContributorData) {
     return {
       categoryId: data.categoryId,
       categoryName: data.categoryName,
@@ -385,8 +385,19 @@ export class ContributorAuthorComponent implements OnInit, OnDestroy {
       parameterId: data.parameterId,
       parameterName: data.parameterName,
       topicId: data.topicId,
-      topicName: data.topicName
+      topicName: data.topicName,
+      topicLevelReference: this.isTopicLevelReference(data),
+      parameterLevelReference: this.isParameterLevelReference(data),
     }
+  }
+
+  private isTopicLevelReference(data: ContributorData) {
+    return this.categoryResponse.find(eachCategory => eachCategory.categoryId === data.categoryId)?.modules.find(eachModule => eachModule.moduleId === data.moduleId)?.topics.find(eachTopic => eachTopic.topicId === data.topicId)?.topicLevelReference
+  }
+
+
+  private isParameterLevelReference(data: ContributorData) {
+    return this.categoryResponse.find(eachCategory => eachCategory.categoryId === data.categoryId)?.modules.find(eachModule => eachModule.moduleId === data.moduleId)?.topics.find(eachTopic => eachTopic.topicId === data.topicId)?.parameters.find(eachParameter => eachParameter.parameterId === data.parameterId)?.parameterLevelReference
   }
 
   closeQuestions() {
