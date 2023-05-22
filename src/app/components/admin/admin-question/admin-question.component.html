@@ -11,7 +11,7 @@
     </button>
     <br>
   </div>
-  <div *ngIf="role === admin && questionStatusMapper.size === 0"> No Questions added by Author</div>
+  <div *ngIf="role === admin && questionStatusMapper.size === 0" class="no-question-text">{{noQuestionText}}</div>
   <div class="questions" *ngIf="questionStatusMapper">
     <div *ngFor="let question of questionStatusMapper | keyvalue ">
 

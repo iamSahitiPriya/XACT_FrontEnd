@@ -427,8 +427,7 @@ export const data_local =
       REFERENCE_ERROR_MESSAGE: "Please provide at least one reference to send for review",
       ADD_REFERENCE_MESSAGE_TIP: "Click to add references",
       REFERENCE_TIP: "Click to see references",
-
-
+      NO_QUESTION_TEXT: "No Questions added by Author",
     },
     IDLE_STATE: {
       STATE: {

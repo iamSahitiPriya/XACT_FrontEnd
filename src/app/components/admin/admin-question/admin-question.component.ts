@@ -113,6 +113,7 @@ export class AdminQuestionComponent implements OnInit {
   private referenceErrorMessage: string =data_local.CONTRIBUTOR.REFERENCE_ERROR_MESSAGE;
   addReferenceText: string=data_local.CONTRIBUTOR.ADD_REFERENCE_MESSAGE_TIP;
   referenceText:string=data_local.CONTRIBUTOR.REFERENCE_TIP;
+  noQuestionText:string=data_local.CONTRIBUTOR.NO_QUESTION_TEXT;
 
 
 
