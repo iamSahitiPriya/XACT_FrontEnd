@@ -65,9 +65,14 @@
   border-radius: 32px;
 }
 
+.buttons .manage-users button {
+  padding-left: 2%;
+  height: 5vh;
+  width: 12vw;
+}
+
 .dashboardButton {
   padding: 6px 5px;
-
 }
 
 .categoryButton {
@@ -87,6 +92,10 @@
 button mat-icon {
   margin-right: 15px;
   margin-left: 14px
+}
+
+.manage-users button mat-icon {
+  margin-right: 9px;
 }
 
 .topicButton {

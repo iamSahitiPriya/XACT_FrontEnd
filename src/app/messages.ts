@@ -190,8 +190,26 @@ export const data_local =
       }
     },
     ADMIN: {
+      CONSOLE : {
+        CONSOLE_TEXT : "Admin Console",
+        DASHBOARD: "Dashboard",
+        CATEGORY: "Category",
+        MODULE: "Module",
+        TOPIC: "Topic",
+        PARAMETER: "Parameter",
+        MANAGE_USERS: "Manage Users"
+
+      },
       ROLE : {
-        ADMIN : "Admin",
+        ADMIN : "admin", PRIMARY:{ROLE_VALUE: 'Primary', DISPLAY_VALUE: 'PRIMARY_ADMIN',
+          DISPLAY_TEXT: 'Primary Admin'
+        },
+        SECONDARY: {
+          ROLE_VALUE:'Secondary',
+          DISPLAY_VALUE: 'SECONDARY_ADMIN',
+          DISPLAY_TEXT: 'Secondary Admin'
+        }
+
       },
       MODULE_NOT_FOUND: "No modules available",
       DATA_NOT_FOUND: "No data matching the filter",
@@ -267,7 +285,19 @@ export const data_local =
         QUESTION: "Question",
         REQUIRED_FIELD: "This field is required",
 
-      },
+      }, MANAGE_ADMIN: {
+        INVALID_AUTOCOMPLETE_VALIDATION: 'invalidAutocompleteString', REQUIRED_FIELD_VALIDATION: 'required',
+        ROLE_ALREADY_PRESENT_VALIDATION: 'roleAlreadyPresent',
+        MESSAGE: {
+          ROLE_ALREADY_PRESENT: 'User already assigned to a role'
+
+        },
+        CRITERIA_TEXT: "User should have logged in at least once.",
+        INVALID_AUTOCOMPLETE_VALIDATION_MESSAGE: "User Not found"
+
+
+      }
+
     },
     DROPDOWN_OPTION_TEXT: {
       LAST_WEEK: "Last 7 Days",

@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+  -->
+
+<div>
+  <div class="manage-user">
+    <div class="manage-user-form">
+      <form [formGroup]="addUserFormGroup" (ngSubmit)="saveRole(userControl.value,select.value)">
+        <div class="manage-user-container">
+          <div class="input-field">
+            <mat-form-field appearance="outline" class="input-mat-form-field">
+              <mat-label>Enter user name</mat-label>
+              <input matInput aria-label="State"
+                     formControlName="userEmailRoleValidator"
+                     [(ngModel)]="userEmail"
+                     [formControl]="userControl"
+                     (focus)="onInputChange()"
+                     (input)="onInputChange()" required
+                     [matAutocomplete]="auto"/>
+              <mat-hint>{{userEmailValidatorCriteriaText}}</mat-hint>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let state of filteredUsers | async" [value]="state.email"
+                            [disabled]="users[0].family_name===invalidAutocompleteValidationMessage">
+                  <span>{{state.given_name}} {{state.family_name}}</span><span
+                  *ngIf="users[0].family_name!==invalidAutocompleteValidationMessage">
+                  <<small>{{state.email}}</small>>
+                  </span>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngFor="let validation of userEmailRoleValidator.userFormControl">
+                <div *ngIf="form['userEmailRoleValidator'].hasError(validation.type)">
+                  {{validation.message}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="admin-role">
+            <mat-form-field appearance="fill">
+              <mat-label>Role</mat-label>
+              <select matNativeControl required #select formControlName="roleValidator">
+                <option *ngFor="let option of role" [value]="option.value">{{option.role}}</option>
+              </select>
+            </mat-form-field>
+          </div>
+          <div class="save-role">
+            <button mat-button class="save-role-button" type="submit">{{addUserDisplayText}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br>
+  <div class="display-users mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="table-users" aria-describedby="manage-admin">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{nameHeader}}</th>
+        <td mat-cell *matCellDef="let row" class="user-role">
+          <span [matTooltip]="row.email" [matTooltipPosition]="'below'"> {{row.username}} </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>{{roleHeader}}</th>
+        <td mat-cell *matCellDef="let row" class="user-role">
+          <mat-chip-list>
+            <mat-chip
+              [ngStyle]="{'background-color':roleSchema.get(row.accessControlRoles).color,'color':'white'}">{{roleSchema.get(row.accessControlRoles).displayText}}</mat-chip>
+          </mat-chip-list>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>{{action}}</th>
+        <td mat-cell *matCellDef="let row" class="user-role">
+          <button mat-icon-button (click)="deleteUser(row)" *ngIf="row.email !== loggedInUserEmail">
+            <mat-icon id="deleteTopic">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-data"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>

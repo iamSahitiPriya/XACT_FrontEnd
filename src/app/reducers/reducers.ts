@@ -10,6 +10,7 @@ export const reducers: ActionReducerMap<AppStates> = {
   assessmentState: fromReducer.assessmentReducer,
   computedScore: fromReducer.scoreReducer,
   masterData : fromReducer.masterDataReducer,
-  loggedInUserEmail:fromReducer.loggedInUserReducer
+  loggedInUserEmail:fromReducer.loggedInUserReducer,
+  loggedInUserRole:fromReducer.loggedInUserRoleReducer
 }
 

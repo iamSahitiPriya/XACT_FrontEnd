@@ -18,6 +18,7 @@ import {TopicLevelRecommendation} from "../../types/topicLevelRecommendation";
 import {ParameterLevelRecommendation} from "../../types/parameterLevelRecommendation";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
+import {AccessControlRoleRequest} from "../../types/AccessControlRoleRequest";
 import {QuestionReference} from "../../types/QuestionReference";
 
 describe('AppServiceService', () => {
@@ -351,10 +352,25 @@ describe('AppServiceService', () => {
     expect(service.deleteQuestion(1)).toBeTruthy()
   });
   it("should save contributors", () => {
-    let contributorRequest : ManageContributorRequest ={
-      contributors:[]
+    let contributorRequest: ManageContributorRequest = {
+      contributors: []
     }
-    expect(service.saveContributors(contributorRequest,1)).toBeTruthy()
+    expect(service.saveContributors(contributorRequest, 1)).toBeTruthy()
+  });
+
+  it("should get all access control roles for the users", () => {
+    expect(service.getAccessControlRoles()).toBeTruthy();
+  });
+  it("should get loggedIn user role", () => {
+    expect(service.getLoggedInUserInfo()).toBeTruthy();
+  });
+  it("should save role", () => {
+    let req: AccessControlRoleRequest = {email: "dummy@thoughtworks.com", accessControlRoles: "PRIMARY_ADMIN"}
+    expect(service.saveRole(req)).toBeTruthy();
+  });
+  it("should delete role", () => {
+    let req: AccessControlRoleRequest = {email: "dummy@thoughtworks.com", accessControlRoles: "PRIMARY_ADMIN"}
+    expect(service.deleteRole(req)).toBeTruthy();
   });
 
   it("should save rating for questions", () => {

@@ -11,6 +11,7 @@ export interface AppStates {
   computedScore: ComputedScore
   masterData : MasterData
   loggedInUserEmail:User
+  loggedInUserRole: Roles
 }
 export interface User{
   email:string
@@ -26,6 +27,10 @@ export interface ComputedScore {
 
 export interface MasterData {
   masterData : CategoryResponse[]
+}
+
+export interface Roles{
+  roles:string[]
 }
 
 

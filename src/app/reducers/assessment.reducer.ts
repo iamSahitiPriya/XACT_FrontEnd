@@ -9,6 +9,7 @@ import {
   getUpdatedAssessmentData,
   getUpdatedCategories,
   loggedInUserEmail,
+  loggedInUserRole,
   setAverageComputedScore,
   setErrorMessage,
 } from "../actions/assessment-data.actions";
@@ -16,7 +17,7 @@ import {
 import {AssessmentState, ComputedScore, MasterData, User} from "./app.states";
 
 export let loggedInUserInitialState: User = {email: ""};
-
+export let loggedInUserRoleInitialState:{roles:string[]}= {roles:[]};
 
 export const initialState: AssessmentState = {
   assessments: {
@@ -106,9 +107,23 @@ const _loggedInReducer = createReducer(
     }
   })
 )
+const _loggedInUserRoleReducer = createReducer(
+  loggedInUserRoleInitialState,
+  on(loggedInUserRole, (state,action) =>{
+    return {
+      ...state,
+      roles:action.roles
+    }
+  })
+)
 export  function loggedInUserReducer(state:any, action:Action){
   return _loggedInReducer(state,action)
 }
+
+export  function loggedInUserRoleReducer(state:any, action:Action){
+  return _loggedInUserRoleReducer(state,action)
+}
+
 
 export function assessmentReducer(state: any, action: Action) {
   return _assessmentReducer(state, action)
