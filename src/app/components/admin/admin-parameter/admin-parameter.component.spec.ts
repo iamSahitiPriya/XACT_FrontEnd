@@ -19,6 +19,7 @@ import {ParameterData} from 'src/app/types/ParameterData';
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {ParameterRequest} from "../../../types/Admin/parameterRequest";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockAppService {
   parameterRequest : ParameterData = {
@@ -164,7 +165,7 @@ describe('AdminParameterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminParameterComponent, SearchComponent],
-      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule],
+      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule,MatTooltipModule],
       providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog}],
     })
       .compileComponents();
