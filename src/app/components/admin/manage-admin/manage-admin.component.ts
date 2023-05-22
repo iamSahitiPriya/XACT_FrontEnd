@@ -139,32 +139,34 @@ export class ManageAdminComponent implements OnInit {
 
   saveRole(email: string, role: string) {
     let user = this.users.find(eachUser => eachUser.email === email);
-    let roleRequest: AccessControlRole = {
-      username: user?.given_name + ' ' + user?.family_name || '',
-      email: email,
-      accessControlRoles: role
-    }
-    let roleData: AccessControlRoleRequest = {
-      email: email,
-      accessControlRoles: role
-    }
-    let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
-    if (filteredData.length === 0) {
-      this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (_data) => {
-          this.accessControlRole.unshift(roleRequest)
-          this.filterLoggedInUser()
-          this.userEmail = ""
-          this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
-        },
-        error: (_err) => {
-          this.showError(this.serverErrorMessage);
-        }
+    if (user !== undefined) {
+      let roleRequest: AccessControlRole = {
+        username: user?.given_name + ' ' + user?.family_name || '',
+        email: email,
+        accessControlRoles: role
+      }
+      let roleData: AccessControlRoleRequest = {
+        email: email,
+        accessControlRoles: role
+      }
+      let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
+      if (filteredData.length === 0) {
+        this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (_data) => {
+            this.accessControlRole.unshift(roleRequest)
+            this.filterLoggedInUser()
+            this.userEmail = ""
+            this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
+          },
+          error: (_err) => {
+            this.showError(this.serverErrorMessage);
+          }
 
-      })
-    } else {
-      this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
+        })
+      } else {
+        this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
 
+      }
     }
   }
 
@@ -197,6 +199,7 @@ export class ManageAdminComponent implements OnInit {
     })
 
   }
+
   private showNotification(message: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: message, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
