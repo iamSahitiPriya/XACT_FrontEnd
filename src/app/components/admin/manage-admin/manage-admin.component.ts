@@ -19,6 +19,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {cloneDeep} from "lodash";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 interface UserRole {
   role: string,
@@ -78,7 +80,7 @@ export class ManageAdminComponent implements OnInit {
   userEmail: string;
   role: UserRole[] = [{
     role: this.secondaryAdminRole, value: this.secondaryAdminDisplayValue
-  },{
+  }, {
     role: this.primaryAdminRole, value: this.primaryAdminDisplayValue
   }
 
@@ -88,7 +90,7 @@ export class ManageAdminComponent implements OnInit {
   loggedInUserEmail: string;
 
 
-  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<AccessControlRole>();
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.roleSchema.set(this.primaryAdminDisplayValue, {
@@ -112,7 +114,7 @@ export class ManageAdminComponent implements OnInit {
     this.addUserFormGroup = this.formBuilder.group(
       {
         userEmailRoleValidator: ['', Validators.required],
-        roleValidator:['SECONDARY_ADMIN', Validators.required]
+        roleValidator: ['SECONDARY_ADMIN', Validators.required]
       }
     )
     this.appService.getLoggedInUserInfo().subscribe(data => {
@@ -134,51 +136,62 @@ export class ManageAdminComponent implements OnInit {
   }
 
   saveRole(email: string, role: string) {
-      let roleRequest: AccessControlRole = {
-        username: email,
-        email: email,
-        accessControlRoles: role
-      }
-      let roleData: AccessControlRoleRequest = {
-        email: email,
-        accessControlRoles: role
-      }
-      let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
-      if (filteredData.length === 0) {
-        this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe({
-          next: (_data) => {
-            this.accessControlRole.unshift(roleRequest)
-            this.filterLoggedInUser()
-            this.userEmail = ""
-          },
-          error: (_err) => {
-            this.showError(this.serverErrorMessage);
-          }
+    let user = this.users.find(eachUser => eachUser.email === email);
+    let roleRequest: AccessControlRole = {
+      username: user?.given_name + ' ' + user?.family_name || '',
+      email: email,
+      accessControlRoles: role
+    }
+    let roleData: AccessControlRoleRequest = {
+      email: email,
+      accessControlRoles: role
+    }
+    let filteredData = this.accessControlRole.filter(eachData => eachData.email === roleRequest.email)
+    if (filteredData.length === 0) {
+      this.appService.saveRole(roleData).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (_data) => {
+          this.accessControlRole.unshift(roleRequest)
+          this.filterLoggedInUser()
+          this.userEmail = ""
+        },
+        error: (_err) => {
+          this.showError(this.serverErrorMessage);
+        }
 
-        })
-      } else {
-        this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
+      })
+    } else {
+      this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
 
-      }
+    }
   }
 
   deleteUser(user: AccessControlRole) {
-    let request: AccessControlRoleRequest = {
-      email: user.email,
-      accessControlRoles: user.accessControlRoles
-    }
-    this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe({
-      next: _data => {
-        let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
-        if (index !== -1) {
-          this.accessControlRole.splice(index, 1)
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = "Are you sure!"
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        let request: AccessControlRoleRequest = {
+          email: user.email,
+          accessControlRoles: user.accessControlRoles
         }
-        this.filterLoggedInUser()
-      },
-      error: () => {
-        this.showError(this.serverErrorMessage);
+        this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe({
+          next: _data => {
+            let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
+            if (index !== -1) {
+              this.accessControlRole.splice(index, 1)
+            }
+            this.filterLoggedInUser()
+          },
+          error: () => {
+            this.showError(this.serverErrorMessage);
+          }
+        })
       }
     })
+
   }
 
 
