@@ -88,6 +88,7 @@ export class ManageAdminComponent implements OnInit {
   isAdminPrimary: boolean = false;
   private accessControlRoleDataSource: AccessControlRole[];
   loggedInUserEmail: string;
+  private dataSuccessMessage: string = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE;
 
 
   constructor(private dialog: MatDialog, private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
@@ -153,6 +154,7 @@ export class ManageAdminComponent implements OnInit {
           this.accessControlRole.unshift(roleRequest)
           this.filterLoggedInUser()
           this.userEmail = ""
+          this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
         },
         error: (_err) => {
           this.showError(this.serverErrorMessage);
@@ -170,7 +172,7 @@ export class ManageAdminComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure!"
+    openConfirm.componentInstance.text = "Are you sure want to delete!"
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         let request: AccessControlRoleRequest = {
@@ -184,6 +186,7 @@ export class ManageAdminComponent implements OnInit {
               this.accessControlRole.splice(index, 1)
             }
             this.filterLoggedInUser()
+            this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
           },
           error: () => {
             this.showError(this.serverErrorMessage);
@@ -192,6 +195,14 @@ export class ManageAdminComponent implements OnInit {
       }
     })
 
+  }
+  private showNotification(message: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
 
