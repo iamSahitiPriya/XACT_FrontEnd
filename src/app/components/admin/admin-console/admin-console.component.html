@@ -7,43 +7,47 @@
   <div class="col-md-2">
     <div class="console">
       <mat-card class="consoleBox">
-        <mat-card-title class="cardTitle">Admin Console</mat-card-title>
+        <mat-card-title class="cardTitle">{{adminConsole}}</mat-card-title>
         <mat-card-actions>
           <div class="buttons">
             <button mat-button class="dashboardButton" (click)="setEvent('dashboard')"
                     [ngClass]="{'button-active':type === 'dashboard'}" [routerLink]="['/admin/dashboard']">
               <mat-icon class="dashboardIcon">dashboard</mat-icon>
-              <span class="label">Dashboard</span>
+              <span class="label">{{dashboard}}</span>
             </button>
             <button mat-button class="categoryButton" (click)="setEvent('category')"
                     [ngClass]="{'button-active':type === 'category'}" [routerLink]="['/admin/category']">
               <mat-icon>category</mat-icon>
               <span class="label">
-               Category
+               {{category}}
               </span>
             </button>
             <button mat-button class="moduleButton" (click)="setEvent('module')"
                     [ngClass]="{'button-active':type === 'module'}" [routerLink]="['/admin/module']">
               <mat-icon>view_module</mat-icon>
               <span class="label">
-            Module
+            {{module}}
             </span>
             </button>
             <button mat-button class="topicButton" (click)="setEvent('topic')"
                     [ngClass]="{'button-active':type === 'topic'}" [routerLink]="['/admin/topic']">
               <mat-icon>list</mat-icon>
               <span class="label">
-              Topic
+              {{topic}}
                 </span>
             </button>
             <button mat-button class="parameterButton" (click)="setEvent('parameter')"
                     [ngClass]="{'button-active':type === 'parameter'}" [routerLink]="['/admin/parameter']">
               <div class="parameterIcon"></div>
               <span class="label">
-              Parameter
+              {{parameter}}
                 </span>
             </button>
-
+            <span class="manage-users"><button mat-button (click)="setEvent('manage-users')" *ngIf="isAdminPrimary"
+                                               [ngClass]="{'button-active':type === 'manage-users'}" [routerLink]="['/admin/manage-users']">
+              <mat-icon class="manage-user">supervised_user_circle_outline</mat-icon>
+              <span class="label">{{manageUsers}}</span>
+            </button></span>
           </div>
         </mat-card-actions>
       </mat-card>

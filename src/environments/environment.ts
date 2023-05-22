@@ -64,6 +64,10 @@ export const environment = {
   UPDATE_CONTRIBUTOR_STATUS_URI: "/v1/contributor/modules/${moduleId}/questions",
   DELETE_CONTRIBUTOR_QUESTION : "/v1/contributor/questions/${questionId}",
   SAVE_CONTRIBUTOR_URI: "/v1/admin/modules/${moduleId}/contributors",
+  GET_ALL_USER_INFO_URI: "/v1/users",
+  GET_ACCESS_CONTROL_URI: "/v1/admin",
+  ADD_USER_URI: "/v1/admin/user"
+
 
 }
 

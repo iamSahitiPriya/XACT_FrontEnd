@@ -42,6 +42,9 @@ import {ContributorResponse} from "../../types/Contributor/ContributorResponse";
 import {ContributorQuestionRequest} from "../../types/Contributor/ContributorQuestionRequest";
 import {ContributorQuestionResponse} from "../../types/Contributor/ContributorQuestionResponse";
 import {ManageContributorRequest} from "../../types/Contributor/ManageContributorRequest";
+import {UserInfo} from "../../types/UserInfo";
+import {AccessControlRole} from "../../types/AccessControlRole";
+import {AccessControlRoleRequest} from "../../types/AccessControlRoleRequest";
 
 
 @Injectable({
@@ -160,10 +163,10 @@ export class AppServiceService {
     return this.http.get<AdminAssessmentResponse>(environment.BaseURI + environment.GET_ADMIN_ASSESSMENTS + "/" + adminAssessmentRequest.startDate + "/" + adminAssessmentRequest.endDate);
   }
 
-  getAllCategories(role : string): Observable<CategoryResponse[]> {
+  getAllCategories(role: string): Observable<CategoryResponse[]> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("role", role);
-    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI,{params:queryParams});
+    return this.http.get<CategoryResponse[]>(environment.BaseURI + environment.ALL_CATEGORY_URI, {params: queryParams});
   }
 
 
@@ -267,11 +270,11 @@ export class AppServiceService {
     return this.http.post<QuestionStructure>(environment.BaseURI + environment.SAVE_QUESTION, questionRequest)
   }
 
-  saveContributors(contributorRequest : ManageContributorRequest,moduleId : number){
-    const saveContributorURI=this.formatURI(environment.SAVE_CONTRIBUTOR_URI,{
-      moduleId : moduleId
+  saveContributors(contributorRequest: ManageContributorRequest, moduleId: number) {
+    const saveContributorURI = this.formatURI(environment.SAVE_CONTRIBUTOR_URI, {
+      moduleId: moduleId
     })
-    return this.http.post(environment.BaseURI+saveContributorURI,contributorRequest)
+    return this.http.post(environment.BaseURI + saveContributorURI, contributorRequest)
   }
 
   formatURI(URI: string, data: Readonly<unknown>) {
@@ -306,14 +309,17 @@ export class AppServiceService {
     return this.http.patch<QuestionStructure>(environment.BaseURI + updateQuestionURI, question, {'headers': headers})
   }
 
-  updateQuestionStatus(moduleId: number, status: string, questionRequest:ContributorQuestionRequest) {
+  updateQuestionStatus(moduleId: number, status: string, questionRequest: ContributorQuestionRequest) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
     const headers = {'content-type': 'application/json'}
-    const sendForReviewURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_STATUS_URI,{
-      moduleId:moduleId,
+    const sendForReviewURI = this.formatURI(environment.UPDATE_CONTRIBUTOR_STATUS_URI, {
+      moduleId: moduleId,
     })
-    return this.http.patch<ContributorQuestionResponse>(environment.BaseURI + sendForReviewURI, questionRequest, {'headers': headers, params:queryParams})
+    return this.http.patch<ContributorQuestionResponse>(environment.BaseURI + sendForReviewURI, questionRequest, {
+      'headers': headers,
+      params: queryParams
+    })
 
   }
 
@@ -337,6 +343,29 @@ export class AppServiceService {
     });
     return this.http.delete(environment.BaseURI + deleteQuestionURI, {'headers': headers})
 
+  }
+
+  getLoggedInUserInfo() {
+    const headers = {'content-type': 'application/json'}
+    return this.http.get<UserInfo[]>(environment.BaseURI + environment.GET_ALL_USER_INFO_URI, {'headers': headers})
+  }
+
+  getAccessControlRoles() {
+    const headers = {'content-type': 'application/json'}
+    return this.http.get<AccessControlRole[]>(environment.BaseURI + environment.GET_ACCESS_CONTROL_URI, {'headers': headers})
+
+  }
+
+  saveRole(userRequest: AccessControlRoleRequest) {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post(environment.BaseURI + environment.ADD_USER_URI, userRequest, {'headers': headers})
+  }
+
+  deleteRole(request: AccessControlRoleRequest) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("email", request.email);
+    const headers = {'content-type': 'application/json'}
+    return this.http.delete(environment.BaseURI + environment.ADD_USER_URI, {headers: headers, params: queryParams})
   }
 }
 

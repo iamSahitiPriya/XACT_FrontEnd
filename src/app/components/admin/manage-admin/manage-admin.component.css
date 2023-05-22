@@ -1,0 +1,75 @@
+/*
+ * Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
+ */
+
+.manage-user {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-role {
+  width: 20%;
+}
+td.user-role {
+  text-align: left;
+  font-weight: normal;
+  border-bottom-style: none;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0px;
+  color: #52575D;
+  opacity: 1;
+  width:43%;
+  word-break: break-word;
+}
+th {
+  text-align: left;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0;
+  color: #043D4E;
+  background: #EBFAFF 0% 0% no-repeat padding-box;
+  opacity: 1;
+
+}
+div.display-users{
+  box-shadow: 0 5px 25px #52575d1a;
+
+}
+.table-users{
+  width: 100%;
+}
+td.user-role:nth-child(3), th:nth-child(3){
+  text-align: center;
+}
+.save-role button{
+  width: 18%;
+  position: relative;
+  left: 40%;
+  margin-top: 3%;
+  height: 2.375em;
+  background-color: #32616E;
+}
+.save-role-button{
+  color: #FFFFFF;
+}
+.input-field{
+  width: 42%;
+}
+.save-role{
+  padding-top: 7.5px;
+}
+.input-mat-form-field{
+  width: 80%;
+}
+.manage-user-container{
+  display: flex;
+  flex-direction: row;
+}
+.manage-user-form{
+  width: 100%;
+}
+tr.row-data{
+  height: 5.5vh;
+}

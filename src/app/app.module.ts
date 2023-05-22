@@ -113,6 +113,7 @@ import {ReviewDialogComponent} from './components/contributor/review-dialog/revi
 import {ManageContributorsComponent} from './components/admin/manage-contributors/manage-contributors.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTreeModule} from "@angular/material/tree";
+import {ManageAdminComponent} from './components/admin/manage-admin/manage-admin.component';
 
 const oktaAuth = new OktaAuth(oktaConfig.oidc);
 
@@ -198,7 +199,13 @@ export const appRoutes: Routes = [
       component: AdminParameterComponent,
       pathMatch: 'full',
       canActivate: [OktaAuthGuard]
-    }
+    },
+      {
+        path: "manage-users",
+        component: ManageAdminComponent,
+        pathMatch: 'full',
+        canActivate: [OktaAuthGuard]
+      }
     ]
   }];
 
@@ -243,6 +250,7 @@ export const appRoutes: Routes = [
     ContributorAuthorComponent,
     ReviewDialogComponent,
     ManageContributorsComponent,
+    ManageAdminComponent,
   ],
 
     imports: [
