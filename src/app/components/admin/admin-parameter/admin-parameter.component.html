@@ -163,7 +163,7 @@
         <div class="parameter-reference" *ngIf="row.parameterLevelReference">
           <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                   (click)="openParameterReference(reference,row)">
-            <mat-icon>playlist_add</mat-icon>
+            <mat-icon [matTooltip]="'Parameter References'">playlist_add</mat-icon>
           </button>
         </div>
         <ng-template #reference>
@@ -186,7 +186,7 @@
         <div class="parameter-reference">
                     <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                             (click)="openQuestionPanel(row)">
-                      <mat-icon>question_answer</mat-icon>
+                      <mat-icon [matTooltip]="'Questions'">question_answer</mat-icon>
                     </button>
                   </div>
           <div class="all-questions-backdrop" *ngIf="row.openQuestions">

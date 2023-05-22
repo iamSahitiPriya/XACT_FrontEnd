@@ -312,6 +312,13 @@
   padding-right:21px;
 }
 
+.reviewer-reference button{
+  border: none;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 21px;
+}
+
 .disable-delete-button .mat-icon {
   color: #b2b2b2;
 }
@@ -325,6 +332,18 @@
   width: 5%;
 }
 
+.reviewer-request-changes {
+  padding-left: 0;
+  width: 6%;
+}
+
+.reviewer-reference button{
+  border: none;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 21px;
+}
+
 @media screen and (max-width: 1515px) {
   .question-text {
     width: 45%;
@@ -332,12 +351,12 @@
 
   .question-action-buttons {
     padding-left: 0%;
-    width: 45%;
+    width: 50%;
   }
 
   .question-reference {
-    width: 9%;
-    padding-left: 4%; }
+    width: 4%;
+    padding-left: 0%; }
 
   .published-questions {
     width: 90%;
@@ -349,6 +368,17 @@
 
   .save-delete-button {
     width: 15%;
+  }
+
+  .reviewer-request-changes {
+    padding-left: 0;
+    width: 6%;
+  }
+
+  .reviewer-reference {
+    border: none;
+    background-color: transparent;
+    padding-right: 21px;
   }
 
 }

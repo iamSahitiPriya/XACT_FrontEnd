@@ -45,6 +45,7 @@ export class AdminQuestionReferenceComponent implements OnInit {
   duplicateRatingMessage = data_local.ADMIN.REFERENCES.DUPLICATE_RATING_ERROR_MESSAGE
   duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
+  scoreCard = data_local.ADMIN.REFERENCES.SCORE_CARD
   private destroy$: Subject<void> = new Subject<void>();
   save = data_local.ADMIN.SAVE
   addReference = data_local.ADMIN.REFERENCES.ADD_REFERENCE_BUTTON

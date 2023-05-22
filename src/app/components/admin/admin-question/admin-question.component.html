@@ -11,6 +11,7 @@
     </button>
     <br>
   </div>
+  <div *ngIf="role === admin && questionStatusMapper.size === 0"> No Questions added by Author</div>
   <div class="questions" *ngIf="questionStatusMapper">
     <div *ngFor="let question of questionStatusMapper | keyvalue ">
 
@@ -55,7 +56,8 @@
               </div>
 
               <div class="question-reference"
-                   *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference && !question.isEdit)">
+                   *ngIf="(!parameter.topicLevelReference && !parameter.parameterLevelReference && !question.isEdit)"
+                   [ngClass]="{'reviewer-reference':question.status === requestedForChange && role === reviewer}">
                 <button (click)="openQuestionReference(reference,question)">
                   <mat-icon [matTooltip]="(question.status===draft || question.status===sendForReviewText) ? addReferenceText : referenceText" [matTooltipPosition]="'left'">playlist_add</mat-icon>
                 </button>
@@ -71,7 +73,10 @@
                 </ng-container>
               </ng-template>
 
-              <div class="question-action-buttons" *ngIf="question.status !== published && question.status !== rejected">
+              <div class="question-action-buttons"
+                   *ngIf="question.status !== published && question.status !== rejected"
+                   [ngClass]="{'reviewer-request-changes':question.status === requestedForChange && role === reviewer}"
+              >
 
                 <div class="question-comments" *ngIf="question.comments && question.isEdit === false">
                   <mat-icon matTooltip="{{question.comments}}">chat</mat-icon>
