@@ -57,6 +57,7 @@ export class ManageAdminComponent implements OnInit {
   secondaryAdminDisplayValue = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_VALUE;
   secondaryAdminDisplayText = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_TEXT;
   primaryAdminDisplayColor = '#3f51b5';
+  private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   userEmailValidatorCriteriaText: string = data_local.ADMIN.MANAGE_ADMIN.CRITERIA_TEXT;
   roleHeader: string = "Role";
   addUserDisplayText: string = "Add";
@@ -172,7 +173,7 @@ export class ManageAdminComponent implements OnInit {
       width: '448px',
       height: '203px'
     });
-    openConfirm.componentInstance.text = "Are you sure want to delete!"
+    openConfirm.componentInstance.text = this.confirmationTitle
     openConfirm.afterClosed().subscribe(result => {
       if (result === 1) {
         let request: AccessControlRoleRequest = {
