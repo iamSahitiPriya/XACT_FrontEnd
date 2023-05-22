@@ -59,6 +59,15 @@ class MockAppService {
     } else if (questionRequest.questionText === "This is a question text2") {
       this.response.parameter = 5
       return of(this.response)
+    } else if(questionRequest.parameter === 5){
+      return of({
+        questionId: 2,
+        questionText: "Hello",
+        parameter: 5,
+        topic: 1,
+        category: 1,
+        module: 1
+      })
     } else {
       return throwError("Error!")
     }
@@ -129,7 +138,10 @@ describe('AdminQuestionComponent', () => {
               "questionId": 1,
               "questionText": "This is a question",
               "parameter": 1,
-              "status" : "PUBLISHED"
+              "status" : "PUBLISHED",
+              "references" : [{
+                "referenceId" : 1,
+              }]
             }],
             "userQuestions": [],
             "references": [],
@@ -257,8 +269,10 @@ describe('AdminQuestionComponent', () => {
 
   it("should able to save questions", () => {
     jest.spyOn(component, 'saveQuestion')
+    jest.spyOn(component, 'showSuccess')
 
     component.ngOnInit()
+    component.role = 'contributor'
     component.saveQuestion(row)
     component.parameter = {
       categoryId: 1,
@@ -282,13 +296,48 @@ describe('AdminQuestionComponent', () => {
     })
 
     expect(component.saveQuestion).toHaveBeenCalled()
+    expect(component.showSuccess).toHaveBeenCalled()
+  });
+
+  it("should able to save new questions in the store", () => {
+    jest.spyOn(component, 'saveQuestion')
+    row = {questionId: 1, questionText: "question", parameter: 5, isEdit: false}
+
+
+    component.ngOnInit()
+    component.parameter.parameterId = 5
+    component.role = 'contributor'
+    component.parameter.topicLevelReference = true
+    component.saveQuestion(row)
+    component.parameter = {
+      categoryId: 1,
+      categoryName: "category1",
+      categoryStatus: false,
+      moduleId: 1,
+      moduleName: "module1",
+      moduleStatus: false,
+      topicId: 1,
+      topicName: "topic1",
+      topicStatus: false,
+      parameterId: 5,
+      parameterName: "parameter",
+      active: false,
+      updatedAt: Date.now(),
+      comments: "",
+    }
+
+    mockAppService.saveMasterQuestion(row).subscribe(data => {
+      expect(data).toBeDefined()
+    })
+
+    expect(component.saveQuestion).toHaveBeenCalled()
   });
 
   it("should able to save new questions for the parameter that doesn't have any questions before", () => {
     jest.spyOn(component, 'saveQuestion')
 
-    component.ngOnInit()
     component.role = "AUTHOR"
+    component.ngOnInit()
     component.parameter.parameterId = 5
     row = {questionId: 1, questionText: "This is a question text2", parameter: 5, isEdit: false,status:"DRAFT"}
     expect(component.categoryResponse[0].modules[0].topics[0].parameters[0].questions.length).toBe(1)
@@ -315,7 +364,7 @@ describe('AdminQuestionComponent', () => {
       expect(data).toBeDefined()
     })
 
-    expect(component.categoryResponse[0].modules[0].topics[0].parameters[1].questions.length).toBe(1)
+    expect(component.categoryResponse[0].modules[0].topics[0].parameters[0].questions.length).toBe(1)
   });
 
   it("should throw error on unsuccessful save", () => {
@@ -452,6 +501,26 @@ describe('AdminQuestionComponent', () => {
     component.updateAndApproveQuestion(question)
 
     expect(component.updateQuestion).toHaveBeenCalled();
+  });
+
+  it("should send for review when the question has atleast one reference", () => {
+    jest.spyOn(component, "showError")
+    // @ts-ignore
+    row = {questionId: 1, questionText: "This is a question text", parameter: 1, isEdit: false, references:[]}
+
+
+    component.sendForReview(row, 'SENT_FOR_REVIEW')
+
+    expect(component.showError).toHaveBeenCalled()
+  });
+
+  it("should open question reference dialog", () => {
+    component.ngOnInit()
+    jest.spyOn(matDialog, "open")
+
+    component.openQuestionReference("",row)
+    fixture.detectChanges()
+    expect(matDialog.open).toHaveBeenCalled()
   });
 
 });

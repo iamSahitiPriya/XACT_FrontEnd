@@ -14,6 +14,7 @@ export interface ParameterResponse {
   updatedAt : number;
   comments ?: string
   active : boolean;
+  parameterLevelReference ?: boolean,
   references ?: ParameterReference[]
   questions ?: QuestionStructure[]
 }

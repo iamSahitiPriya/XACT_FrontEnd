@@ -127,8 +127,8 @@ button mat-icon {
   width: 74%;
 }
 
-.actionDetails {
-  width: 80%;
+.actionDetails{
+  width: 83%;
   overflow-y: scroll;
   height: 79vh;
 }

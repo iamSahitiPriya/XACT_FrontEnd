@@ -8,6 +8,7 @@ export interface ParameterData{
   topicId:number,
   topicName:string,
   topicStatus ?: boolean,
+  topicLevelReference ?:boolean,
   parameterId:number,
   parameterName:string,
   active?:boolean,
@@ -15,5 +16,6 @@ export interface ParameterData{
   comments ?: string
   isEdit ?: boolean
   openReferences ?: boolean,
-  openQuestions ?: boolean
+  openQuestions ?: boolean,
+  parameterLevelReference?:boolean
 }

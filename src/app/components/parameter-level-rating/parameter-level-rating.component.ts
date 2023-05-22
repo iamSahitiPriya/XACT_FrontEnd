@@ -100,22 +100,22 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
       } else {
         this.parameterRatingAndRecommendation.rating = rating;
       }
-      this.parameterRatingAndRecommendation.parameterId = this.parameterId;
-      this.parameterLevelRating.assessmentId = this.assessmentId
-      this.parameterLevelRating.parameterId = this.parameterId
-      this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
-      this.parameterRatingResponse.parameterId = this.parameterId
-      this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
-      this.sendRating(this.parameterRatingResponse)
-      this.appService.saveParameterRating(this.parameterLevelRating).pipe(takeUntil(this.destroy$)).subscribe({
-        next: () => {
-          this.updateDataSavedStatus()
-        }, error: _error => {
-          this.showError(this.serverError);
-        }
-      })
-      this.updateAverageRating();
-    }
+        this.parameterRatingAndRecommendation.parameterId = this.parameterId;
+        this.parameterLevelRating.assessmentId = this.assessmentId
+        this.parameterLevelRating.parameterId = this.parameterId
+        this.parameterLevelRating.rating = this.parameterRatingAndRecommendation.rating
+        this.parameterRatingResponse.parameterId = this.parameterId
+        this.parameterRatingResponse.rating = this.parameterRatingAndRecommendation.rating
+        this.sendRating(this.parameterRatingResponse)
+        this.appService.saveParameterRating(this.parameterLevelRating).pipe(takeUntil(this.destroy$)).subscribe({
+          next: () => {
+            this.updateDataSavedStatus()
+          }, error: _error => {
+            this.showError(this.serverError);
+          }
+        })
+        this.updateAverageRating();
+      }
   }
 
   private sendRating(parameterRating: ParameterRatingResponse) {
@@ -148,14 +148,29 @@ export class ParameterLevelRatingComponent implements OnInit, OnDestroy {
     let ratingNumber = 0
     let index = 0;
     for (let pId in this.parameterList) {
+      if(this.parameterList[pId].parameterRatingAndRecommendation){
       index = this.cloneParameterResponse.parameterRatingAndRecommendation.findIndex(eachParameter => eachParameter.parameterId === this.parameterList[pId].parameterRatingAndRecommendation.parameterId)
-      if (index != -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating != undefined) {
+      if (index !== -1 && this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating !== undefined) {
         ratingSum = ratingSum + Number(this.cloneParameterResponse.parameterRatingAndRecommendation[index].rating);
         ratingNumber = ratingNumber + 1;
       }
-    }
-
-
+    }if(this.parameterList[pId].answerRequest.length > 0) {
+        let questionCount = 0;
+        let questionSum = 0;
+        let hasQuestionRating =false;
+        this.parameterList[pId].answerRequest.forEach(eachAnswer => {
+          if (eachAnswer.rating !== undefined && eachAnswer.rating > 0) {
+            hasQuestionRating =true;
+            questionSum += eachAnswer.rating;
+            questionCount += 1;
+          }
+        })
+        if(hasQuestionRating) {
+          ratingNumber = ratingNumber + 1;
+          ratingSum +=  Math.round(questionSum / questionCount);
+        }
+      }
+        }
     if (ratingSum !== 0 && ratingNumber !== 0) {
       averageRating = Math.round(ratingSum / ratingNumber);
     }

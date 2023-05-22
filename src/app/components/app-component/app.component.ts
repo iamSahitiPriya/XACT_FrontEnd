@@ -32,8 +32,6 @@ export class AppComponent implements OnInit {
   rightReserved = data_local.COPYRIGHT_MESSAGE.RIGHTS_RESERVED_TEXT;
 
   idleState = data_local.IDLE_STATE.STATE.NOT_STARTED;
-  private loggedInUserEmail: string | undefined;
-
 
   constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth, public authService: OktaAuthStateService, public appService: AppServiceService, private idle: Idle, cd: ChangeDetectorRef, private _snackBar: MatSnackBar, private store: Store<AppStates>) {
     // set idle parameters

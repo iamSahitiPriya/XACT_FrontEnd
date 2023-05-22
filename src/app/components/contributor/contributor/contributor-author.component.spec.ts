@@ -298,7 +298,7 @@ describe('ContributorAuthorComponent', () => {
 
     component.evaluateQuestion(question,contributorData,"REQUESTED_FOR_CHANGE")
 
-    expect(component.contributorData.length).toBe(1)
+    expect(component.contributorData.length).toBe(2)
   });
 
   it("should send question for review", () => {

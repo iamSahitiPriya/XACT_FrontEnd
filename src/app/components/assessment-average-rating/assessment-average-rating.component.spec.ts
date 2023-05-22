@@ -49,11 +49,11 @@ describe('AssessmentAverageRatingComponent', () => {
       }
     })
     let newAverageRating = {topicId: 1, rating: 1};
-    component.averageRating = {topicId: 1, rating: 1};
+    component.averageRating =  1;
 
     fixture.detectChanges();
     component.finalAverageRating.subscribe(data => {
-      expect(data).toBe(newAverageRating)
+      expect(data).toBe(newAverageRating.rating)
     })
   })
 });

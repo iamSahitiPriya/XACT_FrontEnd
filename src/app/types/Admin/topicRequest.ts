@@ -8,4 +8,5 @@ export interface TopicRequest {
   active : boolean
   comments ?: string
   topicId ?: number
+  topicLevelReference ?: boolean
 }

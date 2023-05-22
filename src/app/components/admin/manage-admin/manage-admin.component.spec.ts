@@ -26,7 +26,18 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
 import {BrowserModule} from "@angular/platform-browser";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {MatDialog} from "@angular/material/dialog";
+class MockDialog {
+  open() {
+    return {
+      afterClosed: () => of(1),
+      componentInstance: jest.fn()
+    }
+  }
 
+  closeAll() {
+  }
+}
 class MockAppService {
   userInfo: UserInfo[] = [{
     email: "def@thoughtworks.com",
@@ -80,12 +91,14 @@ describe('ManageAdminComponent', () => {
   let component: ManageAdminComponent;
   let fixture: ComponentFixture<ManageAdminComponent>;
   let mockAppService: MockAppService
+  let matDialog : MatDialog
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageAdminComponent],
       imports: [HttpClientTestingModule, MatFormFieldModule, MatInputModule, StoreModule.forRoot(reducers), MatAutocompleteModule, BrowserAnimationsModule, NoopAnimationsModule, MatPaginatorModule
         , MatTableModule, MatSnackBarModule, MatTooltipModule, MatIconModule, MatChipsModule, BrowserModule],
-      providers: [{provide: AppServiceService, useClass: MockAppService}, UntypedFormBuilder],
+      providers: [{provide: AppServiceService, useClass: MockAppService}, {provide: MatDialog, useClass: MockDialog},
+        UntypedFormBuilder],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();

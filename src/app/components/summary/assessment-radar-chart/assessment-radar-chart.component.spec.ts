@@ -52,6 +52,5 @@ describe('AssessmentRadarChartComponent', () => {
   it("should get a formatted label", () => {
     let label = "Radar Chart Label"
     expect(component.getFormattedLabel(label)).toBe("Radar Chart Lab...");
-
   });
 });

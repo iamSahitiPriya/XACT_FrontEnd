@@ -69,6 +69,13 @@ describe('HeaderComponent', () => {
     button.click();
     expect(component.signOut).toBeCalled();
   })
+
+  it('should set isContributor to true', () => {
+    component.userRole = of(["AUTHOR"])
+    expect(component.isContributor).toBeFalsy()
+
+    component.ngOnInit()
+  });
 });
 
 

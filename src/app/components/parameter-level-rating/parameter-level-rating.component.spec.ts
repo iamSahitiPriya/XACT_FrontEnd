@@ -85,7 +85,8 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
       answerResponseList: [
         {
           questionId: 1,
-          answer: "answer1"
+          answer: "answer1",
+          rating : 3
         }],
       topicRatingAndRecommendation: [{
         topicId: 0, rating: 1, topicLevelRecommendation: [
@@ -315,7 +316,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     })
 
     component.parameterList = [{
-      answerRequest: [{questionId: 0, answer: ""}],
+      answerRequest: [{questionId: 0, answer: "",rating:3}],
       userQuestionRequestList: [],
       parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: []}
     }]
@@ -359,7 +360,7 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     })
 
     component.parameterList = [{
-      answerRequest: [{questionId: 0, answer: ""}],
+      answerRequest: [{questionId: 0, answer: "",rating:3}],
       userQuestionRequestList: [],
       parameterRatingAndRecommendation: {parameterId: 1, rating: 2, parameterLevelRecommendation: []}
     }]
@@ -377,5 +378,4 @@ describe('ParameterLevelRatingAndRecommendationComponent', () => {
     component.setRating(2)
     expect(component.showError).toHaveBeenCalled();
   });
-
 });

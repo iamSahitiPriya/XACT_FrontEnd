@@ -499,5 +499,13 @@ describe('AdminReferenceComponent', () => {
     expect(component.selectedReference.reference).toBe("reference")
   })
 
+  it("should return false when topic reference array is full",
+    () => {
+      // @ts-ignore
+      component.topicReferences = [{}, {},{},{},{}]
+
+      expect(component.isReferenceArrayFull()).toBeTruthy()
+    });
+
 });
 

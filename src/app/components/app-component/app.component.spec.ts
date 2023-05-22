@@ -19,12 +19,19 @@ import {EventEmitter} from "@angular/core";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../reducers/reducers";
+import {of} from "rxjs";
 
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let service: AppServiceService;
+
+  class MockAppService {
+    getUserRole() {
+      return of("admin")
+    }
+  }
 
   class MockIdle {
 
@@ -84,6 +91,7 @@ describe('AppComponent', () => {
         {provide: OKTA_AUTH, useValue: 23},
         {provide: OktaAuthStateService, useValue: 23},
         {provide: Idle, useClass: MockIdle},
+        {provide: AppServiceService, useClass: MockAppService},
       ]
     }).compileComponents();
   });

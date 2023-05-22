@@ -102,6 +102,7 @@
   padding-left: 3%;
   height:100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .author-tree-invisible {
@@ -149,4 +150,11 @@
 }
 .expand-icon{
    margin-left:14px;
+}
+
+@media screen and (max-width: 1515px) {
+  .author-icon {
+    padding-top: 1px;
+  }
+
 }

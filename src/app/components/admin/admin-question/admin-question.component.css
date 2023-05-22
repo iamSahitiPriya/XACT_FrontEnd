@@ -177,8 +177,9 @@
   margin: 0 0;
 }
 ::ng-deep .question-text .mat-form-field-appearance-outline .mat-form-field-flex  {
-  width: 40vw !important;
+  width: 36vw !important;
 }
+
 .question-card{
   box-shadow: none !important;
   border-radius: 0 6px 6px 6px;
@@ -221,7 +222,6 @@
   display: flex;
   width: 100%;
   flex-direction: row;
-  flex-wrap: wrap;
   flex: auto;
   padding-top: 1%;
 }
@@ -238,7 +238,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-end;
-  width: 48%;
+  width: 45%;
   height: 3.5vh;
 }
 
@@ -287,10 +287,8 @@
 .reviewer-actions {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 16%;
-  padding-bottom: 4%;
+  width: 12%;
+  padding-bottom: -19%;
 }
 
 .approve-action mat-icon {
@@ -307,10 +305,50 @@
   width: 30px;
 }
 
+.question-reference button{
+  border: none;
+  background-color: transparent;
+  padding-top:8px;
+  padding-right:21px;
+}
+
+.reviewer-reference button{
+  border: none;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 21px;
+}
+
 .disable-delete-button .mat-icon {
   color: #b2b2b2;
 }
 
+.question-reference-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-reference {
+  width: 5%;
+}
+
+.reviewer-request-changes {
+  padding-left: 0;
+  width: 6%;
+}
+
+.reviewer-reference button{
+  border: none;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 21px;
+}
+.no-question-text{
+  font-weight:bold;
+  text-align: center;
+  font-size: 20px;
+  padding-top: 10px;
+}
 @media screen and (max-width: 1515px) {
   .question-text {
     width: 45%;
@@ -318,8 +356,12 @@
 
   .question-action-buttons {
     padding-left: 0%;
-    width: 55%;
+    width: 50%;
   }
+
+  .question-reference {
+    width: 4%;
+    padding-left: 0%; }
 
   .published-questions {
     width: 90%;
@@ -327,5 +369,20 @@
 
   .edit-question, .send-question-for-review{
     height: 2.2rem;
+  }
+
+  .save-delete-button {
+    width: 15%;
+  }
+
+  .reviewer-request-changes {
+    padding-left: 0;
+    width: 6%;
+  }
+
+  .reviewer-reference {
+    border: none;
+    background-color: transparent;
+    padding-right: 21px;
   }
 }

@@ -10,7 +10,7 @@ import {AppServiceService} from "../../../services/app-service/app-service.servi
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import * as fromActions from "../../../actions/assessment-data.actions";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Question} from "../../../types/Admin/question";
 import {Question as ContributorQuestion} from "../../../types/Contributor/Question";
 import {QuestionRequest} from "../../../types/Admin/questionRequest";
@@ -20,6 +20,7 @@ import {ParameterData} from "../../../types/ParameterData";
 import {ContributorData} from "../../../types/Contributor/ContributorData";
 import {ReviewDialogComponent} from "../../contributor/review-dialog/review-dialog.component";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+
 
 const NOTIFICATION_DURATION = 2000;
 
@@ -108,6 +109,12 @@ export class AdminQuestionComponent implements OnInit {
   approve: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.APPROVE;
   reject: string = data_local.CONTRIBUTOR.STATUS.HOVER_TEXT.REJECT;
   inProgress: string = data_local.CONTRIBUTOR.STATUS.DISPLAY_TEXT.IN_PROGRESS;
+  private dialogRef: MatDialogRef<any>;
+  private referenceErrorMessage: string =data_local.CONTRIBUTOR.REFERENCE_ERROR_MESSAGE;
+  addReferenceText: string=data_local.CONTRIBUTOR.ADD_REFERENCE_MESSAGE_TIP;
+  referenceText:string=data_local.CONTRIBUTOR.REFERENCE_TIP;
+  noQuestionText:string=data_local.CONTRIBUTOR.NO_QUESTION_TEXT;
+
 
 
   constructor(private store: Store<AppStates>, private appService: AppServiceService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -157,7 +164,9 @@ export class AdminQuestionComponent implements OnInit {
       questionText: '',
       status: this.draft,
       parameter: this.parameter.parameterId,
-      isEdit: true
+      isEdit: true,
+      isReferenceOpened : false,
+      references : this.hasQuestionReference() ? [] : undefined,
     }
     this.mapQuestionToStatus(newQuestion)
   }
@@ -183,13 +192,15 @@ export class AdminQuestionComponent implements OnInit {
       questions?.forEach(question => {
         let eachQuestion: Question = question
         eachQuestion.isEdit = false
+        eachQuestion.isReferenceOpened = false
+        eachQuestion.references = this.hasQuestionReference() ? question.references : undefined
         this.questionArray?.unshift(eachQuestion)
       })
     }
   }
 
   saveQuestion(question: Question) {
-    if (question.questionText.trimStart().length > 0 && (this.role === this.author || this.role === 'contributor')) {
+    if (question.questionText.trimStart().length > 0 && (this.role === this.author || this.role === this.contributor.toLowerCase())) {
       let questionRequest: QuestionRequest = this.getQuestionRequest(question)
       this.appService.saveMasterQuestion(questionRequest).pipe(takeUntil(this.destroy$)).subscribe({
         next: (data) => {
@@ -238,7 +249,7 @@ export class AdminQuestionComponent implements OnInit {
     })
   }
 
-  private showSuccess(data: string, duration: number) {
+   showSuccess(data: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: data, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,
@@ -264,12 +275,13 @@ export class AdminQuestionComponent implements OnInit {
     }
   }
 
-  private getQuestionWithId(question: Question | QuestionStructure): QuestionResponse {
+  private getQuestionWithId(question: Question | QuestionStructure): QuestionStructure {
     return {
       questionText: question.questionText,
       parameter: this.parameter.parameterId,
       questionId: question.questionId,
-      status: question.status
+      status: question.status,
+      references: this.getQuestionReferences(question.questionId)
     }
   }
 
@@ -281,16 +293,16 @@ export class AdminQuestionComponent implements OnInit {
   }
 
   private sendToStore(data: QuestionStructure) {
-    let question: QuestionResponse = this.getQuestionWithId(data)
+    let question: Question = this.getQuestionWithId(data)
     let questions = this.getQuestionsFromParameter()
     if (questions === undefined) {
       let parameter: ParameterStructure | undefined = this.getParameter()
-      if (parameter) {
+      if (parameter !== undefined) {
         parameter.questions = []
         parameter.questions.push(question)
       }
     } else {
-      this.updateQuestionArray(questions, data, question);
+      this.updateQuestionArray(questions, data, question)
     }
     this.store.dispatch(fromActions.getUpdatedCategories({newMasterData: this.categoryResponse}))
   }
@@ -298,7 +310,7 @@ export class AdminQuestionComponent implements OnInit {
   private updateQuestionArray(questions: QuestionStructure[], data: QuestionStructure, question: QuestionResponse) {
     let index: number = questions.findIndex(eachQuestion => eachQuestion.questionId === data.questionId)
     if (index !== -1)
-      questions.splice(index, 1, data)
+      questions.splice(index, 1, question)
     else
       questions?.push(question)
   }
@@ -362,13 +374,16 @@ export class AdminQuestionComponent implements OnInit {
     this.action = action;
     let questionRequest = this.getContributorQuestion(question);
     let contributorData: ContributorData = this.getContributorData(questionRequest)
-    this.openReviewDialog(questionRequest, contributorData);
+    if(this.getQuestionReferences(question.questionId)?.length === 0 && this.action === this.sentForReview)
+      this.showError(this.referenceErrorMessage)
+    else
+      this.openReviewDialog(questionRequest, contributorData);
   }
 
   private getContributorQuestion(question: Question) {
     let questionRequest: ContributorQuestion[] = []
     let contributorQuestion: ContributorQuestion = {
-      comments: "", question: question.questionText, questionId: question.questionId, status: question.status
+      comments: "", question: question.questionText, questionId: question.questionId, status: question.status,references : this.getQuestionReferences(question.questionId)
     }
     questionRequest.push(contributorQuestion)
     return questionRequest;
@@ -407,7 +422,9 @@ export class AdminQuestionComponent implements OnInit {
           parameter: data.parameterId,
           questionId: response.questionId[0],
           questionText: data.questions[0].question,
-          status: response.status
+          status: response.status,
+          comments : response.comments,
+          references : this.getQuestionReferences(response.questionId)
         }
         this.sendToStore(question)
         let updatedQuestion: Question = question
@@ -477,5 +494,43 @@ export class AdminQuestionComponent implements OnInit {
       }
     })
   }
+
+  async openQuestionReference(reference : any,question: Question) {
+    if (this.hasQuestionReference()) {
+      question.isReferenceOpened = true
+      question.references=this.getReferences(question.questionId);
+      this.dialogRef = this.dialog.open(reference,{
+        width: '62vw',
+        height: '66vh',
+        maxWidth: '80vw',
+        maxHeight: '71vh'
+      })
+      this.dialogRef.disableClose = true;
+    }
+  }
+
+  private hasQuestionReference() {
+    return !this.parameter.topicLevelReference && !this.parameter.parameterLevelReference
+  }
+
+  private getQuestionReferences(questionId : number) {
+    if(this.hasQuestionReference()) {
+      return this.getReferences(questionId);
+    }
+    else
+      return undefined
+
+  }
+
+  private getReferences(questionId: number) {
+    let question = this.categoryResponse.find(eachCategory => eachCategory.categoryId === this.category)?.modules.find(eachModule => eachModule.moduleId === this.module)?.topics.find(eachTopic => eachTopic.topicId === this.topic)?.parameters.find(eachParameter => eachParameter.parameterId === this.parameter.parameterId)?.questions.find(eachQuestion => eachQuestion.questionId === questionId);
+    if (question?.references !== undefined && question?.references.length >0) {
+      return question?.references
+    }
+    else
+      return []
+  }
+
+
 }
 

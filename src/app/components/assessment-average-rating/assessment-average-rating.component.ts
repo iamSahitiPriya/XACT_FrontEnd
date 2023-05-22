@@ -3,7 +3,6 @@
  */
 
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {TopicRatingResponse} from "../../types/topicRatingResponse";
 import {Observable, Subject, takeUntil} from "rxjs";
 import {AppStates, ComputedScore} from "../../reducers/app.states";
 import {Store} from "@ngrx/store";
@@ -20,9 +19,9 @@ export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
   finalAverageRating: Observable<ComputedScore>
   private destroy$: Subject<void> = new Subject<void>();
 
-  @Input()
-  averageRating: TopicRatingResponse
+
   disableRating: number = 0
+  averageRating: number = 0;
 
   @Input()
   topicId: number
@@ -37,8 +36,8 @@ export class AssessmentAverageRatingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.finalAverageRating.pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (data !== undefined) {
-        if (this.averageRating.topicId === data.scoreDetails.topicId) {
-          this.averageRating.rating = data.scoreDetails.rating
+        if (this.topicId === data.scoreDetails.topicId && data.scoreDetails.rating !== undefined) {
+          this.averageRating = data.scoreDetails.rating
         }
       }
     })

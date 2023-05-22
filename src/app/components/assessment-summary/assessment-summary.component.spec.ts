@@ -288,4 +288,13 @@ describe('AssessmentSunburstChartComponent', () => {
     expect(component.downloadImage).toBeCalled();
   })
 
+  it("it should download image", async () => {
+    jest.spyOn(component,"showNotification")
+    let element = new MockElementRef();
+
+    component.downloadImage(element, "name")
+
+    expect(component.showNotification).toHaveBeenCalled()
+  });
+
 });

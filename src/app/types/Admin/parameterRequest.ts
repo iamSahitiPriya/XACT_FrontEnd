@@ -7,5 +7,6 @@ export interface ParameterRequest {
   parameterName : string
   topic : number
   active ?: boolean
+  parameterLevelReference ?: boolean,
   comments ?: string
 }

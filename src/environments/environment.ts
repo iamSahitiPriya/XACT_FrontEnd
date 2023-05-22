@@ -19,6 +19,7 @@ export const environment = {
   SAVE_PARAMETER_RECOMMENDATION_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/recommendations",
   SAVE_TOPIC_RATING_URI: "/v1/assessments/${assessmentId}/topics/${topicId}/ratings",
   SAVE_PARAMETER_RATING_URI: "/v1/assessments/${assessmentId}/parameters/${parameterId}/ratings",
+  SAVE_QUESTION_RATING_URI : "/v1/assessments/${assessmentId}/questions/${questionId}/ratings",
   VERSION: appPackage && appPackage.version,
   ROLE_URI: "/v1/users/roles",
   LOGIN_URI: "/v1/users/login",
@@ -66,9 +67,10 @@ export const environment = {
   SAVE_CONTRIBUTOR_URI: "/v1/admin/modules/${moduleId}/contributors",
   GET_ALL_USER_INFO_URI: "/v1/users",
   GET_ACCESS_CONTROL_URI: "/v1/admin",
-  ADD_USER_URI: "/v1/admin/user"
-
-
+  ADD_USER_URI: "/v1/admin/user",
+  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question-references",
+  UPDATE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
+  DELETE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
 }
 
 

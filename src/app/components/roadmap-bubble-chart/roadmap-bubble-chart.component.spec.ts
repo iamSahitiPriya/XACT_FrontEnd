@@ -96,6 +96,16 @@ describe('RoadmapBubbleChartComponent', () => {
   it("should return empty label for chart ticks", () => {
 
     expect(component.tickFormat()).toBe("")
+    component.downloadImage()
+  });
+
+  it("it should append white color to recommendation bubble", () => {
+    jest.spyOn(component,"labelRoadmapChart")
+    component.ngOnInit()
+
+    component.ngAfterContentChecked()
+
+    expect(component.labelRoadmapChart).toHaveBeenCalled()
   });
 
 });

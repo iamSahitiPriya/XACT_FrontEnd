@@ -19,6 +19,7 @@ import {ParameterData} from 'src/app/types/ParameterData';
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {ParameterRequest} from "../../../types/Admin/parameterRequest";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 class MockAppService {
   parameterRequest : ParameterData = {
@@ -164,7 +165,7 @@ describe('AdminParameterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminParameterComponent, SearchComponent],
-      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule],
+      imports: [HttpClientModule, MatPaginatorModule, BrowserAnimationsModule, MatTableModule, MatSlideToggleModule, FormsModule, NoopAnimationsModule, MatSnackBarModule, MatInputModule, MatIconModule, StoreModule.forRoot(reducers), MatDialogModule,MatTooltipModule],
       providers: [{provide: AppServiceService, useClass: MockAppService}, MatPaginator,{provide: MatDialog, useClass: MockDialog}],
     })
       .compileComponents();
@@ -767,14 +768,6 @@ describe('AdminParameterComponent', () => {
     expect(component.findTopicId(row)).toBe(1)
   });
 
-  it("should open question dialog box", () => {
-    jest.spyOn(matDialog, "open")
-
-    component.openQuestions("",row)
-    fixture.detectChanges()
-    expect(matDialog.open).toHaveBeenCalled()
-  });
-
   it("should change the value to lower case while sorting the parameter table for string valued columns", () => {
     component.sortParameter()
 
@@ -800,6 +793,30 @@ describe('AdminParameterComponent', () => {
 
     expect(component.showError).toHaveBeenCalled()
   });
+
+  it("should close questions", () => {
+    component.closeQuestions(row)
+
+    expect(row.openQuestions).toBeFalsy()
+  });
+
+  it("should open question panel when openQuestions is true", () => {
+    component.openQuestionPanel(row)
+
+    expect(row.openQuestions).toBeTruthy()
+  });
+
+  it("it should save new parameter without confirmation popup", () => {
+    component.topicList[0].topicLevelReference = true
+    row.parameterName = "new parameter"
+    component.ngOnInit()
+
+
+    component.saveParameterRow(row)
+
+    expect(row.isEdit).toBeFalsy()
+  });
+
 });
 
 

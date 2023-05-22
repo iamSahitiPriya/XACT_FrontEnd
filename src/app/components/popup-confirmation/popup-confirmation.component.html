@@ -7,8 +7,10 @@
     <mat-icon>close</mat-icon>
   </button>
   <p class="cancelText">{{text}}</p>
+  <p class="warning-text">{{warningLabel}}</p>
   <mat-dialog-actions align="center">
     <button mat-flat-button (click)="closeDialog(save)" class="okButton">{{buttonText}}</button>
+    <button mat-flat-button (click)="closeDialog(no)" class="okButton">{{noButtonText}}</button>
   </mat-dialog-actions>
 </div>
 

@@ -1,25 +1,25 @@
-
 <!--
   ~ Copyright (c) 2022 - Thoughtworks Inc. All rights reserved.
   -->
-
 <div class="header">
-
-  <div class="heading">{{header}}{{topic && topic.topicName}}</div>
-  <div class="close"> <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
-    <mat-icon class="close-icon">close</mat-icon>
-  </button></div>
+  <div class="heading">{{header.split('-')[0]}}</div>
+  <div class="close">
+    <button [matTooltip]=closeToolTip type="button" id="close" (click)="close()">
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
+  </div>
 </div>
 <div class="content">
-  <div class="score-card"><span>
-    {{scoreCard}}</span>
+  <div class="score-card">
+    <span>{{scoreCard}}</span>
   </div>
-  <div class="reference-button" *ngIf="role === contributor.toLowerCase()">
+<div class="question-reference-container">
+  <div class="question-reference-button" *ngIf="(role === author || role===contributor.toLowerCase()) && (question.status === draft || question.status === sentForReview)">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
-  <div *ngIf="topicReferences !== undefined" class="references">
-    <div class="reference" *ngFor="let reference of topicReferences;let i = index">
 
+  <div *ngIf="questionReferences!== undefined" class="references">
+    <div class="reference" *ngFor="let reference of questionReferences;let i = index">
       <div class="rating-dropdown">
         <mat-form-field appearance="outline" class="selectDropdown">
           <mat-select [(ngModel)]="reference.rating" required
@@ -53,34 +53,39 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="reference.isEdit===true && reference.referenceId === -1 && selectedReference === reference" class="save">
-        <div  class="save-reference-button">
-          <button mat-flat-button class="save-button" type="submit" (click)="saveTopicReference(reference)" [disabled]="isInputValid(reference)">{{save}}</button>
+      <div *ngIf="reference.isEdit===true && reference.referenceId === -1 && selectedReference === reference"
+           class="save">
+        <div class="save-reference-button">
+          <button mat-flat-button class="save-button" type="submit" (click)="saveQuestionReference(reference)"
+                  [disabled]="isInputValid(reference)">{{save}}</button>
         </div>
         <div class="delete-button">
-          <button (click)="deleteUnSavedReferences()"><mat-icon id="deleteReference">delete</mat-icon></button>
+          <button (click)="deleteUnSavedReferences()">
+            <mat-icon id="deleteReference">delete</mat-icon>
+          </button>
         </div>
-        </div>
-         <div *ngIf="reference.isEdit === true && reference.referenceId !== -1 && selectedReference === reference" class = update>
+      </div>
+
+      <div *ngIf="reference.isEdit === true && reference.referenceId !== -1 && selectedReference === reference" class = update>
         <div class="update-reference-button">
-          <button mat-flat-button class="update-button" type="submit" (click)="updateTopicReference(reference)" [disabled]="isInputValid(reference)">{{update}}</button>
+          <button mat-flat-button class="update-button" type="submit" (click)="updateQuestionReference(reference)" [disabled]="isInputValid(reference)">{{update}}</button>
         </div>
+
         <div  class="cancel-button">
           <button (click)="cancelChanges(reference)"><mat-icon>cancel</mat-icon></button>
         </div>
       </div>
 
-      <div class="edit" *ngIf="role === contributor.toLowerCase()">
-        <div *ngIf="reference.isEdit===false" class="edit-button">
+      <div class="edit" *ngIf="role === 'contributor' || role===author || role===reviewer" >
+        <div *ngIf="reference.isEdit===false" class="edit-button" >
           <button (click)="setIsEdit(reference)">{{edit}}</button>
         </div>
-        <div class="delete-icon" *ngIf="reference.isEdit===false">
+        <div class="delete-icon" *ngIf="reference.isEdit===false && question.status ===draft">
           <button (click)="deleteMaturityReference(reference)"><mat-icon id="deleteTopic">delete</mat-icon></button>
         </div>
       </div>
+
     </div>
   </div>
 </div>
-
-
 

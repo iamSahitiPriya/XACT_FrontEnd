@@ -19,6 +19,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {cloneDeep} from "lodash";
 import {NotificationSnackbarComponent} from "../../notification-component/notification-component.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 interface UserRole {
   role: string,
@@ -55,6 +57,7 @@ export class ManageAdminComponent implements OnInit {
   secondaryAdminDisplayValue = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_VALUE;
   secondaryAdminDisplayText = data_local.ADMIN.ROLE.SECONDARY.DISPLAY_TEXT;
   primaryAdminDisplayColor = '#3f51b5';
+  private confirmationTitle: string = data_local.CONTRIBUTOR.CONFIRMATION_POPUP_TEXT;
   userEmailValidatorCriteriaText: string = data_local.ADMIN.MANAGE_ADMIN.CRITERIA_TEXT;
   roleHeader: string = "Role";
   addUserDisplayText: string = "Add";
@@ -78,7 +81,7 @@ export class ManageAdminComponent implements OnInit {
   userEmail: string;
   role: UserRole[] = [{
     role: this.secondaryAdminRole, value: this.secondaryAdminDisplayValue
-  },{
+  }, {
     role: this.primaryAdminRole, value: this.primaryAdminDisplayValue
   }
 
@@ -86,9 +89,10 @@ export class ManageAdminComponent implements OnInit {
   isAdminPrimary: boolean = false;
   private accessControlRoleDataSource: AccessControlRole[];
   loggedInUserEmail: string;
+  private dataSuccessMessage: string = data_local.ADMIN.UPDATE_SUCCESSFUL_MESSAGE;
 
 
-  constructor(private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, private appService: AppServiceService, private formBuilder: UntypedFormBuilder, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<AccessControlRole>();
     this.loggedInUser = this.store.select(storeMap => storeMap.loggedInUserEmail)
     this.roleSchema.set(this.primaryAdminDisplayValue, {
@@ -112,7 +116,7 @@ export class ManageAdminComponent implements OnInit {
     this.addUserFormGroup = this.formBuilder.group(
       {
         userEmailRoleValidator: ['', Validators.required],
-        roleValidator:['SECONDARY_ADMIN', Validators.required]
+        roleValidator: ['SECONDARY_ADMIN', Validators.required]
       }
     )
     this.appService.getLoggedInUserInfo().subscribe(data => {
@@ -134,8 +138,10 @@ export class ManageAdminComponent implements OnInit {
   }
 
   saveRole(email: string, role: string) {
+    let user = this.users.find(eachUser => eachUser.email === email);
+    if (user !== undefined) {
       let roleRequest: AccessControlRole = {
-        username: email,
+        username: user?.given_name + ' ' + user?.family_name || '',
         email: email,
         accessControlRoles: role
       }
@@ -150,6 +156,7 @@ export class ManageAdminComponent implements OnInit {
             this.accessControlRole.unshift(roleRequest)
             this.filterLoggedInUser()
             this.userEmail = ""
+            this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
           },
           error: (_err) => {
             this.showError(this.serverErrorMessage);
@@ -160,25 +167,46 @@ export class ManageAdminComponent implements OnInit {
         this.addUserFormGroup.controls['userEmailRoleValidator'].setErrors({roleAlreadyPresent: true})
 
       }
+    }
   }
 
   deleteUser(user: AccessControlRole) {
-    let request: AccessControlRoleRequest = {
-      email: user.email,
-      accessControlRoles: user.accessControlRoles
-    }
-    this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe({
-      next: _data => {
-        let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
-        if (index !== -1) {
-          this.accessControlRole.splice(index, 1)
+    const openConfirm = this.dialog.open(PopupConfirmationComponent, {
+      width: '448px',
+      height: '203px'
+    });
+    openConfirm.componentInstance.text = this.confirmationTitle
+    openConfirm.afterClosed().subscribe(result => {
+      if (result === 1) {
+        let request: AccessControlRoleRequest = {
+          email: user.email,
+          accessControlRoles: user.accessControlRoles
         }
-        this.filterLoggedInUser()
-      },
-      error: () => {
-        this.showError(this.serverErrorMessage);
+        this.appService.deleteRole(request).pipe(takeUntil(this.destroy$)).subscribe({
+          next: _data => {
+            let index = this.accessControlRole.findIndex(eachUser => eachUser.email === request.email)
+            if (index !== -1) {
+              this.accessControlRole.splice(index, 1)
+            }
+            this.filterLoggedInUser()
+            this.showNotification(this.dataSuccessMessage, NOTIFICATION_DURATION)
+          },
+          error: () => {
+            this.showError(this.serverErrorMessage);
+          }
+        })
       }
     })
+
+  }
+
+  private showNotification(message: string, duration: number) {
+    this._snackBar.openFromComponent(NotificationSnackbarComponent, {
+      data: {message: message, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
+      duration: duration,
+      verticalPosition: "top",
+      horizontalPosition: "center"
+    });
   }
 
 

@@ -13,6 +13,7 @@ export interface ParameterStructure {
   active:boolean,
   updatedAt:number,
   comments?:string,
+  parameterLevelReference ?: boolean,
   questions: QuestionStructure[],
   userQuestions ?: UserQuestion[],
   references: ParameterReference[]

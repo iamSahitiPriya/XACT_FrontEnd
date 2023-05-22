@@ -396,7 +396,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   wrap(content: any, width: number, lineHeight: number, adjustPadding: number) {
 
     content.each(function (this: any) {
-      let text = d3.select(<any>this),
+      let text = d3.select(this),
         wordList = text.text().split(/\s+/),
         word,
         line: string[] = [],
@@ -574,7 +574,7 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
     return this.stackedBarChartHeightMultiplier * moduleLength + this.moduleChartHeightOffset
   }
 
-  private showNotification(reportData: string, duration: number) {
+  showNotification(reportData: string, duration: number) {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       data: {message: reportData, iconType: "done", notificationType: "Success:"}, panelClass: ['success'],
       duration: duration,

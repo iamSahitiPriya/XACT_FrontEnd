@@ -150,7 +150,8 @@ export const data_local =
       RECOMMENDATION_LABEL: "Recommendations"
     },
     POPUP_BUTTON: {
-      BUTTON_TEXT: "Yes"
+      BUTTON_TEXT: "Yes",
+      NO_BUTTON_TEXT: "No"
     },
     ASSESSMENT_TOPIC: {
       MATURITY_SCORE_TITLE: "Assign Maturity score - ",
@@ -243,11 +244,14 @@ export const data_local =
       TOPIC: {
         ADD_TOPIC: "Add Topic",
         ENTER_TOPIC: "Enter topic name",
+        REFERENCE_CONFIRMATION_TEXT: "Are you planning to add Topic Level Reference?"
+
       },
       PARAMETER: {
         TOPIC_SELECTION_LABEL: "Select Topic",
         PARAMETER_INPUT_TEXT: "Enter Parameter Name",
-        TOPIC_NOT_FOUND: "Topic Not Found",
+        TOPIC_NOT_FOUND: "Topic Not Found", CONFIRMATION_TEXT: "Are you planning to add Parameter Level Reference?"
+
       },
       REFERENCES: {
         HEADER: "References - ",
@@ -260,7 +264,7 @@ export const data_local =
         DUPLICATE_REFERENCE_ERROR_MESSAGE: "No duplicate references are allowed",
         ADMIN_PARAMETER_REFERENCE_MESSAGE: "References can't be shown because parameter Level References already exists! ",
         ADMIN_TOPIC_REFERENCE_MESSAGE:"References can't be shown because topic Level References already exists! ",
-
+        WARNING_LABEL: "(option can't be changed later)",
       },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",
@@ -279,7 +283,7 @@ export const data_local =
         ADD_QUESTION: " Add Question",
         QUESTIONS: "Questions",
         QUESTION: "Question",
-        REQUIRED_FIELD: "This field is required"
+        REQUIRED_FIELD: "This field is required",
 
       }, MANAGE_ADMIN: {
         INVALID_AUTOCOMPLETE_VALIDATION: 'invalidAutocompleteString', REQUIRED_FIELD_VALIDATION: 'required',
@@ -419,8 +423,11 @@ export const data_local =
       commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
       manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation',
       topicText: "Topic",
-      parameterText: "Parameter"
-
+      parameterText: "Parameter",
+      REFERENCE_ERROR_MESSAGE: "Please provide at least one reference to send for review",
+      ADD_REFERENCE_MESSAGE_TIP: "Click to add references",
+      REFERENCE_TIP: "Click to see references",
+      NO_QUESTION_TEXT: "No Questions added by Author",
     },
     IDLE_STATE: {
       STATE: {
