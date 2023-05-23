@@ -68,7 +68,7 @@ export const environment = {
   GET_ALL_USER_INFO_URI: "/v1/users",
   GET_ACCESS_CONTROL_URI: "/v1/admin",
   ADD_USER_URI: "/v1/admin/user",
-  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
+  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question-references",
   UPDATE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
   DELETE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
 };
