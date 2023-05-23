@@ -51,6 +51,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   dataNotSaved = data_local.ADMIN.REFERENCES.DATA_NOT_SAVED
   duplicateRatingMessage = data_local.ADMIN.REFERENCES.DUPLICATE_RATING_ERROR_MESSAGE
   duplicateReferenceMessage = data_local.ADMIN.REFERENCES.DUPLICATE_REFERENCE_ERROR_MESSAGE
+  noReferenceText: string = data_local.ADMIN.REFERENCES.NO_REFERENCE;
 
   constructor(private appService: AppServiceService, public dialog: MatDialog, private store: Store<AppStates>, private _snackBar: MatSnackBar) {
     this.masterData = this.store.select((masterStore) => masterStore.masterData.masterData)

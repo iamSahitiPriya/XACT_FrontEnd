@@ -265,6 +265,8 @@ export const data_local =
         ADMIN_PARAMETER_REFERENCE_MESSAGE: "References can't be shown because parameter Level References already exists! ",
         ADMIN_TOPIC_REFERENCE_MESSAGE:"References can't be shown because topic Level References already exists! ",
         WARNING_LABEL: "(option can't be changed later)",
+        NO_REFERENCE: "No References added by Author",
+
       },
       DASHBOARD: {
         TOTAL_ASSESSMENT: "Total Assessments",

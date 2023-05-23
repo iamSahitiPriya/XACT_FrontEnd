@@ -17,6 +17,9 @@
   <div class="reference-button" *ngIf="role === contributor.toLowerCase()">
     <button (click)="addMaturityReference()" [disabled]="isReferenceArrayFull()">{{addReference}}</button>
   </div>
+  <div class="no-reference" *ngIf="role === 'admin' && (topicReferences === undefined || topicReferences.length === 0)">
+    {{noReferenceText}}
+  </div>
   <div *ngIf="topicReferences !== undefined" class="references">
     <div class="reference" *ngFor="let reference of topicReferences;let i = index">
 
