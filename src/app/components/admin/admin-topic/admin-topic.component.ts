@@ -97,6 +97,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
   authorText = data_local.CONTRIBUTOR.ROLE.AUTHOR;
   adminText = data_local.ADMIN.ROLE;
   contributorText = data_local.CONTRIBUTOR.CONTRIBUTOR;
+  hasReferences : boolean =false;
   private confirmationText: string = data_local.ADMIN.TOPIC.REFERENCE_CONFIRMATION_TEXT;
   private isTopicLevelReference: number = 1;
   private isNotTopicLevelReference: number = 2;
@@ -501,5 +502,13 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         this.saveNewTopic(topicRequest, row);
       }
     })
+  }
+
+  hasTopicLevelReference(row: TopicData){
+    if(row.topicLevelReference){
+    let references = this.categories?.find(eachCategory=>eachCategory.categoryId === row.categoryId)?.modules?.find(eachModule=>eachModule.moduleId === row.moduleId)?.topics?.find(eachTopic=>eachTopic.topicId === row.topicId)?.references
+    return references?.length === 0 || references === undefined;
+    }
+    return false;
   }
 }

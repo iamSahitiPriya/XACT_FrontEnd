@@ -163,7 +163,7 @@
         <div class="parameter-reference" *ngIf="row.parameterLevelReference">
           <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                   (click)="openParameterReference(reference,row)">
-            <mat-icon [matTooltip]="'Parameter References'">playlist_add</mat-icon>
+            <mat-icon [matTooltip]="'Parameter References'" [ngClass]="{'icon-color' : hasParameterLevelReference(row)}">playlist_add</mat-icon>
           </button>
         </div>
         <ng-template #reference>

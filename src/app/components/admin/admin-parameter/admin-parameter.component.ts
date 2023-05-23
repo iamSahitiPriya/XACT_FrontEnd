@@ -25,6 +25,7 @@ import {ParameterResponse} from "../../../types/Admin/parameterResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {Router} from "@angular/router";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
+import {TopicData} from "../../../types/topicData";
 
 
 const NOTIFICATION_DURATION = 5000;
@@ -549,6 +550,13 @@ export class AdminParameterComponent implements OnInit {
 
   openQuestionPanel(row : ParameterData) {
     row.openQuestions=true;
+  }
+  hasParameterLevelReference(row: ParameterData){
+    if(row.parameterLevelReference) {
+      let references = this.categoryData?.find(eachCategory => eachCategory.categoryId === row.categoryId)?.modules?.find(eachModule => eachModule.moduleId === row.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === row.topicId)?.parameters.find(eachParameter => eachParameter.parameterId === row.parameterId)?.references;
+      return references?.length === 0 || references === undefined;
+    }
+    return false;
   }
 }
 

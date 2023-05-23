@@ -127,6 +127,9 @@ td.topic:last-of-type {
   color: #658892;
   margin-right: 3px;
 }
+.icon-color{
+  color:red;
+}
 
 .deleteTopic {
   min-width: 0px;
