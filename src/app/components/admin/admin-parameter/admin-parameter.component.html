@@ -14,7 +14,7 @@
          class="parameterTable">
     <ng-container matColumnDef="categoryName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="categoryName">{{categoryLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row">
+      <td class="parameter" mat-cell [ngClass]="{'parameter-table': path === 'admin'}" *matCellDef="let row">
       <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId)"
             [ngStyle]="{'color': row.categoryStatus ? '52575d' : '#868485FF' }">
           <span class="circle"></span>
@@ -36,7 +36,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="expandedCommentsData" [ngClass]="{'parameter-table': path === 'admin'}">
         <div
           [@detailExpand]="(row.isEdit === true || selectedParameter?.parameterId === row.parameterId) ? 'expanded' : 'collapsed'"
           class="parameterComments">
@@ -57,7 +57,7 @@
     </ng-container>
     <ng-container matColumnDef="moduleName">
       <th class="parameter" *matHeaderCellDef mat-sort-header="moduleName">{{moduleLabel}}</th>
-      <td class="parameter" *matCellDef="let row">
+      <td class="parameter" [ngClass]="{'parameter-table': path === 'admin'}" *matCellDef="let row">
               <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId )">
                <span [ngStyle]="{'color': row.moduleStatus ? '52575d' : '#868485FF' }">{{row.moduleName}}</span>
         </span>
@@ -80,7 +80,8 @@
     </ng-container>
     <ng-container matColumnDef="topicName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="topicName"> {{topicLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span
+      <td class="parameter" mat-cell *matCellDef="let row" [ngClass]="{'parameter-table': path === 'admin'}">
+        <span
         *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
        <span [ngStyle]="{'color': row.topicStatus ? '52575d' : '#868485FF' }">{{row.topicName}}</span>
         </span>
@@ -104,7 +105,8 @@
     </ng-container>
     <ng-container matColumnDef="parameterName">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="parameterName">{{parameterLabel}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row"> <span
+      <td class="parameter" mat-cell *matCellDef="let row" [ngClass]="{'parameter-table': path === 'admin'}">
+        <span
         *ngIf="!(row.isEdit || selectedParameter?.parameterId  === row.parameterId )">
         {{row.parameterName}}
         </span>
@@ -122,19 +124,19 @@
     </ng-container>
     <ng-container matColumnDef="updatedAt">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt">{{date}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right':isEditable ? '0%' : '1%' }">
+      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-right':isEditable ? '0%' : '1%' }" [ngClass]="{'parameter-table': path === 'admin'}">
         {{row.updatedAt | date:'dd-MMM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="active">
       <th class="parameter" mat-header-cell *matHeaderCellDef mat-sort-header="active"> {{active}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-left':isEditable ? '1%' : '0%' }">
+      <td class="parameter" mat-cell *matCellDef="let row" [ngStyle]="{'padding-left':isEditable ? '1%' : '0%' }" [ngClass]="{'parameter-table': path === 'admin'}">
         <mat-slide-toggle [(ngModel)]="row.active"
                           [disabled]="!(selectedParameter?.parameterId === row.parameterId || row.isEdit)"></mat-slide-toggle>
       </td>
     </ng-container>
     <ng-container matColumnDef="edit">
       <th class="parameter" mat-header-cell *matHeaderCellDef>{{action}}</th>
-      <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
+      <td class="parameter" mat-cell *matCellDef="let row; let index = index;" [ngClass]="{'parameter-table': path === 'admin'}">
         <span *ngIf="!(row.isEdit || selectedParameter?.parameterId === row.parameterId)">
         <button mat-flat-button class="editButton" aria-label="expand row" (click)="editParameterRow(row)">Edit</button>
         </span>
@@ -152,7 +154,7 @@
     </ng-container>
     <ng-container matColumnDef="reference">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
-      <td class="parameter" mat-cell *matCellDef="let row">
+      <td class="parameter" mat-cell *matCellDef="let row" [ngClass]="{'parameter-table': path === 'admin'}">
         <button class="closeParameterButton" (click)="cancelChanges(row)"
                 *ngIf="selectedParameter?.parameterId === row.parameterId && row.parameterId !== -1">
           <mat-icon>cancel</mat-icon>
@@ -182,7 +184,7 @@
     </ng-container>
     <ng-container matColumnDef="addQuestion">
       <th class="parameter" mat-header-cell *matHeaderCellDef></th>
-      <td class="parameter" mat-cell *matCellDef="let row; let index = index;">
+      <td class="parameter" mat-cell *matCellDef="let row; let index = index;" [ngClass]="{'parameter-table': path === 'admin'}">
         <div class="parameter-reference">
                     <button *ngIf="!(selectedParameter?.parameterId === row.parameterId)"
                             (click)="openQuestionPanel(row)">
