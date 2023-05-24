@@ -166,7 +166,7 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
               categoryName: eachCategory.categoryName,
               active: eachCategory.active
             };
-            if (contributor?.role === this.authorText && !this.categoryList.some(eachCategory => eachCategory.categoryId === category.categoryId)) {
+            if (contributor?.role === this.authorText && !this.categoryList.some(everyCategory => everyCategory.categoryId === category.categoryId)) {
               this.categoryList.push(category)
               this.setModules(eachModule, module, eachCategory);
             }

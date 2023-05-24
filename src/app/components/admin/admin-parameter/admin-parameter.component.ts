@@ -158,7 +158,7 @@ export class AdminParameterComponent implements OnInit {
               categoryName: eachCategory.categoryName,
               active: eachCategory.active
             };
-            if (contributor?.role === 'AUTHOR' && !this.categoryList.some(eachCategory=>eachCategory.categoryId === category.categoryId)) {
+            if (contributor?.role === 'AUTHOR' && !this.categoryList.some(everyCategory=>everyCategory.categoryId === category.categoryId)) {
               this.categoryList.push(category)
               this.setModules(eachModule, modules, eachCategory);
             }

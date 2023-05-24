@@ -316,13 +316,6 @@
   padding-right:21px;
 }
 
-.reviewer-reference button{
-  border: none;
-  background-color: transparent;
-  padding-left: 0;
-  padding-right: 21px;
-}
-
 .disable-delete-button .mat-icon {
   color: #b2b2b2;
 }
