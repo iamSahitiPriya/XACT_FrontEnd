@@ -39,12 +39,12 @@ export const environment = {
   CREATE_UPDATE_DELETE_USER_QUESTION_URI:"/v1/assessments",
   SAVE_TOPIC_URI :"/v1/contributor/topics",
   UPDATE_TOPIC_URI : "/v1/contributor/topics",
-  SAVE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
-  DELETE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
-  UPDATE_TOPIC_REFERENCE_URI : "/v1/contributor/topic-references",
-  SAVE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
-  DELETE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
-  UPDATE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter-references",
+  SAVE_TOPIC_REFERENCE_URI : "/v1/contributor/topic/references",
+  DELETE_TOPIC_REFERENCE_URI : "/v1/contributor/topic/references",
+  UPDATE_TOPIC_REFERENCE_URI : "/v1/contributor/topic/references",
+  SAVE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter/references",
+  DELETE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter/references",
+  UPDATE_PARAMETER_REFERENCE_URI: "/v1/contributor/parameter/references",
 
   okta: {
     cookies: {
@@ -68,7 +68,7 @@ export const environment = {
   GET_ALL_USER_INFO_URI: "/v1/users",
   GET_ACCESS_CONTROL_URI: "/v1/admin",
   ADD_USER_URI: "/v1/admin/user",
-  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question-references",
+  SAVE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
   UPDATE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
   DELETE_QUESTION_REFERENCE_URI: "/v1/contributor/question/references",
 };
