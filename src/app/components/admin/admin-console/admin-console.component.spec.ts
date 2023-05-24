@@ -19,6 +19,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {StoreModule} from "@ngrx/store";
 import {reducers} from "../../../reducers/reducers";
+import {of} from "rxjs";
 
 
 describe('AdminConsoleComponent', () => {
@@ -46,5 +47,12 @@ describe('AdminConsoleComponent', () => {
     const dummy = "parameter"
     component.setEvent(dummy);
     expect(component.type).toBe(dummy);
+  });
+  it('should validate the user with role', () => {
+    component.loggedInUserRole=of({
+      roles:['PRIMARY_ADMIN']
+    })
+    component.validateUser()
+    expect(component.isAdminPrimary).toBe(true)
   });
 });

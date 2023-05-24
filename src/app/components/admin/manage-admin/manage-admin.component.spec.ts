@@ -125,12 +125,13 @@ describe('ManageAdminComponent', () => {
     component.ngOnInit();
     let email = "twq@thoughtworks.com"
     let role = "PRIMARY_ADMIN"
+    component.users = [{email:"twq@thoughtworks.com",locale:"en",given_name:"name",family_name:"name"}]
 
     component.addUserFormGroup.clearValidators()
     component.userControl.clearValidators()
     component.saveRole(email, role);
 
-    expect(component.accessControlRole.length).toBe(2);
+    expect(component.accessControlRole.length).toBe(3);
   });
 
   it("should remove user from their respective role", () => {

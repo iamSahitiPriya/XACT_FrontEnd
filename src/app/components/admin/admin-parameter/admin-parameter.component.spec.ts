@@ -817,6 +817,16 @@ describe('AdminParameterComponent', () => {
     expect(row.isEdit).toBeFalsy()
   });
 
+  it("should return true when parameter doesn't have at least one reference", () => {
+    row.parameterLevelReference =true;
+    component.ngOnInit();
+    expect(component.hasParameterLevelReference(row)).toBe(true)
+  });
+  it("should return false when parameter doesn't have  reference", () => {
+    row.parameterLevelReference =false;
+    component.ngOnInit();
+    expect(component.hasParameterLevelReference(row)).toBe(false)
+  });
 });
 
 

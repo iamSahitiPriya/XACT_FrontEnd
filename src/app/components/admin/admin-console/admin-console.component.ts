@@ -28,7 +28,7 @@ export class AdminConsoleComponent implements OnDestroy {
   parameter: string = data_local.ADMIN.CONSOLE.PARAMETER;
   manageUsers: string = data_local.ADMIN.CONSOLE.MANAGE_USERS;
   loggedInUser: Observable<User>
-  private loggedInUserRole: Observable<Roles>;
+  loggedInUserRole: Observable<Roles>;
   isAdminPrimary: boolean = false;
 
 
@@ -51,7 +51,7 @@ export class AdminConsoleComponent implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  private validateUser() {
+   validateUser() {
     this.loggedInUserRole.subscribe(user => {
       if (user.roles.includes('PRIMARY_ADMIN')) {
         this.isAdminPrimary = true;
