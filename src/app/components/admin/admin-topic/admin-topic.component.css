@@ -127,6 +127,9 @@ td.topic:last-of-type {
   color: #658892;
   margin-right: 3px;
 }
+.icon-color{
+  color:red;
+}
 
 .deleteTopic {
   min-width: 0px;
@@ -231,6 +234,20 @@ td.topic:nth-child(2){
 td.topic:nth-child(4){
   width:20%;
 }
+
+td.topic-table:nth-child(4){
+  width: 25%;
+}
+td.topic-table:nth-child(2){
+  width:22%;
+}
+td.topic-table:nth-child(3){
+  width:20%;
+}
+td.topic-table:nth-child(5){
+  width:9%;
+}
+
 
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   color: #45A0AC !important;

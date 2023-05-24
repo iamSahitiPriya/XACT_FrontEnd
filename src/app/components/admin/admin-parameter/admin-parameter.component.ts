@@ -550,5 +550,12 @@ export class AdminParameterComponent implements OnInit {
   openQuestionPanel(row : ParameterData) {
     row.openQuestions=true;
   }
+  hasParameterLevelReference(row: ParameterData){
+    if(row.parameterLevelReference) {
+      let references = this.categoryData?.find(eachCategory => eachCategory.categoryId === row.categoryId)?.modules?.find(eachModule => eachModule.moduleId === row.moduleId)?.topics?.find(eachTopic => eachTopic.topicId === row.topicId)?.parameters.find(eachParameter => eachParameter.parameterId === row.parameterId)?.references;
+      return references?.length === 0 || references === undefined;
+    }
+    return false;
+  }
 }
 

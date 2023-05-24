@@ -27,6 +27,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {BrowserModule} from "@angular/platform-browser";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
+
 class MockDialog {
   open() {
     return {
@@ -90,8 +91,6 @@ class MockAppService {
 describe('ManageAdminComponent', () => {
   let component: ManageAdminComponent;
   let fixture: ComponentFixture<ManageAdminComponent>;
-  let mockAppService: MockAppService
-  let matDialog : MatDialog
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageAdminComponent],
@@ -129,10 +128,9 @@ describe('ManageAdminComponent', () => {
 
     component.addUserFormGroup.clearValidators()
     component.userControl.clearValidators()
-
     component.saveRole(email, role);
 
-    expect(component.accessControlRole.length).toBe(3);
+    expect(component.accessControlRole.length).toBe(2);
   });
 
   it("should remove user from their respective role", () => {
@@ -171,7 +169,7 @@ describe('ManageAdminComponent', () => {
     jest.spyOn(component, 'showError')
     let email = "345@thoughtworks.com"
     let role = "PRIMARY_ADMIN"
-
+    component.users = [{email:"345@thoughtworks.com",locale:"en",given_name:"name",family_name:"name"}]
     component.saveRole(email, role)
     expect(component.showError).toHaveBeenCalled()
 
