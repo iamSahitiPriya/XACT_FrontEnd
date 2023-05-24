@@ -423,7 +423,7 @@ export const data_local =
       NO_DATA_PRESENT: "No Questions available to show at this moment",
       duplicateErrorMessage: "Duplicate email found",
       commonErrorMessage:"Duplicate email found,User can't be both author and reviewer",
-      manageText: "Manage Contributors", disableText: 'Contributors can be added only after module creation',
+      manageText: "Manage Contributors",
       topicText: "Topic",
       parameterText: "Parameter",
       REFERENCE_ERROR_MESSAGE: "Please provide at least one reference to send for review",

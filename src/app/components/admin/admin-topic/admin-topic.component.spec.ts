@@ -506,9 +506,11 @@ describe('AdminTopicComponent', () => {
   });
 
   it("should open reference dialog", () => {
+    component.ngOnInit();
     jest.spyOn(matDialog, "open")
 
     component.openTopicReferences("", row)
+
     fixture.detectChanges()
     expect(matDialog.open).toHaveBeenCalled()
   });
@@ -558,5 +560,16 @@ describe('AdminTopicComponent', () => {
     let expectedResponse = component.dataSource.sortingDataAccessor(component.topicData[0], 'active');
 
     expect(expectedResponse).toBe(true)
+  });
+
+  it("should return true when topic doesn't have at least one reference", () => {
+    row.topicLevelReference=true;
+    component.ngOnInit();
+    expect(component.hasTopicLevelReference(row)).toBe(true)
+  });
+  it("should return false when parameter doesn't have  reference", () => {
+    row.topicLevelReference =false;
+    component.ngOnInit();
+    expect(component.hasTopicLevelReference(row)).toBe(false)
   });
 });

@@ -153,12 +153,13 @@ export class AdminParameterComponent implements OnInit {
           } else if (this.path === 'contributor') {
             this.displayedColumns = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'edit', 'reference', 'addQuestion']
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
-            if (contributor?.role === 'AUTHOR') {
-              this.categoryList.push({
-                categoryId: eachCategory.categoryId,
-                categoryName: eachCategory.categoryName,
-                active: eachCategory.active
-              })
+            let category = {
+              categoryId: eachCategory.categoryId,
+              categoryName: eachCategory.categoryName,
+              active: eachCategory.active
+            };
+            if (contributor?.role === 'AUTHOR' && !this.categoryList.some(everyCategory=>everyCategory.categoryId === category.categoryId)) {
+              this.categoryList.push(category)
               this.setModules(eachModule, modules, eachCategory);
             }
           }
@@ -444,7 +445,7 @@ export class AdminParameterComponent implements OnInit {
   shortListTopics(moduleName: string) {
     let moduleId = this.moduleList.find(eachModule => eachModule.moduleName === moduleName)?.moduleId
     this.topicList = this.moduleAndTopic.get(moduleId)
-    if (this.topicList.length === 0) {
+    if (this.topicList === undefined || this.topicList.length === 0) {
       this.topicList = [{topicName: this.topicNotFoundMessage, module: -1, active: false}]
     }
     this.topicList.sort((topic1, topic2) => Number(topic2.active) - Number(topic1.active))

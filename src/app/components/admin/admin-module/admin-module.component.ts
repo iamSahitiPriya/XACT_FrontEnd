@@ -76,7 +76,6 @@ export class AdminModuleComponent implements OnInit, OnDestroy {
   contributors: string = data_local.ADMIN.MODULE.CONTRIBUTORS;
   contributorCount: string;
   manageContributors=data_local.CONTRIBUTOR.manageText;
-  disableText: string=data_local.CONTRIBUTOR.disableText;
 
   constructor(private appService: AppServiceService, private _snackBar: MatSnackBar, private store: Store<AppStates>, private matDialog: MatDialog) {
     this.masterData = this.store.select((storeMap) => storeMap.masterData.masterData)

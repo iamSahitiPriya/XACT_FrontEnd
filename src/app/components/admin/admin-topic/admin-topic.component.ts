@@ -161,12 +161,13 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
           else if (this.path === this.contributorText.toLowerCase()) {
             this.displayedColumns = ['categoryName', 'moduleName', 'topicName', 'updatedAt', 'active', 'edit', 'reference'];
             let contributor = eachModule.contributors?.find(eachContributor => eachContributor.userEmail === this.loggedInUserEmail);
-            if (contributor?.role === this.authorText) {
-              this.categoryList.push({
-                categoryId: eachCategory.categoryId,
-                categoryName: eachCategory.categoryName,
-                active: eachCategory.active
-              })
+            let category = {
+              categoryId: eachCategory.categoryId,
+              categoryName: eachCategory.categoryName,
+              active: eachCategory.active
+            };
+            if (contributor?.role === this.authorText && !this.categoryList.some(everyCategory => everyCategory.categoryId === category.categoryId)) {
+              this.categoryList.push(category)
               this.setModules(eachModule, module, eachCategory);
             }
           }
@@ -174,7 +175,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
       }
     })
   }
-
 
   private setModules(eachModule: ModuleStructure, module: ModuleRequest[], eachCategory: CategoryResponse) {
     this.moduleAndTopic.set(eachModule.moduleId, [])

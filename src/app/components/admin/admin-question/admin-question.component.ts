@@ -260,7 +260,7 @@ export class AdminQuestionComponent implements OnInit {
 
   updateQuestion(question: Question) {
     let questionRequest: QuestionResponse = this.getQuestionWithId(question)
-    if (this.role === this.author || this.role === this.reviewer) {
+    if (this.role === this.author || this.role === this.contributor.toLowerCase()) {
       this.appService.updateQuestion(question.questionId, questionRequest.questionText).pipe(takeUntil(this.destroy$)).subscribe({
         next: (_data) => {
           question.isEdit = false
