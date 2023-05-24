@@ -27,6 +27,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {BrowserModule} from "@angular/platform-browser";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
+
 class MockDialog {
   open() {
     return {

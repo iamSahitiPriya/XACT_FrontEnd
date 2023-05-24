@@ -25,7 +25,6 @@ import {ParameterResponse} from "../../../types/Admin/parameterResponse";
 import {ParameterStructure} from "../../../types/parameterStructure";
 import {Router} from "@angular/router";
 import {PopupConfirmationComponent} from "../../popup-confirmation/popup-confirmation.component";
-import {TopicData} from "../../../types/topicData";
 
 
 const NOTIFICATION_DURATION = 5000;
