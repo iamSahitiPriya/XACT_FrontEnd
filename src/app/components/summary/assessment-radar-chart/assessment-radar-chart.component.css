@@ -74,6 +74,5 @@
   flex-wrap: wrap;
   align-content: stretch;
   justify-content: space-evenly;
-  background-color: white !important;
-  z-index: 100;
+  background-color: white;
 }
