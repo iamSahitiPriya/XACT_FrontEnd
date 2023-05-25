@@ -73,7 +73,9 @@
                                     [parameterName]="parameter.parameterName"
                                     [parameterList]="topicRequest.parameterLevel"
         ></app-parameter-level-rating>
+      </div>
 
+      <div *ngIf="!topicInput.topicLevelReference">
         <mat-card class="recommendationHeading">{{recommendationLabel}}</mat-card>
         <button (click)="addParameterRecommendationTemplate(i)"
                 class="addRecommendation button1" [disabled]="assessmentStatus ==='Completed'">

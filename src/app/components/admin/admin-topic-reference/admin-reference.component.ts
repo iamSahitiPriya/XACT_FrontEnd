@@ -271,7 +271,7 @@ export class AdminReferenceComponent implements OnInit, OnDestroy {
     let reference: TopicReference = {
       referenceId: data.referenceId, rating: data.rating, topic: data.topic, reference: data.reference
     }
-    let references = this.getReferenceFromTopic();
+    let references = this.categories.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics.find(topic => topic.topicName === this.topic.topicName)?.references
     if (references === undefined) references = []
 
     references?.push(reference)
