@@ -28,6 +28,7 @@
 p {
   word-wrap: break-word;
   width: 95%;
+  max-height:50vh;
 }
 
 .spacer {
