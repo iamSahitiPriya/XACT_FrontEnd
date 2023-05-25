@@ -179,5 +179,5 @@
 
 <div *ngIf="data && categorySummary.length>0">
   <app-assessment-radar-chart #app_assessment_radar_chart [summaryData]="data"
-                              (downloadEvent)="downloadImage($event,'module-radar')"></app-assessment-radar-chart>
+                              (downloadEvent)="downloadFindingsImage($event,'module-radar')"></app-assessment-radar-chart>
 </div>

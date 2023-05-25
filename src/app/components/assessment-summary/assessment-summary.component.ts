@@ -501,15 +501,27 @@ export class AssessmentSummaryComponent implements OnInit, OnDestroy {
   async downloadImage(image: ElementRef, imageName: string) {
     this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 4000);
     await new Promise(f => setTimeout(f, 100));
-    await htmlToImage.toPng(image.nativeElement).then(() => {
-      console.log("rendering image")
-    });
-    htmlToImage.toPng(image.nativeElement)
+    await this.startDownload(image, imageName);
+    this.downloadLink.nativeElement.click();
+  }
+
+  private async startDownload(image: ElementRef, imageName: string) {
+    await htmlToImage.toPng(image.nativeElement)
       .then((dataUrl: any) => {
         this.downloadLink.nativeElement.href = dataUrl;
         this.downloadLink.nativeElement.download = this.formattedName(this.assessmentName) + "-" + imageName + '-chart.png';
+      });
+  }
+
+  async downloadFindingsImage(image: ElementRef, imageName: string) {
+    this.showNotification(data_local.SUMMARY_REPORT.DOWNLOAD_NOTIFICATION, 4000);
+    await new Promise(f => setTimeout(f, 100));
+     htmlToImage.toPng(image.nativeElement)
+      .then(async () => {
+        await this.startDownload(image, imageName)
         this.downloadLink.nativeElement.click();
       });
+
   }
 
   private formattedName(name: string) {
