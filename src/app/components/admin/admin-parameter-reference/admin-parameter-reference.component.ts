@@ -193,7 +193,7 @@ export class AdminParameterReferenceComponent implements OnInit {
   sendReferenceToStore(data: ParameterReference) {
     let reference : ParameterReference = {
       referenceId : data.referenceId, rating : data.rating, parameter:data.parameter, reference:data.reference}
-    let references = this.getReferenceFromParameter();
+    let references = this.categories.find(category => category.categoryId === this.category)?.modules.find(module => module.moduleId === this.module)?.topics.find(topic => topic.topicId === this.topic)?.parameters.find(parameter => parameter.parameterName === this.parameter.parameterName)?.references
     if(references === undefined) references = []
 
     references.push(reference)
