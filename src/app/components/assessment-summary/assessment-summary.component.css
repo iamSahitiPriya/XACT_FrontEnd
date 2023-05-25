@@ -329,6 +329,7 @@
 
 .visible-opacity {
   opacity: 1;
+  background-color: white;
 }
 
 .overall-image {
