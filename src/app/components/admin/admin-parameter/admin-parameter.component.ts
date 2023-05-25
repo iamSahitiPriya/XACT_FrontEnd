@@ -43,6 +43,7 @@ const NOTIFICATION_DURATION = 5000;
 })
 export class AdminParameterComponent implements OnInit {
   private dialogRef: MatDialogRef<any>;
+  myValue:boolean = false;
   parameterData: ParameterData[];
   categoryData: CategoryResponse[]
   displayedColumns: string[] = ['categoryName', 'moduleName', 'topicName', 'parameterName', 'updatedAt', 'active', 'reference','addQuestion'];
@@ -116,8 +117,6 @@ export class AdminParameterComponent implements OnInit {
         data.forEach(eachCategory => {
           this.fetchModules(eachCategory);
         })
-        this.sortData();
-        this.sortParameter();
       }
     })
   }
@@ -242,6 +241,7 @@ export class AdminParameterComponent implements OnInit {
       }
       this.parameterData.push(parameter)
     })
+    this.sortData()
     this.sortParameter();
   }
 
