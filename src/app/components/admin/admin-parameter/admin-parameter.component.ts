@@ -116,8 +116,6 @@ export class AdminParameterComponent implements OnInit {
         data.forEach(eachCategory => {
           this.fetchModules(eachCategory);
         })
-        this.sortData();
-        this.sortParameter();
       }
     })
   }
@@ -242,6 +240,7 @@ export class AdminParameterComponent implements OnInit {
       }
       this.parameterData.push(parameter)
     })
+    this.sortData()
     this.sortParameter();
   }
 

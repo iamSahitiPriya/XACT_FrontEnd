@@ -124,7 +124,6 @@ export class AdminTopicComponent implements OnInit, OnDestroy {
         data.forEach(eachCategory => {
           this.fetchModuleDetails(eachCategory);
         })
-        this.sortTopic();
       }
     })
   }
